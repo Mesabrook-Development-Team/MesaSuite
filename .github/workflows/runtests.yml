@@ -1,0 +1,23 @@
+name: Build and Test
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install MSBuild
+      uses: microsoft/setup-msbuild@v1
+    - name: Restore NuGet
+      run: nuget restore MCSync.sln
+    - name: Create Bin directory
+      run: mkdir ${{ env.GITHUB_WORKSPACE }}\binall
+    - name: Build Solution
+      run: msbuild.exe MCSync.sln /p:Configuration=Release /p:OutDir=${{ env.GITHUB_WORKSPACE }}\binall
+    - name: Test Solution
+      run: ${{ env.GITHUB_WORKSPACE }}\binall\RunUnitTests.exe ${{ env.GITHUB_WORKSPACE}}\binall

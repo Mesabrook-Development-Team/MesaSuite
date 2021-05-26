@@ -1,0 +1,90 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MesaSuite.Common.Data
+{
+    public class GetData : DataAccess
+    {
+        public Dictionary<string, string> QueryString { internal get; set; } = new Dictionary<string, string>();
+        private bool _retry = false;
+
+        public GetData(APIs api, string resource) : base(api, resource) { }
+
+        private async Task<string> GetJson()
+        {
+            StringBuilder uriBuilder = new StringBuilder(GetResourceURI());
+            bool first = true;
+            foreach(KeyValuePair<string, string> queryString in QueryString)
+            {
+                if (first)
+                {
+                    uriBuilder.Append("?");
+                    first = false;
+                }
+                else
+                {
+                    uriBuilder.Append("&");
+                }
+
+                uriBuilder.Append(queryString.Key);
+                uriBuilder.Append("=");
+                uriBuilder.Append(Uri.EscapeDataString(queryString.Value));
+            }
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uriBuilder.ToString());
+            request.Method = WebRequestMethods.Http.Get;
+
+            if (RequireAuthentication)
+            {
+                request.Headers.Add("Authorization", "Bearer " + Authentication.GetAuthToken());
+            }
+
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
+                string json;
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    json = await reader.ReadToEndAsync();
+                }
+
+                RequestSuccessful = true;
+
+                return json;
+            }
+            catch(WebException ex)
+            {
+                return await HandleResponseWebException(ex, new ResponseWebExceptionRetryCallback(GetJson));
+            }
+        }
+
+        public async Task<T> GetAnonymousObject<T>(T anonymous)
+        {
+            string json = await GetJson();
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                return JsonConvert.DeserializeAnonymousType(json, anonymous);
+            }
+
+            return default(T);
+        }
+
+        public async Task<T> GetObject<T>()
+        {
+            string json = await GetJson();
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                return JsonConvert.DeserializeObject<T>(json);
+            }
+
+            return default(T);
+        }
+    }
+}

@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string ValidationMessage(string field)
+    {
+        if (!ViewData.ModelState.Any(kvp => kvp.Key == field))
+        {
+            return "";
+        }
+
+        System.Text.StringBuilder builder = new System.Text.StringBuilder();
+        foreach(string error in ViewData.ModelState[field].Errors.Select(me => me.ErrorMessage))
+        {
+            if (builder.Length > 0)
+            {
+                builder.Append("\r\n");
+            }
+
+            builder.Append(error);
+        }
+
+        return builder.ToString();
+    }
+
+    string ValidationClass(string field)
+    {
+        if (!string.IsNullOrEmpty(ValidationMessage(field)))
+        {
+            return "";
+        }
+
+        return "d-none";
+    }
+}
+
+@model OAuth.Models.auth.Client
+
+<span>
+    <img src="~/Content/flag.jpg" alt="Mesabrook Flag" width="91" height="48" class="float-right" />
+    <h1 class="h1">MesaSuite Client Registration</h1>
+</span>
+<form method="post" autocomplete="off">
+    <div class="border border-info p-1 mb-3">
+        <h4 class="h4 borderTitle">Client Information</h4>
+        <div class="form-group">
+            <label for="clientIdentifier">Client Identifier</label>
+            <input type="text" class="form-control w-100" name="clientIdentifier" value="@Model.ClientIdentifier.ToString()" />
+            <label class="@ValidationClass("ClientIdentifier") text-danger">@ValidationMessage("ClientIdentifier")</label>
+        </div>
+        <div class="form-group">
+            <label for="redirectionURI">Redirection URI</label>
+            <input type="text" class="form-control w-100" name="redirectionURI" value="@Model.RedirectionURI" />
+            <label class="@ValidationClass("RedirectionURI") text-danger">@ValidationMessage("RedirectionURI")</label>
+        </div>
+    </div>
+    <div class="border border-info p-1">
+        <h4 class="h4 borderTitle">Authentication</h4>
+        <div class="form-group">
+            <label for="user">Mesabrook Username</label>
+            <input type="text" class="form-control w-100" name="user" value="@Html.Value("user")" />
+            <label class="@ValidationClass("user") text-danger">@ValidationMessage("user")</label>
+        </div>
+        <div class="form-group">
+            <label for="password">Mesabrook Password</label>
+            <input type="password" class="form-control w-100" name="password" />
+            <label class="@ValidationClass("password") text-danger">@ValidationMessage("password")</label>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-info mt-1">Register</button>
+</form>

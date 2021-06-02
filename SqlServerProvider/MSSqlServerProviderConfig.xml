@@ -1,0 +1,3 @@
+﻿<MSSqlServerProviderConfig>
+  <ConnectionString>Server=www.clussmanproductions.com;Database=MinecraftLive;User Id=MC;Password=Minecraft000</ConnectionString>
+</MSSqlServerProviderConfig>

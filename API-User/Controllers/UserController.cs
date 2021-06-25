@@ -17,33 +17,33 @@ namespace API_User.Controllers
     {
         [HttpGet]
         [MesabrookAuthorization(RequiredPermissions = new string[] { "User/User/ViewUsers"} )]
-        public List<User> GetAllUsers()
+        public List<LDAPUser> GetAllUsers()
         {
-            return new Search<User>().GetReadOnlyReader(null, new string[] { "UserID", "Username" }).ForEach(u => u.PopulateActiveDirectoryInformation()).ToList();
+            return new Search<LDAPUser>().GetReadOnlyReader(null, new string[] { "UserID", "Username" }).ForEach(u => u.PopulateActiveDirectoryInformation()).ToList();
         }
 
         [HttpGet]
         [MesabrookAuthorization(RequiredPermissions = new string[] { "User/User/ManageUsers" })]
-        public User GetUser(long? userid)
+        public LDAPUser GetUser(long? userid)
         {
             if (userid == null)
             {
                 return null;
             }
 
-            return DataObject.GetEditableByPrimaryKey<User>(userid, null, Enumerable.Empty<string>()).PopulateActiveDirectoryInformation();
+            return DataObject.GetEditableByPrimaryKey<LDAPUser>(userid, null, Enumerable.Empty<string>()).PopulateActiveDirectoryInformation();
         }
 
         [HttpPut]
         [MesabrookAuthorization(RequiredPermissions = new string[] { "User/User/ManageUsers"})]
-        public IHttpActionResult UpdateUser(User user)
+        public IHttpActionResult UpdateUser(LDAPUser user)
         {
             if (user.UserID == null || user.UserID == 0)
             {
                 return NotFound();
             }
 
-            User dbUser = DataObject.GetEditableByPrimaryKey<User>(user.UserID, null, Enumerable.Empty<string>())?.PopulateActiveDirectoryInformation();
+            LDAPUser dbUser = DataObject.GetEditableByPrimaryKey<LDAPUser>(user.UserID, null, Enumerable.Empty<string>())?.PopulateActiveDirectoryInformation();
             user.Copy(dbUser);
             dbUser.FirstName = user.FirstName;
             dbUser.LastName = user.LastName;
@@ -68,7 +68,7 @@ namespace API_User.Controllers
 
         [HttpPost]
         [MesabrookAuthorization(RequiredPermissions = new string[] { "User/User/ManageUsers" })]
-        public IHttpActionResult PostUserExisting(User user)
+        public IHttpActionResult PostUserExisting(LDAPUser user)
         {
             if (user.UserID != null && user.UserID != 0)
             {
@@ -93,7 +93,7 @@ namespace API_User.Controllers
 
         [HttpPost]
         [MesabrookAuthorization(RequiredPermissions = new string[] { "User/User/ManageUsers"})]
-        public IHttpActionResult PostUserNew(User user)
+        public IHttpActionResult PostUserNew(LDAPUser user)
         {
             if (user.UserID != null && user.UserID != 0)
             {
@@ -125,7 +125,7 @@ namespace API_User.Controllers
                 return NotFound();
             }
 
-            User user = DataObject.GetEditableByPrimaryKey<User>(id, null, Enumerable.Empty<string>()).PopulateActiveDirectoryInformation();
+            LDAPUser user = DataObject.GetEditableByPrimaryKey<LDAPUser>(id, null, Enumerable.Empty<string>()).PopulateActiveDirectoryInformation();
             if (!user.Delete())
             {
                 StringBuilder errorText = new StringBuilder("One or more errors ocurred during delete:");
@@ -148,7 +148,7 @@ namespace API_User.Controllers
         [MesabrookAuthorization(RequiredPermissions = new string[] { "User/User/ManageUsers"})]
         public IHttpActionResult PatchUser(PatchData patchData)
         {
-            User user = DataObject.GetEditableByPrimaryKey<User>(patchData.PrimaryKey, null, Enumerable.Empty<string>())?.PopulateActiveDirectoryInformation();
+            LDAPUser user = DataObject.GetEditableByPrimaryKey<LDAPUser>(patchData.PrimaryKey, null, Enumerable.Empty<string>())?.PopulateActiveDirectoryInformation();
             if (user == null)
             {
                 return NotFound();

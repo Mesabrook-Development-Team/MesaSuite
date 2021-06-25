@@ -135,12 +135,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\auth\Code.cs" />
-    <Compile Include="Models\auth\Token.cs" />
     <Compile Include="Models\PatchData.cs" />
-    <Compile Include="Models\security\Permission.cs" />
-    <Compile Include="Models\security\User.cs" />
-    <Compile Include="Models\security\UserPermission.cs" />
+    <Compile Include="Models\security\LDAPUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -175,7 +171,6 @@
     <Content Include="Content\Site.css" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +214,10 @@
     <ProjectReference Include="..\ObjectBasedFramework\ObjectBasedFramework.csproj">
       <Project>{c3348c55-b43c-4be2-9a68-32ad56088619}</Project>
       <Name>ObjectBasedFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebModels\WebModels.csproj">
+      <Project>{159F54B6-1641-4B7D-B7B2-4417492DBCD1}</Project>
+      <Name>WebModels</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

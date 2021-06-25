@@ -1,7 +1,8 @@
+
 # MesaSuite
 
 ## Server-side Information
-Most of MesaSuite's data is kept in a central Microsoft SQL database, with the exception of a couple databases that other applications use such as the email server and the main website web server. Data is accessed using a scratch-made ORM called Object Based Framework.  Each API uses the ORM with it's own representation of the database objects it uses. APIs are accessed by applications on the internet that need to work with the data. This workflow represents most of the APIs used in the system.  APIs that do additional, special types of data access are covered in their respectives sections below.
+Most of MesaSuite's data is kept in a central Microsoft SQL database, with the exception of a couple databases that other applications use such as the email server and the main website web server. Data is accessed using a scratch-made ORM called Object Based Framework.  Each API uses the ORM with a commonly shared representations of database objects. APIs are accessed by applications on the internet that need to work with the data. This workflow represents most of the APIs used in the system.  APIs that do additional, special types of data access are covered in their respective sections below.
 
 Not all database resources are available for anonymous access. In fact, most are not setup this way.  To provide a security layer when accessing data, users authenticate through the OAuth server.  The OAuth server forwards the credentials to be checked against an Active Directory server using the LDAP protocol.  If the credentials are correct, the OAuth server will check for the user record in the database, or creates one if it does not exist.  Further, it will load all permissions for the user. Once this occurs successfully, the OAuth server notifies all APIs that need this information.  If a user logs out successfully or otherwise has their access token revoked, the OAuth server also notifies all APIs that need this information.  The OAuth server also can send grant/revoke notifications when the user's permissions have been updated, or if the user is deleted.
 
@@ -68,14 +69,20 @@ The last required `appSetting` key is `MesaSuite.Common.AuthHost`.  This is the 
 | --- | --- |
 | API-MCSync | This is a WebAPI project that serves MC Sync file information |
 | API-User | This is a WebAPI project that manages Active Directory Users and Groups, MesaSuite Users, and Permissions |
+| Base | This is the Object Based Framework's Base folder and holds things common between it and database adapters. |
 | MCSync | This is a MesaSuite module that syncs files on the file system for use on the Mesabrook server |
 | MesaSuite | This is the primary project that serves as a "launcher" for all of the modules and a mechanism in which users are able to authenticate |
 | MesaSuite.Common | This project contains shared MesaSuite functionality that is shared amongst all of MesaSuite's modules.  It contains classes used for Web API access and everything required for Authentication. |
 | MesaSuite.Tests | This is a test project used to ensure standards within the MesaSuite project are followed |
 | OAuth | This project is responsible for authenticating users through the web form by checking the information against Active Directory and issuing OAuth codes and tokens appropriately. |
 | OAuth.Common | This project is shared amongst all WebAPIs and contains mechanisms in which APIs can use to secure their actions in conjunction with the OAuth server |
+| ObjectBasedFramework | This project is the custom, scratch-made ORM that converts representational database objects to scripts and vice versa.  |
+| ReleaseUtility | This projects aids in the quick release of MesaSuite APIs and desktop applications. |
+| RunUnitTests | This project automatically discovers any unit test dll and runs them as a console application.  It's purpose is to be ran automatically during GitHub check-ins. |
+| Sandbox | This project allows you to experiment around with all the projects for the purposes of testing or deploying the Schema to your database. |
 | Updater | This project is responsible for updating the MesaSuite software |
 | UserManagement | This is a MesaSuite module that provides the front end for users to be able to manage Active Directory User and Groups, MesaSuite Users, and Permissions |
+| WebModels | This project uses the Object Based Framework and has representations of all the database objects in the primary MesaSuite database. It is common to most of the APIs. |
 
 Depending on your development needs, it may be necessary to run multiple projects at the same time.  Be sure to use a smart startup order to prevent runtime errors.  This is the preferred startup order:
 1. OAuth

@@ -3,11 +3,13 @@ using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System.Collections.Generic;
 
-namespace OAuth.Models.security
+namespace WebModels.security
 {
     [Table("D2956313-9B89-4093-8DB6-0F5EC9C42088")]
     public class Permission : DataObject
     {
+        protected Permission() : base() { }
+
         private long? _permissionID = null;
         [Field("92A4B914-2B52-44DD-AB51-66A5DAF73D50")]
         public long? PermissionID

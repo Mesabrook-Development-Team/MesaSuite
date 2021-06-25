@@ -1,14 +1,6 @@
 ﻿using API_MCSync.App_Start;
-using API_MCSync.Models.dbo;
-using ClussPro.ObjectBasedFramework;
-using ClussPro.ObjectBasedFramework.Schema;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
-using System.Web.Security;
-using System.Web.SessionState;
 
 namespace API_MCSync
 {

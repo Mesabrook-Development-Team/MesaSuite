@@ -1,7 +1,10 @@
-﻿using ClussPro.ObjectBasedFramework.DataSearch;
-using OAuth.Models.auth;
+﻿using ClussPro.Base.Data;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework.DataSearch;
+using OAuth.App_Code;
 using System;
 using System.Web.Mvc;
+using WebModels.auth;
 
 namespace OAuth.Controllers
 {
@@ -55,10 +58,18 @@ namespace OAuth.Controllers
 
             foundToken.RevokeTime = DateTime.Now;
             foundToken.RevokeReason = reason;
-            
-            if (!foundToken.Save())
+
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
-                return Error(500, "server_error", "An error occurred processing the request");
+                transaction.PreCommitAction = () =>
+                {
+                    SecurityCache.Revoke(foundToken.AccessToken.ToString());
+                };
+
+                if (!foundToken.Save())
+                {
+                    return Error(500, "server_error", "An error occurred processing the request");
+                }
             }
 
             return new HttpStatusCodeResult(200);

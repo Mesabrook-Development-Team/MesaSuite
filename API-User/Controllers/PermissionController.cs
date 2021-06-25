@@ -4,6 +4,7 @@ using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
+using ClussPro.ObjectBasedFramework.Extensions;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Validation;
 using OAuth.Common;
@@ -15,6 +16,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web.Http;
+using WebModels.security;
 
 namespace API_User.Controllers
 {
@@ -26,7 +28,7 @@ namespace API_User.Controllers
         {
             SecurityProfile profile = Request.Properties["SecurityProfile"] as SecurityProfile;
 
-            User user = DataObject.GetReadOnlyByPrimaryKey<User>(profile.UserID, null, new string[] { "UserPermissions.Permission.Key" });
+            LDAPUser user = DataObject.GetReadOnlyByPrimaryKey<LDAPUser>(profile.UserID, null, new string[] { "UserPermissions.Permission.Key" });
             return user.UserPermissions.Select(up => up.Permission.Key).ToList();
         }
 
@@ -47,7 +49,7 @@ namespace API_User.Controllers
             }
 
             List<string> permissionFields = Schema.GetSchemaObject<Permission>().GetFields().Select(f => $"UserPermissions.Permission." + f.FieldName).ToList();
-            User user = DataObject.GetReadOnlyByPrimaryKey<User>(userid, null, permissionFields);
+            LDAPUser user = DataObject.GetReadOnlyByPrimaryKey<LDAPUser>(userid, null, permissionFields);
 
             return user.UserPermissions.Select(up => up.Permission).ToList();
         }
@@ -154,13 +156,13 @@ namespace API_User.Controllers
 
         [HttpGet]
         [MesabrookAuthorization(RequiredPermissions = new string[] { "User/User/ManageUsers"})]
-        public List<User> GetUsersForPermission(long? permissionid)
+        public List<LDAPUser> GetUsersForPermission(long? permissionid)
         {
-            List<string> fields = Schema.GetSchemaObject<User>().GetFields().Select(f => $"UserPermissions.User.{f.FieldName}").ToList();
+            List<string> fields = Schema.GetSchemaObject<LDAPUser>().GetFields().Select(f => $"UserPermissions.User.{f.FieldName}").ToList();
 
             Permission permission = DataObject.GetReadOnlyByPrimaryKey<Permission>(permissionid, null, fields);
 
-            return permission?.UserPermissions.Select(up => up.User.PopulateActiveDirectoryInformation()).ToList();
+            return permission?.UserPermissions.Select(up => up.User.As<LDAPUser>().PopulateActiveDirectoryInformation()).ToList();
         }
     }
 }

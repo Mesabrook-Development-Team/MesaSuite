@@ -5,12 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OAuth.Models.auth
+namespace WebModels.auth
 {
     [Table("58DB9C4D-6F68-4A00-A675-E48D86EB97DA")]
     [Unique(new string[] { "ClientIdentifier" })]
     public class Client : DataObject
     {
+        protected Client() : base() { }
+
         private long? _clientID;
         [Field("A8124915-DD2A-4180-8F2E-59CC210A5250")]
         public long? ClientID

@@ -52,7 +52,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
 
             foreach (DataRow row in table.Rows)
             {
-                DataObject dataObject = (DataObject)Activator.CreateInstance(DataObjectType);
+                DataObject dataObject = DataObjectFactory.Create(DataObjectType);
                 isEditableField.SetValue(dataObject, true);
                 isInsertField.SetValue(dataObject, false);
 
@@ -82,7 +82,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
                 return null;
             }
 
-            DataObject dataObject = (DataObject)Activator.CreateInstance(DataObjectType);
+            DataObject dataObject = DataObjectFactory.Create(DataObjectType);
             FieldInfo isEditableField = typeof(DataObject).GetField("isEditable", BindingFlags.NonPublic | BindingFlags.Instance);
             isEditableField.SetValue(dataObject, true);
             FieldInfo isInsertField = typeof(DataObject).GetField("isInsert", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -104,7 +104,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
 
             foreach(DataRow row in table.Rows)
             {
-                DataObject dataObject = (DataObject)Activator.CreateInstance(DataObjectType);
+                DataObject dataObject = DataObjectFactory.Create(DataObjectType);
                 dataObject.SetData(fieldsHashSet, queries, row);
 
                 yield return dataObject;
@@ -126,7 +126,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
                 return null;
             }
 
-            DataObject dataObject = (DataObject)Activator.CreateInstance(DataObjectType);
+            DataObject dataObject = DataObjectFactory.Create(DataObjectType);
             dataObject.SetData(fieldsHashSet, queries, table.Rows[0]);
 
             return dataObject;
@@ -137,7 +137,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
         {
             Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> queriesByFieldPath = new Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>>();
 
-            DataObject dataObject = (DataObject)Activator.CreateInstance(thisSchemaObject.DataObjectType);
+            DataObject dataObject = DataObjectFactory.Create(thisSchemaObject.DataObjectType);
 
             fields.Add(thisSchemaObject.PrimaryKeyField.FieldName);
 
@@ -189,7 +189,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
 
                     Relationship relationship = lastSchemaObject.GetRelationship(fieldPathParts[i]);
                     SchemaObject relatedSchemaObject = relationship.RelatedSchemaObject;
-                    DataObject relatedDataObject = (DataObject)Activator.CreateInstance(relatedSchemaObject.DataObjectType);
+                    DataObject relatedDataObject = DataObjectFactory.Create(relatedSchemaObject.DataObjectType);
 
                     if (tableAliasesByFieldPath.ContainsKey(checkedFieldPath))
                     {
@@ -272,7 +272,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
 
                         if (relatedObject == null)
                         {
-                            relatedObject = (DataObject)Activator.CreateInstance(relationship.RelatedObjectType);
+                            relatedObject = DataObjectFactory.Create(relationship.RelatedObjectType);
                         }
 
                         lastSchemaObject = relationship.RelatedSchemaObject;

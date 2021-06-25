@@ -1,8 +1,6 @@
 ﻿using ClussPro.ObjectBasedFramework.DataSearch;
 using Newtonsoft.Json;
 using OAuth.Common;
-using OAuth.Models.auth;
-using OAuth.Models.security;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,6 +10,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using WebModels.auth;
+using WebModels.security;
 
 namespace OAuth.App_Code
 {

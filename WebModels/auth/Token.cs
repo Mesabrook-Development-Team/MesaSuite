@@ -2,18 +2,18 @@
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
-using OAuth.App_Code;
-using OAuth.Common;
-using OAuth.Models.security;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using WebModels.security;
 
-namespace OAuth.Models.auth
+namespace WebModels.auth
 {
     [Table("1F5BACCF-41DC-40E7-B3F3-1896C5D20759")]
     public class Token : DataObject
     {
+        protected Token() : base() { }
+
         private long? _tokenID;
         [Field("EB96B9AF-56B6-44CB-876B-3923A7687472")]
         public long? TokenID
@@ -55,7 +55,7 @@ namespace OAuth.Models.auth
         }
 
         private DateTime? _expiration;
-        [Field("5B94F05E-81D6-44DD-8AE0-F7050BDACAB3")]
+        [Field("5B94F05E-81D6-44DD-8AE0-F7050BDACAB3", DataSize = 7)]
         [Required]
         public DateTime? Expiration
         {
@@ -64,7 +64,7 @@ namespace OAuth.Models.auth
         }
 
         private DateTime? _revokeTime;
-        [Field("B2470CD2-467C-4D3C-856D-4CED73BB0644")]
+        [Field("B2470CD2-467C-4D3C-856D-4CED73BB0644", DataSize = 7)]
         public DateTime? RevokeTime
         {
             get { CheckGet(); return _revokeTime; }
@@ -95,26 +95,11 @@ namespace OAuth.Models.auth
             set { CheckSet(); _userID = value; }
         }
 
-        protected override bool PostSave(ITransaction transaction)
+        private User _user;
+        [Relationship("60FB1FDE-6753-404A-802A-B3D5987A6C4E")]
+        public User User
         {
-            if (IsInsert && RevokeTime == null) // Is insert, not revoking
-            {
-                SecurityProfile securityProfile = new SecurityProfile();
-                securityProfile.AccessToken = AccessToken.ToString();
-                securityProfile.Expiration = Expiration.Value;
-                securityProfile.UserID = UserID.Value;
-
-                User user = DataObject.GetReadOnlyByPrimaryKey<User>(UserID, transaction, new string[] { "UserPermissions.Permission.Key" });
-                securityProfile.Permissions.AddRange(user.UserPermissions.Select(up => up.Permission.Key));
-
-                SecurityCache.AddSecurityProfile(securityProfile);
-            }
-
-            if (IsFieldDirty("RevokeTime") && RevokeTime != null)
-            {
-                SecurityCache.Revoke(AccessToken.ToString());
-            }
-            return base.PostSave(transaction);
+            get { CheckGet(); return _user; }
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using API_MCSync.Models.dbo;
-using ClussPro.ObjectBasedFramework.DataSearch;
+﻿using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using WebModels.dbo;
 
 namespace API_MCSync.Controllers
 {

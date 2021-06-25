@@ -9,7 +9,7 @@ namespace API_User.Controllers
         [MesabrookAuthorization(RequiredPermissions = new string[] { "User/User/ManageUsers"})]
         public List<string> GetGroups()
         {
-            return Models.security.User.GetAllActiveDirectoryGroups();
+            return Models.security.LDAPUser.GetAllActiveDirectoryGroups();
         }
     }
 }

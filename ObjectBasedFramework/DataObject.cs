@@ -35,7 +35,7 @@ namespace ClussPro.ObjectBasedFramework
 
         private Dictionary<string, object> originalValues = new Dictionary<string, object>();
 
-        public DataObject()
+        protected DataObject()
         {
             isEditable = true;
             isInsert = true;
@@ -718,7 +718,7 @@ namespace ClussPro.ObjectBasedFramework
                 query.WhereCondition = previousQueryCondition;
                 foreach(DataRow row in results.Rows)
                 {
-                    DataObject childObject = (DataObject)Activator.CreateInstance(relationshipList.RelatedObjectType);
+                    DataObject childObject = DataObjectFactory.Create(relationshipList.RelatedObjectType);
                     childObject.isEditable = false;
                     childObject.SetData(childFieldsToSet, childQueries, row);
                     addMethod.Invoke(reverseRelationshipList, new object[] { childObject });
@@ -729,7 +729,7 @@ namespace ClussPro.ObjectBasedFramework
 
         public void Copy(DataObject destination)
         {
-            if (destination.GetType() != GetType())
+            if (!GetType().IsAssignableFrom(destination.GetType()))
             {
                 throw new InvalidOperationException("Cannot copy to Data Object of different type");
             }

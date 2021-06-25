@@ -37,7 +37,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
 
             if (type.GetCustomAttribute<TableAttribute>(false) == null)
             {
-                if (string.IsNullOrEmpty(table.SchemaName) || string.IsNullOrEmpty(table.TableName) || constructor == null)
+                if (string.IsNullOrEmpty(table.SchemaName) || string.IsNullOrEmpty(table.TableName))
                 {
                     Type workingType = type;
                     while(workingType.GetCustomAttribute<TableAttribute>(false) == null)
@@ -54,8 +54,6 @@ namespace ClussPro.ObjectBasedFramework.Schema
                     {
                         ObjectName = workingType.Name;
                     }
-
-                    constructor = constructor ?? workingType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, Type.DefaultBinder, new Type[0], new ParameterModifier[0]);
                 }
             }
 

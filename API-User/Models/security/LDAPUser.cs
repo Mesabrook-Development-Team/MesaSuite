@@ -15,6 +15,7 @@ namespace API_User.Models.security
 {
     public class LDAPUser : User
     {
+        protected LDAPUser() : base() { }
         // Non-DO properties
         public string Email { get; set; }
 

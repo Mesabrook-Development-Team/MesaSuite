@@ -105,6 +105,10 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             foreach(DataRow row in table.Rows)
             {
                 DataObject dataObject = DataObjectFactory.Create(DataObjectType);
+                FieldInfo isEditableField = typeof(DataObject).GetField("isEditable", BindingFlags.NonPublic | BindingFlags.Instance);
+                isEditableField.SetValue(dataObject, false);
+                FieldInfo isInsertField = typeof(DataObject).GetField("isInsert", BindingFlags.NonPublic | BindingFlags.Instance);
+                isInsertField.SetValue(dataObject, false);
                 dataObject.SetData(fieldsHashSet, queries, row);
 
                 yield return dataObject;
@@ -127,6 +131,10 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             }
 
             DataObject dataObject = DataObjectFactory.Create(DataObjectType);
+            FieldInfo isEditableField = typeof(DataObject).GetField("isEditable", BindingFlags.NonPublic | BindingFlags.Instance);
+            isEditableField.SetValue(dataObject, false);
+            FieldInfo isInsertField = typeof(DataObject).GetField("isInsert", BindingFlags.NonPublic | BindingFlags.Instance);
+            isInsertField.SetValue(dataObject, false);
             dataObject.SetData(fieldsHashSet, queries, table.Rows[0]);
 
             return dataObject;

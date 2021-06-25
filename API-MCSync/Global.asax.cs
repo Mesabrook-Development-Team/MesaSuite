@@ -1,4 +1,5 @@
 ﻿using API_MCSync.App_Start;
+using ClussPro.ObjectBasedFramework.Utility;
 using System;
 using System.Web.Http;
 
@@ -12,6 +13,8 @@ namespace API_MCSync
             GlobalConfiguration.Configure(WebApiConfig.Register);
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = true;
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.UseDataContractJsonSerializer = true;
+
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new ObjectBasedFrameworkJsonContractResolver();
         }
 
         protected void Session_Start(object sender, EventArgs e)

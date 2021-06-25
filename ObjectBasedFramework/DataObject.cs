@@ -606,7 +606,7 @@ namespace ClussPro.ObjectBasedFramework
 
                     if (relatedObject == null)
                     {
-                        relatedObject = (DataObject)Activator.CreateInstance(relationship.RelatedObjectType);
+                        relatedObject = DataObjectFactory.Create(relationship.RelatedObjectType);
                         relatedObject.isEditable = false;
                         relationship.SetPrivateDataCallback(currentObject, relatedObject);
                     }

@@ -10,6 +10,8 @@ namespace OAuth.Models.auth
 {
     public class OAuthToken : Token
     {
+        protected OAuthToken() : base() { }
+
         protected override bool PostSave(ITransaction transaction)
         {
             if (IsInsert && RevokeTime == null) // Is insert, not revoking

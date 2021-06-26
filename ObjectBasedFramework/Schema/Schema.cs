@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ClussPro.ObjectBasedFramework.Schema
@@ -20,12 +21,20 @@ namespace ClussPro.ObjectBasedFramework.Schema
             {
                 if (instance == null)
                 {
-                    instance = new Schema();
+                    if (schemaLoading)
+                    {
+                        while (schemaLoading) { Thread.Sleep(50); }
+                    }
+                    else
+                    {
+                        instance = new Schema();
+                    }
                 }
 
                 return instance;
             }
         }
+        private static bool schemaLoading = false;
 
         private List<SchemaObject> schemaObjects = new List<SchemaObject>();
         private Dictionary<Type, SchemaObject> schemaObjectsByType = new Dictionary<Type, SchemaObject>();
@@ -33,12 +42,44 @@ namespace ClussPro.ObjectBasedFramework.Schema
 
         private Schema()
         {
-            foreach(Type type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes().Where(t => t.GetCustomAttribute<TableAttribute>() != null)))
+            schemaLoading = true;
+            // Discover all top-level data objects (those that contain the Table attribute)
+            Dictionary<Type, Tuple<int, Type>> depthAndSubTypesByTableType = new Dictionary<Type, Tuple<int, Type>>();
+            foreach (Type type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes().Where(t => t.GetCustomAttribute<TableAttribute>(false) != null)))
             {
-                SchemaObject newSchemaObject = new SchemaObject(type);
+                depthAndSubTypesByTableType[type] = new Tuple<int, Type>(0, type);
+            }
+
+            foreach(Type mainTableType in depthAndSubTypesByTableType.Keys.ToList())
+            {
+                foreach(Type derivedType in AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes().Where(t => t != mainTableType && mainTableType.IsAssignableFrom(t))))
+                {
+                    int hops = 0;
+                    Type workingType = derivedType;
+                    while (workingType != mainTableType)
+                    {
+                        hops++;
+                        workingType = workingType.BaseType;
+                    }
+
+                    int oldHops = depthAndSubTypesByTableType[mainTableType].Item1;
+                    if (hops > oldHops)
+                    {
+                        depthAndSubTypesByTableType[mainTableType] = new Tuple<int, Type>(hops, derivedType);
+                    }
+                }
+            }
+
+            foreach (KeyValuePair<Type, Tuple<int, Type>> kvp in depthAndSubTypesByTableType)
+            {
+                SchemaObject newSchemaObject = new SchemaObject(kvp.Value.Item2);
 
                 schemaObjects.Add(newSchemaObject);
-                schemaObjectsByType.Add(type, newSchemaObject);
+                schemaObjectsByType.Add(kvp.Value.Item2, newSchemaObject);
+                if (!schemaObjectsByType.ContainsKey(kvp.Key))
+                {
+                    schemaObjectsByType.Add(kvp.Key, newSchemaObject);
+                }
                 schemaObjectsBySchemaObjectNames.GetOrSet(newSchemaObject.SchemaName, () => new Dictionary<string, SchemaObject>()).GetOrSet(newSchemaObject.ObjectName, () => newSchemaObject);
             }
 
@@ -55,6 +96,8 @@ namespace ClussPro.ObjectBasedFramework.Schema
                     relationshipList.RelatedSchemaObject = schemaObjectsByType[relationshipList.RelatedObjectType];
                 }
             }
+
+            schemaLoading = false;
         }
 
         public static SchemaObject GetSchemaObject<T>()

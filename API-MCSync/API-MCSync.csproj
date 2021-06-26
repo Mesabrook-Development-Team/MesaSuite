@@ -93,8 +93,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\dbo\MCSyncFile.cs" />
-    <Compile Include="Models\dbo\MCSyncVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +116,10 @@
     <ProjectReference Include="..\ObjectBasedFramework\ObjectBasedFramework.csproj">
       <Project>{c3348c55-b43c-4be2-9a68-32ad56088619}</Project>
       <Name>ObjectBasedFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebModels\WebModels.csproj">
+      <Project>{159f54b6-1641-4b7d-b7b2-4417492dbcd1}</Project>
+      <Name>WebModels</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

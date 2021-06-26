@@ -2,18 +2,20 @@
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 
-namespace OAuth.Models.security
+namespace WebModels.security
 {
     [Table("16AD589B-7F88-4387-8CB4-DE6369D9E2FD")]
     public class UserPermission : DataObject
     {
+        protected UserPermission() : base() { }
+
         private long? _userPermissionID = null;
         [Field("10E94E9D-1A11-4324-8116-C3F7F038B340")]
         public long? UserPermissionID
         {
             get { CheckGet(); return _userPermissionID; }
         }
-
+        
         private long? _userID;
         [Field("6B81D1B5-C689-42D4-90D1-D13E3E6D5F61")]
         [Required]

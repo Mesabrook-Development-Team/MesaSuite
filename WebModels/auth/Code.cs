@@ -3,11 +3,13 @@ using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 
-namespace OAuth.Models.auth
+namespace WebModels.auth
 {
     [Table("68775828-DB64-43F6-A661-A8F0C4F5C5AF")]
     public class Code : DataObject
     {
+        protected Code() : base() { }
+
         private long? _codeID = null;
         [Field("A551FFE6-6D50-478C-A473-DA75DC5662F8")]
         public long? CodeID
@@ -43,7 +45,7 @@ namespace OAuth.Models.auth
         }
 
         private DateTime? _expiration;
-        [Field("39DE2302-F726-4999-BA05-5615B8B28F5E")]
+        [Field("39DE2302-F726-4999-BA05-5615B8B28F5E", DataSize = 7)]
         [Required]
         public DateTime? Expiration
         {

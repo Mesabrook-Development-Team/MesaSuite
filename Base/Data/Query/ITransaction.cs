@@ -7,5 +7,7 @@ namespace ClussPro.Base.Data.Query
         void Commit();
         void Rollback();
         bool IsActive { get; }
+
+        Action PreCommitAction { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using API_User.Models.auth;
-using ClussPro.Base.Data.Query;
+﻿using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
@@ -10,28 +9,13 @@ using System.Configuration;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
+using WebModels.security;
 
 namespace API_User.Models.security
 {
-    [Table("554BDF2E-ACA5-46AB-A56E-080E6823267F")]
-    public class User : DataObject
+    public class LDAPUser : User
     {
-        private long? _userID;
-        [Field("7BD9DFA8-8EC1-4159-AEDF-5A9330AEF3EB")]
-        public long? UserID
-        {
-            get { CheckGet(); return _userID; }
-            set { CheckSet(); _userID = value; }
-        }
-
-        private string _username;
-        [Field("DF59672D-B5FB-43F7-8B42-BFC44097B54E", DataSize = 50)]
-        public string Username
-        {
-            get { CheckGet(); return _username; }
-            set { CheckSet(); _username = value; }
-        }
-
+        protected LDAPUser() : base() { }
         // Non-DO properties
         public string Email { get; set; }
 
@@ -116,7 +100,7 @@ namespace API_User.Models.security
         public static List<string> GetAllActiveDirectoryUsers()
         {
             List<string> results = new List<string>();
-            HashSet<string> existingUsers = new Search<User>().GetReadOnlyReader(null, new string[] { "Username" }).Select(u => u.Username).ToHashSet();
+            HashSet<string> existingUsers = new Search<LDAPUser>().GetReadOnlyReader(null, new string[] { "Username" }).Select(u => u.Username).ToHashSet();
 
             string ldapAddress = ConfigurationManager.AppSettings.Get("LDAPAddress");
             string ldapContainer = ConfigurationManager.AppSettings.Get("LDAPContainer");
@@ -156,7 +140,7 @@ namespace API_User.Models.security
             return groups;
         }
 
-        public User PopulateActiveDirectoryInformation()
+        public LDAPUser PopulateActiveDirectoryInformation()
         {
             string ldapAddress = ConfigurationManager.AppSettings.Get("LDAPAddress");
 
@@ -298,31 +282,5 @@ namespace API_User.Models.security
             userEntry.Properties["useraccountcontrol"].Value = userAccountControl | 0x2;
             userEntry.CommitChanges();
         }
-
-        #region Relationships
-        private List<UserPermission> _userPermissions = new List<UserPermission>();
-        [RelationshipList("C0BE989D-0E9D-4C05-8316-576F890CF11B", "UserID", AutoDeleteReferences = true)]
-        [JsonIgnore]
-        public IReadOnlyCollection<UserPermission> UserPermissions
-        {
-            get { CheckGet(); return _userPermissions; }
-        }
-
-        private List<Code> _codes = new List<Code>();
-        [RelationshipList("829911E1-6382-46C5-A5E2-96861C4121A1", "UserID", AutoDeleteReferences = true)]
-        [JsonIgnore]
-        public IReadOnlyCollection<Code> Codes
-        {
-            get { CheckGet(); return _codes; }
-        }
-
-        private List<Token> _tokens = new List<Token>();
-        [RelationshipList("708AF32D-77B2-4A4C-9038-32AAC2C4B9D8", "UserID", AutoDeleteReferences = true)]
-        [JsonIgnore]
-        public IReadOnlyCollection<Token> Tokens
-        {
-            get { CheckGet(); return _tokens; }
-        }
-        #endregion
     }
 }

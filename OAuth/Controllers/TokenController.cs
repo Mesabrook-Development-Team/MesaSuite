@@ -1,13 +1,14 @@
 ﻿using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using Newtonsoft.Json;
-using OAuth.Models.auth;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
+using WebModels.auth;
 
 namespace OAuth.Controllers
 {
@@ -84,7 +85,7 @@ namespace OAuth.Controllers
                 return ErrorResponse("invalid_grant", "The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.");
             }
 
-            Token token = new Token();
+            Token token = DataObjectFactory.Create<Token>();
             token.ClientID = client.ClientID;
             token.AccessToken = Guid.NewGuid();
             token.RefreshToken = Guid.NewGuid();
@@ -160,7 +161,7 @@ namespace OAuth.Controllers
                     return ErrorResponse("server_error", "An error occurred processing the request");
                 }
 
-                newToken = new Token();
+                newToken = DataObjectFactory.Create<Token>();
                 newToken.ClientID = token.ClientID;
                 newToken.AccessToken = Guid.NewGuid();
                 newToken.RefreshToken = Guid.NewGuid();

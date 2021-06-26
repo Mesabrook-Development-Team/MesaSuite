@@ -12,6 +12,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
     public class SchemaObject
     {
         private TableAttribute table;
+        private ConstructorInfo constructor;
         private List<Field> fields = new List<Field>();
         private List<Relationship> relationships = new List<Relationship>();
         private List<RelationshipList> relationshipLists = new List<RelationshipList>();
@@ -29,9 +30,32 @@ namespace ClussPro.ObjectBasedFramework.Schema
         {
             DataObjectType = type;
             table = type.GetCustomAttribute<TableAttribute>();
+            constructor = type.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, Type.DefaultBinder, new Type[0], new ParameterModifier[0]);
 
             SchemaName = table.SchemaName ?? type.Namespace.Substring(type.Namespace.LastIndexOf(".") + 1);
             ObjectName = table.TableName ?? type.Name;
+
+            if (type.GetCustomAttribute<TableAttribute>(false) == null)
+            {
+                if (string.IsNullOrEmpty(table.SchemaName) || string.IsNullOrEmpty(table.TableName))
+                {
+                    Type workingType = type;
+                    while(workingType.GetCustomAttribute<TableAttribute>(false) == null)
+                    {
+                        workingType = workingType.BaseType;
+                    }
+
+                    if (string.IsNullOrEmpty(table.SchemaName))
+                    {
+                        SchemaName = workingType.Namespace.Substring(workingType.Namespace.LastIndexOf(".") + 1);
+                    }
+
+                    if (string.IsNullOrEmpty(table.TableName))
+                    {
+                        ObjectName = workingType.Name;
+                    }
+                }
+            }
 
             FieldInfo retrievedPathsField = typeof(DataObject).GetField("retrievedPaths", BindingFlags.NonPublic | BindingFlags.Instance);
             FieldInfo originalValuesField = typeof(DataObject).GetField("originalValues", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -42,6 +66,21 @@ namespace ClussPro.ObjectBasedFramework.Schema
             {
                 string privatePropertyName = "_" + propertyInfo.Name.Substring(0, 1).ToLower() + propertyInfo.Name.Substring(1);
                 FieldInfo fieldInfo = type.GetField(privatePropertyName, BindingFlags.NonPublic | BindingFlags.Instance);
+
+                if (fieldInfo == null && type.BaseType != typeof(DataObject))
+                {
+                    Type workingType = type;
+                    while(workingType.BaseType != typeof(DataObject))
+                    {
+                        workingType = workingType.BaseType;
+
+                        fieldInfo = workingType.GetField(privatePropertyName, BindingFlags.NonPublic | BindingFlags.Instance);
+                        if (fieldInfo != null)
+                        {
+                            break;
+                        }
+                    }
+                }
 
                 if (propertyInfo.GetCustomAttribute<FieldAttribute>() != null)
                 {
@@ -256,6 +295,11 @@ namespace ClussPro.ObjectBasedFramework.Schema
         public IReadOnlyCollection<RelationshipList> GetRelationshipLists()
         {
             return relationshipLists;
+        }
+
+        internal DataObject CreateInstance()
+        {
+            return (DataObject)constructor.Invoke(new object[0]);
         }
     }
 }

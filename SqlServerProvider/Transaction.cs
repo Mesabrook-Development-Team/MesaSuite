@@ -1,4 +1,5 @@
 ﻿using ClussPro.Base.Data.Query;
+using System;
 using System.Data.SqlClient;
 
 namespace ClussPro.SqlServerProvider
@@ -8,11 +9,14 @@ namespace ClussPro.SqlServerProvider
         private bool isDisposed;
         private bool isActive = true;
         internal SqlTransaction SQLTransaction { get; set; }
+        public Action PreCommitAction { get; set; }
 
         public bool IsActive => isActive;
 
         public void Commit()
         {
+            PreCommitAction?.Invoke();
+
             SqlConnection backingConnection = SQLTransaction.Connection;
             SQLTransaction?.Commit();
             backingConnection.Close();

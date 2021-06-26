@@ -1,16 +1,13 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Web;
 
-namespace API_MCSync.Models.dbo
+namespace WebModels.dbo
 {
     [Table("0170EEDF-E986-462C-9074-566297EA629A")]
     public class MCSyncFile : DataObject
     {
+        protected MCSyncFile() : base() { }
+
         private long? _mCSyncFileID = null;
         [Field("1D10C15E-8E80-4543-9359-FA09954510AE")]
         public long? MCSyncFileID

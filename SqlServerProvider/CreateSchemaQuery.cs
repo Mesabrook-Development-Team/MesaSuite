@@ -11,7 +11,7 @@ namespace ClussPro.SqlServerProvider
         {
             CheckedTransactionExecute(transaction, (localTransaction) =>
             {
-                string sql = $"CREATE SCHEMA [{SchemaName}]";
+                string sql = $" if not exists (select * from sys.schemas where name='{SchemaName}') exec('CREATE SCHEMA [{SchemaName}]')";
 
                 using (SqlCommand command = new SqlCommand(sql, localTransaction.SQLTransaction.Connection, localTransaction.SQLTransaction))
                 {

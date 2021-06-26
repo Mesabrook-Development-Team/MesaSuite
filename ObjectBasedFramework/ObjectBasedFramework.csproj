@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataObject.cs" />
+    <Compile Include="DataObjectFactory.cs" />
     <Compile Include="DataSearch\BooleanSearchCondition.cs" />
     <Compile Include="DataSearch\DateTimeSearchCondition.cs" />
     <Compile Include="DataSearch\GuidSearchCondition.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="DataSearch\LongSearchCondition.cs" />
     <Compile Include="DataSearch\SearchCondition.cs" />
     <Compile Include="DataSearch\SearchConditionGroup.cs" />
+    <Compile Include="Extensions\DataObjectExtensions.cs" />
     <Compile Include="Schema\Attributes\FieldAttribute.cs" />
     <Compile Include="Schema\Attributes\RelationshipAttribute.cs" />
     <Compile Include="Schema\Attributes\RelationshipListAttribute.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="Schema\SchemaObject.cs" />
     <Compile Include="Schema\Schema.cs" />
     <Compile Include="DataSearch\Search.cs" />
+    <Compile Include="Utility\ObjectBasedFrameworkJsonContractResolver.cs" />
     <Compile Include="Validation\Attributes\RequiredAttribute.cs" />
     <Compile Include="Validation\Attributes\UniqueAttribute.cs" />
     <Compile Include="Validation\Conditions\Condition.cs" />

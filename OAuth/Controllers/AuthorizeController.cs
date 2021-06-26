@@ -1,15 +1,16 @@
 ﻿using ClussPro.Base.Data.Operand;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using Newtonsoft.Json;
 using OAuth.Models;
-using OAuth.Models.auth;
-using OAuth.Models.security;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using WebModels.auth;
+using WebModels.security;
 
 namespace OAuth.Controllers
 {
@@ -167,7 +168,7 @@ namespace OAuth.Controllers
             User dbUser = userSearch.GetReadOnly(null, new string[] { "UserID" });
             if (dbUser == null)
             {
-                dbUser = new User();
+                dbUser = DataObjectFactory.Create<User>();
                 dbUser.Username = user.Contains("@") ? user.Substring(0, user.IndexOf('@')) : user;
                 if (!dbUser.Save())
                 {
@@ -175,7 +176,7 @@ namespace OAuth.Controllers
                 }
             }
 
-            Code code = new Code();
+            Code code = DataObjectFactory.Create<Code>();
             code.ClientIdentifier = Guid.Parse(clientID);
             code.AuthCode = Guid.NewGuid();
             code.RedirectURI = redirectUri;

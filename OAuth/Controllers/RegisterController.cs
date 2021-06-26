@@ -1,12 +1,13 @@
 ﻿using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Validation;
 using OAuth.Models;
-using OAuth.Models.auth;
 using System;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using WebModels.auth;
 
 namespace OAuth.Controllers
 {
@@ -15,7 +16,7 @@ namespace OAuth.Controllers
         // GET: Register
         public ActionResult Index()
         {
-            Client client = new Client();
+            Client client = DataObjectFactory.Create<Client>();
 
             if (Request.QueryString.AllKeys.Contains("clientIdentifier"))
             {

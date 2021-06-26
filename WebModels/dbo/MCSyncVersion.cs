@@ -1,15 +1,14 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace API_MCSync.Models.dbo
+namespace WebModels.dbo
 {
     [Table("2B39AC98-8B1B-430F-9570-D6AB9F82782D")]
     public class MCSyncVersion : DataObject
     {
+        protected MCSyncVersion() : base() { }
+
         private long? _mCSyncVersionID = null;
         [Field("7B976DE2-1204-43F3-A3B0-BB6965387692")]
         public long? MCSyncVersionID

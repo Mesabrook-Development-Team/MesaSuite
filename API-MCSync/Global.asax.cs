@@ -1,14 +1,7 @@
 ﻿using API_MCSync.App_Start;
-using API_MCSync.Models.dbo;
-using ClussPro.ObjectBasedFramework;
-using ClussPro.ObjectBasedFramework.Schema;
+using ClussPro.ObjectBasedFramework.Utility;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
-using System.Web.Security;
-using System.Web.SessionState;
 
 namespace API_MCSync
 {
@@ -20,6 +13,8 @@ namespace API_MCSync
             GlobalConfiguration.Configure(WebApiConfig.Register);
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = true;
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.UseDataContractJsonSerializer = true;
+
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new ObjectBasedFrameworkJsonContractResolver();
         }
 
         protected void Session_Start(object sender, EventArgs e)

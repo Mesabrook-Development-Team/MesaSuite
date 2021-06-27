@@ -40,7 +40,7 @@ namespace WebModels.auth
 
         #region Relationships
         private List<Token> _tokens = new List<Token>();
-        [RelationshipList("F9111B34-F4D4-497E-ACCE-A3870EAF7B42", "TokenID")]
+        [RelationshipList("F9111B34-F4D4-497E-ACCE-A3870EAF7B42", "ClientID")]
         public IReadOnlyCollection<Token> Tokens
         {
             get { CheckGet(); return _tokens; }

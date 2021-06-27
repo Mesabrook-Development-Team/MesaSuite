@@ -45,28 +45,42 @@ namespace ClussPro.ObjectBasedFramework.Schema
             schemaLoading = true;
             // Discover all top-level data objects (those that contain the Table attribute)
             Dictionary<Type, Tuple<int, Type>> depthAndSubTypesByTableType = new Dictionary<Type, Tuple<int, Type>>();
-            foreach (Type type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes().Where(t => t.GetCustomAttribute<TableAttribute>(false) != null)))
+            foreach(Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                depthAndSubTypesByTableType[type] = new Tuple<int, Type>(0, type);
+                try
+                {
+                    foreach (Type type in assembly.GetTypes().Where(t => t.GetCustomAttribute<TableAttribute>(false) != null))
+                    {
+                        depthAndSubTypesByTableType[type] = new Tuple<int, Type>(0, type);
+                    }
+                }
+                catch { }
             }
 
             foreach(Type mainTableType in depthAndSubTypesByTableType.Keys.ToList())
             {
-                foreach(Type derivedType in AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes().Where(t => t != mainTableType && mainTableType.IsAssignableFrom(t))))
+                foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    int hops = 0;
-                    Type workingType = derivedType;
-                    while (workingType != mainTableType)
+                    try
                     {
-                        hops++;
-                        workingType = workingType.BaseType;
-                    }
+                        foreach (Type derivedType in assembly.GetTypes().Where(t => t != mainTableType && mainTableType.IsAssignableFrom(t)))
+                        {
+                            int hops = 0;
+                            Type workingType = derivedType;
+                            while (workingType != mainTableType)
+                            {
+                                hops++;
+                                workingType = workingType.BaseType;
+                            }
 
-                    int oldHops = depthAndSubTypesByTableType[mainTableType].Item1;
-                    if (hops > oldHops)
-                    {
-                        depthAndSubTypesByTableType[mainTableType] = new Tuple<int, Type>(hops, derivedType);
+                            int oldHops = depthAndSubTypesByTableType[mainTableType].Item1;
+                            if (hops > oldHops)
+                            {
+                                depthAndSubTypesByTableType[mainTableType] = new Tuple<int, Type>(hops, derivedType);
+                            }
+                        }
                     }
+                    catch { }
                 }
             }
 

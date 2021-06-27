@@ -14,7 +14,6 @@ namespace WebModels.dbo
         public long? MCSyncVersionID
         {
             get { CheckGet(); return _mCSyncVersionID; }
-            set { CheckSet(); }
         }
 
         private byte _major;

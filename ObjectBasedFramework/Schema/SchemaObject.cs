@@ -25,6 +25,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
         public string SchemaName { get; private set; }
         public string ObjectName { get; private set; }
         public Field PrimaryKeyField { get; private set; }
+        public bool IsSystemLaoded { get; private set; }
 
         internal SchemaObject(Type type)
         {
@@ -34,6 +35,8 @@ namespace ClussPro.ObjectBasedFramework.Schema
 
             SchemaName = table.SchemaName ?? type.Namespace.Substring(type.Namespace.LastIndexOf(".") + 1);
             ObjectName = table.TableName ?? type.Name;
+
+            IsSystemLaoded = typeof(ISystemLoaded).IsAssignableFrom(type);
 
             if (type.GetCustomAttribute<TableAttribute>(false) == null)
             {
@@ -127,7 +130,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                     }
                     field.FieldType = fieldType.Value;
                     field.DataSize = fieldAttribute.DataSize;
-                    field.DataScale = field.DataScale;
+                    field.DataScale = fieldAttribute.DataScale;
                     field.SetPrivateDataCallback = (instance, value) =>
                     {
                         object valueToSet = value;
@@ -145,6 +148,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                     field.GetPrivateDataCallback = (instance) => fieldInfo.GetValue(instance);
                     field.ParentSchemaObject = this;
                     field.IsRequired = propertyInfo.GetCustomAttribute<RequiredAttribute>() != null;
+                    field.IsSystemLoaded = fieldAttribute.IsSystemLoaded;
                     fields.Add(field);
                     fieldsByName.Add(field.FieldName, field);
                 }

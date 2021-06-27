@@ -1,9 +1,5 @@
 ﻿using ClussPro.Base.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClussPro.ObjectBasedFramework.Schema
 {
@@ -17,6 +13,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
         public int DataScale { get; internal set; }
         public string FieldName { get; internal set; }
         public bool IsRequired { get; internal set; }
+        public bool IsSystemLoaded { get; internal set; }
 
         internal Func<object, object> GetPrivateDataCallback { get; set; }
 

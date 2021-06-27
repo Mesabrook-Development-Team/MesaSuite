@@ -1,4 +1,5 @@
 ﻿using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Loader;
 using ClussPro.ObjectBasedFramework.Schema;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,11 @@ namespace Sandbox
         static void Main(string[] args)
         {
             Permission permission = DataObjectFactory.Create<Permission>();
+            //Schema.Deploy();
 
-            Schema.Deploy();
+            LoaderController loader = new LoaderController();
+            loader.Initialize();
+            loader.Process();
 
             Console.WriteLine("Done!");
             Console.ReadKey();

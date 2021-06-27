@@ -56,11 +56,15 @@
     <Compile Include="DataSearch\SearchCondition.cs" />
     <Compile Include="DataSearch\SearchConditionGroup.cs" />
     <Compile Include="Extensions\DataObjectExtensions.cs" />
+    <Compile Include="Loader\ILoader.cs" />
+    <Compile Include="Loader\LoaderObject.cs" />
     <Compile Include="Schema\Attributes\FieldAttribute.cs" />
     <Compile Include="Schema\Attributes\RelationshipAttribute.cs" />
     <Compile Include="Schema\Attributes\RelationshipListAttribute.cs" />
     <Compile Include="Schema\Attributes\TableAttribute.cs" />
     <Compile Include="Schema\Field.cs" />
+    <Compile Include="Schema\ISystemLoaded.cs" />
+    <Compile Include="Loader\LoaderController.cs" />
     <Compile Include="Schema\Relationship.cs" />
     <Compile Include="Schema\RelationshipList.cs" />
     <Compile Include="Schema\SchemaException.cs" />

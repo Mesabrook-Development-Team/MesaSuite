@@ -10,6 +10,7 @@ namespace ClussPro.ObjectBasedFramework.Schema.Attributes
         public FieldSpecification.FieldTypes? FieldType { get; set; }
         public int DataSize { get; set; } = -1;
         public int DataScale { get; set; }
+        public bool IsSystemLoaded { get; set; }
         public FieldAttribute(string FieldID)
         {
             this.FieldID = new Guid(FieldID);

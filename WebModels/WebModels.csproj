@@ -46,6 +46,7 @@
     <Compile Include="auth\Token.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
+    <Compile Include="Loaders\security\PermissionLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="security\Permission.cs" />
     <Compile Include="security\User.cs" />

@@ -54,6 +54,15 @@ namespace DatabaseMigration
                 {
                     transaction = SQLProviderFactory.GenerateTransaction();
                     migration.Execute(transaction);
+
+                    IUpdateQuery updateQuery = SQLProviderFactory.GetUpdateQuery();
+                    updateQuery.Table = new Table("mesasys", "MigrationHistory");
+                    updateQuery.FieldValueList = new List<FieldValue>()
+                    {
+                        new FieldValue() { FieldName = "MigrationNumber", Value = migration.MigrationNumber }
+                    };
+                    updateQuery.Execute(transaction);
+
                     transaction.Commit();
 
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -67,7 +76,7 @@ namespace DatabaseMigration
                         transaction.Rollback();
                     }
 
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("FAILED");
                     Console.ForegroundColor = foregroundColor;
                     Console.WriteLine();

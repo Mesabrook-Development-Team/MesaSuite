@@ -18,6 +18,7 @@ namespace ClussPro.SqlServerProvider
         public ICondition WhereCondition { get; set; }
         public List<Join> JoinList { get; set; } = new List<Join>();
         public int PageSize { get; set; } = -1;
+        public List<Order> OrderByList { get; set; } = new List<Order>();
 
         public DataTable Execute(ITransaction transaction)
         {
@@ -125,6 +126,27 @@ namespace ClussPro.SqlServerProvider
                 sqlBuilder.Append(" ON ");
                 sqlBuilder.Append(ScriptWriters.ConditionWriter.WriteCondition(join.Condition, parameters));
                 sqlBuilder.Append(" ");
+            }
+        }
+
+        private void WriteOrderList(StringBuilder sqlBuilder, SqlParameterCollection parameters)
+        {
+            if (!OrderByList.Any())
+            {
+                return;
+            }
+
+            sqlBuilder.Append(" ORDER BY ");
+            bool first = true;
+            foreach(Order order in OrderByList)
+            {
+                if (!first)
+                {
+                    sqlBuilder.Append(", ");
+                }
+
+                first = false;
+                sqlBuilder.Append(ScriptWriters.OrderWriter.WriteOrder(order, parameters));
             }
         }
     }

@@ -66,6 +66,7 @@
     <Compile Include="Data\ISQLProvider.cs" />
     <Compile Include="Data\Query\ITransaction.cs" />
     <Compile Include="Data\Query\IUpdateQuery.cs" />
+    <Compile Include="Data\Query\Order.cs" />
     <Compile Include="Data\Query\Select.cs" />
     <Compile Include="Data\SQLProviderFactory.cs" />
     <Compile Include="Data\Table.cs" />

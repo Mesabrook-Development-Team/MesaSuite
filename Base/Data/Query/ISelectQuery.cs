@@ -11,6 +11,7 @@ namespace ClussPro.Base.Data.Query
         ICondition WhereCondition { get; set; }
         List<Join> JoinList { get; set; }
         int PageSize { get; set; }
+        List<Order> OrderByList { get; set; }
 
         DataTable Execute(ITransaction transaction);
     }

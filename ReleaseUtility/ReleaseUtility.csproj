@@ -78,6 +78,7 @@
     <Compile Include="Steps\IStep.cs" />
     <Compile Include="Steps\CreateDeployment.cs" />
     <Compile Include="Steps\ResetChanges.cs" />
+    <Compile Include="Steps\RunProgram.cs" />
     <Compile Include="Steps\RunSQL.cs" />
     <Compile Include="Steps\UpdateConfigs.cs" />
     <Compile Include="Steps\UploadFilesToFTP.cs" />

@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CEC532AC-F719-4BDB-A537-F192EF8C3E15}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClussPro.SqlServerProvider</RootNamespace>
-    <AssemblyName>MSSqlServerProvider</AssemblyName>
+    <ProjectGuid>{73E9BE3F-86C5-42E7-A965-34E1C8BD87C7}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>DatabaseMigration</RootNamespace>
+    <AssemblyName>DatabaseMigration</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,7 +34,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,38 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlterTableQuery.cs" />
-    <Compile Include="BaseTransactionalQuery.cs" />
-    <Compile Include="CreateSchemaQuery.cs" />
-    <Compile Include="CreateTableQuery.cs" />
-    <Compile Include="DeleteQuery.cs" />
-    <Compile Include="DropSchemaQuery.cs" />
-    <Compile Include="DropTableQuery.cs" />
-    <Compile Include="InsertQuery.cs" />
-    <Compile Include="MSSqlServerProviderConfig.cs" />
-    <Compile Include="MSSqlServerProvider.cs" />
+    <Compile Include="Migrations\IMigration.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScriptWriters\ConditionWriter.cs" />
-    <Compile Include="ScriptWriters\OperandWriter.cs" />
-    <Compile Include="ScriptWriters\OrderWriter.cs" />
-    <Compile Include="ScriptWriters\TableWriter.cs" />
-    <Compile Include="Transaction.cs" />
-    <Compile Include="SelectQuery.cs" />
-    <Compile Include="UpdateQuery.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
       <Project>{0784ad76-4a1f-4b28-9fe9-90c006ecba82}</Project>
       <Name>Base</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="MSSqlServerProviderConfig.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

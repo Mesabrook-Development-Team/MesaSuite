@@ -70,6 +70,7 @@ The last required `appSetting` key is `MesaSuite.Common.AuthHost`.  This is the 
 | API-MCSync | This is a WebAPI project that serves MC Sync file information |
 | API-User | This is a WebAPI project that manages Active Directory Users and Groups, MesaSuite Users, and Permissions |
 | Base | This is the Object Based Framework's Base folder and holds things common between it and database adapters. |
+| Database Migration | This project contains code that modifies database schema and data to keep consistent with the models in code |
 | MCSync | This is a MesaSuite module that syncs files on the file system for use on the Mesabrook server |
 | MesaSuite | This is the primary project that serves as a "launcher" for all of the modules and a mechanism in which users are able to authenticate |
 | MesaSuite.Common | This project contains shared MesaSuite functionality that is shared amongst all of MesaSuite's modules.  It contains classes used for Web API access and everything required for Authentication. |

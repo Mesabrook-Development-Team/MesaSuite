@@ -22,7 +22,9 @@ namespace OAuth.Models
             }
 
             string ldapGroupName = ConfigurationManager.AppSettings.Get("LDAPGroupName");
-            DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}");
+            string ldapUser = ConfigurationManager.AppSettings.Get("LDAPUser");
+            string ldapPassword = ConfigurationManager.AppSettings.Get("LDAPPassword");
+            DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}/{ldapContainer}", ldapUser, ldapPassword);
             DirectorySearcher directorySearcher = new DirectorySearcher(directoryEntry);
             directorySearcher.Filter = $"(&(samaccountname={Sanitize(user)})(memberof=cn={ldapGroupName},{ldapContainer}))";
 

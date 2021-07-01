@@ -8,7 +8,5 @@ namespace OAuth.Common
         public long UserID { get; set; }
         public DateTime Expiration { get; set; }
         public string AccessToken { get; set; }
-
-        public List<string> Permissions { get; set; } = new List<string>();
     }
 }

@@ -71,21 +71,5 @@ namespace WebModels.Tests
 
             Assert.AreEqual(0, errors.Length, errors.ToString());
         }
-
-        [TestMethod]
-        public void PrimaryKeysDontHaveSetters()
-        {
-            StringBuilder errors = new StringBuilder();
-            foreach(SchemaObject schemaObject in Schema.GetAllSchemaObjects())
-            {
-                PropertyInfo primaryKeyProperty = schemaObject.DataObjectType.GetProperty(schemaObject.PrimaryKeyField.FieldName);
-                if (primaryKeyProperty.SetMethod != null)
-                {
-                    errors.AppendLine($"{schemaObject.DataObjectType.FullName}: Primary Key property has a setter - this is not allowed.");
-                }
-            }
-
-            Assert.AreEqual(0, errors.Length, errors.ToString());
-        }
     }
 }

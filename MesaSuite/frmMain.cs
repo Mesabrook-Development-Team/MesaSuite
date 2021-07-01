@@ -16,12 +16,12 @@ namespace MesaSuite
             InitializeComponent();
         }
 
-        public Dictionary<Panel, string> GetRequiredPermissionsForButton()
+        public Dictionary<Panel, string> GetProgramKeyForButton()
         {
             return new Dictionary<Panel, string>()
             {
                 { pnlMCSync, "" },
-                { pnlUserManagement, "User" }
+                { pnlSystemManagement, "system" }
             };
         }
 
@@ -52,11 +52,11 @@ namespace MesaSuite
             }
 
             pboxMCSyncLogo.Visible = false;
-            pboxUser.Visible = false;
+            pboxSystem.Visible = false;
             lblVersion.Text = "Version " + Application.ProductVersion;
             Authentication.OnLoggedIn += Authentication_OnLoggedIn;
             Authentication.OnLoggedOut += Authentication_OnLoggedOut;
-            Authentication.OnPermissionsUpdate += Authentication_OnPermissionsUpdate;
+            Authentication.OnProgramUpdate += Authentication_OnProgramUpdate;
 
             if (Authentication.AuthenticationStatus == Authentication.AuthenticationStatuses.LoggedIn)
             {
@@ -69,24 +69,24 @@ namespace MesaSuite
                 lblLogInStatus.Text = "Not Logged In";
             }
 
-            Authentication_OnPermissionsUpdate(sender, e);
+            Authentication_OnProgramUpdate(sender, e);
         }
 
-        private void Authentication_OnPermissionsUpdate(object sender, EventArgs e)
+        private void Authentication_OnProgramUpdate(object sender, EventArgs e)
         {
-            Dictionary<Panel, string> permissionsForButton = GetRequiredPermissionsForButton();
+            Dictionary<Panel, string> programKeysForButton = GetProgramKeyForButton();
             foreach(Panel panel in flow.Controls.OfType<Panel>())
             {
-                if (!permissionsForButton.ContainsKey(panel))
+                if (!programKeysForButton.ContainsKey(panel))
                 {
                     continue;
                 }
 
-                string requiredPermission = permissionsForButton[panel];
+                string requiredProgramKey = programKeysForButton[panel];
 
                 Invoke(new MethodInvoker(() =>
                 {
-                    panel.Visible = string.IsNullOrEmpty(requiredPermission) || Authentication.GetPermissionsByModule(requiredPermission).Any();
+                    panel.Visible = string.IsNullOrEmpty(requiredProgramKey) || Authentication.Programs.Contains(requiredProgramKey);
                 }));
             }
         }
@@ -203,7 +203,7 @@ namespace MesaSuite
 
         private void pboxUserManagement_Click(object sender, EventArgs e)
         {
-            StartProgram(() => UserManagement.Program.Main(StartupArguments.GetArgsForApp("usermanagement")));
+            StartProgram(() => SystemManagement.Program.Main(StartupArguments.GetArgsForApp("usermanagement")));
         }
 
         private void pboxUserManagement_MouseHover(object sender, EventArgs e)
@@ -214,14 +214,14 @@ namespace MesaSuite
 
         private void pboxUserManagement_MouseEnter(object sender, EventArgs e)
         {
-            pboxUserManagement.BackgroundImage = Properties.Resources.btn_User_hover;
-            pboxUser.Visible = true;
+            pboxSystemManagement.BackgroundImage = Properties.Resources.btn_User_hover;
+            pboxSystem.Visible = true;
         }
 
         private void pboxUserManagement_MouseLeave(object sender, EventArgs e)
         {
-            pboxUserManagement.BackgroundImage = Properties.Resources.Actions_im_user_icon;
-            pboxUser.Visible = false;
+            pboxSystemManagement.BackgroundImage = Properties.Resources.Actions_im_user_icon;
+            pboxSystem.Visible = false;
         }
     }
 }

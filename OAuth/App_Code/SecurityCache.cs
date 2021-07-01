@@ -76,28 +76,6 @@ namespace OAuth.App_Code
             return null;
         }
 
-        public static async Task UpdatePermissionsForUserID(long userID)
-        {
-            if (!securityProfilesByUserID.ContainsKey(userID))
-            {
-                return;
-            }
-
-            Search<UserPermission> userPermission = new Search<UserPermission>(new LongSearchCondition<UserPermission>()
-            {
-                Field = "UserID",
-                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = userID
-            });
-
-            List<Permission> permissionsForUser = await Task.Run(() => userPermission.GetReadOnlyReader(null, new string[] { "Permission.Key" }).Select(up => up.Permission).ToList());
-            foreach(SecurityProfile profile in securityProfilesByUserID[userID].Where(sp => sp.Expiration > DateTime.Now))
-            {
-                profile.Permissions = permissionsForUser.Select(p => p.Key).ToList();
-                NotifyGrants(profile);
-            }
-        }
-
         public static void AddSecurityProfile(SecurityProfile profile)
         {
             securityProfilesByToken[profile.AccessToken] = profile;

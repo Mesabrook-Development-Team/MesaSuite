@@ -121,10 +121,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UserManagement\UserManagement.csproj">
-      <Project>{7d2068c5-df3c-4de0-9f27-477d75b65fb6}</Project>
-      <Name>UserManagement</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MCSync\MCSync.csproj">
       <Project>{dae0b871-55a8-4b13-b121-273d19997c95}</Project>
       <Name>MCSync</Name>
@@ -132,6 +128,10 @@
     <ProjectReference Include="..\MesaSuite.Common\MesaSuite.Common.csproj">
       <Project>{5894467e-f5d9-4aea-91e3-07851fe3e722}</Project>
       <Name>MesaSuite.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemManagement\SystemManagement.csproj">
+      <Project>{7d2068c5-df3c-4de0-9f27-477d75b65fb6}</Project>
+      <Name>SystemManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

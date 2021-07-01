@@ -102,8 +102,8 @@ namespace MesaSuite.Common.Data
         {
             [EnumValue("mcsync")]
             MCSync,
-            [EnumValue("user")]
-            UserManagement
+            [EnumValue("system")]
+            SystemManagement
         }
     }
 }

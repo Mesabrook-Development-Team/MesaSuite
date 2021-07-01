@@ -46,11 +46,11 @@
     <Compile Include="auth\Token.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
-    <Compile Include="Loaders\security\PermissionLoader.cs" />
+    <Compile Include="Loaders\security\ProgramLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="security\Permission.cs" />
+    <Compile Include="security\Program.cs" />
     <Compile Include="security\User.cs" />
-    <Compile Include="security\UserPermission.cs" />
+    <Compile Include="security\UserProgram.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">

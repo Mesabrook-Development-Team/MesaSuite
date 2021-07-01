@@ -37,17 +37,17 @@
             this.lblLogInStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.flow = new System.Windows.Forms.FlowLayoutPanel();
-            this.pnlUserManagement = new System.Windows.Forms.Panel();
-            this.pboxUserManagement = new System.Windows.Forms.PictureBox();
-            this.pboxUser = new System.Windows.Forms.PictureBox();
+            this.pnlSystemManagement = new System.Windows.Forms.Panel();
+            this.pboxSystemManagement = new System.Windows.Forms.PictureBox();
+            this.pboxSystem = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSync)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSyncLogo)).BeginInit();
             this.pnlMCSync.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.flow.SuspendLayout();
-            this.pnlUserManagement.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pboxUserManagement)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pboxUser)).BeginInit();
+            this.pnlSystemManagement.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxSystemManagement)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxSystem)).BeginInit();
             this.SuspendLayout();
             // 
             // pboxMCSync
@@ -140,48 +140,48 @@
             this.flow.AutoScroll = true;
             this.flow.BackColor = System.Drawing.Color.Transparent;
             this.flow.Controls.Add(this.pnlMCSync);
-            this.flow.Controls.Add(this.pnlUserManagement);
+            this.flow.Controls.Add(this.pnlSystemManagement);
             this.flow.Location = new System.Drawing.Point(31, 44);
             this.flow.Name = "flow";
             this.flow.Size = new System.Drawing.Size(836, 429);
             this.flow.TabIndex = 6;
             // 
-            // pnlUserManagement
+            // pnlSystemManagement
             // 
-            this.pnlUserManagement.BackColor = System.Drawing.Color.Transparent;
-            this.pnlUserManagement.Controls.Add(this.pboxUserManagement);
-            this.pnlUserManagement.Controls.Add(this.pboxUser);
-            this.pnlUserManagement.Location = new System.Drawing.Point(141, 3);
-            this.pnlUserManagement.Name = "pnlUserManagement";
-            this.pnlUserManagement.Size = new System.Drawing.Size(132, 155);
-            this.pnlUserManagement.TabIndex = 4;
+            this.pnlSystemManagement.BackColor = System.Drawing.Color.Transparent;
+            this.pnlSystemManagement.Controls.Add(this.pboxSystemManagement);
+            this.pnlSystemManagement.Controls.Add(this.pboxSystem);
+            this.pnlSystemManagement.Location = new System.Drawing.Point(141, 3);
+            this.pnlSystemManagement.Name = "pnlSystemManagement";
+            this.pnlSystemManagement.Size = new System.Drawing.Size(132, 155);
+            this.pnlSystemManagement.TabIndex = 4;
             // 
-            // pboxUserManagement
+            // pboxSystemManagement
             // 
-            this.pboxUserManagement.BackColor = System.Drawing.Color.Transparent;
-            this.pboxUserManagement.BackgroundImage = global::MesaSuite.Properties.Resources.Actions_im_user_icon;
-            this.pboxUserManagement.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pboxUserManagement.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pboxUserManagement.Location = new System.Drawing.Point(21, 19);
-            this.pboxUserManagement.Name = "pboxUserManagement";
-            this.pboxUserManagement.Size = new System.Drawing.Size(92, 97);
-            this.pboxUserManagement.TabIndex = 1;
-            this.pboxUserManagement.TabStop = false;
-            this.pboxUserManagement.Click += new System.EventHandler(this.pboxUserManagement_Click);
-            this.pboxUserManagement.MouseEnter += new System.EventHandler(this.pboxUserManagement_MouseEnter);
-            this.pboxUserManagement.MouseLeave += new System.EventHandler(this.pboxUserManagement_MouseLeave);
-            this.pboxUserManagement.MouseHover += new System.EventHandler(this.pboxUserManagement_MouseHover);
+            this.pboxSystemManagement.BackColor = System.Drawing.Color.Transparent;
+            this.pboxSystemManagement.BackgroundImage = global::MesaSuite.Properties.Resources.Actions_im_user_icon;
+            this.pboxSystemManagement.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxSystemManagement.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pboxSystemManagement.Location = new System.Drawing.Point(21, 19);
+            this.pboxSystemManagement.Name = "pboxSystemManagement";
+            this.pboxSystemManagement.Size = new System.Drawing.Size(92, 97);
+            this.pboxSystemManagement.TabIndex = 1;
+            this.pboxSystemManagement.TabStop = false;
+            this.pboxSystemManagement.Click += new System.EventHandler(this.pboxUserManagement_Click);
+            this.pboxSystemManagement.MouseEnter += new System.EventHandler(this.pboxUserManagement_MouseEnter);
+            this.pboxSystemManagement.MouseLeave += new System.EventHandler(this.pboxUserManagement_MouseLeave);
+            this.pboxSystemManagement.MouseHover += new System.EventHandler(this.pboxUserManagement_MouseHover);
             // 
-            // pboxUser
+            // pboxSystem
             // 
-            this.pboxUser.BackColor = System.Drawing.Color.Transparent;
-            this.pboxUser.BackgroundImage = global::MesaSuite.Properties.Resources.logo_User;
-            this.pboxUser.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pboxUser.Location = new System.Drawing.Point(28, 118);
-            this.pboxUser.Name = "pboxUser";
-            this.pboxUser.Size = new System.Drawing.Size(80, 25);
-            this.pboxUser.TabIndex = 2;
-            this.pboxUser.TabStop = false;
+            this.pboxSystem.BackColor = System.Drawing.Color.Transparent;
+            this.pboxSystem.BackgroundImage = global::MesaSuite.Properties.Resources.logo_User;
+            this.pboxSystem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxSystem.Location = new System.Drawing.Point(28, 118);
+            this.pboxSystem.Name = "pboxSystem";
+            this.pboxSystem.Size = new System.Drawing.Size(80, 25);
+            this.pboxSystem.TabIndex = 2;
+            this.pboxSystem.TabStop = false;
             // 
             // frmMain
             // 
@@ -207,9 +207,9 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.flow.ResumeLayout(false);
-            this.pnlUserManagement.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pboxUserManagement)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pboxUser)).EndInit();
+            this.pnlSystemManagement.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pboxSystemManagement)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxSystem)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,8 +224,8 @@
         private System.Windows.Forms.ToolStripStatusLabel lblLogInStatus;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.FlowLayoutPanel flow;
-        private System.Windows.Forms.Panel pnlUserManagement;
-        private System.Windows.Forms.PictureBox pboxUserManagement;
-        private System.Windows.Forms.PictureBox pboxUser;
+        private System.Windows.Forms.Panel pnlSystemManagement;
+        private System.Windows.Forms.PictureBox pboxSystemManagement;
+        private System.Windows.Forms.PictureBox pboxSystem;
     }
 }

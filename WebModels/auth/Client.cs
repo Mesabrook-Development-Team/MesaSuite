@@ -18,6 +18,7 @@ namespace WebModels.auth
         public long? ClientID
         {
             get { CheckGet(); return _clientID; }
+            set { CheckSet(); _clientID = value; }
         }
 
         private Guid? _clientIdentifier;

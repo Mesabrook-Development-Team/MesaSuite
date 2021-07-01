@@ -13,28 +13,9 @@ namespace OAuth.Controllers
         [HttpGet]
         public async Task<ActionResult> Token(string access_token)
         {
-            SecurityProfile profile = await SecurityCache.Get(access_token, true);
+            SecurityProfile profile = await App_Code.SecurityCache.Get(access_token, true);
 
             return Json(profile, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Permissions(long? userid)
-        {
-            if (userid == null)
-            {
-                return HttpNotFound();
-            }
-
-            try
-            {
-                await SecurityCache.UpdatePermissionsForUserID(userid.Value);
-                return new HttpStatusCodeResult(200);
-            }
-            catch
-            {
-                return new HttpStatusCodeResult(500);
-            }
         }
 
         [HttpPost]
@@ -47,7 +28,7 @@ namespace OAuth.Controllers
 
             try
             {
-                SecurityCache.Revoke(userid.Value);
+                App_Code.SecurityCache.Revoke(userid.Value);
                 return new HttpStatusCodeResult(200);
             }
             catch

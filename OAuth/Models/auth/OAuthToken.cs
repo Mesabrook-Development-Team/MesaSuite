@@ -21,15 +21,12 @@ namespace OAuth.Models.auth
                 securityProfile.Expiration = Expiration.Value;
                 securityProfile.UserID = UserID.Value;
 
-                User user = DataObject.GetReadOnlyByPrimaryKey<User>(UserID, transaction, new string[] { "UserPermissions.Permission.Key" });
-                securityProfile.Permissions.AddRange(user.UserPermissions.Select(up => up.Permission.Key));
-
-                SecurityCache.AddSecurityProfile(securityProfile);
+                App_Code.SecurityCache.AddSecurityProfile(securityProfile);
             }
 
             if (IsFieldDirty("RevokeTime") && RevokeTime != null)
             {
-                SecurityCache.Revoke(AccessToken.ToString());
+                App_Code.SecurityCache.Revoke(AccessToken.ToString());
             }
 
             return true;

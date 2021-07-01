@@ -14,7 +14,7 @@ namespace Sandbox
     {
         static void Main(string[] args)
         {
-            Permission permission = DataObjectFactory.Create<Permission>();
+            User user = DataObjectFactory.Create<User>();
             //Schema.Deploy();
 
             LoaderController loader = new LoaderController();

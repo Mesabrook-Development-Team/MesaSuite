@@ -16,6 +16,7 @@ namespace WebModels.security
         public long? UserID
         {
             get { CheckGet(); return _userID; }
+            set { CheckSet(); _userID = value; }
         }
 
         private string _username;
@@ -28,19 +29,22 @@ namespace WebModels.security
         }
 
         #region Relationships
-        private List<UserPermission> _userPermissions = new List<UserPermission>();
-        [RelationshipList("35E5C518-8874-4E92-A544-A0E1E8DDDC2F", "UserID")]
-        public IReadOnlyCollection<UserPermission> UserPermissions
-        {
-            get { CheckGet(); return _userPermissions; }
-        }
-
+        #region auth
         private List<Token> _tokens = new List<Token>();
-        [RelationshipList("F2685C25-DB7A-4D37-8AB8-9B0C17454B12", "UserID")]
+        [RelationshipList("F2685C25-DB7A-4D37-8AB8-9B0C17454B12", "UserID", AutoDeleteReferences = true)]
         public IReadOnlyCollection<Token> Tokens
         {
             get { CheckGet(); return _tokens; }
         }
+        #endregion
+        #region security
+        private List<UserProgram> _userPrograms = new List<UserProgram>();
+        [RelationshipList("1714F3DF-C649-4A9D-B7C2-7ED01F676173", "UserID", AutoDeleteReferences = true)]
+        public IReadOnlyCollection<UserProgram> UserPrograms
+        {
+            get { CheckGet(); return _userPrograms; }
+        }
+        #endregion
         #endregion
     }
 }

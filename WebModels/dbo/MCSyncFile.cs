@@ -13,6 +13,7 @@ namespace WebModels.dbo
         public long? MCSyncFileID
         {
             get { CheckGet(); return _mCSyncFileID; }
+            set { CheckSet(); _mCSyncFileID = value; }
         }
 
         private string _fileType;

@@ -19,7 +19,7 @@ namespace MesaSuite.Common
     {
         public static event EventHandler OnLoggedIn;
         public static event EventHandler OnLoggedOut;
-        public static event EventHandler OnPermissionsUpdate;
+        public static event EventHandler OnProgramUpdate;
         private static AuthenticationStatuses _authenticationStatus = AuthenticationStatuses.LoggedOut;
         public static AuthenticationStatuses AuthenticationStatus
         {
@@ -37,15 +37,10 @@ namespace MesaSuite.Common
                 }
             }
         }
-        private static Thread permissionThread;
+        private static Thread programThread;
 
-        private static List<string> _permissions = new List<string>();
-        public static IReadOnlyCollection<string> Permissions => _permissions;
-
-        public static IReadOnlyCollection<string> GetPermissionsByModule(string module)
-        {
-            return Permissions.Where(p => p.StartsWith($"{module}/", StringComparison.OrdinalIgnoreCase)).Select(p => p.Substring(module.Length + 1)).ToList();
-        }
+        private static List<string> _programs = new List<string>();
+        public static IReadOnlyCollection<string> Programs => _programs;
 
         public static readonly int[] PORTS = new int[] { 48170, 48171, 48172, 48173, 48174 };
         private static Guid? ClientID { get; set; }
@@ -234,7 +229,7 @@ namespace MesaSuite.Common
                 key.SetValue("RefreshToken", RefreshToken);
                 key.SetValue("Expiration", Expiration.ToBinary());
 
-                UpdatePermissions();
+                UpdatePrograms();
             }
             else
             {
@@ -303,7 +298,7 @@ namespace MesaSuite.Common
                 key.SetValue("RefreshToken", RefreshToken);
                 key.SetValue("Expiration", Expiration.ToBinary());
 
-                UpdatePermissions();
+                UpdatePrograms();
             }
             else
             {
@@ -372,18 +367,18 @@ namespace MesaSuite.Common
 
             AuthenticationStatus = string.IsNullOrEmpty(AuthToken) ? AuthenticationStatuses.LoggedOut : AuthenticationStatuses.LoggedIn;
 
-            permissionThread = new Thread(new ThreadStart(PermissionThreadLogic));
-            permissionThread.Start();
+            programThread = new Thread(new ThreadStart(ProgramThreadLogic));
+            programThread.Start();
         }
 
-        private static bool _requestPermissionThreadStop = false;
-        private static void PermissionThreadLogic()
+        private static bool _requestProgramThreadStop = false;
+        private static void ProgramThreadLogic()
         {
             do
             {
                 try
                 {
-                    UpdatePermissions();
+                    UpdatePrograms();
 
                     if (Application.OpenForms.Count == 0)
                     {
@@ -394,50 +389,50 @@ namespace MesaSuite.Common
 
                 Thread.Sleep(10000);
             }
-            while (!_requestPermissionThreadStop);
+            while (!_requestProgramThreadStop);
         }
 
-        private static bool isUpdatingPermissions = false;
-        public async static Task UpdatePermissions()
+        private static bool isUpdatingPrograms = false;
+        public async static Task UpdatePrograms()
         {
-            if (isUpdatingPermissions) { return; }
+            if (isUpdatingPrograms) { return; }
 
-            isUpdatingPermissions = true;
+            isUpdatingPrograms = true;
             try
             {
-                List<string> newPermissions;
+                List<string> newPrograms;
 
                 if (!string.IsNullOrEmpty(GetAuthToken()))
                 {
-                    GetData getData = new GetData(DataAccess.APIs.UserManagement, "Permission/GetCurrentPermissions");
+                    GetData getData = new GetData(DataAccess.APIs.SystemManagement, "Program/GetCurrentPrograms");
 
                     try
                     {
-                        newPermissions = await getData.GetObject<List<string>>() ?? new List<string>();
+                        newPrograms = await getData.GetObject<List<string>>() ?? new List<string>();
                     }
                     catch (Exception)
                     {
-                        newPermissions = new List<string>();
+                        newPrograms = new List<string>();
                     }
                 }
                 else
                 {
-                    newPermissions = new List<string>();
+                    newPrograms = new List<string>();
                 }
 
-                List<string> currentPermissions = _permissions.ToList();
+                List<string> currentPrograms = _programs.ToList();
 
-                bool hasChanges = newPermissions.Count != currentPermissions.Count || newPermissions.Any(np => currentPermissions.Contains(np)) || currentPermissions.Any(cp => newPermissions.Contains(cp));
-                _permissions = newPermissions;
+                bool hasChanges = newPrograms.Count != currentPrograms.Count || newPrograms.Any(np => currentPrograms.Contains(np)) || currentPrograms.Any(cp => newPrograms.Contains(cp));
+                _programs = newPrograms;
 
                 if (hasChanges)
                 {
-                    OnPermissionsUpdate?.Invoke(Permissions, new EventArgs());
+                    OnProgramUpdate?.Invoke(Programs, new EventArgs());
                 }
             }
             finally
             {
-                isUpdatingPermissions = false;
+                isUpdatingPrograms = false;
             }
         }
 
@@ -457,7 +452,7 @@ namespace MesaSuite.Common
             key.DeleteValue("AuthToken");
             key.DeleteValue("RefreshToken");
 
-            UpdatePermissions();
+            UpdatePrograms();
         }
     }
 }

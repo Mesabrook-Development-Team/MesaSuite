@@ -15,9 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MesaSuite", "MesaSuite\Mesa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MesaSuite.Common", "MesaSuite.Common\MesaSuite.Common.csproj", "{5894467E-F5D9-4AEA-91E3-07851FE3E722}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement", "UserManagement\UserManagement.csproj", "{7D2068C5-DF3C-4DE0-9F27-477D75B65FB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemManagement", "SystemManagement\SystemManagement.csproj", "{7D2068C5-DF3C-4DE0-9F27-477D75B65FB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API-User", "API-User\API-User.csproj", "{3D65607B-8F0D-47C1-8BAF-2B9E4A8C641E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API-System", "API-System\API-System.csproj", "{3D65607B-8F0D-47C1-8BAF-2B9E4A8C641E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth.Common", "OAuth.Common\OAuth.Common.csproj", "{9EDE023B-B3E1-4E36-8915-57D51D73B16E}"
 EndProject

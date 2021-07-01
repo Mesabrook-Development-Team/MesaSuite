@@ -15,6 +15,7 @@ namespace WebModels.auth
         public long? CodeID
         {
             get { CheckGet(); return _codeID; }
+            set { CheckSet(); _codeID = value; }
         }
 
         private Guid? _authCode;

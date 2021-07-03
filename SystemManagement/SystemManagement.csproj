@@ -79,6 +79,7 @@
     <Compile Include="frmSelectUsers.Designer.cs">
       <DependentUpon>frmSelectUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Government.cs" />
     <Compile Include="Models\Program.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserProgram.cs" />

@@ -14,6 +14,8 @@ namespace SystemManagement
     {
         List<Models.Program> programs = new List<Models.Program>();
         List<User> users = new List<User>();
+
+        
         public frmManage()
         {
             InitializeComponent();
@@ -37,6 +39,9 @@ namespace SystemManagement
             {
                 AddUser(user);
             }
+
+            getData = new GetData(DataAccess.APIs.SystemManagement, "Government/GetGovernments");
+
 
             Enabled = true;
         }

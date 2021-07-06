@@ -21,25 +21,12 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
             SearchConditionGroup conditionGroup = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And);
             foreach(string field in uniqueFields)
             {
-                object fieldValue = dataObject.GetField(field).GetValue(dataObject);
-
-                if (fieldValue != null)
+                conditionGroup.SearchConditions.Add(new GenericSearchCondition(dataObject.GetType())
                 {
-                    conditionGroup.SearchConditions.Add(new GenericSearchCondition(dataObject.GetType())
-                    {
-                        Field = field,
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = fieldValue
-                    });
-                }
-                else
-                {
-                    conditionGroup.SearchConditions.Add(new GenericSearchCondition(dataObject.GetType())
-                    {
-                        Field = field,
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Null
-                    });
-                }
+                    Field = field,
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = dataObject.GetField(field).GetValue(dataObject)
+                });
             }
 
             if (dataObject.PrimaryKeyField.GetValue(dataObject) != null)

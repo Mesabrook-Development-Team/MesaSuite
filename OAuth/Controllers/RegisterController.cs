@@ -1,6 +1,5 @@
 ﻿using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
-using ClussPro.Base.Extensions;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Validation;
 using OAuth.Models;
@@ -37,7 +36,7 @@ namespace OAuth.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(FormCollection form)
+        public ActionResult Index(Client client)
         {
             string[] keys = Request.Form.AllKeys;
 
@@ -64,20 +63,10 @@ namespace OAuth.Controllers
                 ModelState.SetModelValue("user", new ValueProviderResult(user, user, CultureInfo.CurrentCulture));
             }
 
-            Guid clientIdentifier = new Guid();
-            if (keys.Contains("clientIdentifier") && !Guid.TryParse(form["clientIdentifier"], out clientIdentifier))
-            {
-                ModelState.AddModelError("ClientIdentifier", "Client Identifier is not in the correct format");
-            }
-
             ITransaction transaction = null;
             try
             {
                 transaction = SQLProviderFactory.GenerateTransaction();
-                Client client = DataObjectFactory.Create<Client>();
-                client.ClientIdentifier = clientIdentifier.Equals(new Guid()) ? null : clientIdentifier as Guid?;
-                client.RedirectionURI = form.Get("RedirectionURI");
-                
                 if (!client.Save(transaction))
                 {
                     foreach (Error error in client.Errors)

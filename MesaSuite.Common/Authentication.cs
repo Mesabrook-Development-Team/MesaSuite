@@ -68,12 +68,19 @@ namespace MesaSuite.Common
             if (ClientID == null)
             {
                 RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
-                string clientIDString = key.GetValue("ClientID") as string;
+                string clientIDKey;
 
+#if DEBUG
+                clientIDKey = "ClientIDDev";
+#else
+                clientIDKey = "ClientID";
+#endif
+
+                string clientIDString = key.GetValue(clientIDKey) as string;
                 if (!Guid.TryParse(clientIDString, out Guid clientID))
                 {
                     ClientID = Guid.NewGuid();
-                    key.SetValue("ClientID", ClientID.ToString());
+                    key.SetValue(clientIDKey, ClientID.ToString());
 
                     frmRegister register = new frmRegister();
                     register.ClientID = ClientID.Value;

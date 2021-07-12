@@ -14,7 +14,8 @@ namespace SystemManagement
     {
         List<Models.Program> programs = new List<Models.Program>();
         List<User> users = new List<User>();
-
+        List<Government> governments = new List<Government>();
+        List<Company> companies = new List<Company>();
         
         public frmManage()
         {
@@ -23,11 +24,17 @@ namespace SystemManagement
 
         private async void frmManage_Load(object sender, EventArgs e)
         {
-            await LoadSecurities();
+            imlSmall.Images.Add("user", Properties.Resources.user);
+            imlSmall.Images.Add("company", Properties.Resources.company);
+            imlSmall.Images.Add("government", Properties.Resources.government);
+            imlLarge.Images.Add("user", Properties.Resources.user_large);
+            imlLarge.Images.Add("company", Properties.Resources.company_large);
+            imlLarge.Images.Add("government", Properties.Resources.government_large);
+            await LoadData();
             txtSearch.Focus();
         }
 
-        private async Task LoadSecurities()
+        private async Task LoadData()
         {
             Enabled = false;
             lstSecurities.Items.Clear();
@@ -41,7 +48,20 @@ namespace SystemManagement
             }
 
             getData = new GetData(DataAccess.APIs.SystemManagement, "Government/GetGovernments");
+            governments = await getData.GetObject<List<Government>>() ?? new List<Government>();
 
+            foreach(Government government in governments)
+            {
+                AddGovernment(government);
+            }
+
+            getData = new GetData(DataAccess.APIs.SystemManagement, "Company/GetCompanies");
+            companies = await getData.GetObject<List<Company>>();
+
+            foreach(Company company in companies)
+            {
+                AddCompany(company);
+            }
 
             Enabled = true;
         }
@@ -54,6 +74,16 @@ namespace SystemManagement
             {
                 AddUser(user);
             }
+
+            foreach(Government government in governments.Where(g => g.Name.Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase)))
+            {
+                AddGovernment(government);
+            }
+
+            foreach(Company company in companies.Where(c => c.Name.Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase)))
+            {
+                AddCompany(company);
+            }
         }
 
         private void AddUser(User user)
@@ -63,6 +93,31 @@ namespace SystemManagement
             item.Tag = user.UserID;
             item.Group = lstSecurities.Groups["grpUsers"];
             item.ImageKey = "user";
+            item.SubItems.Add("User");
+
+            lstSecurities.Items.Add(item);
+        }
+
+        private void AddGovernment(Government government)
+        {
+            ListViewItem item = new ListViewItem();
+            item.Text = government.Name;
+            item.Tag = government.GovernmentID;
+            item.Group = lstSecurities.Groups["grpGovernments"];
+            item.ImageKey = "government";
+            item.SubItems.Add("Government");
+
+            lstSecurities.Items.Add(item);
+        }
+
+        private void AddCompany(Company company)
+        {
+            ListViewItem item = new ListViewItem();
+            item.Text = company.Name;
+            item.Tag = company.CompanyID;
+            item.Group = lstSecurities.Groups["grpCompanies"];
+            item.ImageKey = "company";
+            item.SubItems.Add("Company");
 
             lstSecurities.Items.Add(item);
         }
@@ -80,6 +135,14 @@ namespace SystemManagement
                 {
                     OpenEditUserForm(item.Tag as long?);
                 }
+
+                if (item.Group.Name == "grpGovernments")
+                {
+                    frmEditGovernment editGovernment = new frmEditGovernment();
+                    editGovernment.GovernmentID = (long)item.Tag;
+                    editGovernment.FormClosed += EditGovernment_FormClosed;
+                    editGovernment.Show();
+                }
             }
         }
 
@@ -93,6 +156,7 @@ namespace SystemManagement
             }
 
             item.Checked = true;
+            lstSecurities.ShowGroups = true;
 
             switch(item.Name)
             {
@@ -107,38 +171,34 @@ namespace SystemManagement
                     break;
                 case "mnuTile":
                     lstSecurities.View = View.Tile;
+                    lstSecurities.ShowGroups = false;
                     break;
                 case "mnuDetails":
                     lstSecurities.View = View.Details;
+                    lstSecurities.ShowGroups = false;
                     break;
             }
         }
 
-        private void cmdAddUser_Click(object sender, EventArgs e)
-        {
-            frmNewUser newUser = new frmNewUser();
-            newUser.ManageForm = this;
-            newUser.Show();
-
-            newUser.FormClosed += new FormClosedEventHandler(UserFormClosed);
-        }
-
         private async void UserFormClosed(object sender, FormClosedEventArgs e)
         {
-            await LoadSecurities();
+            await LoadData();
 
             Form form = (Form)sender;
             form.FormClosed -= UserFormClosed;
         }
 
-        private void ctxSecurities_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private async void EditGovernment_FormClosed(object sender, FormClosedEventArgs e)
         {
-            mnuDeleteUser.Enabled = lstSecurities.SelectedItems.Cast<ListViewItem>().Any(lvi => lvi.Group.Name == "grpUsers");
+            await LoadData();
+
+            Form form = (Form)sender;
+            form.FormClosed -= EditGovernment_FormClosed;
         }
 
-        private async void mnuDeleteUser_Click(object sender, EventArgs e)
+        private async void mnuDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete these user(s)?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete the selected items?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
             {
                 return;
             }
@@ -150,7 +210,7 @@ namespace SystemManagement
                 await delete.Execute();
             }
 
-            await LoadSecurities();
+            await LoadData();
         }
 
         internal void OpenEditUserForm(long? userID)
@@ -166,8 +226,32 @@ namespace SystemManagement
         {
             if (lstSecurities.Items.Cast<ListViewItem>().Any(lvi => lvi.Group.Name == "grpUsers") && e.KeyCode == Keys.Delete)
             {
-                mnuDeleteUser_Click(sender, e);
+                mnuDelete_Click(sender, e);
             }
+        }
+
+        private void mnuNewUser_Click(object sender, EventArgs e)
+        {
+            frmNewUser newUser = new frmNewUser();
+            newUser.ManageForm = this;
+            newUser.Show();
+
+            newUser.FormClosed += new FormClosedEventHandler(UserFormClosed);
+        }
+
+        private void mnuNewGovernment_Click(object sender, EventArgs e)
+        {
+            frmNewGovernment newGovernment = new frmNewGovernment();
+            newGovernment.Show();
+
+            newGovernment.FormClosed += NewGovernment_FormClosed;
+        }
+
+        private async void NewGovernment_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ((frmNewGovernment)sender).FormClosed -= NewGovernment_FormClosed;
+
+            await LoadData();
         }
     }
 }

@@ -30,23 +30,30 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Users", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Governments", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Companies", System.Windows.Forms.HorizontalAlignment.Left);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmManage));
             this.lstSecurities = new System.Windows.Forms.ListView();
-            this.ctxSecurities = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imlLarge = new System.Windows.Forms.ImageList(this.components);
+            this.imlSmall = new System.Windows.Forms.ImageList(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuNewUser = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuNewGovernment = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuNewCompany = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuView = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLargeIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSmallIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuList = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDetails = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuDeleteUser = new System.Windows.Forms.ToolStripMenuItem();
-            this.imlLarge = new System.Windows.Forms.ImageList(this.components);
-            this.imlSmall = new System.Windows.Forms.ImageList(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.cmdAddUser = new System.Windows.Forms.Button();
-            this.ctxSecurities.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstSecurities
@@ -54,17 +61,25 @@
             this.lstSecurities.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lstSecurities.ContextMenuStrip = this.ctxSecurities;
+            this.lstSecurities.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colName,
+            this.colType});
             this.lstSecurities.FullRowSelect = true;
             listViewGroup1.Header = "Users";
             listViewGroup1.Name = "grpUsers";
+            listViewGroup2.Header = "Governments";
+            listViewGroup2.Name = "grpGovernments";
+            listViewGroup3.Header = "Companies";
+            listViewGroup3.Name = "grpCompanies";
             this.lstSecurities.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1});
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
             this.lstSecurities.HideSelection = false;
             this.lstSecurities.LargeImageList = this.imlLarge;
-            this.lstSecurities.Location = new System.Drawing.Point(0, 0);
+            this.lstSecurities.Location = new System.Drawing.Point(0, 27);
             this.lstSecurities.Name = "lstSecurities";
-            this.lstSecurities.Size = new System.Drawing.Size(638, 411);
+            this.lstSecurities.Size = new System.Drawing.Size(638, 384);
             this.lstSecurities.SmallImageList = this.imlSmall;
             this.lstSecurities.TabIndex = 0;
             this.lstSecurities.UseCompatibleStateImageBehavior = false;
@@ -72,15 +87,101 @@
             this.lstSecurities.DoubleClick += new System.EventHandler(this.lstSecurities_DoubleClick);
             this.lstSecurities.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstSecurities_KeyDown);
             // 
-            // ctxSecurities
+            // colName
             // 
-            this.ctxSecurities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuView,
-            this.toolStripMenuItem1,
-            this.mnuDeleteUser});
-            this.ctxSecurities.Name = "ctxSecurities";
-            this.ctxSecurities.Size = new System.Drawing.Size(147, 54);
-            this.ctxSecurities.Opening += new System.ComponentModel.CancelEventHandler(this.ctxSecurities_Opening);
+            this.colName.Text = "Name";
+            // 
+            // colType
+            // 
+            this.colType.Text = "Type";
+            // 
+            // imlLarge
+            // 
+            this.imlLarge.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imlLarge.ImageSize = new System.Drawing.Size(64, 64);
+            this.imlLarge.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // imlSmall
+            // 
+            this.imlSmall.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imlSmall.ImageSize = new System.Drawing.Size(32, 32);
+            this.imlSmall.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 420);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Search:";
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtSearch.Location = new System.Drawing.Point(62, 417);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(117, 20);
+            this.txtSearch.TabIndex = 1;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.mnuView});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(638, 24);
+            this.menuStrip1.TabIndex = 4;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.mnuDelete});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuNewUser,
+            this.mnuNewGovernment,
+            this.mnuNewCompany});
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Text = "New";
+            // 
+            // mnuNewUser
+            // 
+            this.mnuNewUser.Name = "mnuNewUser";
+            this.mnuNewUser.Size = new System.Drawing.Size(180, 22);
+            this.mnuNewUser.Text = "User";
+            this.mnuNewUser.Click += new System.EventHandler(this.mnuNewUser_Click);
+            // 
+            // mnuNewGovernment
+            // 
+            this.mnuNewGovernment.Name = "mnuNewGovernment";
+            this.mnuNewGovernment.Size = new System.Drawing.Size(180, 22);
+            this.mnuNewGovernment.Text = "Government";
+            this.mnuNewGovernment.Click += new System.EventHandler(this.mnuNewGovernment_Click);
+            // 
+            // mnuNewCompany
+            // 
+            this.mnuNewCompany.Name = "mnuNewCompany";
+            this.mnuNewCompany.Size = new System.Drawing.Size(180, 22);
+            this.mnuNewCompany.Text = "Company";
+            // 
+            // mnuDelete
+            // 
+            this.mnuDelete.Name = "mnuDelete";
+            this.mnuDelete.Size = new System.Drawing.Size(180, 22);
+            this.mnuDelete.Text = "Delete";
+            this.mnuDelete.Click += new System.EventHandler(this.mnuDelete_Click);
             // 
             // mnuView
             // 
@@ -91,7 +192,7 @@
             this.mnuList,
             this.mnuDetails});
             this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(146, 22);
+            this.mnuView.Size = new System.Drawing.Size(44, 20);
             this.mnuView.Text = "View";
             // 
             // mnuLargeIcon
@@ -131,76 +232,24 @@
             this.mnuDetails.Text = "Details";
             this.mnuDetails.Click += new System.EventHandler(this.ListViewTypeUpdate);
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(143, 6);
-            // 
-            // mnuDeleteUser
-            // 
-            this.mnuDeleteUser.Name = "mnuDeleteUser";
-            this.mnuDeleteUser.Size = new System.Drawing.Size(146, 22);
-            this.mnuDeleteUser.Text = "Delete User(s)";
-            this.mnuDeleteUser.Click += new System.EventHandler(this.mnuDeleteUser_Click);
-            // 
-            // imlLarge
-            // 
-            this.imlLarge.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imlLarge.ImageStream")));
-            this.imlLarge.TransparentColor = System.Drawing.Color.Transparent;
-            this.imlLarge.Images.SetKeyName(0, "user");
-            // 
-            // imlSmall
-            // 
-            this.imlSmall.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imlSmall.ImageStream")));
-            this.imlSmall.TransparentColor = System.Drawing.Color.Transparent;
-            this.imlSmall.Images.SetKeyName(0, "user");
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 420);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Search:";
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtSearch.Location = new System.Drawing.Point(62, 417);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(117, 20);
-            this.txtSearch.TabIndex = 1;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
-            // 
-            // cmdAddUser
-            // 
-            this.cmdAddUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdAddUser.Location = new System.Drawing.Point(551, 417);
-            this.cmdAddUser.Name = "cmdAddUser";
-            this.cmdAddUser.Size = new System.Drawing.Size(75, 23);
-            this.cmdAddUser.TabIndex = 2;
-            this.cmdAddUser.Text = "Add User";
-            this.cmdAddUser.UseVisualStyleBackColor = true;
-            this.cmdAddUser.Click += new System.EventHandler(this.cmdAddUser_Click);
-            // 
             // frmManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(638, 445);
-            this.Controls.Add(this.cmdAddUser);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lstSecurities);
             this.Enabled = false;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmManage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "System Management";
             this.Load += new System.EventHandler(this.frmManage_Load);
-            this.ctxSecurities.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -213,15 +262,20 @@
         private System.Windows.Forms.ImageList imlLarge;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.Button cmdAddUser;
-        private System.Windows.Forms.ContextMenuStrip ctxSecurities;
+        private System.Windows.Forms.ColumnHeader colName;
+        private System.Windows.Forms.ColumnHeader colType;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuDelete;
+        private System.Windows.Forms.ToolStripMenuItem mnuNewUser;
+        private System.Windows.Forms.ToolStripMenuItem mnuNewGovernment;
+        private System.Windows.Forms.ToolStripMenuItem mnuNewCompany;
         private System.Windows.Forms.ToolStripMenuItem mnuView;
         private System.Windows.Forms.ToolStripMenuItem mnuLargeIcon;
         private System.Windows.Forms.ToolStripMenuItem mnuSmallIcon;
         private System.Windows.Forms.ToolStripMenuItem mnuTile;
         private System.Windows.Forms.ToolStripMenuItem mnuList;
         private System.Windows.Forms.ToolStripMenuItem mnuDetails;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem mnuDeleteUser;
     }
 }

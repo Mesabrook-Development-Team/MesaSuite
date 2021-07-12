@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Attributes\EnumValueAttribute.cs" />
     <Compile Include="Authentication.cs" />
+    <Compile Include="Collections\MultiMap.cs" />
     <Compile Include="Data\DataAccess.cs" />
     <Compile Include="Data\DebugResourceWriter.cs" />
     <Compile Include="Data\DeleteData.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Data\PostData.cs" />
     <Compile Include="Data\PutData.cs" />
     <Compile Include="Data\ReleaseResourceWriter.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="frmLogin.cs">

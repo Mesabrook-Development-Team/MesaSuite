@@ -21,7 +21,7 @@ namespace ClussPro.ObjectBasedFramework.Validation
 
             SchemaObject thisSchemaObject = Schema.Schema.GetSchemaObject(dataObject.GetType());
             List<IValidationDefinition> validationDefinitionsForObject = validationDefinitionsBySchemaObject.GetOrDefault(thisSchemaObject);
-            if (validationDefinitionsBySchemaObject == null)
+            if (validationDefinitionsForObject == null)
             {
                 return true;
             }

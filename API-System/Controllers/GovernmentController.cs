@@ -1,4 +1,6 @@
 ﻿using API_System.Attributes;
+using API_System.Extensions;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using OAuth.Common.Attributes;
@@ -21,6 +23,78 @@ namespace API_System.Controllers
         {
             List<string> fields = Schema.GetSchemaObject<Government>().GetFields().Select(f => f.FieldName).ToList();
             return new Search<Government>().GetReadOnlyReader(null, fields).ToList();
+        }
+
+        [HttpGet]
+        public Government GetGovernment(long id)
+        {
+            List<string> fields = Schema.GetSchemaObject<Government>().GetFields().Select(f => f.FieldName).ToList();
+            return DataObject.GetReadOnlyByPrimaryKey<Government>(id, null, fields);
+        }
+
+        [HttpGet]
+        public List<Official> GetOfficialsForGovernment(long id)
+        {
+            List<string> fields = Schema.GetSchemaObject<Official>().GetFields().Select(f => $"Officials.{f.FieldName}").ToList();
+            return DataObject.GetReadOnlyByPrimaryKey<Government>(id, null, fields).Officials.ToList();
+        }
+
+        [HttpGet]
+        public Official GetOfficial(long id)
+        {
+            List<string> fields = Schema.GetSchemaObject<Official>().GetFields().Select(f => f.FieldName).ToList();
+            return DataObject.GetReadOnlyByPrimaryKey<Official>(id, null, fields);
+        }
+
+        [HttpPost]
+        public IHttpActionResult PostGovernment(Government government)
+        {
+            if (government.GovernmentID != null && government.GovernmentID != 0)
+            {
+                return BadRequest("Updates are not allowed with this method");
+            }
+
+            if (!government.Save())
+            {
+                government.HandleFailedValidation(this);
+            }
+
+            return Created("GetGovernment?id=" + government.GovernmentID, government);
+        }
+
+        [HttpPost]
+        public IHttpActionResult PostOfficial(Official official)
+        {
+            if (official.OfficialID != null && official.OfficialID != 0)
+            {
+                return BadRequest("Updates are not allowed with this method");
+            }
+
+            if (!official.Save())
+            {
+                official.HandleFailedValidation(this);
+            }
+
+            return Created("GetOfficial?id=" + official.OfficialID, official);
+        }
+
+        [HttpPut]
+        public IHttpActionResult PutOfficial(Official official)
+        {
+            if (official.OfficialID == null || official.OfficialID == 0)
+            {
+                return NotFound();
+            }
+
+            Official dbOfficial = DataObjectFactory.Create<Official>();
+            official.Copy(dbOfficial);
+
+            if (!dbOfficial.Save())
+            {
+                return dbOfficial.HandleFailedValidation(this);
+            }
+
+            return Ok(dbOfficial);
         }
     }
 }

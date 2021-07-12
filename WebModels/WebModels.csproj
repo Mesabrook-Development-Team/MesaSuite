@@ -45,10 +45,11 @@
     <Compile Include="auth\Code.cs" />
     <Compile Include="auth\Token.cs" />
     <Compile Include="company\Company.cs" />
-    <Compile Include="company\CompanyGovernment.cs" />
+    <Compile Include="company\Employee.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
     <Compile Include="gov\Government.cs" />
+    <Compile Include="gov\Official.cs" />
     <Compile Include="Loaders\security\ProgramLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="security\Program.cs" />

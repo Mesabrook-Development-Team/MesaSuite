@@ -3,6 +3,8 @@ using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System.Collections.Generic;
 using WebModels.auth;
+using WebModels.company;
+using WebModels.gov;
 
 namespace WebModels.security
 {
@@ -35,6 +37,22 @@ namespace WebModels.security
         public IReadOnlyCollection<Token> Tokens
         {
             get { CheckGet(); return _tokens; }
+        }
+        #endregion
+        #region company
+        private List<Employee> _employees = new List<Employee>();
+        [RelationshipList("FB2B84FE-2069-4ADC-9F0F-5DA46E23DBEA", "UserID")]
+        public IReadOnlyCollection<Employee> Employees
+        {
+            get { CheckGet(); return _employees; }
+        }
+        #endregion
+        #region gov
+        private List<Official> _officials = new List<Official>();
+        [RelationshipList("59E3FCF3-5FD8-42CE-BA06-0B91E0E40318", "UserID")]
+        public IReadOnlyCollection<Official> Officials
+        {
+            get { CheckGet(); return _officials; }
         }
         #endregion
         #region security

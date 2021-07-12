@@ -1,8 +1,8 @@
 ﻿namespace SystemManagement.Models
 {
-    public class Government
+    public class Company
     {
-        public long GovernmentID { get; set; }
+        public long CompanyID { get; set; }
         public string Name { get; set; }
     }
 }

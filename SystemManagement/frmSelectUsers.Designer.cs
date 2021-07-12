@@ -122,7 +122,6 @@
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lstUsers);
-            this.Enabled = false;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSelectUsers";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

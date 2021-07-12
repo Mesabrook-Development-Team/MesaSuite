@@ -1,5 +1,6 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System.Collections.Generic;
 
 namespace WebModels.company
@@ -19,6 +20,7 @@ namespace WebModels.company
 
         private string _name;
         [Field("BBEE1AE6-34F3-4BCB-90AA-A137CE7EA655", DataSize = 50)]
+        [Required]
         public string Name
         {
             get { CheckGet(); return _name; }
@@ -26,11 +28,11 @@ namespace WebModels.company
         }
 
         #region Relationships
-        private List<CompanyGovernment> _companyGovernments = new List<CompanyGovernment>();
+        private List<Employee> _employees = new List<Employee>();
         [RelationshipList("6C0E982B-0D55-466E-8E56-9A466D7A982C", "CompanyID")]
-        public IReadOnlyCollection<CompanyGovernment> CompanyGovernments
+        public IReadOnlyCollection<Employee> Employees
         {
-            get { CheckGet(); return _companyGovernments; }
+            get { CheckGet(); return _employees; }
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using MesaSuite.Common.Data;
+﻿using MesaSuite.Common.Collections;
+using MesaSuite.Common.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace SystemManagement
             }
 
             GetData getUserInfo = new GetData(DataAccess.APIs.SystemManagement, "User/GetUser");
-            getUserInfo.QueryString = new Dictionary<string, string>()
+            getUserInfo.QueryString = new MultiMap<string, string>()
             {
                 { "userid", UserID.Value.ToString() }
             };
@@ -58,7 +59,7 @@ namespace SystemManagement
             lstPrograms.Items.Clear();
 
             GetData getUserInfo = new GetData(DataAccess.APIs.SystemManagement, "Program/GetProgramsForUser");
-            getUserInfo.QueryString = new Dictionary<string, string>()
+            getUserInfo.QueryString = new MultiMap<string, string>()
             {
                 { "userid", UserID.Value.ToString() }
             };
@@ -86,7 +87,7 @@ namespace SystemManagement
             if (user == null)
             {
                 GetData getUser = new GetData(DataAccess.APIs.SystemManagement, "User/GetUser");
-                getUser.QueryString = new Dictionary<string, string>()
+                getUser.QueryString = new MultiMap<string, string>()
                 {
                     { "userid", UserID.Value.ToString() }
                 };

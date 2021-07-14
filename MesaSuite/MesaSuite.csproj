@@ -67,6 +67,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutMesaSuite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutMesaSuite.Designer.cs">
+      <DependentUpon>AboutMesaSuite.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +95,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartupArguments.cs" />
     <Compile Include="Updater.cs" />
+    <EmbeddedResource Include="AboutMesaSuite.resx">
+      <DependentUpon>AboutMesaSuite.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -195,6 +204,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icn_system.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_close_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_close_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_tile_stone.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

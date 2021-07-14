@@ -108,5 +108,35 @@ namespace SystemManagement
 
             Enabled = true;
         }
+
+        private async void cmdSave_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtName.Text))
+            {
+                MessageBox.Show("Name is a required field.");
+                return;
+            }
+
+            Government government = new Government()
+            {
+                GovernmentID = GovernmentID,
+                Name = txtName.Text
+            };
+
+            PutData put = new PutData(DataAccess.APIs.SystemManagement, "Government/PutGovernment", government);
+            await put.ExecuteNoResult();
+
+            if (!put.RequestSuccessful)
+            {
+                return;
+            }
+
+            Close();
+        }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

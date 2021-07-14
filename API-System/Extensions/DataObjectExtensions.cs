@@ -86,10 +86,24 @@ namespace API_System.Extensions
 
         public static IHttpActionResult HandleFailedValidation(this DataObject dataObject, ApiController controller)
         {
-            StringBuilder errors = new StringBuilder("The following validation errors occurred:");
-            foreach (Error error in dataObject.Errors)
+            StringBuilder errors = new StringBuilder();
+
+            if (dataObject.Errors.Any())
             {
-                errors.AppendLine(error.Message);
+                errors.AppendLine("The following validation errors occurred:");
+                foreach (Error error in dataObject.Errors)
+                {
+                    errors.AppendLine(error.Message);
+                }
+            }
+
+            if (dataObject.ForeignKeyConstraintConflicts.Any())
+            {
+                errors.AppendLine("The following conflicts exist:");
+                foreach(var conflict in dataObject.ForeignKeyConstraintConflicts)
+                {
+                    errors.AppendLine($"{conflict.ConflictType.ToString()} ({conflict.ForeignKeyName}: {conflict.ForeignKey})");
+                }
             }
 
             return new BadRequestErrorMessageResult(errors.ToString(), controller);

@@ -210,6 +210,13 @@ namespace SystemManagement
                 await delete.Execute();
             }
 
+            foreach (ListViewItem item in lstSecurities.SelectedItems.Cast<ListViewItem>().Where(lsv => lsv.Group.Name == "grpGovernments"))
+            {
+                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Government/DeleteGovernment");
+                delete.QueryString.Add("id", ((long?)item.Tag).ToString());
+                await delete.Execute();
+            }
+
             await LoadData();
         }
 

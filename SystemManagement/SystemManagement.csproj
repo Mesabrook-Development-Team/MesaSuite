@@ -43,6 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmEditEmployee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditEmployee.Designer.cs">
+      <DependentUpon>frmEditEmployee.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmEditGovernment.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +72,12 @@
     </Compile>
     <Compile Include="frmEditUser.Designer.cs">
       <DependentUpon>frmEditUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewCompany.Designer.cs">
+      <DependentUpon>frmNewCompany.cs</DependentUpon>
     </Compile>
     <Compile Include="frmNewGovernment.cs">
       <SubType>Form</SubType>
@@ -113,6 +125,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmEditEmployee.resx">
+      <DependentUpon>frmEditEmployee.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmEditGovernment.resx">
       <DependentUpon>frmEditGovernment.cs</DependentUpon>
     </EmbeddedResource>
@@ -124,6 +139,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmEditUser.resx">
       <DependentUpon>frmEditUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewCompany.resx">
+      <DependentUpon>frmNewCompany.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmNewGovernment.resx">
       <DependentUpon>frmNewGovernment.cs</DependentUpon>

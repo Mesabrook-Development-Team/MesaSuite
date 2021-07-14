@@ -30,7 +30,7 @@ namespace WebModels.gov
         #region Relationships
         #region company
         private List<Official> _officials = new List<Official>();
-        [RelationshipList("5BB7CEE6-A449-4DA2-9C00-C5BD6957E460", "GovernmentID")]
+        [RelationshipList("5BB7CEE6-A449-4DA2-9C00-C5BD6957E460", "GovernmentID", AutoDeleteReferences = true)]
         public IReadOnlyCollection<Official> Officials
         {
             get { CheckGet(); return _officials; }

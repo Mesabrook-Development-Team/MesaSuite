@@ -79,6 +79,25 @@ namespace API_System.Controllers
         }
 
         [HttpPut]
+        public IHttpActionResult PutGovernment(Government government)
+        {
+            if (government.GovernmentID == null || government.GovernmentID == 0)
+            {
+                return NotFound();
+            }
+
+            Government dbGovernment = DataObject.GetEditableByPrimaryKey<Government>(government.GovernmentID, null, Enumerable.Empty<string>());
+            government.Copy(dbGovernment);
+
+            if (!dbGovernment.Save())
+            {
+                return dbGovernment.HandleFailedValidation(this);
+            }
+
+            return Ok(dbGovernment);
+        }
+
+        [HttpPut]
         public IHttpActionResult PutOfficial(Official official)
         {
             if (official.OfficialID == null || official.OfficialID == 0)
@@ -86,7 +105,7 @@ namespace API_System.Controllers
                 return NotFound();
             }
 
-            Official dbOfficial = DataObjectFactory.Create<Official>();
+            Official dbOfficial = DataObject.GetEditableByPrimaryKey<Official>(official.OfficialID, null, Enumerable.Empty<string>());
             official.Copy(dbOfficial);
 
             if (!dbOfficial.Save())
@@ -95,6 +114,23 @@ namespace API_System.Controllers
             }
 
             return Ok(dbOfficial);
+        }
+
+        [HttpDelete]
+        public IHttpActionResult DeleteGovernment(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Government government = DataObject.GetEditableByPrimaryKey<Government>(id, null, Enumerable.Empty<string>());
+            if (!government.Delete())
+            {
+                return government.HandleFailedValidation(this);
+            }
+
+            return Ok();
         }
     }
 }

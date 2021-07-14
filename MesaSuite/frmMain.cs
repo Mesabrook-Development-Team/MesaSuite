@@ -53,7 +53,6 @@ namespace MesaSuite
 
             pboxMCSyncLogo.Visible = false;
             pboxSystem.Visible = false;
-            lblVersion.Text = "Version " + Application.ProductVersion;
             Authentication.OnLoggedIn += Authentication_OnLoggedIn;
             Authentication.OnLoggedOut += Authentication_OnLoggedOut;
             Authentication.OnProgramUpdate += Authentication_OnProgramUpdate;
@@ -222,6 +221,12 @@ namespace MesaSuite
         {
             pboxSystemManagement.BackgroundImage = Properties.Resources.icn_system;
             pboxSystem.Visible = false;
+        }
+
+        private void tsBtn_abtMS_ButtonClick(object sender, EventArgs e)
+        {
+            frmAbout aboutMS = new frmAbout();
+            aboutMS.ShowDialog();
         }
     }
 }

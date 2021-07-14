@@ -33,9 +33,9 @@
             this.pboxMCSyncLogo = new System.Windows.Forms.PictureBox();
             this.pnlMCSync = new System.Windows.Forms.Panel();
             this.pnlUserBtn = new System.Windows.Forms.Panel();
-            this.lblVersion = new System.Windows.Forms.Label();
             this.lblLogInStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tsBtn_abtMS = new System.Windows.Forms.ToolStripSplitButton();
             this.flow = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlSystemManagement = new System.Windows.Forms.Panel();
             this.pboxSystemManagement = new System.Windows.Forms.PictureBox();
@@ -103,17 +103,6 @@
             this.pnlUserBtn.MouseLeave += new System.EventHandler(this.pnlUserBtn_MouseLeave);
             this.pnlUserBtn.MouseHover += new System.EventHandler(this.pnlUserBtn_MouseHover);
             // 
-            // lblVersion
-            // 
-            this.lblVersion.AutoSize = true;
-            this.lblVersion.BackColor = System.Drawing.Color.Transparent;
-            this.lblVersion.ForeColor = System.Drawing.Color.White;
-            this.lblVersion.Location = new System.Drawing.Point(28, 506);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(42, 13);
-            this.lblVersion.TabIndex = 5;
-            this.lblVersion.Text = "Version";
-            // 
             // lblLogInStatus
             // 
             this.lblLogInStatus.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
@@ -127,13 +116,24 @@
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.Transparent;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblLogInStatus});
+            this.lblLogInStatus,
+            this.tsBtn_abtMS});
             this.statusStrip1.Location = new System.Drawing.Point(0, 537);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.statusStrip1.Size = new System.Drawing.Size(879, 24);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tsBtn_abtMS
+            // 
+            this.tsBtn_abtMS.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtn_abtMS.Image = global::MesaSuite.Properties.Resources.icn_information;
+            this.tsBtn_abtMS.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtn_abtMS.Name = "tsBtn_abtMS";
+            this.tsBtn_abtMS.Size = new System.Drawing.Size(32, 22);
+            this.tsBtn_abtMS.Text = "toolStripSplitButton1";
+            this.tsBtn_abtMS.ButtonClick += new System.EventHandler(this.tsBtn_abtMS_ButtonClick);
             // 
             // flow
             // 
@@ -191,7 +191,6 @@
             this.BackgroundImage = global::MesaSuite.Properties.Resources.bg;
             this.ClientSize = new System.Drawing.Size(879, 561);
             this.Controls.Add(this.flow);
-            this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.pnlUserBtn);
             this.Controls.Add(this.statusStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -221,12 +220,12 @@
         private System.Windows.Forms.PictureBox pboxMCSyncLogo;
         private System.Windows.Forms.Panel pnlMCSync;
         private System.Windows.Forms.Panel pnlUserBtn;
-        private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.ToolStripStatusLabel lblLogInStatus;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.FlowLayoutPanel flow;
         private System.Windows.Forms.Panel pnlSystemManagement;
         private System.Windows.Forms.PictureBox pboxSystemManagement;
         private System.Windows.Forms.PictureBox pboxSystem;
+        private System.Windows.Forms.ToolStripSplitButton tsBtn_abtMS;
     }
 }

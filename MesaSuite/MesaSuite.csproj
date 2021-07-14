@@ -217,6 +217,9 @@
   <ItemGroup>
     <None Include="Resources\icn_system_hover.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_information.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

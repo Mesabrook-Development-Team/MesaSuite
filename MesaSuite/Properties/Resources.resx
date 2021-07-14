@@ -178,6 +178,9 @@
   <data name="logoMSJoke" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logoMSJoke.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="logo_cp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logo_cp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="logo_MCSync" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo_MCSync.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

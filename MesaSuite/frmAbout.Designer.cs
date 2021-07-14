@@ -1,7 +1,7 @@
 ﻿
 namespace MesaSuite
 {
-    partial class AboutMesaSuite
+    partial class frmAbout
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@ namespace MesaSuite
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutMesaSuite));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAbout));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace MesaSuite
 {
-    public partial class AboutMesaSuite : Form
+    public partial class frmAbout : Form
     {
-        public AboutMesaSuite()
+        public frmAbout()
         {
             InitializeComponent();
         }

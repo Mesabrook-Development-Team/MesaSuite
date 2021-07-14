@@ -159,9 +159,9 @@
             // pboxSystemManagement
             // 
             this.pboxSystemManagement.BackColor = System.Drawing.Color.Transparent;
+            this.pboxSystemManagement.BackgroundImage = global::MesaSuite.Properties.Resources.icn_system;
             this.pboxSystemManagement.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pboxSystemManagement.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pboxSystemManagement.Image = global::MesaSuite.Properties.Resources.icn_system;
             this.pboxSystemManagement.Location = new System.Drawing.Point(21, 19);
             this.pboxSystemManagement.Name = "pboxSystemManagement";
             this.pboxSystemManagement.Size = new System.Drawing.Size(92, 97);

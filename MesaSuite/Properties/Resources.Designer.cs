@@ -113,6 +113,26 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap btn_about {
+            get {
+                object obj = ResourceManager.GetObject("btn_about", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap btn_about_hover {
+            get {
+                object obj = ResourceManager.GetObject("btn_about_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap btn_close_hover {
             get {
                 object obj = ResourceManager.GetObject("btn_close_hover", resourceCulture);
@@ -126,6 +146,26 @@ namespace MesaSuite.Properties {
         internal static System.Drawing.Bitmap btn_close_normal {
             get {
                 object obj = ResourceManager.GetObject("btn_close_normal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap btn_credits {
+            get {
+                object obj = ResourceManager.GetObject("btn_credits", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap btn_credits_hover {
+            get {
+                object obj = ResourceManager.GetObject("btn_credits_hover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -226,6 +226,18 @@
   <ItemGroup>
     <None Include="Resources\bg_grass.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_credits_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_about.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_about_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_credits.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -21,6 +21,8 @@ namespace MesaSuite
         private void AboutMesaSuite_Load(object sender, EventArgs e)
         {
             lbl_Version.Text = "MesaSuite Version: " + Application.ProductVersion;
+            tabControl1.SelectedTab = tabPage1;
+            btnAbout.BackgroundImage = Properties.Resources.btn_about_hover;
         }
 
         private void btn_Close_Click(object sender, EventArgs e)
@@ -54,6 +56,52 @@ namespace MesaSuite
         {
             Process.Start("http://map.mesabrook.com");
             Close();
+        }
+
+        private void btnAbout_Click(object sender, EventArgs e)
+        {
+            btnAbout.BackgroundImage = Properties.Resources.btn_about_hover;
+            btnCredits.BackgroundImage = Properties.Resources.btn_credits;
+            tabControl1.SelectedTab = tabPage1;
+        }
+
+        private void btnAbout_MouseEnter(object sender, EventArgs e)
+        {
+            if(tabControl1.SelectedTab == tabPage2)
+            {
+                btnAbout.BackgroundImage = Properties.Resources.btn_about_hover;
+            }
+        }
+
+        private void btnAbout_MouseLeave(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab == tabPage2)
+            {
+                btnAbout.BackgroundImage = Properties.Resources.btn_about;
+            }
+        }
+
+        private void btnCredits_Click(object sender, EventArgs e)
+        {
+            btnCredits.BackgroundImage = Properties.Resources.btn_credits_hover;
+            btnAbout.BackgroundImage = Properties.Resources.btn_about;
+            tabControl1.SelectedTab = tabPage2;
+        }
+
+        private void btnCredits_MouseEnter(object sender, EventArgs e)
+        {
+            if(tabControl1.SelectedTab == tabPage1)
+            {
+                btnCredits.BackgroundImage = Properties.Resources.btn_credits_hover;
+            }
+        }
+
+        private void btnCredits_MouseLeave(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab == tabPage1)
+            {
+                btnCredits.BackgroundImage = Properties.Resources.btn_credits;
+            }
         }
     }
 }

@@ -223,7 +223,7 @@ namespace MesaSuite
             pboxSystem.Visible = false;
         }
 
-        private void tsBtn_abtMS_ButtonClick(object sender, EventArgs e)
+        private void aboutMesaSuiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmAbout aboutMS = new frmAbout();
             aboutMS.ShowDialog();

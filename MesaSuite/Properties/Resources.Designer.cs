@@ -83,6 +83,16 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bg_grass {
+            get {
+                object obj = ResourceManager.GetObject("bg_grass", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap bg_tile_stone {
             get {
                 object obj = ResourceManager.GetObject("bg_tile_stone", resourceCulture);

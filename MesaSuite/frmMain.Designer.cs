@@ -35,11 +35,13 @@
             this.pnlUserBtn = new System.Windows.Forms.Panel();
             this.lblLogInStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tsBtn_abtMS = new System.Windows.Forms.ToolStripSplitButton();
             this.flow = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlSystemManagement = new System.Windows.Forms.Panel();
             this.pboxSystemManagement = new System.Windows.Forms.PictureBox();
             this.pboxSystem = new System.Windows.Forms.PictureBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutMesaSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSync)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSyncLogo)).BeginInit();
             this.pnlMCSync.SuspendLayout();
@@ -48,6 +50,7 @@
             this.pnlSystemManagement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxSystemManagement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxSystem)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pboxMCSync
@@ -116,24 +119,13 @@
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.Transparent;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblLogInStatus,
-            this.tsBtn_abtMS});
+            this.lblLogInStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 537);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.statusStrip1.Size = new System.Drawing.Size(879, 24);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // tsBtn_abtMS
-            // 
-            this.tsBtn_abtMS.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsBtn_abtMS.Image = global::MesaSuite.Properties.Resources.icn_information;
-            this.tsBtn_abtMS.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsBtn_abtMS.Name = "tsBtn_abtMS";
-            this.tsBtn_abtMS.Size = new System.Drawing.Size(32, 22);
-            this.tsBtn_abtMS.Text = "toolStripSplitButton1";
-            this.tsBtn_abtMS.ButtonClick += new System.EventHandler(this.tsBtn_abtMS_ButtonClick);
             // 
             // flow
             // 
@@ -184,6 +176,37 @@
             this.pboxSystem.TabIndex = 2;
             this.pboxSystem.TabStop = false;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackgroundImage = global::MesaSuite.Properties.Resources.bg_grass;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(879, 24);
+            this.menuStrip1.TabIndex = 7;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.BackColor = System.Drawing.Color.ForestGreen;
+            this.aboutToolStripMenuItem.BackgroundImage = global::MesaSuite.Properties.Resources.bg_grass;
+            this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutMesaSuiteToolStripMenuItem});
+            this.aboutToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aboutToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
+            this.aboutToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.icn_information;
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            // 
+            // aboutMesaSuiteToolStripMenuItem
+            // 
+            this.aboutMesaSuiteToolStripMenuItem.Name = "aboutMesaSuiteToolStripMenuItem";
+            this.aboutMesaSuiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutMesaSuiteToolStripMenuItem.Text = "About MesaSuite";
+            this.aboutMesaSuiteToolStripMenuItem.Click += new System.EventHandler(this.aboutMesaSuiteToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -193,8 +216,10 @@
             this.Controls.Add(this.flow);
             this.Controls.Add(this.pnlUserBtn);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmMain";
@@ -210,6 +235,8 @@
             this.pnlSystemManagement.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pboxSystemManagement)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxSystem)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -226,6 +253,8 @@
         private System.Windows.Forms.Panel pnlSystemManagement;
         private System.Windows.Forms.PictureBox pboxSystemManagement;
         private System.Windows.Forms.PictureBox pboxSystem;
-        private System.Windows.Forms.ToolStripSplitButton tsBtn_abtMS;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutMesaSuiteToolStripMenuItem;
     }
 }

@@ -161,12 +161,32 @@ namespace MesaSuite.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_system {
+            get {
+                object obj = ResourceManager.GetObject("icn_system", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon icnPlaceholder {
             get {
                 object obj = ResourceManager.GetObject("icnPlaceholder", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap lbl_system {
+            get {
+                object obj = ResourceManager.GetObject("lbl_system", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

@@ -159,12 +159,13 @@
             // pboxSystemManagement
             // 
             this.pboxSystemManagement.BackColor = System.Drawing.Color.Transparent;
-            this.pboxSystemManagement.BackgroundImage = global::MesaSuite.Properties.Resources.Actions_im_user_icon;
             this.pboxSystemManagement.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pboxSystemManagement.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pboxSystemManagement.Image = global::MesaSuite.Properties.Resources.icn_system;
             this.pboxSystemManagement.Location = new System.Drawing.Point(21, 19);
             this.pboxSystemManagement.Name = "pboxSystemManagement";
             this.pboxSystemManagement.Size = new System.Drawing.Size(92, 97);
+            this.pboxSystemManagement.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pboxSystemManagement.TabIndex = 1;
             this.pboxSystemManagement.TabStop = false;
             this.pboxSystemManagement.Click += new System.EventHandler(this.pboxUserManagement_Click);
@@ -175,11 +176,11 @@
             // pboxSystem
             // 
             this.pboxSystem.BackColor = System.Drawing.Color.Transparent;
-            this.pboxSystem.BackgroundImage = global::MesaSuite.Properties.Resources.logo_User;
+            this.pboxSystem.BackgroundImage = global::MesaSuite.Properties.Resources.lbl_system;
             this.pboxSystem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pboxSystem.Location = new System.Drawing.Point(28, 118);
+            this.pboxSystem.Location = new System.Drawing.Point(18, 118);
             this.pboxSystem.Name = "pboxSystem";
-            this.pboxSystem.Size = new System.Drawing.Size(80, 25);
+            this.pboxSystem.Size = new System.Drawing.Size(98, 25);
             this.pboxSystem.TabIndex = 2;
             this.pboxSystem.TabStop = false;
             // 

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MesaSuite.Common.Collections;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +11,7 @@ namespace MesaSuite.Common.Data
 {
     public class GetData : DataAccess
     {
-        public Dictionary<string, string> QueryString { internal get; set; } = new Dictionary<string, string>();
+        public MultiMap<string, string> QueryString { internal get; set; } = new MultiMap<string, string>();
         private bool _retry = false;
 
         public GetData(APIs api, string resource) : base(api, resource) { }
@@ -19,21 +20,24 @@ namespace MesaSuite.Common.Data
         {
             StringBuilder uriBuilder = new StringBuilder(GetResourceURI());
             bool first = true;
-            foreach(KeyValuePair<string, string> queryString in QueryString)
+            foreach(KeyValuePair<string, HashSet<string>> queryString in QueryString)
             {
-                if (first)
+                foreach (string queryStringValue in queryString.Value)
                 {
-                    uriBuilder.Append("?");
-                    first = false;
-                }
-                else
-                {
-                    uriBuilder.Append("&");
-                }
+                    if (first)
+                    {
+                        uriBuilder.Append("?");
+                        first = false;
+                    }
+                    else
+                    {
+                        uriBuilder.Append("&");
+                    }
 
-                uriBuilder.Append(queryString.Key);
-                uriBuilder.Append("=");
-                uriBuilder.Append(Uri.EscapeDataString(queryString.Value));
+                    uriBuilder.Append(queryString.Key);
+                    uriBuilder.Append("=");
+                    uriBuilder.Append(Uri.EscapeDataString(queryStringValue));
+                }
             }
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uriBuilder.ToString());

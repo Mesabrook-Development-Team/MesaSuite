@@ -1,12 +1,16 @@
 ﻿using ClussPro.Base.Data.Operand;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Validation;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Web;
+using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace API_System.Extensions
 {
@@ -78,6 +82,31 @@ namespace API_System.Extensions
                         break;
                 }
             }
+        }
+
+        public static IHttpActionResult HandleFailedValidation(this DataObject dataObject, ApiController controller)
+        {
+            StringBuilder errors = new StringBuilder();
+
+            if (dataObject.Errors.Any())
+            {
+                errors.AppendLine("The following validation errors occurred:");
+                foreach (Error error in dataObject.Errors)
+                {
+                    errors.AppendLine(error.Message);
+                }
+            }
+
+            if (dataObject.ForeignKeyConstraintConflicts.Any())
+            {
+                errors.AppendLine("The following conflicts exist:");
+                foreach(var conflict in dataObject.ForeignKeyConstraintConflicts)
+                {
+                    errors.AppendLine($"{conflict.ConflictType.ToString()} ({conflict.ForeignKeyName}: {conflict.ForeignKey})");
+                }
+            }
+
+            return new BadRequestErrorMessageResult(errors.ToString(), controller);
         }
     }
 }

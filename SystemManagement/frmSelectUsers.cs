@@ -17,9 +17,8 @@ namespace SystemManagement
     {
         List<User> _allUsers;
         List<User> _selectedUsers;
-        List<User> _initiallySelectedUsers;
 
-        public long? ProgramID { get; set; }
+        public List<long> SelectedUserIDs = new List<long>();
         public frmSelectUsers()
         {
             InitializeComponent();
@@ -30,22 +29,12 @@ namespace SystemManagement
             imlSmall.Images.Add("user", Properties.Resources.user);
             imlLarge.Images.Add("user", Properties.Resources.user_large);
 
-            if (ProgramID == null)
-            {
-                throw new ArgumentNullException("ProgramID is required");
-            }
+            Enabled = false;
 
             GetData getData = new GetData(DataAccess.APIs.SystemManagement, "User/GetAllUsers");
             _allUsers = await getData.GetObject<List<User>>() ?? new List<User>();
 
-            getData = new GetData(DataAccess.APIs.SystemManagement, "Program/GetUsersForProgram");
-            getData.QueryString = new Dictionary<string, string>()
-            {
-                { "programid", ProgramID.Value.ToString() }
-            };
-            List<User> usersForProgram = await getData.GetObject<List<User>>() ?? new List<User>();
-            _selectedUsers = _allUsers.Where(u => usersForProgram.Any(ufp => ufp.UserID == u.UserID)).ToList();
-            _initiallySelectedUsers = _selectedUsers.Select(u => u).ToList();
+            _selectedUsers = _allUsers.Where(u => SelectedUserIDs.Contains(u.UserID)).ToList();
 
             SetupUsers();
 
@@ -89,33 +78,14 @@ namespace SystemManagement
 
         private void cmdCancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 
-        private async void cmdSave_Click(object sender, EventArgs e)
+        private void cmdSave_Click(object sender, EventArgs e)
         {
-            Enabled = false;
-
-            List<User> deletedUsers = _initiallySelectedUsers.Except(_selectedUsers).ToList();
-
-            foreach(User user in deletedUsers)
-            {
-                DeleteData deleteData = new DeleteData(DataAccess.APIs.SystemManagement, "Program/DeleteProgramForUser");
-                deleteData.QueryString.Add("userid", user.UserID.ToString());
-                deleteData.QueryString.Add("programid", ProgramID.Value.ToString());
-                await deleteData.Execute();
-            }
-
-            List<User> addedUsers = _selectedUsers.Except(_initiallySelectedUsers).ToList();
-            if (addedUsers.Any())
-            {
-                List<UserProgram> userPrograms = addedUsers.Select(u => new UserProgram() { UserID = u.UserID, ProgramID = ProgramID.Value }).ToList();
-
-                PostData post = new PostData(DataAccess.APIs.SystemManagement, "Program/SetProgramsForUser");
-                post.ObjectToPost = userPrograms;
-                await post.ExecuteNoResult();
-            }
-
+            SelectedUserIDs = _selectedUsers.Select(u => u.UserID).ToList();
+            DialogResult = DialogResult.OK;
             Close();
         }
     }

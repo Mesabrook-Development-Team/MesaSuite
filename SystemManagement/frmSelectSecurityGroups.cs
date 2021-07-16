@@ -1,4 +1,5 @@
-﻿using MesaSuite.Common.Data;
+﻿using MesaSuite.Common.Collections;
+using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace SystemManagement
             if (PreselectedSecurityGroups == null)
             {
                 get = new GetData(DataAccess.APIs.SystemManagement, "User/GetUser");
-                get.QueryString = new Dictionary<string, string>()
+                get.QueryString = new MultiMap<string, string>()
                 {
                     { "userid", UserID.Value.ToString() }
                 };

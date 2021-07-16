@@ -43,6 +43,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmEditCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditCompany.Designer.cs">
+      <DependentUpon>frmEditCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditEmployee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditEmployee.Designer.cs">
+      <DependentUpon>frmEditEmployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditGovernment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditGovernment.Designer.cs">
+      <DependentUpon>frmEditGovernment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditOfficial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditOfficial.Designer.cs">
+      <DependentUpon>frmEditOfficial.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmManage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +78,18 @@
     </Compile>
     <Compile Include="frmEditUser.Designer.cs">
       <DependentUpon>frmEditUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewCompany.Designer.cs">
+      <DependentUpon>frmNewCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewGovernment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewGovernment.Designer.cs">
+      <DependentUpon>frmNewGovernment.cs</DependentUpon>
     </Compile>
     <Compile Include="frmNewUser.cs">
       <SubType>Form</SubType>
@@ -79,6 +115,10 @@
     <Compile Include="frmSelectUsers.Designer.cs">
       <DependentUpon>frmSelectUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\Official.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Government.cs" />
     <Compile Include="Models\Program.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserProgram.cs" />
@@ -91,11 +131,29 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmEditCompany.resx">
+      <DependentUpon>frmEditCompany.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditEmployee.resx">
+      <DependentUpon>frmEditEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditGovernment.resx">
+      <DependentUpon>frmEditGovernment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditOfficial.resx">
+      <DependentUpon>frmEditOfficial.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmManage.resx">
       <DependentUpon>frmManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmEditUser.resx">
       <DependentUpon>frmEditUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewCompany.resx">
+      <DependentUpon>frmNewCompany.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewGovernment.resx">
+      <DependentUpon>frmNewGovernment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmNewUser.resx">
       <DependentUpon>frmNewUser.cs</DependentUpon>
@@ -137,6 +195,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\security_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\company.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\company_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\government.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\government_large.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

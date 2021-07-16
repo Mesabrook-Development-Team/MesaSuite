@@ -4,6 +4,7 @@ using API_System.Models;
 using API_System.Models.security;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Validation;
 using OAuth.Common.Attributes;
 using System;
@@ -18,17 +19,16 @@ using System.Web.Http;
 namespace API_System.Controllers
 {
     [ProgramAccess]
+    [MesabrookAuthorization]
     public class UserController : ApiController
     {
         [HttpGet]
-        [MesabrookAuthorization]
         public List<LDAPUser> GetAllUsers()
         {
             return new Search<LDAPUser>().GetReadOnlyReader(null, new string[] { "UserID", "Username" }).ForEach(u => u.PopulateActiveDirectoryInformation()).ToList();
         }
 
         [HttpGet]
-        [MesabrookAuthorization]
         public LDAPUser GetUser(long? userid)
         {
             if (userid == null)
@@ -39,8 +39,26 @@ namespace API_System.Controllers
             return DataObject.GetEditableByPrimaryKey<LDAPUser>(userid, null, Enumerable.Empty<string>()).PopulateActiveDirectoryInformation();
         }
 
+        [HttpGet]
+        public List<LDAPUser> GetUsers([FromUri] long[] userids)
+        {
+            if (!userids.Any())
+            {
+                return new List<LDAPUser>();
+            }
+
+            Search<LDAPUser> userSearch = new Search<LDAPUser>(new LongSearchCondition<LDAPUser>()
+            {
+                Field = "UserID",
+                SearchConditionType = SearchCondition.SearchConditionTypes.List,
+                List = userids.ToList()
+            });
+
+            List<string> fields = Schema.GetSchemaObject<LDAPUser>().GetFields().Select(f => f.FieldName).ToList();
+            return userSearch.GetReadOnlyReader(null, fields).ToList();
+        }
+
         [HttpPut]
-        [MesabrookAuthorization]
         public IHttpActionResult UpdateUser(LDAPUser user)
         {
             if (user.UserID == null || user.UserID == 0)
@@ -72,7 +90,6 @@ namespace API_System.Controllers
         }
 
         [HttpPost]
-        [MesabrookAuthorization]
         public IHttpActionResult PostUserExisting(LDAPUser user)
         {
             if (user.UserID != null && user.UserID != 0)
@@ -97,7 +114,6 @@ namespace API_System.Controllers
         }
 
         [HttpPost]
-        [MesabrookAuthorization]
         public IHttpActionResult PostUserNew(LDAPUser user)
         {
             if (user.UserID != null && user.UserID != 0)
@@ -107,13 +123,7 @@ namespace API_System.Controllers
 
             if (!user.Save())
             {
-                StringBuilder errors = new StringBuilder("The following validation errors occurred:");
-                foreach (Error error in user.Errors)
-                {
-                    errors.AppendLine(error.Message);
-                }
-
-                return BadRequest(errors.ToString());
+                return user.HandleFailedValidation(this);
             }
 
             user.CreateActiveDirectoryUser();
@@ -122,7 +132,6 @@ namespace API_System.Controllers
         }
 
         [HttpDelete]
-        [MesabrookAuthorization]
         public IHttpActionResult DeleteUser(long? id)
         {
             if (id == null)
@@ -150,7 +159,6 @@ namespace API_System.Controllers
         }
 
         [HttpPatch]
-        [MesabrookAuthorization]
         public IHttpActionResult PatchUser(PatchData patchData)
         {
             LDAPUser user = DataObject.GetEditableByPrimaryKey<LDAPUser>(patchData.PrimaryKey, null, Enumerable.Empty<string>())?.PopulateActiveDirectoryInformation();

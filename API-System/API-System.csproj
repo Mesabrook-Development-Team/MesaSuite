@@ -124,6 +124,8 @@
     <Compile Include="Cache\ProgramCache.cs" />
     <Compile Include="Controllers\ActiveDirectoryGroupController.cs" />
     <Compile Include="Controllers\ActiveDirectoryUserController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\GovernmentController.cs" />
     <Compile Include="Controllers\ProgramController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\UserController.cs" />

@@ -359,5 +359,14 @@ namespace MesaSuite.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream ui_button_click {
+            get {
+                return ResourceManager.GetStream("ui_button_click", resourceCulture);
+            }
+        }
     }
 }

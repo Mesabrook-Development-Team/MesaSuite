@@ -79,7 +79,7 @@
             this.lstSecurities.LargeImageList = this.imlLarge;
             this.lstSecurities.Location = new System.Drawing.Point(0, 27);
             this.lstSecurities.Name = "lstSecurities";
-            this.lstSecurities.Size = new System.Drawing.Size(638, 384);
+            this.lstSecurities.Size = new System.Drawing.Size(753, 384);
             this.lstSecurities.SmallImageList = this.imlSmall;
             this.lstSecurities.TabIndex = 0;
             this.lstSecurities.UseCompatibleStateImageBehavior = false;
@@ -135,7 +135,7 @@
             this.mnuView});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(638, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(753, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -239,7 +239,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(638, 445);
+            this.ClientSize = new System.Drawing.Size(753, 445);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.label1);

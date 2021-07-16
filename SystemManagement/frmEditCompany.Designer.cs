@@ -53,7 +53,7 @@
             this.lstEmployees.HideSelection = false;
             this.lstEmployees.Location = new System.Drawing.Point(12, 64);
             this.lstEmployees.Name = "lstEmployees";
-            this.lstEmployees.Size = new System.Drawing.Size(297, 97);
+            this.lstEmployees.Size = new System.Drawing.Size(321, 152);
             this.lstEmployees.SmallImageList = this.imlSmall;
             this.lstEmployees.TabIndex = 7;
             this.lstEmployees.UseCompatibleStateImageBehavior = false;
@@ -94,7 +94,7 @@
             // 
             this.txtName.Location = new System.Drawing.Point(12, 25);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(297, 20);
+            this.txtName.Size = new System.Drawing.Size(321, 20);
             this.txtName.TabIndex = 5;
             // 
             // label1
@@ -109,7 +109,7 @@
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(133, 196);
+            this.cmdCancel.Location = new System.Drawing.Point(157, 251);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(85, 23);
             this.cmdCancel.TabIndex = 11;
@@ -119,7 +119,7 @@
             // 
             // cmdSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(224, 196);
+            this.cmdSave.Location = new System.Drawing.Point(248, 251);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(85, 23);
             this.cmdSave.TabIndex = 10;
@@ -129,7 +129,7 @@
             // 
             // cmdSelectEmployees
             // 
-            this.cmdSelectEmployees.Location = new System.Drawing.Point(133, 167);
+            this.cmdSelectEmployees.Location = new System.Drawing.Point(157, 222);
             this.cmdSelectEmployees.Name = "cmdSelectEmployees";
             this.cmdSelectEmployees.Size = new System.Drawing.Size(176, 23);
             this.cmdSelectEmployees.TabIndex = 9;
@@ -143,7 +143,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(321, 228);
+            this.ClientSize = new System.Drawing.Size(345, 284);
             this.Controls.Add(this.lstEmployees);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtName);
@@ -151,7 +151,10 @@
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.cmdSelectEmployees);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmEditCompany";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Edit Company";

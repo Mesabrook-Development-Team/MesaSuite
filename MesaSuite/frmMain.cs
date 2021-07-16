@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Text;
 using System.Linq;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -132,6 +133,7 @@ namespace MesaSuite
 
         private void pboxMCSync_Click(object sender, EventArgs e)
         {
+            PlayButtonClickSound();
             StartProgram(StartMCSync);
             Close();
         }
@@ -162,6 +164,7 @@ namespace MesaSuite
 
         private void pnlUserBtn_Click(object sender, EventArgs e)
         {
+            PlayButtonClickSound();
             try
             {
                 if (Authentication.AuthenticationStatus == Authentication.AuthenticationStatuses.LoggedIn)
@@ -203,6 +206,7 @@ namespace MesaSuite
         private void pboxUserManagement_Click(object sender, EventArgs e)
         {
             StartProgram(() => SystemManagement.Program.Main(StartupArguments.GetArgsForApp("usermanagement")));
+            PlayButtonClickSound();
         }
 
         private void pboxUserManagement_MouseHover(object sender, EventArgs e)
@@ -225,8 +229,17 @@ namespace MesaSuite
 
         private void aboutMesaSuiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            PlayButtonClickSound();
             frmAbout aboutMS = new frmAbout();
             aboutMS.ShowDialog();
+        }
+
+        public void PlayButtonClickSound()
+        {
+            using (var soundPlayer = new SoundPlayer(Properties.Resources.ui_button_click))
+            {
+                soundPlayer.Play();
+            }
         }
     }
 }

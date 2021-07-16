@@ -152,9 +152,11 @@
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmNewGovernment";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "New Government";
+            this.Text = "Create a New Government";
             this.ResumeLayout(false);
             this.PerformLayout();
 

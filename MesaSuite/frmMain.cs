@@ -53,7 +53,6 @@ namespace MesaSuite
 
             pboxMCSyncLogo.Visible = false;
             pboxSystem.Visible = false;
-            lblVersion.Text = "Version " + Application.ProductVersion;
             Authentication.OnLoggedIn += Authentication_OnLoggedIn;
             Authentication.OnLoggedOut += Authentication_OnLoggedOut;
             Authentication.OnProgramUpdate += Authentication_OnProgramUpdate;
@@ -209,19 +208,25 @@ namespace MesaSuite
         private void pboxUserManagement_MouseHover(object sender, EventArgs e)
         {
             ToolTip tt = new ToolTip();
-            tt.SetToolTip(this.pboxMCSync, "User Management");
+            tt.SetToolTip(this.pboxMCSync, "System Management");
         }
 
         private void pboxUserManagement_MouseEnter(object sender, EventArgs e)
         {
-            pboxSystemManagement.BackgroundImage = Properties.Resources.btn_User_hover;
+            pboxSystemManagement.BackgroundImage = Properties.Resources.icn_system_hover;
             pboxSystem.Visible = true;
         }
 
         private void pboxUserManagement_MouseLeave(object sender, EventArgs e)
         {
-            pboxSystemManagement.BackgroundImage = Properties.Resources.Actions_im_user_icon;
+            pboxSystemManagement.BackgroundImage = Properties.Resources.icn_system;
             pboxSystem.Visible = false;
+        }
+
+        private void aboutMesaSuiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAbout aboutMS = new frmAbout();
+            aboutMS.ShowDialog();
         }
     }
 }

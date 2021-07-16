@@ -64,6 +64,7 @@ namespace SystemManagement
             }
 
             Enabled = true;
+            BringToFront();
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -143,6 +144,14 @@ namespace SystemManagement
                     editGovernment.FormClosed += EditGovernment_FormClosed;
                     editGovernment.Show();
                 }
+
+                if (item.Group.Name == "grpCompanies")
+                {
+                    frmEditCompany editCompany = new frmEditCompany();
+                    editCompany.CompanyID = (long)item.Tag;
+                    editCompany.FormClosed += EditCompany_FormClosed;
+                    editCompany.Show();
+                }
             }
         }
 
@@ -182,18 +191,26 @@ namespace SystemManagement
 
         private async void UserFormClosed(object sender, FormClosedEventArgs e)
         {
-            await LoadData();
-
             Form form = (Form)sender;
             form.FormClosed -= UserFormClosed;
+
+            await LoadData();
         }
 
         private async void EditGovernment_FormClosed(object sender, FormClosedEventArgs e)
         {
-            await LoadData();
-
             Form form = (Form)sender;
             form.FormClosed -= EditGovernment_FormClosed;
+
+            await LoadData();
+        }
+
+        private async void EditCompany_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Form form = (Form)sender;
+            form.FormClosed -= EditGovernment_FormClosed;
+
+            await LoadData();
         }
 
         private async void mnuDelete_Click(object sender, EventArgs e)
@@ -217,6 +234,13 @@ namespace SystemManagement
                 await delete.Execute();
             }
 
+            foreach (ListViewItem item in lstSecurities.SelectedItems.Cast<ListViewItem>().Where(lsv => lsv.Group.Name == "grpCompanies"))
+            {
+                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Company/DeleteCompany");
+                delete.QueryString.Add("id", ((long?)item.Tag).ToString());
+                await delete.Execute();
+            }
+
             await LoadData();
         }
 
@@ -231,9 +255,9 @@ namespace SystemManagement
 
         private void lstSecurities_KeyDown(object sender, KeyEventArgs e)
         {
-            if (lstSecurities.Items.Cast<ListViewItem>().Any(lvi => lvi.Group.Name == "grpUsers") && e.KeyCode == Keys.Delete)
+            if (e.KeyCode == Keys.Delete)
             {
-                mnuDelete_Click(sender, e);
+                mnuDelete.PerformClick();
             }
         }
 
@@ -257,6 +281,21 @@ namespace SystemManagement
         private async void NewGovernment_FormClosed(object sender, FormClosedEventArgs e)
         {
             ((frmNewGovernment)sender).FormClosed -= NewGovernment_FormClosed;
+
+            await LoadData();
+        }
+
+        private void mnuNewCompany_Click(object sender, EventArgs e)
+        {
+            frmNewCompany newCompany = new frmNewCompany();
+            newCompany.FormClosed += NewCompany_FormClosed;
+            newCompany.Show();
+        }
+
+        private async void NewCompany_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            frmNewCompany newCompany = (frmNewCompany)sender;
+            newCompany.FormClosed -= NewCompany_FormClosed;
 
             await LoadData();
         }

@@ -16,6 +16,7 @@ namespace SystemManagement
     public partial class frmEditGovernment : Form
     {
         public long GovernmentID { get; set; }
+        private List<Official> _officials = new List<Official>();
         public frmEditGovernment()
         {
             InitializeComponent();
@@ -43,6 +44,8 @@ namespace SystemManagement
             await SetupOfficialInfo();
 
             Enabled = true;
+
+            BringToFront();
         }
 
         private async Task SetupOfficialInfo()
@@ -54,14 +57,14 @@ namespace SystemManagement
             {
                 { "id", GovernmentID.ToString() }
             };
-            List<Official> officials = await getData.GetObject<List<Official>>();
+            _officials = await getData.GetObject<List<Official>>();
             List<User> users = new List<User>();
 
-            if (officials.Any())
+            if (_officials.Any())
             {
                 getData = new GetData(DataAccess.APIs.SystemManagement, "User/GetUsers");
                 MultiMap<string, string> queryString = new MultiMap<string, string>();
-                foreach (Official official in officials)
+                foreach (Official official in _officials)
                 {
                     queryString.Add("userids", official.UserID.ToString());
                 }
@@ -69,7 +72,7 @@ namespace SystemManagement
                 users = await getData.GetObject<List<User>>();
             }
 
-            foreach (Official official in officials)
+            foreach (Official official in _officials)
             {
                 User user = users.FirstOrDefault(u => u.UserID == official.UserID);
 
@@ -107,6 +110,7 @@ namespace SystemManagement
             await SetupOfficialInfo();
 
             Enabled = true;
+            BringToFront();
         }
 
         private async void cmdSave_Click(object sender, EventArgs e)
@@ -137,6 +141,45 @@ namespace SystemManagement
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private async void cmdSelectOfficials_Click(object sender, EventArgs e)
+        {
+            frmSelectUsers selectUsers = new frmSelectUsers();
+            selectUsers.SelectedUserIDs = _officials.Select(o => o.UserID).ToList();
+            DialogResult result = selectUsers.ShowDialog();
+
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+
+            Enabled = false;
+
+            foreach(long userID in selectUsers.SelectedUserIDs.Except(_officials.Select(o => o.OfficialID)))
+            {
+                Official official = new Official();
+                official.GovernmentID = GovernmentID;
+                official.UserID = userID;
+
+                PostData post = new PostData(DataAccess.APIs.SystemManagement, "Government/PostOfficial", official);
+                await post.ExecuteNoResult();
+            }
+
+            foreach(Official official in _officials.Where(o => !selectUsers.SelectedUserIDs.Contains(o.UserID)))
+            {
+                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Government/DeleteOfficial");
+                delete.QueryString = new Dictionary<string, string>()
+                {
+                    { "id", official.OfficialID.ToString() }
+                };
+                await delete.Execute();
+            }
+
+            await SetupOfficialInfo();
+
+            Enabled = true;
+            BringToFront();
         }
     }
 }

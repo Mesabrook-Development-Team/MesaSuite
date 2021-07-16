@@ -42,6 +42,11 @@ namespace API_System.Controllers
         [HttpGet]
         public List<LDAPUser> GetUsers([FromUri] long[] userids)
         {
+            if (!userids.Any())
+            {
+                return new List<LDAPUser>();
+            }
+
             Search<LDAPUser> userSearch = new Search<LDAPUser>(new LongSearchCondition<LDAPUser>()
             {
                 Field = "UserID",

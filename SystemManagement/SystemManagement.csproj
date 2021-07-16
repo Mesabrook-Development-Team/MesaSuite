@@ -43,6 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmEditCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditCompany.Designer.cs">
+      <DependentUpon>frmEditCompany.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmEditEmployee.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +131,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmEditCompany.resx">
+      <DependentUpon>frmEditCompany.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmEditEmployee.resx">
       <DependentUpon>frmEditEmployee.cs</DependentUpon>
     </EmbeddedResource>

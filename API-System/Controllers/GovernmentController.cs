@@ -132,5 +132,22 @@ namespace API_System.Controllers
 
             return Ok();
         }
+
+        [HttpDelete]
+        public IHttpActionResult DeleteOfficial(long id)
+        {
+            Official official = DataObject.GetEditableByPrimaryKey<Official>(id, null, null);
+            if (official == null)
+            {
+                return NotFound();
+            }
+
+            if (!official.Delete())
+            {
+                return official.HandleFailedValidation(this);
+            }
+
+            return Ok();
+        }
     }
 }

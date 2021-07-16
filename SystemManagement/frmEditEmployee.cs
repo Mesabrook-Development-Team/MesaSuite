@@ -35,7 +35,7 @@ namespace SystemManagement
                     { "id", Employee.CompanyID.ToString() }
                 };
                 Company company = await getData.GetObject<Company>();
-                txtCompany.Text = company.Name;
+                txtCompany.Text = company?.Name;
             }
             else
             {
@@ -45,7 +45,7 @@ namespace SystemManagement
             getData = new GetData(DataAccess.APIs.SystemManagement, "User/GetUser");
             getData.QueryString = new MultiMap<string, string>()
             {
-                { "id", Employee.UserID.ToString() }
+                { "userid", Employee.UserID.ToString() }
             };
             User user = await getData.GetObject<User>();
 

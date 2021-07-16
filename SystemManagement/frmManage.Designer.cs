@@ -90,10 +90,12 @@
             // colName
             // 
             this.colName.Text = "Name";
+            this.colName.Width = 200;
             // 
             // colType
             // 
             this.colType.Text = "Type";
+            this.colType.Width = 100;
             // 
             // imlLarge
             // 
@@ -153,33 +155,34 @@
             this.mnuNewGovernment,
             this.mnuNewCompany});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // mnuNewUser
             // 
             this.mnuNewUser.Name = "mnuNewUser";
-            this.mnuNewUser.Size = new System.Drawing.Size(180, 22);
+            this.mnuNewUser.Size = new System.Drawing.Size(140, 22);
             this.mnuNewUser.Text = "User";
             this.mnuNewUser.Click += new System.EventHandler(this.mnuNewUser_Click);
             // 
             // mnuNewGovernment
             // 
             this.mnuNewGovernment.Name = "mnuNewGovernment";
-            this.mnuNewGovernment.Size = new System.Drawing.Size(180, 22);
+            this.mnuNewGovernment.Size = new System.Drawing.Size(140, 22);
             this.mnuNewGovernment.Text = "Government";
             this.mnuNewGovernment.Click += new System.EventHandler(this.mnuNewGovernment_Click);
             // 
             // mnuNewCompany
             // 
             this.mnuNewCompany.Name = "mnuNewCompany";
-            this.mnuNewCompany.Size = new System.Drawing.Size(180, 22);
+            this.mnuNewCompany.Size = new System.Drawing.Size(140, 22);
             this.mnuNewCompany.Text = "Company";
+            this.mnuNewCompany.Click += new System.EventHandler(this.mnuNewCompany_Click);
             // 
             // mnuDelete
             // 
             this.mnuDelete.Name = "mnuDelete";
-            this.mnuDelete.Size = new System.Drawing.Size(180, 22);
+            this.mnuDelete.Size = new System.Drawing.Size(107, 22);
             this.mnuDelete.Text = "Delete";
             this.mnuDelete.Click += new System.EventHandler(this.mnuDelete_Click);
             // 

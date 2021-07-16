@@ -20,6 +20,8 @@ namespace SystemManagement
         public frmNewCompany()
         {
             InitializeComponent();
+
+            imlSmall.Images.Add("user", Properties.Resources.user);
         }
 
         private void lstEmployees_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -47,13 +49,15 @@ namespace SystemManagement
             await LoadEmployees();
 
             Enabled = true;
+
+            BringToFront();
         }
 
         private async Task LoadEmployees()
         {
             lstEmployees.Items.Clear();
 
-            GetData get = new GetData(DataAccess.APIs.SystemManagement, "Get/GetUsers");
+            GetData get = new GetData(DataAccess.APIs.SystemManagement, "User/GetUsers");
             MultiMap<string, string> queryString = new MultiMap<string, string>();
             foreach (Employee employee in _employees)
             {
@@ -80,12 +84,14 @@ namespace SystemManagement
 
                 lstEmployees.Items.Add(item);
             }
+
+            BringToFront();
         }
 
         private async void cmdSelectEmployees_Click(object sender, EventArgs e)
         {
             frmSelectUsers selectUsers = new frmSelectUsers();
-            selectUsers.SelectedUserIDs = _employees.Select(e => e.UserID).ToList();
+            selectUsers.SelectedUserIDs = _employees.Select(emp => emp.UserID).ToList();
             DialogResult res = selectUsers.ShowDialog();
 
             if (res != DialogResult.OK)
@@ -101,11 +107,13 @@ namespace SystemManagement
                 _employees.Add(employee);
             }
 
-            _employees.RemoveAll(emp => !selectUsers.SelectedUserIDs.Contains(emp.EmployeeID));
+            _employees.RemoveAll(emp => !selectUsers.SelectedUserIDs.Contains(emp.UserID));
 
             Enabled = false;
             await LoadEmployees();
             Enabled = true;
+
+            BringToFront();
         }
 
         private async void cmdSave_Click(object sender, EventArgs e)
@@ -143,7 +151,14 @@ namespace SystemManagement
                 }
             }
 
+            if (!employeeSaveSuccessful)
+            {
+                MessageBox.Show("The Company save was successful, but at least one Employee did not save successfully.  Recommend reviewing employees and trying again through the Employee Edit screen.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
+            DialogResult = DialogResult.OK;
+
+            Close();
         }
     }
 }

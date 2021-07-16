@@ -135,6 +135,7 @@
             this.cmdSelectOfficials.TabIndex = 2;
             this.cmdSelectOfficials.Text = "Select Officials";
             this.cmdSelectOfficials.UseVisualStyleBackColor = true;
+            this.cmdSelectOfficials.Click += new System.EventHandler(this.cmdSelectOfficials_Click);
             // 
             // frmEditGovernment
             // 

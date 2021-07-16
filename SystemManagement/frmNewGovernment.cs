@@ -74,6 +74,8 @@ namespace SystemManagement
             }
 
             Enabled = true;
+
+            BringToFront();
         }
 
         private async void lstOfficials_MouseDoubleClick(object sender, MouseEventArgs e)

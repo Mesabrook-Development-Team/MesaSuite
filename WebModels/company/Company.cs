@@ -29,7 +29,7 @@ namespace WebModels.company
 
         #region Relationships
         private List<Employee> _employees = new List<Employee>();
-        [RelationshipList("6C0E982B-0D55-466E-8E56-9A466D7A982C", "CompanyID")]
+        [RelationshipList("6C0E982B-0D55-466E-8E56-9A466D7A982C", "CompanyID", AutoDeleteReferences = true)]
         public IReadOnlyCollection<Employee> Employees
         {
             get { CheckGet(); return _employees; }

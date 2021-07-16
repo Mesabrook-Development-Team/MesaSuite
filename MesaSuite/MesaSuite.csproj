@@ -47,6 +47,9 @@
     <Reference Include="CefSharp.Core, Version=88.2.90.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
       <HintPath>..\packages\CefSharp.Common.88.2.90\lib\net452\CefSharp.Core.dll</HintPath>
     </Reference>
+    <Reference Include="CefSharp.WinForms, Version=88.2.90.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
+      <HintPath>..\packages\CefSharp.WinForms.88.2.90\lib\net452\CefSharp.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -64,6 +67,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAbout.Designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +95,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartupArguments.cs" />
     <Compile Include="Updater.cs" />
+    <EmbeddedResource Include="frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -105,7 +117,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -184,6 +198,45 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\btn_User_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lbl_system.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_system.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_close_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_close_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_tile_stone.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_system_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo_cp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_grass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_credits_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_about.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_about_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_credits.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

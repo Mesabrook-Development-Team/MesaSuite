@@ -129,7 +129,9 @@ namespace API_System.Models.security
         {
             List<string> groups = new List<string>();
             string ldapAddress = ConfigurationManager.AppSettings.Get("LDAPAddress");
-            using (PrincipalContext context = new PrincipalContext(ContextType.Domain, ldapAddress))
+            string ldapUser = ConfigurationManager.AppSettings.Get("LDAPUser");
+            string ldapPassword = ConfigurationManager.AppSettings.Get("LDAPPassword");
+            using (PrincipalContext context = new PrincipalContext(ContextType.Domain, ldapAddress, ldapUser, ldapPassword))
             using (GroupPrincipal queryFilter = new GroupPrincipal(context))
             using (PrincipalSearcher searcher = new PrincipalSearcher(queryFilter))
             {
@@ -148,7 +150,7 @@ namespace API_System.Models.security
             string ldapUser = ConfigurationManager.AppSettings.Get("LDAPUser");
             string ldapPassword = ConfigurationManager.AppSettings.Get("LDAPPassword");
 
-            using (PrincipalContext context = new PrincipalContext(ContextType.Domain, ldapAddress))
+            using (PrincipalContext context = new PrincipalContext(ContextType.Domain, ldapAddress, ldapUser, ldapPassword))
             using (UserPrincipal queryFilter = new UserPrincipal(context) { SamAccountName = Username })
             using (PrincipalSearcher searcher = new PrincipalSearcher(queryFilter))
             {

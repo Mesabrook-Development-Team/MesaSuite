@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,6 +28,7 @@ namespace MesaSuite
 
         private void btn_Close_Click(object sender, EventArgs e)
         {
+            PlayButtonClickSound();
             Close();
         }
 
@@ -63,6 +65,7 @@ namespace MesaSuite
             btnAbout.BackgroundImage = Properties.Resources.btn_about_hover;
             btnCredits.BackgroundImage = Properties.Resources.btn_credits;
             tabControl1.SelectedTab = tabPage1;
+            PlayButtonClickSound();
         }
 
         private void btnAbout_MouseEnter(object sender, EventArgs e)
@@ -86,6 +89,7 @@ namespace MesaSuite
             btnCredits.BackgroundImage = Properties.Resources.btn_credits_hover;
             btnAbout.BackgroundImage = Properties.Resources.btn_about;
             tabControl1.SelectedTab = tabPage2;
+            PlayButtonClickSound();
         }
 
         private void btnCredits_MouseEnter(object sender, EventArgs e)
@@ -101,6 +105,14 @@ namespace MesaSuite
             if (tabControl1.SelectedTab == tabPage1)
             {
                 btnCredits.BackgroundImage = Properties.Resources.btn_credits;
+            }
+        }
+
+        public void PlayButtonClickSound()
+        {
+            using (var soundPlayer = new SoundPlayer(Properties.Resources.ui_button_click))
+            {
+                soundPlayer.Play();
             }
         }
     }

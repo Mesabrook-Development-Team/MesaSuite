@@ -279,7 +279,7 @@
             this.MaximizeBox = false;
             this.Name = "frmNewUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "New User";
+            this.Text = "Create a New User";
             this.Load += new System.EventHandler(this.frmNewUser_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

@@ -207,3 +207,4 @@ API-MCSync/Web.config
 API-System/Web.config
 MesaSuite/App.config
 OAuth/Web.config
+DatabaseMigration/App.config

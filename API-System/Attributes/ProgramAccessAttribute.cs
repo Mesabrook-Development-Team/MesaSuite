@@ -1,6 +1,6 @@
 ﻿using API_System.Cache;
-using OAuth.Common;
-using OAuth.Common.Attributes;
+using API.Common;
+using API.Common.Attributes;
 using System.Net;
 using System.Net.Http;
 using System.Threading;

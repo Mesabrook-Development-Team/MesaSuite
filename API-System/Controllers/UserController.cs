@@ -6,7 +6,7 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Validation;
-using OAuth.Common.Attributes;
+using API.Common.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

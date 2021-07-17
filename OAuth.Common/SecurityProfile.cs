@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OAuth.Common
+namespace API.Common
 {
     public class SecurityProfile
     {

@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace OAuth.Common.Attributes
+namespace API.Common.Attributes
 {
     public class AllowedIPsOnly : ActionFilterAttribute
     {

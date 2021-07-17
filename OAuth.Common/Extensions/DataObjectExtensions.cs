@@ -12,7 +12,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Results;
 
-namespace API_System.Extensions
+namespace API.Common.Extensions
 {
     public static class DataObjectExtensions
     {

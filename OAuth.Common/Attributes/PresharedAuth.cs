@@ -6,7 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-namespace OAuth.Common.Attributes
+namespace API.Common.Attributes
 {
     public class PresharedAuth : ActionFilterAttribute
     {

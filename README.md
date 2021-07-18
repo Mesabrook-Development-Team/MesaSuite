@@ -91,3 +91,7 @@ Depending on your development needs, it may be necessary to run multiple project
 1. Anonymous Access Web APIs
 1. Secured Access Web APIs
 1. MesaSuite
+
+## Project Reference Flowchart
+[Click to view on diagrams.net][referenceflow]
+[referenceflow]: https://app.diagrams.net/#Uhttps%3A%2F%2Fraw.githubusercontent.com%2FCSX8600%2FMCSync%2FMakeAPIsGreatAgain%2FUntitled%2520Diagram.drawio

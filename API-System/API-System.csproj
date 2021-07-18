@@ -125,14 +125,15 @@
     <Compile Include="Controllers\ActiveDirectoryGroupController.cs" />
     <Compile Include="Controllers\ActiveDirectoryUserController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\GovernmentController.cs" />
+    <Compile Include="Controllers\OfficialController.cs" />
     <Compile Include="Controllers\ProgramController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\PatchData.cs" />
     <Compile Include="Models\security\LDAPUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

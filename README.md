@@ -67,6 +67,7 @@ The last required `appSetting` key is `MesaSuite.Common.AuthHost`.  This is the 
 
 | Project Name | Description |
 | --- | --- |
+| API.Common | This is a shared code project for use with all APIs.  It handles things like extensions for DataObject and, most importantly, the DataObjectController.cs base controller.  DataObjectController automatically handles GET, POST, PUT, PATCH, and DELETE methods for you, with an option to opt-in to a default GetAll action which returns all data objects of the specified generic type. |
 | API-MCSync | This is a WebAPI project that serves MC Sync file information |
 | API-User | This is a WebAPI project that manages Active Directory Users and Groups, MesaSuite Users, and Permissions |
 | Base | This is the Object Based Framework's Base folder and holds things common between it and database adapters. |

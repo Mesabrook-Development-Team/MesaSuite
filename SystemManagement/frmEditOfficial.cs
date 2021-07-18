@@ -33,7 +33,7 @@ namespace SystemManagement
             else
             {
                 // Get data
-                GetData get = new GetData(DataAccess.APIs.SystemManagement, "Government/GetGovernment");
+                GetData get = new GetData(DataAccess.APIs.SystemManagement, "Government/Get");
                 get.QueryString = new MultiMap<string, string>()
                 {
                     { "id", Official.GovernmentID.ToString() }
@@ -65,7 +65,7 @@ namespace SystemManagement
 
             if (PerformDatabaseSave)
             {
-                PutData put = new PutData(DataAccess.APIs.SystemManagement, "Government/PutOfficial", Official);
+                PutData put = new PutData(DataAccess.APIs.SystemManagement, "Official/Put", Official);
                 await put.ExecuteNoResult();
 
                 if (!put.RequestSuccessful)

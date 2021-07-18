@@ -47,7 +47,7 @@ namespace SystemManagement
                 AddUser(user);
             }
 
-            getData = new GetData(DataAccess.APIs.SystemManagement, "Government/GetGovernments");
+            getData = new GetData(DataAccess.APIs.SystemManagement, "Government/GetAll");
             governments = await getData.GetObject<List<Government>>() ?? new List<Government>();
 
             foreach(Government government in governments)
@@ -55,7 +55,7 @@ namespace SystemManagement
                 AddGovernment(government);
             }
 
-            getData = new GetData(DataAccess.APIs.SystemManagement, "Company/GetCompanies");
+            getData = new GetData(DataAccess.APIs.SystemManagement, "Company/GetAll");
             companies = await getData.GetObject<List<Company>>();
 
             foreach(Company company in companies)
@@ -229,14 +229,14 @@ namespace SystemManagement
 
             foreach (ListViewItem item in lstSecurities.SelectedItems.Cast<ListViewItem>().Where(lsv => lsv.Group.Name == "grpGovernments"))
             {
-                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Government/DeleteGovernment");
+                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Government/Delete");
                 delete.QueryString.Add("id", ((long?)item.Tag).ToString());
                 await delete.Execute();
             }
 
             foreach (ListViewItem item in lstSecurities.SelectedItems.Cast<ListViewItem>().Where(lsv => lsv.Group.Name == "grpCompanies"))
             {
-                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Company/DeleteCompany");
+                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Company/Delete");
                 delete.QueryString.Add("id", ((long?)item.Tag).ToString());
                 await delete.Execute();
             }

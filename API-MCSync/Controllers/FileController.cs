@@ -1,8 +1,4 @@
 ﻿using API.Common;
-using ClussPro.ObjectBasedFramework.DataSearch;
-using ClussPro.ObjectBasedFramework.Schema;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
 using WebModels.dbo;
 

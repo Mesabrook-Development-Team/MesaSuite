@@ -87,5 +87,24 @@ namespace API.Common
 
             return Ok();
         }
+
+        [HttpPatch]
+        public virtual IHttpActionResult Patch(PatchData patchData)
+        {
+            TDataObject dataObject = DataObject.GetEditableByPrimaryKey<TDataObject>(patchData.PrimaryKey, null, Enumerable.Empty<string>());
+            if (dataObject == null)
+            {
+                return NotFound();
+            }
+
+            dataObject.PatchData(patchData.Method, patchData.Values);
+
+            if (!dataObject.Save())
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
     }
 }

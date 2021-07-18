@@ -82,6 +82,7 @@
     <Compile Include="DataObjectController.cs" />
     <Compile Include="Extensions\DataObjectExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="PatchData.cs" />
     <Compile Include="SecurityCache.cs" />
     <Compile Include="SecurityProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

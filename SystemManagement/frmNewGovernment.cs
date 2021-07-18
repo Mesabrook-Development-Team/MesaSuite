@@ -105,7 +105,7 @@ namespace SystemManagement
         {
             Government government = new Government();
             government.Name = txtName.Text;
-            PostData put = new PostData(DataAccess.APIs.SystemManagement, "Government/PostGovernment", government);
+            PostData put = new PostData(DataAccess.APIs.SystemManagement, "Government/Post", government);
             government = await put.Execute<Government>();
 
             if (!put.RequestSuccessful)
@@ -118,7 +118,7 @@ namespace SystemManagement
             {
                 official.GovernmentID = government.GovernmentID;
 
-                put = new PostData(DataAccess.APIs.SystemManagement, "Government/PostOfficial", official);
+                put = new PostData(DataAccess.APIs.SystemManagement, "Official/Post", official);
                 await put.ExecuteNoResult();
 
                 officialSaveSuccessful = officialSaveSuccessful && put.RequestSuccessful;

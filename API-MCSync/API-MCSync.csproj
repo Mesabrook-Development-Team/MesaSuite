@@ -113,6 +113,10 @@
       <Project>{0784ad76-4a1f-4b28-9fe9-90c006ecba82}</Project>
       <Name>Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OAuth.Common\API.Common.csproj">
+      <Project>{9EDE023B-B3E1-4E36-8915-57D51D73B16E}</Project>
+      <Name>API.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ObjectBasedFramework\ObjectBasedFramework.csproj">
       <Project>{c3348c55-b43c-4be2-9a68-32ad56088619}</Project>
       <Name>ObjectBasedFramework</Name>

@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework.DataSearch;
+﻿using API.Common;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,32 @@ using WebModels.dbo;
 
 namespace API_MCSync.Controllers
 {
-    public class VersionController : ApiController
+    public class VersionController : DataObjectController<MCSyncVersion>
     {
-        public IEnumerable<MCSyncVersion> Get()
-        {
-            Search<MCSyncVersion> search = new Search<MCSyncVersion>();
-            IEnumerable<string> fields = Schema.GetSchemaObject<MCSyncVersion>().GetFields().Select(f => f.FieldName);
+        public override bool AllowGetAll => true;
 
-            return search.GetReadOnlyReader(null, fields);
+        [NonAction]
+        public override MCSyncVersion Get(long id)
+        {
+            return null;
+        }
+
+        [NonAction]
+        public override IHttpActionResult Post(MCSyncVersion dataObject)
+        {
+            return null;
+        }
+
+        [NonAction]
+        public override IHttpActionResult Put(MCSyncVersion dataObject)
+        {
+            return null;
+        }
+
+        [NonAction]
+        public override IHttpActionResult Delete(long id)
+        {
+            return null;
         }
     }
 }

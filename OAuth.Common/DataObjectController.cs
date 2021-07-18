@@ -1,5 +1,6 @@
 ﻿using API.Common.Extensions;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,18 @@ namespace API.Common
         {
             List<string> fields = Schema.GetSchemaObject<TDataObject>().GetFields().Select(f => f.FieldName).ToList();
             return DataObject.GetReadOnlyByPrimaryKey<TDataObject>(id, null, fields);
+        }
+
+        [HttpGet]
+        public virtual IHttpActionResult GetAll()
+        {
+            if (!AllowGetAll)
+            {
+                return NotFound();
+            }
+
+            List<string> fields = Schema.GetSchemaObject<TDataObject>().GetFields().Select(f => f.FieldName).ToList();
+            return Ok(new Search<TDataObject>().GetReadOnlyReader(null, fields).ToList());
         }
 
         [HttpPost]

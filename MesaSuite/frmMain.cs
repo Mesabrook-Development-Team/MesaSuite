@@ -55,6 +55,7 @@ namespace MesaSuite
 
             pboxMCSyncLogo.Visible = false;
             pboxSystem.Visible = false;
+            pboxCStudio.Visible = false;
             Authentication.OnLoggedIn += Authentication_OnLoggedIn;
             Authentication.OnLoggedOut += Authentication_OnLoggedOut;
             Authentication.OnProgramUpdate += Authentication_OnProgramUpdate;
@@ -241,6 +242,23 @@ namespace MesaSuite
             {
                 soundPlayer.Play();
             }
+        }
+
+        private void pboxCompanyStudio_Click(object sender, EventArgs e)
+        {
+            // Company Studio go brr
+        }
+
+        private void pboxCompanyStudio_MouseEnter(object sender, EventArgs e)
+        {
+            pboxCompanyStudio.BackgroundImage = Properties.Resources.icn_company_studio_high;
+            pboxCStudio.Visible = true;
+        }
+
+        private void pboxCompanyStudio_MouseLeave(object sender, EventArgs e)
+        {
+            pboxCompanyStudio.BackgroundImage = Properties.Resources.icn_company_studio_norm;
+            pboxCStudio.Visible = false;
         }
     }
 }

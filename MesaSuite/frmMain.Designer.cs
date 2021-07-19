@@ -40,8 +40,8 @@
             this.pboxSystemManagement = new System.Windows.Forms.PictureBox();
             this.pboxSystem = new System.Windows.Forms.PictureBox();
             this.pnlCompanyStudio = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pboxCompanyStudio = new System.Windows.Forms.PictureBox();
+            this.pboxCStudio = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMesaSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,8 +54,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pboxSystemManagement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxSystem)).BeginInit();
             this.pnlCompanyStudio.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxCompanyStudio)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxCStudio)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -186,36 +186,39 @@
             // pnlCompanyStudio
             // 
             this.pnlCompanyStudio.BackColor = System.Drawing.Color.Transparent;
-            this.pnlCompanyStudio.Controls.Add(this.pictureBox1);
-            this.pnlCompanyStudio.Controls.Add(this.pictureBox2);
+            this.pnlCompanyStudio.Controls.Add(this.pboxCompanyStudio);
+            this.pnlCompanyStudio.Controls.Add(this.pboxCStudio);
             this.pnlCompanyStudio.Location = new System.Drawing.Point(279, 3);
             this.pnlCompanyStudio.Name = "pnlCompanyStudio";
             this.pnlCompanyStudio.Size = new System.Drawing.Size(132, 155);
             this.pnlCompanyStudio.TabIndex = 5;
             // 
-            // pictureBox1
+            // pboxCompanyStudio
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.BackgroundImage = global::MesaSuite.Properties.Resources.icn_company_studio_norm;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox1.Location = new System.Drawing.Point(21, 19);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(92, 97);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
+            this.pboxCompanyStudio.BackColor = System.Drawing.Color.Transparent;
+            this.pboxCompanyStudio.BackgroundImage = global::MesaSuite.Properties.Resources.icn_company_studio_norm;
+            this.pboxCompanyStudio.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxCompanyStudio.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pboxCompanyStudio.Location = new System.Drawing.Point(21, 19);
+            this.pboxCompanyStudio.Name = "pboxCompanyStudio";
+            this.pboxCompanyStudio.Size = new System.Drawing.Size(92, 97);
+            this.pboxCompanyStudio.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pboxCompanyStudio.TabIndex = 1;
+            this.pboxCompanyStudio.TabStop = false;
+            this.pboxCompanyStudio.Click += new System.EventHandler(this.pboxCompanyStudio_Click);
+            this.pboxCompanyStudio.MouseEnter += new System.EventHandler(this.pboxCompanyStudio_MouseEnter);
+            this.pboxCompanyStudio.MouseLeave += new System.EventHandler(this.pboxCompanyStudio_MouseLeave);
             // 
-            // pictureBox2
+            // pboxCStudio
             // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BackgroundImage = global::MesaSuite.Properties.Resources.lbl_cstudio;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(35, 118);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(66, 34);
-            this.pictureBox2.TabIndex = 2;
-            this.pictureBox2.TabStop = false;
+            this.pboxCStudio.BackColor = System.Drawing.Color.Transparent;
+            this.pboxCStudio.BackgroundImage = global::MesaSuite.Properties.Resources.lbl_cstudio;
+            this.pboxCStudio.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxCStudio.Location = new System.Drawing.Point(35, 118);
+            this.pboxCStudio.Name = "pboxCStudio";
+            this.pboxCStudio.Size = new System.Drawing.Size(66, 34);
+            this.pboxCStudio.TabIndex = 2;
+            this.pboxCStudio.TabStop = false;
             // 
             // menuStrip1
             // 
@@ -277,8 +280,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pboxSystemManagement)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxSystem)).EndInit();
             this.pnlCompanyStudio.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxCompanyStudio)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxCStudio)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -301,7 +304,7 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutMesaSuiteToolStripMenuItem;
         private System.Windows.Forms.Panel pnlCompanyStudio;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pboxCompanyStudio;
+        private System.Windows.Forms.PictureBox pboxCStudio;
     }
 }

@@ -7,8 +7,8 @@
     <ProjectGuid>{9EDE023B-B3E1-4E36-8915-57D51D73B16E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OAuth.Common</RootNamespace>
-    <AssemblyName>OAuth.Common</AssemblyName>
+    <RootNamespace>API.Common</RootNamespace>
+    <AssemblyName>API.Common</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -79,12 +79,27 @@
     <Compile Include="Attributes\AllowedIPsOnly.cs" />
     <Compile Include="Attributes\MesabrookAuthorizationAttribute.cs" />
     <Compile Include="Attributes\PresharedAuth.cs" />
+    <Compile Include="DataObjectController.cs" />
+    <Compile Include="Extensions\DataObjectExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="PatchData.cs" />
     <Compile Include="SecurityCache.cs" />
     <Compile Include="SecurityProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\ObjectBasedFrameworkJsonContractResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Base\Base.csproj">
+      <Project>{0784ad76-4a1f-4b28-9fe9-90c006ecba82}</Project>
+      <Name>Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ObjectBasedFramework\ObjectBasedFramework.csproj">
+      <Project>{c3348c55-b43c-4be2-9a68-32ad56088619}</Project>
+      <Name>ObjectBasedFramework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

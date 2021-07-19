@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using OAuth.Common;
+using API.Common;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,7 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OAuth.Common
+namespace API.Common
 {
     public static class SecurityCache
     {

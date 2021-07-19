@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace API_System.Models
+namespace API.Common
 {
     public class PatchData
     {

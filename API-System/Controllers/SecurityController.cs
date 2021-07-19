@@ -1,5 +1,5 @@
-﻿using OAuth.Common;
-using OAuth.Common.Attributes;
+﻿using API.Common;
+using API.Common.Attributes;
 using System.Web.Http;
 
 namespace API_System.Controllers

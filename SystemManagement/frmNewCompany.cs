@@ -129,7 +129,7 @@ namespace SystemManagement
                 Name = txtName.Text
             };
 
-            PostData post = new PostData(DataAccess.APIs.SystemManagement, "Company/PostCompany", company);
+            PostData post = new PostData(DataAccess.APIs.SystemManagement, "Company/Post", company);
             company = await post.Execute<Company>();
 
             if (!post.RequestSuccessful)
@@ -142,7 +142,7 @@ namespace SystemManagement
             {
                 employee.CompanyID = company.CompanyID;
 
-                post = new PostData(DataAccess.APIs.SystemManagement, "Company/PostEmployee", employee);
+                post = new PostData(DataAccess.APIs.SystemManagement, "Employee/Post", employee);
                 await post.ExecuteNoResult();
 
                 if (!post.RequestSuccessful)

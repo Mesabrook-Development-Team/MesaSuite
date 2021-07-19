@@ -29,7 +29,7 @@ namespace SystemManagement
             GetData getData = null;
             if (string.IsNullOrEmpty(CompanyNameOverride))
             {
-                getData = new GetData(DataAccess.APIs.SystemManagement, "Company/GetCompany");
+                getData = new GetData(DataAccess.APIs.SystemManagement, "Company/Get");
                 getData.QueryString = new MultiMap<string, string>()
                 {
                     { "id", Employee.CompanyID.ToString() }
@@ -72,7 +72,7 @@ namespace SystemManagement
 
             if (PerformDatabaseSave)
             {
-                PutData put = new PutData(DataAccess.APIs.SystemManagement, "Company/PutEmployee", Employee);
+                PutData put = new PutData(DataAccess.APIs.SystemManagement, "Employee/Put", Employee);
                 await put.ExecuteNoResult();
 
                 if (!put.RequestSuccessful)

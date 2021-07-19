@@ -32,7 +32,7 @@ namespace SystemManagement
         {
             Enabled = false;
 
-            GetData getData = new GetData(DataAccess.APIs.SystemManagement, "Government/GetGovernment");
+            GetData getData = new GetData(DataAccess.APIs.SystemManagement, "Government/Get");
             getData.QueryString = new MultiMap<string, string>()
             {
                 { "id", GovernmentID.ToString() }
@@ -52,7 +52,7 @@ namespace SystemManagement
         {
             lstOfficials.Items.Clear();
 
-            GetData getData = new GetData(DataAccess.APIs.SystemManagement, "Government/GetOfficialsForGovernment");
+            GetData getData = new GetData(DataAccess.APIs.SystemManagement, "Official/GetOfficialsForGovernment");
             getData.QueryString = new MultiMap<string, string>()
             {
                 { "id", GovernmentID.ToString() }
@@ -127,7 +127,7 @@ namespace SystemManagement
                 Name = txtName.Text
             };
 
-            PutData put = new PutData(DataAccess.APIs.SystemManagement, "Government/PutGovernment", government);
+            PutData put = new PutData(DataAccess.APIs.SystemManagement, "Government/Put", government);
             await put.ExecuteNoResult();
 
             if (!put.RequestSuccessful)
@@ -162,13 +162,13 @@ namespace SystemManagement
                 official.GovernmentID = GovernmentID;
                 official.UserID = userID;
 
-                PostData post = new PostData(DataAccess.APIs.SystemManagement, "Government/PostOfficial", official);
+                PostData post = new PostData(DataAccess.APIs.SystemManagement, "Official/Post", official);
                 await post.ExecuteNoResult();
             }
 
             foreach(Official official in _officials.Where(o => !selectUsers.SelectedUserIDs.Contains(o.UserID)))
             {
-                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Government/DeleteOfficial");
+                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Official/Delete");
                 delete.QueryString = new Dictionary<string, string>()
                 {
                     { "id", official.OfficialID.ToString() }

@@ -1,4 +1,4 @@
-﻿using OAuth.Common.Attributes;
+﻿using API.Common.Attributes;
 using System.Web;
 using System.Web.Mvc;
 

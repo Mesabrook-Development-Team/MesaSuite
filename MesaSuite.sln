@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemManagement", "SystemM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API-System", "API-System\API-System.csproj", "{3D65607B-8F0D-47C1-8BAF-2B9E4A8C641E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth.Common", "OAuth.Common\OAuth.Common.csproj", "{9EDE023B-B3E1-4E36-8915-57D51D73B16E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Common", "OAuth.Common\API.Common.csproj", "{9EDE023B-B3E1-4E36-8915-57D51D73B16E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MesaSuite.Tests", "MesaSuite.Tests\MesaSuite.Tests.csproj", "{B729F9CA-9458-4236-A6DE-0F6C8996B9A6}"
 EndProject

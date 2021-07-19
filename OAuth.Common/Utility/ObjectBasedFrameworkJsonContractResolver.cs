@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
 
-namespace ClussPro.ObjectBasedFramework.Utility
+namespace API.Common.Utility
 {
     public class ObjectBasedFrameworkJsonContractResolver : DefaultContractResolver
     {

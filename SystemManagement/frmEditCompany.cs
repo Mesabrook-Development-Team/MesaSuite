@@ -26,7 +26,7 @@ namespace SystemManagement
 
         private async void frmEditCompany_Load(object sender, EventArgs e)
         {
-            GetData get = new GetData(DataAccess.APIs.SystemManagement, "Company/GetCompany");
+            GetData get = new GetData(DataAccess.APIs.SystemManagement, "Company/Get");
             get.QueryString = new MultiMap<string, string>()
             {
                 { "id", CompanyID.ToString() }
@@ -49,7 +49,7 @@ namespace SystemManagement
 
             lstEmployees.Items.Clear();
 
-            GetData get = new GetData(DataAccess.APIs.SystemManagement, "Company/GetEmployeesByCompany");
+            GetData get = new GetData(DataAccess.APIs.SystemManagement, "Employee/GetEmployeesByCompany");
             get.QueryString = new MultiMap<string, string>()
             {
                 { "companyid", CompanyID.ToString() }
@@ -131,13 +131,13 @@ namespace SystemManagement
                 employee.UserID = userID;
                 employee.CompanyID = CompanyID;
 
-                PostData postEmployee = new PostData(DataAccess.APIs.SystemManagement, "Company/PostEmployee", employee);
+                PostData postEmployee = new PostData(DataAccess.APIs.SystemManagement, "Employee/Post", employee);
                 await postEmployee.ExecuteNoResult();
             }
 
             foreach(long employeeID in _employees.Where(emp => !selectUsers.SelectedUserIDs.Contains(emp.UserID)).Select(emp => emp.EmployeeID))
             {
-                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Company/DeleteEmployee");
+                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Employee/Delete");
                 delete.QueryString = new Dictionary<string, string>()
                 {
                     { "id", employeeID.ToString() }
@@ -162,7 +162,7 @@ namespace SystemManagement
                 Name = txtName.Text
             };
 
-            PutData put = new PutData(DataAccess.APIs.SystemManagement, "Company/PutCompany", company);
+            PutData put = new PutData(DataAccess.APIs.SystemManagement, "Company/Put", company);
             await put.ExecuteNoResult();
 
             Close();

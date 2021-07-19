@@ -1,4 +1,4 @@
-﻿using OAuth.Common;
+﻿using API.Common;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace OAuth.Common.Attributes
+namespace API.Common.Attributes
 {
     public class MesabrookAuthorizationAttribute : ActionFilterAttribute
     {

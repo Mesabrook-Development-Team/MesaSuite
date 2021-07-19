@@ -1,6 +1,6 @@
 ﻿using OAuth.App_Code;
-using OAuth.Common;
-using OAuth.Common.Attributes;
+using API.Common;
+using API.Common.Attributes;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 

@@ -16,6 +16,15 @@ namespace WebModels.Loaders.security
                     { p.Name, "System Management" }
                 }
             };
+
+            yield return new LoaderObject<Program>("F06FD848-0816-48CE-9080-E5E316215709")
+            {
+                DataObjectValues = p => new Dictionary<object, object>()
+                {
+                    { p.Key, "company" },
+                    { p.Name, "Company Studio" }
+                }
+            };
         }
     }
 }

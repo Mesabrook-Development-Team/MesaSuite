@@ -243,6 +243,16 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FB_IMG_1626710816410 {
+            get {
+                object obj = ResourceManager.GetObject("FB_IMG_1626710816410", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icn_company_studio_high {
             get {
                 object obj = ResourceManager.GetObject("icn_company_studio_high", resourceCulture);
@@ -297,6 +307,16 @@ namespace MesaSuite.Properties {
             get {
                 object obj = ResourceManager.GetObject("icnPlaceholder", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap lbl_cstudio {
+            get {
+                object obj = ResourceManager.GetObject("lbl_cstudio", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

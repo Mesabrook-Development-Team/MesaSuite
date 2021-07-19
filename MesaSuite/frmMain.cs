@@ -22,7 +22,8 @@ namespace MesaSuite
             return new Dictionary<Panel, string>()
             {
                 { pnlMCSync, "" },
-                { pnlSystemManagement, "system" }
+                { pnlSystemManagement, "system" },
+                { pnlCompanyStudio, "company" }
             };
         }
 

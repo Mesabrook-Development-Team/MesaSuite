@@ -243,6 +243,26 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icn_company_studio_high {
+            get {
+                object obj = ResourceManager.GetObject("icn_company_studio_high", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_company_studio_norm {
+            get {
+                object obj = ResourceManager.GetObject("icn_company_studio_norm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icn_information {
             get {
                 object obj = ResourceManager.GetObject("icn_information", resourceCulture);

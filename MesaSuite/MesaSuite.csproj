@@ -241,6 +241,12 @@
   <ItemGroup>
     <None Include="Resources\ui_button_click.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_company_studio_high.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_company_studio_norm.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -54,9 +54,9 @@ namespace ClussPro.Base.Data
             return GetInstance()._provider.GetInsertQuery();
         }
 
-        public static ITransaction GenerateTransaction()
+        public static ITransaction GenerateTransaction(string connectionName = "_default")
         {
-            return GetInstance()._provider.GenerateTransaction();
+            return GetInstance()._provider.GenerateTransaction(connectionName);
         }
 
         public static ICreateSchema GetCreateSchemaQuery()

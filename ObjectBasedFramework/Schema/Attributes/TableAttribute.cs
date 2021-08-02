@@ -8,6 +8,7 @@ namespace ClussPro.ObjectBasedFramework.Schema.Attributes
         public Guid TableID { get; set; }
         public string SchemaName { get; set; }
         public string TableName { get; set; }
+        public string ConnectionName { get; set; }
 
         public TableAttribute(string TableID)
         {

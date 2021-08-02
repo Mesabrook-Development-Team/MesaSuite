@@ -7,11 +7,11 @@ namespace ClussPro.SqlServerProvider
 {
     public class MSSqlServerProvider : ISQLProvider
     {
-        public ITransaction GenerateTransaction()
+        public ITransaction GenerateTransaction(string connectionName = "_default")
         {
             Transaction transaction = new Transaction();
 
-            SqlConnection connection = new SqlConnection(MSSqlServerProviderConfig.ConnectionString);
+            SqlConnection connection = new SqlConnection(MSSqlServerProviderConfig.GetConnectionString(connectionName));
             connection.Open();
             SqlTransaction sqlTransaction = connection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted, Guid.NewGuid().ToString("N"));
             transaction.SQLTransaction = sqlTransaction;

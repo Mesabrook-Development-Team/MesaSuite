@@ -30,7 +30,9 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             List,
             NotList,
             Null,
-            NotNull
+            NotNull,
+            Like,
+            NotLike
         }
 
         public SearchConditionTypes SearchConditionType { get; set; }
@@ -59,7 +61,13 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             }
 
             Condition condition = new Condition();
-            condition.Left = (Base.Data.Operand.Field)field;
+            Field fieldOperand = field;
+            if (tableAliasesByFieldPath.ContainsKey(fieldOperand.TableAlias ?? string.Empty))
+            {
+                fieldOperand.TableAlias = tableAliasesByFieldPath[fieldOperand.TableAlias ?? string.Empty];
+            }
+
+            condition.Left = fieldOperand;
             
             switch(SearchConditionType)
             {
@@ -92,6 +100,12 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
                     break;
                 case SearchConditionTypes.NotEquals:
                     condition.ConditionType = Condition.ConditionTypes.NotEqual;
+                    break;
+                case SearchConditionTypes.Like:
+                    condition.ConditionType = Condition.ConditionTypes.Like;
+                    break;
+                case SearchConditionTypes.NotLike:
+                    condition.ConditionType = Condition.ConditionTypes.NotLike;
                     break;
             }
 

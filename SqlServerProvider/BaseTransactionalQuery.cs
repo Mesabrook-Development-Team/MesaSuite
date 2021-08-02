@@ -6,6 +6,7 @@ namespace ClussPro.SqlServerProvider
 {
     public abstract class BaseTransactionalQuery
     {
+        public string ConnectionName { get; set; }
         protected object CheckedTransactionExecuteWithResult(ITransaction transaction, Func<Transaction, object> work)
         {
             if (transaction != null && !(transaction is Transaction))
@@ -18,7 +19,7 @@ namespace ClussPro.SqlServerProvider
             {
                 if (transaction == null)
                 {
-                    localTransaction = (Transaction)SQLProviderFactory.GenerateTransaction();
+                    localTransaction = (Transaction)SQLProviderFactory.GenerateTransaction(ConnectionName ?? "_default");
                 }
                 else
                 {

@@ -4,6 +4,7 @@ namespace ClussPro.Base.Data.Query
 {
     public interface IDeleteQuery
     {
+        string ConnectionName { get; set; }
         Table Table { get; set; }
         ICondition Condition { get; set; }
 

@@ -1,4 +1,6 @@
-﻿using ClussPro.Base.Extensions;
+﻿using ClussPro.Base.Data;
+using ClussPro.Base.Data.Query;
+using ClussPro.Base.Extensions;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using System;
@@ -34,6 +36,8 @@ namespace ClussPro.ObjectBasedFramework.Loader
                 }
 
                 Search dataSearch = new Search(grouping.Key, new GuidSearchCondition(grouping.Key) { Field = "SystemID", SearchConditionType = SearchCondition.SearchConditionTypes.NotNull });
+                SchemaObject loaderObjectSchemaObject = Schema.Schema.GetSchemaObject(grouping.Key);
+
                 foreach (ISystemLoaded systemLoaded in dataSearch.GetUntypedEditableReader(null).Cast<ISystemLoaded>())
                 {
                     objectsInDatabaseByIDByType[grouping.Key][systemLoaded.SystemID.Value] = systemLoaded;

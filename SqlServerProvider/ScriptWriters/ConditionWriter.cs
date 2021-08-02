@@ -72,6 +72,12 @@ namespace ClussPro.SqlServerProvider.ScriptWriters
                 case Condition.ConditionTypes.NotNull:
                     sqlBuilder.Append(" IS NOT NULL ");
                     break;
+                case Condition.ConditionTypes.Like:
+                    sqlBuilder.Append(" LIKE ");
+                    break;
+                case Condition.ConditionTypes.NotLike:
+                    sqlBuilder.Append(" NOT LIKE ");
+                    break;
                 default:
                     throw new InvalidCastException("Could not determine Condition Type while writing");
             }

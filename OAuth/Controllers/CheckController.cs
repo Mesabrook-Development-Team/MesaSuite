@@ -1,7 +1,4 @@
-﻿using OAuth.App_Code;
-using API.Common;
-using API.Common.Attributes;
-using System.Threading.Tasks;
+﻿using API.Common.Attributes;
 using System.Web.Mvc;
 
 namespace OAuth.Controllers
@@ -10,14 +7,6 @@ namespace OAuth.Controllers
     [PresharedAuth]
     public class CheckController : Controller
     {
-        [HttpGet]
-        public async Task<ActionResult> Token(string access_token)
-        {
-            SecurityProfile profile = await App_Code.SecurityCache.Get(access_token, true);
-
-            return Json(profile, JsonRequestBehavior.AllowGet);
-        }
-
         [HttpPost]
         public ActionResult UserHasBeenDeleted(long? userid)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClussPro.Base.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -13,42 +14,42 @@ namespace ClussPro.SqlServerProvider
     internal static class MSSqlServerProviderConfig
     {
         private static bool _forceLoad = true;
+        private static object _forceLoadLock = new object();
 
-        private static string _connectionString;
-        internal static string ConnectionString
+        private static Dictionary<string, string> _connectionStrings = new Dictionary<string, string>();
+        public static string GetConnectionString(string name)
         {
-            get { Load(); return _connectionString; }
+            Load();
+            return _connectionStrings.GetOrDefault(name);
         }
 
         private static void Load()
         {
-            if (!_forceLoad)
+            lock (_forceLoadLock)
             {
-                return;
+                if (!_forceLoad)
+                {
+                    return;
+                }
+
+                _forceLoad = false;
+
+                _connectionStrings = new Dictionary<string, string>();
+
+                foreach (string connectionStringKey in ConfigurationManager.AppSettings.AllKeys.Where(k => k.StartsWith("MSSQLProvider.ConnectionString", StringComparison.OrdinalIgnoreCase)))
+                {
+                    string variant = connectionStringKey.Replace("MSSQLProvider.ConnectionString", "");
+                    if (string.IsNullOrEmpty(variant))
+                    {
+                        _connectionStrings.Add("_default", ConfigurationManager.AppSettings.Get(connectionStringKey));
+                    }
+                    else
+                    {
+                        variant = variant.Substring(1);
+                        _connectionStrings.Add(variant, ConfigurationManager.AppSettings.Get(connectionStringKey));
+                    }
+                }
             }
-
-            _forceLoad = false;
-
-            //XmlSerializer serializer = new XmlSerializer(typeof(Config));
-            //if (!File.Exists(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MSSqlServerProviderConfig.xml")))
-            //{
-            //    using (FileStream stream = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MSSqlServerProviderConfig.xml"), FileMode.Create))
-            //    {
-            //        serializer.Serialize(stream, new Config());
-            //        stream.Flush();
-            //    }
-
-            //    _forceLoad = true;
-            //    throw new FileNotFoundException("MSSqlServerProviderConfig.xml was not found.  A new one has been created - enter required configuration and relaunch");
-            //}
-
-            //Config config;
-            //using (FileStream stream = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MSSqlServerProviderConfig.xml"), FileMode.Open))
-            //{
-            //    config = (Config)serializer.Deserialize(stream);
-            //}
-
-            _connectionString = ConfigurationManager.AppSettings.Get("MSSQLProvider.ConnectionString");
         }
     }
 

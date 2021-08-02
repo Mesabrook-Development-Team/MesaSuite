@@ -62,7 +62,8 @@ namespace ClussPro.ObjectBasedFramework
                 return false;
             }
 
-            ITransaction localTransaction = transaction == null ? SQLProviderFactory.GenerateTransaction() : transaction;
+            SchemaObject thisObject = Schema.Schema.GetSchemaObject(GetType());
+            ITransaction localTransaction = transaction == null ? SQLProviderFactory.GenerateTransaction(thisObject.ConnectionName ?? "_default") : transaction;
             try
             {
                 if (!PreSave(localTransaction))
@@ -104,7 +105,8 @@ namespace ClussPro.ObjectBasedFramework
 
         public bool Delete(ITransaction transaction = null, List<Guid> saveFlags = null)
         {
-            ITransaction localTransaction = transaction == null ? SQLProviderFactory.GenerateTransaction() : transaction;
+            SchemaObject thisObject = Schema.Schema.GetSchemaObject(GetType());
+            ITransaction localTransaction = transaction == null ? SQLProviderFactory.GenerateTransaction(thisObject.ConnectionName ?? "_default") : transaction;
 
             try
             {
@@ -194,9 +196,25 @@ namespace ClussPro.ObjectBasedFramework
                 DataTable results = relationshipListQuery.Execute(transaction);
                 foreach(DataRow row in results.Rows)
                 {
+                    object primaryKeyValue = null;
+                    if (relatedSchemaObject.PrimaryKeyField.ReturnType == typeof(long?))
+                    {
+                        primaryKeyValue = row[relatedSchemaObject.PrimaryKeyField.FieldName] as long?;
+                    }
+                    else if (relatedSchemaObject.PrimaryKeyField.ReturnType == typeof(int?))
+                    {
+                        primaryKeyValue = row[relatedSchemaObject.PrimaryKeyField.FieldName] as int?;
+                    }
+
+                    if (primaryKeyValue != null && typeof(Nullable<>).IsAssignableFrom(primaryKeyValue.GetType()))
+                    {
+                        Type underlyingType = Nullable.GetUnderlyingType(primaryKeyValue.GetType());
+                        primaryKeyValue = Convert.ChangeType(primaryKeyValue, underlyingType);
+                    }
+
                     FKConstraintConflict fKConstraintConflict = new FKConstraintConflict();
                     fKConstraintConflict.ConflictType = relationshipList.RelatedObjectType;
-                    fKConstraintConflict.ForeignKey = row[relatedSchemaObject.PrimaryKeyField.FieldName] as long?;
+                    fKConstraintConflict.ForeignKey = primaryKeyValue != null ? (long)Convert.ChangeType(primaryKeyValue, typeof(long)) : 0;
                     fKConstraintConflict.ForeignKeyName = relatedField.FieldName;
                     fKConstraintConflict.ActionType = relationshipList.AutoDeleteReferences ?
                                                         FKConstraintConflict.ActionTypes.AutoDeleteReference :
@@ -241,35 +259,41 @@ namespace ClussPro.ObjectBasedFramework
 
                     if (autoDeleteReferenceKeys.Any())
                     {
-                        IDeleteQuery deleteQuery = SQLProviderFactory.GetDeleteQuery();
-                        deleteQuery.Table = new Table(foreignSchemaObject.SchemaName, foreignSchemaObject.ObjectName);
-                        deleteQuery.Condition = new Condition()
+                        Search autoDeleteSearch = new Search(foreignSchemaObject.DataObjectType, new LongSearchCondition(foreignSchemaObject.DataObjectType)
                         {
-                            Left = (Base.Data.Operand.Field)foreignSchemaObject.PrimaryKeyField.FieldName,
-                            ConditionType = Condition.ConditionTypes.List,
-                            Right = (CSV<long>)autoDeleteReferenceKeys
-                        };
+                            Field = foreignSchemaObject.PrimaryKeyField.FieldName,
+                            SearchConditionType = SearchCondition.SearchConditionTypes.List,
+                            List = autoDeleteReferenceKeys
+                        });
 
-                        deleteQuery.Execute(transaction);
+                        foreach(DataObject relatedObject in autoDeleteSearch.GetUntypedEditableReader(transaction))
+                        {
+                            if (!relatedObject.Delete(transaction))
+                            {
+                                throw new InvalidOperationException($"Could not delete related object during foreign key handling:\r\n{relatedObject.Errors.ToString()}");
+                            }
+                        }
                     }
 
                     if (autoRemoveReferenceKeys.Any())
                     {
-                        IUpdateQuery updateQuery = SQLProviderFactory.GetUpdateQuery();
-                        updateQuery.Table = new Table(foreignSchemaObject.SchemaName, foreignSchemaObject.ObjectName);
-                        updateQuery.FieldValueList.Add(new FieldValue()
+                        Search autoRemoveSearch = new Search(foreignSchemaObject.DataObjectType, new LongSearchCondition(foreignSchemaObject.DataObjectType)
                         {
-                            FieldName = constraintGroupByField.Key,
-                            Value = null
+                            Field = foreignSchemaObject.PrimaryKeyField.FieldName,
+                            SearchConditionType = SearchCondition.SearchConditionTypes.List,
+                            List = autoRemoveReferenceKeys
                         });
-                        updateQuery.Condition = new Condition()
-                        {
-                            Left = (Base.Data.Operand.Field)foreignSchemaObject.PrimaryKeyField.FieldName,
-                            ConditionType = Condition.ConditionTypes.List,
-                            Right = (CSV<long>)autoRemoveReferenceKeys
-                        };
 
-                        updateQuery.Execute(transaction);
+                        foreach(DataObject relatedObject in autoRemoveSearch.GetUntypedEditableReader(transaction))
+                        {
+                            Schema.Field fieldToSet = foreignSchemaObject.GetField(constraintGroupByField.Key);
+                            fieldToSet.SetValue(relatedObject, null);
+
+                            if (!relatedObject.Save(transaction))
+                            {
+                                throw new InvalidOperationException($"Could not save related object during foreign key handling:\r\n{relatedObject.Errors.ToString()}");
+                            }
+                        }
                     }
                 }
             }
@@ -299,7 +323,18 @@ namespace ClussPro.ObjectBasedFramework
                 insertQuery.FieldValueList.Add(fieldValue);
             }
 
-            long? primaryKey = insertQuery.Execute(transaction);
+            Type primaryKeyType = schemaObject.PrimaryKeyField.ReturnType;
+            object primaryKey = null;
+            
+            if (primaryKeyType == typeof(long) || primaryKeyType == typeof(long?))
+            {
+                primaryKey = insertQuery.Execute<long>(transaction);
+            }
+            else if (primaryKeyType == typeof(int) || primaryKeyType == typeof(int?))
+            {
+                primaryKey = insertQuery.Execute<int>(transaction);
+            }
+
             if (primaryKey != null)
             {
                 schemaObject.PrimaryKeyField.SetPrivateDataCallback(this, primaryKey);
@@ -331,6 +366,7 @@ namespace ClussPro.ObjectBasedFramework
                 Right = new Literal(schemaObject.PrimaryKeyField.GetValue(this))
             };
 
+            updateQuery.ConnectionName = schemaObject.ConnectionName;
             updateQuery.Execute(transaction);
 
             return true;
@@ -344,150 +380,20 @@ namespace ClussPro.ObjectBasedFramework
 
         public static TDataObject GetReadOnlyByPrimaryKey<TDataObject>(long? primaryKey, ITransaction transaction, IEnumerable<string> fields) where TDataObject: DataObject
         {
-            //DataObject dataObject = Activator.CreateInstance<TDataObject>();
-            //dataObject.isEditable = false;
+            return (TDataObject)GetReadOnlyByPrimaryKey(typeof(TDataObject), primaryKey, transaction, fields);
+        }
 
-            //SchemaObject thisSchemaObject = Schema.Schema.GetSchemaObject<TDataObject>();
-
-            //IOrderedEnumerable<string> sortedFields = fields.Where(f => f.Contains(".")).OrderBy(str => str);
-            //Dictionary<string, string> tableAliasesForFieldPath = new Dictionary<string, string>()
-            //{
-            //    { "", "table000" }
-            //};
-            //int tableAliasCounter = 1;
-
-            //List<Join> joinList = new List<Join>();
-            //foreach (string fieldPath in sortedFields.Where(f => f.Contains(".")).Select(f => f.Substring(0, f.LastIndexOf("."))))
-            //{
-            //    string[] fieldPathParts = fieldPath.Split('.');
-
-            //    string checkedFieldPath = "";
-            //    DataObject lastObject = dataObject;
-            //    SchemaObject lastSchemaObject = thisSchemaObject;
-            //    for(int i = 0; i < fieldPathParts.Length - 1; i++)
-            //    {
-            //        string myAlias = tableAliasesForFieldPath[checkedFieldPath];
-
-            //        if (!string.IsNullOrEmpty(checkedFieldPath))
-            //        {
-            //            checkedFieldPath += ".";
-            //        }
-
-            //        checkedFieldPath += fieldPathParts[i];
-
-            //        if (tableAliasesForFieldPath.ContainsKey(checkedFieldPath))
-            //        {
-            //            continue;
-            //        }
-
-            //        Relationship relationship = lastSchemaObject.GetRelationship(checkedFieldPath);
-            //        SchemaObject relatedSchemaObject = relationship.RelatedSchemaObject;
-
-            //        DataObject relatedDataObject = relationship.GetValue(lastObject);
-            //        if (relatedDataObject == null)
-            //        {
-            //            relatedDataObject = (DataObject)Activator.CreateInstance(relationship.RelatedObjectType);
-            //            relatedDataObject.isEditable = false;
-            //            relationship.SetPrivateDataCallback(lastObject, relatedDataObject);
-            //        }
-
-            //        tableAliasCounter++;
-            //        string otherAlias = $"table{tableAliasCounter.ToString("D3")}";
-            //        tableAliasesForFieldPath.Add(checkedFieldPath, otherAlias);
-
-            //        Join join = new Join();
-            //        join.Table = new Table(relatedSchemaObject.SchemaName, relatedSchemaObject.ObjectName, otherAlias);
-            //        join.JoinType = Join.JoinTypes.Left;
-            //        join.Condition = lastObject.GetRelationshipCondition(relationship, myAlias, otherAlias);
-
-            //        lastObject = relatedDataObject;
-            //        lastSchemaObject = relatedSchemaObject;
-            //    }
-            //}
-
-            //ISelectQuery selectQuery = SQLProviderFactory.GetSelectQuery();
-            //selectQuery.JoinList = joinList;
-
-            //foreach(string field in sortedFields)
-            //{
-            //    string path = "";
-            //    string fieldName = "";
-            //    if (field.Contains('.'))
-            //    {
-            //        path = field.Substring(0, field.LastIndexOf('.'));
-            //        fieldName = field.Substring(field.LastIndexOf('.') + 1);
-            //    }
-            //    else
-            //    {
-            //        fieldName = field;
-            //    }
-
-            //    string alias = tableAliasesForFieldPath[path];
-
-            //    Select select = new Select() { SelectOperand = (Base.Data.Operand.Field)$"{alias}.{fieldName}", Alias = $"{alias}_{fieldName}" };
-            //    selectQuery.SelectList.Add(select);
-            //}
-
-            //selectQuery.WhereCondition = new Condition()
-            //{
-            //    Left = (Base.Data.Operand.Field)("table000_" + thisSchemaObject.PrimaryKeyField.FieldName),
-            //    ConditionType = Condition.ConditionTypes.Equal,
-            //    Right = new Literal(primaryKey)
-            //};
-
-            //DataTable dataTable = selectQuery.Execute(transaction);
-            //if (dataTable.Rows.Count <= 0)
-            //{
-            //    return null;
-            //}
-
-            //DataRow row = dataTable.Rows[0];
-            //foreach(string field in sortedFields)
-            //{
-            //    DataObject lastObject = dataObject;
-            //    SchemaObject lastSchemaObject = thisSchemaObject;
-            //    if (field.Contains('.'))
-            //    {
-            //        string[] parts = field.Split('.');
-            //        for(int i = 0; i < parts.Length - 1; i++)
-            //        {
-            //            lastObject.retrievedPaths.Add(parts[i]);
-            //            Relationship relationship = lastSchemaObject.GetRelationship(parts[i]);
-
-            //            lastObject = relationship.GetValue(lastObject);
-            //            lastSchemaObject = relationship.RelatedSchemaObject;
-            //        }
-            //    }
-
-            //    string path = "";
-            //    string pathField = "";
-            //    if (field.Contains('.'))
-            //    {
-            //        path = field.Substring(0, field.LastIndexOf('.'));
-            //        pathField = field.Substring(field.LastIndexOf('.'));
-            //    }
-            //    else
-            //    {
-            //        pathField = field;
-            //    }
-
-            //    string alias = tableAliasesForFieldPath[path];
-            //    object value = row[$"{alias}_{pathField}"];
-            //    lastSchemaObject.GetField(pathField).SetPrivateDataCallback(lastObject, value);
-            //    lastObject.retrievedPaths.Add(pathField);
-            //}
-
-            //return (TDataObject)dataObject;
-
-            SchemaObject searchSchemaObject = Schema.Schema.GetSchemaObject<TDataObject>();
-            Search<TDataObject> search = new Search<TDataObject>(new LongSearchCondition<TDataObject>()
+        public static DataObject GetReadOnlyByPrimaryKey(Type dataObjectType, long? primaryKey, ITransaction transaction, IEnumerable<string> fields)
+        {
+            SchemaObject searchSchemaObject = Schema.Schema.GetSchemaObject(dataObjectType);
+            Search search = new Search(dataObjectType, new LongSearchCondition(dataObjectType)
             {
                 Field = searchSchemaObject.PrimaryKeyField.FieldName,
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                 Value = primaryKey
             });
 
-            return search.GetReadOnly(transaction, fields);
+            return search.GetUntypedReadOnly(transaction, fields);
         }
 
         public static DataObject GetEditableByPrimaryKey(Type dataObjectType, long? primaryKey, ITransaction transaction = null, IEnumerable<string> readOnlyFields = null)
@@ -587,7 +493,7 @@ namespace ClussPro.ObjectBasedFramework
         //    }
         //}
 
-        public void SetData(IEnumerable<string> fieldsToSet, Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> queries, DataRow outerObjectRow)
+        public void SetData(IEnumerable<string> fieldsToSet, Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> queries, DataRow outerObjectRow, ITransaction transaction)
         {
             IEnumerable<string> fieldsWeCanDoSomethingAbout = fieldsToSet.Where(field => !queries.Keys.Where(k => !string.IsNullOrEmpty(k)).Any(reverseFieldPath => field.StartsWith(reverseFieldPath)));
 
@@ -679,7 +585,16 @@ namespace ClussPro.ObjectBasedFramework
                     continue;
                 }
 
-                long? primaryKey = parentObject.PrimaryKeyField.GetValue(parentObject) as long?;
+                object primaryKey = null;
+                if (parentObject.PrimaryKeyField.ReturnType == typeof(long?))
+                {
+                    primaryKey = parentObject.PrimaryKeyField.GetValue(parentObject) as long?;
+                }
+                else if (parentObject.PrimaryKeyField.ReturnType == typeof(int?))
+                {
+                    primaryKey = parentObject.PrimaryKeyField.GetValue(parentObject) as int?;
+                }
+
                 ISelectQuery query = queries[reverseRelationshipWeCanDoSomethingAbout].Item1;
                 Condition primaryKeyCondition = new Condition()
                 {
@@ -714,13 +629,13 @@ namespace ClussPro.ObjectBasedFramework
                 object reverseRelationshipList = relationshipList.GetPrivateDataCallback(parentObject);
                 MethodInfo addMethod = reverseRelationshipList.GetType().GetMethod("Add", new Type[] { relationshipList.RelatedObjectType });
 
-                DataTable results = query.Execute(null);
+                DataTable results = query.Execute(transaction);
                 query.WhereCondition = previousQueryCondition;
                 foreach(DataRow row in results.Rows)
                 {
                     DataObject childObject = DataObjectFactory.Create(relationshipList.RelatedObjectType);
                     childObject.isEditable = false;
-                    childObject.SetData(childFieldsToSet, childQueries, row);
+                    childObject.SetData(childFieldsToSet, childQueries, row, transaction);
                     addMethod.Invoke(reverseRelationshipList, new object[] { childObject });
                 }
                 parentObject.retrievedPaths.Add(relationshipList.RelationshipListName);
@@ -799,6 +714,16 @@ namespace ClussPro.ObjectBasedFramework
         public object GetDirtyValue(string fieldName)
         {
             return originalValues.GetOrDefault(fieldName);
+        }
+
+        public bool IsPathRetrieved(string path)
+        {
+            if (IsEditable && !path.Contains(".") && Schema.Schema.GetSchemaObject(GetType()).GetField(path) != null)
+            {
+                return true;
+            }
+
+            return retrievedPaths.Contains(path);
         }
 
         public class FKConstraintConflict

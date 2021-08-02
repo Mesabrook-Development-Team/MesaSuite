@@ -34,8 +34,8 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -79,16 +79,20 @@
     <Compile Include="Attributes\AllowedIPsOnly.cs" />
     <Compile Include="Attributes\MesabrookAuthorizationAttribute.cs" />
     <Compile Include="Attributes\PresharedAuth.cs" />
+    <Compile Include="Attributes\ProgramAccessAttribute.cs" />
     <Compile Include="DataObjectController.cs" />
     <Compile Include="Extensions\DataObjectExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="PatchData.cs" />
+    <Compile Include="ProgramCache.cs" />
     <Compile Include="SecurityCache.cs" />
+    <Compile Include="BaseSecurityController.cs" />
     <Compile Include="SecurityProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\ObjectBasedFrameworkJsonContractResolver.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +103,10 @@
     <ProjectReference Include="..\ObjectBasedFramework\ObjectBasedFramework.csproj">
       <Project>{c3348c55-b43c-4be2-9a68-32ad56088619}</Project>
       <Name>ObjectBasedFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebModels\WebModels.csproj">
+      <Project>{159f54b6-1641-4b7d-b7b2-4417492dbcd1}</Project>
+      <Name>WebModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

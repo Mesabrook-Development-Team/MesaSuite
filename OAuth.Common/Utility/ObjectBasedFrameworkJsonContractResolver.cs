@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework.Schema;
+﻿using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -22,6 +23,19 @@ namespace API.Common.Utility
             {
                 property.ShouldSerialize = i => false;
                 property.Ignored = true;
+            }
+
+            if (!property.Ignored)
+            {
+                property.ShouldSerialize = obj =>
+                {
+                    if (obj is DataObject dataObject && Schema.GetSchemaObject(obj.GetType()).GetField(member.Name) != null)
+                    {
+                        return dataObject.IsPathRetrieved(member.Name);
+                    }
+
+                    return true;
+                };
             }
 
             return property;

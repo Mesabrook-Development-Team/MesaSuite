@@ -1,6 +1,8 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using System.Collections;
+using System.Collections.Generic;
 using WebModels.security;
 
 namespace WebModels.company
@@ -65,6 +67,12 @@ namespace WebModels.company
         {
             get { CheckGet(); return _manageEmployees; }
             set { CheckSet(); _manageEmployees = value; }
+        }
+
+        public static IEnumerable<string> GetPermissionFieldNames()
+        {
+            yield return nameof(ManageEmails);
+            yield return nameof(ManageEmployees);
         }
     }
 }

@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{958B665B-0BED-4A1C-80D1-4FCC0DD861B7}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>CompanyStudio</RootNamespace>
+    <AssemblyName>CompanyStudio</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=3.0.6.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <HintPath>..\packages\DockPanelSuite.3.0.6\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking.ThemeVS2015, Version=3.0.6.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <HintPath>..\packages\DockPanelSuite.ThemeVS2015.3.0.6\lib\net40\WeifenLuo.WinFormsUI.Docking.ThemeVS2015.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseCompanyStudioContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Email\frmAddRecipient.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Email\frmAddRecipient.Designer.cs">
+      <DependentUpon>frmAddRecipient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Email\frmAlias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Email\frmAlias.Designer.cs">
+      <DependentUpon>frmAlias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Email\frmDistributionList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Email\frmDistributionList.Designer.cs">
+      <DependentUpon>frmDistributionList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Email\frmEmailExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Email\frmEmailExplorer.Designer.cs">
+      <DependentUpon>frmEmailExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\ICompanyStudioContentExt.cs" />
+    <Compile Include="frmCompanyConnect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCompanyConnect.Designer.cs">
+      <DependentUpon>frmCompanyConnect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCompanyExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCompanyExplorer.Designer.cs">
+      <DependentUpon>frmCompanyExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmStudio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmStudio.Designer.cs">
+      <DependentUpon>frmStudio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ISaveable.cs" />
+    <Compile Include="Loader.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Loader.Designer.cs">
+      <DependentUpon>Loader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Alias.cs" />
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\DistributionList.cs" />
+    <Compile Include="Models\DistributionListRecipient.cs" />
+    <Compile Include="Models\Domain.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StudioFormExtender.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudioFormExtender.Designer.cs">
+      <DependentUpon>StudioFormExtender.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Email\frmAddRecipient.resx">
+      <DependentUpon>frmAddRecipient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Email\frmAlias.resx">
+      <DependentUpon>frmAlias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Email\frmDistributionList.resx">
+      <DependentUpon>frmDistributionList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Email\frmEmailExplorer.resx">
+      <DependentUpon>frmEmailExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCompanyConnect.resx">
+      <DependentUpon>frmCompanyConnect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCompanyExplorer.resx">
+      <DependentUpon>frmCompanyExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmStudio.resx">
+      <DependentUpon>frmStudio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Loader.resx">
+      <DependentUpon>Loader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MesaSuite.Common\MesaSuite.Common.csproj">
+      <Project>{5894467E-F5D9-4AEA-91E3-07851FE3E722}</Project>
+      <Name>MesaSuite.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lbl_cstudio.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CompanyStudioFullRes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mail_explorer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gif_loader.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\company_connect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\company_disconnect.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

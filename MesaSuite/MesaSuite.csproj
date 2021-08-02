@@ -135,6 +135,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CompanyStudio\CompanyStudio.csproj">
+      <Project>{958b665b-0bed-4a1c-80d1-4fcc0dd861b7}</Project>
+      <Name>CompanyStudio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MCSync\MCSync.csproj">
       <Project>{dae0b871-55a8-4b13-b121-273d19997c95}</Project>
       <Name>MCSync</Name>

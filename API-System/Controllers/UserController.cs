@@ -1,8 +1,6 @@
 ﻿using API.Common;
 using API.Common.Attributes;
 using API.Common.Extensions;
-using API_System.Attributes;
-using API_System.Models;
 using API_System.Models.security;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
@@ -19,7 +17,7 @@ using System.Web.Http;
 
 namespace API_System.Controllers
 {
-    [ProgramAccess]
+    [ProgramAccess("system")]
     [MesabrookAuthorization]
     public class UserController : ApiController
     {

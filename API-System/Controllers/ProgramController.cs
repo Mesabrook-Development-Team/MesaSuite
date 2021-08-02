@@ -1,4 +1,5 @@
-﻿using API_System.Attributes;
+﻿using API.Common;
+using API.Common.Attributes;
 using API_System.Models.security;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
@@ -7,8 +8,6 @@ using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Extensions;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Validation;
-using API.Common;
-using API.Common.Attributes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,7 +30,7 @@ namespace API_System.Controllers
 
         [HttpGet]
         [MesabrookAuthorization]
-        [ProgramAccess]
+        [ProgramAccess("system")]
         public List<Program> GetProgramKeys()
         {
             return new Search<Program>().GetReadOnlyReader(null, new string[] { "ProgramID", "Name", "Key" }).ToList();
@@ -39,7 +38,7 @@ namespace API_System.Controllers
 
         [HttpGet]
         [MesabrookAuthorization]
-        [ProgramAccess]
+        [ProgramAccess("system")]
         public List<Program> GetProgramsForUser(long? userid)
         {
             if (userid == null)
@@ -55,7 +54,7 @@ namespace API_System.Controllers
 
         [HttpPost]
         [MesabrookAuthorization]
-        [ProgramAccess]
+        [ProgramAccess("system")]
         public IHttpActionResult SetProgramsForUser(List<UserProgram> userPrograms)
         {
             long? userID = userPrograms.First().UserID;
@@ -92,7 +91,7 @@ namespace API_System.Controllers
 
         [HttpDelete]
         [MesabrookAuthorization]
-        [ProgramAccess]
+        [ProgramAccess("system")]
         public IHttpActionResult DeleteProgramForUser(long? userid, long? programID)
         {
             Search<UserProgram> userProgramSearch = new Search<UserProgram>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
@@ -126,7 +125,7 @@ namespace API_System.Controllers
 
         [HttpGet]
         [MesabrookAuthorization]
-        [ProgramAccess]
+        [ProgramAccess("system")]
         public Program GetProgram(long? programid)
         {
             return DataObject.GetEditableByPrimaryKey<Program>(programid, null, Enumerable.Empty<string>());
@@ -134,7 +133,7 @@ namespace API_System.Controllers
 
         [HttpGet]
         [MesabrookAuthorization]
-        [ProgramAccess]
+        [ProgramAccess("system")]
         public List<LDAPUser> GetUsersForProgram(long? programid)
         {
             List<string> fields = Schema.GetSchemaObject<LDAPUser>().GetFields().Select(f => $"UserPrograms.User.{f.FieldName}").ToList();

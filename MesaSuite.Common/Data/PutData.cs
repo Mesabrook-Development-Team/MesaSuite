@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -23,6 +24,10 @@ namespace MesaSuite.Common.Data
             if (RequireAuthentication)
             {
                 request.Headers.Add("Authorization", "Bearer " + Authentication.GetAuthToken());
+            }
+            foreach(KeyValuePair<string, string> kvp in Headers)
+            {
+                request.Headers.Add(kvp.Key, kvp.Value);
             }
             request.ContentType = "application/json";
 

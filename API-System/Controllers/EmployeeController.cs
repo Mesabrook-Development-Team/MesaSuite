@@ -1,8 +1,6 @@
 ﻿using API.Common;
 using API.Common.Attributes;
-using API_System.Attributes;
 using ClussPro.ObjectBasedFramework.DataSearch;
-using ClussPro.ObjectBasedFramework.Schema;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -11,9 +9,18 @@ using WebModels.company;
 namespace API_System.Controllers
 {
     [MesabrookAuthorization]
-    [ProgramAccess]
+    [ProgramAccess("system")]
     public class EmployeeController : DataObjectController<Employee>
     {
+        public override IEnumerable<string> AllowedFields => new List<string>()
+        {
+            nameof(Employee.EmployeeID),
+            nameof(Employee.CompanyID),
+            nameof(Employee.UserID),
+            nameof(Employee.ManageEmails),
+            nameof(Employee.ManageEmployees)
+        };
+
         [HttpGet]
         public List<Employee> GetEmployeesByCompany(long companyid)
         {
@@ -24,8 +31,7 @@ namespace API_System.Controllers
                 Value = companyid
             });
 
-            List<string> fields = Schema.GetSchemaObject<Employee>().GetFields().Select(f => f.FieldName).ToList();
-            return employeeSearch.GetReadOnlyReader(null, fields).ToList();
+            return employeeSearch.GetReadOnlyReader(null, AllowedFields).ToList();
         }
     }
 }

@@ -1,13 +1,9 @@
-﻿using Newtonsoft.Json;
-using API.Common;
+﻿using ClussPro.ObjectBasedFramework.DataSearch;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
+using WebModels.auth;
 
 namespace API.Common
 {
@@ -52,46 +48,31 @@ namespace API.Common
 
         private async static Task<SecurityProfile> GetSecurityProfile(string accessToken)
         {
-            string user = ConfigurationManager.AppSettings.Get("OAuthUser");
-            string pass = ConfigurationManager.AppSettings.Get("OAuthPass");
-
-            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
-            {
-                throw new ArgumentNullException("OAuthUser and OAuthPass are required settings");
-            }
-
-            string userPassConcat = $"{user}:{pass}";
-            byte[] base64Bytes = Encoding.UTF8.GetBytes(userPassConcat);
-            string base64String = Convert.ToBase64String(base64Bytes);
-
-            string oAuthHost = ConfigurationManager.AppSettings.Get("OAuthHost");
-            HttpWebRequest request = WebRequest.CreateHttp($"{oAuthHost}/check/token?access_token={accessToken}");
-            request.Method = WebRequestMethods.Http.Get;
-            request.Headers.Add("Authorization", $"Basic {base64String}");
-            request.Headers.Add("Accepts", "application/json");
-
-            HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
-
-            string json;
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-            {
-                json = await reader.ReadToEndAsync();
-            }
-
-            if (string.IsNullOrEmpty(json))
+            if (!Guid.TryParse(accessToken, out Guid token))
             {
                 return null;
             }
 
-            var errorObject = new { error = "" };
-            errorObject = JsonConvert.DeserializeAnonymousType(json, errorObject);
-
-            if (!string.IsNullOrEmpty(errorObject.error))
+            Search<Token> tokenSearch = new Search<Token>(new GuidSearchCondition<Token>()
             {
-                throw new Exception(errorObject.error);
+                Field = "AccessToken",
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = token
+            });
+
+            Token dbToken = await Task.Run(() => tokenSearch.GetReadOnly(null, new string[] { "UserID", "Expiration", "AccessToken" }));
+
+            if (dbToken == null)
+            {
+                return null;
             }
 
-            SecurityProfile profile = JsonConvert.DeserializeObject<SecurityProfile>(json);
+            SecurityProfile profile = new SecurityProfile()
+            {
+                UserID = dbToken.UserID.Value,
+                AccessToken = dbToken.AccessToken.ToString(),
+                Expiration = dbToken.Expiration.Value
+            };
 
             AddSecurityProfile(profile);
 

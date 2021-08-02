@@ -1,5 +1,6 @@
 ﻿using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
+using ClussPro.SqlServerProvider.ScriptWriters;
 using System;
 using System.Data.SqlClient;
 using System.Text;
@@ -10,6 +11,45 @@ namespace ClussPro.SqlServerProvider
     {
         public string Schema { get; set; }
         public string Table { get; set; }
+
+        public void AddColumn(string columnName, FieldSpecification fieldSpecification, ITransaction transaction = null)
+        {
+            CheckedTransactionExecute(transaction, localTransaction =>
+            {
+                StringBuilder sqlBuilder = new StringBuilder("ALTER TABLE ");
+                sqlBuilder.Append($"[{Schema}].[{Table}] ");
+                sqlBuilder.Append($"ADD {columnName} {fieldSpecification.FieldType}");
+                string defaultParameterName = null;
+
+                if (fieldSpecification.DataSize != -1)
+                {
+                    sqlBuilder.Append($"({fieldSpecification.DataSize}");
+
+                    if (fieldSpecification.DataScale != -1)
+                    {
+                        sqlBuilder.Append($",{fieldSpecification.DataScale}");
+                    }
+
+                    sqlBuilder.Append(") ");
+
+                    if (fieldSpecification.DefaultValue != null)
+                    {
+                        defaultParameterName = Guid.NewGuid().ToString("N");
+                        sqlBuilder.Append($"DEFAULT @{defaultParameterName}");
+                    }
+                }
+
+                using (SqlCommand command = new SqlCommand(sqlBuilder.ToString(), localTransaction.SQLTransaction.Connection, localTransaction.SQLTransaction))
+                {
+                    if (defaultParameterName != null)
+                    {
+                        command.Parameters.AddWithValue(defaultParameterName, fieldSpecification.DefaultValue);
+                    }
+
+                    command.ExecuteNonQuery();
+                }
+            });
+        }
 
         public void AddForeignKey(string constraintName, string foreignKeyName, string parentSchema, string parentTable, string parentField, ITransaction transaction = null)
         {

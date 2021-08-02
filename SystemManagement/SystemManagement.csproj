@@ -49,6 +49,12 @@
     <Compile Include="frmEditCompany.Designer.cs">
       <DependentUpon>frmEditCompany.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmEditDomain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditDomain.Designer.cs">
+      <DependentUpon>frmEditDomain.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmEditEmployee.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +91,12 @@
     <Compile Include="frmNewCompany.Designer.cs">
       <DependentUpon>frmNewCompany.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmNewDomain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewDomain.Designer.cs">
+      <DependentUpon>frmNewDomain.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmNewGovernment.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +128,7 @@
       <DependentUpon>frmSelectUsers.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\Official.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Government.cs" />
@@ -134,6 +147,9 @@
     <EmbeddedResource Include="frmEditCompany.resx">
       <DependentUpon>frmEditCompany.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmEditDomain.resx">
+      <DependentUpon>frmEditDomain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmEditEmployee.resx">
       <DependentUpon>frmEditEmployee.cs</DependentUpon>
     </EmbeddedResource>
@@ -151,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmNewCompany.resx">
       <DependentUpon>frmNewCompany.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewDomain.resx">
+      <DependentUpon>frmNewDomain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmNewGovernment.resx">
       <DependentUpon>frmNewGovernment.cs</DependentUpon>

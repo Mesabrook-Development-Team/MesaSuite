@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MesaSuite.Common;
 using System.Windows.Forms;
 
 namespace CompanyStudio
 {
-    static class Program
+    public static class Program
     {
-        static void Main()
+        public static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmStudio());
+            Application.Run(new SecuredApplicationContext(new frmStudio(), "company"));
         }
     }
 }

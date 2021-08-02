@@ -5,6 +5,7 @@ namespace ClussPro.Base.Data.Query
 {
     public interface IUpdateQuery
     {
+        string ConnectionName { get; set; }
         Table Table { get; set; }
         List<FieldValue> FieldValueList { get; set; }
         ICondition Condition { get; set; }

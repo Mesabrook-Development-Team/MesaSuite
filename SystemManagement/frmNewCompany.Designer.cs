@@ -41,6 +41,8 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdSave = new System.Windows.Forms.Button();
             this.cmdSelectEmployees = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cboDomain = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -62,7 +64,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 48);
+            this.label2.Location = new System.Drawing.Point(12, 87);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(159, 13);
             this.label2.TabIndex = 2;
@@ -76,11 +78,11 @@
             this.colManageEmployees});
             this.lstEmployees.FullRowSelect = true;
             this.lstEmployees.HideSelection = false;
-            this.lstEmployees.Location = new System.Drawing.Point(12, 64);
+            this.lstEmployees.Location = new System.Drawing.Point(12, 103);
             this.lstEmployees.Name = "lstEmployees";
             this.lstEmployees.Size = new System.Drawing.Size(297, 97);
             this.lstEmployees.SmallImageList = this.imlSmall;
-            this.lstEmployees.TabIndex = 1;
+            this.lstEmployees.TabIndex = 2;
             this.lstEmployees.UseCompatibleStateImageBehavior = false;
             this.lstEmployees.View = System.Windows.Forms.View.Details;
             this.lstEmployees.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstEmployees_MouseDoubleClick);
@@ -109,32 +111,50 @@
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(133, 196);
+            this.cmdCancel.Location = new System.Drawing.Point(133, 235);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(85, 23);
-            this.cmdCancel.TabIndex = 4;
+            this.cmdCancel.TabIndex = 5;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             // 
             // cmdSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(224, 196);
+            this.cmdSave.Location = new System.Drawing.Point(224, 235);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(85, 23);
-            this.cmdSave.TabIndex = 3;
+            this.cmdSave.TabIndex = 4;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
             // cmdSelectEmployees
             // 
-            this.cmdSelectEmployees.Location = new System.Drawing.Point(133, 167);
+            this.cmdSelectEmployees.Location = new System.Drawing.Point(133, 206);
             this.cmdSelectEmployees.Name = "cmdSelectEmployees";
             this.cmdSelectEmployees.Size = new System.Drawing.Size(176, 23);
-            this.cmdSelectEmployees.TabIndex = 2;
+            this.cmdSelectEmployees.TabIndex = 3;
             this.cmdSelectEmployees.Text = "Select Employees";
             this.cmdSelectEmployees.UseVisualStyleBackColor = true;
             this.cmdSelectEmployees.Click += new System.EventHandler(this.cmdSelectEmployees_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 48);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(211, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "What is the email domain for this company?";
+            // 
+            // cboDomain
+            // 
+            this.cboDomain.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboDomain.FormattingEnabled = true;
+            this.cboDomain.Location = new System.Drawing.Point(12, 63);
+            this.cboDomain.Name = "cboDomain";
+            this.cboDomain.Size = new System.Drawing.Size(297, 21);
+            this.cboDomain.TabIndex = 1;
             // 
             // frmNewCompany
             // 
@@ -142,13 +162,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(321, 228);
+            this.ClientSize = new System.Drawing.Size(321, 265);
+            this.Controls.Add(this.cboDomain);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.cmdSelectEmployees);
             this.Controls.Add(this.lstEmployees);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtName);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -157,6 +179,7 @@
             this.Name = "frmNewCompany";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New Company";
+            this.Load += new System.EventHandler(this.frmNewCompany_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,5 +198,7 @@
         private System.Windows.Forms.Button cmdSave;
         private System.Windows.Forms.Button cmdSelectEmployees;
         private System.Windows.Forms.ImageList imlSmall;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cboDomain;
     }
 }

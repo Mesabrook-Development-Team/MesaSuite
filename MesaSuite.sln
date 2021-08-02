@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1145
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCSync", "MCSync\MCSync.csproj", "{DAE0B871-55A8-4B13-B121-273D19997C95}"
 EndProject
@@ -42,6 +42,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseMigration", "DatabaseMigration\DatabaseMigration.csproj", "{73E9BE3F-86C5-42E7-A965-34E1C8BD87C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyStudio", "CompanyStudio\CompanyStudio.csproj", "{958B665B-0BED-4A1C-80D1-4FCC0DD861B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API-Company", "API-Company\API-Company.csproj", "{FFC6F3E1-9AB0-4387-A007-B5061C52A923}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,10 @@ Global
 		{958B665B-0BED-4A1C-80D1-4FCC0DD861B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{958B665B-0BED-4A1C-80D1-4FCC0DD861B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{958B665B-0BED-4A1C-80D1-4FCC0DD861B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFC6F3E1-9AB0-4387-A007-B5061C52A923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFC6F3E1-9AB0-4387-A007-B5061C52A923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFC6F3E1-9AB0-4387-A007-B5061C52A923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFC6F3E1-9AB0-4387-A007-B5061C52A923}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

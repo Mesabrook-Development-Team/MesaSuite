@@ -8,7 +8,7 @@ namespace ClussPro.Base.Data
         IDeleteQuery GetDeleteQuery();
         IUpdateQuery GetUpdateQuery();
         IInsertQuery GetInsertQuery();
-        ITransaction GenerateTransaction();
+        ITransaction GenerateTransaction(string connectionName = "_default");
         ICreateSchema GetCreateSchemaQuery();
         IDropSchema GetDropSchemaQuery();
         ICreateTable GetCreateTableQuery();

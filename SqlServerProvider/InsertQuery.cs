@@ -11,23 +11,22 @@ namespace ClussPro.SqlServerProvider
 {
     public class InsertQuery : BaseTransactionalQuery, IInsertQuery
     {
-
         public Table Table { get; set; }
         public List<FieldValue> FieldValueList { get; set; } = new List<FieldValue>();
 
-        public long? Execute(ITransaction transaction)
+        public T Execute<T>(ITransaction transaction)
         {
-            return CheckedTransactionExecuteWithResult(transaction, localTransaction =>
+            return (T)CheckedTransactionExecuteWithResult(transaction, localTransaction =>
             {
-                long? primaryKey = null;
+                T primaryKey = default(T);
                 using (SqlCommand command = new SqlCommand(null, localTransaction.SQLTransaction.Connection, localTransaction.SQLTransaction))
                 {
                     command.CommandText = GetSQL(command.Parameters);
-                    primaryKey = Convert.ToInt64(command.ExecuteScalar());
+                    primaryKey = (T)Convert.ChangeType(command.ExecuteScalar(), typeof(T));
                 }
 
                 return primaryKey;
-            }) as long?;
+            });
         }
 
         private string GetSQL(SqlParameterCollection parameters)

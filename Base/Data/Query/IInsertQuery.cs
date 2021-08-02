@@ -4,6 +4,7 @@ namespace ClussPro.Base.Data.Query
 {
     public interface IInsertQuery
     {
+        string ConnectionName { get; set; }
         Table Table { get; set; }
         List<FieldValue> FieldValueList { get; set; }
 
@@ -12,6 +13,6 @@ namespace ClussPro.Base.Data.Query
         /// </summary>
         /// <param name="transaction">Transaction to perform the insert on</param>
         /// <returns>Primary key of the insert.</returns>
-        long? Execute(ITransaction transaction);
+        T Execute<T>(ITransaction transaction);
     }
 }

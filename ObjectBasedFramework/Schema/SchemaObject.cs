@@ -25,7 +25,8 @@ namespace ClussPro.ObjectBasedFramework.Schema
         public string SchemaName { get; private set; }
         public string ObjectName { get; private set; }
         public Field PrimaryKeyField { get; private set; }
-        public bool IsSystemLaoded { get; private set; }
+        public bool IsSystemLoaded { get; private set; }
+        public string ConnectionName { get; private set; }
 
         internal SchemaObject(Type type)
         {
@@ -35,8 +36,9 @@ namespace ClussPro.ObjectBasedFramework.Schema
 
             SchemaName = table.SchemaName ?? type.Namespace.Substring(type.Namespace.LastIndexOf(".") + 1);
             ObjectName = table.TableName ?? type.Name;
+            ConnectionName = table.ConnectionName;
 
-            IsSystemLaoded = typeof(ISystemLoaded).IsAssignableFrom(type);
+            IsSystemLoaded = typeof(ISystemLoaded).IsAssignableFrom(type);
 
             if (type.GetCustomAttribute<TableAttribute>(false) == null)
             {
@@ -146,9 +148,12 @@ namespace ClussPro.ObjectBasedFramework.Schema
                         originalValues[field.FieldName] = valueToSet;
                     };
                     field.GetPrivateDataCallback = (instance) => fieldInfo.GetValue(instance);
+                    field.SetValue = propertyInfo.SetValue;
                     field.ParentSchemaObject = this;
                     field.IsRequired = propertyInfo.GetCustomAttribute<RequiredAttribute>() != null;
                     field.IsSystemLoaded = fieldAttribute.IsSystemLoaded;
+                    field.IsPrimaryKey = fieldAttribute.IsPrimaryKey;
+                    field.ReturnType = propertyInfo.PropertyType;
                     fields.Add(field);
                     fieldsByName.Add(field.FieldName, field);
                 }
@@ -215,7 +220,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                 relationship.ForeignKeyField = backingField;
             }
 
-            PrimaryKeyField = PrivateGetField(ObjectName + "ID");
+            PrimaryKeyField = PrivateGetField(ObjectName + "ID") ?? fields.FirstOrDefault(f => f.IsPrimaryKey);
         }
 
         public Field GetField(string fieldName)

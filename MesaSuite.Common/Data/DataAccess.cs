@@ -19,6 +19,7 @@ namespace MesaSuite.Common.Data
         public bool UseHTTPS { internal get; set; } = true;
         public bool RequestSuccessful { get; protected set; }
         public bool RequireAuthentication { internal get; set; } = true;
+        public Dictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
 
         public DataAccess(APIs api, string resource)
         {
@@ -103,7 +104,9 @@ namespace MesaSuite.Common.Data
             [EnumValue("mcsync")]
             MCSync,
             [EnumValue("system")]
-            SystemManagement
+            SystemManagement,
+            [EnumValue("company")]
+            CompanyStudio
         }
     }
 }

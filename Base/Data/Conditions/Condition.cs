@@ -19,7 +19,9 @@ namespace ClussPro.Base.Data.Conditions
             List,
             NotList,
             Null,
-            NotNull
+            NotNull,
+            Like,
+            NotLike
         }
     }
 }

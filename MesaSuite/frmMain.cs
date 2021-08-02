@@ -103,12 +103,6 @@ namespace MesaSuite
             lblLogInStatus.Text = "Logged In";
         }
 
-        private void cmdMCSync_Click(object sender, EventArgs e)
-        {
-            new Thread(new ThreadStart(StartMCSync)).Start();
-            Close();
-        }
-
         private void StartMCSync()
         {
             MCSync.Program.Main(StartupArguments.GetArgsForApp("mcsync"));
@@ -246,7 +240,8 @@ namespace MesaSuite
 
         private void pboxCompanyStudio_Click(object sender, EventArgs e)
         {
-            // Company Studio go brr
+            PlayButtonClickSound();
+            StartProgram(() => CompanyStudio.Program.Main(StartupArguments.GetArgsForApp("company")));
         }
 
         private void pboxCompanyStudio_MouseEnter(object sender, EventArgs e)

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -18,6 +19,11 @@ namespace MesaSuite.Common.Data
         {
             string json = await GetJson();
 
+            if (string.IsNullOrEmpty(json))
+            {
+                return default(T);
+            }
+
             return JsonConvert.DeserializeObject<T>(json);
         }
 
@@ -33,6 +39,10 @@ namespace MesaSuite.Common.Data
             if (RequireAuthentication)
             {
                 request.Headers.Add("Authorization", "Bearer " + Authentication.GetAuthToken());
+            }
+            foreach(KeyValuePair<string, string> kvp in Headers)
+            {
+                request.Headers.Add(kvp.Key, kvp.Value);
             }
             request.ContentType = "application/json";
 

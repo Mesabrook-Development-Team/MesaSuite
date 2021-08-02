@@ -14,6 +14,10 @@ namespace ClussPro.ObjectBasedFramework.Schema
         public string FieldName { get; internal set; }
         public bool IsRequired { get; internal set; }
         public bool IsSystemLoaded { get; internal set; }
+        public bool IsPrimaryKey { get; internal set; }
+        public Type ReturnType { get; internal set; }
+
+        public Action<DataObject, object> SetValue { get; internal set; }
 
         internal Func<object, object> GetPrivateDataCallback { get; set; }
 

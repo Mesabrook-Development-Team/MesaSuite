@@ -56,7 +56,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
                 isEditableField.SetValue(dataObject, true);
                 isInsertField.SetValue(dataObject, false);
 
-                dataObject.SetData(fields, selectQueries, row);
+                dataObject.SetData(fields, selectQueries, row, transaction);
 
                 yield return dataObject;
             }
@@ -88,7 +88,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             FieldInfo isInsertField = typeof(DataObject).GetField("isInsert", BindingFlags.NonPublic | BindingFlags.Instance);
             isInsertField.SetValue(dataObject, false);
 
-            dataObject.SetData(fields, queries, table.Rows[0]);
+            dataObject.SetData(fields, queries, table.Rows[0], transaction);
 
             return dataObject;
         }
@@ -109,7 +109,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
                 isEditableField.SetValue(dataObject, false);
                 FieldInfo isInsertField = typeof(DataObject).GetField("isInsert", BindingFlags.NonPublic | BindingFlags.Instance);
                 isInsertField.SetValue(dataObject, false);
-                dataObject.SetData(fieldsHashSet, queries, row);
+                dataObject.SetData(fieldsHashSet, queries, row, transaction);
 
                 yield return dataObject;
             }
@@ -135,7 +135,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             isEditableField.SetValue(dataObject, false);
             FieldInfo isInsertField = typeof(DataObject).GetField("isInsert", BindingFlags.NonPublic | BindingFlags.Instance);
             isInsertField.SetValue(dataObject, false);
-            dataObject.SetData(fieldsHashSet, queries, table.Rows[0]);
+            dataObject.SetData(fieldsHashSet, queries, table.Rows[0], transaction);
 
             return dataObject;
 
@@ -332,6 +332,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             }
 
             selectQuery.WhereCondition = SearchCondition?.GetCondition(tableAliasesByFieldPath, upperFieldPath, queriesByFieldPath.Keys.Where(k => !string.IsNullOrEmpty(k)).ToArray());
+            selectQuery.ConnectionName = thisSchemaObject.ConnectionName;
 
             queriesByFieldPath[""] = new Tuple<ISelectQuery, Dictionary<string, string>>(selectQuery, tableAliasesByFieldPath);
 
@@ -369,7 +370,8 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
                     Alias = "record_exists"
                 }
             };
-            
+
+            selectQuery.ConnectionName = schemaObject.ConnectionName;
             DataTable table = selectQuery.Execute(transaction);
             DataRow row = table.Rows[0];
             return (bool)row[0];

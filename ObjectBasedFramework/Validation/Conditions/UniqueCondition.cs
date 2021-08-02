@@ -44,13 +44,25 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 
             if (dataObject.PrimaryKeyField.GetValue(dataObject) != null)
             {
-                long? primaryKey = dataObject.PrimaryKeyField.GetValue(dataObject) as long?;
+                object primaryKey = null;
+
+                if (dataObject.PrimaryKeyField.ReturnType == typeof(long?))
+                {
+                    primaryKey = dataObject.PrimaryKeyField.GetValue(dataObject) as long?;
+                }
+                else if (dataObject.PrimaryKeyField.ReturnType == typeof(int?))
+                {
+                    primaryKey = dataObject.PrimaryKeyField.GetValue(dataObject) as int?;
+                }
+
+                Type underlyingType = Nullable.GetUnderlyingType(primaryKey.GetType());
+                primaryKey = Convert.ChangeType(primaryKey, underlyingType);
 
                 conditionGroup.SearchConditions.Add(new LongSearchCondition(dataObject.GetType())
                 {
                     Field = dataObject.PrimaryKeyField.FieldName,
                     SearchConditionType = SearchCondition.SearchConditionTypes.NotEquals,
-                    Value = primaryKey
+                    Value = (long)Convert.ChangeType(primaryKey, typeof(long))
                 });
             }
             search.SearchCondition = conditionGroup;

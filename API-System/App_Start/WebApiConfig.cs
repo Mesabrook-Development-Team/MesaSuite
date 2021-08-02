@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Validation;
 
 namespace API_System
 {
@@ -7,6 +8,7 @@ namespace API_System
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            config.Services.Clear(typeof(ModelValidatorProvider));
 
             // Web API routes
             config.MapHttpAttributeRoutes();

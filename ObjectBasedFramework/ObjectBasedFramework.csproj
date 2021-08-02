@@ -71,11 +71,15 @@
     <Compile Include="Schema\SchemaObject.cs" />
     <Compile Include="Schema\Schema.cs" />
     <Compile Include="DataSearch\Search.cs" />
+    <Compile Include="Utility\ConvertUtility.cs" />
     <Compile Include="Validation\Attributes\RequiredAttribute.cs" />
     <Compile Include="Validation\Attributes\UniqueAttribute.cs" />
     <Compile Include="Validation\Conditions\Condition.cs" />
+    <Compile Include="Validation\Conditions\ConditionGroup.cs" />
+    <Compile Include="Validation\Conditions\EqualCondition.cs" />
     <Compile Include="Validation\Conditions\MaxLengthCondition.cs" />
-    <Compile Include="Validation\Conditions\RequiredFieldCondition.cs" />
+    <Compile Include="Validation\Conditions\NotCondition.cs" />
+    <Compile Include="Validation\Conditions\PresenceCondition.cs" />
     <Compile Include="Validation\Conditions\UniqueCondition.cs" />
     <Compile Include="Validation\Error.cs" />
     <Compile Include="Validation\Errors.cs" />

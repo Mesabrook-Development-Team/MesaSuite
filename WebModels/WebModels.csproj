@@ -50,6 +50,13 @@
     <Compile Include="dbo\MCSyncVersion.cs" />
     <Compile Include="gov\Government.cs" />
     <Compile Include="gov\Official.cs" />
+    <Compile Include="hMailServer\dbo\Alias.cs" />
+    <Compile Include="hMailServer\dbo\DistributionList.cs" />
+    <Compile Include="hMailServer\dbo\DistributionListRecipient.cs" />
+    <Compile Include="hMailServer\dbo\Domain.cs" />
+    <Compile Include="hMailServer\Validations\Conditions\EndsWithOtherFieldCondition.cs" />
+    <Compile Include="hMailServer\Validations\dbo\AliasValidations.cs" />
+    <Compile Include="hMailServer\Validations\dbo\DistributionListValidations.cs" />
     <Compile Include="Loaders\security\ProgramLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="security\Program.cs" />

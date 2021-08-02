@@ -151,55 +151,58 @@ namespace ClussPro.ObjectBasedFramework.Schema
 
         public static void Deploy()
         {
-            ITransaction deploymentTransaction = SQLProviderFactory.GenerateTransaction();
-
-            try
+            foreach (IGrouping<string, SchemaObject> schemaObjectsByConnectionName in Instance.schemaObjects.GroupBy(so => so.ConnectionName))
             {
-                HashSet<string> schemas = Instance.schemaObjects.Select(schemaObject => schemaObject.SchemaName).ToHashSet();
+                ITransaction deploymentTransaction = SQLProviderFactory.GenerateTransaction(schemaObjectsByConnectionName.Key ?? "_default");
 
-                foreach (string schema in schemas)
+                try
                 {
-                    ICreateSchema createSchema = SQLProviderFactory.GetCreateSchemaQuery();
-                    createSchema.SchemaName = schema;
-                    createSchema.Execute(deploymentTransaction);
-                }
+                    HashSet<string> schemas = schemaObjectsByConnectionName.Select(schemaObject => schemaObject.SchemaName).ToHashSet();
 
-                foreach(SchemaObject schemaObject in Instance.schemaObjects)
-                {
-                    ICreateTable createTable = SQLProviderFactory.GetCreateTableQuery();
-                    createTable.SchemaName = schemaObject.SchemaName;
-                    createTable.TableName = schemaObject.ObjectName;
-                    
-                    foreach(Field field in schemaObject.GetFields())
+                    foreach (string schema in schemas)
                     {
-                        FieldSpecification fieldSpec = new FieldSpecification(field.FieldType, field.DataSize, field.DataScale);
-                        if (field == schemaObject.PrimaryKeyField)
-                        {
-                            fieldSpec.IsPrimary = true;
-                        }
-
-                        createTable.Columns.Add(field.FieldName, fieldSpec);
+                        ICreateSchema createSchema = SQLProviderFactory.GetCreateSchemaQuery();
+                        createSchema.SchemaName = schema;
+                        createSchema.Execute(deploymentTransaction);
                     }
 
-                    createTable.Execute(deploymentTransaction);
-                }
+                    foreach (SchemaObject schemaObject in schemaObjectsByConnectionName)
+                    {
+                        ICreateTable createTable = SQLProviderFactory.GetCreateTableQuery();
+                        createTable.SchemaName = schemaObject.SchemaName;
+                        createTable.TableName = schemaObject.ObjectName;
 
-                foreach(Relationship relationship in Instance.schemaObjects.SelectMany(so => so.GetRelationships()))
-                {
-                    string fkName = $"FK{relationship.ParentSchemaObject.ObjectName}_{relationship.RelatedSchemaObject.ObjectName}_{relationship.ForeignKeyField.FieldName}";
-                    IAlterTable alterTableQuery = SQLProviderFactory.GetAlterTableQuery();
-                    alterTableQuery.Schema = relationship.ParentSchemaObject.SchemaName;
-                    alterTableQuery.Table = relationship.ParentSchemaObject.ObjectName;
-                    alterTableQuery.AddForeignKey(fkName, relationship.ForeignKeyField.FieldName, relationship.RelatedSchemaObject.SchemaName, relationship.RelatedSchemaObject.ObjectName, relationship.ParentKeyField.FieldName, deploymentTransaction);
-                }
+                        foreach (Field field in schemaObject.GetFields())
+                        {
+                            FieldSpecification fieldSpec = new FieldSpecification(field.FieldType, field.DataSize, field.DataScale);
+                            if (field == schemaObject.PrimaryKeyField)
+                            {
+                                fieldSpec.IsPrimary = true;
+                            }
 
-                deploymentTransaction.Commit();
-            }
-            finally
-            {
-                if (deploymentTransaction.IsActive)
+                            createTable.Columns.Add(field.FieldName, fieldSpec);
+                        }
+
+                        createTable.Execute(deploymentTransaction);
+                    }
+
+                    foreach (Relationship relationship in schemaObjectsByConnectionName.SelectMany(so => so.GetRelationships()))
+                    {
+                        string fkName = $"FK{relationship.ParentSchemaObject.ObjectName}_{relationship.RelatedSchemaObject.ObjectName}_{relationship.ForeignKeyField.FieldName}";
+                        IAlterTable alterTableQuery = SQLProviderFactory.GetAlterTableQuery();
+                        alterTableQuery.Schema = relationship.ParentSchemaObject.SchemaName;
+                        alterTableQuery.Table = relationship.ParentSchemaObject.ObjectName;
+                        alterTableQuery.AddForeignKey(fkName, relationship.ForeignKeyField.FieldName, relationship.RelatedSchemaObject.SchemaName, relationship.RelatedSchemaObject.ObjectName, relationship.ParentKeyField.FieldName, deploymentTransaction);
+                    }
+
+                    deploymentTransaction.Commit();
+                }
+                finally
                 {
-                    deploymentTransaction.Rollback();
+                    if (deploymentTransaction.IsActive)
+                    {
+                        deploymentTransaction.Rollback();
+                    }
                 }
             }
         }
@@ -208,42 +211,45 @@ namespace ClussPro.ObjectBasedFramework.Schema
         {
             ITransaction undeploymentTransaction = null;
 
-            try
+            foreach (IGrouping<string, SchemaObject> schemaObjectsByConnectionName in Instance.schemaObjects.GroupBy(so => so.ConnectionName))
             {
-                undeploymentTransaction = SQLProviderFactory.GenerateTransaction();
-
-                foreach(Relationship relationship in Instance.schemaObjects.SelectMany(so => so.GetRelationships()))
+                try
                 {
-                    string fkName = $"FK{relationship.ParentSchemaObject.ObjectName}_{relationship.RelatedSchemaObject.ObjectName}_{relationship.ForeignKeyField.FieldName}";
-                    IAlterTable alterTableQuery = SQLProviderFactory.GetAlterTableQuery();
-                    alterTableQuery.Schema = relationship.ParentSchemaObject.SchemaName;
-                    alterTableQuery.Table = relationship.ParentSchemaObject.ObjectName;
-                    alterTableQuery.DropConstraint(fkName, undeploymentTransaction);
+                    undeploymentTransaction = SQLProviderFactory.GenerateTransaction(schemaObjectsByConnectionName.Key ?? "_default");
+
+                    foreach (Relationship relationship in schemaObjectsByConnectionName.SelectMany(so => so.GetRelationships()))
+                    {
+                        string fkName = $"FK{relationship.ParentSchemaObject.ObjectName}_{relationship.RelatedSchemaObject.ObjectName}_{relationship.ForeignKeyField.FieldName}";
+                        IAlterTable alterTableQuery = SQLProviderFactory.GetAlterTableQuery();
+                        alterTableQuery.Schema = relationship.ParentSchemaObject.SchemaName;
+                        alterTableQuery.Table = relationship.ParentSchemaObject.ObjectName;
+                        alterTableQuery.DropConstraint(fkName, undeploymentTransaction);
+                    }
+
+                    foreach (SchemaObject schemaObject in schemaObjectsByConnectionName)
+                    {
+                        IDropTable dropTable = SQLProviderFactory.GetDropTableQuery();
+                        dropTable.Schema = schemaObject.SchemaName;
+                        dropTable.Table = schemaObject.ObjectName;
+                        dropTable.Execute(undeploymentTransaction);
+                    }
+
+                    HashSet<string> schemas = schemaObjectsByConnectionName.Select(so => so.SchemaName).ToHashSet();
+                    foreach (string schema in schemas)
+                    {
+                        IDropSchema dropSchema = SQLProviderFactory.GetDropSchemaQuery();
+                        dropSchema.Schema = schema;
+                        dropSchema.Execute(undeploymentTransaction);
+                    }
+
+                    undeploymentTransaction.Commit();
                 }
-
-                foreach(SchemaObject schemaObject in Instance.schemaObjects)
+                finally
                 {
-                    IDropTable dropTable = SQLProviderFactory.GetDropTableQuery();
-                    dropTable.Schema = schemaObject.SchemaName;
-                    dropTable.Table = schemaObject.ObjectName;
-                    dropTable.Execute(undeploymentTransaction);
-                }
-
-                HashSet<string> schemas = Instance.schemaObjects.Select(so => so.SchemaName).ToHashSet();
-                foreach(string schema in schemas)
-                {
-                    IDropSchema dropSchema = SQLProviderFactory.GetDropSchemaQuery();
-                    dropSchema.Schema = schema;
-                    dropSchema.Execute(undeploymentTransaction);
-                }
-
-                undeploymentTransaction.Commit();
-            }
-            finally
-            {
-                if (undeploymentTransaction != null && undeploymentTransaction.IsActive)
-                {
-                    undeploymentTransaction.Rollback();
+                    if (undeploymentTransaction != null && undeploymentTransaction.IsActive)
+                    {
+                        undeploymentTransaction.Rollback();
+                    }
                 }
             }
         }

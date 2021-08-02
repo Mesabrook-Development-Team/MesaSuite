@@ -1,5 +1,7 @@
 ﻿using ClussPro.Base.Extensions;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
+using ClussPro.ObjectBasedFramework.Utility;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Conditions;
 using System;
@@ -32,9 +34,33 @@ namespace ClussPro.ObjectBasedFramework.Validation
             IEnumerable<string> extraFields = validationDefinitionsForObject.SelectMany(def => def.ValidationRules.Where(validRulesDelegate).SelectMany(vr => vr.Condition.AdditionalDataObjectFields));
             if (extraFields.Any())
             {
-                objectToValidate = DataObject.GetEditableByPrimaryKey(dataObject.GetType(), objectToValidate.PrimaryKeyField.GetValue(objectToValidate) as long?);
+                objectToValidate = DataObject.GetEditableByPrimaryKey(dataObject.GetType(), ConvertUtility.GetNullableLong(objectToValidate.PrimaryKeyField.GetValue(objectToValidate)), null, extraFields);
                 if (objectToValidate == null)
                 {
+                    foreach(IGrouping<string, string> extraFieldsByPrefix in extraFields.GroupBy(field => field.Contains(".") ? field.Substring(0, field.IndexOf(".")) : string.Empty))
+                    {
+                        if (string.IsNullOrEmpty(extraFieldsByPrefix.Key))
+                        {
+                            continue;
+                        }
+
+                        Relationship relationship = thisSchemaObject.GetRelationship(extraFieldsByPrefix.Key);
+
+                        if (relationship != null)
+                        {
+                            long? foreignKey = ConvertUtility.GetNullableLong(relationship.ForeignKeyField.GetValue(dataObject));
+                            if (foreignKey == null)
+                            {
+                                continue;
+                            }
+
+                            IEnumerable<string> fieldsToRetrieve = extraFieldsByPrefix.Select(f => f.Substring(f.IndexOf(".") + 1));
+
+                            DataObject relatedDataObject = DataObject.GetReadOnlyByPrimaryKey(relationship.RelatedObjectType, foreignKey, null, fieldsToRetrieve);
+                            relationship.SetPrivateDataCallback(dataObject, relatedDataObject);
+                        }
+                    }
+
                     objectToValidate = dataObject;
                 }
                 else
@@ -44,7 +70,7 @@ namespace ClussPro.ObjectBasedFramework.Validation
             }
 
             bool success = true;
-            foreach(ValidationRule validationRule in validationDefinitionsForObject.SelectMany(vd => vd.ValidationRules.Where(vr =>
+            foreach(ValidationRule validationRule in validationDefinitionsForObject.SelectMany(vd => vd.ValidationRules.Where(validRulesDelegate).Where(vr =>
                                                                                                 {
                                                                                                     switch(saveMode)
                                                                                                     {
@@ -127,7 +153,7 @@ namespace ClussPro.ObjectBasedFramework.Validation
                         {
                             Field = field.FieldName,
                             Message = field.FieldName + " is a required field.",
-                            Condition = new RequiredFieldCondition(field.FieldName)
+                            Condition = new PresenceCondition(field.FieldName)
                         };
                         attributeDefinition.InternalValidationRules.Add(validationRule);
                     }

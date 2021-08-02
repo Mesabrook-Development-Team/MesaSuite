@@ -3,11 +3,8 @@ using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SystemManagement.Models;
@@ -17,6 +14,7 @@ namespace SystemManagement
     public partial class frmEditCompany : Form
     {
         public long CompanyID { get; set; }
+        private string InitialEmailDomain { get; set; }
         private List<Employee> _employees = new List<Employee>();
         public frmEditCompany()
         {
@@ -38,9 +36,32 @@ namespace SystemManagement
             if (company != null)
             {
                 txtName.Text = company.Name;
+                cboDomain.Text = company.EmailDomain;
+
+                InitialEmailDomain = company.EmailDomain;
             }
 
+            await LoadDomains();
             await LoadEmployees();
+        }
+
+        private async Task LoadDomains()
+        {
+            Enabled = false;
+
+            GetData get = new GetData(DataAccess.APIs.SystemManagement, "Domain/GetAll");
+            List<Domain> domains = await get.GetObject<List<Domain>>();
+
+            if (domains != null)
+            {
+                foreach (Domain domain in domains)
+                {
+                    cboDomain.Items.Add(domain.DomainName);
+                }
+            }
+
+            Enabled = true;
+            BringToFront();
         }
 
         private async Task LoadEmployees()
@@ -148,6 +169,9 @@ namespace SystemManagement
             await LoadEmployees();
         }
 
+        private string domainWarningText = "";
+        private bool clearedDomainWarningShown = false;
+
         private async void cmdSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtName.Text))
@@ -156,10 +180,25 @@ namespace SystemManagement
                 return;
             }
 
+            if (cboDomain.Text != null && !cboDomain.Items.Contains(cboDomain.Text) && domainWarningText != cboDomain.Text)
+            {
+                domainWarningText = cboDomain.Text;
+                MessageBox.Show("Selected email domain does not exist in the system.  This will result to problems for company emails.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(cboDomain.Text) && !string.IsNullOrEmpty(InitialEmailDomain) && !clearedDomainWarningShown)
+            {
+                clearedDomainWarningShown = true;
+                MessageBox.Show("Clearing Email Domain will keep any Aliases and Distribution Lists in place.  If you intend to remove these records, reommend deleting the domain.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             Company company = new Company()
             {
                 CompanyID = CompanyID,
-                Name = txtName.Text
+                Name = txtName.Text,
+                EmailDomain = cboDomain.Text
             };
 
             PutData put = new PutData(DataAccess.APIs.SystemManagement, "Company/Put", company);

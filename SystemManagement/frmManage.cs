@@ -16,6 +16,7 @@ namespace SystemManagement
         List<User> users = new List<User>();
         List<Government> governments = new List<Government>();
         List<Company> companies = new List<Company>();
+        List<Domain> domains = new List<Domain>();
         
         public frmManage()
         {
@@ -63,6 +64,14 @@ namespace SystemManagement
                 AddCompany(company);
             }
 
+            getData = new GetData(DataAccess.APIs.SystemManagement, "Domain/GetAll");
+            domains = await getData.GetObject<List<Domain>>();
+
+            foreach(Domain domain in domains)
+            {
+                AddDomain(domain);
+            }
+
             Enabled = true;
             BringToFront();
         }
@@ -84,6 +93,11 @@ namespace SystemManagement
             foreach(Company company in companies.Where(c => c.Name.Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase)))
             {
                 AddCompany(company);
+            }
+
+            foreach(Domain domain in domains.Where(d => d.DomainName.Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase)))
+            {
+                AddDomain(domain);
             }
         }
 
@@ -123,6 +137,18 @@ namespace SystemManagement
             lstSecurities.Items.Add(item);
         }
 
+        private void AddDomain(Domain domain)
+        {
+            ListViewItem item = new ListViewItem();
+            item.Text = domain.DomainName;
+            item.Tag = domain.DomainID;
+            item.Group = lstSecurities.Groups["grpDomains"];
+            item.ImageKey = "domain";
+            item.SubItems.Add("Domain");
+
+            lstSecurities.Items.Add(item);
+        }
+
         private void lstSecurities_DoubleClick(object sender, EventArgs e)
         {
             if (lstSecurities.SelectedItems.Count <= 0)
@@ -151,6 +177,14 @@ namespace SystemManagement
                     editCompany.CompanyID = (long)item.Tag;
                     editCompany.FormClosed += EditCompany_FormClosed;
                     editCompany.Show();
+                }
+
+                if (item.Group.Name == "grpDomains")
+                {
+                    frmEditDomain editDomain = new frmEditDomain();
+                    editDomain.DomainID = (int)item.Tag;
+                    editDomain.FormClosed += EditDomain_FormClosed;
+                    editDomain.Show();
                 }
             }
         }
@@ -213,6 +247,14 @@ namespace SystemManagement
             await LoadData();
         }
 
+        private async void EditDomain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            frmEditDomain editDomain = (frmEditDomain)sender;
+            editDomain.FormClosed -= EditDomain_FormClosed;
+
+            await LoadData();
+        }
+
         private async void mnuDelete_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to delete the selected items?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
@@ -238,6 +280,13 @@ namespace SystemManagement
             {
                 DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Company/Delete");
                 delete.QueryString.Add("id", ((long?)item.Tag).ToString());
+                await delete.Execute();
+            }
+
+            foreach(ListViewItem item in lstSecurities.SelectedItems.Cast<ListViewItem>().Where(lsv => lsv.Group.Name == "grpDomains"))
+            {
+                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Domain/Delete");
+                delete.QueryString.Add("id", ((int?)item.Tag).ToString());
                 await delete.Execute();
             }
 
@@ -296,6 +345,21 @@ namespace SystemManagement
         {
             frmNewCompany newCompany = (frmNewCompany)sender;
             newCompany.FormClosed -= NewCompany_FormClosed;
+
+            await LoadData();
+        }
+
+        private void mnuNewDomain_Click(object sender, EventArgs e)
+        {
+            frmNewDomain newDomain = new frmNewDomain();
+            newDomain.FormClosed += NewDomain_FormClosed;
+            newDomain.Show();
+        }
+
+        private async void NewDomain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            frmNewDomain newDomain = (frmNewDomain)sender;
+            newDomain.FormClosed -= NewDomain_FormClosed;
 
             await LoadData();
         }

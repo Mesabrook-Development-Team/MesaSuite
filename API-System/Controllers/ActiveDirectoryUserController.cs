@@ -1,11 +1,10 @@
-﻿using API_System.Attributes;
-using API.Common.Attributes;
+﻿using API.Common.Attributes;
 using System.Collections.Generic;
 using System.Web.Http;
 
 namespace API_System.Controllers
 {
-    [ProgramAccess]
+    [ProgramAccess("system")]
     public class ActiveDirectoryUserController : ApiController
     {
         [HttpGet]

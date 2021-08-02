@@ -45,6 +45,11 @@ namespace MesaSuite.Common.Data
             {
                 request.Headers.Add("Authorization", "Bearer " + Authentication.GetAuthToken());
             }
+
+            foreach(KeyValuePair<string, string> kvp in Headers)
+            {
+                request.Headers.Add(kvp.Key, kvp.Value);
+            }
             
             try
             {

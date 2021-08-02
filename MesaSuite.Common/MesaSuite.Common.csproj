@@ -75,6 +75,9 @@
     <Compile Include="Data\ReleaseResourceWriter.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\FormExtensions.cs" />
+    <Compile Include="Extensions\SelectedListViewItemCollectionExtensions.cs" />
+    <Compile Include="Extensions\ListViewItemCollectionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
@@ -90,6 +93,7 @@
     </Compile>
     <Compile Include="Data\IResourceWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecuredApplicationContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmLogin.resx">

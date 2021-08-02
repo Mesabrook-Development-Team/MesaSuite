@@ -14,7 +14,7 @@ namespace OAuth.Models
             string ldapAddress = ConfigurationManager.AppSettings.Get("LDAPAddress");
             string ldapContainer = ConfigurationManager.AppSettings.Get("LDAPContainer");
             using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, ldapAddress, ldapContainer))
-            {
+            { 
                 if (!pc.ValidateCredentials(user, password))
                 {
                     return false;

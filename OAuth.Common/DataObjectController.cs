@@ -2,21 +2,23 @@
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
 namespace API.Common
 {
-    public class DataObjectController<TDataObject> : ApiController where TDataObject : DataObject
+    public abstract class DataObjectController<TDataObject> : ApiController where TDataObject : DataObject
     {
+        public abstract IEnumerable<string> AllowedFields { get; }
+
         public virtual bool AllowGetAll { get; }
 
         [HttpGet]
         public virtual TDataObject Get(long id)
         {
-            List<string> fields = Schema.GetSchemaObject<TDataObject>().GetFields().Select(f => f.FieldName).ToList();
-            return DataObject.GetReadOnlyByPrimaryKey<TDataObject>(id, null, fields);
+            return DataObject.GetReadOnlyByPrimaryKey<TDataObject>(id, null, AllowedFields);
         }
 
         [HttpGet]
@@ -27,18 +29,33 @@ namespace API.Common
                 return NotFound();
             }
 
-            List<string> fields = Schema.GetSchemaObject<TDataObject>().GetFields().Select(f => f.FieldName).ToList();
-            return Ok(new Search<TDataObject>().GetReadOnlyReader(null, fields).ToList());
+            return Ok(new Search<TDataObject>().GetReadOnlyReader(null, AllowedFields).ToList());
         }
 
         [HttpPost]
         public virtual IHttpActionResult Post(TDataObject dataObject)
         {
-            long? primaryKeyValue = dataObject.PrimaryKeyField.GetValue(dataObject) as long?;
+            object primaryKeyValue = null;
+            if (dataObject.PrimaryKeyField.ReturnType == typeof(long?))
+            {
+                primaryKeyValue = dataObject.PrimaryKeyField.GetValue(dataObject) as long?;
+            }
+            else if (dataObject.PrimaryKeyField.ReturnType == typeof(int?))
+            {
+                primaryKeyValue = dataObject.PrimaryKeyField.GetValue(dataObject) as int?;
+            }
             
-            if (primaryKeyValue != null && primaryKeyValue != 0)
+            if (primaryKeyValue != null && !primaryKeyValue.Equals(0))
             {
                 return BadRequest("Updates are not allowed with this method");
+            }
+
+            foreach(Field field in Schema.GetSchemaObject<TDataObject>().GetFields())
+            {
+                if (!AllowedFields.Contains(field.FieldName))
+                {
+                    field.SetValue(dataObject, field.ReturnType.IsValueType ? Activator.CreateInstance(field.ReturnType) : null);
+                }
             }
 
             if (!dataObject.Save())
@@ -52,15 +69,33 @@ namespace API.Common
         [HttpPut]
         public virtual IHttpActionResult Put(TDataObject dataObject)
         {
-            long? primaryKeyValue = dataObject.PrimaryKeyField.GetValue(dataObject) as long?;
-
-            if (primaryKeyValue == null || primaryKeyValue == 0)
+            object primaryKeyValue = null;
+            if (dataObject.PrimaryKeyField.ReturnType == typeof(long?))
             {
-                return NotFound();
+                primaryKeyValue = dataObject.PrimaryKeyField.GetValue(dataObject) as long?;
+            }
+            else if (dataObject.PrimaryKeyField.ReturnType == typeof(int?))
+            {
+                primaryKeyValue = dataObject.PrimaryKeyField.GetValue(dataObject) as int?;
             }
 
-            TDataObject dbDataObject = DataObject.GetEditableByPrimaryKey<TDataObject>(primaryKeyValue, null, null);
-            dataObject.Copy(dbDataObject);
+            if (primaryKeyValue != null && typeof(Nullable<>).IsAssignableFrom(primaryKeyValue.GetType()))
+            {
+                Type underlyingType = Nullable.GetUnderlyingType(primaryKeyValue.GetType());
+                primaryKeyValue = Convert.ChangeType(primaryKeyValue, underlyingType);
+            }
+
+            TDataObject dbDataObject = DataObject.GetEditableByPrimaryKey<TDataObject>(primaryKeyValue != null ? (long)Convert.ChangeType(primaryKeyValue, typeof(long)) : 0, null, null);
+            SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
+            foreach(Field field in schemaObject.GetFields().Where(f => f != schemaObject.PrimaryKeyField))
+            {
+                if (!AllowedFields.Contains(field.FieldName))
+                {
+                    continue;
+                }
+
+                field.SetValue(dbDataObject, field.GetValue(dataObject));
+            }
 
             if (!dbDataObject.Save())
             {
@@ -97,7 +132,7 @@ namespace API.Common
                 return NotFound();
             }
 
-            dataObject.PatchData(patchData.Method, patchData.Values);
+            dataObject.PatchData(patchData.Method, patchData.Values.Where(kvp => AllowedFields.Contains(kvp.Key)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value));
 
             if (!dataObject.Save())
             {

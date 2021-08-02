@@ -11,7 +11,8 @@ namespace MesaSuite.Common.Data
 {
     public class GetData : DataAccess
     {
-        public MultiMap<string, string> QueryString { internal get; set; } = new MultiMap<string, string>();
+        public MultiMap<string, string> QueryString { get; set; } = new MultiMap<string, string>();
+
         private bool _retry = false;
 
         public GetData(APIs api, string resource) : base(api, resource) { }
@@ -46,6 +47,11 @@ namespace MesaSuite.Common.Data
             if (RequireAuthentication)
             {
                 request.Headers.Add("Authorization", "Bearer " + Authentication.GetAuthToken());
+            }
+
+            foreach(KeyValuePair<string, string> headerValuePair in Headers)
+            {
+                request.Headers.Add(headerValuePair.Key, headerValuePair.Value);
             }
 
             try

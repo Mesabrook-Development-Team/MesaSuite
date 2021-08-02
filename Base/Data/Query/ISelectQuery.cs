@@ -6,6 +6,7 @@ namespace ClussPro.Base.Data.Query
 {
     public interface ISelectQuery
     {
+        string ConnectionName { get; set; }
         List<Select> SelectList { get; set; }
         Table Table { get; set; }
         ICondition WhereCondition { get; set; }

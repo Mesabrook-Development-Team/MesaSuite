@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ClussPro.ObjectBasedFramework.Validation
 {
@@ -43,6 +44,17 @@ namespace ClussPro.ObjectBasedFramework.Validation
         IEnumerator IEnumerable.GetEnumerator()
         {
             return errors.GetEnumerator();
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            foreach(Error error in this)
+            {
+                builder.AppendLine(error.Message);
+            }
+
+            return builder.ToString();
         }
     }
 }

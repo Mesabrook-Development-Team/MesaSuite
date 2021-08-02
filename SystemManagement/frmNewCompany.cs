@@ -126,7 +126,8 @@ namespace SystemManagement
 
             Company company = new Company()
             {
-                Name = txtName.Text
+                Name = txtName.Text,
+                EmailDomain = cboDomain.SelectedItem?.ToString()
             };
 
             PostData post = new PostData(DataAccess.APIs.SystemManagement, "Company/Post", company);
@@ -159,6 +160,25 @@ namespace SystemManagement
             DialogResult = DialogResult.OK;
 
             Close();
+        }
+
+        private async void frmNewCompany_Load(object sender, EventArgs e)
+        {
+            Enabled = false;
+
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Domain/GetAll");
+            List<Domain> domains = await get.GetObject<List<Domain>>();
+
+            if (domains != null)
+            {
+                foreach (Domain domain in domains)
+                {
+                    cboDomain.Items.Add(domain.DomainName);
+                }
+            }
+
+            Enabled = true;
+            BringToFront();
         }
     }
 }

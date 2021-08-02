@@ -58,6 +58,7 @@
     <Compile Include="hMailServer\Validations\dbo\AliasValidations.cs" />
     <Compile Include="hMailServer\Validations\dbo\DistributionListValidations.cs" />
     <Compile Include="Loaders\security\ProgramLoader.cs" />
+    <Compile Include="mesasys\MigrationHistory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="security\Program.cs" />
     <Compile Include="security\User.cs" />

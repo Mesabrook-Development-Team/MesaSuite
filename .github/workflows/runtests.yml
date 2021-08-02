@@ -17,6 +17,8 @@ jobs:
       run: nuget restore MesaSuite.sln
     - name: Create Bin directory
       run: mkdir ${{ env.GITHUB_WORKSPACE }}\binall
+    - name: Build SQL Server Provider
+      run: msbuild.exe SqlServerProvider/SqlServerProvider.csproj /p:Configuration=Debug
     - name: Build Solution
       run: msbuild.exe MesaSuite.sln /p:Configuration=Release /p:OutDir=${{ env.GITHUB_WORKSPACE }}\binall
     - name: Test Solution

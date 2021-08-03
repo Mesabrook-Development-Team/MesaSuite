@@ -1,4 +1,5 @@
 ﻿using ClussPro.ObjectBasedFramework.DataSearch;
+using ClussPro.ObjectBasedFramework.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,25 +45,13 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 
             if (dataObject.PrimaryKeyField.GetValue(dataObject) != null)
             {
-                object primaryKey = null;
-
-                if (dataObject.PrimaryKeyField.ReturnType == typeof(long?))
-                {
-                    primaryKey = dataObject.PrimaryKeyField.GetValue(dataObject) as long?;
-                }
-                else if (dataObject.PrimaryKeyField.ReturnType == typeof(int?))
-                {
-                    primaryKey = dataObject.PrimaryKeyField.GetValue(dataObject) as int?;
-                }
-
-                Type underlyingType = Nullable.GetUnderlyingType(primaryKey.GetType());
-                primaryKey = Convert.ChangeType(primaryKey, underlyingType);
+                long? primaryKey = ConvertUtility.GetNullableLong(dataObject.PrimaryKeyField.GetValue(dataObject));
 
                 conditionGroup.SearchConditions.Add(new LongSearchCondition(dataObject.GetType())
                 {
                     Field = dataObject.PrimaryKeyField.FieldName,
                     SearchConditionType = SearchCondition.SearchConditionTypes.NotEquals,
-                    Value = (long)Convert.ChangeType(primaryKey, typeof(long))
+                    Value = primaryKey
                 });
             }
             search.SearchCondition = conditionGroup;

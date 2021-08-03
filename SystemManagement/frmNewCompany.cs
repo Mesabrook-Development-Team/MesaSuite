@@ -166,7 +166,7 @@ namespace SystemManagement
         {
             Enabled = false;
 
-            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Domain/GetAll");
+            GetData get = new GetData(DataAccess.APIs.SystemManagement, "Domain/GetAll");
             List<Domain> domains = await get.GetObject<List<Domain>>();
 
             if (domains != null)

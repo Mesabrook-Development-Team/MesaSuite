@@ -2,6 +2,7 @@
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
+using ClussPro.ObjectBasedFramework.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,17 +36,9 @@ namespace API.Common
         [HttpPost]
         public virtual IHttpActionResult Post(TDataObject dataObject)
         {
-            object primaryKeyValue = null;
-            if (dataObject.PrimaryKeyField.ReturnType == typeof(long?))
-            {
-                primaryKeyValue = dataObject.PrimaryKeyField.GetValue(dataObject) as long?;
-            }
-            else if (dataObject.PrimaryKeyField.ReturnType == typeof(int?))
-            {
-                primaryKeyValue = dataObject.PrimaryKeyField.GetValue(dataObject) as int?;
-            }
+            long? primaryKeyValue = ConvertUtility.GetNullableLong(dataObject.PrimaryKeyField.GetValue(dataObject));
             
-            if (primaryKeyValue != null && !primaryKeyValue.Equals(0))
+            if (primaryKeyValue != null && primaryKeyValue != 0)
             {
                 return BadRequest("Updates are not allowed with this method");
             }

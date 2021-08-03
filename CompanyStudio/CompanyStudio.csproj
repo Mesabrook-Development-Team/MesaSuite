@@ -194,5 +194,20 @@
   <ItemGroup>
     <None Include="Resources\company_disconnect.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_saveall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\domain_email_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_alias.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_list.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -35,7 +35,6 @@
             this.companyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCompanyExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuEmailExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.wIndowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuThemes = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLightTheme = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,6 +49,7 @@
             this.toolCompanyDropDown = new System.Windows.Forms.ToolStripComboBox();
             this.toolSave = new System.Windows.Forms.ToolStripButton();
             this.toolSaveAll = new System.Windows.Forms.ToolStripButton();
+            this.mnuEmailExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuBanner.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -102,14 +102,6 @@
             this.emailToolStripMenuItem.Name = "emailToolStripMenuItem";
             this.emailToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.emailToolStripMenuItem.Text = "Email";
-            // 
-            // mnuEmailExplorer
-            // 
-            this.mnuEmailExplorer.Image = global::CompanyStudio.Properties.Resources.mail_explorer;
-            this.mnuEmailExplorer.Name = "mnuEmailExplorer";
-            this.mnuEmailExplorer.Size = new System.Drawing.Size(149, 22);
-            this.mnuEmailExplorer.Text = "Email Explorer";
-            this.mnuEmailExplorer.Click += new System.EventHandler(this.mnuEmailExplorer_Click);
             // 
             // wIndowToolStripMenuItem
             // 
@@ -187,7 +179,7 @@
             // 
             // toolSave
             // 
-            this.toolSave.Image = ((System.Drawing.Image)(resources.GetObject("toolSave.Image")));
+            this.toolSave.Image = global::CompanyStudio.Properties.Resources.icn_save;
             this.toolSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSave.Name = "toolSave";
             this.toolSave.Size = new System.Drawing.Size(51, 22);
@@ -196,12 +188,20 @@
             // 
             // toolSaveAll
             // 
-            this.toolSaveAll.Image = ((System.Drawing.Image)(resources.GetObject("toolSaveAll.Image")));
+            this.toolSaveAll.Image = global::CompanyStudio.Properties.Resources.icn_saveall;
             this.toolSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSaveAll.Name = "toolSaveAll";
             this.toolSaveAll.Size = new System.Drawing.Size(68, 22);
             this.toolSaveAll.Text = "Save All";
             this.toolSaveAll.Click += new System.EventHandler(this.toolSaveAll_Click);
+            // 
+            // mnuEmailExplorer
+            // 
+            this.mnuEmailExplorer.Image = global::CompanyStudio.Properties.Resources.mail_explorer;
+            this.mnuEmailExplorer.Name = "mnuEmailExplorer";
+            this.mnuEmailExplorer.Size = new System.Drawing.Size(149, 22);
+            this.mnuEmailExplorer.Text = "Email Explorer";
+            this.mnuEmailExplorer.Click += new System.EventHandler(this.mnuEmailExplorer_Click);
             // 
             // frmStudio
             // 

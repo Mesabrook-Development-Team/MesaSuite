@@ -15,7 +15,7 @@ namespace MCSync
 
         public async void BeginSync()
         {
-            await DoSync();
+            await System.Threading.Tasks.Task.Run(DoSync);
         }
 
         public static bool IsDownloadTypeValid(Config.Modes mode, MCSyncFile.DownloadTypes downloadTypes)
@@ -105,6 +105,7 @@ namespace MCSync
                     handledFiles.Add(strippedFile);
                 }
 
+                bool resourcePackChanges = false;
                 // Resource Pack Files
                 IEnumerable<MCSyncFile> resourcePackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.resourcepacks && IsDownloadTypeValid(config.Mode, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(config.ResourcePackDirectory, "*", SearchOption.AllDirectories))
@@ -116,6 +117,7 @@ namespace MCSync
                     {
                         if (!clientSideWhiteListResourcePacks.Contains(strippedFile))
                         {
+                            resourcePackChanges = true;
                             // Extrinsic, delete
                             Task deleteTask = new Task($"Delete resource pack file {strippedFile}", () =>
                             {
@@ -128,6 +130,7 @@ namespace MCSync
                     }
                     else if (!syncFile.Checksum.SequenceEqual(fileHash))
                     {
+                        resourcePackChanges = true;
                         Task updateTask = new Task($"Update resource pack file {strippedFile}", () => DownloadFile(syncFile.FileType, config.ResourcePackDirectory, strippedFile, syncFile.DownloadType));
                         tasks.Add(updateTask);
                         TaskAdded?.Invoke(this, updateTask);
@@ -170,6 +173,7 @@ namespace MCSync
                             directory = config.ModsDirectory;
                             break;
                         case MCSyncFile.FileTypes.resourcepacks:
+                            resourcePackChanges = true;
                             directory = config.ResourcePackDirectory;
                             break;
                         case MCSyncFile.FileTypes.config:
@@ -180,6 +184,36 @@ namespace MCSync
                     Task downloadTask = new Task($"Download {missingFile.FileType.ToString()} file {missingFile.Filename}", () => DownloadFile(missingFile.FileType, directory, missingFile.Filename, missingFile.DownloadType));
                     tasks.Add(downloadTask);
                     TaskAdded?.Invoke(this, downloadTask);
+                }
+
+                if (resourcePackChanges)
+                {
+                    Task deleteCaches = new Task("Delete Immersive Railroading caches", () =>
+                    {
+                        if (!Directory.Exists(config.ModsDirectory + "\\..\\cache\\universalmodcore"))
+                        {
+                            Task.Errors.Add("Could not find cache folder. New textures may appear incorrectly, not appear at all, or appear as the default texture. Please delete your cache folder manually.");
+                            return false;
+                        }
+
+                        bool errorsOccurred = false;
+                        foreach(string file in Directory.EnumerateFiles(config.ModsDirectory + "\\..\\cache\\universalmodcore"))
+                        {
+                            try
+                            {
+                                File.Delete(file);
+                            }
+                            catch(Exception ex)
+                            {
+                                Task.Errors.Add("Could not delete cached file " + file + "\r\n" + ex.Message);
+                                errorsOccurred = true;
+                            }
+                        }
+
+                        return !errorsOccurred;
+                    });
+                    tasks.Add(deleteCaches);
+                    TaskAdded?.Invoke(this, deleteCaches);
                 }
 
                 // Perform Tasks

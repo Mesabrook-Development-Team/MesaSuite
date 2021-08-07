@@ -28,9 +28,11 @@ namespace SystemManagement
             imlSmall.Images.Add("user", Properties.Resources.user);
             imlSmall.Images.Add("company", Properties.Resources.company);
             imlSmall.Images.Add("government", Properties.Resources.government);
+            imlSmall.Images.Add("domain", Properties.Resources.domain_email_small);
             imlLarge.Images.Add("user", Properties.Resources.user_large);
             imlLarge.Images.Add("company", Properties.Resources.company_large);
             imlLarge.Images.Add("government", Properties.Resources.government_large);
+            imlLarge.Images.Add("domain", Properties.Resources.domain_email_large);
             await LoadData();
             txtSearch.Focus();
         }

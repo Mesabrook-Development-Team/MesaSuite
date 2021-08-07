@@ -82,7 +82,7 @@ namespace CompanyStudio.Email
             this.mnuDeleteDistList,
             this.mnuDeleteRecipient});
             this.ctxEmailExplorer.Name = "ctxEmailExplorer";
-            this.ctxEmailExplorer.Size = new System.Drawing.Size(246, 164);
+            this.ctxEmailExplorer.Size = new System.Drawing.Size(246, 142);
             this.ctxEmailExplorer.Opening += new System.ComponentModel.CancelEventHandler(this.ctxEmailExplorer_Opening);
             // 
             // mnuAddAlias
@@ -161,7 +161,7 @@ namespace CompanyStudio.Email
             // 
             // toolAddAlias
             // 
-            this.toolAddAlias.Image = ((System.Drawing.Image)(resources.GetObject("toolAddAlias.Image")));
+            this.toolAddAlias.Image = global::CompanyStudio.Properties.Resources.icn_alias;
             this.toolAddAlias.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAddAlias.Name = "toolAddAlias";
             this.toolAddAlias.Size = new System.Drawing.Size(77, 22);
@@ -170,7 +170,7 @@ namespace CompanyStudio.Email
             // 
             // toolAddDistList
             // 
-            this.toolAddDistList.Image = ((System.Drawing.Image)(resources.GetObject("toolAddDistList.Image")));
+            this.toolAddDistList.Image = global::CompanyStudio.Properties.Resources.icn_list;
             this.toolAddDistList.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAddDistList.Name = "toolAddDistList";
             this.toolAddDistList.Size = new System.Drawing.Size(135, 22);

@@ -227,5 +227,17 @@
   <ItemGroup>
     <None Include="Resources\government_large.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\domain_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\domain_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\domain_email_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\domain_email_small.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

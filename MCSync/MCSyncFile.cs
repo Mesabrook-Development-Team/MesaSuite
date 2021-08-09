@@ -8,7 +8,7 @@ namespace MCSync
     {
         public static async Task<List<MCSyncFile>> GetMCSyncFiles()
         {
-            GetData get = new GetData(DataAccess.APIs.MCSync, "file");
+            GetData get = new GetData(DataAccess.APIs.MCSync, "file/getall");
             get.RequireAuthentication = false;
             get.UseHTTPS = false;
             return await get.GetObject<List<MCSyncFile>>();

@@ -61,7 +61,7 @@ namespace API_System.Models.security
             string ldapGroupName = ConfigurationManager.AppSettings.Get("LDAPGroupName");
             string ldapUser = ConfigurationManager.AppSettings.Get("LDAPUser");
             string ldapPassword = ConfigurationManager.AppSettings.Get("LDAPPassword");
-
+            
             DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}/{ldapContainer}", ldapUser, ldapPassword);
             DirectorySearcher directorySearcher = new DirectorySearcher(directoryEntry);
             directorySearcher.Filter = $"(&(samaccountname={SanitizeLDAPUsername(username)})(memberof=cn={ldapGroupName},{ldapContainer}))";
@@ -107,8 +107,10 @@ namespace API_System.Models.security
             string ldapAddress = ConfigurationManager.AppSettings.Get("LDAPAddress");
             string ldapContainer = ConfigurationManager.AppSettings.Get("LDAPContainer");
             string ldapGroupName = ConfigurationManager.AppSettings.Get("LDAPGroupName");
+            string ldapUsername = ConfigurationManager.AppSettings.Get("LDAPUser");
+            string ldapPassword = ConfigurationManager.AppSettings.Get("LDAPPassword");
 
-            DirectoryEntry entry = new DirectoryEntry($"LDAP://{ldapAddress}/{ldapContainer}");
+            DirectoryEntry entry = new DirectoryEntry($"LDAP://{ldapAddress}/{ldapContainer}", ldapUsername, ldapPassword, AuthenticationTypes.None);
             DirectorySearcher searcher = new DirectorySearcher(entry);
             searcher.Filter = $"(memberof=cn={ldapGroupName},{ldapContainer})";
             searcher.PropertiesToLoad.Add("samaccountname");
@@ -165,7 +167,7 @@ namespace API_System.Models.security
                 Email = userPrincipal.EmailAddress;
             }
 
-            DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}", ldapUser, ldapPassword);
+            DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}", ldapUser, ldapPassword, AuthenticationTypes.None);
             DirectorySearcher directorySearcher = new DirectorySearcher(directoryEntry);
             directorySearcher.Filter = $"(samaccountname={SanitizeLDAPUsername(Username)})";
             directorySearcher.PropertiesToLoad.Add("memberOf");
@@ -200,7 +202,7 @@ namespace API_System.Models.security
             string ldapUser = ConfigurationManager.AppSettings.Get("LDAPUser");
             string ldapPassword = ConfigurationManager.AppSettings.Get("LDAPPassword");
 
-            DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}/{ldapContainer}", ldapUser, ldapPassword);
+            DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}/{ldapContainer}", ldapUser, ldapPassword, AuthenticationTypes.None);
             DirectoryEntry userEntry = directoryEntry.Children.Find($"CN={_originalFirstName} {_originalLastName}");
             userEntry.Properties["samaccountname"].Value = SanitizeLDAPUsername(Username);
             userEntry.Properties["givenname"].Value = FirstName;
@@ -248,7 +250,7 @@ namespace API_System.Models.security
             string ldapUser = ConfigurationManager.AppSettings.Get("LDAPUser");
             string ldapPassword = ConfigurationManager.AppSettings.Get("LDAPPassword");
 
-            DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}/{ldapContainer}", ldapUser, ldapPassword);
+            DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}/{ldapContainer}", ldapUser, ldapPassword, AuthenticationTypes.None);
             DirectoryEntry newUser = directoryEntry.Children.Add($"CN={FirstName} {LastName}", "user");
             directoryEntry.CommitChanges();
             newUser.Properties["samaccountname"].Value = SanitizeLDAPUsername(Username);
@@ -288,7 +290,7 @@ namespace API_System.Models.security
             string ldapUser = ConfigurationManager.AppSettings.Get("LDAPUser");
             string ldapPassword = ConfigurationManager.AppSettings.Get("LDAPPassword");
 
-            DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}/{ldapContainer}", ldapUser, ldapPassword);
+            DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}/{ldapContainer}", ldapUser, ldapPassword, AuthenticationTypes.None);
             DirectoryEntry userEntry = directoryEntry.Children.Find($"CN={_originalFirstName} {_originalLastName}");
             int userAccountControl = (int)userEntry.Properties["useraccountcontrol"].Value;
             userEntry.Properties["useraccountcontrol"].Value = userAccountControl | 0x2;

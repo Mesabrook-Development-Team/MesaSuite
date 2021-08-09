@@ -180,5 +180,11 @@ namespace SystemManagement
             Enabled = true;
             BringToFront();
         }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
     }
 }

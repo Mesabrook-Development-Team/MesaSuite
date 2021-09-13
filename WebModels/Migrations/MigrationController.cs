@@ -1,20 +1,19 @@
 ﻿using ClussPro.Base.Data;
 using ClussPro.Base.Data.Operand;
 using ClussPro.Base.Data.Query;
-using DatabaseMigration.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
 
-namespace DatabaseMigration
+namespace WebModels.Migrations
 {
-    class Program
+    public class MigrationController
     {
-        static void Main(string[] args)
+        public static void Run(Action<string> statusCallback)
         {
-            Console.WriteLine("Determining last migration number");
+            statusCallback?.Invoke("Determining last migration number");
             ISelectQuery selectQuery = SQLProviderFactory.GetSelectQuery();
             selectQuery.Table = new Table("mesasys", "MigrationHistory");
             selectQuery.PageSize = 1;
@@ -35,7 +34,7 @@ namespace DatabaseMigration
 
             int maxMigration = result.Rows.Count != 0 ? (int)result.Rows[0][0] : -1;
 
-            Console.WriteLine("Loading migrations");
+            statusCallback?.Invoke("Loading migrations");
             List<IMigration> migrations = new List<IMigration>();
             foreach(Type migration in Assembly.GetExecutingAssembly().GetTypes().Where(t => t != typeof(IMigration) && typeof(IMigration).IsAssignableFrom(t)))
             {
@@ -46,7 +45,7 @@ namespace DatabaseMigration
 
             if (maxMigration == -1)
             {
-                Console.WriteLine("No migration history found.  Assuming fresh database.  Setting max migration number.");
+                statusCallback?.Invoke("No migration history found.  Assuming fresh database.  Setting max migration number.");
 
                 IInsertQuery insert = SQLProviderFactory.GetInsertQuery();
                 insert.Table = new Table("mesasys", "MigrationHistory");
@@ -62,7 +61,6 @@ namespace DatabaseMigration
                 foreach (IMigration migration in migrations)
                 {
                     Console.Write("Running migration {0} ", migration.MigrationNumber);
-                    ConsoleColor foregroundColor = Console.ForegroundColor;
 
                     ITransaction transaction = null;
                     try
@@ -80,9 +78,7 @@ namespace DatabaseMigration
 
                         transaction.Commit();
 
-                        Console.ForegroundColor = ConsoleColor.DarkGreen;
-                        Console.WriteLine("SUCCESS");
-                        Console.ForegroundColor = foregroundColor;
+                        statusCallback?.Invoke("SUCCESS");
                     }
                     catch (Exception ex)
                     {
@@ -91,20 +87,17 @@ namespace DatabaseMigration
                             transaction.Rollback();
                         }
 
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("FAILED");
-                        Console.ForegroundColor = foregroundColor;
-                        Console.WriteLine();
-                        Console.WriteLine(ex.ToString());
+                        statusCallback?.Invoke("FAILED");
+                        statusCallback?.Invoke("");
+                        statusCallback?.Invoke(ex.ToString());
 
                         break;
                     }
                 }
             }
 
-            Console.WriteLine();
-            Console.WriteLine("Database Migration execution complete. Press any key to exit.");
-            Console.ReadKey();
+            statusCallback?.Invoke("");
+            statusCallback?.Invoke("Database Migration execution complete.");
         }
     }
 }

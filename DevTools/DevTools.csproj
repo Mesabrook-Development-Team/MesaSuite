@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{159F54B6-1641-4B7D-B7B2-4417492DBCD1}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebModels</RootNamespace>
-    <AssemblyName>WebModels</AssemblyName>
+    <ProjectGuid>{88F75682-6D34-417A-9C7F-F5C5FCBF5DEA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>DevTools</RootNamespace>
+    <AssemblyName>DevTools</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,42 +34,60 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="auth\Client.cs" />
-    <Compile Include="auth\Code.cs" />
-    <Compile Include="auth\Token.cs" />
-    <Compile Include="company\Company.cs" />
-    <Compile Include="company\Employee.cs" />
-    <Compile Include="dbo\MCSyncFile.cs" />
-    <Compile Include="dbo\MCSyncVersion.cs" />
-    <Compile Include="gov\Government.cs" />
-    <Compile Include="gov\Official.cs" />
-    <Compile Include="hMailServer\dbo\Alias.cs" />
-    <Compile Include="hMailServer\dbo\DistributionList.cs" />
-    <Compile Include="hMailServer\dbo\DistributionListRecipient.cs" />
-    <Compile Include="hMailServer\dbo\Domain.cs" />
-    <Compile Include="hMailServer\Validations\Conditions\EndsWithOtherFieldCondition.cs" />
-    <Compile Include="hMailServer\Validations\dbo\AliasValidations.cs" />
-    <Compile Include="hMailServer\Validations\dbo\DistributionListValidations.cs" />
-    <Compile Include="Loaders\security\ProgramLoader.cs" />
-    <Compile Include="mesasys\MigrationHistory.cs" />
-    <Compile Include="Migrations\IMigration.cs" />
-    <Compile Include="Migrations\Migration000001.cs" />
-    <Compile Include="Migrations\Migration000002.cs" />
-    <Compile Include="Migrations\Migration000003.cs" />
-    <Compile Include="Migrations\MigrationController.cs" />
+    <Compile Include="frmDevTools.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDevTools.Designer.cs">
+      <DependentUpon>frmDevTools.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmStatus.Designer.cs">
+      <DependentUpon>frmStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="security\Program.cs" />
-    <Compile Include="security\User.cs" />
-    <Compile Include="security\UserProgram.cs" />
+    <EmbeddedResource Include="frmDevTools.resx">
+      <DependentUpon>frmDevTools.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmStatus.resx">
+      <DependentUpon>frmStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
@@ -77,6 +97,10 @@
     <ProjectReference Include="..\ObjectBasedFramework\ObjectBasedFramework.csproj">
       <Project>{c3348c55-b43c-4be2-9a68-32ad56088619}</Project>
       <Name>ObjectBasedFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebModels\WebModels.csproj">
+      <Project>{159f54b6-1641-4b7d-b7b2-4417492dbcd1}</Project>
+      <Name>WebModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

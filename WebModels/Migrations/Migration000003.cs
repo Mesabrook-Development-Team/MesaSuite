@@ -1,7 +1,7 @@
 ﻿using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
 
-namespace DatabaseMigration.Migrations
+namespace WebModels.Migrations
 {
     public class Migration000003 : IMigration
     {

@@ -29,8 +29,8 @@ namespace ClussPro.SqlServerProvider
         {
             SqlConnection backingConnection = SQLTransaction.Connection;
             SQLTransaction?.Rollback();
-            backingConnection.Close();
-            backingConnection.Dispose();
+            backingConnection?.Close();
+            backingConnection?.Dispose();
             isActive = false;
             Dispose();
         }

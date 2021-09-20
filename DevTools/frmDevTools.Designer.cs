@@ -77,6 +77,8 @@
             this.rdoVersionLive = new System.Windows.Forms.RadioButton();
             this.rdoVersionLocal = new System.Windows.Forms.RadioButton();
             this.label20 = new System.Windows.Forms.Label();
+            this.rdoLDAP = new System.Windows.Forms.RadioButton();
+            this.rdoBackend = new System.Windows.Forms.RadioButton();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -155,7 +157,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(86, 109);
+            this.label5.Location = new System.Drawing.Point(86, 132);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(79, 13);
             this.label5.TabIndex = 1;
@@ -163,7 +165,7 @@
             // 
             // txtAddress
             // 
-            this.txtAddress.Location = new System.Drawing.Point(171, 106);
+            this.txtAddress.Location = new System.Drawing.Point(171, 129);
             this.txtAddress.Name = "txtAddress";
             this.txtAddress.Size = new System.Drawing.Size(245, 20);
             this.txtAddress.TabIndex = 4;
@@ -171,7 +173,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(79, 135);
+            this.label6.Location = new System.Drawing.Point(79, 158);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(86, 13);
             this.label6.TabIndex = 1;
@@ -179,7 +181,7 @@
             // 
             // txtContainer
             // 
-            this.txtContainer.Location = new System.Drawing.Point(171, 132);
+            this.txtContainer.Location = new System.Drawing.Point(171, 155);
             this.txtContainer.Name = "txtContainer";
             this.txtContainer.Size = new System.Drawing.Size(245, 20);
             this.txtContainer.TabIndex = 5;
@@ -187,7 +189,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(64, 161);
+            this.label7.Location = new System.Drawing.Point(64, 184);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(101, 13);
             this.label7.TabIndex = 1;
@@ -195,7 +197,7 @@
             // 
             // txtGroup
             // 
-            this.txtGroup.Location = new System.Drawing.Point(171, 158);
+            this.txtGroup.Location = new System.Drawing.Point(171, 181);
             this.txtGroup.Name = "txtGroup";
             this.txtGroup.Size = new System.Drawing.Size(245, 20);
             this.txtGroup.TabIndex = 6;
@@ -203,7 +205,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(102, 187);
+            this.label8.Location = new System.Drawing.Point(102, 210);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(63, 13);
             this.label8.TabIndex = 1;
@@ -211,7 +213,7 @@
             // 
             // txtUser
             // 
-            this.txtUser.Location = new System.Drawing.Point(171, 184);
+            this.txtUser.Location = new System.Drawing.Point(171, 207);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(245, 20);
             this.txtUser.TabIndex = 7;
@@ -219,7 +221,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(78, 213);
+            this.label9.Location = new System.Drawing.Point(78, 236);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(87, 13);
             this.label9.TabIndex = 1;
@@ -227,7 +229,7 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(171, 210);
+            this.txtPassword.Location = new System.Drawing.Point(171, 233);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(245, 20);
             this.txtPassword.TabIndex = 8;
@@ -246,7 +248,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(12, 376);
+            this.label11.Location = new System.Drawing.Point(12, 399);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(199, 16);
             this.label11.TabIndex = 0;
@@ -254,7 +256,7 @@
             // 
             // cmdSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(341, 302);
+            this.cmdSave.Location = new System.Drawing.Point(341, 325);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 9;
@@ -264,7 +266,7 @@
             // 
             // cmdMigrations
             // 
-            this.cmdMigrations.Location = new System.Drawing.Point(15, 395);
+            this.cmdMigrations.Location = new System.Drawing.Point(15, 418);
             this.cmdMigrations.Name = "cmdMigrations";
             this.cmdMigrations.Size = new System.Drawing.Size(401, 23);
             this.cmdMigrations.TabIndex = 11;
@@ -276,7 +278,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(12, 421);
+            this.label12.Location = new System.Drawing.Point(12, 444);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(112, 16);
             this.label12.TabIndex = 0;
@@ -284,7 +286,7 @@
             // 
             // cmdLoaders
             // 
-            this.cmdLoaders.Location = new System.Drawing.Point(15, 440);
+            this.cmdLoaders.Location = new System.Drawing.Point(15, 463);
             this.cmdLoaders.Name = "cmdLoaders";
             this.cmdLoaders.Size = new System.Drawing.Size(401, 23);
             this.cmdLoaders.TabIndex = 12;
@@ -296,7 +298,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(12, 331);
+            this.label13.Location = new System.Drawing.Point(12, 354);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(142, 16);
             this.label13.TabIndex = 0;
@@ -304,7 +306,7 @@
             // 
             // cmdDeploy
             // 
-            this.cmdDeploy.Location = new System.Drawing.Point(15, 350);
+            this.cmdDeploy.Location = new System.Drawing.Point(15, 373);
             this.cmdDeploy.Name = "cmdDeploy";
             this.cmdDeploy.Size = new System.Drawing.Size(401, 23);
             this.cmdDeploy.TabIndex = 10;
@@ -316,7 +318,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(153, 335);
+            this.label14.Location = new System.Drawing.Point(153, 358);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(75, 9);
             this.label14.TabIndex = 4;
@@ -326,7 +328,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(12, 466);
+            this.label15.Location = new System.Drawing.Point(12, 489);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(89, 16);
             this.label15.TabIndex = 0;
@@ -334,17 +336,18 @@
             // 
             // cmdBackEndAuth
             // 
-            this.cmdBackEndAuth.Location = new System.Drawing.Point(15, 485);
+            this.cmdBackEndAuth.Location = new System.Drawing.Point(15, 508);
             this.cmdBackEndAuth.Name = "cmdBackEndAuth";
             this.cmdBackEndAuth.Size = new System.Drawing.Size(81, 61);
             this.cmdBackEndAuth.TabIndex = 13;
             this.cmdBackEndAuth.Text = "Start Development Backend Auth";
             this.cmdBackEndAuth.UseVisualStyleBackColor = true;
+            this.cmdBackEndAuth.Click += new System.EventHandler(this.cmdBackEndAuth_Click);
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(55, 237);
+            this.label16.Location = new System.Drawing.Point(55, 260);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(109, 13);
             this.label16.TabIndex = 1;
@@ -375,7 +378,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(114, 260);
+            this.label17.Location = new System.Drawing.Point(114, 283);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(50, 13);
             this.label17.TabIndex = 1;
@@ -384,7 +387,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(272, 239);
+            this.label18.Location = new System.Drawing.Point(272, 262);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(87, 13);
             this.label18.TabIndex = 1;
@@ -393,7 +396,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(281, 262);
+            this.label19.Location = new System.Drawing.Point(281, 285);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(78, 13);
             this.label19.TabIndex = 1;
@@ -403,7 +406,7 @@
             // 
             this.panel1.Controls.Add(this.rdoSysLive);
             this.panel1.Controls.Add(this.rdoSysLocal);
-            this.panel1.Location = new System.Drawing.Point(170, 237);
+            this.panel1.Location = new System.Drawing.Point(170, 260);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(91, 17);
             this.panel1.TabIndex = 15;
@@ -412,7 +415,7 @@
             // 
             this.panel2.Controls.Add(this.rdoSyncLive);
             this.panel2.Controls.Add(this.rdoSyncLocal);
-            this.panel2.Location = new System.Drawing.Point(170, 260);
+            this.panel2.Location = new System.Drawing.Point(170, 283);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(91, 17);
             this.panel2.TabIndex = 16;
@@ -443,7 +446,7 @@
             // 
             this.panel3.Controls.Add(this.rdoCompanyLive);
             this.panel3.Controls.Add(this.rdoCompanyLocal);
-            this.panel3.Location = new System.Drawing.Point(365, 237);
+            this.panel3.Location = new System.Drawing.Point(365, 260);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(91, 17);
             this.panel3.TabIndex = 17;
@@ -474,7 +477,7 @@
             // 
             this.panel4.Controls.Add(this.rdoAuthLive);
             this.panel4.Controls.Add(this.rdoAuthLocal);
-            this.panel4.Location = new System.Drawing.Point(365, 260);
+            this.panel4.Location = new System.Drawing.Point(365, 283);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(91, 17);
             this.panel4.TabIndex = 16;
@@ -505,7 +508,7 @@
             // 
             this.panel5.Controls.Add(this.rdoVersionLive);
             this.panel5.Controls.Add(this.rdoVersionLocal);
-            this.panel5.Location = new System.Drawing.Point(170, 283);
+            this.panel5.Location = new System.Drawing.Point(170, 306);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(91, 17);
             this.panel5.TabIndex = 18;
@@ -535,17 +538,42 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(119, 285);
+            this.label20.Location = new System.Drawing.Point(119, 308);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(45, 13);
             this.label20.TabIndex = 17;
             this.label20.Text = "Version:";
             // 
+            // rdoLDAP
+            // 
+            this.rdoLDAP.AutoSize = true;
+            this.rdoLDAP.Location = new System.Drawing.Point(171, 106);
+            this.rdoLDAP.Name = "rdoLDAP";
+            this.rdoLDAP.Size = new System.Drawing.Size(75, 17);
+            this.rdoLDAP.TabIndex = 19;
+            this.rdoLDAP.TabStop = true;
+            this.rdoLDAP.Text = "Use LDAP";
+            this.rdoLDAP.UseVisualStyleBackColor = true;
+            this.rdoLDAP.CheckedChanged += new System.EventHandler(this.rdoLDAP_CheckedChanged);
+            // 
+            // rdoBackend
+            // 
+            this.rdoBackend.AutoSize = true;
+            this.rdoBackend.Location = new System.Drawing.Point(252, 106);
+            this.rdoBackend.Name = "rdoBackend";
+            this.rdoBackend.Size = new System.Drawing.Size(138, 17);
+            this.rdoBackend.TabIndex = 19;
+            this.rdoBackend.TabStop = true;
+            this.rdoBackend.Text = "Use Dev Backend Auth";
+            this.rdoBackend.UseVisualStyleBackColor = true;
+            // 
             // frmDevTools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(511, 561);
+            this.ClientSize = new System.Drawing.Size(511, 577);
+            this.Controls.Add(this.rdoBackend);
+            this.Controls.Add(this.rdoLDAP);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.panel4);
@@ -655,6 +683,8 @@
         private System.Windows.Forms.RadioButton rdoVersionLive;
         private System.Windows.Forms.RadioButton rdoVersionLocal;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.RadioButton rdoLDAP;
+        private System.Windows.Forms.RadioButton rdoBackend;
     }
 }
 

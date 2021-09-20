@@ -52,6 +52,10 @@ namespace DevTools
             txtGroup.Text = GetConfigValue(appSettingsElement, "LDAPGroupName");
             txtUser.Text = GetConfigValue(appSettingsElement, "LDAPUser");
             txtPassword.Text = GetConfigValue(appSettingsElement, "LDAPPassword");
+            string backendAuth;
+            rdoLDAP.Checked = (backendAuth = GetConfigValue(appSettingsElement, "UseDevBackendAuth")) == null || !backendAuth.Equals("true", StringComparison.OrdinalIgnoreCase);
+            rdoLDAP_CheckedChanged(this, new EventArgs());
+            rdoBackend.Checked = !rdoLDAP.Checked;
 
             config = XDocument.Load(baseLocation + "MesaSuite\\App.config");
             appSettingsElement = config.Descendants("appSettings").First();
@@ -70,6 +74,13 @@ namespace DevTools
 
             rdoVersionLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("VersionURL"), val => val.StartsWith("http://localhost"));
             rdoVersionLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("VersionURL"), val => val.StartsWith("http://localhost"));
+
+            DevBackendAuth.IsRunningChanged += DevBackendAuth_IsRunningChanged;
+        }
+
+        private void DevBackendAuth_IsRunningChanged(object sender, EventArgs e)
+        {
+            Invoke(new MethodInvoker(() => cmdBackEndAuth.Text = !DevBackendAuth.IsRunning ? "Start Development Backend Auth" : "Stop Development Backend Auth"));
         }
 
         private string GetConfigValue(XElement appSettings, string name)
@@ -97,7 +108,7 @@ namespace DevTools
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Open MS SQL Provider";
             openFileDialog.Filter = "DLL Files|*.dll";
-            openFileDialog.InitialDirectory = Path.GetDirectoryName(txtSQLProviderLocation.Text);
+            openFileDialog.InitialDirectory = string.IsNullOrEmpty(txtSQLProviderLocation.Text) ? "" : Path.GetDirectoryName(txtSQLProviderLocation.Text);
             if (openFileDialog.ShowDialog() != DialogResult.OK)
             {
                 return;
@@ -133,8 +144,8 @@ namespace DevTools
             try
             {
                 SetLiveLocalOptions(appSettingsElement, rdoSyncLive, "MCSync", "API-MCSync\\API-MCSync.csproj");
-                SetLiveLocalOptions(appSettingsElement, rdoSyncLive, "SystemManagement", "API-System\\API-System.csproj");
-                SetLiveLocalOptions(appSettingsElement, rdoSyncLive, "CompanyStudio", "API-Company\\API-Company.csproj");
+                SetLiveLocalOptions(appSettingsElement, rdoSysLive, "SystemManagement", "API-System\\API-System.csproj");
+                SetLiveLocalOptions(appSettingsElement, rdoCompanyLive, "CompanyStudio", "API-Company\\API-Company.csproj");
             }
             catch (Exception ex)
             {
@@ -182,6 +193,7 @@ namespace DevTools
             SetConfigValue(appSettingsElement, "LDAPGroupName", txtGroup.Text);
             SetConfigValue(appSettingsElement, "LDAPUser", txtUser.Text);
             SetConfigValue(appSettingsElement, "LDAPPassword", txtPassword.Text);
+            SetConfigValue(appSettingsElement, "UseDevBackendAuth", rdoLDAP.Checked ? "false" : "true");
 
             config.Save(configPath);
         }
@@ -298,6 +310,27 @@ namespace DevTools
 
             cmdLoaders.Text = "Run";
             cmdLoaders.Enabled = true;
+        }
+
+        private void rdoLDAP_CheckedChanged(object sender, EventArgs e)
+        {
+            txtAddress.Enabled = rdoLDAP.Checked;
+            txtContainer.Enabled = rdoLDAP.Checked;
+            txtGroup.Enabled = rdoLDAP.Checked;
+            txtUser.Enabled = rdoLDAP.Checked;
+            txtPassword.Enabled = rdoLDAP.Checked;
+        }
+
+        private void cmdBackEndAuth_Click(object sender, EventArgs e)
+        {
+            if (!DevBackendAuth.IsRunning)
+            {
+                DevBackendAuth.Start();
+            }
+            else
+            {
+                DevBackendAuth.Stop();
+            }
         }
     }
 }

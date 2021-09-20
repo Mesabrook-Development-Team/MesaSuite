@@ -19,6 +19,12 @@ namespace API_MCSync.Controllers
             return null;
         }
 
+        [HttpGet]
+        public IHttpActionResult Get()
+        {
+            return GetAll();
+        }
+
         [NonAction]
         public override IHttpActionResult Post(MCSyncVersion dataObject)
         {

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
+using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 
 namespace OAuth.Models
 {
@@ -11,26 +13,49 @@ namespace OAuth.Models
     {
         public static bool TryLDAPLogin(string user, string password)
         {
-            string ldapAddress = ConfigurationManager.AppSettings.Get("LDAPAddress");
-            string ldapContainer = ConfigurationManager.AppSettings.Get("LDAPContainer");
-            using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, ldapAddress, ldapContainer))
-            { 
-                if (!pc.ValidateCredentials(user, password))
+            string strUseDevBackendAuth = ConfigurationManager.AppSettings.Get("UseDevBackendAuth");
+
+            if (string.IsNullOrEmpty(strUseDevBackendAuth) || !bool.TryParse(strUseDevBackendAuth, out bool useDevBackendAuth) || !useDevBackendAuth)
+            {
+                string ldapAddress = ConfigurationManager.AppSettings.Get("LDAPAddress");
+                string ldapContainer = ConfigurationManager.AppSettings.Get("LDAPContainer");
+                using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, ldapAddress, ldapContainer))
                 {
-                    return false;
+                    if (!pc.ValidateCredentials(user, password))
+                    {
+                        return false;
+                    }
                 }
+
+                string ldapGroupName = ConfigurationManager.AppSettings.Get("LDAPGroupName");
+                string ldapUser = ConfigurationManager.AppSettings.Get("LDAPUser");
+                string ldapPassword = ConfigurationManager.AppSettings.Get("LDAPPassword");
+                DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}/{ldapContainer}", ldapUser, ldapPassword);
+                DirectorySearcher directorySearcher = new DirectorySearcher(directoryEntry);
+                directorySearcher.Filter = $"(&(samaccountname={Sanitize(user)})(memberof=cn={ldapGroupName},{ldapContainer}))";
+
+                SearchResult result = directorySearcher.FindOne();
+
+                return result != null;
             }
+            else
+            {
+                TcpClient client = new TcpClient("localhost", 48175);
 
-            string ldapGroupName = ConfigurationManager.AppSettings.Get("LDAPGroupName");
-            string ldapUser = ConfigurationManager.AppSettings.Get("LDAPUser");
-            string ldapPassword = ConfigurationManager.AppSettings.Get("LDAPPassword");
-            DirectoryEntry directoryEntry = new DirectoryEntry($"LDAP://{ldapAddress}/{ldapContainer}", ldapUser, ldapPassword);
-            DirectorySearcher directorySearcher = new DirectorySearcher(directoryEntry);
-            directorySearcher.Filter = $"(&(samaccountname={Sanitize(user)})(memberof=cn={ldapGroupName},{ldapContainer}))";
+                List<string> users = new List<string>();
+                bool success;
+                using (BinaryReader reader = new BinaryReader(client.GetStream()))
+                using (BinaryWriter writer = new BinaryWriter(client.GetStream()))
+                {
+                    writer.Write("VerifyUser");
+                    writer.Write(user);
+                    writer.Write(password);
+                    success = reader.ReadBoolean();
+                }
+                client.Close();
 
-            SearchResult result = directorySearcher.FindOne();
-
-            return result != null;
+                return success;
+            }
         }
 
         private static string Sanitize(string text)

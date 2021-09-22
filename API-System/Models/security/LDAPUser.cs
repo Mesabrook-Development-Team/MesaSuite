@@ -23,7 +23,7 @@ namespace API_System.Models.security
         // Non-DO properties
         public string Email { get; set; }
 
-        private string _originalFirstName = "_not set_;
+        private string _originalFirstName = "_not set_";
         private string _firstName = null;
         public string FirstName
         {
@@ -67,7 +67,7 @@ namespace API_System.Models.security
                 return _originalFirstName;
             }
         }
-66	
+	
         private string OriginalLastName
         {
             get

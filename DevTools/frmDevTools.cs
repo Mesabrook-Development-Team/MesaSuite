@@ -57,6 +57,18 @@ namespace DevTools
             rdoLDAP_CheckedChanged(this, new EventArgs());
             rdoBackend.Checked = !rdoLDAP.Checked;
 
+            Uri uri = new Uri(GetIISUrlFromProject(baseLocation + "API-Company\\API-Company.csproj"));
+            numCompanyPort.Value = uri.Port;
+
+            uri = new Uri(GetIISUrlFromProject(baseLocation + "API-MCSync\\API-MCSync.csproj"));
+            numSyncPort.Value = uri.Port;
+
+            uri = new Uri(GetIISUrlFromProject(baseLocation + "API-System\\API-System.csproj"));
+            numSystemPort.Value = uri.Port;
+
+            uri = new Uri(GetIISUrlFromProject(baseLocation + "OAuth\\OAuth.csproj"));
+            numAuthPort.Value = uri.Port;
+
             config = XDocument.Load(baseLocation + "MesaSuite\\App.config");
             appSettingsElement = config.Descendants("appSettings").First();
 
@@ -134,6 +146,11 @@ namespace DevTools
                 return;
             }
 
+            SetPortNumber((int)numCompanyPort.Value, baseLocation + "API-Company\\API-Company.csproj");
+            SetPortNumber((int)numSyncPort.Value, baseLocation + "API-MCSync\\API-MCSync.csproj");
+            SetPortNumber((int)numSystemPort.Value, baseLocation + "API-System\\API-System.csproj");
+            SetPortNumber((int)numAuthPort.Value, baseLocation + "OAuth\\OAuth.csproj");
+
             ConfigurationManager.AppSettings.Set("Base.SQLProvider", txtSQLProviderLocation.Text);
             ConfigurationManager.AppSettings.Set("MSSQLProvider.ConnectionString", txtConnectionString.Text);
             ConfigurationManager.AppSettings.Set("MSSQLProvider.ConnectionString.hmailserver", txtMailConnectionString.Text);
@@ -143,9 +160,9 @@ namespace DevTools
 
             try
             {
-                SetLiveLocalOptions(appSettingsElement, rdoSyncLive, "MCSync", "API-MCSync\\API-MCSync.csproj");
-                SetLiveLocalOptions(appSettingsElement, rdoSysLive, "SystemManagement", "API-System\\API-System.csproj");
-                SetLiveLocalOptions(appSettingsElement, rdoCompanyLive, "CompanyStudio", "API-Company\\API-Company.csproj");
+                SetLiveLocalOptions(appSettingsElement, rdoSyncLive, numSyncPort.Value, "MCSync");
+                SetLiveLocalOptions(appSettingsElement, rdoSysLive, numSystemPort.Value, "SystemManagement");
+                SetLiveLocalOptions(appSettingsElement, rdoCompanyLive, numCompanyPort.Value, "CompanyStudio");
             }
             catch (Exception ex)
             {
@@ -154,7 +171,7 @@ namespace DevTools
             }
 
             // Authentication
-            string authHost = rdoAuthLive.Checked ? "https://auth.mesabrook.com" : GetIISUrlFromProject(baseLocation + "OAuth\\OAuth.csproj");
+            string authHost = rdoAuthLive.Checked ? "https://auth.mesabrook.com" : "http://localhost:" + numAuthPort.Value;
             XElement authHostElement = appSettingsElement.Elements().FirstOrDefault(el => el.Attribute("key").Value == "MesaSuite.Common.AuthHost");
             if (authHostElement == null)
             {
@@ -165,7 +182,7 @@ namespace DevTools
             authHostElement.Attribute("value").Value = authHost;
 
             // Version
-            string version = rdoVersionLive.Checked ? "http://mcsync.api.mesabrook.com/version" : GetIISUrlFromProject(baseLocation + "API-MCSync\\API-MCSync.csproj") + "/version"; 
+            string version = rdoVersionLive.Checked ? "http://mcsync.api.mesabrook.com/version" : "http://localhost:" + numSyncPort.Value + "/version"; 
             XElement versionElement = appSettingsElement.Elements().FirstOrDefault(el => el.Attribute("key").Value == "MesaSuite.VersionURL");
             if (versionElement == null)
             {
@@ -194,11 +211,17 @@ namespace DevTools
             SetConfigValue(appSettingsElement, "LDAPUser", txtUser.Text);
             SetConfigValue(appSettingsElement, "LDAPPassword", txtPassword.Text);
             SetConfigValue(appSettingsElement, "UseDevBackendAuth", rdoLDAP.Checked ? "false" : "true");
+            SetConfigValue(appSettingsElement, "OAuthHost", "http://localhost:" + numAuthPort.Value);
+
+            string grantFormat = "http://localhost:{0}/Security/Grant,http://localhost:{1}/Security/Grant";
+            string revokeFormat = "http://localhost:{0}/Security/Revoke,http://localhost:{1}/Security/Revoke";
+            SetConfigValue(appSettingsElement, "TokenGrantNotifications", string.Format(grantFormat, numSystemPort.Value, numCompanyPort.Value));
+            SetConfigValue(appSettingsElement, "TokenRevokeNotifications", string.Format(revokeFormat, numSystemPort.Value, numCompanyPort.Value));
 
             config.Save(configPath);
         }
 
-        private void SetLiveLocalOptions(XElement appSettings, RadioButton live, string system, string projectPath)
+        private void SetLiveLocalOptions(XElement appSettings, RadioButton live, decimal portNumber, string system)
         {
             XElement resourceWriterElement = appSettings.Elements().Where(e => e.Attribute("key").Value.Equals($"MesaSuite.Common.ResourceWriter.{system}")).FirstOrDefault();
             if (resourceWriterElement == null)
@@ -217,15 +240,30 @@ namespace DevTools
                     appSettings.Add(hostElement);
                 }
 
-                string csProjPath = baseLocation + projectPath;
-                string iisUrl = GetIISUrlFromProject(csProjPath);
-
-                hostElement.Attribute("value").Value = iisUrl;
+                hostElement.Attribute("value").Value = "http://localhost:" + portNumber;
             }
             else
             {
                 resourceWriterElement.Attribute("value").Value = "MesaSuite.Common.Data.ReleaseResourceWriter";
             }
+        }
+
+        private void SetPortNumber(int portNumber, string csprojPath)
+        {
+            XDocument csProj = XDocument.Load(csprojPath);
+            XNamespace ns = "http://schemas.microsoft.com/developer/msbuild/2003";
+            XElement iisUrl = csProj.Descendants(ns + "IISUrl").FirstOrDefault();
+            if (iisUrl != null)
+            {
+                iisUrl.Value = "http://localhost:" + portNumber;
+            }
+
+            XElement devServerPort = csProj.Descendants(ns + "DevelopmentServerPort").FirstOrDefault();
+            if (devServerPort != null)
+            {
+                devServerPort.Value = portNumber.ToString();
+            }
+            csProj.Save(csprojPath);
         }
 
         private static string GetIISUrlFromProject(string csProjPath)

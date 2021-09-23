@@ -307,5 +307,21 @@ namespace CompanyStudio
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
+        private void mnuEmployeeExplorer_Click(object sender, EventArgs e)
+        {
+            foreach (Employees.frmEmployeeExplorer openEmployeeExplorer in dockPanel.Contents.OfType<Employees.frmEmployeeExplorer>())
+            {
+                if (openEmployeeExplorer.Company == ActiveCompany)
+                {
+                    openEmployeeExplorer.Activate();
+                    return;
+                }
+            }
+
+            Employees.frmEmployeeExplorer employeeExplorer = new Employees.frmEmployeeExplorer();
+            DecorateStudioContent(employeeExplorer);
+            employeeExplorer.Show(dockPanel, DockState.DockRight);
+        }
     }
 }

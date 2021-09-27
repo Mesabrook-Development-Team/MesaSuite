@@ -34,7 +34,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             SchemaObject schemaObject = Schema.Schema.GetSchemaObject(DataObjectType);
 
             HashSet<string> fields = new HashSet<string>();
-            foreach(Schema.Field field in schemaObject.GetFields())
+            foreach(Schema.Field field in schemaObject.GetFields().Where(f => !f.HasOperation))
             {
                 fields.Add(field.FieldName);
             }
@@ -65,7 +65,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
         public DataObject GetUntypedEditable(ITransaction transaction, IEnumerable<string> readOnlyFields = null)
         {
             SchemaObject thisSchemaObject = Schema.Schema.GetSchemaObject(DataObjectType);
-            HashSet<string> fields = thisSchemaObject.GetFields().Select(f => f.FieldName).ToHashSet();
+            HashSet<string> fields = thisSchemaObject.GetFields().Where(f => !f.HasOperation).Select(f => f.FieldName).ToHashSet();
             if (readOnlyFields != null)
             {
                 fields.AddRange(readOnlyFields);
@@ -327,7 +327,16 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
 
                 string alias = tableAliasesByFieldPath[path];
 
-                Select select = new Select() { SelectOperand = (Base.Data.Operand.Field)$"{alias}.{fieldName}", Alias = $"{alias}_{fieldName}" };
+                Select select = new Select() { Alias = $"{alias}_{fieldName}" };
+                Schema.Field schemaField = thisSchemaObject.GetField(field);
+                if (schemaField.HasOperation)
+                {
+                    select.SelectOperand = schemaField.GetOperation(alias);
+                }
+                else
+                {
+                    select.SelectOperand = (Base.Data.Operand.Field)$"{alias}.{fieldName}";
+                }
                 selectQuery.SelectList.Add(select);
             }
 

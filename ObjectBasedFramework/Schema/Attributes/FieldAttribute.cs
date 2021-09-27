@@ -12,6 +12,7 @@ namespace ClussPro.ObjectBasedFramework.Schema.Attributes
         public int DataScale { get; set; }
         public bool IsSystemLoaded { get; set; }
         public bool IsPrimaryKey { get; set; }
+        public bool HasOperation { get; set; }
         public FieldAttribute(string FieldID)
         {
             this.FieldID = new Guid(FieldID);

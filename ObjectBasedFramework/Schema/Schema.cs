@@ -172,7 +172,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                         createTable.SchemaName = schemaObject.SchemaName;
                         createTable.TableName = schemaObject.ObjectName;
 
-                        foreach (Field field in schemaObject.GetFields())
+                        foreach (Field field in schemaObject.GetFields().Where(f => !f.HasOperation))
                         {
                             FieldSpecification fieldSpec = new FieldSpecification(field.FieldType, field.DataSize, field.DataScale);
                             if (field == schemaObject.PrimaryKeyField)

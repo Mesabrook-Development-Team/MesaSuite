@@ -55,6 +55,7 @@
     <Compile Include="Data\Operand\IOperand.cs" />
     <Compile Include="Data\FieldValue.cs" />
     <Compile Include="Data\Operand\Literal.cs" />
+    <Compile Include="Data\Operand\SubQuery.cs" />
     <Compile Include="Data\Query\IAlterTable.cs" />
     <Compile Include="Data\Query\ICreateSchema.cs" />
     <Compile Include="Data\Query\ICreateTable.cs" />

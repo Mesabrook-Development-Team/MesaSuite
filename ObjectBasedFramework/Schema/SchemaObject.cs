@@ -3,9 +3,11 @@ using ClussPro.Base.Extensions;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using static ClussPro.ObjectBasedFramework.DataObject;
 
 namespace ClussPro.ObjectBasedFramework.Schema
 {
@@ -153,6 +155,16 @@ namespace ClussPro.ObjectBasedFramework.Schema
                     field.IsRequired = propertyInfo.GetCustomAttribute<RequiredAttribute>() != null;
                     field.IsSystemLoaded = fieldAttribute.IsSystemLoaded;
                     field.IsPrimaryKey = fieldAttribute.IsPrimaryKey;
+                    field.HasOperation = fieldAttribute.HasOperation;
+                    if (field.HasOperation)
+                    {
+                        PropertyInfo operationProperty = type.GetProperty(propertyInfo.Name + "Operation", BindingFlags.Static | BindingFlags.Public);
+                        field.GetOperation = (alias) =>
+                        {
+                            OperationDelegate operationDelegate = (OperationDelegate)operationProperty.GetValue(null);
+                            return operationDelegate(alias);
+                        };
+                    }
                     field.ReturnType = propertyInfo.PropertyType;
                     fields.Add(field);
                     fieldsByName.Add(field.FieldName, field);

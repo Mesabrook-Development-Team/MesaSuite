@@ -59,7 +59,14 @@ namespace CompanyStudio.Employees
             get.Headers.Add("CompanyID", Company.CompanyID.ToString());
 
             List<Employee> employees = await get.GetObject<List<Employee>>();
-
+            if (employees != null)
+            {
+                foreach(Employee employee in employees.OrderBy(e => e.EmployeeName))
+                {
+                    TreeNode employeeNode = new TreeNode(employee.EmployeeName);
+                    treEmployees.Nodes.Add(employeeNode);
+                }
+            }
 
             loader.Visible = false;
         }

@@ -32,6 +32,11 @@ namespace ClussPro.SqlServerProvider.ScriptWriters
                 return WriteCase((Case)operand, parameters);
             }
 
+            if (operand is SubQuery subQuery)
+            {
+                return WriteSubQuery(subQuery, parameters);
+            }
+
             throw new InvalidCastException("Could not determine IOperand type for writing");
         }
 
@@ -100,6 +105,14 @@ namespace ClussPro.SqlServerProvider.ScriptWriters
             builder.Append("END");
 
             return builder.ToString();
+        }
+
+        private static string WriteSubQuery(SubQuery subQuery, SqlParameterCollection parameters)
+        {
+            SelectQuery selectQuery = (SelectQuery)subQuery.SelectSubQuery;
+            string selectSql = selectQuery.GetSQL(parameters);
+
+            return $"( {selectSql} )";
         }
     }
 }

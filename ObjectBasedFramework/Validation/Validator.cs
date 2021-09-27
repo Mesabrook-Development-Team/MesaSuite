@@ -134,7 +134,7 @@ namespace ClussPro.ObjectBasedFramework.Validation
                 ObjectAttributeValidationDefinition attributeDefinition = new ObjectAttributeValidationDefinition();
                 attributeDefinition.Schema = schemaObject.SchemaName;
                 attributeDefinition.Object = schemaObject.ObjectName;
-                foreach(Field field in schemaObject.GetFields())
+                foreach(Field field in schemaObject.GetFields().Where(f => !f.HasOperation))
                 {
                     if (field.DataSize != -1)
                     {

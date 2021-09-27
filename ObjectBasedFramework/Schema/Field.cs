@@ -1,4 +1,5 @@
 ﻿using ClussPro.Base.Data;
+using ClussPro.Base.Data.Operand;
 using System;
 
 namespace ClussPro.ObjectBasedFramework.Schema
@@ -15,6 +16,9 @@ namespace ClussPro.ObjectBasedFramework.Schema
         public bool IsRequired { get; internal set; }
         public bool IsSystemLoaded { get; internal set; }
         public bool IsPrimaryKey { get; internal set; }
+        public bool HasOperation { get; internal set; }
+        public Func<string, IOperand> GetOperation { get; internal set; }
+
         public Type ReturnType { get; internal set; }
 
         public Action<DataObject, object> SetValue { get; internal set; }

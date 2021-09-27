@@ -21,6 +21,8 @@ namespace ClussPro.ObjectBasedFramework
         private bool isEditable;
         private bool isInsert;
 
+        public delegate IOperand OperationDelegate(string tableAlias);
+
         protected bool IsEditable => isEditable;
         protected bool IsInsert => isInsert;
 
@@ -82,7 +84,7 @@ namespace ClussPro.ObjectBasedFramework
                 }
                 isInsert = false;
 
-                foreach (Schema.Field field in Schema.Schema.GetSchemaObject(GetType()).GetFields())
+                foreach (Schema.Field field in Schema.Schema.GetSchemaObject(GetType()).GetFields().Where(f => !f.HasOperation))
                 {
                     originalValues[field.FieldName] = field.GetValue(this);
                 }
@@ -313,7 +315,7 @@ namespace ClussPro.ObjectBasedFramework
             IInsertQuery insertQuery = SQLProviderFactory.GetInsertQuery();
             insertQuery.Table = new Table(schemaObject.SchemaName, schemaObject.ObjectName);
             
-            foreach(Schema.Field field in schemaObject.GetFields())
+            foreach(Schema.Field field in schemaObject.GetFields().Where(f => !f.HasOperation))
             {
                 if (field == schemaObject.PrimaryKeyField) { continue; }
 
@@ -351,7 +353,7 @@ namespace ClussPro.ObjectBasedFramework
             IUpdateQuery updateQuery = SQLProviderFactory.GetUpdateQuery();
             updateQuery.Table = new Table(schemaObject.SchemaName, schemaObject.ObjectName);
 
-            foreach(Schema.Field field in schemaObject.GetFields().Where(f => f != schemaObject.PrimaryKeyField))
+            foreach(Schema.Field field in schemaObject.GetFields().Where(f => !f.HasOperation && f != schemaObject.PrimaryKeyField))
             {
                 FieldValue fieldValue = new FieldValue();
                 fieldValue.FieldName = field.FieldName;
@@ -652,7 +654,7 @@ namespace ClussPro.ObjectBasedFramework
             SchemaObject schemaObject = Schema.Schema.GetSchemaObject(GetType());
 
             Dictionary<string, object> destinationOriginalValues = destination.originalValues.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            foreach(Schema.Field field in schemaObject.GetFields().Where(f => f != schemaObject.PrimaryKeyField))
+            foreach(Schema.Field field in schemaObject.GetFields().Where(f => !f.HasOperation && f != schemaObject.PrimaryKeyField))
             {
                 field.SetPrivateDataCallback(destination, field.GetPrivateDataCallback(this));
             }

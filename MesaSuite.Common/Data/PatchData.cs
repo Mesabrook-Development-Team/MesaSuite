@@ -52,6 +52,7 @@ namespace MesaSuite.Common.Data
             try
             {
                 await request.GetResponseAsync();
+                RequestSuccessful = true;
             }
             catch(WebException ex)
             {

@@ -172,5 +172,10 @@ namespace CompanyStudio.Email
                 await Put();
             }
         }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

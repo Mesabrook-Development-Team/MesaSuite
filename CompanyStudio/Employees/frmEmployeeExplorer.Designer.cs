@@ -36,7 +36,10 @@
             this.treEmployees = new System.Windows.Forms.TreeView();
             this.loader = new CompanyStudio.Loader();
             this.toolStripExtender = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
+            this.ctxPermission = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuTogglePermission = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip.SuspendLayout();
+            this.ctxPermission.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip
@@ -52,6 +55,7 @@
             // 
             // mnuAddEmployee
             // 
+            this.mnuAddEmployee.Enabled = false;
             this.mnuAddEmployee.Image = ((System.Drawing.Image)(resources.GetObject("mnuAddEmployee.Image")));
             this.mnuAddEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuAddEmployee.Name = "mnuAddEmployee";
@@ -60,11 +64,13 @@
             // 
             // mnuRemoveEmployee
             // 
+            this.mnuRemoveEmployee.Enabled = false;
             this.mnuRemoveEmployee.Image = ((System.Drawing.Image)(resources.GetObject("mnuRemoveEmployee.Image")));
             this.mnuRemoveEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuRemoveEmployee.Name = "mnuRemoveEmployee";
             this.mnuRemoveEmployee.Size = new System.Drawing.Size(125, 22);
             this.mnuRemoveEmployee.Text = "Remove Employee";
+            this.mnuRemoveEmployee.Click += new System.EventHandler(this.mnuRemoveEmployee_Click);
             // 
             // treEmployees
             // 
@@ -73,6 +79,7 @@
             this.treEmployees.Name = "treEmployees";
             this.treEmployees.Size = new System.Drawing.Size(366, 348);
             this.treEmployees.TabIndex = 1;
+            this.treEmployees.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treEmployees_AfterSelect);
             // 
             // loader
             // 
@@ -85,6 +92,20 @@
             // toolStripExtender
             // 
             this.toolStripExtender.DefaultRenderer = null;
+            // 
+            // ctxPermission
+            // 
+            this.ctxPermission.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuTogglePermission});
+            this.ctxPermission.Name = "ctxPermission";
+            this.ctxPermission.Size = new System.Drawing.Size(110, 26);
+            // 
+            // mnuTogglePermission
+            // 
+            this.mnuTogglePermission.Name = "mnuTogglePermission";
+            this.mnuTogglePermission.Size = new System.Drawing.Size(109, 22);
+            this.mnuTogglePermission.Text = "Toggle";
+            this.mnuTogglePermission.Click += new System.EventHandler(this.mnuTogglePermission_Click);
             // 
             // frmEmployeeExplorer
             // 
@@ -102,6 +123,7 @@
             this.Shown += new System.EventHandler(this.frmEmployeeExplorer_Shown);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
+            this.ctxPermission.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -115,5 +137,7 @@
         private System.Windows.Forms.TreeView treEmployees;
         private Loader loader;
         private WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender toolStripExtender;
+        private System.Windows.Forms.ContextMenuStrip ctxPermission;
+        private System.Windows.Forms.ToolStripMenuItem mnuTogglePermission;
     }
 }

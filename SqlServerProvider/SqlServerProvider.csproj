@@ -56,7 +56,7 @@
     <Compile Include="ScriptWriters\ConditionWriter.cs" />
     <Compile Include="ScriptWriters\OperandWriter.cs" />
     <Compile Include="ScriptWriters\OrderWriter.cs" />
-    <Compile Include="ScriptWriters\TableWriter.cs" />
+    <Compile Include="ScriptWriters\SelectableWriter.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="SelectQuery.cs" />
     <Compile Include="UpdateQuery.cs" />

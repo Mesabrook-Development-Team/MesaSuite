@@ -14,7 +14,7 @@ namespace ClussPro.SqlServerProvider
     public class SelectQuery : BaseTransactionalQuery, ISelectQuery
     {
         public List<Select> SelectList { get; set; } = new List<Select>();
-        public Table Table { get; set; }
+        public ISelectable Table { get; set; }
         public ICondition WhereCondition { get; set; }
         public List<Join> JoinList { get; set; } = new List<Join>();
         public int PageSize { get; set; } = -1;
@@ -70,7 +70,7 @@ namespace ClussPro.SqlServerProvider
 
             if (Table != null)
             {
-                sqlBuilder.Append($"FROM {ScriptWriters.TableWriter.WriteTable(Table)} ");
+                sqlBuilder.Append($"FROM {ScriptWriters.SelectableWriter.WriteSelectable(Table)} ");
             }
 
             WriteJoinList(sqlBuilder, parameters);
@@ -122,7 +122,7 @@ namespace ClussPro.SqlServerProvider
                 }
 
                 sqlBuilder.Append("JOIN ");
-                sqlBuilder.Append(ScriptWriters.TableWriter.WriteTable(join.Table));
+                sqlBuilder.Append(ScriptWriters.SelectableWriter.WriteSelectable(join.Table));
                 sqlBuilder.Append(" ON ");
                 sqlBuilder.Append(ScriptWriters.ConditionWriter.WriteCondition(join.Condition, parameters));
                 sqlBuilder.Append(" ");

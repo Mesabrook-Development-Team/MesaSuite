@@ -17,6 +17,9 @@ namespace API_Company.Controllers
         public override IEnumerable<string> AllowedFields => new List<string>()
         {
             nameof(Employee.EmployeeID),
+            nameof(Employee.CompanyID),
+            nameof(Employee.UserID),
+            nameof(Employee.EmployeeName),
             nameof(Employee.ManageEmails),
             nameof(Employee.ManageEmployees)
         };
@@ -72,7 +75,33 @@ namespace API_Company.Controllers
         {
             long companyID = long.Parse(Request.Headers.GetValues("CompanyID").First());
 
-            
+            Search<User> userSearch = new Search<User>(new ExistsSearchCondition<User>()
+            {
+                RelationshipName = "Employees",
+                ExistsType = ExistsSearchCondition<User>.ExistsTypes.NotExists,
+                Condition = new LongSearchCondition<Employee>()
+                {
+                    Field = "CompanyID",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = companyID
+                }
+            });
+
+            return userSearch.GetReadOnlyReader(null, new string[] { "UserID", "Username" }).ToList();
+        }
+
+        [HttpPut]
+        [CompanyAccess(RequiredPermissions = new string[] { nameof(Employee.ManageEmployees) })]
+        public override IHttpActionResult Put(Employee dataObject)
+        {
+            return base.Put(dataObject);
+        }
+
+        [HttpPost]
+        [CompanyAccess(RequiredPermissions = new string[] { nameof(Employee.ManageEmployees) })]
+        public override IHttpActionResult Post(Employee dataObject)
+        {
+            return base.Post(dataObject);
         }
     }
 }

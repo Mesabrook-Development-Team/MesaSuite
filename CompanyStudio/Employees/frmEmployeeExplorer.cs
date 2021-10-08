@@ -67,6 +67,7 @@ namespace CompanyStudio.Employees
                 {
                     TreeNode employeeNode = new TreeNode(employee.EmployeeName);
                     employeeNode.Tag = employee;
+                    employeeNode.ContextMenuStrip = ctxEmployee;
                     treEmployees.Nodes.Add(employeeNode);
 
                     TreeNode permissionsNode = new TreeNode("Permissions");
@@ -125,11 +126,15 @@ namespace CompanyStudio.Employees
 
         private void treEmployees_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            mnuAddEmployee.Enabled = e.Node != null;
             mnuRemoveEmployee.Enabled = e.Node != null;
         }
 
         private async void mnuRemoveEmployee_Click(object sender, EventArgs e)
+        {
+            await RemoveEmployee();
+        }
+
+        private async Task RemoveEmployee()
         {
             if (treEmployees.SelectedNode == null || MessageBox.Show("Are you sure you want to delete this Employee?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
             {
@@ -137,7 +142,7 @@ namespace CompanyStudio.Employees
             }
 
             TreeNode parentNode = treEmployees.SelectedNode;
-            while(parentNode.Parent != null)
+            while (parentNode.Parent != null)
             {
                 parentNode = parentNode.Parent;
             }
@@ -161,6 +166,59 @@ namespace CompanyStudio.Employees
             {
                 loader.Visible = false;
             }
+        }
+
+        private void mnuAddEmployee_Click(object sender, EventArgs e)
+        {
+            AddEmployee();
+        }
+
+        private void AddEmployee()
+        {
+            frmEmployee employee = new frmEmployee();
+            Studio.DecorateStudioContent(employee);
+            employee.Company = Company;
+            employee.OnSave += ChildForm_Save;
+            employee.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
+        }
+
+        private async void ChildForm_Save(object sender, EventArgs e)
+        {
+            await RefreshEmployeeExplorer();
+        }
+
+        private void treEmployees_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeNode parentNode = e.Node;
+
+            while(parentNode.Parent != null)
+            {
+                parentNode = parentNode.Parent;
+            }
+
+            Employee employee = (Employee)parentNode.Tag;
+
+            frmEmployee editEmployee = new frmEmployee();
+            editEmployee.Employee = employee;
+            Studio.DecorateStudioContent(editEmployee);
+            editEmployee.Company = Company;
+            editEmployee.OnSave += ChildForm_Save;
+            editEmployee.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
+        }
+
+        private void ctxAddEmployee_Click(object sender, EventArgs e)
+        {
+            AddEmployee();
+        }
+
+        private void ctxDeleteEmployee_Click(object sender, EventArgs e)
+        {
+            RemoveEmployee();
+        }
+
+        private void ctxEmployee_Opening(object sender, CancelEventArgs e)
+        {
+            ctxDeleteEmployee.Visible = treEmployees.SelectedNode != null && treEmployees.SelectedNode.Parent == null;
         }
     }
 }

@@ -93,6 +93,7 @@
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.Location = new System.Drawing.Point(236, 97);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
@@ -105,11 +106,13 @@
             // 
             this.cboEmployees.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboEmployees.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboEmployees.FormattingEnabled = true;
             this.cboEmployees.Location = new System.Drawing.Point(53, 12);
             this.cboEmployees.Name = "cboEmployees";
             this.cboEmployees.Size = new System.Drawing.Size(339, 21);
             this.cboEmployees.TabIndex = 0;
+            this.cboEmployees.SelectedIndexChanged += new System.EventHandler(this.CheckedChanged);
             // 
             // loader
             // 
@@ -123,8 +126,10 @@
             // 
             // frmEmployee
             // 
+            this.AcceptButton = this.cmdSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(404, 133);
             this.Controls.Add(this.cboEmployees);
             this.Controls.Add(this.cmdCancel);

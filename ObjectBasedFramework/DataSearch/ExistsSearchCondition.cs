@@ -69,6 +69,11 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
                 HashSet<string> fieldPaths = Condition.GetFieldPaths().ToHashSet();
                 foreach(string fieldPath in fieldPaths.Where(fp => !fp.Contains(".")).Concat(fieldPaths.Where(fp => fp.Contains(".")).OrderBy(fp => fp)))
                 {
+                    if (string.IsNullOrWhiteSpace(fieldPath))
+                    {
+                        continue;
+                    }
+
                     string[] fieldPathParts = fieldPath.Split('.');
                     string checkedFieldPath = "";
                     SchemaObject lastSchemaObject = outerRelatedSchemaObject;

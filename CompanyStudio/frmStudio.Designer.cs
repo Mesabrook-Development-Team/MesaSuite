@@ -93,8 +93,8 @@
             // 
             // mnuCompanyExplorer
             // 
-            this.mnuCompanyExplorer.BackgroundImage = global::CompanyStudio.Properties.Resources.company_connect;
             this.mnuCompanyExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.mnuCompanyExplorer.Image = global::CompanyStudio.Properties.Resources.company_connect;
             this.mnuCompanyExplorer.Name = "mnuCompanyExplorer";
             this.mnuCompanyExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuCompanyExplorer.Text = "Company Explorer";
@@ -128,8 +128,8 @@
             // 
             // mnuEmployeeExplorer
             // 
-            this.mnuEmployeeExplorer.BackgroundImage = global::CompanyStudio.Properties.Resources.icn_hire;
             this.mnuEmployeeExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.mnuEmployeeExplorer.Image = global::CompanyStudio.Properties.Resources.icn_hire;
             this.mnuEmployeeExplorer.Name = "mnuEmployeeExplorer";
             this.mnuEmployeeExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuEmployeeExplorer.Text = "Employee Explorer";
@@ -150,7 +150,7 @@
             this.mnuDarkTheme,
             this.mnuBlueTheme});
             this.mnuThemes.Name = "mnuThemes";
-            this.mnuThemes.Size = new System.Drawing.Size(180, 22);
+            this.mnuThemes.Size = new System.Drawing.Size(110, 22);
             this.mnuThemes.Text = "Theme";
             // 
             // mnuLightTheme

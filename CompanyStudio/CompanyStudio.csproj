@@ -228,6 +228,17 @@
   <ItemGroup>
     <None Include="Resources\icn_list.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\icn_pinkslip.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_pinkslip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_fired.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_hire.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

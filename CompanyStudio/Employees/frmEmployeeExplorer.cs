@@ -136,7 +136,7 @@ namespace CompanyStudio.Employees
 
         private async Task RemoveEmployee()
         {
-            if (treEmployees.SelectedNode == null || MessageBox.Show("Are you sure you want to delete this Employee?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+            if (treEmployees.SelectedNode == null || MessageBox.Show("Are you sure you want to fire this Employee?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
             {
                 return;
             }

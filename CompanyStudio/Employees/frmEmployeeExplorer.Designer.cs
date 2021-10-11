@@ -31,19 +31,19 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEmployeeExplorer));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.mnuAddEmployee = new System.Windows.Forms.ToolStripButton();
-            this.mnuRemoveEmployee = new System.Windows.Forms.ToolStripButton();
             this.treEmployees = new System.Windows.Forms.TreeView();
+            this.ctxEmployee = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxAddEmployee = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxDeleteEmployee = new System.Windows.Forms.ToolStripMenuItem();
             this.loader = new CompanyStudio.Loader();
             this.toolStripExtender = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
             this.ctxPermission = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuTogglePermission = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctxEmployee = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ctxDeleteEmployee = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctxAddEmployee = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAddEmployee = new System.Windows.Forms.ToolStripButton();
+            this.mnuRemoveEmployee = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
-            this.ctxPermission.SuspendLayout();
             this.ctxEmployee.SuspendLayout();
+            this.ctxPermission.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip
@@ -57,25 +57,6 @@
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
             // 
-            // mnuAddEmployee
-            // 
-            this.mnuAddEmployee.Image = ((System.Drawing.Image)(resources.GetObject("mnuAddEmployee.Image")));
-            this.mnuAddEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuAddEmployee.Name = "mnuAddEmployee";
-            this.mnuAddEmployee.Size = new System.Drawing.Size(104, 22);
-            this.mnuAddEmployee.Text = "Add Employee";
-            this.mnuAddEmployee.Click += new System.EventHandler(this.mnuAddEmployee_Click);
-            // 
-            // mnuRemoveEmployee
-            // 
-            this.mnuRemoveEmployee.Enabled = false;
-            this.mnuRemoveEmployee.Image = ((System.Drawing.Image)(resources.GetObject("mnuRemoveEmployee.Image")));
-            this.mnuRemoveEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuRemoveEmployee.Name = "mnuRemoveEmployee";
-            this.mnuRemoveEmployee.Size = new System.Drawing.Size(125, 22);
-            this.mnuRemoveEmployee.Text = "Remove Employee";
-            this.mnuRemoveEmployee.Click += new System.EventHandler(this.mnuRemoveEmployee_Click);
-            // 
             // treEmployees
             // 
             this.treEmployees.ContextMenuStrip = this.ctxEmployee;
@@ -86,6 +67,30 @@
             this.treEmployees.TabIndex = 1;
             this.treEmployees.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treEmployees_AfterSelect);
             this.treEmployees.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treEmployees_NodeMouseDoubleClick);
+            // 
+            // ctxEmployee
+            // 
+            this.ctxEmployee.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxAddEmployee,
+            this.ctxDeleteEmployee});
+            this.ctxEmployee.Name = "ctxEmployee";
+            this.ctxEmployee.Size = new System.Drawing.Size(173, 48);
+            this.ctxEmployee.Text = "Delete";
+            this.ctxEmployee.Opening += new System.ComponentModel.CancelEventHandler(this.ctxEmployee_Opening);
+            // 
+            // ctxAddEmployee
+            // 
+            this.ctxAddEmployee.Name = "ctxAddEmployee";
+            this.ctxAddEmployee.Size = new System.Drawing.Size(172, 22);
+            this.ctxAddEmployee.Text = "Add Employee";
+            this.ctxAddEmployee.Click += new System.EventHandler(this.ctxAddEmployee_Click);
+            // 
+            // ctxDeleteEmployee
+            // 
+            this.ctxDeleteEmployee.Name = "ctxDeleteEmployee";
+            this.ctxDeleteEmployee.Size = new System.Drawing.Size(172, 22);
+            this.ctxDeleteEmployee.Text = "Remove Employee";
+            this.ctxDeleteEmployee.Click += new System.EventHandler(this.ctxDeleteEmployee_Click);
             // 
             // loader
             // 
@@ -113,29 +118,24 @@
             this.mnuTogglePermission.Text = "Toggle";
             this.mnuTogglePermission.Click += new System.EventHandler(this.mnuTogglePermission_Click);
             // 
-            // ctxEmployee
+            // mnuAddEmployee
             // 
-            this.ctxEmployee.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ctxAddEmployee,
-            this.ctxDeleteEmployee});
-            this.ctxEmployee.Name = "ctxEmployee";
-            this.ctxEmployee.Size = new System.Drawing.Size(181, 70);
-            this.ctxEmployee.Text = "Delete";
-            this.ctxEmployee.Opening += new System.ComponentModel.CancelEventHandler(this.ctxEmployee_Opening);
+            this.mnuAddEmployee.Image = global::CompanyStudio.Properties.Resources.icn_hire;
+            this.mnuAddEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuAddEmployee.Name = "mnuAddEmployee";
+            this.mnuAddEmployee.Size = new System.Drawing.Size(104, 22);
+            this.mnuAddEmployee.Text = "Add Employee";
+            this.mnuAddEmployee.Click += new System.EventHandler(this.mnuAddEmployee_Click);
             // 
-            // ctxDeleteEmployee
+            // mnuRemoveEmployee
             // 
-            this.ctxDeleteEmployee.Name = "ctxDeleteEmployee";
-            this.ctxDeleteEmployee.Size = new System.Drawing.Size(180, 22);
-            this.ctxDeleteEmployee.Text = "Remove Employee";
-            this.ctxDeleteEmployee.Click += new System.EventHandler(this.ctxDeleteEmployee_Click);
-            // 
-            // ctxAddEmployee
-            // 
-            this.ctxAddEmployee.Name = "ctxAddEmployee";
-            this.ctxAddEmployee.Size = new System.Drawing.Size(180, 22);
-            this.ctxAddEmployee.Text = "Add Employee";
-            this.ctxAddEmployee.Click += new System.EventHandler(this.ctxAddEmployee_Click);
+            this.mnuRemoveEmployee.Enabled = false;
+            this.mnuRemoveEmployee.Image = global::CompanyStudio.Properties.Resources.icn_fired;
+            this.mnuRemoveEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuRemoveEmployee.Name = "mnuRemoveEmployee";
+            this.mnuRemoveEmployee.Size = new System.Drawing.Size(125, 22);
+            this.mnuRemoveEmployee.Text = "Remove Employee";
+            this.mnuRemoveEmployee.Click += new System.EventHandler(this.mnuRemoveEmployee_Click);
             // 
             // frmEmployeeExplorer
             // 
@@ -153,8 +153,8 @@
             this.Shown += new System.EventHandler(this.frmEmployeeExplorer_Shown);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
-            this.ctxPermission.ResumeLayout(false);
             this.ctxEmployee.ResumeLayout(false);
+            this.ctxPermission.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

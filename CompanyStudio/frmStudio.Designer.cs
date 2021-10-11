@@ -36,6 +36,8 @@
             this.mnuCompanyExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEmailExplorer = new System.Windows.Forms.ToolStripMenuItem();
+            this.employeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuEmployeeExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.wIndowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuThemes = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLightTheme = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,8 +52,6 @@
             this.toolSaveAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolCompanyDropDown = new System.Windows.Forms.ToolStripComboBox();
-            this.employeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuEmployeeExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuBanner.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -93,8 +93,10 @@
             // 
             // mnuCompanyExplorer
             // 
+            this.mnuCompanyExplorer.BackgroundImage = global::CompanyStudio.Properties.Resources.company_connect;
+            this.mnuCompanyExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mnuCompanyExplorer.Name = "mnuCompanyExplorer";
-            this.mnuCompanyExplorer.Size = new System.Drawing.Size(172, 22);
+            this.mnuCompanyExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuCompanyExplorer.Text = "Company Explorer";
             this.mnuCompanyExplorer.Click += new System.EventHandler(this.mnuCompanyExplorer_Click);
             // 
@@ -108,11 +110,30 @@
             // 
             // mnuEmailExplorer
             // 
+            this.mnuEmailExplorer.BackgroundImage = global::CompanyStudio.Properties.Resources.mail_explorer;
+            this.mnuEmailExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mnuEmailExplorer.Image = global::CompanyStudio.Properties.Resources.mail_explorer;
             this.mnuEmailExplorer.Name = "mnuEmailExplorer";
             this.mnuEmailExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuEmailExplorer.Text = "Email Explorer";
             this.mnuEmailExplorer.Click += new System.EventHandler(this.mnuEmailExplorer_Click);
+            // 
+            // employeesToolStripMenuItem
+            // 
+            this.employeesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuEmployeeExplorer});
+            this.employeesToolStripMenuItem.Name = "employeesToolStripMenuItem";
+            this.employeesToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
+            this.employeesToolStripMenuItem.Text = "Employees";
+            // 
+            // mnuEmployeeExplorer
+            // 
+            this.mnuEmployeeExplorer.BackgroundImage = global::CompanyStudio.Properties.Resources.icn_hire;
+            this.mnuEmployeeExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.mnuEmployeeExplorer.Name = "mnuEmployeeExplorer";
+            this.mnuEmployeeExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuEmployeeExplorer.Text = "Employee Explorer";
+            this.mnuEmployeeExplorer.Click += new System.EventHandler(this.mnuEmployeeExplorer_Click);
             // 
             // wIndowToolStripMenuItem
             // 
@@ -205,21 +226,6 @@
             this.toolCompanyDropDown.SelectedIndexChanged += new System.EventHandler(this.toolCompanyDropDown_SelectedIndexChanged);
             this.toolCompanyDropDown.Enter += new System.EventHandler(this.toolCompanyDropDown_Enter);
             this.toolCompanyDropDown.Leave += new System.EventHandler(this.toolCompanyDropDown_Leave);
-            // 
-            // employeesToolStripMenuItem
-            // 
-            this.employeesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuEmployeeExplorer});
-            this.employeesToolStripMenuItem.Name = "employeesToolStripMenuItem";
-            this.employeesToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
-            this.employeesToolStripMenuItem.Text = "Employees";
-            // 
-            // mnuEmployeeExplorer
-            // 
-            this.mnuEmployeeExplorer.Name = "mnuEmployeeExplorer";
-            this.mnuEmployeeExplorer.Size = new System.Drawing.Size(180, 22);
-            this.mnuEmployeeExplorer.Text = "Employee Explorer";
-            this.mnuEmployeeExplorer.Click += new System.EventHandler(this.mnuEmployeeExplorer_Click);
             // 
             // frmStudio
             // 

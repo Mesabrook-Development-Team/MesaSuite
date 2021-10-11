@@ -48,6 +48,7 @@
     <Compile Include="DataObjectFactory.cs" />
     <Compile Include="DataSearch\BooleanSearchCondition.cs" />
     <Compile Include="DataSearch\DateTimeSearchCondition.cs" />
+    <Compile Include="DataSearch\ExistsSearchCondition.cs" />
     <Compile Include="DataSearch\GuidSearchCondition.cs" />
     <Compile Include="DataSearch\StringSearchCondition.cs" />
     <Compile Include="DataSearch\GenericSearchCondition.cs" />

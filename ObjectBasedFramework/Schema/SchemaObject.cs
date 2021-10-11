@@ -252,7 +252,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
         {
             string[] parts = path.Split('.');
             SchemaObject lastSchemaObject = this;
-            for (int i = 1; i < parts.Length - 1; i++)
+            for (int i = 0; i < parts.Length - 1; i++)
             {
                 Relationship relationship = lastSchemaObject.PrivateGetRelationship(parts[i]);
                 if (relationship == null)

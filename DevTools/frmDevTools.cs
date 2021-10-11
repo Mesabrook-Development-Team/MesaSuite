@@ -24,6 +24,7 @@ namespace DevTools
     {
         private string currentLocation;
         private string baseLocation;
+        public bool StartDevToolsOnLoad;
         public frmDevTools()
         {
             InitializeComponent();
@@ -88,6 +89,11 @@ namespace DevTools
             rdoVersionLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("VersionURL"), val => val.StartsWith("http://localhost"));
 
             DevBackendAuth.IsRunningChanged += DevBackendAuth_IsRunningChanged;
+
+            if (StartDevToolsOnLoad)
+            {
+                cmdBackEndAuth.PerformClick();
+            }
         }
 
         private void DevBackendAuth_IsRunningChanged(object sender, EventArgs e)

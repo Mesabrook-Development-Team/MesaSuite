@@ -1,4 +1,5 @@
 ﻿using MesaSuite.Common.Attributes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -83,7 +84,19 @@ namespace MesaSuite.Common.Data
                     {
                         string additional = reader.ReadToEnd();
 
-                        if (!string.IsNullOrEmpty(additional))
+                        var messageObject = new { Message = string.Empty };
+
+                        try
+                        {
+                            messageObject = JsonConvert.DeserializeAnonymousType(additional, messageObject);
+                        }
+                        catch { }
+
+                        if (!string.IsNullOrWhiteSpace(messageObject.Message))
+                        {
+                            errorText = new StringBuilder(messageObject.Message);
+                        }
+                        else if (!string.IsNullOrEmpty(additional))
                         {
                             errorText.AppendLine();
                             errorText.Append(additional);

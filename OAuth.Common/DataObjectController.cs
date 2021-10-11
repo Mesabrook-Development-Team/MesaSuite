@@ -56,7 +56,7 @@ namespace API.Common
                 return dataObject.HandleFailedValidation(this);
             }
 
-            return Created("Get?id=" + dataObject.PrimaryKeyField.GetValue(dataObject), dataObject);
+            return Created("Get?id=" + dataObject.PrimaryKeyField.GetValue(dataObject), DataObject.GetReadOnlyByPrimaryKey<TDataObject>(ConvertUtility.GetNullableLong(dataObject.PrimaryKeyField.GetValue(dataObject)), null, AllowedFields));
         }
 
         [HttpPut]
@@ -95,7 +95,7 @@ namespace API.Common
                 return dbDataObject.HandleFailedValidation(this);
             }
 
-            return Ok(dbDataObject);
+            return Ok(DataObject.GetReadOnlyByPrimaryKey<TDataObject>(ConvertUtility.GetNullableLong(dbDataObject.PrimaryKeyField.GetValue(dbDataObject)), null, AllowedFields));
         }
 
         [HttpDelete]

@@ -8,7 +8,7 @@ namespace ClussPro.Base.Data.Query
     {
         string ConnectionName { get; set; }
         List<Select> SelectList { get; set; }
-        Table Table { get; set; }
+        ISelectable Table { get; set; }
         ICondition WhereCondition { get; set; }
         List<Join> JoinList { get; set; }
         int PageSize { get; set; }

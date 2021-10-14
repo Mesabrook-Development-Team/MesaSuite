@@ -53,10 +53,10 @@ namespace CompanyStudio
                     switch(e.Permission)
                     {
                         case PermissionsManager.Permissions.ManageEmails:
-                            item.SubItems[0].Text = e.Value.ToString();
+                            item.SubItems[1].Text = e.Value.ToString();
                             break;
                         case PermissionsManager.Permissions.ManageEmployees:
-                            item.SubItems[1].Text = e.Value.ToString();
+                            item.SubItems[2].Text = e.Value.ToString();
                             break;
                     }
                 }

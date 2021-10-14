@@ -1,15 +1,16 @@
-﻿using ClussPro.ObjectBasedFramework;
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClussPro.ObjectBasedFramework;
 using WebModels.security;
 
 namespace API.Common.Cache
 {
     public static class ProgramCache
     {
-        public static Dictionary<long, Tuple<DateTime, List<string>>> ProgramsByUser = new Dictionary<long, Tuple<DateTime, List<string>>>();
+        public static ConcurrentDictionary<long, Tuple<DateTime, List<string>>> ProgramsByUser = new ConcurrentDictionary<long, Tuple<DateTime, List<string>>>();
 
         public async static Task<bool> UserHasProgram(long userID, string key)
         {

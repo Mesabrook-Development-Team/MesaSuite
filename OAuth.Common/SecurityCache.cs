@@ -1,15 +1,15 @@
-﻿using ClussPro.ObjectBasedFramework.DataSearch;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using WebModels.auth;
 
 namespace API.Common
 {
     public static class SecurityCache
     {
-        private static Dictionary<string, SecurityProfile> usersByAccessToken = new Dictionary<string, SecurityProfile>();
+        private static ConcurrentDictionary<string, SecurityProfile> usersByAccessToken = new ConcurrentDictionary<string, SecurityProfile>();
 
         public async static Task<bool> IsValid(string accessToken)
         {
@@ -42,7 +42,7 @@ namespace API.Common
         {
             if (usersByAccessToken.ContainsKey(accessToken))
             {
-                usersByAccessToken.Remove(accessToken);
+                usersByAccessToken.TryRemove(accessToken, out _);
             }
         }
 

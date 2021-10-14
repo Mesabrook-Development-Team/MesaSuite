@@ -107,6 +107,7 @@
             this.emailToolStripMenuItem.Name = "emailToolStripMenuItem";
             this.emailToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.emailToolStripMenuItem.Text = "Email";
+            this.emailToolStripMenuItem.Visible = false;
             // 
             // mnuEmailExplorer
             // 
@@ -125,13 +126,14 @@
             this.employeesToolStripMenuItem.Name = "employeesToolStripMenuItem";
             this.employeesToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
             this.employeesToolStripMenuItem.Text = "Employees";
+            this.employeesToolStripMenuItem.Visible = false;
             // 
             // mnuEmployeeExplorer
             // 
             this.mnuEmployeeExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mnuEmployeeExplorer.Image = global::CompanyStudio.Properties.Resources.icn_hire;
             this.mnuEmployeeExplorer.Name = "mnuEmployeeExplorer";
-            this.mnuEmployeeExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuEmployeeExplorer.Size = new System.Drawing.Size(172, 22);
             this.mnuEmployeeExplorer.Text = "Employee Explorer";
             this.mnuEmployeeExplorer.Click += new System.EventHandler(this.mnuEmployeeExplorer_Click);
             // 
@@ -242,6 +244,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Company Studio";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmStudio_FormClosing);
             this.Load += new System.EventHandler(this.frmStudio_Load);
             this.mnuBanner.ResumeLayout(false);
             this.mnuBanner.PerformLayout();

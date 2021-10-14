@@ -117,6 +117,7 @@ namespace CompanyStudio.Email
             this.Name = "frmAlias";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Alias";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmAlias_FormClosed);
             this.Load += new System.EventHandler(this.frmAlias_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

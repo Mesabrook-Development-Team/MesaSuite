@@ -2,16 +2,19 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 
 namespace ClussPro.Base.Data
 {
     public class SQLProviderFactory
     {
         private ISQLProvider _provider;
+        private static bool isLoading = false;
 
         private static SQLProviderFactory _instance;
         private static SQLProviderFactory GetInstance()
         {
+            while (isLoading) { Thread.Sleep(50); }
             if (_instance == null)
             {
                 _instance = new SQLProviderFactory();
@@ -22,16 +25,19 @@ namespace ClussPro.Base.Data
 
         private SQLProviderFactory()
         {
+            isLoading = true;
             Assembly providerAssembly = Assembly.LoadFrom(BaseConfig.SQLProviderPath);
 
             Type sqlProviderType = typeof(ISQLProvider);
             Type sqlProvider = providerAssembly.GetTypes().FirstOrDefault(t => t != sqlProviderType && sqlProviderType.IsAssignableFrom(t));
             if (sqlProvider == null)
             {
+                isLoading = false;
                 throw new EntryPointNotFoundException("Could not find a SQL Provider in the specified assembly");
             }
 
             _provider = (ISQLProvider)Activator.CreateInstance(sqlProvider);
+            isLoading = false;
         }
 
         public static ISelectQuery GetSelectQuery()

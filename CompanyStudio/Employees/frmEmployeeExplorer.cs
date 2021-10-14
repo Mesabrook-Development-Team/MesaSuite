@@ -32,9 +32,20 @@ namespace CompanyStudio.Employees
                 return;
             }
 
+            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+
             Text += $" - {Company.Name.Replace("&", "&&")}";
 
             RefreshEmployeeExplorer();
+        }
+
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        {
+            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.Permissions.ManageEmployees && !e.Value)
+            {
+                MessageBox.Show($"You do not have access to Employee Explorer for {Company.Name}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
         }
 
         private void frmEmployeeExplorer_Shown(object sender, EventArgs e)
@@ -219,6 +230,12 @@ namespace CompanyStudio.Employees
         private void ctxEmployee_Opening(object sender, CancelEventArgs e)
         {
             ctxDeleteEmployee.Visible = treEmployees.SelectedNode != null && treEmployees.SelectedNode.Parent == null;
+        }
+
+        private void frmEmployeeExplorer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            OnThemeChange -= OnThemeChanged;
+            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
         }
     }
 }

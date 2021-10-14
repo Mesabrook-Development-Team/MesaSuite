@@ -35,10 +35,12 @@ namespace CompanyStudio
             {
                 _activeCompany = value;
                 toolCompanyDropDown.SelectedItem = _activeCompany?.Name;
+                emailToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.Permissions.ManageEmails);
+                employeesToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.Permissions.ManageEmployees);
             }
         }
         private List<Company> _companies = new List<Company>();
-        public IReadOnlyCollection<Company> Companies => _companies;
+        public IReadOnlyCollection<Company> Companies => new List<Company>(_companies);
 
         public frmStudio()
         {
@@ -61,12 +63,31 @@ namespace CompanyStudio
             SetThemeMenuChecked();
             ApplyTheme();
 
+            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+            PermissionsManager.StartCheckThread((method) => Invoke(method));
+
             frmCompanyConnect connect = GetForm<frmCompanyConnect>();
             connect.Shown += Connect_Shown_FirstTime;
             connect.Show();
 
             frmCompanyExplorer companyExplorer = GetForm<frmCompanyExplorer>();
             companyExplorer.Show(dockPanel, DockState.DockLeft);
+        }
+
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        {
+            if (e.CompanyID == (ActiveCompany?.CompanyID ?? -1))
+            {
+                switch(e.Permission)
+                {
+                    case PermissionsManager.Permissions.ManageEmails:
+                        emailToolStripMenuItem.Visible = e.Value;
+                        break;
+                    case PermissionsManager.Permissions.ManageEmployees:
+                        employeesToolStripMenuItem.Visible = e.Value;
+                        break;
+                }
+            }
         }
 
         private void Connect_Shown_FirstTime(object sender, EventArgs e)
@@ -322,6 +343,11 @@ namespace CompanyStudio
             Employees.frmEmployeeExplorer employeeExplorer = new Employees.frmEmployeeExplorer();
             DecorateStudioContent(employeeExplorer);
             employeeExplorer.Show(dockPanel, DockState.DockRight);
+        }
+
+        private void frmStudio_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            PermissionsManager.StopCheckThread();
         }
     }
 }

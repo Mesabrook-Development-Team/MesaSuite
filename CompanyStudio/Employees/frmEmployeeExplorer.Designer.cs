@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEmployeeExplorer));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.mnuAddEmployee = new System.Windows.Forms.ToolStripButton();
+            this.mnuRemoveEmployee = new System.Windows.Forms.ToolStripButton();
             this.treEmployees = new System.Windows.Forms.TreeView();
             this.ctxEmployee = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ctxAddEmployee = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,8 +41,6 @@
             this.toolStripExtender = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
             this.ctxPermission = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuTogglePermission = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuAddEmployee = new System.Windows.Forms.ToolStripButton();
-            this.mnuRemoveEmployee = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             this.ctxEmployee.SuspendLayout();
             this.ctxPermission.SuspendLayout();
@@ -56,6 +56,25 @@
             this.toolStrip.Size = new System.Drawing.Size(366, 25);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
+            // 
+            // mnuAddEmployee
+            // 
+            this.mnuAddEmployee.Image = global::CompanyStudio.Properties.Resources.icn_hire;
+            this.mnuAddEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuAddEmployee.Name = "mnuAddEmployee";
+            this.mnuAddEmployee.Size = new System.Drawing.Size(104, 22);
+            this.mnuAddEmployee.Text = "Add Employee";
+            this.mnuAddEmployee.Click += new System.EventHandler(this.mnuAddEmployee_Click);
+            // 
+            // mnuRemoveEmployee
+            // 
+            this.mnuRemoveEmployee.Enabled = false;
+            this.mnuRemoveEmployee.Image = global::CompanyStudio.Properties.Resources.icn_fired;
+            this.mnuRemoveEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuRemoveEmployee.Name = "mnuRemoveEmployee";
+            this.mnuRemoveEmployee.Size = new System.Drawing.Size(125, 22);
+            this.mnuRemoveEmployee.Text = "Remove Employee";
+            this.mnuRemoveEmployee.Click += new System.EventHandler(this.mnuRemoveEmployee_Click);
             // 
             // treEmployees
             // 
@@ -118,25 +137,6 @@
             this.mnuTogglePermission.Text = "Toggle";
             this.mnuTogglePermission.Click += new System.EventHandler(this.mnuTogglePermission_Click);
             // 
-            // mnuAddEmployee
-            // 
-            this.mnuAddEmployee.Image = global::CompanyStudio.Properties.Resources.icn_hire;
-            this.mnuAddEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuAddEmployee.Name = "mnuAddEmployee";
-            this.mnuAddEmployee.Size = new System.Drawing.Size(104, 22);
-            this.mnuAddEmployee.Text = "Add Employee";
-            this.mnuAddEmployee.Click += new System.EventHandler(this.mnuAddEmployee_Click);
-            // 
-            // mnuRemoveEmployee
-            // 
-            this.mnuRemoveEmployee.Enabled = false;
-            this.mnuRemoveEmployee.Image = global::CompanyStudio.Properties.Resources.icn_fired;
-            this.mnuRemoveEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuRemoveEmployee.Name = "mnuRemoveEmployee";
-            this.mnuRemoveEmployee.Size = new System.Drawing.Size(125, 22);
-            this.mnuRemoveEmployee.Text = "Remove Employee";
-            this.mnuRemoveEmployee.Click += new System.EventHandler(this.mnuRemoveEmployee_Click);
-            // 
             // frmEmployeeExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -149,6 +149,7 @@
             this.Name = "frmEmployeeExplorer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Employee Explorer";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmEmployeeExplorer_FormClosed);
             this.Load += new System.EventHandler(this.frmEmployeeExplorer_Load);
             this.Shown += new System.EventHandler(this.frmEmployeeExplorer_Shown);
             this.toolStrip.ResumeLayout(false);

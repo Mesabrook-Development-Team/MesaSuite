@@ -2,6 +2,7 @@
 using MesaSuite.Common.Collections;
 using MesaSuite.Common.Data;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -14,7 +15,6 @@ namespace CompanyStudio
             InitializeComponent();
             OnStudioChange += OnStudioChangeHandler;
             OnThemeChange += OnThemeChanged;
-            //imlSmall.Images.Add("company");
         }
 
         private void OnThemeChanged(object sender, ThemeBase e)
@@ -38,7 +38,29 @@ namespace CompanyStudio
 
         private void frmCompanyExplorer_Load(object sender, System.EventArgs e)
         {
+            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
             SetupCompanies();
+        }
+
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        {
+            foreach(ListViewItem item in lstCompanies.Items)
+            {
+                (Company, Employee) tagValue = (ValueTuple<Company, Employee>)item.Tag;
+
+                if (tagValue.Item1.CompanyID == e.CompanyID)
+                {
+                    switch(e.Permission)
+                    {
+                        case PermissionsManager.Permissions.ManageEmails:
+                            item.SubItems[0].Text = e.Value.ToString();
+                            break;
+                        case PermissionsManager.Permissions.ManageEmployees:
+                            item.SubItems[1].Text = e.Value.ToString();
+                            break;
+                    }
+                }
+            }
         }
 
         private async void SetupCompanies()
@@ -117,6 +139,11 @@ namespace CompanyStudio
                 Company company = ((ValueTuple<Company, Employee>)lstCompanies.SelectedItems[0].Tag).Item1;
                 Studio.ActiveCompany = company;
             }
+        }
+
+        private void frmCompanyExplorer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
         }
     }
 }

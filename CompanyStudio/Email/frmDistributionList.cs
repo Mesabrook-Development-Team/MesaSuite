@@ -33,6 +33,7 @@ namespace CompanyStudio.Email
 
         private async void frmDistributionList_Load(object sender, EventArgs e)
         {
+            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
             if (DistributionList != null)
             {
                 txtAddress.Text = DistributionList.DistributionListAddress;
@@ -48,6 +49,15 @@ namespace CompanyStudio.Email
             }
 
             TryAddNewRecipientItem();
+        }
+
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        {
+            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.Permissions.ManageEmails && !e.Value)
+            {
+                IsDirty = false;
+                Close();
+            }
         }
 
         private void TryAddNewRecipientItem()
@@ -289,6 +299,11 @@ namespace CompanyStudio.Email
             IsDirty = false;
 
             OnSave?.Invoke(this, new EventArgs());
+        }
+
+        private void frmDistributionList_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
         }
     }
 }

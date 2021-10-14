@@ -37,12 +37,24 @@ namespace CompanyStudio.Email
 
             Text += $" - {Company.Name.Replace("&", "&&")}";
 
+            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+
             await RefreshEmailExplorer();
         }
+
 
         private void OnThemeChanged(object sender, ThemeBase e)
         {
             visualStudioToolStripExtender.SetStyle(toolStrip, VisualStudioToolStripExtender.VsVersion.Vs2015, e);
+        }
+
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        {
+            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.Permissions.ManageEmails && !e.Value)
+            {
+                MessageBox.Show($"You do not have access to Email Explorer for {Company.Name}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
         }
 
         public async Task RefreshEmailExplorer()
@@ -332,6 +344,12 @@ namespace CompanyStudio.Email
             await delete.Execute();
 
             await RefreshEmailExplorer();
+        }
+
+        private void frmEmailExplorer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            OnThemeChange -= OnThemeChanged;
         }
     }
 }

@@ -32,6 +32,8 @@ namespace CompanyStudio.Employees
                 return;
             }
 
+            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Employee/GetCandidates");
             get.Headers.Add("CompanyID", Company.CompanyID.ToString());
 
@@ -58,6 +60,15 @@ namespace CompanyStudio.Employees
                 chkManageEmployees.Checked = Employee.ManageEmployees;
 
                 IsDirty = false;
+            }
+        }
+
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        {
+            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.Permissions.ManageEmployees && !e.Value)
+            {
+                IsDirty = false;
+                Close();
             }
         }
 
@@ -129,6 +140,11 @@ namespace CompanyStudio.Employees
             }
 
             loader.Visible = false;
+        }
+
+        private void frmEmployee_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
         }
     }
 }

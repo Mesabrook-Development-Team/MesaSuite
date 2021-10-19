@@ -163,16 +163,11 @@ namespace CompanyStudio
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.lstCompanies);
             this.Controls.Add(this.loader);
-            this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)((((((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft) 
-            | WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight) 
-            | WeifenLuo.WinFormsUI.Docking.DockAreas.DockTop) 
-            | WeifenLuo.WinFormsUI.Docking.DockAreas.DockBottom) 
-            | WeifenLuo.WinFormsUI.Docking.DockAreas.Document)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmCompanyExplorer";
-            this.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.Unknown;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Company Explorer";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmCompanyExplorer_FormClosed);
             this.Load += new System.EventHandler(this.frmCompanyExplorer_Load);
             this.ctxCompanies.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);

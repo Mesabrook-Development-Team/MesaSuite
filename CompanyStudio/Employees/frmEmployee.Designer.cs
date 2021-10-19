@@ -143,6 +143,7 @@
             this.Name = "frmEmployee";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Employee";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmEmployee_FormClosed);
             this.Load += new System.EventHandler(this.frmEmployee_Load);
             this.Shown += new System.EventHandler(this.frmEmployee_Shown);
             this.ResumeLayout(false);

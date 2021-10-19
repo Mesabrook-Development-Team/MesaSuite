@@ -46,8 +46,10 @@ namespace DevTools
             XDocument config = XDocument.Load(webConfigFile);
             XElement appSettingsElement = config.Descendants("appSettings").First();
             txtSQLProviderLocation.Text = GetConfigValue(appSettingsElement, "Base.SQLProvider");
-            txtConnectionString.Text = GetConfigValue(appSettingsElement, "MSSQLProvider.ConnectionString");
-            txtMailConnectionString.Text = GetConfigValue(appSettingsElement, "MSSQLProvider.ConnectionString.hmailserver");
+            string connectionString = GetConfigValue(appSettingsElement, "MSSQLProvider.ConnectionString");
+            txtConnectionString.Text = !string.IsNullOrEmpty(connectionString) ? connectionString : "data source=localhost;initial catalog=;integrated security=sspi";
+            string mailConnectionString = GetConfigValue(appSettingsElement, "MSSQLProvider.ConnectionString.hmailserver");
+            txtMailConnectionString.Text = !string.IsNullOrEmpty(mailConnectionString) ? mailConnectionString : "data source=localhost;initial catalog=;integrated security=sspi";
             txtAddress.Text = GetConfigValue(appSettingsElement, "LDAPAddress");
             txtContainer.Text = GetConfigValue(appSettingsElement, "LDAPContainer");
             txtGroup.Text = GetConfigValue(appSettingsElement, "LDAPGroupName");

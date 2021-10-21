@@ -6,6 +6,7 @@ using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Collections.Generic;
+using WebModels.account;
 using WebModels.hMailServer.dbo;
 
 namespace WebModels.company
@@ -98,12 +99,22 @@ namespace WebModels.company
         }
 
         #region Relationships
+        #region account
+        private List<Account> _accounts = new List<Account>();
+        [RelationshipList("010B01A9-4656-4327-9B89-5B234EA7DF7D", "AccountID")]
+        public IReadOnlyCollection<Account> Accounts
+        {
+            get { CheckGet(); return _accounts; }
+        }
+        #endregion
+        #region company
         private List<Employee> _employees = new List<Employee>();
         [RelationshipList("6C0E982B-0D55-466E-8E56-9A466D7A982C", "CompanyID", AutoDeleteReferences = true)]
         public IReadOnlyCollection<Employee> Employees
         {
             get { CheckGet(); return _employees; }
         }
+        #endregion
         #endregion
     }
 }

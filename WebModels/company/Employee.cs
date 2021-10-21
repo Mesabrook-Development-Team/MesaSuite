@@ -73,6 +73,14 @@ namespace WebModels.company
             set { CheckSet(); _manageEmployees = value; }
         }
 
+        private bool _manageAccounts;
+        [Field("2C9CAC2E-7CEF-4425-B6D3-7169355EC056")]
+        public bool ManageAccounts
+        {
+            get { CheckGet(); return _manageAccounts; }
+            set { CheckSet(); _manageAccounts = value; }
+        }
+
         private string _employeeName;
         [Field("E792C619-76D5-4A69-8264-BF7D067C25DF", HasOperation = true)]
         public string EmployeeName

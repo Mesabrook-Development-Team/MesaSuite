@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 namespace WebModels.Migrations
 {
+    /// <summary>
+    /// Create company and gov schemas.
+    /// Create gov.Government and gov.Official tables.
+    /// Create company.Company and company.Employee tables.
+    /// </summary>
     public class Migration000002 : IMigration
     {
         public int MigrationNumber => 2;

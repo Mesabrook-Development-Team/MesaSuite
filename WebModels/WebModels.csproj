@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="account\Account.cs" />
+    <Compile Include="account\AccountClearance.cs" />
     <Compile Include="auth\Client.cs" />
     <Compile Include="auth\Code.cs" />
     <Compile Include="auth\Token.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Migrations\Migration000001.cs" />
     <Compile Include="Migrations\Migration000002.cs" />
     <Compile Include="Migrations\Migration000003.cs" />
+    <Compile Include="Migrations\Migration000004.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="security\Program.cs" />

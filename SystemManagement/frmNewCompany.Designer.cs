@@ -35,8 +35,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lstEmployees = new System.Windows.Forms.ListView();
             this.colUser = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colManageEmails = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colManageEmployees = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imlSmall = new System.Windows.Forms.ImageList(this.components);
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdSave = new System.Windows.Forms.Button();
@@ -68,14 +66,12 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(159, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Who will work for this company?";
+            this.label2.Text = "Who will manage this company?";
             // 
             // lstEmployees
             // 
             this.lstEmployees.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colUser,
-            this.colManageEmails,
-            this.colManageEmployees});
+            this.colUser});
             this.lstEmployees.FullRowSelect = true;
             this.lstEmployees.HideSelection = false;
             this.lstEmployees.Location = new System.Drawing.Point(12, 103);
@@ -85,22 +81,11 @@
             this.lstEmployees.TabIndex = 2;
             this.lstEmployees.UseCompatibleStateImageBehavior = false;
             this.lstEmployees.View = System.Windows.Forms.View.Details;
-            this.lstEmployees.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstEmployees_MouseDoubleClick);
             // 
             // colUser
             // 
             this.colUser.Text = "User";
-            this.colUser.Width = 100;
-            // 
-            // colManageEmails
-            // 
-            this.colManageEmails.Text = "Manage Emails";
-            this.colManageEmails.Width = 84;
-            // 
-            // colManageEmployees
-            // 
-            this.colManageEmployees.Text = "Manage Employees";
-            this.colManageEmployees.Width = 105;
+            this.colUser.Width = 275;
             // 
             // imlSmall
             // 
@@ -193,8 +178,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ListView lstEmployees;
         private System.Windows.Forms.ColumnHeader colUser;
-        private System.Windows.Forms.ColumnHeader colManageEmails;
-        private System.Windows.Forms.ColumnHeader colManageEmployees;
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Button cmdSave;
         private System.Windows.Forms.Button cmdSelectEmployees;

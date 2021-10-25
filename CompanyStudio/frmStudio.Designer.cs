@@ -52,6 +52,8 @@
             this.toolSaveAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolCompanyDropDown = new System.Windows.Forms.ToolStripComboBox();
+            this.accountsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAccountExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuBanner.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -73,6 +75,7 @@
             // mnuBanner
             // 
             this.mnuBanner.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.accountsToolStripMenuItem,
             this.companyToolStripMenuItem,
             this.emailToolStripMenuItem,
             this.employeesToolStripMenuItem,
@@ -133,7 +136,7 @@
             this.mnuEmployeeExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mnuEmployeeExplorer.Image = global::CompanyStudio.Properties.Resources.icn_hire;
             this.mnuEmployeeExplorer.Name = "mnuEmployeeExplorer";
-            this.mnuEmployeeExplorer.Size = new System.Drawing.Size(172, 22);
+            this.mnuEmployeeExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuEmployeeExplorer.Text = "Employee Explorer";
             this.mnuEmployeeExplorer.Click += new System.EventHandler(this.mnuEmployeeExplorer_Click);
             // 
@@ -229,6 +232,22 @@
             this.toolCompanyDropDown.Enter += new System.EventHandler(this.toolCompanyDropDown_Enter);
             this.toolCompanyDropDown.Leave += new System.EventHandler(this.toolCompanyDropDown_Leave);
             // 
+            // accountsToolStripMenuItem
+            // 
+            this.accountsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAccountExplorer});
+            this.accountsToolStripMenuItem.Name = "accountsToolStripMenuItem";
+            this.accountsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.accountsToolStripMenuItem.Text = "Accounts";
+            this.accountsToolStripMenuItem.Visible = false;
+            // 
+            // mnuAccountExplorer
+            // 
+            this.mnuAccountExplorer.Name = "mnuAccountExplorer";
+            this.mnuAccountExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuAccountExplorer.Text = "Account Explorer";
+            this.mnuAccountExplorer.Click += new System.EventHandler(this.mnuAccountExplorer_Click);
+            // 
             // frmStudio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -278,6 +297,8 @@
         private System.Windows.Forms.ToolStripButton toolSaveAll;
         private System.Windows.Forms.ToolStripMenuItem employeesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuEmployeeExplorer;
+        private System.Windows.Forms.ToolStripMenuItem accountsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuAccountExplorer;
     }
 }
 

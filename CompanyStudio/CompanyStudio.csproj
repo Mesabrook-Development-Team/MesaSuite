@@ -55,6 +55,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\frmAccountExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmAccountExplorer.Designer.cs">
+      <DependentUpon>frmAccountExplorer.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseCompanyStudioContent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +142,9 @@
     <Compile Include="StudioFormExtender.Designer.cs">
       <DependentUpon>StudioFormExtender.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Accounts\frmAccountExplorer.resx">
+      <DependentUpon>frmAccountExplorer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Email\frmAddRecipient.resx">
       <DependentUpon>frmAddRecipient.cs</DependentUpon>
       <SubType>Designer</SubType>

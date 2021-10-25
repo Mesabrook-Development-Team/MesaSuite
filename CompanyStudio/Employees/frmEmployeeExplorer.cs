@@ -43,7 +43,7 @@ namespace CompanyStudio.Employees
         {
             if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.Permissions.ManageEmployees && !e.Value)
             {
-                MessageBox.Show($"You do not have access to Employee Explorer for {Company.Name}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"You do not have access to Employee Explorer for {Company.Name}", "No Permission", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 Close();
             }
         }

@@ -26,6 +26,7 @@ namespace WebModels.Migrations
             {
                 { "AccountID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "CompanyID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CategoryID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "AccountNumber", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 16) },
                 { "Balance", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 11, 2) }
             };
@@ -40,10 +41,19 @@ namespace WebModels.Migrations
             };
             createTable.Execute(transaction);
 
+            createTable.TableName = "Category";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "CategoryID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 30) }
+            };
+            createTable.Execute(transaction);
+
             IAlterTable alterTable = SQLProviderFactory.GetAlterTableQuery();
             alterTable.Schema = "account";
             alterTable.Table = "Account";
             alterTable.AddForeignKey("FKAccount_Company_CompanyID", "CompanyID", "company", "Company", "CompanyID", transaction);
+            alterTable.AddForeignKey("FKAccount_Category_CategoryID", "CategoryID", "account", "Category", "CategoryID", transaction);
 
             alterTable.Table = "AccountClearance";
             alterTable.AddForeignKey("FKAccountClearance_Account_AccountID", "AccountID", "account", "Account", "AccountID", transaction);

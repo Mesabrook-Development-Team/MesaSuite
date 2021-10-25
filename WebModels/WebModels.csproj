@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="account\Account.cs" />
     <Compile Include="account\AccountClearance.cs" />
+    <Compile Include="account\Category.cs" />
     <Compile Include="auth\Client.cs" />
     <Compile Include="auth\Code.cs" />
     <Compile Include="auth\Token.cs" />

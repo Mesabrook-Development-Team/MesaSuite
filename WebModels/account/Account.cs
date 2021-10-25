@@ -34,6 +34,21 @@ namespace WebModels.account
             get { CheckGet(); return _company; }
         }
 
+        private long? _categoryID;
+        [Field("393487AC-885A-477B-9F9E-043BDFF83B6D")]
+        public long? CategoryID
+        {
+            get { CheckGet(); return _categoryID; }
+            set { CheckSet(); _categoryID = value; }
+        }
+
+        private Category _category = null;
+        [Relationship("F44026FA-1230-4C78-AB63-0AA17405EA07")]
+        public Category Category
+        {
+            get { CheckGet(); return _category; }
+        }
+
         private string _accountNumber;
         [Field("B27938A6-FC2B-4701-A3AA-3B098F465634", DataSize = 16)]
         [Required]

@@ -44,6 +44,7 @@ namespace CompanyStudio
             this.visualStudioToolStripExtender = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
             this.loader = new CompanyStudio.Loader();
             this.imlSmall = new System.Windows.Forms.ImageList(this.components);
+            this.colManageAccounts = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ctxCompanies.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -56,7 +57,8 @@ namespace CompanyStudio
             this.lstCompanies.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colName,
             this.colManageEmails,
-            this.colManageEmployees});
+            this.colManageEmployees,
+            this.colManageAccounts});
             this.lstCompanies.ContextMenuStrip = this.ctxCompanies;
             this.lstCompanies.FullRowSelect = true;
             this.lstCompanies.HideSelection = false;
@@ -155,6 +157,11 @@ namespace CompanyStudio
             this.imlSmall.ImageSize = new System.Drawing.Size(16, 16);
             this.imlSmall.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // colManageAccounts
+            // 
+            this.colManageAccounts.Text = "Manage  Accounts";
+            this.colManageAccounts.Width = 120;
+            // 
             // frmCompanyExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -192,5 +199,6 @@ namespace CompanyStudio
         private System.Windows.Forms.ContextMenuStrip ctxCompanies;
         private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem disconnectToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader colManageAccounts;
     }
 }

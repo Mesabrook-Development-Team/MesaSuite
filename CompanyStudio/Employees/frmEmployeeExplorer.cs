@@ -93,6 +93,11 @@ namespace CompanyStudio.Employees
                     manageEmails.ContextMenuStrip = ctxPermission;
                     manageEmails.Tag = nameof(Employee.ManageEmails);
                     permissionsNode.Nodes.Add(manageEmails);
+
+                    TreeNode manageAccounts = new TreeNode($"Manage Accounts - {employee.ManageAccounts}");
+                    manageAccounts.ContextMenuStrip = ctxPermission;
+                    manageAccounts.Tag = nameof(Employee.ManageAccounts);
+                    permissionsNode.Nodes.Add(manageAccounts);
                 }
             }
 

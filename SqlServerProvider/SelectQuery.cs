@@ -1,13 +1,12 @@
-﻿using ClussPro.Base.Data;
-using ClussPro.Base.Data.Conditions;
-using ClussPro.Base.Data.Query;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Query;
 
 namespace ClussPro.SqlServerProvider
 {
@@ -19,6 +18,8 @@ namespace ClussPro.SqlServerProvider
         public List<Join> JoinList { get; set; } = new List<Join>();
         public int PageSize { get; set; } = -1;
         public List<Order> OrderByList { get; set; } = new List<Order>();
+        public int? Skip { get; set; }
+        public int? Take { get; set; }
 
         public DataTable Execute(ITransaction transaction)
         {
@@ -80,6 +81,23 @@ namespace ClussPro.SqlServerProvider
                 sqlBuilder.Append($"WHERE {ScriptWriters.ConditionWriter.WriteCondition(WhereCondition, parameters)} ");
             }
 
+            WriteOrderList(sqlBuilder, parameters);
+
+            if (Skip == null && Take != null)
+            {
+                Skip = 0;
+            }
+
+            if (Skip != null)
+            {
+                sqlBuilder.Append($"OFFSET {Skip} ROWS ");
+            }
+
+            if (Take != null)
+            {
+                sqlBuilder.Append($"FETCH NEXT {Take} ROWS ONLY ");
+            }
+
             return sqlBuilder.ToString();
         }
 
@@ -131,12 +149,12 @@ namespace ClussPro.SqlServerProvider
 
         private void WriteOrderList(StringBuilder sqlBuilder, SqlParameterCollection parameters)
         {
-            if (!OrderByList.Any())
+            if (OrderByList == null || !OrderByList.Any())
             {
                 return;
             }
 
-            sqlBuilder.Append(" ORDER BY ");
+            sqlBuilder.Append("ORDER BY ");
             bool first = true;
             foreach(Order order in OrderByList)
             {
@@ -148,6 +166,8 @@ namespace ClussPro.SqlServerProvider
                 first = false;
                 sqlBuilder.Append(ScriptWriters.OrderWriter.WriteOrder(order, parameters));
             }
+
+            sqlBuilder.Append(" ");
         }
     }
 }

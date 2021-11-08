@@ -368,5 +368,13 @@ namespace CompanyStudio
             DecorateStudioContent(accountExplorer);
             accountExplorer.Show(dockPanel, DockState.DockRight);
         }
+
+        private void mnuCategories_Click(object sender, EventArgs e)
+        {
+            Accounts.frmCategories categories = new Accounts.frmCategories();
+            categories.Theme = currentTheme;
+            categories.Company = ActiveCompany;
+            categories.Show();
+        }
     }
 }

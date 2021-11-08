@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using WebModels.company;
 
 namespace WebModels.account
 {
@@ -21,12 +26,54 @@ namespace WebModels.account
             set { CheckSet(); _categoryID = value; }
         }
 
+        private long? _companyID;
+        [Field("F2C39BA9-F58D-470A-8D5F-462C15173100")]
+        public long? CompanyID
+        {
+            get { CheckGet(); return _companyID; }
+            set { CheckSet(); _companyID = value; }
+        }
+
+        private Company _company = null;
+        [Relationship("14683DA6-1C54-4886-9042-49D25FE0EC2A")]
+        public Company Company
+        {
+            get { CheckGet(); return _company; }
+        }
+
         private string _name;
         [Field("0DD31BE1-17F4-4803-9C88-60DDEF8B6045", DataSize = 30)]
         public string Name
         {
             get { CheckGet(); return _name; }
             set { CheckSet(); _name = value; }
+        }
+
+        private int _accountCount = 0;
+        [Field("A9D435F2-D7CA-4192-93C9-0D7CD154E22C", HasOperation = true)]
+        public int AccountCount
+        {
+            get { CheckGet(); return _accountCount; }
+        }
+
+        public static OperationDelegate AccountCountOperation
+        {
+            get
+            {
+                return (alias) =>
+                {
+                    ISelectQuery query = SQLProviderFactory.GetSelectQuery();
+                    query.SelectList = new List<Select>() { new Select() { SelectOperand = new Count((Field)"A.AccountID") } };
+                    query.Table = new Table("account", "Account", "A");
+                    query.WhereCondition = new Condition()
+                    {
+                        Left = (Field)"A.CategoryID",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (Field)$"{alias}.CategoryID"
+                    };
+                    return new SubQuery(query);
+                };
+            }
         }
 
         #region Relationships

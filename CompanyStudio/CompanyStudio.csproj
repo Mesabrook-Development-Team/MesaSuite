@@ -55,11 +55,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\frmAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmAccount.Designer.cs">
+      <DependentUpon>frmAccount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Accounts\frmAccountExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Accounts\frmAccountExplorer.Designer.cs">
       <DependentUpon>frmAccountExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\frmCategories.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmCategories.Designer.cs">
+      <DependentUpon>frmCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\frmCloseAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmCloseAccount.Designer.cs">
+      <DependentUpon>frmCloseAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\frmTransferFunds.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmTransferFunds.Designer.cs">
+      <DependentUpon>frmTransferFunds.cs</DependentUpon>
     </Compile>
     <Compile Include="BaseCompanyStudioContent.cs">
       <SubType>Form</SubType>
@@ -126,12 +150,16 @@
     <Compile Include="Loader.Designer.cs">
       <DependentUpon>Loader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Alias.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DistributionList.cs" />
     <Compile Include="Models\DistributionListRecipient.cs" />
     <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\FiscalQuarter.cs" />
+    <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="PermissionsManager.cs" />
     <Compile Include="Program.cs" />
@@ -142,8 +170,20 @@
     <Compile Include="StudioFormExtender.Designer.cs">
       <DependentUpon>StudioFormExtender.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Accounts\frmAccount.resx">
+      <DependentUpon>frmAccount.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Accounts\frmAccountExplorer.resx">
       <DependentUpon>frmAccountExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\frmCategories.resx">
+      <DependentUpon>frmCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\frmCloseAccount.resx">
+      <DependentUpon>frmCloseAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\frmTransferFunds.resx">
+      <DependentUpon>frmTransferFunds.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Email\frmAddRecipient.resx">
       <DependentUpon>frmAddRecipient.cs</DependentUpon>

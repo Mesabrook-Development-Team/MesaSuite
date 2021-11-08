@@ -86,6 +86,9 @@ namespace ClussPro.SqlServerProvider
                     case FieldSpecification.FieldTypes.Decimal:
                         builder.Append(string.Format("DECIMAL ({0}, {1}) ", col.Value.DataSize, col.Value.DataScale));
                         break;
+                    case FieldSpecification.FieldTypes.SmallInt:
+                        builder.Append("SMALLINT ");
+                        break;
                 }
 
                 if (col.Value.IsPrimary)

@@ -20,37 +20,51 @@ namespace CompanyStudio
             InitializeComponent();
         }
 
-        public void ApplyStyle(Form form, ThemeBase theme)
+        public void ApplyStyle(Control control, ThemeBase theme)
         {
-            form.BackColor = theme.ColorPalette.CommandBarToolbarDefault.Background;
-            form.ForeColor = theme.ColorPalette.CommandBarMenuDefault.Text;
+            control.BackColor = theme.ColorPalette.CommandBarToolbarDefault.Background;
+            control.ForeColor = theme.ColorPalette.CommandBarMenuDefault.Text;
 
-            foreach(Button button in form.Controls.OfType<Button>())
+            foreach(Button button in control.Controls.OfType<Button>())
             {
                 button.ForeColor = Color.Black;
             }
 
-            foreach(Loader loader in form.Controls.OfType<Loader>())
+            foreach(Loader loader in control.Controls.OfType<Loader>())
             {
                 loader.BackColor = Color.Transparent;
             }
 
-            foreach(ListView listView in form.Controls.OfType<ListView>())
+            foreach(ListView listView in control.Controls.OfType<ListView>())
             {
                 listView.BackColor = theme.ColorPalette.CommandBarToolbarDefault.Background;
                 listView.ForeColor = theme.ColorPalette.CommandBarMenuDefault.Text;
             }
 
-            foreach (TreeView treeView in form.Controls.OfType<TreeView>())
+            foreach (TreeView treeView in control.Controls.OfType<TreeView>())
             {
                 treeView.BackColor = theme.ColorPalette.CommandBarToolbarDefault.Background;
                 treeView.ForeColor = theme.ColorPalette.CommandBarMenuDefault.Text;
             }
 
-            foreach (ListBox listBox in form.Controls.OfType<ListBox>())
+            foreach (ListBox listBox in control.Controls.OfType<ListBox>())
             {
                 listBox.BackColor = theme.ColorPalette.CommandBarToolbarDefault.Background;
                 listBox.ForeColor = theme.ColorPalette.CommandBarMenuDefault.Text;
+            }
+
+            foreach(TabControl tabControl in control.Controls.OfType<TabControl>())
+            {
+                foreach(TabPage page in tabControl.TabPages)
+                {
+                    ApplyStyle(page, theme);
+                }
+            }
+
+            foreach(DataGridView dataGridView in control.Controls.OfType<DataGridView>())
+            {
+                dataGridView.BackgroundColor = theme.ColorPalette.CommandBarToolbarDefault.Background;
+                dataGridView.ForeColor = Color.Black;
             }
         }
     }

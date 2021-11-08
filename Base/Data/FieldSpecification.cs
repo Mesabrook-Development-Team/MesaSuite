@@ -12,7 +12,8 @@
             UniqueIdentifier,
             Bit,
             Int,
-            Decimal
+            Decimal,
+            SmallInt
         }
 
         public FieldTypes FieldType { get; set; }

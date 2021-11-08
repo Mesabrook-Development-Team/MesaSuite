@@ -101,10 +101,17 @@ namespace WebModels.company
         #region Relationships
         #region account
         private List<Account> _accounts = new List<Account>();
-        [RelationshipList("010B01A9-4656-4327-9B89-5B234EA7DF7D", "AccountID")]
+        [RelationshipList("010B01A9-4656-4327-9B89-5B234EA7DF7D", "CompanyID")]
         public IReadOnlyCollection<Account> Accounts
         {
             get { CheckGet(); return _accounts; }
+        }
+
+        private List<Category> _categories = new List<Category>();
+        [RelationshipList("83489E3E-4CE9-4D03-AB42-E08D738E74BD", "CompanyID")]
+        public IReadOnlyCollection<Category> Categories
+        {
+            get { CheckGet(); return _categories; }
         }
         #endregion
         #region company

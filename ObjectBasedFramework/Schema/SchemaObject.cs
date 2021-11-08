@@ -135,6 +135,10 @@ namespace ClussPro.ObjectBasedFramework.Schema
                         {
                             fieldType = FieldSpecification.FieldTypes.Decimal;
                         }
+                        else if (propType == typeof(short) || propType == typeof(short?))
+                        {
+                            fieldType = FieldSpecification.FieldTypes.SmallInt;
+                        }
                     }
                     field.FieldType = fieldType.Value;
                     field.DataSize = fieldAttribute.DataSize;

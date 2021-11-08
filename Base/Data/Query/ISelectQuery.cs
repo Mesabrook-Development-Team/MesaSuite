@@ -13,6 +13,8 @@ namespace ClussPro.Base.Data.Query
         List<Join> JoinList { get; set; }
         int PageSize { get; set; }
         List<Order> OrderByList { get; set; }
+        int? Skip { get; set; }
+        int? Take { get; set; }
 
         DataTable Execute(ITransaction transaction);
     }

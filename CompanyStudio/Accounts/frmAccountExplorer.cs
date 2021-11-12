@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompanyStudio.Models;
+using MesaSuite.Common;
 using MesaSuite.Common.Data;
+using MesaSuite.Common.Extensions;
 
 namespace CompanyStudio.Accounts
 {
@@ -71,6 +73,39 @@ namespace CompanyStudio.Accounts
         {
             Text += " - " + Company.Name;
             PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+            Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrDefault("company", new Dictionary<string, object>());
+            if (configValues.ContainsKey("accountExplorerLastViewOptions"))
+            {
+                List<string> viewOptions = configValues["accountExplorerLastViewOptions"].Cast<List<string>>();
+                bool isFirst = true;
+                foreach(string viewOption in viewOptions)
+                {
+                    if (!Enum.TryParse(viewOption, true, out ViewOptions enumViewOption))
+                    {
+                        continue;
+                    }
+
+                    if (isFirst)
+                    {
+                        this.viewOptions = enumViewOption;
+                        isFirst = false;
+                    }
+                    else
+                    {
+                        this.viewOptions |= enumViewOption;
+                    }
+                }
+            }
+
+            if (configValues.ContainsKey("accountExplorerLastSort") && Enum.TryParse(configValues["accountExplorerLastSort"].Cast<string>(), true, out SortOptions sortOption))
+            {
+                sortOptions = sortOption;
+            }
+
+            if (configValues.ContainsKey("accountExplorerLastGrouping") && Enum.TryParse(configValues["accountExplorerLastGrouping"].Cast<string>(), true, out GroupOptions groupOption))
+            {
+                groupOptions = groupOption;
+            }
 
             FetchAccounts();
         }
@@ -295,6 +330,21 @@ namespace CompanyStudio.Accounts
                 viewOptions = viewOptions ^ option;
             }
 
+            List<string> lastViewOptions = new List<string>();
+            foreach (ViewOptions viewOption in Enum.GetValues(typeof(ViewOptions)))
+            {
+                if (!viewOptions.HasFlag(viewOption))
+                {
+                    continue;
+                }
+
+                lastViewOptions.Add(viewOption.ToString());
+            }
+
+            UserPreferences userPreferences = UserPreferences.Get();
+            userPreferences.Sections.GetOrSetDefault("company", new Dictionary<string, object>())["accountExplorerLastViewOptions"] = lastViewOptions;
+            userPreferences.Save();
+
             PopulateTreeView();
         }
 
@@ -317,6 +367,10 @@ namespace CompanyStudio.Accounts
 
             sortOptions = sortOptionByMenuItem[item];
 
+            UserPreferences userPreferences = UserPreferences.Get();
+            userPreferences.Sections.GetOrSetDefault("company", new Dictionary<string, object>())["accountExplorerLastSort"] = sortOptions.ToString();
+            userPreferences.Save();
+
             PopulateTreeView();
         }
 
@@ -338,6 +392,10 @@ namespace CompanyStudio.Accounts
             item.Checked = true;
 
             groupOptions = groupOptionByMenuItem[item];
+
+            UserPreferences userPreferences = UserPreferences.Get();
+            userPreferences.Sections.GetOrSetDefault("company", new Dictionary<string, object>())["accountExplorerLastGrouping"] = groupOptions.ToString();
+            userPreferences.Save();
 
             PopulateTreeView();
         }

@@ -3,6 +3,9 @@ using ClussPro.Base.Data.Query;
 
 namespace WebModels.Migrations
 {
+    /// <summary>
+    /// Create company.EmailDomain table.
+    /// </summary>
     public class Migration000003 : IMigration
     {
         public int MigrationNumber => 3;

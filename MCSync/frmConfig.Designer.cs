@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConfig));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtModsDirectory = new System.Windows.Forms.TextBox();
@@ -42,6 +43,8 @@
             this.cmdBrowseConfig = new System.Windows.Forms.Button();
             this.txtConfigDirectory = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.cmdModsWhitelist = new System.Windows.Forms.Button();
+            this.cmdResourcePacksWhitelist = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -100,7 +103,7 @@
             // 
             // cmdSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(402, 137);
+            this.cmdSave.Location = new System.Drawing.Point(402, 149);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 6;
@@ -111,7 +114,7 @@
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(321, 137);
+            this.cmdCancel.Location = new System.Drawing.Point(321, 149);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 7;
@@ -122,7 +125,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(109, 111);
+            this.label3.Location = new System.Drawing.Point(109, 100);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(37, 13);
             this.label3.TabIndex = 6;
@@ -131,7 +134,7 @@
             // rbClient
             // 
             this.rbClient.AutoSize = true;
-            this.rbClient.Location = new System.Drawing.Point(152, 108);
+            this.rbClient.Location = new System.Drawing.Point(152, 97);
             this.rbClient.Name = "rbClient";
             this.rbClient.Size = new System.Drawing.Size(54, 17);
             this.rbClient.TabIndex = 4;
@@ -142,7 +145,7 @@
             // rbServer
             // 
             this.rbServer.AutoSize = true;
-            this.rbServer.Location = new System.Drawing.Point(211, 108);
+            this.rbServer.Location = new System.Drawing.Point(211, 97);
             this.rbServer.Name = "rbServer";
             this.rbServer.Size = new System.Drawing.Size(56, 17);
             this.rbServer.TabIndex = 5;
@@ -177,6 +180,26 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Config Directory:";
             // 
+            // cmdModsWhitelist
+            // 
+            this.cmdModsWhitelist.Location = new System.Drawing.Point(152, 120);
+            this.cmdModsWhitelist.Name = "cmdModsWhitelist";
+            this.cmdModsWhitelist.Size = new System.Drawing.Size(159, 23);
+            this.cmdModsWhitelist.TabIndex = 11;
+            this.cmdModsWhitelist.Text = "Mods Whitelist";
+            this.cmdModsWhitelist.UseVisualStyleBackColor = true;
+            this.cmdModsWhitelist.Click += new System.EventHandler(this.cmdModsWhitelist_Click);
+            // 
+            // cmdResourcePacksWhitelist
+            // 
+            this.cmdResourcePacksWhitelist.Location = new System.Drawing.Point(317, 120);
+            this.cmdResourcePacksWhitelist.Name = "cmdResourcePacksWhitelist";
+            this.cmdResourcePacksWhitelist.Size = new System.Drawing.Size(160, 23);
+            this.cmdResourcePacksWhitelist.TabIndex = 11;
+            this.cmdResourcePacksWhitelist.Text = "Resource Pack Whitelist";
+            this.cmdResourcePacksWhitelist.UseVisualStyleBackColor = true;
+            this.cmdResourcePacksWhitelist.Click += new System.EventHandler(this.cmdResourcePacksWhitelist_Click);
+            // 
             // frmConfig
             // 
             this.AcceptButton = this.cmdSave;
@@ -184,7 +207,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(489, 172);
+            this.ClientSize = new System.Drawing.Size(489, 183);
+            this.Controls.Add(this.cmdResourcePacksWhitelist);
+            this.Controls.Add(this.cmdModsWhitelist);
             this.Controls.Add(this.cmdBrowseConfig);
             this.Controls.Add(this.txtConfigDirectory);
             this.Controls.Add(this.label4);
@@ -200,6 +225,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmConfig";
@@ -229,5 +255,7 @@
         private System.Windows.Forms.Button cmdBrowseConfig;
         private System.Windows.Forms.TextBox txtConfigDirectory;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button cmdModsWhitelist;
+        private System.Windows.Forms.Button cmdResourcePacksWhitelist;
     }
 }

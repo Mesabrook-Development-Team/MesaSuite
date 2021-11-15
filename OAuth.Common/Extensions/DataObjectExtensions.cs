@@ -28,7 +28,7 @@ namespace API.Common.Extensions
                 KeyValuePair<string, object> workingValueToUpdate = new KeyValuePair<string, object>(valueToUpdate.Key, valueToUpdate.Value);
 
                 PropertyInfo property = dataObject.GetType().GetProperty(workingValueToUpdate.Key);
-                bool isEnumerable = typeof(IEnumerable).IsAssignableFrom(property.PropertyType);
+                bool isEnumerable = property.PropertyType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(property.PropertyType);
 
                 MethodInfo addMethod = null;
                 MethodInfo removeMethod = null;

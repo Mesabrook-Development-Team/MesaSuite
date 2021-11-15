@@ -21,7 +21,8 @@ namespace API_Company.Controllers
             nameof(Employee.UserID),
             nameof(Employee.EmployeeName),
             nameof(Employee.ManageEmails),
-            nameof(Employee.ManageEmployees)
+            nameof(Employee.ManageEmployees),
+            nameof(Employee.ManageAccounts)
         };
 
         [HttpGet]

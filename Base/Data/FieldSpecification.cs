@@ -11,7 +11,9 @@
             DateTime2,
             UniqueIdentifier,
             Bit,
-            Int
+            Int,
+            Decimal,
+            SmallInt
         }
 
         public FieldTypes FieldType { get; set; }

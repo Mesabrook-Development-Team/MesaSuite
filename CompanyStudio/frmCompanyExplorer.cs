@@ -58,6 +58,9 @@ namespace CompanyStudio
                         case PermissionsManager.Permissions.ManageEmployees:
                             item.SubItems[2].Text = e.Value.ToString();
                             break;
+                        case PermissionsManager.Permissions.ManageAccounts:
+                            item.SubItems[3].Text = e.Value.ToString();
+                            break;
                     }
                 }
             }
@@ -85,6 +88,7 @@ namespace CompanyStudio
                     item.Tag = (company, employee);
                     item.SubItems.Add(employee.ManageEmails.ToString());
                     item.SubItems.Add(employee.ManageEmployees.ToString());
+                    item.SubItems.Add(employee.ManageAccounts.ToString());
 
                     lstCompanies.Items.Add(item);
                 }

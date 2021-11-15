@@ -2,6 +2,7 @@
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System.Collections.Generic;
+using WebModels.account;
 using WebModels.auth;
 using WebModels.company;
 using WebModels.gov;
@@ -45,6 +46,14 @@ namespace WebModels.security
         public IReadOnlyCollection<Employee> Employees
         {
             get { CheckGet(); return _employees; }
+        }
+        #endregion
+        #region account
+        private List<AccountClearance> _accountClearances = new List<AccountClearance>();
+        [RelationshipList("E6F6B024-1F6B-4B1D-BFC2-71C87AD5EA4C", "UserID")]
+        public IReadOnlyCollection<AccountClearance> AccountClearances
+        {
+            get { CheckGet(); return _accountClearances; }
         }
         #endregion
         #region gov

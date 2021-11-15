@@ -105,32 +105,11 @@ namespace SystemManagement
                 item.Tag = employee;
                 item.Text = usersByID.GetOrDefault(employee.UserID)?.Username;
                 item.ImageKey = "user";
-                item.SubItems.Add(employee.ManageEmails.ToString());
-                item.SubItems.Add(employee.ManageEmployees.ToString());
                 lstEmployees.Items.Add(item);
             }
 
             Enabled = true;
             BringToFront();
-        }
-
-        private void lstEmployees_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            foreach(ListViewItem item in lstEmployees.SelectedItems)
-            {
-                frmEditEmployee editEmployee = new frmEditEmployee();
-                editEmployee.Employee = (Employee)item.Tag;
-                editEmployee.FormClosed += EditEmployee_FormClosed;
-                editEmployee.Show();
-            }
-        }
-
-        private async void EditEmployee_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            frmEditEmployee editEmployee = (frmEditEmployee)sender;
-            editEmployee.FormClosed -= EditEmployee_FormClosed;
-
-            await LoadEmployees();
         }
 
         private async void cmdSelectEmployees_Click(object sender, EventArgs e)
@@ -152,18 +131,14 @@ namespace SystemManagement
                 employee.UserID = userID;
                 employee.CompanyID = CompanyID;
 
-                PostData postEmployee = new PostData(DataAccess.APIs.SystemManagement, "Employee/Post", employee);
-                await postEmployee.ExecuteNoResult();
+                PutData putEmployee = new PutData(DataAccess.APIs.SystemManagement, "Employee/CreateOrUpdate", employee);
+                await putEmployee.ExecuteNoResult();
             }
 
             foreach(long employeeID in _employees.Where(emp => !selectUsers.SelectedUserIDs.Contains(emp.UserID)).Select(emp => emp.EmployeeID))
             {
-                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Employee/Delete");
-                delete.QueryString = new Dictionary<string, string>()
-                {
-                    { "id", employeeID.ToString() }
-                };
-                await delete.Execute();
+                PutData delete = new PutData(DataAccess.APIs.SystemManagement, "Employee/DemoteEmployee", new Employee() { EmployeeID = employeeID });
+                await delete.ExecuteNoResult();
             }
 
             await LoadEmployees();

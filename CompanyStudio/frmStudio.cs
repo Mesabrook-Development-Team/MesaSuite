@@ -37,6 +37,7 @@ namespace CompanyStudio
                 toolCompanyDropDown.SelectedItem = _activeCompany?.Name;
                 emailToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.Permissions.ManageEmails);
                 employeesToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.Permissions.ManageEmployees);
+                accountsToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.Permissions.ManageAccounts);
             }
         }
         private List<Company> _companies = new List<Company>();
@@ -85,6 +86,9 @@ namespace CompanyStudio
                         break;
                     case PermissionsManager.Permissions.ManageEmployees:
                         employeesToolStripMenuItem.Visible = e.Value;
+                        break;
+                    case PermissionsManager.Permissions.ManageAccounts:
+                        accountsToolStripMenuItem.Visible = e.Value;
                         break;
                 }
             }
@@ -348,6 +352,29 @@ namespace CompanyStudio
         private void frmStudio_FormClosing(object sender, FormClosingEventArgs e)
         {
             PermissionsManager.StopCheckThread();
+        }
+
+        private void mnuAccountExplorer_Click(object sender, EventArgs e)
+        {
+            Accounts.frmAccountExplorer accountExplorer = dockPanel.Contents.OfType<Accounts.frmAccountExplorer>().Where(acctExplorer => acctExplorer.Company == ActiveCompany).FirstOrDefault();
+
+            if (accountExplorer != null)
+            {
+                accountExplorer.Activate();
+                return;
+            }
+
+            accountExplorer = new Accounts.frmAccountExplorer();
+            DecorateStudioContent(accountExplorer);
+            accountExplorer.Show(dockPanel, DockState.DockRight);
+        }
+
+        private void mnuCategories_Click(object sender, EventArgs e)
+        {
+            Accounts.frmCategories categories = new Accounts.frmCategories();
+            categories.Theme = currentTheme;
+            categories.Company = ActiveCompany;
+            categories.Show();
         }
     }
 }

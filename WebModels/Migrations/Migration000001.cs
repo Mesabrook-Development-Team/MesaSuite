@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace WebModels.Migrations
 {
+    /// <summary>
+    /// Create security.Program and security.UserProgram tables
+    /// </summary>
     public class Migration000001 : IMigration
     {
         public int MigrationNumber => 1;

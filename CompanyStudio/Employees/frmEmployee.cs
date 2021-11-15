@@ -58,6 +58,7 @@ namespace CompanyStudio.Employees
                 cboEmployees.SelectedIndex = 0;
                 chkManageEmails.Checked = Employee.ManageEmails;
                 chkManageEmployees.Checked = Employee.ManageEmployees;
+                chkManageAccounts.Checked = Employee.ManageAccounts;
 
                 IsDirty = false;
             }
@@ -110,6 +111,7 @@ namespace CompanyStudio.Employees
             Employee.UserID = ((DropDownItem<User>)cboEmployees.SelectedItem).Object.UserID;
             Employee.ManageEmails = chkManageEmails.Checked;
             Employee.ManageEmployees = chkManageEmployees.Checked;
+            Employee.ManageAccounts = chkManageAccounts.Checked;
 
             if (Employee.EmployeeID == default)
             {

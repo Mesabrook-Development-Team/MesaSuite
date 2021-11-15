@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseConfig.cs" />
+    <Compile Include="Data\Operand\Count.cs" />
     <Compile Include="Data\TableAlias.cs" />
     <Compile Include="Data\Conditions\ConditionGroup.cs" />
     <Compile Include="Data\Conditions\Exists.cs" />

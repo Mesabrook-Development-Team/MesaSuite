@@ -1,0 +1,264 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using WebModels.company;
+
+namespace WebModels.account
+{
+    [Table("2B91C03F-672C-47C0-AE17-4657967EB54B")]
+    [Unique(new string[] { "AccountNumber" })]
+    public class Account : DataObject
+    {
+        protected Account() : base() { }
+
+        private long? _accountID;
+        [Field("D91F3C4F-5455-432E-9A49-6BC69074EF6A")]
+        public long? AccountID
+        {
+            get { CheckGet(); return _accountID; }
+            set { CheckSet(); _accountID = value; }
+        }
+
+        private long? _companyID;
+        [Field("C8B684BE-CBB0-4013-8DA7-C4CA9CE14CFD")]
+        public long? CompanyID
+        {
+            get { CheckGet(); return _companyID; }
+            set { CheckSet(); _companyID = value; }
+        }
+
+        private Company _company = null;
+        [Relationship("5E8D35E2-A896-4C7B-BFC6-3F5CFF63C1DA")]
+        public Company Company
+        {
+            get { CheckGet(); return _company; }
+        }
+
+        private long? _categoryID;
+        [Field("393487AC-885A-477B-9F9E-043BDFF83B6D")]
+        public long? CategoryID
+        {
+            get { CheckGet(); return _categoryID; }
+            set { CheckSet(); _categoryID = value; }
+        }
+
+        private Category _category = null;
+        [Relationship("F44026FA-1230-4C78-AB63-0AA17405EA07")]
+        public Category Category
+        {
+            get { CheckGet(); return _category; }
+        }
+
+        private string _accountNumber;
+        [Field("B27938A6-FC2B-4701-A3AA-3B098F465634", DataSize = 16)]
+        [Required]
+        public string AccountNumber
+        {
+            get { CheckGet(); return _accountNumber; }
+            set { CheckSet(); _accountNumber = value; }
+        }
+
+        private string _description;
+        [Field("8912E1E4-9933-4B9C-BE60-A8CDFEDB5E2A", DataSize = 50)]
+        public string Description
+        {
+            get { CheckGet(); return _description; }
+            set { CheckSet(); _description = value; }
+        }
+
+        private decimal? _balance;
+        [Field("56F17B40-38E6-4246-9AA9-48C6D1A31FD9", DataSize = 11, DataScale = 2)]
+        [Required]
+        public decimal? Balance
+        {
+            get { CheckGet(); return _balance; }
+            set { CheckSet(); _balance = value; }
+        }
+
+        public bool Close(long destinationAccountID, ITransaction transaction)
+        {
+            Account destinationAccount = DataObject.GetEditableByPrimaryKey<Account>(destinationAccountID, transaction, null);
+
+            FiscalQuarter fiscalQuarter;
+            try
+            {
+                fiscalQuarter = FiscalQuarter.FindOrCreate(destinationAccountID, DateTime.Now, transaction);
+            }
+            catch (Exception ex)
+            {
+                Errors.AddBaseMessage("Could not find Fiscal Quarter:\r\n\r\n" + ex.Message);
+                return false;
+            }
+
+            Transaction depositTransaction = DataObjectFactory.Create<Transaction>();
+            depositTransaction.FiscalQuarterID = fiscalQuarter.FiscalQuarterID;
+            depositTransaction.TransactionTime = DateTime.Now;
+            depositTransaction.Amount = Balance;
+            depositTransaction.Description = string.Format(Transaction.DescriptionFormats.CLOSING_DEPOSIT, AccountNumber, Description);
+            if (!depositTransaction.Save(transaction))
+            {
+                Errors.AddRange(depositTransaction.Errors.ToArray());
+                return false;
+            }
+
+            destinationAccount.Balance += Balance;
+            if (!destinationAccount.Save(transaction))
+            {
+                Errors.AddRange(destinationAccount.Errors.ToArray());
+                return false;
+            }
+
+            if (!Delete(transaction))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool Transfer(long destinationAccountID, decimal amount, ITransaction transaction)
+        {
+            if (AccountID == destinationAccountID)
+            {
+                Errors.AddBaseMessage("Cannot transfer to same account.");
+                return false;
+            }
+
+            if (amount == 0)
+            {
+                Errors.AddBaseMessage("Transfer Amount is a required field.");
+                return false;
+            }
+
+            Account destinationAccount = DataObject.GetEditableByPrimaryKey<Account>(destinationAccountID, transaction, null);
+
+            if (Balance < amount)
+            {
+                Errors.AddBaseMessage("Cannot transfer more funds than are available.");
+                return false;
+            }
+
+            Balance -= amount;
+            if (!Save(transaction))
+            {
+                return false;
+            }
+
+            destinationAccount.Balance += amount;
+            if (!destinationAccount.Save(transaction))
+            {
+                Errors.AddRange(destinationAccount.Errors.ToArray());
+                return false;
+            }
+
+            FiscalQuarter sourceFiscalQuarter;
+            try
+            {
+                sourceFiscalQuarter = FiscalQuarter.FindOrCreate(AccountID.Value, DateTime.Now, transaction);
+            }
+            catch (Exception ex)
+            {
+                Errors.AddBaseMessage("Could not get Fiscal Quarter:\r\n\r\n" + ex.Message);
+                return false;
+            }
+
+            FiscalQuarter destinationFiscalQuarter;
+            try
+            {
+                destinationFiscalQuarter = FiscalQuarter.FindOrCreate(destinationAccountID, DateTime.Now, transaction);
+            }
+            catch (Exception ex)
+            {
+                Errors.AddBaseMessage("Could not get Fiscal Quarter:\r\n\r\n" + ex.Message);
+                return false;
+            }
+
+            Transaction sourceTransaction = DataObjectFactory.Create<Transaction>();
+            sourceTransaction.FiscalQuarterID = sourceFiscalQuarter.FiscalQuarterID;
+            sourceTransaction.TransactionTime = DateTime.Now;
+            sourceTransaction.Amount = -amount;
+            sourceTransaction.Description = string.Format(Transaction.DescriptionFormats.TRANSFER_WITHDRAWAL, destinationAccount.AccountNumber, destinationAccount.Description);
+            if (!sourceTransaction.Save(transaction))
+            {
+                Errors.AddRange(sourceTransaction.Errors.ToArray());
+                return false;
+            }
+
+            Transaction destinationTransaction = DataObjectFactory.Create<Transaction>();
+            destinationTransaction.FiscalQuarterID = destinationFiscalQuarter.FiscalQuarterID;
+            destinationTransaction.TransactionTime = DateTime.Now;
+            destinationTransaction.Amount = amount;
+            destinationTransaction.Description = string.Format(Transaction.DescriptionFormats.TRANSFER_DEPOSIT, AccountNumber, Description);
+            if (!destinationTransaction.Save(transaction))
+            {
+                Errors.AddRange(destinationTransaction.Errors.ToArray());
+                return false;
+            }
+
+            return true;
+        }
+
+        protected override void PreValidate()
+        {
+            if (IsInsert)
+            {
+                StringBuilder accountNumberBuilder = new StringBuilder();
+                Random rand = new Random();
+                while (accountNumberBuilder.Length < 16)
+                {
+                    int num = rand.Next(0, 10);
+                    if (num == 0 && accountNumberBuilder.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    accountNumberBuilder.Append(num);
+                }
+
+                AccountNumber = accountNumberBuilder.ToString();
+                Balance = 0;
+            }
+        }
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (IsInsert)
+            {
+                try
+                {
+                    FiscalQuarter.FindOrCreate(AccountID.Value, DateTime.Now, transaction);
+                }
+                catch(Exception ex)
+                {
+                    Errors.AddBaseMessage(ex.Message);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        #region Relationships
+        #region account
+        private List<AccountClearance> _accountClearances = new List<AccountClearance>();
+        [RelationshipList("6733E4CD-1C88-42A0-A7DF-CAD5299C19D2", "AccountID", AutoDeleteReferences = true)]
+        public IReadOnlyCollection<AccountClearance> AccountClearances
+        {
+            get { CheckGet(); return _accountClearances; }
+        }
+
+        private List<FiscalQuarter> _fiscalQuarters = new List<FiscalQuarter>();
+        [RelationshipList("02DC9883-FC0C-42BF-A361-C9C69325A807", "AccountID", AutoDeleteReferences = true)]
+        public IReadOnlyCollection<FiscalQuarter> FiscalQuarters
+        {
+            get { CheckGet(); return _fiscalQuarters; }
+        }
+        #endregion
+        #endregion
+    }
+}

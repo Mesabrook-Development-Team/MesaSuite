@@ -32,6 +32,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmStudio));
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.mnuBanner = new System.Windows.Forms.MenuStrip();
+            this.accountsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAccountExplorer = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCategories = new System.Windows.Forms.ToolStripMenuItem();
             this.companyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCompanyExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,6 +76,7 @@
             // mnuBanner
             // 
             this.mnuBanner.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.accountsToolStripMenuItem,
             this.companyToolStripMenuItem,
             this.emailToolStripMenuItem,
             this.employeesToolStripMenuItem,
@@ -82,6 +86,30 @@
             this.mnuBanner.Size = new System.Drawing.Size(800, 24);
             this.mnuBanner.TabIndex = 2;
             this.mnuBanner.Text = "Banner";
+            // 
+            // accountsToolStripMenuItem
+            // 
+            this.accountsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAccountExplorer,
+            this.mnuCategories});
+            this.accountsToolStripMenuItem.Name = "accountsToolStripMenuItem";
+            this.accountsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.accountsToolStripMenuItem.Text = "Accounts";
+            this.accountsToolStripMenuItem.Visible = false;
+            // 
+            // mnuAccountExplorer
+            // 
+            this.mnuAccountExplorer.Name = "mnuAccountExplorer";
+            this.mnuAccountExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuAccountExplorer.Text = "Account Explorer";
+            this.mnuAccountExplorer.Click += new System.EventHandler(this.mnuAccountExplorer_Click);
+            // 
+            // mnuCategories
+            // 
+            this.mnuCategories.Name = "mnuCategories";
+            this.mnuCategories.Size = new System.Drawing.Size(180, 22);
+            this.mnuCategories.Text = "Categories";
+            this.mnuCategories.Click += new System.EventHandler(this.mnuCategories_Click);
             // 
             // companyToolStripMenuItem
             // 
@@ -96,7 +124,7 @@
             this.mnuCompanyExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mnuCompanyExplorer.Image = global::CompanyStudio.Properties.Resources.company_connect;
             this.mnuCompanyExplorer.Name = "mnuCompanyExplorer";
-            this.mnuCompanyExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuCompanyExplorer.Size = new System.Drawing.Size(172, 22);
             this.mnuCompanyExplorer.Text = "Company Explorer";
             this.mnuCompanyExplorer.Click += new System.EventHandler(this.mnuCompanyExplorer_Click);
             // 
@@ -115,7 +143,7 @@
             this.mnuEmailExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mnuEmailExplorer.Image = global::CompanyStudio.Properties.Resources.mail_explorer;
             this.mnuEmailExplorer.Name = "mnuEmailExplorer";
-            this.mnuEmailExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuEmailExplorer.Size = new System.Drawing.Size(149, 22);
             this.mnuEmailExplorer.Text = "Email Explorer";
             this.mnuEmailExplorer.Click += new System.EventHandler(this.mnuEmailExplorer_Click);
             // 
@@ -278,6 +306,9 @@
         private System.Windows.Forms.ToolStripButton toolSaveAll;
         private System.Windows.Forms.ToolStripMenuItem employeesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuEmployeeExplorer;
+        private System.Windows.Forms.ToolStripMenuItem accountsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuAccountExplorer;
+        private System.Windows.Forms.ToolStripMenuItem mnuCategories;
     }
 }
 

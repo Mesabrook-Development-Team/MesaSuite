@@ -114,7 +114,8 @@ namespace CompanyStudio
         public enum Permissions
         {
             ManageEmails,
-            ManageEmployees
+            ManageEmployees,
+            ManageAccounts
         }
 
         public class PermissionChangeEventArgs : EventArgs

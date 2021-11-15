@@ -113,6 +113,16 @@ namespace CompanyStudio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icn_cross_red {
+            get {
+                object obj = ResourceManager.GetObject("icn_cross_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icn_fired {
             get {
                 object obj = ResourceManager.GetObject("icn_fired", resourceCulture);
@@ -136,6 +146,16 @@ namespace CompanyStudio.Properties {
         internal static System.Drawing.Bitmap icn_list {
             get {
                 object obj = ResourceManager.GetObject("icn_list", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_plus_green {
+            get {
+                object obj = ResourceManager.GetObject("icn_plus_green", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

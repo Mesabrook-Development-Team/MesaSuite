@@ -118,14 +118,38 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="icn_save" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_cross_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_cross_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icn_plus_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_plus_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_hire" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_hire.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icn_fired" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_fired.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="company_connect" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\company_connect.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_mbd_slim" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_mbd_slim.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_list" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_list.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_mbd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_mbd.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mail_explorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mail_explorer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_theme" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_theme.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_eye" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_eye.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CompanyStudioFullRes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CompanyStudioFullRes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_view" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_view.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="company_disconnect" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\company_disconnect.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -133,28 +157,31 @@
   <data name="icn_alias" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_alias.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="company_connect" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\company_connect.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icn_hire" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_hire.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_fired" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_fired.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CompanyStudioFullRes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CompanyStudioFullRes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mail_explorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mail_explorer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_eye1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_eye.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="gif_loader" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gif_loader.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icn_list" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_list.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_clear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_category" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_category.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_plus_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_plus_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icn_saveall" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_saveall.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icn_cross_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_cross_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_group" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_group.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

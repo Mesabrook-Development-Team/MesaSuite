@@ -378,6 +378,11 @@ namespace MesaSuite.Common
             programThread.Start();
         }
 
+        public static void Shutdown()
+        {
+            _requestProgramThreadStop = true;
+        }
+
         private static bool _requestProgramThreadStop = false;
         private static void ProgramThreadLogic()
         {

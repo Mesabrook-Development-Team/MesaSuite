@@ -20,7 +20,7 @@ namespace API.Common.Extensions
             foreach(KeyValuePair<string, object> valueToUpdate in valuesToUpdate)
             {
                 ClussPro.ObjectBasedFramework.Schema.Field field = schemaObject.GetField(valueToUpdate.Key);
-                if (field.HasOperation)
+                if (field != null && field.HasOperation)
                 {
                     continue;
                 }

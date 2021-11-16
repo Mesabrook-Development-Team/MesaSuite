@@ -1,5 +1,9 @@
 ﻿using MesaSuite.Common;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace CompanyStudio
 {
@@ -7,9 +11,7 @@ namespace CompanyStudio
     {
         public static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SecuredApplicationContext(new frmStudio(), "company"));
+            Application.Run(new SecuredApplicationContext(() => new frmStudio(), "company", "Company Studio", Main, args));
         }
     }
 }

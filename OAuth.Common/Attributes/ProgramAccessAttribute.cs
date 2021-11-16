@@ -18,6 +18,11 @@ namespace API.Common.Attributes
 
         public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(ProgramKey)) // Likely overriding to be public
+            {
+                return;
+            }
+
             HttpResponseMessage unauthorizedResponse = await MesabrookAuthorizationAttribute.CheckHeadersForSecurity(actionContext);
 
             if (unauthorizedResponse != null)

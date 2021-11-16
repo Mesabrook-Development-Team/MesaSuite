@@ -63,12 +63,14 @@
     <Compile Include="hMailServer\Validations\dbo\AliasValidations.cs" />
     <Compile Include="hMailServer\Validations\dbo\DistributionListValidations.cs" />
     <Compile Include="Loaders\security\ProgramLoader.cs" />
+    <Compile Include="mesasys\CrashReport.cs" />
     <Compile Include="mesasys\MigrationHistory.cs" />
     <Compile Include="Migrations\IMigration.cs" />
     <Compile Include="Migrations\Migration000001.cs" />
     <Compile Include="Migrations\Migration000002.cs" />
     <Compile Include="Migrations\Migration000003.cs" />
     <Compile Include="Migrations\Migration000004.cs" />
+    <Compile Include="Migrations\Migration000005.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="security\Program.cs" />

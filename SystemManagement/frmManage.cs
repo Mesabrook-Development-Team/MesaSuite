@@ -17,6 +17,7 @@ namespace SystemManagement
         List<Government> governments = new List<Government>();
         List<Company> companies = new List<Company>();
         List<Domain> domains = new List<Domain>();
+        List<CrashReport> crashReports = new List<CrashReport>();
         
         public frmManage()
         {
@@ -74,6 +75,13 @@ namespace SystemManagement
                 AddDomain(domain);
             }
 
+            getData = new GetData(DataAccess.APIs.SystemManagement, "Crash/GetAll");
+            crashReports = await getData.GetObject<List<CrashReport>>();
+            foreach(CrashReport crashReport in crashReports.OrderByDescending(cr => cr.Time))
+            {
+                AddCrashReport(crashReport);
+            }
+
             Enabled = true;
             BringToFront();
         }
@@ -100,6 +108,11 @@ namespace SystemManagement
             foreach(Domain domain in domains.Where(d => d.DomainName.Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase)))
             {
                 AddDomain(domain);
+            }
+
+            foreach (CrashReport crashReport in crashReports.Where(d => d.Program.Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase) || d.Time.ToString("MM/dd/yyyy HH:mm").Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase)).OrderByDescending(cr => cr.Time))
+            {
+                AddCrashReport(crashReport);
             }
         }
 
@@ -151,6 +164,18 @@ namespace SystemManagement
             lstSecurities.Items.Add(item);
         }
 
+        private void AddCrashReport(CrashReport crashReport)
+        {
+            ListViewItem item = new ListViewItem();
+            item.Text = crashReport.Program + ": " + crashReport.Time.ToString("MM/dd/yyyy HH:mm");
+            item.Tag = crashReport.CrashReportID;
+            item.Group = lstSecurities.Groups["grpCrashReports"];
+            item.ImageKey = "crashReport";
+            item.SubItems.Add("Crash Report");
+
+            lstSecurities.Items.Add(item);
+        }
+
         private void lstSecurities_DoubleClick(object sender, EventArgs e)
         {
             if (lstSecurities.SelectedItems.Count <= 0)
@@ -187,6 +212,14 @@ namespace SystemManagement
                     editDomain.DomainID = (int)item.Tag;
                     editDomain.FormClosed += EditDomain_FormClosed;
                     editDomain.Show();
+                }
+
+                if (item.Group.Name == "grpCrashReports")
+                {
+                    frmCrashReport crashReport = new frmCrashReport();
+                    crashReport.CrashReportID = (long)item.Tag;
+                    crashReport.FormClosed += CrashReport_FormClosed;
+                    crashReport.Show();
                 }
             }
         }
@@ -257,6 +290,14 @@ namespace SystemManagement
             await LoadData();
         }
 
+        private async void CrashReport_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            frmCrashReport crashReport = (frmCrashReport)sender;
+            crashReport.FormClosed -= CrashReport_FormClosed;
+
+            await LoadData();
+        }
+
         private async void mnuDelete_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to delete the selected items?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
@@ -289,6 +330,13 @@ namespace SystemManagement
             {
                 DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Domain/Delete");
                 delete.QueryString.Add("id", ((int?)item.Tag).ToString());
+                await delete.Execute();
+            }
+
+            foreach (ListViewItem item in lstSecurities.SelectedItems.Cast<ListViewItem>().Where(lsv => lsv.Group.Name == "grpCrashReports"))
+            {
+                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Crash/Delete");
+                delete.QueryString.Add("id", ((long?)item.Tag).ToString());
                 await delete.Execute();
             }
 

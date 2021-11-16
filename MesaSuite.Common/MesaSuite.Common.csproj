@@ -64,6 +64,7 @@
     <Compile Include="Attributes\EnumValueAttribute.cs" />
     <Compile Include="Authentication.cs" />
     <Compile Include="Collections\MultiMap.cs" />
+    <Compile Include="CrashHandler.cs" />
     <Compile Include="Data\DataAccess.cs" />
     <Compile Include="Data\DebugResourceWriter.cs" />
     <Compile Include="Data\DeleteData.cs" />
@@ -81,6 +82,12 @@
     <Compile Include="Extensions\ListViewItemCollectionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TreeViewExtensions.cs" />
+    <Compile Include="frmCrashReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCrashReport.Designer.cs">
+      <DependentUpon>frmCrashReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +107,9 @@
     <Compile Include="Utility\DropDownItem.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmCrashReport.resx">
+      <DependentUpon>frmCrashReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>

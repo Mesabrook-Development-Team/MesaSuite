@@ -131,6 +131,7 @@ namespace SystemManagement
             this.cmdClose.TabIndex = 4;
             this.cmdClose.Text = "Close";
             this.cmdClose.UseVisualStyleBackColor = true;
+            this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
             // 
             // cmdDelete
             // 

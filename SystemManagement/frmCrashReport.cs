@@ -53,5 +53,10 @@ namespace SystemManagement
             Enabled = true;
             BringToFront();
         }
+
+        private void cmdClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

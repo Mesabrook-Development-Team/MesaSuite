@@ -150,7 +150,6 @@ namespace SystemManagement
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdClose;
             this.ClientSize = new System.Drawing.Size(631, 443);
-            this.ControlBox = false;
             this.Controls.Add(this.cmdDelete);
             this.Controls.Add(this.cmdClose);
             this.Controls.Add(this.txtException);

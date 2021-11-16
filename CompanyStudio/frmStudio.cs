@@ -64,8 +64,6 @@ namespace CompanyStudio
             SetThemeMenuChecked();
             ApplyTheme();
 
-            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
-            PermissionsManager.StartCheckThread((method) => Invoke(method));
 
             frmCompanyConnect connect = GetForm<frmCompanyConnect>();
             connect.Shown += Connect_Shown_FirstTime;
@@ -73,6 +71,9 @@ namespace CompanyStudio
 
             frmCompanyExplorer companyExplorer = GetForm<frmCompanyExplorer>();
             companyExplorer.Show(dockPanel, DockState.DockLeft);
+
+            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+            PermissionsManager.StartCheckThread((method) => Invoke(method));
         }
 
         private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)

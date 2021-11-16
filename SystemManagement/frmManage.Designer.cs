@@ -33,6 +33,7 @@
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Governments", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Companies", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Email Domains", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Crash Reports", System.Windows.Forms.HorizontalAlignment.Left);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmManage));
             this.lstSecurities = new System.Windows.Forms.ListView();
             this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,6 +48,7 @@
             this.mnuNewUser = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNewGovernment = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNewCompany = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuNewDomain = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuView = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLargeIcon = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,7 +56,6 @@
             this.mnuTile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuList = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDetails = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuNewDomain = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,11 +76,14 @@
             listViewGroup3.Name = "grpCompanies";
             listViewGroup4.Header = "Email Domains";
             listViewGroup4.Name = "grpDomains";
+            listViewGroup5.Header = "Crash Reports";
+            listViewGroup5.Name = "grpCrashReports";
             this.lstSecurities.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2,
             listViewGroup3,
-            listViewGroup4});
+            listViewGroup4,
+            listViewGroup5});
             this.lstSecurities.HideSelection = false;
             this.lstSecurities.LargeImageList = this.imlLarge;
             this.lstSecurities.Location = new System.Drawing.Point(0, 27);
@@ -161,34 +165,41 @@
             this.mnuNewCompany,
             this.mnuNewDomain});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // mnuNewUser
             // 
             this.mnuNewUser.Name = "mnuNewUser";
-            this.mnuNewUser.Size = new System.Drawing.Size(180, 22);
+            this.mnuNewUser.Size = new System.Drawing.Size(140, 22);
             this.mnuNewUser.Text = "User";
             this.mnuNewUser.Click += new System.EventHandler(this.mnuNewUser_Click);
             // 
             // mnuNewGovernment
             // 
             this.mnuNewGovernment.Name = "mnuNewGovernment";
-            this.mnuNewGovernment.Size = new System.Drawing.Size(180, 22);
+            this.mnuNewGovernment.Size = new System.Drawing.Size(140, 22);
             this.mnuNewGovernment.Text = "Government";
             this.mnuNewGovernment.Click += new System.EventHandler(this.mnuNewGovernment_Click);
             // 
             // mnuNewCompany
             // 
             this.mnuNewCompany.Name = "mnuNewCompany";
-            this.mnuNewCompany.Size = new System.Drawing.Size(180, 22);
+            this.mnuNewCompany.Size = new System.Drawing.Size(140, 22);
             this.mnuNewCompany.Text = "Company";
             this.mnuNewCompany.Click += new System.EventHandler(this.mnuNewCompany_Click);
+            // 
+            // mnuNewDomain
+            // 
+            this.mnuNewDomain.Name = "mnuNewDomain";
+            this.mnuNewDomain.Size = new System.Drawing.Size(140, 22);
+            this.mnuNewDomain.Text = "Domain";
+            this.mnuNewDomain.Click += new System.EventHandler(this.mnuNewDomain_Click);
             // 
             // mnuDelete
             // 
             this.mnuDelete.Name = "mnuDelete";
-            this.mnuDelete.Size = new System.Drawing.Size(180, 22);
+            this.mnuDelete.Size = new System.Drawing.Size(107, 22);
             this.mnuDelete.Text = "Delete";
             this.mnuDelete.Click += new System.EventHandler(this.mnuDelete_Click);
             // 
@@ -240,13 +251,6 @@
             this.mnuDetails.Size = new System.Drawing.Size(129, 22);
             this.mnuDetails.Text = "Details";
             this.mnuDetails.Click += new System.EventHandler(this.ListViewTypeUpdate);
-            // 
-            // mnuNewDomain
-            // 
-            this.mnuNewDomain.Name = "mnuNewDomain";
-            this.mnuNewDomain.Size = new System.Drawing.Size(180, 22);
-            this.mnuNewDomain.Text = "Domain";
-            this.mnuNewDomain.Click += new System.EventHandler(this.mnuNewDomain_Click);
             // 
             // frmManage
             // 

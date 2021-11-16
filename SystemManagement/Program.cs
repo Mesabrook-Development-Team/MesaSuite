@@ -9,9 +9,7 @@ namespace SystemManagement
     {
         public static void Main(string[] args)
         {
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.EnableVisualStyles();
-            Application.Run(new SecuredApplicationContext(new frmManage(), "system"));
+            Application.Run(new SecuredApplicationContext(() => new frmManage(), "system", "System Management", Main, args));
         }
     }
 }

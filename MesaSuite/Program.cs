@@ -98,6 +98,7 @@ namespace MesaSuite
 
         private static void InitializeApplication()
         {
+            Application.ApplicationExit += Application_ApplicationExit;
             Task<Updater.UpdaterResults> task = new Task<Updater.UpdaterResults>(Updater.Run);
             task.Start();
 
@@ -119,6 +120,11 @@ namespace MesaSuite
             {
                 updates = task.Result.UpdatesAvailable;
             }
+        }
+
+        private static void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            Authentication.Shutdown();
         }
 
         private static void InitCustomLabelFont()

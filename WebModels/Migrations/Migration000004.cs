@@ -8,7 +8,10 @@ using ClussPro.Base.Data.Query;
 
 namespace WebModels.Migrations
 {
-
+    /// <summary>
+    /// Create the account schema.
+    /// Create the Account, AccountClearance, Category, FiscalQuarter, and Transaction tables in the account schema.
+    /// </summary>
     public class Migration000004 : IMigration
     {
         public int MigrationNumber => 4;

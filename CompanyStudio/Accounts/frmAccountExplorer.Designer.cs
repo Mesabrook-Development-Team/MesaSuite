@@ -53,24 +53,24 @@ namespace CompanyStudio.Accounts
             this.mnuGroupCategory = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripExtender = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
             this.treAccounts = new System.Windows.Forms.TreeView();
-            this.loader = new CompanyStudio.Loader();
             this.ctxAccounts = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ctxCreate = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxClose = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctxSort = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxViewAccountNumber = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxViewDescription = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxViewCategory = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxViewBalance = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxSort = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxSortDescription = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxSortCategory = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxSortBalance = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxNoGrouping = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.ctxCategoryGrouping = new System.Windows.Forms.ToolStripMenuItem();
+            this.loader = new CompanyStudio.Loader();
             this.toolStrip1.SuspendLayout();
             this.ctxAccounts.SuspendLayout();
             this.SuspendLayout();
@@ -87,9 +87,10 @@ namespace CompanyStudio.Accounts
             this.mnuView,
             this.mnuSort,
             this.mnuGrouping});
+            this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(800, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(800, 23);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -98,7 +99,7 @@ namespace CompanyStudio.Accounts
             this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSearch.ForeColor = System.Drawing.SystemColors.InactiveCaption;
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(100, 25);
+            this.txtSearch.Size = new System.Drawing.Size(100, 23);
             this.txtSearch.Text = "Search...";
             this.txtSearch.Enter += new System.EventHandler(this.txtSearch_Enter);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
@@ -106,41 +107,41 @@ namespace CompanyStudio.Accounts
             // 
             // cmdClear
             // 
-            this.cmdClear.Image = ((System.Drawing.Image)(resources.GetObject("cmdClear.Image")));
+            this.cmdClear.Image = global::CompanyStudio.Properties.Resources.icn_clear;
             this.cmdClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cmdClear.Name = "cmdClear";
-            this.cmdClear.Size = new System.Drawing.Size(54, 22);
+            this.cmdClear.Size = new System.Drawing.Size(54, 20);
             this.cmdClear.Text = "Clear";
             this.cmdClear.Click += new System.EventHandler(this.cmdClear_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
             // 
             // mnuCreateAccount
             // 
-            this.mnuCreateAccount.Image = ((System.Drawing.Image)(resources.GetObject("mnuCreateAccount.Image")));
+            this.mnuCreateAccount.Image = global::CompanyStudio.Properties.Resources.icn_plus_green;
             this.mnuCreateAccount.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuCreateAccount.Name = "mnuCreateAccount";
-            this.mnuCreateAccount.Size = new System.Drawing.Size(61, 22);
+            this.mnuCreateAccount.Size = new System.Drawing.Size(61, 20);
             this.mnuCreateAccount.Text = "Create";
             this.mnuCreateAccount.Click += new System.EventHandler(this.mnuCreateAccount_Click);
             // 
             // mnuCloseAccount
             // 
             this.mnuCloseAccount.Enabled = false;
-            this.mnuCloseAccount.Image = ((System.Drawing.Image)(resources.GetObject("mnuCloseAccount.Image")));
+            this.mnuCloseAccount.Image = global::CompanyStudio.Properties.Resources.icn_cross_red;
             this.mnuCloseAccount.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuCloseAccount.Name = "mnuCloseAccount";
-            this.mnuCloseAccount.Size = new System.Drawing.Size(56, 22);
+            this.mnuCloseAccount.Size = new System.Drawing.Size(56, 20);
             this.mnuCloseAccount.Text = "Close";
             this.mnuCloseAccount.Click += new System.EventHandler(this.mnuCloseAccount_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 23);
             // 
             // mnuView
             // 
@@ -149,10 +150,10 @@ namespace CompanyStudio.Accounts
             this.mnuViewDescription,
             this.mnuViewCategory,
             this.mnuViewBalance});
-            this.mnuView.Image = ((System.Drawing.Image)(resources.GetObject("mnuView.Image")));
+            this.mnuView.Image = global::CompanyStudio.Properties.Resources.icn_eye1;
             this.mnuView.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(61, 22);
+            this.mnuView.Size = new System.Drawing.Size(61, 20);
             this.mnuView.Text = "View";
             this.mnuView.DropDownOpening += new System.EventHandler(this.mnuView_DropDownOpening);
             this.mnuView.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mnuViewColumn_DropDownItemClicked);
@@ -160,25 +161,25 @@ namespace CompanyStudio.Accounts
             // mnuViewAccountNumber
             // 
             this.mnuViewAccountNumber.Name = "mnuViewAccountNumber";
-            this.mnuViewAccountNumber.Size = new System.Drawing.Size(180, 22);
+            this.mnuViewAccountNumber.Size = new System.Drawing.Size(166, 22);
             this.mnuViewAccountNumber.Text = "Account Number";
             // 
             // mnuViewDescription
             // 
             this.mnuViewDescription.Name = "mnuViewDescription";
-            this.mnuViewDescription.Size = new System.Drawing.Size(180, 22);
+            this.mnuViewDescription.Size = new System.Drawing.Size(166, 22);
             this.mnuViewDescription.Text = "Description";
             // 
             // mnuViewCategory
             // 
             this.mnuViewCategory.Name = "mnuViewCategory";
-            this.mnuViewCategory.Size = new System.Drawing.Size(180, 22);
+            this.mnuViewCategory.Size = new System.Drawing.Size(166, 22);
             this.mnuViewCategory.Text = "Category";
             // 
             // mnuViewBalance
             // 
             this.mnuViewBalance.Name = "mnuViewBalance";
-            this.mnuViewBalance.Size = new System.Drawing.Size(180, 22);
+            this.mnuViewBalance.Size = new System.Drawing.Size(166, 22);
             this.mnuViewBalance.Text = "Balance";
             // 
             // mnuSort
@@ -187,10 +188,10 @@ namespace CompanyStudio.Accounts
             this.mnuSortDescription,
             this.mnuSortCategory,
             this.mnuSortBalance});
-            this.mnuSort.Image = ((System.Drawing.Image)(resources.GetObject("mnuSort.Image")));
+            this.mnuSort.Image = global::CompanyStudio.Properties.Resources.icn_view;
             this.mnuSort.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuSort.Name = "mnuSort";
-            this.mnuSort.Size = new System.Drawing.Size(57, 22);
+            this.mnuSort.Size = new System.Drawing.Size(57, 20);
             this.mnuSort.Text = "Sort";
             this.mnuSort.DropDownOpening += new System.EventHandler(this.mnuSort_DropDownOpening);
             this.mnuSort.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mnuSort_DropDownItemClicked);
@@ -198,19 +199,19 @@ namespace CompanyStudio.Accounts
             // mnuSortDescription
             // 
             this.mnuSortDescription.Name = "mnuSortDescription";
-            this.mnuSortDescription.Size = new System.Drawing.Size(180, 22);
+            this.mnuSortDescription.Size = new System.Drawing.Size(134, 22);
             this.mnuSortDescription.Text = "Description";
             // 
             // mnuSortCategory
             // 
             this.mnuSortCategory.Name = "mnuSortCategory";
-            this.mnuSortCategory.Size = new System.Drawing.Size(180, 22);
+            this.mnuSortCategory.Size = new System.Drawing.Size(134, 22);
             this.mnuSortCategory.Text = "Category";
             // 
             // mnuSortBalance
             // 
             this.mnuSortBalance.Name = "mnuSortBalance";
-            this.mnuSortBalance.Size = new System.Drawing.Size(180, 22);
+            this.mnuSortBalance.Size = new System.Drawing.Size(134, 22);
             this.mnuSortBalance.Text = "Balance";
             // 
             // mnuGrouping
@@ -219,10 +220,10 @@ namespace CompanyStudio.Accounts
             this.mnuGroupNone,
             this.toolStripSeparator2,
             this.mnuGroupCategory});
-            this.mnuGrouping.Image = ((System.Drawing.Image)(resources.GetObject("mnuGrouping.Image")));
+            this.mnuGrouping.Image = global::CompanyStudio.Properties.Resources.icn_group;
             this.mnuGrouping.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuGrouping.Name = "mnuGrouping";
-            this.mnuGrouping.Size = new System.Drawing.Size(69, 22);
+            this.mnuGrouping.Size = new System.Drawing.Size(69, 20);
             this.mnuGrouping.Text = "Group";
             this.mnuGrouping.DropDownOpening += new System.EventHandler(this.mnuGrouping_DropDownOpening);
             this.mnuGrouping.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mnuGrouping_DropDownItemClicked);
@@ -252,24 +253,12 @@ namespace CompanyStudio.Accounts
             // 
             this.treAccounts.ContextMenuStrip = this.ctxAccounts;
             this.treAccounts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treAccounts.Location = new System.Drawing.Point(0, 25);
+            this.treAccounts.Location = new System.Drawing.Point(0, 23);
             this.treAccounts.Name = "treAccounts";
-            this.treAccounts.Size = new System.Drawing.Size(800, 425);
+            this.treAccounts.Size = new System.Drawing.Size(800, 427);
             this.treAccounts.TabIndex = 1;
             this.treAccounts.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treAccounts_AfterSelect);
             this.treAccounts.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treAccounts_NodeMouseDoubleClick);
-            // 
-            // loader
-            // 
-            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(0, 0);
-            this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(800, 450);
-            this.loader.TabIndex = 2;
-            this.loader.Visible = false;
             // 
             // ctxAccounts
             // 
@@ -300,7 +289,7 @@ namespace CompanyStudio.Accounts
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(121, 6);
             // 
             // viewToolStripMenuItem
             // 
@@ -315,6 +304,30 @@ namespace CompanyStudio.Accounts
             this.viewToolStripMenuItem.DropDownOpening += new System.EventHandler(this.mnuView_DropDownOpening);
             this.viewToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mnuViewColumn_DropDownItemClicked);
             // 
+            // ctxViewAccountNumber
+            // 
+            this.ctxViewAccountNumber.Name = "ctxViewAccountNumber";
+            this.ctxViewAccountNumber.Size = new System.Drawing.Size(166, 22);
+            this.ctxViewAccountNumber.Text = "Account Number";
+            // 
+            // ctxViewDescription
+            // 
+            this.ctxViewDescription.Name = "ctxViewDescription";
+            this.ctxViewDescription.Size = new System.Drawing.Size(166, 22);
+            this.ctxViewDescription.Text = "Description";
+            // 
+            // ctxViewCategory
+            // 
+            this.ctxViewCategory.Name = "ctxViewCategory";
+            this.ctxViewCategory.Size = new System.Drawing.Size(166, 22);
+            this.ctxViewCategory.Text = "Category";
+            // 
+            // ctxViewBalance
+            // 
+            this.ctxViewBalance.Name = "ctxViewBalance";
+            this.ctxViewBalance.Size = new System.Drawing.Size(166, 22);
+            this.ctxViewBalance.Text = "Balance";
+            // 
             // ctxSort
             // 
             this.ctxSort.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -326,6 +339,24 @@ namespace CompanyStudio.Accounts
             this.ctxSort.Text = "Sort";
             this.ctxSort.DropDownOpening += new System.EventHandler(this.mnuSort_DropDownOpening);
             this.ctxSort.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mnuSort_DropDownItemClicked);
+            // 
+            // ctxSortDescription
+            // 
+            this.ctxSortDescription.Name = "ctxSortDescription";
+            this.ctxSortDescription.Size = new System.Drawing.Size(134, 22);
+            this.ctxSortDescription.Text = "Description";
+            // 
+            // ctxSortCategory
+            // 
+            this.ctxSortCategory.Name = "ctxSortCategory";
+            this.ctxSortCategory.Size = new System.Drawing.Size(134, 22);
+            this.ctxSortCategory.Text = "Category";
+            // 
+            // ctxSortBalance
+            // 
+            this.ctxSortBalance.Name = "ctxSortBalance";
+            this.ctxSortBalance.Size = new System.Drawing.Size(134, 22);
+            this.ctxSortBalance.Text = "Balance";
             // 
             // groupingToolStripMenuItem
             // 
@@ -339,64 +370,34 @@ namespace CompanyStudio.Accounts
             this.groupingToolStripMenuItem.DropDownOpening += new System.EventHandler(this.mnuGrouping_DropDownOpening);
             this.groupingToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mnuGrouping_DropDownItemClicked);
             // 
-            // ctxViewAccountNumber
-            // 
-            this.ctxViewAccountNumber.Name = "ctxViewAccountNumber";
-            this.ctxViewAccountNumber.Size = new System.Drawing.Size(180, 22);
-            this.ctxViewAccountNumber.Text = "Account Number";
-            // 
-            // ctxViewDescription
-            // 
-            this.ctxViewDescription.Name = "ctxViewDescription";
-            this.ctxViewDescription.Size = new System.Drawing.Size(180, 22);
-            this.ctxViewDescription.Text = "Description";
-            // 
-            // ctxViewCategory
-            // 
-            this.ctxViewCategory.Name = "ctxViewCategory";
-            this.ctxViewCategory.Size = new System.Drawing.Size(180, 22);
-            this.ctxViewCategory.Text = "Category";
-            // 
-            // ctxViewBalance
-            // 
-            this.ctxViewBalance.Name = "ctxViewBalance";
-            this.ctxViewBalance.Size = new System.Drawing.Size(180, 22);
-            this.ctxViewBalance.Text = "Balance";
-            // 
-            // ctxSortDescription
-            // 
-            this.ctxSortDescription.Name = "ctxSortDescription";
-            this.ctxSortDescription.Size = new System.Drawing.Size(180, 22);
-            this.ctxSortDescription.Text = "Description";
-            // 
-            // ctxSortCategory
-            // 
-            this.ctxSortCategory.Name = "ctxSortCategory";
-            this.ctxSortCategory.Size = new System.Drawing.Size(180, 22);
-            this.ctxSortCategory.Text = "Category";
-            // 
-            // ctxSortBalance
-            // 
-            this.ctxSortBalance.Name = "ctxSortBalance";
-            this.ctxSortBalance.Size = new System.Drawing.Size(180, 22);
-            this.ctxSortBalance.Text = "Balance";
-            // 
             // ctxNoGrouping
             // 
             this.ctxNoGrouping.Name = "ctxNoGrouping";
-            this.ctxNoGrouping.Size = new System.Drawing.Size(180, 22);
+            this.ctxNoGrouping.Size = new System.Drawing.Size(143, 22);
             this.ctxNoGrouping.Text = "No Grouping";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(140, 6);
             // 
             // ctxCategoryGrouping
             // 
             this.ctxCategoryGrouping.Name = "ctxCategoryGrouping";
-            this.ctxCategoryGrouping.Size = new System.Drawing.Size(180, 22);
+            this.ctxCategoryGrouping.Size = new System.Drawing.Size(143, 22);
             this.ctxCategoryGrouping.Text = "By Category";
+            // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(800, 450);
+            this.loader.TabIndex = 2;
+            this.loader.Visible = false;
             // 
             // frmAccountExplorer
             // 

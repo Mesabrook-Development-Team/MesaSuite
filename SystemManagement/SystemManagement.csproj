@@ -240,5 +240,8 @@
   <ItemGroup>
     <None Include="Resources\domain_email_small.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_crash.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

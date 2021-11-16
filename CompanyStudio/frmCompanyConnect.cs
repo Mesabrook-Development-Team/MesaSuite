@@ -47,8 +47,6 @@ namespace CompanyStudio
 
             Studio.AddCompany(((CompanyItem)cboCompany.SelectedItem).Company);
             Close();
-
-            throw new NotImplementedException();
         }
 
         private class CompanyItem

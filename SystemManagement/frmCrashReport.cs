@@ -41,17 +41,20 @@ namespace SystemManagement
         {
             Enabled = false;
 
-            DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Crash/Delete");
-            delete.QueryString.Add("id", CrashReportID.ToString());
-            await delete.Execute();
-
-            if (delete.RequestSuccessful)
+            if(MessageBox.Show("Are you sure you want to delete this Crash Report?", "Delete Crash Report", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-                Close();
-            }
+                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Crash/Delete");
+                delete.QueryString.Add("id", CrashReportID.ToString());
+                await delete.Execute();
 
-            Enabled = true;
-            BringToFront();
+                if (delete.RequestSuccessful)
+                {
+                    Close();
+                }
+
+                Enabled = true;
+                BringToFront();
+            }
         }
 
         private void cmdClose_Click(object sender, EventArgs e)

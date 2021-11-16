@@ -118,14 +118,14 @@ namespace SystemManagement
             this.txtException.Name = "txtException";
             this.txtException.ReadOnly = true;
             this.txtException.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtException.Size = new System.Drawing.Size(596, 196);
+            this.txtException.Size = new System.Drawing.Size(596, 297);
             this.txtException.TabIndex = 3;
             // 
             // cmdClose
             // 
             this.cmdClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdClose.Location = new System.Drawing.Point(536, 311);
+            this.cmdClose.Location = new System.Drawing.Point(536, 412);
             this.cmdClose.Name = "cmdClose";
             this.cmdClose.Size = new System.Drawing.Size(75, 23);
             this.cmdClose.TabIndex = 4;
@@ -136,7 +136,7 @@ namespace SystemManagement
             // cmdDelete
             // 
             this.cmdDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmdDelete.Location = new System.Drawing.Point(15, 311);
+            this.cmdDelete.Location = new System.Drawing.Point(15, 412);
             this.cmdDelete.Name = "cmdDelete";
             this.cmdDelete.Size = new System.Drawing.Size(75, 23);
             this.cmdDelete.TabIndex = 5;
@@ -149,7 +149,8 @@ namespace SystemManagement
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdClose;
-            this.ClientSize = new System.Drawing.Size(631, 342);
+            this.ClientSize = new System.Drawing.Size(631, 443);
+            this.ControlBox = false;
             this.Controls.Add(this.cmdDelete);
             this.Controls.Add(this.cmdClose);
             this.Controls.Add(this.txtException);
@@ -160,10 +161,13 @@ namespace SystemManagement
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtProgram);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmCrashReport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Crash Report";
+            this.Text = "Crash Report Viewer";
             this.Load += new System.EventHandler(this.frmCrashReport_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

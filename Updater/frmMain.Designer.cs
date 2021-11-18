@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.dlProgress = new System.Windows.Forms.ProgressBar();
             this.lblDownload = new System.Windows.Forms.Label();
             this.lblProgress = new System.Windows.Forms.Label();
@@ -69,6 +70,7 @@
             this.Controls.Add(this.lblDownload);
             this.Controls.Add(this.dlProgress);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmMain";

@@ -63,16 +63,6 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Actions_im_user_icon {
-            get {
-                object obj = ResourceManager.GetObject("Actions_im_user_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap bg {
             get {
                 object obj = ResourceManager.GetObject("bg", resourceCulture);
@@ -173,16 +163,6 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap btn_User_hover {
-            get {
-                object obj = ResourceManager.GetObject("btn_User_hover", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap btnLoginBase {
             get {
                 object obj = ResourceManager.GetObject("btnLoginBase", resourceCulture);
@@ -243,36 +223,6 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FB_IMG_1626710816410 {
-            get {
-                object obj = ResourceManager.GetObject("FB_IMG_1626710816410", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icn_company_studio_high {
-            get {
-                object obj = ResourceManager.GetObject("icn_company_studio_high", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icn_company_studio_norm {
-            get {
-                object obj = ResourceManager.GetObject("icn_company_studio_norm", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap icn_cstudio_hover {
             get {
                 object obj = ResourceManager.GetObject("icn_cstudio_hover", resourceCulture);
@@ -316,26 +266,6 @@ namespace MesaSuite.Properties {
         internal static System.Drawing.Bitmap icn_sysmgt_normal {
             get {
                 object obj = ResourceManager.GetObject("icn_sysmgt_normal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icn_system {
-            get {
-                object obj = ResourceManager.GetObject("icn_system", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icn_system_hover {
-            get {
-                object obj = ResourceManager.GetObject("icn_system_hover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

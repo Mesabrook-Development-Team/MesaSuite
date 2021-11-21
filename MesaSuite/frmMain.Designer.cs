@@ -158,9 +158,9 @@
             // pboxSystemManagement
             // 
             this.pboxSystemManagement.BackColor = System.Drawing.Color.Transparent;
-            this.pboxSystemManagement.BackgroundImage = global::MesaSuite.Properties.Resources.icn_system;
             this.pboxSystemManagement.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pboxSystemManagement.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pboxSystemManagement.Image = global::MesaSuite.Properties.Resources.icn_sysmgt_normal;
             this.pboxSystemManagement.Location = new System.Drawing.Point(21, 19);
             this.pboxSystemManagement.Name = "pboxSystemManagement";
             this.pboxSystemManagement.Size = new System.Drawing.Size(92, 97);
@@ -196,9 +196,9 @@
             // pboxCompanyStudio
             // 
             this.pboxCompanyStudio.BackColor = System.Drawing.Color.Transparent;
-            this.pboxCompanyStudio.BackgroundImage = global::MesaSuite.Properties.Resources.icn_company_studio_norm;
             this.pboxCompanyStudio.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pboxCompanyStudio.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pboxCompanyStudio.Image = global::MesaSuite.Properties.Resources.icn_cstudio_normal;
             this.pboxCompanyStudio.Location = new System.Drawing.Point(21, 19);
             this.pboxCompanyStudio.Name = "pboxCompanyStudio";
             this.pboxCompanyStudio.Size = new System.Drawing.Size(92, 97);

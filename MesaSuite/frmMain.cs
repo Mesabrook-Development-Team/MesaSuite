@@ -213,13 +213,13 @@ namespace MesaSuite
 
         private void pboxUserManagement_MouseEnter(object sender, EventArgs e)
         {
-            pboxSystemManagement.BackgroundImage = Properties.Resources.icn_system_hover;
+            pboxSystemManagement.Image = Properties.Resources.icn_sysmgt_hover;
             pboxSystem.Visible = true;
         }
 
         private void pboxUserManagement_MouseLeave(object sender, EventArgs e)
         {
-            pboxSystemManagement.BackgroundImage = Properties.Resources.icn_system;
+            pboxSystemManagement.Image = Properties.Resources.icn_sysmgt_normal;
             pboxSystem.Visible = false;
         }
 
@@ -246,13 +246,13 @@ namespace MesaSuite
 
         private void pboxCompanyStudio_MouseEnter(object sender, EventArgs e)
         {
-            pboxCompanyStudio.BackgroundImage = Properties.Resources.icn_company_studio_high;
+            pboxCompanyStudio.Image = Properties.Resources.icn_cstudio_hover;
             pboxCStudio.Visible = true;
         }
 
         private void pboxCompanyStudio_MouseLeave(object sender, EventArgs e)
         {
-            pboxCompanyStudio.BackgroundImage = Properties.Resources.icn_company_studio_norm;
+            pboxCompanyStudio.Image = Properties.Resources.icn_cstudio_normal;
             pboxCStudio.Visible = false;
         }
     }

@@ -184,8 +184,20 @@
   <data name="icn_company_studio_norm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_company_studio_norm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icn_cstudio_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_cstudio_hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_cstudio_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_cstudio_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="icn_information" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_information.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_sysmgt_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_sysmgt_hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_sysmgt_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_sysmgt_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icn_system" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_system.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

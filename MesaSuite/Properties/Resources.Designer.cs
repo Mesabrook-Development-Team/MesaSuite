@@ -273,9 +273,49 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icn_cstudio_hover {
+            get {
+                object obj = ResourceManager.GetObject("icn_cstudio_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_cstudio_normal {
+            get {
+                object obj = ResourceManager.GetObject("icn_cstudio_normal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icn_information {
             get {
                 object obj = ResourceManager.GetObject("icn_information", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_sysmgt_hover {
+            get {
+                object obj = ResourceManager.GetObject("icn_sysmgt_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_sysmgt_normal {
+            get {
+                object obj = ResourceManager.GetObject("icn_sysmgt_normal", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

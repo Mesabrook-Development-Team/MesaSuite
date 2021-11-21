@@ -275,9 +275,6 @@
     <None Include="Resources\domain_email_small.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icn_alias.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\icn_list.png" />
   </ItemGroup>
   <ItemGroup>
@@ -324,6 +321,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icn_com.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_alias.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

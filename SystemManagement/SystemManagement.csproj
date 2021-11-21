@@ -199,36 +199,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\user.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\user_large.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\program.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\program_large.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\security.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\security_large.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\company.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\company_large.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\government.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\government_large.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\domain_large.png" />
   </ItemGroup>
   <ItemGroup>
@@ -241,7 +211,37 @@
     <None Include="Resources\domain_email_small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\program_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\program.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\security.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\security_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_large.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\icn_crash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\company_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\company.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\government.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\government_large.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

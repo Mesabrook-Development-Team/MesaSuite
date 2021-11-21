@@ -251,13 +251,7 @@
     <None Include="Resources\lbl_cstudio.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CompanyStudioFullRes.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\mail_explorer.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\gif_loader.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\company_connect.png" />
@@ -273,9 +267,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\domain_email_small.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icn_list.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icn_pinkslip.ico" />
@@ -324,6 +315,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icn_alias.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_list.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gif_loader.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CompanyStudioFullRes.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

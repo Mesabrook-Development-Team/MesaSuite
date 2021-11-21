@@ -36,8 +36,9 @@ namespace MesaSuite.Common
             this.txtException = new System.Windows.Forms.TextBox();
             this.cmdRestart = new System.Windows.Forms.Button();
             this.cmdExit = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.lnkLblGitHub = new System.Windows.Forms.LinkLabel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblProgram
@@ -120,20 +121,6 @@ namespace MesaSuite.Common
             this.cmdExit.UseVisualStyleBackColor = true;
             this.cmdExit.Click += new System.EventHandler(this.cmdExit_Click);
             // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(348, -1);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 128);
-            this.label1.TabIndex = 5;
-            this.label1.Text = ":(";
-            // 
             // lnkLblGitHub
             // 
             this.lnkLblGitHub.AutoSize = true;
@@ -147,6 +134,16 @@ namespace MesaSuite.Common
             this.lnkLblGitHub.Text = "Report issue on GitHub";
             this.lnkLblGitHub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkLblGitHub_LinkClicked);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::MesaSuite.Common.Properties.Resources.sad_face;
+            this.pictureBox1.Location = new System.Drawing.Point(362, 20);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(87, 105);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 7;
+            this.pictureBox1.TabStop = false;
+            // 
             // frmCrashReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -154,8 +151,8 @@ namespace MesaSuite.Common
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(800, 582);
             this.ControlBox = false;
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lnkLblGitHub);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.cmdExit);
             this.Controls.Add(this.cmdRestart);
             this.Controls.Add(this.txtException);
@@ -171,6 +168,7 @@ namespace MesaSuite.Common
             this.Text = "An app has crashed";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.frmCrashReport_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,7 +181,7 @@ namespace MesaSuite.Common
         private System.Windows.Forms.Button cmdExit;
         public System.Windows.Forms.Label lblProgram;
         public System.Windows.Forms.TextBox txtException;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.LinkLabel lnkLblGitHub;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

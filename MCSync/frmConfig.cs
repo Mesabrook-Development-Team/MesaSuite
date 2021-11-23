@@ -105,6 +105,7 @@ namespace MCSync
             frmWhitelist whitelist = new frmWhitelist();
             whitelist.Text = "Mods Whitelist";
             whitelist.WhitelistName = "mods_whitelist";
+            whitelist.lblIntro.Text = "Edit your Mods whitelist.";
             whitelist.ShowDialog();
         }
 
@@ -113,6 +114,7 @@ namespace MCSync
             frmWhitelist whitelist = new frmWhitelist();
             whitelist.Text = "Resource Packs Whitelist";
             whitelist.WhitelistName = "resourcepacks_whitelist";
+            whitelist.lblIntro.Text = "Edit your Resource Packs whitelist.";
             whitelist.ShowDialog();
         }
     }

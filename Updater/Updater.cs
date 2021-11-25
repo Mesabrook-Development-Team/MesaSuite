@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -11,10 +12,17 @@ namespace Updater
 {
     public class Updater
     {
+        public InstallationConfiguration InstallationConfiguration { get; set; }
+
         public event EventHandler<int> NumberOfTasks;
         public event EventHandler<string> NonTaskExecuting;
         public event EventHandler<string> TaskExecuting;
-        public event EventHandler InvalidVersion;
+        public event EventHandler UpdateFailed;
+        public event EventHandler UpdateSucceeded;
+
+        private List<string> _errors = new List<string>();
+
+        public IReadOnlyCollection<string> Errors => _errors;
 
         public async Task BeginUpdate()
         {
@@ -30,6 +38,13 @@ namespace Updater
                 {
                     Thread.Sleep(50);
                 }
+            }
+
+            if (string.IsNullOrEmpty(StartupArguments.VersionToDownload))
+            {
+                _errors.Add("Invalid version specified");
+                UpdateFailed?.Invoke(this, new EventArgs());
+                return;
             }
 
             NetworkCredential ftpCredentials = new NetworkCredential("Reporting", "NetLogon");
@@ -48,7 +63,8 @@ namespace Updater
             }
             catch(WebException)
             {
-                InvalidVersion?.Invoke(this, new EventArgs());
+                _errors.Add("Invalid version specified");
+                UpdateFailed?.Invoke(this, new EventArgs());
                 return;
             }
 
@@ -65,11 +81,6 @@ namespace Updater
                 NumberOfTasks?.Invoke(this, counter);
             }
 
-            string directoryPrefix = "";
-            if (!string.IsNullOrEmpty(StartupArguments.FolderToDelete) && Directory.GetCurrentDirectory().Contains(StartupArguments.FolderToDelete))
-            {
-                directoryPrefix = "..\\";
-            }
             using (StringReader reader = new StringReader(files))
             {
                 string file;
@@ -82,7 +93,7 @@ namespace Updater
                     webRequest.Method = WebRequestMethods.Ftp.DownloadFile;
 
                     using (Stream responseStream = webRequest.GetResponse().GetResponseStream())
-                    using (Stream fileStream = File.Create(directoryPrefix + file))
+                    using (Stream fileStream = File.Create(Path.Combine(InstallationConfiguration.InstallDirectory, file)))
                     {
                         responseStream.CopyTo(fileStream);
                     }
@@ -95,10 +106,7 @@ namespace Updater
                 argumentBuilder.Append($" -folder {StartupArguments.FolderToDelete}");
             }
 
-            NonTaskExecuting?.Invoke(this, "Starting MCSync...");
-            ProcessStartInfo startInfo = new ProcessStartInfo(directoryPrefix + "MesaSuite.exe", argumentBuilder.ToString());
-            startInfo.WorkingDirectory = Directory.GetCurrentDirectory() + directoryPrefix;
-            Process.Start(startInfo);
+            UpdateSucceeded?.Invoke(this, new EventArgs());
         }
     }
 }

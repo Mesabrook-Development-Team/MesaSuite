@@ -69,6 +69,13 @@
     <Compile Include="Steps\AdditionalOptionsStepControl.Designer.cs">
       <DependentUpon>AdditionalOptionsStepControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Steps\InstallationCompleteStep.cs" />
+    <Compile Include="Steps\InstallationCompleteStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\InstallationCompleteStepControl.Designer.cs">
+      <DependentUpon>InstallationCompleteStepControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Steps\InstallationDirectoryStep.cs" />
     <Compile Include="Steps\InstallationDirectoryStepControl.cs">
       <SubType>UserControl</SubType>
@@ -76,12 +83,33 @@
     <Compile Include="Steps\InstallationDirectoryStepControl.Designer.cs">
       <DependentUpon>InstallationDirectoryStepControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Steps\InstallationFailedStep.cs" />
+    <Compile Include="Steps\InstallationFailedStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\InstallationFailedStepControl.Designer.cs">
+      <DependentUpon>InstallationFailedStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\InstallationStep.cs" />
+    <Compile Include="Steps\InstallationStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\InstallationStepControl.Designer.cs">
+      <DependentUpon>InstallationStepControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Steps\PreconditionStep.cs" />
     <Compile Include="Steps\PreconditionStepControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Steps\PreconditionStepControl.Designer.cs">
       <DependentUpon>PreconditionStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\PreviewStep.cs" />
+    <Compile Include="Steps\PreviewStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\PreviewStepControl.Designer.cs">
+      <DependentUpon>PreviewStepControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Updater.cs" />
     <Compile Include="UpdateWorkflow\IStepUserControl.cs" />
@@ -106,11 +134,23 @@
     <EmbeddedResource Include="Steps\AdditionalOptionsStepControl.resx">
       <DependentUpon>AdditionalOptionsStepControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Steps\InstallationCompleteStepControl.resx">
+      <DependentUpon>InstallationCompleteStepControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Steps\InstallationDirectoryStepControl.resx">
       <DependentUpon>InstallationDirectoryStepControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Steps\InstallationFailedStepControl.resx">
+      <DependentUpon>InstallationFailedStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\InstallationStepControl.resx">
+      <DependentUpon>InstallationStepControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Steps\PreconditionStepControl.resx">
       <DependentUpon>PreconditionStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\PreviewStepControl.resx">
+      <DependentUpon>PreviewStepControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

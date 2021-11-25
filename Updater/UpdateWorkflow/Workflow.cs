@@ -66,20 +66,35 @@ namespace Updater.UpdateWorkflow
 
             CurrentStep.InstallationConfiguration = _installationConfiguration;
 
-            Control userControl = (Control)CurrentStep.StepUserControl;
-            _screenElements.UserControlPanel.Controls.Clear();
-            _screenElements.UserControlPanel.Controls.Add(userControl);
-            userControl.Dock = DockStyle.Fill;
+            Action adjustScreenElements = () =>
+            {
+                Control userControl = (Control)CurrentStep.StepUserControl;
+                _screenElements.UserControlPanel.Controls.Clear();
+                _screenElements.UserControlPanel.Controls.Add(userControl);
+                userControl.Dock = DockStyle.Fill;
 
-            _screenElements.Banner.Image = CurrentStep.Banner;
-            _screenElements.NextButton.Enabled = CurrentStep.NextAvailable;
-            _screenElements.PreviousButton.Enabled = CurrentStep.PreviousAvailable;
-            _screenElements.CancelButton.Enabled = CurrentStep.CancelAvailable;
+                _screenElements.Banner.Image = CurrentStep.Banner;
+                _screenElements.NextButton.Enabled = CurrentStep.NextAvailable;
+                _screenElements.NextButton.Text = CurrentStep.NextText;
+                _screenElements.PreviousButton.Enabled = CurrentStep.PreviousAvailable;
+                _screenElements.CancelButton.Enabled = CurrentStep.CancelAvailable;
+            };
+
+            if (_screenElements.UserControlPanel.InvokeRequired)
+            {
+                _screenElements.UserControlPanel.Invoke(adjustScreenElements);
+            }
+            else
+            {
+                adjustScreenElements();
+            }
 
             CurrentStep.BannerChanged += CurrentStep_BannerChanged;
             CurrentStep.CancelAvailableChanged += CurrentStep_CancelAvailableChanged;
             CurrentStep.NextAvailableChanged += CurrentStep_NextAvailableChanged;
+            CurrentStep.NextTextChanged += CurrentStep_NextTextChanged;
             CurrentStep.PreviousAvailableChanged += CurrentStep_PreviousAvailableChanged;
+            CurrentStep.StepCompletedAsync += CurrentStep_StepCompletedAsync;
 
             if (await CurrentStep.LoadAndAutoComplete())
             {
@@ -87,6 +102,17 @@ namespace Updater.UpdateWorkflow
                 ProcessStep();
                 return;
             }
+        }
+
+        private void CurrentStep_StepCompletedAsync(object sender, EventArgs e)
+        {
+            LoadNextStep();
+            ProcessStep();
+        }
+
+        private void CurrentStep_NextTextChanged(object sender, EventArgs e)
+        {
+            _screenElements.NextButton.Text = CurrentStep.NextText;
         }
 
         private void CurrentStep_PreviousAvailableChanged(object sender, EventArgs e)
@@ -139,8 +165,10 @@ namespace Updater.UpdateWorkflow
         {
             CurrentStep.PreviousAvailableChanged -= CurrentStep_PreviousAvailableChanged;
             CurrentStep.NextAvailableChanged -= CurrentStep_NextAvailableChanged;
+            CurrentStep.NextTextChanged -= CurrentStep_NextTextChanged;
             CurrentStep.CancelAvailableChanged -= CurrentStep_CancelAvailableChanged;
             CurrentStep.BannerChanged -= CurrentStep_BannerChanged;
+            CurrentStep.StepCompletedAsync -= CurrentStep_StepCompletedAsync;
         }
 
         private void LoadPreviousStep()

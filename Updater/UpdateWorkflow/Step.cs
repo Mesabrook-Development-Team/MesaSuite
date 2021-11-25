@@ -15,6 +15,8 @@ namespace Updater.UpdateWorkflow
         public event EventHandler NextAvailableChanged;
         public event EventHandler CancelAvailableChanged;
         public event EventHandler BannerChanged;
+        public event EventHandler NextTextChanged;
+        public event EventHandler StepCompletedAsync;
 
         private bool _previousAvailable = true;
         public bool PreviousAvailable
@@ -60,6 +62,17 @@ namespace Updater.UpdateWorkflow
             }
         }
 
+        private string _nextText = "Next";
+        public string NextText
+        {
+            get { return _nextText; }
+            protected set
+            {
+                _nextText = value;
+                NextTextChanged?.Invoke(this, new EventArgs());
+            }
+        }
+
         public Step()
         {
             Banner = GetInitialBanner();
@@ -71,6 +84,10 @@ namespace Updater.UpdateWorkflow
         public async virtual Task<bool> PreviousClicked() { return true; }
         public async virtual Task CancelClicked() {  }
         public async virtual Task<bool> LoadAndAutoComplete() { return false; }
+        protected void CompleteStep()
+        {
+            StepCompletedAsync?.Invoke(this, new EventArgs());
+        }
 
         public abstract IStepUserControl StepUserControl { get; }
         protected abstract Bitmap GetInitialBanner();

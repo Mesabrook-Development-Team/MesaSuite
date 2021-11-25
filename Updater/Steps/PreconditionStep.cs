@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
@@ -43,6 +44,26 @@ namespace Updater.Steps
                 string uninstallString = mesaSuiteUninstallKey.GetValue("UninstallString", "") as string;
                 InstallationConfiguration.InstallDirectory = Path.GetFullPath(uninstallString);
             });
+
+            if (string.IsNullOrEmpty(StartupArguments.VersionToDownload))
+            {
+                //HttpWebRequest webRequest = WebRequest.CreateHttp("https://mcsync.api.mesabrook.com/Version/GetLatest");
+                HttpWebRequest webRequest = WebRequest.CreateHttp("http://localhost:23895/Version/GetLatest");
+                webRequest.Method = WebRequestMethods.Http.Get;
+                HttpWebResponse response;
+                try
+                {
+                    response = (HttpWebResponse)await webRequest.GetResponseAsync();
+                }
+                catch { return true; }
+
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    StartupArguments.VersionToDownload = reader.ReadLine();
+                }
+
+                StartupArguments.VersionToDownload = StartupArguments.VersionToDownload.Replace("\"", "");
+            }
 
             return true;
         }

@@ -39,7 +39,7 @@ namespace Updater.Steps
             this.progressBar1.Location = new System.Drawing.Point(3, 143);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(532, 23);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 0;
             // 
             // label1
@@ -48,9 +48,9 @@ namespace Updater.Steps
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 169);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(93, 13);
+            this.label1.Size = new System.Drawing.Size(110, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Loading settings...";
+            this.label1.Text = "Getting things ready...";
             // 
             // PreconditionStepControl
             // 

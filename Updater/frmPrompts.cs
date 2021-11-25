@@ -25,6 +25,18 @@ namespace Updater
             AdditionalOptionsStep additionalOptions = new AdditionalOptionsStep();
             workflow.ConnectSteps(installationDirectory, additionalOptions);
 
+            PreviewStep preview = new PreviewStep();
+            workflow.ConnectSteps(additionalOptions, preview);
+
+            InstallationStep install = new InstallationStep();
+            workflow.ConnectSteps(preview, install);
+
+            InstallationCompleteStep complete = new InstallationCompleteStep();
+            workflow.ConnectSteps(install, complete, () => !install.InstallationErrors.Any());
+
+            InstallationFailedStep failed = new InstallationFailedStep(() => install.InstallationErrors);
+            workflow.ConnectSteps(install, failed, () => install.InstallationErrors.Any());
+
             // Setup starter step
             workflow.StarterStep = preconditionStep;
         }

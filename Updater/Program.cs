@@ -17,12 +17,7 @@ namespace Updater
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             StartupArguments.SetupArguments(args);
-            if (string.IsNullOrEmpty(StartupArguments.VersionToDownload))
-            {
-                MessageBox.Show("At least a -version argument needs to be supplied.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            Application.Run(new frmMain());
+            Application.Run(new frmPrompts());
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Updater
                     files = reader.ReadToEnd();
                 }
             }
-            catch(WebException _)
+            catch(WebException)
             {
                 InvalidVersion?.Invoke(this, new EventArgs());
                 return;

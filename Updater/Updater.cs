@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IWshRuntimeLibrary;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -40,18 +42,35 @@ namespace Updater
                 }
             }
 
+            if (!DownloadFiles())
+            {
+                return;
+            }
+
+            if (!UpdateRegistry())
+            {
+                return;
+            }
+
+            AddIcons();
+
+            UpdateSucceeded?.Invoke(this, new EventArgs());
+        }
+
+        private bool DownloadFiles()
+        {
             if (string.IsNullOrEmpty(StartupArguments.VersionToDownload))
             {
                 _errors.Add("Invalid version specified");
                 UpdateFailed?.Invoke(this, new EventArgs());
-                return;
+                return false;
             }
 
             NetworkCredential ftpCredentials = new NetworkCredential("Reporting", "NetLogon");
             FtpWebRequest webRequest = (FtpWebRequest)WebRequest.Create($"ftp://www.clussmanproductions.com/support/MCSyncNew/updates/{StartupArguments.VersionToDownload}");
             webRequest.Method = WebRequestMethods.Ftp.ListDirectory;
             webRequest.Credentials = ftpCredentials;
-            
+
             string files;
             try
             {
@@ -61,11 +80,11 @@ namespace Updater
                     files = reader.ReadToEnd();
                 }
             }
-            catch(WebException)
+            catch (WebException)
             {
                 _errors.Add("Invalid version specified");
                 UpdateFailed?.Invoke(this, new EventArgs());
-                return;
+                return false;
             }
 
             using (StringReader reader = new StringReader(files))
@@ -78,7 +97,7 @@ namespace Updater
                     counter++;
                 }
 
-                NumberOfTasks?.Invoke(this, counter);
+                NumberOfTasks?.Invoke(this, counter + 2); // Adding 2 - one for registry, one for icons
             }
 
             using (StringReader reader = new StringReader(files))
@@ -93,20 +112,69 @@ namespace Updater
                     webRequest.Method = WebRequestMethods.Ftp.DownloadFile;
 
                     using (Stream responseStream = webRequest.GetResponse().GetResponseStream())
-                    using (Stream fileStream = File.Create(Path.Combine(InstallationConfiguration.InstallDirectory, file)))
+                    using (Stream fileStream = System.IO.File.Create(Path.Combine(InstallationConfiguration.InstallDirectory, file)))
                     {
                         responseStream.CopyTo(fileStream);
                     }
                 }
             }
 
-            StringBuilder argumentBuilder = new StringBuilder($"-processID {Process.GetCurrentProcess().Id}");
-            if (!string.IsNullOrEmpty(StartupArguments.FolderToDelete))
+            return true;
+        }
+
+        private bool UpdateRegistry()
+        {
+            TaskExecuting?.Invoke(this, "Registering MesaSuite...");
+            try
             {
-                argumentBuilder.Append($" -folder {StartupArguments.FolderToDelete}");
+                RegistryKey mesasuiteKey = Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MesaSuite", true);
+                mesasuiteKey.SetValue("DisplayName", "MesaSuite");
+                mesasuiteKey.SetValue("ApplicationVersion", StartupArguments.VersionToDownload);
+                mesasuiteKey.SetValue("Publisher", "Clussman Productions");
+                mesasuiteKey.SetValue("DisplayIcon", Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe"));
+                mesasuiteKey.SetValue("DisplayVersion", StartupArguments.VersionToDownload);
+                mesasuiteKey.SetValue("URLInfoAbout", "https://www.mesabrook.com/mcsync/index.html");
+                mesasuiteKey.SetValue("Contact", "cnwaj@hotmail.com");
+                mesasuiteKey.SetValue("InstallDate", DateTime.Now.ToString("yyyyMMdd"));
+                mesasuiteKey.SetValue("UninstallString", Path.Combine(InstallationConfiguration.InstallDirectory, "Updater.exe") + " -uninstall");
+                mesasuiteKey.Close();
+            }
+            catch(Exception ex)
+            {
+                _errors.Add("Failed to register MesaSuite in system registry:\r\n" + ex.ToString());
+                UpdateFailed?.Invoke(this, new EventArgs());
+                return false;
             }
 
-            UpdateSucceeded?.Invoke(this, new EventArgs());
+            return true;
+        }
+
+        private bool AddIcons()
+        {
+            TaskExecuting?.Invoke(this, "Creating icons...");
+            if (InstallationConfiguration.MakeDesktopIcon)
+            {
+                WshShell shell = new WshShell();
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "MesaSuite.lnk"));
+                shortcut.Description = "Launches MesaSuite";
+                shortcut.IconLocation = Path.Combine(InstallationConfiguration.InstallDirectory, "icon.ico");
+                shortcut.TargetPath = Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe");
+                shortcut.WorkingDirectory = InstallationConfiguration.InstallDirectory;
+                shortcut.Save();
+            }
+
+            if (InstallationConfiguration.MakeStartMenuIcon)
+            {
+                WshShell shell = new WshShell();
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs", "MesaSuite.lnk"));
+                shortcut.Description = "Launches MesaSuite";
+                shortcut.IconLocation = Path.Combine(InstallationConfiguration.InstallDirectory, "icon.ico");
+                shortcut.TargetPath = Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe");
+                shortcut.WorkingDirectory = InstallationConfiguration.InstallDirectory;
+                shortcut.Save();
+            }
+
+            return true;
         }
     }
 }

@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
+    <ApplicationIcon>updater.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
@@ -181,7 +182,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Image1.png" />
+    <None Include="Resources\bannerGreen.png" />
+    <None Include="Resources\bannerRed.png" />
+    <Content Include="updater.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -32,7 +32,7 @@ namespace Updater.Steps
 
         protected override Bitmap GetInitialBanner()
         {
-            return Properties.Resources.Image1;
+            return Properties.Resources.bannerGreen;
         }
 
         public async override Task<bool> LoadAndAutoComplete()

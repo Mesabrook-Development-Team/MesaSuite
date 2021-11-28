@@ -63,9 +63,19 @@ namespace Updater.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Image1 {
+        internal static System.Drawing.Bitmap bannerGreen {
             get {
-                object obj = ResourceManager.GetObject("Image1", resourceCulture);
+                object obj = ResourceManager.GetObject("bannerGreen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bannerRed {
+            get {
+                object obj = ResourceManager.GetObject("bannerRed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

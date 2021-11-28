@@ -27,5 +27,15 @@ namespace Updater.Steps
                 txtErrors.Lines = value.ToArray();
             }
         }
+
+        private void txtErrors_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void InstallationFailedStepControl_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

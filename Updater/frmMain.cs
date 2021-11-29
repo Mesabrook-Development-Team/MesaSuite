@@ -23,7 +23,7 @@ namespace Updater
 
             updater.NumberOfTasks += Updater_NumberOfTasks;
             updater.TaskExecuting += Updater_TaskExecuting;
-            updater.InvalidVersion += Updater_InvalidVersion;
+            //updater.InvalidVersion += Updater_InvalidVersion;
             updater.NonTaskExecuting += Updater_NonTaskExecuting;
 
             await updater.BeginUpdate();

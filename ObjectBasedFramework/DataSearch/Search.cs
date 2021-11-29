@@ -18,7 +18,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
     {
         public Type DataObjectType { get; set; }
         public ISearchCondition SearchCondition { get; set; }
-        public List<SearchOrder> SearchOrders { get; set; }
+        public List<SearchOrder> SearchOrders { get; set; } = new List<SearchOrder>();
         public int? Skip { get; set; }
         public int? Take { get; set; }
 

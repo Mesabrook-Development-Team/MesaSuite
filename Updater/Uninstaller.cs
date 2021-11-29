@@ -58,8 +58,8 @@ namespace Updater
         {
             try
             {
-                //HttpWebRequest webRequest = WebRequest.CreateHttp("https://mcsync.api.mesabrook.com/Version/GetLatest");
-                HttpWebRequest webRequest = WebRequest.CreateHttp("http://localhost:23895/Version/GetLatest");
+                HttpWebRequest webRequest = WebRequest.CreateHttp("https://mcsync.api.mesabrook.com/Version/GetLatest");
+                //HttpWebRequest webRequest = WebRequest.CreateHttp("http://localhost:23895/Version/GetLatest");
                 webRequest.Method = WebRequestMethods.Http.Get;
                 HttpWebResponse response = (HttpWebResponse)await webRequest.GetResponseAsync();
                 string version;

@@ -20,7 +20,7 @@ namespace Updater
         {
             PreconditionStep preconditionStep = new PreconditionStep();
             InstallationDirectoryStep installationDirectory = new InstallationDirectoryStep();
-            workflow.ConnectSteps(preconditionStep, installationDirectory);
+            workflow.ConnectSteps(preconditionStep, installationDirectory, () => !StartupArguments.Uninstall && !StartupArguments.UninstallQuietly);
 
             AdditionalOptionsStep additionalOptions = new AdditionalOptionsStep();
             workflow.ConnectSteps(installationDirectory, additionalOptions);
@@ -36,6 +36,20 @@ namespace Updater
 
             InstallationFailedStep failed = new InstallationFailedStep(() => install.InstallationErrors);
             workflow.ConnectSteps(install, failed, () => install.InstallationErrors.Any());
+
+            // Uninstaller
+            UninstallConfirmStep uninstallConfirmStep = new UninstallConfirmStep();
+            workflow.ConnectSteps(preconditionStep, uninstallConfirmStep, () => StartupArguments.Uninstall);
+
+            UninstallStep uninstallStep = new UninstallStep();
+            workflow.ConnectSteps(uninstallConfirmStep, uninstallStep);
+            workflow.ConnectSteps(preconditionStep, uninstallStep, () => StartupArguments.UninstallQuietly);
+
+            InstallationFailedStep uninstallFailedstep = new InstallationFailedStep(() => uninstallStep.Errors);
+            workflow.ConnectSteps(uninstallStep, uninstallFailedstep, () => uninstallStep.Errors.Any());
+
+            UninstallCompleteStep uninstallCompleteStep = new UninstallCompleteStep();
+            workflow.ConnectSteps(uninstallStep, uninstallCompleteStep, () => !uninstallStep.Errors.Any());
 
             // Setup starter step
             workflow.StarterStep = preconditionStep;

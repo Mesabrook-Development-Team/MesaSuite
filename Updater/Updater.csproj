@@ -73,7 +73,14 @@
     <Compile Include="Steps\AdditionalOptionsStepControl.Designer.cs">
       <DependentUpon>AdditionalOptionsStepControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Steps\UninstallCompleteStep.cs" />
     <Compile Include="Steps\InstallationCompleteStep.cs" />
+    <Compile Include="Steps\UninstallCompleteStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\UninstallCompleteStepControl.Designer.cs">
+      <DependentUpon>UninstallCompleteStepControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Steps\InstallationCompleteStepControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -95,6 +102,12 @@
       <DependentUpon>InstallationFailedStepControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Steps\InstallationStep.cs" />
+    <Compile Include="Steps\UninstallStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\UninstallStepControl.Designer.cs">
+      <DependentUpon>UninstallStepControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Steps\InstallationStepControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -115,6 +128,15 @@
     <Compile Include="Steps\PreviewStepControl.Designer.cs">
       <DependentUpon>PreviewStepControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Steps\UninstallConfirmStep.cs" />
+    <Compile Include="Steps\UninstallConfirmStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\UninstallConfirmStepControl.Designer.cs">
+      <DependentUpon>UninstallConfirmStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\UninstallStep.cs" />
+    <Compile Include="Uninstaller.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="UpdateWorkflow\IStepUserControl.cs" />
     <Compile Include="UpdateWorkflow\Step.cs" />
@@ -138,6 +160,9 @@
     <EmbeddedResource Include="Steps\AdditionalOptionsStepControl.resx">
       <DependentUpon>AdditionalOptionsStepControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Steps\UninstallCompleteStepControl.resx">
+      <DependentUpon>UninstallCompleteStepControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Steps\InstallationCompleteStepControl.resx">
       <DependentUpon>InstallationCompleteStepControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -147,6 +172,9 @@
     <EmbeddedResource Include="Steps\InstallationFailedStepControl.resx">
       <DependentUpon>InstallationFailedStepControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Steps\UninstallStepControl.resx">
+      <DependentUpon>UninstallStepControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Steps\InstallationStepControl.resx">
       <DependentUpon>InstallationStepControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -155,6 +183,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Steps\PreviewStepControl.resx">
       <DependentUpon>PreviewStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\UninstallConfirmStepControl.resx">
+      <DependentUpon>UninstallConfirmStepControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">

@@ -136,7 +136,9 @@ namespace Updater
                 mesasuiteKey.SetValue("URLInfoAbout", "https://www.mesabrook.com/mcsync/index.html");
                 mesasuiteKey.SetValue("Contact", "cnwaj@hotmail.com");
                 mesasuiteKey.SetValue("InstallDate", DateTime.Now.ToString("yyyyMMdd"));
-                mesasuiteKey.SetValue("UninstallString", Path.Combine(InstallationConfiguration.InstallDirectory, "Updater.exe") + " -uninstall");
+                mesasuiteKey.SetValue("UninstallString", Path.Combine(InstallationConfiguration.InstallDirectory, "Updater.exe") + " -uninstallquiet");
+                mesasuiteKey.SetValue("DesktopIcon", InstallationConfiguration.MakeDesktopIcon);
+                mesasuiteKey.SetValue("StartMenuIcon", InstallationConfiguration.MakeStartMenuIcon);
                 mesasuiteKey.Close();
             }
             catch(Exception ex)

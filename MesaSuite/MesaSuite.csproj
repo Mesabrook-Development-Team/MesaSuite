@@ -257,6 +257,18 @@
   <ItemGroup>
     <None Include="Resources\FB_IMG_1626710816410.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_cstudio_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_cstudio_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_sysmgt_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_sysmgt_normal.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

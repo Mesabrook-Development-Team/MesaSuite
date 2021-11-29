@@ -30,10 +30,12 @@ namespace SystemManagement
             imlSmall.Images.Add("company", Properties.Resources.company);
             imlSmall.Images.Add("government", Properties.Resources.government);
             imlSmall.Images.Add("domain", Properties.Resources.domain_email_small);
+            imlSmall.Images.Add("crashreport", Properties.Resources.icn_crash);
             imlLarge.Images.Add("user", Properties.Resources.user_large);
             imlLarge.Images.Add("company", Properties.Resources.company_large);
             imlLarge.Images.Add("government", Properties.Resources.government_large);
             imlLarge.Images.Add("domain", Properties.Resources.domain_email_large);
+            imlLarge.Images.Add("crashreport", Properties.Resources.icn_crash);
             await LoadData();
             txtSearch.Focus();
         }

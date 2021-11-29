@@ -123,6 +123,16 @@ namespace SystemManagement.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icn_crash {
+            get {
+                object obj = ResourceManager.GetObject("icn_crash", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap program {
             get {
                 object obj = ResourceManager.GetObject("program", resourceCulture);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 using MesaSuite.Common.Data;
@@ -30,11 +31,18 @@ namespace MesaSuite.Common
             post.ObjectToPost = new
             {
                 program = lblProgram.Text,
-                exception = txtException.Text
+                exception = txtException.Text,
             };
             await post.ExecuteNoResult();
 
-            lblStatus.Text = "has crashed.  The MesaSuite development team has automatically been notified.";
+            lblProgram.Text = lblProgram.Text + " has crashed!";
+            this.Text = lblProgram.Text;
+            lblStatus.Text = "The MesaSuite development team has automatically been notified.";
+        }
+
+        private void lnkLblGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/CSX8600/MCSync/issues");
         }
     }
 }

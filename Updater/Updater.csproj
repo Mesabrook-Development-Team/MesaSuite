@@ -32,6 +32,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>updater.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,12 +56,96 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPrompts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPrompts.Designer.cs">
+      <DependentUpon>frmPrompts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InstallationConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartupArguments.cs" />
+    <Compile Include="Steps\AdditionalOptionsStep.cs" />
+    <Compile Include="Steps\AdditionalOptionsStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\AdditionalOptionsStepControl.Designer.cs">
+      <DependentUpon>AdditionalOptionsStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\UninstallCompleteStep.cs" />
+    <Compile Include="Steps\InstallationCompleteStep.cs" />
+    <Compile Include="Steps\UninstallCompleteStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\UninstallCompleteStepControl.Designer.cs">
+      <DependentUpon>UninstallCompleteStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\InstallationCompleteStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\InstallationCompleteStepControl.Designer.cs">
+      <DependentUpon>InstallationCompleteStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\InstallationDirectoryStep.cs" />
+    <Compile Include="Steps\InstallationDirectoryStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\InstallationDirectoryStepControl.Designer.cs">
+      <DependentUpon>InstallationDirectoryStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\InstallationFailedStep.cs" />
+    <Compile Include="Steps\InstallationFailedStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\InstallationFailedStepControl.Designer.cs">
+      <DependentUpon>InstallationFailedStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\InstallationStep.cs" />
+    <Compile Include="Steps\UninstallStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\UninstallStepControl.Designer.cs">
+      <DependentUpon>UninstallStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\InstallationStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\InstallationStepControl.Designer.cs">
+      <DependentUpon>InstallationStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\PreconditionStep.cs" />
+    <Compile Include="Steps\PreconditionStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\PreconditionStepControl.Designer.cs">
+      <DependentUpon>PreconditionStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\PreviewStep.cs" />
+    <Compile Include="Steps\PreviewStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\PreviewStepControl.Designer.cs">
+      <DependentUpon>PreviewStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\UninstallConfirmStep.cs" />
+    <Compile Include="Steps\UninstallConfirmStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\UninstallConfirmStepControl.Designer.cs">
+      <DependentUpon>UninstallConfirmStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\UninstallStep.cs" />
+    <Compile Include="Uninstaller.cs" />
     <Compile Include="Updater.cs" />
+    <Compile Include="UpdateWorkflow\IStepUserControl.cs" />
+    <Compile Include="UpdateWorkflow\Step.cs" />
+    <Compile Include="UpdateWorkflow\Workflow.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPrompts.resx">
+      <DependentUpon>frmPrompts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -67,7 +155,39 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Steps\AdditionalOptionsStepControl.resx">
+      <DependentUpon>AdditionalOptionsStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\UninstallCompleteStepControl.resx">
+      <DependentUpon>UninstallCompleteStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\InstallationCompleteStepControl.resx">
+      <DependentUpon>InstallationCompleteStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\InstallationDirectoryStepControl.resx">
+      <DependentUpon>InstallationDirectoryStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\InstallationFailedStepControl.resx">
+      <DependentUpon>InstallationFailedStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\UninstallStepControl.resx">
+      <DependentUpon>UninstallStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\InstallationStepControl.resx">
+      <DependentUpon>InstallationStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\PreconditionStepControl.resx">
+      <DependentUpon>PreconditionStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\PreviewStepControl.resx">
+      <DependentUpon>PreviewStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\UninstallConfirmStepControl.resx">
+      <DependentUpon>UninstallConfirmStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -80,6 +200,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bannerGreen.png" />
+    <None Include="Resources\bannerRed.png" />
+    <Content Include="updater.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

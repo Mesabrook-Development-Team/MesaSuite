@@ -39,22 +39,23 @@ namespace SystemManagement
 
         private async void cmdDelete_Click(object sender, EventArgs e)
         {
-            Enabled = false;
-
-            if(MessageBox.Show("Are you sure you want to delete this Crash Report?", "Delete Crash Report", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            if(MessageBox.Show("Are you sure you want to delete this Crash Report?", "Delete Crash Report", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) != DialogResult.Yes)
             {
-                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Crash/Delete");
-                delete.QueryString.Add("id", CrashReportID.ToString());
-                await delete.Execute();
-
-                if (delete.RequestSuccessful)
-                {
-                    Close();
-                }
-
-                Enabled = true;
-                BringToFront();
+                return;
             }
+
+            Enabled = false;
+            DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Crash/Delete");
+            delete.QueryString.Add("id", CrashReportID.ToString());
+            await delete.Execute();
+
+            if (delete.RequestSuccessful)
+            {
+                Close();
+            }
+
+            Enabled = true;
+            BringToFront();
         }
 
         private void cmdClose_Click(object sender, EventArgs e)

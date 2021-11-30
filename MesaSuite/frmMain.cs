@@ -255,5 +255,22 @@ namespace MesaSuite
             pboxCompanyStudio.Image = Properties.Resources.icn_cstudio_normal;
             pboxCStudio.Visible = false;
         }
+
+        private void pnlUserBtn_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && Authentication.AuthenticationStatus == Authentication.AuthenticationStatuses.LoggedOut)
+            {
+                ctxSignIn.Show(Cursor.Position);
+            }
+            else if (e.Button == MouseButtons.Left)
+            {
+                pnlUserBtn_Click(sender, e);
+            }
+        }
+
+        private void mnuRegister_Click(object sender, EventArgs e)
+        {
+            Authentication.Register();
+        }
     }
 }

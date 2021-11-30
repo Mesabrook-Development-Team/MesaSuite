@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ClussPro.ObjectBasedFramework.Loader;
+using WebModels.Migrations;
 
 namespace DevTools
 {
@@ -16,7 +18,50 @@ namespace DevTools
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmDevTools() { StartDevToolsOnLoad = args != null && args.Contains("startBackEndAuth") });
+            if (args == null)
+            {
+                args = new string[0];
+            }
+
+            if (args.Contains("runmigrations", StringComparer.OrdinalIgnoreCase) || args.Contains("runloaders", StringComparer.OrdinalIgnoreCase))
+            {
+                bool autoSuccessful = true;
+                if (args.Contains("runmigrations", StringComparer.OrdinalIgnoreCase))
+                {
+                    MigrationController migrationController = new MigrationController();
+                    try
+                    {
+                        MigrationController.Run(_ => { });
+                    }
+                    catch
+                    {
+                        autoSuccessful = false;
+                    }
+                }
+
+                if (args.Contains("runloaders", StringComparer.OrdinalIgnoreCase))
+                {
+                    try
+                    {
+                        LoaderController loaderController = new LoaderController();
+                        loaderController.Initialize();
+                        loaderController.Process();
+                    }
+                    catch
+                    {
+                        autoSuccessful = false;
+                    }
+                }
+
+                Environment.ExitCode = autoSuccessful ? 0 : 1;
+                Application.Exit();
+                return;
+            }
+
+            Application.Run(new frmDevTools()
+            {
+                StartDevToolsOnLoad = args.Contains("startBackEndAuth", StringComparer.OrdinalIgnoreCase)
+            });
         }
     }
 }

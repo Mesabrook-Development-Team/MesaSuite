@@ -490,13 +490,13 @@ namespace CompanyStudio.Accounts
 
             foreach(frmAccount account in Studio.dockPanel.Documents.OfType<frmAccount>().ToList())
             {
-                if (account.Account == selectedAccount)
+                if (account.Account?.AccountID == selectedAccount.AccountID)
                 {
                     account.Close();
                 }
             }
 
-            PopulateTreeView();
+            FetchAccounts();
         }
 
         private void frmAccountExplorer_FormClosing(object sender, FormClosingEventArgs e)

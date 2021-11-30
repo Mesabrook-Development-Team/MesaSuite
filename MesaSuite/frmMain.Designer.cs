@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.pboxMCSync = new System.Windows.Forms.PictureBox();
             this.pboxMCSyncLogo = new System.Windows.Forms.PictureBox();
@@ -45,6 +46,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMesaSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxSignIn = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuRegister = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSync)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSyncLogo)).BeginInit();
             this.pnlMCSync.SuspendLayout();
@@ -57,6 +60,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pboxCompanyStudio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxCStudio)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.ctxSignIn.SuspendLayout();
             this.SuspendLayout();
             // 
             // pboxMCSync
@@ -107,7 +111,7 @@
             this.pnlUserBtn.Name = "pnlUserBtn";
             this.pnlUserBtn.Size = new System.Drawing.Size(136, 40);
             this.pnlUserBtn.TabIndex = 4;
-            this.pnlUserBtn.Click += new System.EventHandler(this.pnlUserBtn_Click);
+            this.pnlUserBtn.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlUserBtn_MouseClick);
             this.pnlUserBtn.MouseEnter += new System.EventHandler(this.pnlUserBtn_MouseEnter);
             this.pnlUserBtn.MouseLeave += new System.EventHandler(this.pnlUserBtn_MouseLeave);
             this.pnlUserBtn.MouseHover += new System.EventHandler(this.pnlUserBtn_MouseHover);
@@ -251,6 +255,20 @@
             this.aboutMesaSuiteToolStripMenuItem.Text = "About MesaSuite";
             this.aboutMesaSuiteToolStripMenuItem.Click += new System.EventHandler(this.aboutMesaSuiteToolStripMenuItem_Click);
             // 
+            // ctxSignIn
+            // 
+            this.ctxSignIn.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuRegister});
+            this.ctxSignIn.Name = "ctxSignIn";
+            this.ctxSignIn.Size = new System.Drawing.Size(174, 26);
+            // 
+            // mnuRegister
+            // 
+            this.mnuRegister.Name = "mnuRegister";
+            this.mnuRegister.Size = new System.Drawing.Size(173, 22);
+            this.mnuRegister.Text = "Register MesaSuite";
+            this.mnuRegister.Click += new System.EventHandler(this.mnuRegister_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -284,6 +302,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pboxCStudio)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.ctxSignIn.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -306,5 +325,7 @@
         private System.Windows.Forms.Panel pnlCompanyStudio;
         private System.Windows.Forms.PictureBox pboxCompanyStudio;
         private System.Windows.Forms.PictureBox pboxCStudio;
+        private System.Windows.Forms.ContextMenuStrip ctxSignIn;
+        private System.Windows.Forms.ToolStripMenuItem mnuRegister;
     }
 }

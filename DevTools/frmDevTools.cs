@@ -25,6 +25,7 @@ namespace DevTools
         private string currentLocation;
         private string baseLocation;
         public bool StartDevToolsOnLoad;
+
         public frmDevTools()
         {
             InitializeComponent();

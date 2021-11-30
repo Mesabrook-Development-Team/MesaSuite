@@ -498,5 +498,10 @@ namespace CompanyStudio.Accounts
 
             PopulateTreeView();
         }
+
+        private void frmAccountExplorer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+        }
     }
 }

@@ -38,6 +38,7 @@ namespace CompanyStudio
             }
 
             _isRunning = true;
+            _requestStop = false;
             PermissionsByCompany = new ConcurrentDictionary<long, Dictionary<Permissions, bool>>();
             Dictionary<string, PropertyInfo> permissionPropertiesByName = new Dictionary<string, PropertyInfo>();
             Type employeeType = typeof(Employee);

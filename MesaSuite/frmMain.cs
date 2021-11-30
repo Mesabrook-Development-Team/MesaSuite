@@ -131,7 +131,6 @@ namespace MesaSuite
         {
             PlayButtonClickSound();
             StartProgram(StartMCSync);
-            Close();
         }
 
         private void pnlUserBtn_MouseEnter(object sender, EventArgs e)

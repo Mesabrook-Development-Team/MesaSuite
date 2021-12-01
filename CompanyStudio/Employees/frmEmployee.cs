@@ -54,7 +54,7 @@ namespace CompanyStudio.Employees
             {
                 Text += " - " + Employee.EmployeeName;
                 cboEmployees.Enabled = false;
-                cboEmployees.Items.Add(new DropDownItem<User>(new User() { UserID = Employee.UserID, Username = Employee.EmployeeName }, Employee.EmployeeName));
+                cboEmployees.Items.Insert(0, new DropDownItem<User>(new User() { UserID = Employee.UserID, Username = Employee.EmployeeName }, Employee.EmployeeName));
                 cboEmployees.SelectedIndex = 0;
                 chkManageEmails.Checked = Employee.ManageEmails;
                 chkManageEmployees.Checked = Employee.ManageEmployees;
@@ -125,6 +125,7 @@ namespace CompanyStudio.Employees
                     Employee = savedEmployee;
                     Text = Text.Substring(0, Text.LastIndexOf("-") + 2) + Employee.EmployeeName;
                     OnSave?.Invoke(this, new EventArgs());
+                    cboEmployees.Enabled = false;
                 }
             }
             else
@@ -138,6 +139,7 @@ namespace CompanyStudio.Employees
                     Employee = savedEmployee;
                     Text = Text.Substring(0, Text.LastIndexOf("-") + 2) + Employee.EmployeeName;
                     OnSave?.Invoke(this, new EventArgs());
+                    cboEmployees.Enabled = false;
                 }
             }
 

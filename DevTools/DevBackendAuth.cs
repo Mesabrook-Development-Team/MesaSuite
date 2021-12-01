@@ -215,7 +215,11 @@ namespace DevTools
                 int iterations = reader.ReadInt32();
                 for(int i = 0; i < iterations; i++)
                 {
-                    user.MemberOf.Add(reader.ReadString());
+                    string group = reader.ReadString();
+                    if (!user.MemberOf.Contains(group, StringComparer.OrdinalIgnoreCase))
+                    {
+                        user.MemberOf.Add(reader.ReadString());
+                    }
                 }
             }
             else // Still need to consume data

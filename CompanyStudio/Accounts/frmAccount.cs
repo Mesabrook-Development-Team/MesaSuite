@@ -122,6 +122,8 @@ namespace CompanyStudio.Accounts
 
             if (Account != null)
             {
+                cmdClose.Enabled = true;
+                cmdTransfer.Enabled = true;
                 txtAccountNumber.Text = Account.AccountNumber;
                 txtDescription.Text = Account.Description;
                 txtBalance.Text = Account.Balance.ToString("N2");
@@ -131,6 +133,8 @@ namespace CompanyStudio.Accounts
             }
             else
             {
+                cmdClose.Enabled = false;
+                cmdTransfer.Enabled = false;
                 Text = "New Account - " + Company.Name;
             }
 

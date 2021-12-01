@@ -220,6 +220,8 @@ namespace API_System.Models.security
 
                     FirstName = userPrincipal.GivenName;
                     LastName = userPrincipal.Surname;
+                    _originalFirstName = FirstName;
+                    _originalLastName = LastName;
                     Email = userPrincipal.EmailAddress;
                 }
 
@@ -261,6 +263,8 @@ namespace API_System.Models.security
 
                     FirstName = reader.ReadString();
                     LastName = reader.ReadString();
+                    _originalFirstName = FirstName;
+                    _originalLastName = LastName;
                     Email = reader.ReadString();
 
                     int iterations = reader.ReadInt32();

@@ -111,12 +111,37 @@ namespace Updater
                     webRequest.Credentials = ftpCredentials;
                     webRequest.Method = WebRequestMethods.Ftp.DownloadFile;
 
-                    using (Stream responseStream = webRequest.GetResponse().GetResponseStream())
-                    using (Stream fileStream = System.IO.File.Create(Path.Combine(InstallationConfiguration.InstallDirectory, file)))
+                    if (file.Equals("Updater.exe", StringComparison.OrdinalIgnoreCase))
                     {
-                        responseStream.CopyTo(fileStream);
+                        try
+                        {
+                            using (FileStream tempStream = System.IO.File.OpenWrite(Path.Combine(InstallationConfiguration.InstallDirectory, file))) { }
+                        }
+                        catch(IOException)
+                        {
+                            continue;
+                        }
+                    }
+
+                    try
+                    {
+                        using (Stream responseStream = webRequest.GetResponse().GetResponseStream())
+                        using (Stream fileStream = System.IO.File.Create(Path.Combine(InstallationConfiguration.InstallDirectory, file)))
+                        {
+                            responseStream.CopyTo(fileStream);
+                        }
+                    }
+                    catch
+                    {
+                        _errors.Add("Failed to write " + file);
                     }
                 }
+            }
+
+            if (_errors.Any())
+            {
+                UpdateFailed?.Invoke(this, new EventArgs());
+                return false;
             }
 
             return true;

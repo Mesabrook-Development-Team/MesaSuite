@@ -231,18 +231,18 @@ namespace CompanyStudio.Accounts
             // mnuGroupNone
             // 
             this.mnuGroupNone.Name = "mnuGroupNone";
-            this.mnuGroupNone.Size = new System.Drawing.Size(180, 22);
+            this.mnuGroupNone.Size = new System.Drawing.Size(143, 22);
             this.mnuGroupNone.Text = "No Grouping";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(140, 6);
             // 
             // mnuGroupCategory
             // 
             this.mnuGroupCategory.Name = "mnuGroupCategory";
-            this.mnuGroupCategory.Size = new System.Drawing.Size(180, 22);
+            this.mnuGroupCategory.Size = new System.Drawing.Size(143, 22);
             this.mnuGroupCategory.Text = "By Category";
             // 
             // toolStripExtender
@@ -411,6 +411,7 @@ namespace CompanyStudio.Accounts
             this.Name = "frmAccountExplorer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Account Explorer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmAccountExplorer_FormClosing);
             this.Load += new System.EventHandler(this.frmAccountExplorer_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

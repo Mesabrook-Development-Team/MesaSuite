@@ -36,7 +36,7 @@ namespace MCSync
                 }
 
                 MessageBox.Show("Sync complete!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Application.Exit();
+                Application.ExitThread();
             });
         }
 
@@ -69,7 +69,7 @@ namespace MCSync
 
         private void frmSync_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            Application.ExitThread();
         }
     }
 }

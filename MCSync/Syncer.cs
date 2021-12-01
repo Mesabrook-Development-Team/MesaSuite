@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using MesaSuite.Common;
+using MesaSuite.Common.Extensions;
 
 namespace MCSync
 {
@@ -13,18 +15,24 @@ namespace MCSync
         public event EventHandler SyncComplete;
         public event EventHandler<Task> TaskAdded;
 
+        public enum SyncMode
+        {
+            Client,
+            Server
+        }
+
         public async void BeginSync()
         {
             await System.Threading.Tasks.Task.Run(DoSync);
         }
 
-        public static bool IsDownloadTypeValid(Config.Modes mode, MCSyncFile.DownloadTypes downloadTypes)
+        public static bool IsDownloadTypeValid(SyncMode mode, MCSyncFile.DownloadTypes downloadTypes)
         {
-            if(downloadTypes == MCSyncFile.DownloadTypes.Client && mode == Config.Modes.Client)
+            if(downloadTypes == MCSyncFile.DownloadTypes.Client && mode == SyncMode.Client)
             {
                 return true;
             }
-            else if (downloadTypes == MCSyncFile.DownloadTypes.Server && mode == Config.Modes.Server)
+            else if (downloadTypes == MCSyncFile.DownloadTypes.Server && mode == SyncMode.Server)
             {
                 return true;
             }
@@ -40,31 +48,22 @@ namespace MCSync
             try
             {
                 // Load config
-                Config config = Config.LoadConfiguration();
-                if (string.IsNullOrEmpty(config.ModsDirectory) || string.IsNullOrEmpty(config.ResourcePackDirectory) || string.IsNullOrEmpty(config.ConfigFilesDirectory))
+                Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
+
+                if (!configValues.ContainsKey("modsDirectory") || !configValues.ContainsKey("resourcePackDirectory") || !configValues.ContainsKey("configFilesDirectory") || !configValues.ContainsKey("mode") ||
+                    string.IsNullOrEmpty(configValues.GetOrDefault("modsDirectory", string.Empty).Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("resourcePackDirectory", "").Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("configFilesDirectory", "").Cast<string>()) || !Enum.TryParse(configValues["mode"].Cast<string>(), true, out SyncMode configSyncMode))
                 {
                     Task.Errors.Add("Configuration file not setup");
                     SyncComplete?.Invoke(this, new EventArgs());
                     return;
                 }
 
-                HashSet<string> clientSideWhiteListMods = new HashSet<string>();
-                if (File.Exists("mods_white_list.txt"))
-                {
-                    foreach(string line in File.ReadAllLines("mods_white_list.txt"))
-                    {
-                        clientSideWhiteListMods.Add(line);
-                    }
-                }
+                string modsDirectory = configValues["modsDirectory"].Cast<string>();
+                string resourcePackDirectory = configValues["resourcePackDirectory"].Cast<string>();
+                string configFilesDirectory = configValues["configFilesDirectory"].Cast<string>();
 
-                HashSet<string> clientSideWhiteListResourcePacks = new HashSet<string>();
-                if (File.Exists("resourcepacks_white_list.txt"))
-                {
-                    foreach (string line in File.ReadAllLines("resourcepacks_white_list.txt"))
-                    {
-                        clientSideWhiteListResourcePacks.Add(line);
-                    }
-                }
+                string[] clientSideWhiteListMods = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("mods_whitelist")?.Cast<string[]>();
+                string[] clientSideWhiteListResourcePacks = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("resourcepacks_whitelist")?.Cast<string[]>();
 
                 List<Task> tasks = new List<Task>();
 
@@ -75,8 +74,8 @@ namespace MCSync
                 List<string> handledFiles = new List<string>();
 
                 // Mod Files
-                IEnumerable<MCSyncFile> modSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.mods && IsDownloadTypeValid(config.Mode, f.DownloadType));
-                foreach (string file in Directory.EnumerateFiles(config.ModsDirectory, "*", SearchOption.AllDirectories))
+                IEnumerable<MCSyncFile> modSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.mods && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                foreach (string file in Directory.EnumerateFiles(modsDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, MCSyncFile.FileTypes.mods);
                     byte[] fileHash = CalculateHash(file);
@@ -97,7 +96,7 @@ namespace MCSync
                     }
                     else if (!syncFile.Checksum.SequenceEqual(fileHash))
                     {
-                        Task updateTask = new Task($"Update mod file {strippedFile}", () => DownloadFile(syncFile.FileType, config.ModsDirectory, strippedFile, syncFile.DownloadType));
+                        Task updateTask = new Task($"Update mod file {strippedFile}", () => DownloadFile(syncFile.FileType, modsDirectory, strippedFile, syncFile.DownloadType));
                         tasks.Add(updateTask);
                         TaskAdded?.Invoke(this, updateTask);
                     }
@@ -107,8 +106,8 @@ namespace MCSync
 
                 bool resourcePackChanges = false;
                 // Resource Pack Files
-                IEnumerable<MCSyncFile> resourcePackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.resourcepacks && IsDownloadTypeValid(config.Mode, f.DownloadType));
-                foreach (string file in Directory.EnumerateFiles(config.ResourcePackDirectory, "*", SearchOption.AllDirectories))
+                IEnumerable<MCSyncFile> resourcePackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.resourcepacks && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                foreach (string file in Directory.EnumerateFiles(resourcePackDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, MCSyncFile.FileTypes.resourcepacks);
                     byte[] fileHash = CalculateHash(file);
@@ -131,7 +130,7 @@ namespace MCSync
                     else if (!syncFile.Checksum.SequenceEqual(fileHash))
                     {
                         resourcePackChanges = true;
-                        Task updateTask = new Task($"Update resource pack file {strippedFile}", () => DownloadFile(syncFile.FileType, config.ResourcePackDirectory, strippedFile, syncFile.DownloadType));
+                        Task updateTask = new Task($"Update resource pack file {strippedFile}", () => DownloadFile(syncFile.FileType, resourcePackDirectory, strippedFile, syncFile.DownloadType));
                         tasks.Add(updateTask);
                         TaskAdded?.Invoke(this, updateTask);
                     }
@@ -140,15 +139,15 @@ namespace MCSync
                 }
 
                 // Config
-                IEnumerable<MCSyncFile> configSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.config && IsDownloadTypeValid(config.Mode, f.DownloadType));
+                IEnumerable<MCSyncFile> configSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.config && IsDownloadTypeValid(configSyncMode, f.DownloadType));
                 foreach(MCSyncFile configFile in configSyncFiles)
                 {
-                    if (File.Exists(config.ConfigFilesDirectory + "\\" + configFile.Filename))
+                    if (File.Exists(configFilesDirectory + "\\" + configFile.Filename))
                     {
-                        byte[] fileHash = CalculateHash(config.ConfigFilesDirectory + "\\" + configFile.Filename);
+                        byte[] fileHash = CalculateHash(configFilesDirectory + "\\" + configFile.Filename);
                         if (!fileHash.SequenceEqual(configFile.Checksum))
                         {
-                            Task updateTask = new Task($"Update config file {configFile.Filename}", () => DownloadFile(configFile.FileType, config.ConfigFilesDirectory, configFile.Filename, configFile.DownloadType));
+                            Task updateTask = new Task($"Update config file {configFile.Filename}", () => DownloadFile(configFile.FileType, configFilesDirectory, configFile.Filename, configFile.DownloadType));
                             tasks.Add(updateTask);
                             TaskAdded?.Invoke(this, updateTask);
                         }
@@ -158,7 +157,7 @@ namespace MCSync
                 }
 
                 // Missing Files
-                IEnumerable<MCSyncFile> missingFiles = syncFiles.Where(f => IsDownloadTypeValid(config.Mode, f.DownloadType) && !handledFiles.Contains(f.Filename));
+                IEnumerable<MCSyncFile> missingFiles = syncFiles.Where(f => IsDownloadTypeValid(configSyncMode, f.DownloadType) && !handledFiles.Contains(f.Filename));
                 foreach (MCSyncFile missingFile in missingFiles)
                 {
                     if (missingFile.FileType == MCSyncFile.FileTypes.resourcepacks)
@@ -170,14 +169,14 @@ namespace MCSync
                     switch(missingFile.FileType)
                     {
                         case MCSyncFile.FileTypes.mods:
-                            directory = config.ModsDirectory;
+                            directory = modsDirectory;
                             break;
                         case MCSyncFile.FileTypes.resourcepacks:
                             resourcePackChanges = true;
-                            directory = config.ResourcePackDirectory;
+                            directory = resourcePackDirectory;
                             break;
                         case MCSyncFile.FileTypes.config:
-                            directory = config.ConfigFilesDirectory;
+                            directory = configFilesDirectory;
                             break;
                     }
 
@@ -190,14 +189,14 @@ namespace MCSync
                 {
                     Task deleteCaches = new Task("Delete Immersive Railroading caches", () =>
                     {
-                        if (!Directory.Exists(config.ModsDirectory + "\\..\\cache\\universalmodcore"))
+                        if (!Directory.Exists(modsDirectory + "\\..\\cache\\universalmodcore"))
                         {
                             Task.Errors.Add("Could not find cache folder. New textures may appear incorrectly, not appear at all, or appear as the default texture. Please delete your cache folder manually.");
                             return false;
                         }
 
                         bool errorsOccurred = false;
-                        foreach(string file in Directory.EnumerateFiles(config.ModsDirectory + "\\..\\cache\\universalmodcore"))
+                        foreach(string file in Directory.EnumerateFiles(modsDirectory + "\\..\\cache\\universalmodcore"))
                         {
                             try
                             {

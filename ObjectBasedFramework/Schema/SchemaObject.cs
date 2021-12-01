@@ -3,9 +3,11 @@ using ClussPro.Base.Extensions;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using static ClussPro.ObjectBasedFramework.DataObject;
 
 namespace ClussPro.ObjectBasedFramework.Schema
 {
@@ -129,6 +131,14 @@ namespace ClussPro.ObjectBasedFramework.Schema
                         {
                             fieldType = FieldSpecification.FieldTypes.Int;
                         }
+                        else if (propType == typeof(decimal) || propType == typeof(decimal?))
+                        {
+                            fieldType = FieldSpecification.FieldTypes.Decimal;
+                        }
+                        else if (propType == typeof(short) || propType == typeof(short?))
+                        {
+                            fieldType = FieldSpecification.FieldTypes.SmallInt;
+                        }
                     }
                     field.FieldType = fieldType.Value;
                     field.DataSize = fieldAttribute.DataSize;
@@ -153,6 +163,16 @@ namespace ClussPro.ObjectBasedFramework.Schema
                     field.IsRequired = propertyInfo.GetCustomAttribute<RequiredAttribute>() != null;
                     field.IsSystemLoaded = fieldAttribute.IsSystemLoaded;
                     field.IsPrimaryKey = fieldAttribute.IsPrimaryKey;
+                    field.HasOperation = fieldAttribute.HasOperation;
+                    if (field.HasOperation)
+                    {
+                        PropertyInfo operationProperty = type.GetProperty(propertyInfo.Name + "Operation", BindingFlags.Static | BindingFlags.Public);
+                        field.GetOperation = (alias) =>
+                        {
+                            OperationDelegate operationDelegate = (OperationDelegate)operationProperty.GetValue(null);
+                            return operationDelegate(alias);
+                        };
+                    }
                     field.ReturnType = propertyInfo.PropertyType;
                     fields.Add(field);
                     fieldsByName.Add(field.FieldName, field);
@@ -240,7 +260,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
         {
             string[] parts = path.Split('.');
             SchemaObject lastSchemaObject = this;
-            for (int i = 1; i < parts.Length - 1; i++)
+            for (int i = 0; i < parts.Length - 1; i++)
             {
                 Relationship relationship = lastSchemaObject.PrivateGetRelationship(parts[i]);
                 if (relationship == null)

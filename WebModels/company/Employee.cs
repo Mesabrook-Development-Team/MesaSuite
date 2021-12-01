@@ -1,4 +1,8 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System.Collections;
@@ -69,10 +73,47 @@ namespace WebModels.company
             set { CheckSet(); _manageEmployees = value; }
         }
 
+        private bool _manageAccounts;
+        [Field("2C9CAC2E-7CEF-4425-B6D3-7169355EC056")]
+        public bool ManageAccounts
+        {
+            get { CheckGet(); return _manageAccounts; }
+            set { CheckSet(); _manageAccounts = value; }
+        }
+
+        private string _employeeName;
+        [Field("E792C619-76D5-4A69-8264-BF7D067C25DF", HasOperation = true)]
+        public string EmployeeName
+        {
+            get { CheckGet(); return _employeeName; }
+        }
+
+        public static OperationDelegate EmployeeNameOperation
+        {
+            get
+            {
+                return (myAlias) =>
+                {
+                    ISelectQuery selectQuery = SQLProviderFactory.GetSelectQuery();
+                    selectQuery.SelectList = new List<Select>() { "Username" };
+                    selectQuery.Table = new Table("security", "User", "U");
+                    selectQuery.WhereCondition = new Condition()
+                    {
+                        Left = (Field)"U.UserID",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (Field)$"{myAlias}.UserID"
+                    };
+
+                    return new SubQuery(selectQuery);
+                };
+            }
+        }
+
         public static IEnumerable<string> GetPermissionFieldNames()
         {
             yield return nameof(ManageEmails);
             yield return nameof(ManageEmployees);
+            yield return nameof(ManageAccounts);
         }
     }
 }

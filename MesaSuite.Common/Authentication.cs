@@ -43,7 +43,52 @@ namespace MesaSuite.Common
         public static IReadOnlyCollection<string> Programs => _programs;
 
         public static readonly int[] PORTS = new int[] { 48170, 48171, 48172, 48173, 48174 };
-        private static Guid? ClientID { get; set; }
+        private static Guid? _clientID = null;
+        private static Guid? ClientID
+        {
+            get
+            {
+                if (_clientID == null)
+                {
+                    RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
+                    string clientIDKey;
+
+#if DEBUG
+                    clientIDKey = "ClientIDDev";
+#else
+                    clientIDKey = "ClientID";
+#endif
+
+                    string clientIDString = key.GetValue(clientIDKey) as string;
+                    if (Guid.TryParse(clientIDString, out Guid clientID))
+                    {
+                        _clientID = clientID;
+                    }
+                }
+
+                return _clientID;
+            }
+            set
+            {
+                RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
+                string clientIDKey;
+
+#if DEBUG
+                clientIDKey = "ClientIDDev";
+#else
+                clientIDKey = "ClientID";
+#endif
+
+                if (value != null)
+                {
+                    key.SetValue(clientIDKey, value.ToString());
+                }
+                else
+                {
+                    key.DeleteValue(clientIDKey);
+                }
+            }
+        }
         private static string AuthToken { get; set; }
         private static string RefreshToken { get; set; }
         private static DateTime Expiration { get; set; }
@@ -63,33 +108,23 @@ namespace MesaSuite.Common
             return AuthToken;
         }
 
+        public static void Register()
+        {
+            if (ClientID == null)
+            {
+                ClientID = Guid.NewGuid();
+            }
+
+            frmRegister register = new frmRegister();
+            register.ClientID = ClientID.Value;
+            register.ShowDialog();
+        }
+
         private static void DoLogIn()
         {
             if (ClientID == null)
             {
-                RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
-                string clientIDKey;
-
-#if DEBUG
-                clientIDKey = "ClientIDDev";
-#else
-                clientIDKey = "ClientID";
-#endif
-
-                string clientIDString = key.GetValue(clientIDKey) as string;
-                if (!Guid.TryParse(clientIDString, out Guid clientID))
-                {
-                    ClientID = Guid.NewGuid();
-                    key.SetValue(clientIDKey, ClientID.ToString());
-
-                    frmRegister register = new frmRegister();
-                    register.ClientID = ClientID.Value;
-                    register.ShowDialog();
-                }
-                else
-                {
-                    ClientID = clientID;
-                }
+                Register();
             }
 
             int openPort = -1;
@@ -376,6 +411,11 @@ namespace MesaSuite.Common
 
             programThread = new Thread(new ThreadStart(ProgramThreadLogic));
             programThread.Start();
+        }
+
+        public static void Shutdown()
+        {
+            _requestProgramThreadStop = true;
         }
 
         private static bool _requestProgramThreadStop = false;

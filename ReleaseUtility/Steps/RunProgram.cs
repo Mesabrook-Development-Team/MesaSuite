@@ -12,10 +12,12 @@ namespace ReleaseUtility.Steps
 
         public string DisplayName { get; set; }
         public string PathToProgramExecutable { get; set; }
+        public string Arguments { get; set; }
 
         public void Execute()
         {
-            Process process = Process.Start(PathToProgramExecutable);
+            ProcessStartInfo processStartInfo = new ProcessStartInfo(PathToProgramExecutable, Arguments);
+            Process process = Process.Start(processStartInfo);
             process.WaitForExit();
         }
 

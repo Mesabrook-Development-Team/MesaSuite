@@ -46,10 +46,8 @@ namespace MesaSuite
                 data = client.DownloadData(new Uri("ftp://www.clussmanproductions.com/support/MCSyncNew/updater.exe"));
             }
 
-            string folderName = Guid.NewGuid().ToString("N");
-            Directory.CreateDirectory(folderName);
-            File.WriteAllBytes($"{folderName}\\updater.exe", data);
-            Process.Start($"{folderName}\\updater.exe", $"-folder {folderName} -processID {Process.GetCurrentProcess().Id} -version {versionToDownload}");
+            File.WriteAllBytes($"Updater.exe", data);
+            Process.Start($"Updater.exe", $"-processID {Process.GetCurrentProcess().Id} -version {versionToDownload}");
         }
 
         public class MCSyncVersion

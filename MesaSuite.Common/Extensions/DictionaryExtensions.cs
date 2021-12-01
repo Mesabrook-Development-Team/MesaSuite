@@ -15,6 +15,16 @@ namespace MesaSuite.Common.Extensions
             return dictionary[key];
         }
 
+        public static TValue GetOrSetDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
+        {
+            if (!dictionary.ContainsKey(key))
+            {
+                dictionary[key] = defaultValue;
+            }
+
+            return dictionary[key];
+        }
+
         public static TValue GetOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue = default(TValue))
         {
             return dictionary.ContainsKey(key) ? dictionary[key] : defaultValue;

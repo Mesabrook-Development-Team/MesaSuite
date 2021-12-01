@@ -97,6 +97,7 @@ namespace CompanyStudio.Email
             this.cmdCancel.TabIndex = 3;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
+            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // frmAlias
             // 
@@ -116,6 +117,7 @@ namespace CompanyStudio.Email
             this.Name = "frmAlias";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Alias";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmAlias_FormClosed);
             this.Load += new System.EventHandler(this.frmAlias_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -64,6 +64,7 @@
     <Compile Include="Attributes\EnumValueAttribute.cs" />
     <Compile Include="Authentication.cs" />
     <Compile Include="Collections\MultiMap.cs" />
+    <Compile Include="CrashHandler.cs" />
     <Compile Include="Data\DataAccess.cs" />
     <Compile Include="Data\DebugResourceWriter.cs" />
     <Compile Include="Data\DeleteData.cs" />
@@ -76,9 +77,17 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FormExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\SelectedListViewItemCollectionExtensions.cs" />
     <Compile Include="Extensions\ListViewItemCollectionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TreeViewExtensions.cs" />
+    <Compile Include="frmCrashReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCrashReport.Designer.cs">
+      <DependentUpon>frmCrashReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,18 +102,35 @@
     </Compile>
     <Compile Include="Data\IResourceWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SecuredApplicationContext.cs" />
+    <Compile Include="UserPreferences.cs" />
+    <Compile Include="Utility\DropDownItem.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmCrashReport.resx">
+      <DependentUpon>frmCrashReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRegister.resx">
       <DependentUpon>frmRegister.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sad_face.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

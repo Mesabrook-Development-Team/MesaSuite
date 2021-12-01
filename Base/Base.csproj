@@ -43,11 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseConfig.cs" />
+    <Compile Include="Data\Operand\Count.cs" />
+    <Compile Include="Data\TableAlias.cs" />
     <Compile Include="Data\Conditions\ConditionGroup.cs" />
     <Compile Include="Data\Conditions\Exists.cs" />
     <Compile Include="Data\Conditions\ICondition.cs" />
     <Compile Include="Data\Conditions\Condition.cs" />
     <Compile Include="Data\FieldSpecification.cs" />
+    <Compile Include="Data\ISelectable.cs" />
     <Compile Include="Data\Join.cs" />
     <Compile Include="Data\Operand\Case.cs" />
     <Compile Include="Data\Operand\CSV.cs" />
@@ -55,6 +58,7 @@
     <Compile Include="Data\Operand\IOperand.cs" />
     <Compile Include="Data\FieldValue.cs" />
     <Compile Include="Data\Operand\Literal.cs" />
+    <Compile Include="Data\Operand\SubQuery.cs" />
     <Compile Include="Data\Query\IAlterTable.cs" />
     <Compile Include="Data\Query\ICreateSchema.cs" />
     <Compile Include="Data\Query\ICreateTable.cs" />

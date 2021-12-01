@@ -18,6 +18,21 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 
         public override bool Evaluate(DataObject dataObject)
         {
+            bool shouldRunRule = false;
+            foreach(string uniqueField in uniqueFields)
+            {
+                if (dataObject.IsFieldDirty(uniqueField))
+                {
+                    shouldRunRule = true;
+                    break;
+                }
+            }
+
+            if (!shouldRunRule)
+            {
+                return true;
+            }
+
             Search search = new Search(dataObject.GetType());
             SearchConditionGroup conditionGroup = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And);
             foreach(string field in uniqueFields)

@@ -48,5 +48,23 @@ namespace CompanyStudio.Email
 
             Close();
         }
+
+        private void frmAddRecipient_Load(object sender, EventArgs e)
+        {
+            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+        }
+
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        {
+            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.Permissions.ManageEmails && !e.Value)
+            {
+                Close();
+            }
+        }
+
+        private void frmAddRecipient_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+        }
     }
 }

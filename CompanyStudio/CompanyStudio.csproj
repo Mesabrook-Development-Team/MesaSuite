@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{958B665B-0BED-4A1C-80D1-4FCC0DD861B7}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>CompanyStudio</RootNamespace>
     <AssemblyName>CompanyStudio</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -55,6 +58,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\frmAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmAccount.Designer.cs">
+      <DependentUpon>frmAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\frmAccountExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmAccountExplorer.Designer.cs">
+      <DependentUpon>frmAccountExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\frmCategories.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmCategories.Designer.cs">
+      <DependentUpon>frmCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\frmCloseAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmCloseAccount.Designer.cs">
+      <DependentUpon>frmCloseAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\frmTransferFunds.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmTransferFunds.Designer.cs">
+      <DependentUpon>frmTransferFunds.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseCompanyStudioContent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +115,18 @@
     <Compile Include="Email\frmEmailExplorer.Designer.cs">
       <DependentUpon>frmEmailExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Employees\frmEmployee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Employees\frmEmployee.Designer.cs">
+      <DependentUpon>frmEmployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\frmEmployeeExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Employees\frmEmployeeExplorer.Designer.cs">
+      <DependentUpon>frmEmployeeExplorer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\ICompanyStudioContentExt.cs" />
     <Compile Include="frmCompanyConnect.cs">
       <SubType>Form</SubType>
@@ -108,31 +153,65 @@
     <Compile Include="Loader.Designer.cs">
       <DependentUpon>Loader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Alias.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DistributionList.cs" />
     <Compile Include="Models\DistributionListRecipient.cs" />
     <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\FiscalQuarter.cs" />
+    <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="PermissionsManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="StudioFormExtender.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="StudioFormExtender.Designer.cs">
       <DependentUpon>StudioFormExtender.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Accounts\frmAccount.resx">
+      <DependentUpon>frmAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\frmAccountExplorer.resx">
+      <DependentUpon>frmAccountExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\frmCategories.resx">
+      <DependentUpon>frmCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\frmCloseAccount.resx">
+      <DependentUpon>frmCloseAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\frmTransferFunds.resx">
+      <DependentUpon>frmTransferFunds.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Email\frmAddRecipient.resx">
       <DependentUpon>frmAddRecipient.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Email\frmAlias.resx">
       <DependentUpon>frmAlias.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Email\frmDistributionList.resx">
       <DependentUpon>frmDistributionList.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Email\frmEmailExplorer.resx">
       <DependentUpon>frmEmailExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Employees\frmEmployee.resx">
+      <DependentUpon>frmEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Employees\frmEmployeeExplorer.resx">
+      <DependentUpon>frmEmployeeExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCompanyConnect.resx">
       <DependentUpon>frmCompanyConnect.cs</DependentUpon>
@@ -148,14 +227,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -180,13 +254,7 @@
     <None Include="Resources\lbl_cstudio.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CompanyStudioFullRes.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\mail_explorer.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\gif_loader.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\company_connect.png" />
@@ -204,10 +272,61 @@
     <None Include="Resources\domain_email_small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\icn_pinkslip.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_pinkslip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_fired.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_hire.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_plus_green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_cross_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_clear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_view.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_eye.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_mbd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_mbd_slim.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_category.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_theme.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_com.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\icn_alias.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icn_list.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gif_loader.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CompanyStudioFullRes.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

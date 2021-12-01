@@ -18,6 +18,9 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
     {
         public Type DataObjectType { get; set; }
         public ISearchCondition SearchCondition { get; set; }
+        public List<SearchOrder> SearchOrders { get; set; } = new List<SearchOrder>();
+        public int? Skip { get; set; }
+        public int? Take { get; set; }
 
         public Search(Type dataObjectType)
         {
@@ -34,7 +37,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             SchemaObject schemaObject = Schema.Schema.GetSchemaObject(DataObjectType);
 
             HashSet<string> fields = new HashSet<string>();
-            foreach(Schema.Field field in schemaObject.GetFields())
+            foreach(Schema.Field field in schemaObject.GetFields().Where(f => !f.HasOperation))
             {
                 fields.Add(field.FieldName);
             }
@@ -45,6 +48,9 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             }
 
             Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> selectQueries = GetBaseQueries(schemaObject, fields);
+            ISelectQuery mainQuery = selectQueries[""].Item1;
+            mainQuery.Skip = Skip;
+            mainQuery.Take = Take;            
 
             DataTable table = selectQueries[""].Item1.Execute(transaction);
             FieldInfo isEditableField = typeof(DataObject).GetField("isEditable", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -65,7 +71,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
         public DataObject GetUntypedEditable(ITransaction transaction, IEnumerable<string> readOnlyFields = null)
         {
             SchemaObject thisSchemaObject = Schema.Schema.GetSchemaObject(DataObjectType);
-            HashSet<string> fields = thisSchemaObject.GetFields().Select(f => f.FieldName).ToHashSet();
+            HashSet<string> fields = thisSchemaObject.GetFields().Where(f => !f.HasOperation).Select(f => f.FieldName).ToHashSet();
             if (readOnlyFields != null)
             {
                 fields.AddRange(readOnlyFields);
@@ -74,7 +80,10 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             fields.Add(thisSchemaObject.PrimaryKeyField.FieldName);
 
             Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> queries = GetBaseQueries(thisSchemaObject, fields);
-            queries[""].Item1.PageSize = 1;
+            ISelectQuery mainQuery = queries[""].Item1;
+            mainQuery.Skip = Skip;
+            mainQuery.Take = Take;
+            mainQuery.PageSize = 1;
 
             DataTable table = queries[""].Item1.Execute(transaction);
             if (table.Rows.Count < 1)
@@ -100,7 +109,10 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             fieldsHashSet.Add(schemaObject.PrimaryKeyField.FieldName);
 
             Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> queries = GetBaseQueries(schemaObject, fieldsHashSet);
-            DataTable table = queries[""].Item1.Execute(transaction);
+            ISelectQuery mainQuery = queries[""].Item1;
+            mainQuery.Skip = Skip;
+            mainQuery.Take = Take;
+            DataTable table = mainQuery.Execute(transaction);
 
             foreach(DataRow row in table.Rows)
             {
@@ -123,7 +135,10 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             fieldsHashSet.Add(schemaObject.PrimaryKeyField.FieldName);
 
             Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> queries = GetBaseQueries(schemaObject, fieldsHashSet);
-            queries[""].Item1.PageSize = 1;
+            ISelectQuery mainQuery = queries[""].Item1;
+            mainQuery.Skip = Skip;
+            mainQuery.Take = Take;
+            mainQuery.PageSize = 1;
             DataTable table = queries[""].Item1.Execute(transaction);
             if (table.Rows.Count < 1)
             {
@@ -327,11 +342,62 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
 
                 string alias = tableAliasesByFieldPath[path];
 
-                Select select = new Select() { SelectOperand = (Base.Data.Operand.Field)$"{alias}.{fieldName}", Alias = $"{alias}_{fieldName}" };
+                Select select = new Select() { Alias = $"{alias}_{fieldName}" };
+                Schema.Field schemaField = thisSchemaObject.GetField(field);
+                if (schemaField.HasOperation)
+                {
+                    select.SelectOperand = schemaField.GetOperation(alias);
+                }
+                else
+                {
+                    select.SelectOperand = (Base.Data.Operand.Field)$"{alias}.{fieldName}";
+                }
                 selectQuery.SelectList.Add(select);
             }
 
             selectQuery.WhereCondition = SearchCondition?.GetCondition(tableAliasesByFieldPath, upperFieldPath, queriesByFieldPath.Keys.Where(k => !string.IsNullOrEmpty(k)).ToArray());
+
+            if (SearchOrders != null)
+            {
+                List<Order> orders = new List<Order>();
+                foreach (SearchOrder searchOrder in SearchOrders)
+                {
+                    string fieldPrefix = "";
+                    string field = searchOrder.OrderField;
+                    if (searchOrder.OrderField.Contains("."))
+                    {
+                        fieldPrefix = searchOrder.OrderField.Substring(0, searchOrder.OrderField.LastIndexOf('.'));
+                        field = field.Substring(field.LastIndexOf('.') + 1);
+                    }
+
+                    if (!tableAliasesByFieldPath.ContainsKey(fieldPrefix))
+                    {
+                        continue; // Unretrieved field path
+                    }
+
+                    Order order = new Order()
+                    {
+                        Field = $"{tableAliasesByFieldPath[fieldPrefix]}.{field}",
+                        OrderDirection = searchOrder.OrderDirection == SearchOrder.OrderDirections.Ascending ? Order.OrderDirections.Ascending : Order.OrderDirections.Descending
+                    };
+                    orders.Add(order);
+                }
+
+                selectQuery.OrderByList = orders;
+            }
+            
+            if (selectQuery.OrderByList == null || selectQuery.OrderByList.Count == 0)
+            {
+                selectQuery.OrderByList = new List<Order>()
+                {
+                    new Order()
+                    {
+                        Field = $"{tableAliasesByFieldPath[""]}.{thisSchemaObject.PrimaryKeyField.FieldName}",
+                        OrderDirection = Order.OrderDirections.Ascending
+                    }
+                };
+            }
+
             selectQuery.ConnectionName = thisSchemaObject.ConnectionName;
 
             queriesByFieldPath[""] = new Tuple<ISelectQuery, Dictionary<string, string>>(selectQuery, tableAliasesByFieldPath);
@@ -375,6 +441,38 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             DataTable table = selectQuery.Execute(transaction);
             DataRow row = table.Rows[0];
             return (bool)row[0];
+        }
+
+        public long GetRecordCount(ITransaction transaction = null)
+        {
+            SchemaObject mainSchemaObject = Schema.Schema.GetSchemaObject(DataObjectType);
+
+            HashSet<string> fieldsHashSet = new HashSet<string>() { mainSchemaObject.PrimaryKeyField.FieldName };
+
+            Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> queries = GetBaseQueries(mainSchemaObject, fieldsHashSet);
+            ISelectQuery mainQuery = queries[""].Item1;
+            mainQuery.SelectList = new List<Select>() { new Select() { SelectOperand = new Count((Base.Data.Operand.Field)$"{queries[""].Item2[""]}.{mainSchemaObject.PrimaryKeyField.FieldName}"), Alias = "RecordCount" } };
+            mainQuery.OrderByList = null;
+            DataTable table = queries[""].Item1.Execute(transaction);
+            long totalRecordCount = Convert.ToInt64(table.Rows[0][0]);
+
+            if (Skip == null && Take == null)
+            {
+                return totalRecordCount;
+            }
+
+            // If the dev was intending to get trimmed results, we'll have to manipulate the numbers a bit here
+            if (Skip != null && totalRecordCount > Skip.Value)
+            {
+                totalRecordCount -= Skip.Value;
+            }
+
+            if (Take != null && totalRecordCount > Take)
+            {
+                totalRecordCount = Take.Value;
+            }
+
+            return totalRecordCount;
         }
     }
 

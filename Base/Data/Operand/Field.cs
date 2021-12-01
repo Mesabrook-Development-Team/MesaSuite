@@ -16,9 +16,8 @@ namespace ClussPro.Base.Data.Operand
             Field field = new Field();
             if (value.Contains("."))
             {
-                string[] parts = value.Split('.');
-                field.TableAlias = parts[0];
-                field.FieldName = value.Substring(value.IndexOf('.') + 1);
+                field.TableAlias = value.Substring(0, value.LastIndexOf('.'));
+                field.FieldName = value.Substring(value.LastIndexOf('.') + 1);
             }
             else
             {

@@ -32,7 +32,7 @@ namespace ClussPro.SqlServerProvider
         private string GetSQL(SqlParameterCollection parameters)
         {
             StringBuilder sqlBuilder = new StringBuilder("INSERT INTO ");
-            sqlBuilder.Append(ScriptWriters.TableWriter.WriteTable(Table));
+            sqlBuilder.Append(ScriptWriters.SelectableWriter.WriteSelectable(Table));
             sqlBuilder.Append(" (");
 
             bool first = true;

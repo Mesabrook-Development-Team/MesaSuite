@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Actions_im_user_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Actions-im-user-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="bg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -169,29 +166,23 @@
   <data name="btn_credits_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_credits_hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="btn_User_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btn_User_hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="FB_IMG_1626710816410" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FB_IMG_1626710816410.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="icnPlaceholder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icnPlaceholder.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icn_company_studio_high" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_company_studio_high.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_cstudio_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_cstudio_hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icn_company_studio_norm" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_company_studio_norm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_cstudio_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_cstudio_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icn_information" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_information.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icn_system" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_system.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_sysmgt_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_sysmgt_hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icn_system_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_system_hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_sysmgt_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_sysmgt_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="lbl_cstudio" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lbl_cstudio.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

@@ -1,6 +1,6 @@
 ﻿namespace ClussPro.Base.Data
 {
-    public class Table
+    public class Table : ISelectable
     {
         public string Schema { get; set; }
         public string Name { get; set; }

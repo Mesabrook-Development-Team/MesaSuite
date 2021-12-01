@@ -43,6 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmCrashReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCrashReport.Designer.cs">
+      <DependentUpon>frmCrashReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmEditCompany.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,12 +60,6 @@
     </Compile>
     <Compile Include="frmEditDomain.Designer.cs">
       <DependentUpon>frmEditDomain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmEditEmployee.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmEditEmployee.Designer.cs">
-      <DependentUpon>frmEditEmployee.cs</DependentUpon>
     </Compile>
     <Compile Include="frmEditGovernment.cs">
       <SubType>Form</SubType>
@@ -128,6 +128,7 @@
       <DependentUpon>frmSelectUsers.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\CrashReport.cs" />
     <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\Official.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -144,14 +145,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmCrashReport.resx">
+      <DependentUpon>frmCrashReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmEditCompany.resx">
       <DependentUpon>frmEditCompany.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmEditDomain.resx">
       <DependentUpon>frmEditDomain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmEditEmployee.resx">
-      <DependentUpon>frmEditEmployee.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmEditGovernment.resx">
       <DependentUpon>frmEditGovernment.cs</DependentUpon>
@@ -198,36 +199,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\user.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\user_large.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\program.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\program_large.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\security.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\security_large.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\company.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\company_large.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\government.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\government_large.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\domain_large.png" />
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +209,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\domain_email_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\program_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\program.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\security.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\security_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_crash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\company_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\company.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\government.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\government_large.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

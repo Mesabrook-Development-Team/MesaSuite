@@ -32,6 +32,16 @@ namespace ClussPro.SqlServerProvider.ScriptWriters
                 return WriteCase((Case)operand, parameters);
             }
 
+            if (operand is SubQuery subQuery)
+            {
+                return WriteSubQuery(subQuery, parameters);
+            }
+
+            if (operand is Count count)
+            {
+                return WriteCount(count, parameters);
+            }
+
             throw new InvalidCastException("Could not determine IOperand type for writing");
         }
 
@@ -98,6 +108,23 @@ namespace ClussPro.SqlServerProvider.ScriptWriters
             }
 
             builder.Append("END");
+
+            return builder.ToString();
+        }
+
+        private static string WriteSubQuery(SubQuery subQuery, SqlParameterCollection parameters)
+        {
+            SelectQuery selectQuery = (SelectQuery)subQuery.SelectSubQuery;
+            string selectSql = selectQuery.GetSQL(parameters);
+
+            return $"( {selectSql} )";
+        }
+
+        private static string WriteCount(Count count, SqlParameterCollection parameters)
+        {
+            StringBuilder builder = new StringBuilder("COUNT(");
+            builder.Append(WriteOperand(count.Of, parameters));
+            builder.Append(")");
 
             return builder.ToString();
         }

@@ -24,35 +24,6 @@ namespace SystemManagement
             imlSmall.Images.Add("user", Properties.Resources.user);
         }
 
-        private void lstEmployees_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            foreach(ListViewItem item in lstEmployees.SelectedItems)
-            {
-                Employee employee = (Employee)item.Tag;
-
-                frmEditEmployee editEmployee = new frmEditEmployee();
-                editEmployee.Employee = employee;
-                editEmployee.CompanyNameOverride = txtName.Text;
-                editEmployee.PerformDatabaseSave = false;
-                editEmployee.FormClosed += EditEmployee_FormClosed;
-                editEmployee.Show();
-            }
-        }
-
-        private async void EditEmployee_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            frmEditEmployee editEmployee = (frmEditEmployee)sender;
-            editEmployee.FormClosed -= EditEmployee_FormClosed;
-
-            Enabled = false;
-
-            await LoadEmployees();
-
-            Enabled = true;
-
-            BringToFront();
-        }
-
         private async Task LoadEmployees()
         {
             lstEmployees.Items.Clear();
@@ -79,8 +50,6 @@ namespace SystemManagement
                 item.Text = usersByUserID.GetOrDefault(employee.UserID)?.Username;
                 item.Tag = employee;
                 item.ImageKey = "user";
-                item.SubItems.Add(employee.ManageEmails.ToString());
-                item.SubItems.Add(employee.ManageEmployees.ToString());
 
                 lstEmployees.Items.Add(item);
             }
@@ -143,10 +112,10 @@ namespace SystemManagement
             {
                 employee.CompanyID = company.CompanyID;
 
-                post = new PostData(DataAccess.APIs.SystemManagement, "Employee/Post", employee);
-                await post.ExecuteNoResult();
+                PutData put = new PutData(DataAccess.APIs.SystemManagement, "Employee/CreateOrUpdate", employee);
+                await put.ExecuteNoResult();
 
-                if (!post.RequestSuccessful)
+                if (!put.RequestSuccessful)
                 {
                     employeeSaveSuccessful = false;
                 }

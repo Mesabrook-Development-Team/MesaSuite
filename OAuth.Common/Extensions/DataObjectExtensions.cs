@@ -1,16 +1,14 @@
-﻿using ClussPro.Base.Data.Operand;
-using ClussPro.ObjectBasedFramework;
-using ClussPro.ObjectBasedFramework.Validation;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Results;
+using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Schema;
+using ClussPro.ObjectBasedFramework.Validation;
+using Newtonsoft.Json.Linq;
 
 namespace API.Common.Extensions
 {
@@ -18,12 +16,19 @@ namespace API.Common.Extensions
     {
         public static void PatchData(this DataObject dataObject, string method, Dictionary<string, object> valuesToUpdate)
         {
+            SchemaObject schemaObject = Schema.GetSchemaObject(dataObject.GetType());
             foreach(KeyValuePair<string, object> valueToUpdate in valuesToUpdate)
             {
+                ClussPro.ObjectBasedFramework.Schema.Field field = schemaObject.GetField(valueToUpdate.Key);
+                if (field != null && field.HasOperation)
+                {
+                    continue;
+                }
+
                 KeyValuePair<string, object> workingValueToUpdate = new KeyValuePair<string, object>(valueToUpdate.Key, valueToUpdate.Value);
 
                 PropertyInfo property = dataObject.GetType().GetProperty(workingValueToUpdate.Key);
-                bool isEnumerable = typeof(IEnumerable).IsAssignableFrom(property.PropertyType);
+                bool isEnumerable = property.PropertyType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(property.PropertyType);
 
                 MethodInfo addMethod = null;
                 MethodInfo removeMethod = null;

@@ -28,7 +28,7 @@ namespace SystemManagement
 
         private async void frmSelectPrograms_Load(object sender, EventArgs e)
         {
-            imlList.Images.Add("program", Properties.Resources.program);
+            imlList.Images.Add("program", Properties.Resources.program_large);
             if (UserID == null && PreselectedPrograms == null)
             {
                 throw new ArgumentNullException("UserID or PreselectedPrograms is required");

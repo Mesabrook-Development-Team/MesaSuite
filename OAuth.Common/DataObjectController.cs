@@ -43,7 +43,7 @@ namespace API.Common
                 return BadRequest("Updates are not allowed with this method");
             }
 
-            foreach(Field field in Schema.GetSchemaObject<TDataObject>().GetFields())
+            foreach(Field field in Schema.GetSchemaObject<TDataObject>().GetFields().Where(f => !f.HasOperation))
             {
                 if (!AllowedFields.Contains(field.FieldName))
                 {
@@ -56,7 +56,7 @@ namespace API.Common
                 return dataObject.HandleFailedValidation(this);
             }
 
-            return Created("Get?id=" + dataObject.PrimaryKeyField.GetValue(dataObject), dataObject);
+            return Created("Get?id=" + dataObject.PrimaryKeyField.GetValue(dataObject), DataObject.GetReadOnlyByPrimaryKey<TDataObject>(ConvertUtility.GetNullableLong(dataObject.PrimaryKeyField.GetValue(dataObject)), null, AllowedFields));
         }
 
         [HttpPut]
@@ -80,7 +80,7 @@ namespace API.Common
 
             TDataObject dbDataObject = DataObject.GetEditableByPrimaryKey<TDataObject>(primaryKeyValue != null ? (long)Convert.ChangeType(primaryKeyValue, typeof(long)) : 0, null, null);
             SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
-            foreach(Field field in schemaObject.GetFields().Where(f => f != schemaObject.PrimaryKeyField))
+            foreach(Field field in schemaObject.GetFields().Where(f => !f.HasOperation && f != schemaObject.PrimaryKeyField))
             {
                 if (!AllowedFields.Contains(field.FieldName))
                 {
@@ -95,7 +95,7 @@ namespace API.Common
                 return dbDataObject.HandleFailedValidation(this);
             }
 
-            return Ok(dbDataObject);
+            return Ok(DataObject.GetReadOnlyByPrimaryKey<TDataObject>(ConvertUtility.GetNullableLong(dbDataObject.PrimaryKeyField.GetValue(dbDataObject)), null, AllowedFields));
         }
 
         [HttpDelete]

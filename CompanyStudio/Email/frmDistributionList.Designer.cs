@@ -205,6 +205,7 @@ namespace CompanyStudio.Email
             this.Name = "frmDistributionList";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Distribution List";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmDistributionList_FormClosed);
             this.Load += new System.EventHandler(this.frmDistributionList_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -44,9 +44,9 @@ namespace CompanyStudio.Email
             this.mnuDeleteRecipient = new System.Windows.Forms.ToolStripMenuItem();
             this.loader = new CompanyStudio.Loader();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.visualStudioToolStripExtender = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
             this.toolAddAlias = new System.Windows.Forms.ToolStripButton();
             this.toolAddDistList = new System.Windows.Forms.ToolStripButton();
+            this.visualStudioToolStripExtender = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
             this.ctxEmailExplorer.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -155,10 +155,6 @@ namespace CompanyStudio.Email
             this.toolStrip.TabIndex = 2;
             this.toolStrip.Text = "toolStrip1";
             // 
-            // visualStudioToolStripExtender
-            // 
-            this.visualStudioToolStripExtender.DefaultRenderer = null;
-            // 
             // toolAddAlias
             // 
             this.toolAddAlias.Image = global::CompanyStudio.Properties.Resources.icn_alias;
@@ -177,6 +173,10 @@ namespace CompanyStudio.Email
             this.toolAddDistList.Text = "Add Distribution List";
             this.toolAddDistList.Click += new System.EventHandler(this.toolAddDistList_Click);
             // 
+            // visualStudioToolStripExtender
+            // 
+            this.visualStudioToolStripExtender.DefaultRenderer = null;
+            // 
             // frmEmailExplorer
             // 
             this.ClientSize = new System.Drawing.Size(461, 302);
@@ -186,6 +186,7 @@ namespace CompanyStudio.Email
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmEmailExplorer";
             this.Text = "Email Explorer";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmEmailExplorer_FormClosed);
             this.Load += new System.EventHandler(this.frmEmailExplorer_Load);
             this.Shown += new System.EventHandler(this.frmEmailExplorer_Shown);
             this.ctxEmailExplorer.ResumeLayout(false);

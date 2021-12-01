@@ -94,6 +94,8 @@ namespace CompanyStudio.Email
             this.Name = "frmAddRecipient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add Recipient";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmAddRecipient_FormClosed);
+            this.Load += new System.EventHandler(this.frmAddRecipient_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

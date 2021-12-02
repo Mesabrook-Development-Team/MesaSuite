@@ -58,7 +58,7 @@ namespace Updater
         {
             try
             {
-                HttpWebRequest webRequest = WebRequest.CreateHttp("https://mcsync.api.mesabrook.com/Version/GetLatest");
+                HttpWebRequest webRequest = WebRequest.CreateHttp("http://mcsync.api.mesabrook.com/Version/GetLatest");
                 //HttpWebRequest webRequest = WebRequest.CreateHttp("http://localhost:23895/Version/GetLatest");
                 webRequest.Method = WebRequestMethods.Http.Get;
                 HttpWebResponse response = (HttpWebResponse)await webRequest.GetResponseAsync();
@@ -141,7 +141,7 @@ namespace Updater
                 TaskExecuting?.Invoke(this, "Removing registry values...");
                 try
                 {
-                    RegistryKey uninstallKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall", true);
+                    RegistryKey uninstallKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall", true);
                     if (uninstallKey == null)
                     {
                         return;

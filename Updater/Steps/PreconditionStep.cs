@@ -29,7 +29,7 @@ namespace Updater.Steps
         {
             await Task.Run(() =>
             {
-                RegistryKey rootUninstallKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+                RegistryKey rootUninstallKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
                 if (!rootUninstallKey.GetSubKeyNames().Contains("MesaSuite"))
                 {
                     return;
@@ -49,7 +49,7 @@ namespace Updater.Steps
 
             if (string.IsNullOrEmpty(StartupArguments.VersionToDownload))
             {
-                HttpWebRequest webRequest = WebRequest.CreateHttp("https://mcsync.api.mesabrook.com/Version/GetLatest");
+                HttpWebRequest webRequest = WebRequest.CreateHttp("http://mcsync.api.mesabrook.com/Version/GetLatest");
                 //HttpWebRequest webRequest = WebRequest.CreateHttp("http://localhost:23895/Version/GetLatest");
                 webRequest.Method = WebRequestMethods.Http.Get;
                 HttpWebResponse response;

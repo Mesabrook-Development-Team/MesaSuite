@@ -152,7 +152,7 @@ namespace Updater
             TaskExecuting?.Invoke(this, "Registering MesaSuite...");
             try
             {
-                RegistryKey mesasuiteKey = Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MesaSuite", true);
+                RegistryKey mesasuiteKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MesaSuite", true);
                 mesasuiteKey.SetValue("DisplayName", "MesaSuite");
                 mesasuiteKey.SetValue("ApplicationVersion", StartupArguments.VersionToDownload);
                 mesasuiteKey.SetValue("Publisher", "Clussman Productions");

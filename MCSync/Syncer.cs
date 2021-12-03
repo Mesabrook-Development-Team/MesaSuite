@@ -47,6 +47,9 @@ namespace MCSync
         {
             try
             {
+                Task.Informations.Clear();
+                Task.Errors.Clear();
+
                 // Load config
                 Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
 
@@ -62,8 +65,8 @@ namespace MCSync
                 string resourcePackDirectory = configValues["resourcePackDirectory"].Cast<string>();
                 string configFilesDirectory = configValues["configFilesDirectory"].Cast<string>();
 
-                string[] clientSideWhiteListMods = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("mods_whitelist")?.Cast<string[]>();
-                string[] clientSideWhiteListResourcePacks = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("resourcepacks_whitelist")?.Cast<string[]>();
+                string[] clientSideWhiteListMods = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("mods_whitelist")?.Cast<string[]>() ?? new string[0];
+                string[] clientSideWhiteListResourcePacks = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("resourcepacks_whitelist")?.Cast<string[]>() ?? new string[0];
 
                 List<Task> tasks = new List<Task>();
 

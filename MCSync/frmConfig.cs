@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MesaSuite.Common;
 using MesaSuite.Common.Extensions;
+using WK.Libraries.BetterFolderBrowserNS;
 using static MCSync.Syncer;
 
 namespace MCSync
@@ -22,28 +23,30 @@ namespace MCSync
 
         private void cmdBrowseMods_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "Select Mods folder";
-            dialog.SelectedPath = txtModsDirectory.Text;
-            if (dialog.ShowDialog() != DialogResult.OK)
+            BetterFolderBrowser browser = new BetterFolderBrowser();
+            browser.Title = "Select Mods folder";
+            browser.Multiselect = false;
+            browser.RootFolder = txtModsDirectory.Text;
+            if (browser.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
-            txtModsDirectory.Text = dialog.SelectedPath;
+            txtModsDirectory.Text = browser.SelectedPath;
         }
 
         private void cmdBrowseResourcePacks_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "Select Resource Packs folder";
-            dialog.SelectedPath = txtResourcePacksDirectory.Text;
-            if (dialog.ShowDialog() != DialogResult.OK)
+            BetterFolderBrowser browser = new BetterFolderBrowser();
+            browser.Title = "Select Resource Packs folder";
+            browser.Multiselect = false;
+            browser.RootFolder = txtResourcePacksDirectory.Text;
+            if (browser.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
-            txtResourcePacksDirectory.Text = dialog.SelectedPath;
+            txtResourcePacksDirectory.Text = browser.SelectedPath;
         }
 
         private void cmdCancel_Click(object sender, EventArgs e)
@@ -89,15 +92,16 @@ namespace MCSync
 
         private void cmdBrowseConfig_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "Select Config folder";
-            dialog.SelectedPath = txtConfigDirectory.Text;
-            if (dialog.ShowDialog() != DialogResult.OK)
+            BetterFolderBrowser browser = new BetterFolderBrowser();
+            browser.Title = "Select Config folder";
+            browser.Multiselect = false;
+            browser.RootFolder = txtConfigDirectory.Text;
+            if (browser.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
-            txtConfigDirectory.Text = dialog.SelectedPath;
+            txtConfigDirectory.Text = browser.SelectedPath;
         }
 
         private void cmdModsWhitelist_Click(object sender, EventArgs e)

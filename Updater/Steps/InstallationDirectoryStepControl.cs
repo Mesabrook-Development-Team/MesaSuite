@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Updater.UpdateWorkflow;
+using WK.Libraries.BetterFolderBrowserNS;
 
 namespace Updater.Steps
 {
@@ -15,10 +16,10 @@ namespace Updater.Steps
 
         private void cmdBrowse_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog installLocationDialog = new FolderBrowserDialog()
+            BetterFolderBrowser installLocationDialog = new BetterFolderBrowser
             {
-                Description = "Select installation directory",
-                SelectedPath = Step.InstallationConfiguration.InstallDirectory
+                Title = "Select installation directory",
+                RootFolder = Step.InstallationConfiguration.InstallDirectory
             };
 
             if (installLocationDialog.ShowDialog() != DialogResult.OK)

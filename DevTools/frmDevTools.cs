@@ -148,6 +148,7 @@ namespace DevTools
                 SetConfigOptions(baseLocation + "OAuth\\Web.config");
                 SetConfigOptions(baseLocation + "DevTools\\App.config");
                 SetConfigOptions(baseLocation + "Sandbox\\App.config");
+                SetConfigOptions(baseLocation + "MesaService\\App.config");
             }
             catch(Exception ex)
             {

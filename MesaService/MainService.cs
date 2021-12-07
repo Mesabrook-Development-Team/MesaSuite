@@ -8,6 +8,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MesaService.ServiceTasks;
 
 namespace MesaService
 {
@@ -41,14 +42,62 @@ namespace MesaService
 
         private void MesaServiceThread()
         {
-            while(true)
+            try
             {
-                
-                _cancellationTokenSource.Token.WaitHandle.WaitOne(60_000);
-                if (_cancellationTokenSource.IsCancellationRequested)
+                // Discover all service tasks
+                List<IServiceTask> serviceTasks = new List<IServiceTask>();
+                Type serviceTaskType = typeof(IServiceTask);
+                foreach (Type type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes().Where(t => t != serviceTaskType && serviceTaskType.IsAssignableFrom(t))))
                 {
-                    break;
+                    IServiceTask serviceTask = (IServiceTask)Activator.CreateInstance(type);
+                    serviceTasks.Add(serviceTask);
                 }
+
+                while (true)
+                {
+                    foreach (IServiceTask serviceTask in serviceTasks)
+                    {
+                        try
+                        {
+                            if (serviceTask.NextRunTime > DateTime.Now)
+                            {
+                                continue;
+                            }
+
+                            EventLogEntry($"Running service task {serviceTask.Name}");
+                            if (!serviceTask.Run())
+                            {
+                                throw new Exception($"{serviceTask.Name} did not complete successfully");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            EventLogEntry($"Caught an exception while executing task {serviceTask.Name}:\r\n{ex.ToString()}");
+                        }
+
+                        if (_cancellationTokenSource.IsCancellationRequested)
+                        {
+                            break;
+                        }
+                    }
+
+
+                    if (_cancellationTokenSource.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                    _cancellationTokenSource.Token.WaitHandle.WaitOne(60_000);
+
+                    if (_cancellationTokenSource.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                EventLogEntry("An unexpected exception occurred - service stopped:\r\n" + ex.ToString());
             }
         }
 
@@ -59,6 +108,9 @@ namespace MesaService
 
         private void EventLogEntry(string entry)
         {
+#if DEBUG
+            Console.WriteLine(entry);
+#else
             try
             {
                 if (!EventLog.SourceExists("MesaService"))
@@ -71,6 +123,7 @@ namespace MesaService
             {
                 Console.WriteLine("WARNING: Could not write to Event Log: " + entry);
             }
+#endif
         }
     }
 }

@@ -94,7 +94,7 @@ namespace WebModels.account
         #endregion
         #endregion
 
-        public static FiscalQuarter FindOrCreate(long accountID, DateTime time, ITransaction transaction = null, IEnumerable<string> additionalFields = null)
+        public static FiscalQuarter Find(long accountID, DateTime time, ITransaction transaction = null, IEnumerable<string> additionalFields = null)
         {
             byte quarter = GetQuarterForDate(time);
 
@@ -118,7 +118,12 @@ namespace WebModels.account
                     Value = (short)time.Year
                 }));
 
-            FiscalQuarter result = fiscalQuarterSearch.GetEditable(transaction, additionalFields);
+            return fiscalQuarterSearch.GetEditable(transaction, additionalFields);
+        }
+
+        public static FiscalQuarter FindOrCreate(long accountID, DateTime time, ITransaction transaction = null, IEnumerable<string> additionalFields = null)
+        {
+            FiscalQuarter result = Find(accountID, time, transaction, additionalFields);
             if (result == null)
             {
                 // We need a new one, but in order to get starting balance, we need to find the previous ending balance

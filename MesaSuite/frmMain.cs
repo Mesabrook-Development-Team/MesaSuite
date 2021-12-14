@@ -23,7 +23,8 @@ namespace MesaSuite
             {
                 { pnlMCSync, "" },
                 { pnlSystemManagement, "system" },
-                { pnlCompanyStudio, "company" }
+                { pnlCompanyStudio, "company" },
+                { pnlGovernmentPortal, "gov" }
             };
         }
 
@@ -270,6 +271,11 @@ namespace MesaSuite
         private void mnuRegister_Click(object sender, EventArgs e)
         {
             Authentication.Register();
+        }
+
+        private void pboxGovernmentPortal_Click(object sender, EventArgs e)
+        {
+            StartProgram(() => GovernmentPortal.Program.Main(StartupArguments.GetArgsForApp("government")));
         }
     }
 }

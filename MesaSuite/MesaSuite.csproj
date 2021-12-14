@@ -139,6 +139,10 @@
       <Project>{958b665b-0bed-4a1c-80d1-4fcc0dd861b7}</Project>
       <Name>CompanyStudio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GovernmentPortal\GovernmentPortal.csproj">
+      <Project>{fb604dab-30e1-47d3-a1ee-393ce0e82924}</Project>
+      <Name>GovernmentPortal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MCSync\MCSync.csproj">
       <Project>{dae0b871-55a8-4b13-b121-273d19997c95}</Project>
       <Name>MCSync</Name>

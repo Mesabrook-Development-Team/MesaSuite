@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using System.Collections.Generic;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.security;
@@ -65,6 +66,12 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _manageOfficials; }
             set { CheckSet(); _manageOfficials = value; }
+        }
+
+        public static IEnumerable<string> GetPermissionFieldNames()
+        {
+            yield return nameof(ManageEmails);
+            yield return nameof(ManageOfficials);
         }
     }
 }

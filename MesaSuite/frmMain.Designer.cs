@@ -48,6 +48,9 @@
             this.aboutMesaSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxSignIn = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuRegister = new System.Windows.Forms.ToolStripMenuItem();
+            this.pnlGovernmentPortal = new System.Windows.Forms.Panel();
+            this.pboxGovernmentPortal = new System.Windows.Forms.PictureBox();
+            this.pboxGPortal = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSync)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSyncLogo)).BeginInit();
             this.pnlMCSync.SuspendLayout();
@@ -61,6 +64,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pboxCStudio)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.ctxSignIn.SuspendLayout();
+            this.pnlGovernmentPortal.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxGovernmentPortal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxGPortal)).BeginInit();
             this.SuspendLayout();
             // 
             // pboxMCSync
@@ -144,6 +150,7 @@
             this.flow.Controls.Add(this.pnlMCSync);
             this.flow.Controls.Add(this.pnlSystemManagement);
             this.flow.Controls.Add(this.pnlCompanyStudio);
+            this.flow.Controls.Add(this.pnlGovernmentPortal);
             this.flow.Location = new System.Drawing.Point(31, 44);
             this.flow.Name = "flow";
             this.flow.Size = new System.Drawing.Size(836, 429);
@@ -269,6 +276,41 @@
             this.mnuRegister.Text = "Register MesaSuite";
             this.mnuRegister.Click += new System.EventHandler(this.mnuRegister_Click);
             // 
+            // pnlGovernmentPortal
+            // 
+            this.pnlGovernmentPortal.BackColor = System.Drawing.Color.Transparent;
+            this.pnlGovernmentPortal.Controls.Add(this.pboxGovernmentPortal);
+            this.pnlGovernmentPortal.Controls.Add(this.pboxGPortal);
+            this.pnlGovernmentPortal.Location = new System.Drawing.Point(417, 3);
+            this.pnlGovernmentPortal.Name = "pnlGovernmentPortal";
+            this.pnlGovernmentPortal.Size = new System.Drawing.Size(132, 155);
+            this.pnlGovernmentPortal.TabIndex = 6;
+            // 
+            // pboxGovernmentPortal
+            // 
+            this.pboxGovernmentPortal.BackColor = System.Drawing.Color.Transparent;
+            this.pboxGovernmentPortal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxGovernmentPortal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pboxGovernmentPortal.Image = global::MesaSuite.Properties.Resources.icn_cstudio_normal;
+            this.pboxGovernmentPortal.Location = new System.Drawing.Point(21, 19);
+            this.pboxGovernmentPortal.Name = "pboxGovernmentPortal";
+            this.pboxGovernmentPortal.Size = new System.Drawing.Size(92, 97);
+            this.pboxGovernmentPortal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pboxGovernmentPortal.TabIndex = 1;
+            this.pboxGovernmentPortal.TabStop = false;
+            this.pboxGovernmentPortal.Click += new System.EventHandler(this.pboxGovernmentPortal_Click);
+            // 
+            // pboxGPortal
+            // 
+            this.pboxGPortal.BackColor = System.Drawing.Color.Transparent;
+            this.pboxGPortal.BackgroundImage = global::MesaSuite.Properties.Resources.lbl_cstudio;
+            this.pboxGPortal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxGPortal.Location = new System.Drawing.Point(35, 118);
+            this.pboxGPortal.Name = "pboxGPortal";
+            this.pboxGPortal.Size = new System.Drawing.Size(66, 34);
+            this.pboxGPortal.TabIndex = 2;
+            this.pboxGPortal.TabStop = false;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -303,6 +345,9 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ctxSignIn.ResumeLayout(false);
+            this.pnlGovernmentPortal.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pboxGovernmentPortal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxGPortal)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -327,5 +372,8 @@
         private System.Windows.Forms.PictureBox pboxCStudio;
         private System.Windows.Forms.ContextMenuStrip ctxSignIn;
         private System.Windows.Forms.ToolStripMenuItem mnuRegister;
+        private System.Windows.Forms.Panel pnlGovernmentPortal;
+        private System.Windows.Forms.PictureBox pboxGovernmentPortal;
+        private System.Windows.Forms.PictureBox pboxGPortal;
     }
 }

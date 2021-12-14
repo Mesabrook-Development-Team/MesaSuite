@@ -119,7 +119,9 @@ namespace MesaSuite.Common.Data
             [EnumValue("system")]
             SystemManagement,
             [EnumValue("company")]
-            CompanyStudio
+            CompanyStudio,
+            [EnumValue("gov")]
+            GovernmentPortal
         }
     }
 }

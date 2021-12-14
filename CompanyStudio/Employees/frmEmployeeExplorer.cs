@@ -107,11 +107,11 @@ namespace CompanyStudio.Employees
         private async void mnuTogglePermission_Click(object sender, EventArgs e)
         {
             TreeNode currentNode = treEmployees.SelectedNode;
-            string path = currentNode.FullPath;
             if (currentNode == null || !(currentNode.Parent?.Parent?.Tag is Employee employee) || !(currentNode.Tag is string property))
             {
                 return;
             }
+            string path = currentNode.FullPath;
 
             path = path.Substring(0, path.LastIndexOf("\\"));
 

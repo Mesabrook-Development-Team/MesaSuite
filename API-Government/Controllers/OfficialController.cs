@@ -8,6 +8,7 @@ using API.Common.Attributes;
 using API_Government.Attributes;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using WebModels.gov;
+using WebModels.security;
 
 namespace API_Government.Controllers
 {
@@ -21,21 +22,43 @@ namespace API_Government.Controllers
         {
             nameof(Official.OfficialID),
             nameof(Official.GovernmentID),
+            nameof(Official.UserID),
             nameof(Official.ManageOfficials),
-            nameof(Official.ManageEmails)
+            nameof(Official.ManageEmails),
+            nameof(Official.OfficialName)
         };
 
         [HttpGet]
-        public List<Official> GetOfficialsForGovernment(long id)
+        public List<Official> GetForGovernment()
         {
+            long govID = long.Parse(Request.Headers.GetValues("GovernmentID").First());
             Search<Official> officialSearch = new Search<Official>(new LongSearchCondition<Official>()
             {
                 Field = "GovernmentID",
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = id
+                Value = govID
             });
 
             return officialSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+        }
+
+        [HttpGet]
+        public List<User> Candidates()
+        {
+            long govID = long.Parse(Request.Headers.GetValues("GovernmentID").First());
+            Search<User> userSearch = new Search<User>(new ExistsSearchCondition<User>()
+            {
+                RelationshipName = "Officials",
+                ExistsType = ExistsSearchCondition<User>.ExistsTypes.NotExists,
+                Condition = new LongSearchCondition<Official>()
+                {
+                    Field = "GovernmentID",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = govID
+                }
+            });
+
+            return userSearch.GetReadOnlyReader(null, new string[] { "UserID", "Username" }).ToList();
         }
     }
 }

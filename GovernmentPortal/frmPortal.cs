@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using GovernmentPortal.Models;
+using GovernmentPortal.Officials;
 
 namespace GovernmentPortal
 {
@@ -23,6 +24,13 @@ namespace GovernmentPortal
             }
 
             _government = selectGovernment.SelectedGovernment;
+        }
+
+        private void toolOfficials_Click(object sender, EventArgs e)
+        {
+            frmGenericExplorer<Official> genericExplorer = new frmGenericExplorer<Official>(new OfficialExplorerContext(_government.GovernmentID));
+            genericExplorer.MdiParent = this;
+            genericExplorer.Show();
         }
     }
 }

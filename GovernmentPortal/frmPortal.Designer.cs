@@ -29,16 +29,30 @@ namespace GovernmentPortal
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPortal));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolOfficials = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
             // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolOfficials});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(659, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolOfficials
+            // 
+            this.toolOfficials.Image = ((System.Drawing.Image)(resources.GetObject("toolOfficials.Image")));
+            this.toolOfficials.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolOfficials.Name = "toolOfficials";
+            this.toolOfficials.Size = new System.Drawing.Size(70, 22);
+            this.toolOfficials.Text = "Officials";
+            this.toolOfficials.Click += new System.EventHandler(this.toolOfficials_Click);
             // 
             // frmPortal
             // 
@@ -52,6 +66,8 @@ namespace GovernmentPortal
             this.Text = "Government Portal";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Shown += new System.EventHandler(this.frmPortal_Shown);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -60,6 +76,7 @@ namespace GovernmentPortal
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolOfficials;
     }
 }
 

@@ -80,7 +80,14 @@
     </Compile>
     <Compile Include="Models\Government.cs" />
     <Compile Include="Models\Official.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Officials\OfficialExplorerContext.cs" />
+    <Compile Include="Officials\OfficialExplorerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Officials\OfficialExplorerControl.Designer.cs">
+      <DependentUpon>OfficialExplorerControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmGenericExplorer.resx">
@@ -94,6 +101,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Officials\OfficialExplorerControl.resx">
+      <DependentUpon>OfficialExplorerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

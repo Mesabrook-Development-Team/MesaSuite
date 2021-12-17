@@ -52,6 +52,7 @@ namespace GovernmentPortal
             this.toolOfficials.Name = "toolOfficials";
             this.toolOfficials.Size = new System.Drawing.Size(70, 22);
             this.toolOfficials.Text = "Officials";
+            this.toolOfficials.Visible = false;
             this.toolOfficials.Click += new System.EventHandler(this.toolOfficials_Click);
             // 
             // frmPortal
@@ -65,6 +66,8 @@ namespace GovernmentPortal
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Government Portal";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPortal_FormClosing);
+            this.Load += new System.EventHandler(this.frmPortal_Load);
             this.Shown += new System.EventHandler(this.frmPortal_Shown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

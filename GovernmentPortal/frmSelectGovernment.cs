@@ -29,7 +29,7 @@ namespace GovernmentPortal
             loader.BringToFront();
             loader.Visible = true;
 
-            GetData getData = new GetData(DataAccess.APIs.GovernmentPortal, "Government/GetForUser");
+            GetData getData = new GetData(DataAccess.APIs.GovernmentPortal, "Government/GetAllForUser");
             List<Government> governments = await getData.GetObject<List<Government>>() ?? new List<Government>();
             
             foreach(Government government in governments)

@@ -88,6 +88,7 @@
     <Compile Include="Officials\OfficialExplorerControl.Designer.cs">
       <DependentUpon>OfficialExplorerControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="PermissionsManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmGenericExplorer.resx">
@@ -95,6 +96,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPortal.resx">
       <DependentUpon>frmPortal.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSelectGovernment.resx">
       <DependentUpon>frmSelectGovernment.cs</DependentUpon>

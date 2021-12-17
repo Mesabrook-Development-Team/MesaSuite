@@ -183,5 +183,20 @@ namespace GovernmentPortal
             }
             FillItems();
         }
+
+        public void ForceClose()
+        {
+            suppressCloseEvent = true;
+            Close();
+        }
+
+        bool suppressCloseEvent = false;
+        private void frmGenericExplorer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!suppressCloseEvent && shownControl != null && shownControl.IsDirty && WarnDirty() == DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            }
+        }
     }
 }

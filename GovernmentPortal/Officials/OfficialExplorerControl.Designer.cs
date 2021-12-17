@@ -18,6 +18,12 @@ namespace GovernmentPortal.Officials
             {
                 components.Dispose();
             }
+
+            if (disposing)
+            {
+                PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            }
+
             base.Dispose(disposing);
         }
 

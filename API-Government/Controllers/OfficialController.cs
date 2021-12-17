@@ -29,7 +29,7 @@ namespace API_Government.Controllers
         };
 
         [HttpGet]
-        public List<Official> GetForGovernment()
+        public List<Official> GetAllForGovernment()
         {
             long govID = long.Parse(Request.Headers.GetValues("GovernmentID").First());
             Search<Official> officialSearch = new Search<Official>(new LongSearchCondition<Official>()
@@ -59,6 +59,28 @@ namespace API_Government.Controllers
             });
 
             return userSearch.GetReadOnlyReader(null, new string[] { "UserID", "Username" }).ToList();
+        }
+
+        [GovernmentAccess(RequiredPermissions = null)]
+        public Official GetForGovernment()
+        {
+            SecurityProfile securityProfile = (SecurityProfile)Request.Properties["SecurityProfile"];
+            long govID = long.Parse(Request.Headers.GetValues("GovernmentID").First());
+            Search<Official> officialSeach = new Search<Official>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<Official>()
+                {
+                    Field = "GovernmentID",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = govID
+                },
+                new LongSearchCondition<Official>()
+                {
+                    Field = "UserID",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = securityProfile.UserID
+                }));
+
+            return officialSeach.GetReadOnly(null, AllowedFields);
         }
     }
 }

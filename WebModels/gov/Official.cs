@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
@@ -66,6 +69,37 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _manageOfficials; }
             set { CheckSet(); _manageOfficials = value; }
+        }
+
+        private string _officialName;
+        [Field("51C127CE-45FB-4512-8325-00CF355510EA", HasOperation = true)]
+        public string OfficialName
+        {
+            get { CheckGet(); return _officialName; }
+        }
+
+        public static OperationDelegate OfficialNameOperation
+        {
+            get
+            {
+                return alias =>
+                {
+                    ISelectQuery userSelect = SQLProviderFactory.GetSelectQuery();
+                    userSelect.SelectList = new List<Select>()
+                    {
+                        new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)"U.Username" }
+                    };
+                    userSelect.Table = new Table("security", "User", "U");
+                    userSelect.WhereCondition = new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)"U.UserID",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{alias}.UserID"
+                    };
+
+                    return new ClussPro.Base.Data.Operand.SubQuery(userSelect);
+                };
+            }
         }
 
         public static IEnumerable<string> GetPermissionFieldNames()

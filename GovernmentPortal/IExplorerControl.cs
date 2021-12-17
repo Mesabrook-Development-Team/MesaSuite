@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace GovernmentPortal
 {
-    internal interface IExplorerControl<TModel>
+    internal interface IExplorerControl<TModel> where TModel:class
     {
         event EventHandler IsDirtyChanged;
         bool IsDirty { get; set; }
         TModel Model { get; set; }
         void OnDeleteClicked();
         void OnSaveClicked();
+        frmGenericExplorer<TModel> Explorer { set; }
     }
 }

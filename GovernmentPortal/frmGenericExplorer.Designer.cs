@@ -54,7 +54,7 @@ namespace GovernmentPortal
             this.lstItems.Name = "lstItems";
             this.lstItems.Size = new System.Drawing.Size(190, 368);
             this.lstItems.TabIndex = 0;
-            this.lstItems.SelectedIndexChanged += new System.EventHandler(this.listItems_SelectedIndexChanged);
+            this.lstItems.SelectedValueChanged += new System.EventHandler(this.listItems_SelectedIndexChanged);
             // 
             // label2
             // 

@@ -8,7 +8,7 @@ using Pluralize.NET;
 
 namespace GovernmentPortal
 {
-    public partial class frmGenericExplorer<TModel> : Form
+    public partial class frmGenericExplorer<TModel> : Form where TModel : class
     {
         private ExplorerContext<TModel> explorerContext;
         private IExplorerControl<TModel> shownControl;
@@ -19,16 +19,24 @@ namespace GovernmentPortal
             InitializeComponent();
         }
 
-        internal frmGenericExplorer(ExplorerContext<TModel> explorerContext) : base()
+        internal frmGenericExplorer(ExplorerContext<TModel> explorerContext) : this()
         {
             this.explorerContext = explorerContext;
         }
 
         private int priorIndex = -1;
+        bool suppressItemListChange = false;
         private void listItems_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (shownControl.IsDirty && WarnDirty() == DialogResult.Cancel)
+            if (suppressItemListChange)
             {
+                suppressItemListChange = false;
+                return;
+            }
+
+            if (shownControl != null && shownControl.IsDirty && WarnDirty() == DialogResult.Cancel)
+            {
+                suppressItemListChange = true;
                 lstItems.SelectedIndex = priorIndex;
                 return;
             }
@@ -37,9 +45,19 @@ namespace GovernmentPortal
             if (dropDownItem == null)
             {
                 grpContent.Controls.Clear();
+                shownControl = null;
+                return;
             }
 
-            shownControl = explorerContext.GetControlForModel(dropDownItem.Object);
+            ShowFromModel(dropDownItem.Object);
+            priorIndex = lstItems.SelectedIndex;
+        }
+
+        private void ShowFromModel(TModel model)
+        {
+            grpContent.Controls.Clear();
+            shownControl = explorerContext.GetControlForModel(model);
+            shownControl.Explorer = this;
             Control control = (Control)shownControl;
             grpContent.Controls.Add(control);
             control.Dock = DockStyle.Fill;
@@ -59,17 +77,23 @@ namespace GovernmentPortal
             Text = $"{explorerContext.ObjectDisplayName} Explorer";
             cmdNew.Text = $"New {explorerContext.ObjectDisplayName}";
             cmdDelete.Text = $"Delete {explorerContext.ObjectDisplayName}";
-            LoadAllItems();
+            grpContent.Text = explorerContext.ObjectDisplayName;
+            LoadAllItems(true);
         }
         
         public async void LoadAllItems(bool doFill = false, string selectedTextOverride = null)
         {
-            if (shownControl.IsDirty && WarnDirty() == DialogResult.Cancel)
+            if (shownControl != null && shownControl.IsDirty && WarnDirty() == DialogResult.Cancel)
             {
                 return;
             }
 
-            dropDownItems = await explorerContext.GetInitialListItems();
+            dropDownItems = new List<DropDownItem<TModel>>();
+            try
+            {
+                dropDownItems = await explorerContext.GetInitialListItems();
+            }
+            catch { }
 
             if (doFill)
             {
@@ -77,13 +101,18 @@ namespace GovernmentPortal
             }
         }
 
+        private string _priorFillSearchText;
         public void FillItems(string selectedTextOverride = null)
         {
-            DropDownItem<TModel> currentlySelectedItem = string.IsNullOrEmpty(selectedTextOverride) ? lstItems.Items.OfType<DropDownItem<TModel>>().FirstOrDefault(ddi => ddi.Text == selectedTextOverride) : lstItems.SelectedItem as DropDownItem<TModel>;
-            if (currentlySelectedItem != null && currentlySelectedItem.Text.Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase) && shownControl.IsDirty && WarnDirty() == DialogResult.Cancel)
+            DropDownItem<TModel> currentlySelectedItem = lstItems.SelectedItem as DropDownItem<TModel>;
+            if (currentlySelectedItem != null && !currentlySelectedItem.Text.Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase) && shownControl != null && shownControl.IsDirty && WarnDirty() == DialogResult.Cancel)
             {
+                suppressTextChangeEvent = true;
+                txtSearch.Text = _priorFillSearchText;
                 return;
             }
+
+            _priorFillSearchText = txtSearch.Text;
 
             lstItems.Items.Clear();
 
@@ -92,8 +121,17 @@ namespace GovernmentPortal
                 lstItems.Items.Add(item);
             }
 
-            if (lstItems.Items.Contains(currentlySelectedItem))
+            if (!string.IsNullOrEmpty(selectedTextOverride))
             {
+                currentlySelectedItem = lstItems.Items.OfType<DropDownItem<TModel>>().FirstOrDefault(ddi => ddi.Text == selectedTextOverride);
+            }
+
+            if (currentlySelectedItem != null && lstItems.Items.Contains(currentlySelectedItem))
+            {
+                if (string.IsNullOrEmpty(selectedTextOverride)) // We want to trigger the update if we're picking a specific item
+                {
+                    suppressItemListChange = true;
+                }
                 lstItems.SelectedItem = currentlySelectedItem;
             }
         }
@@ -116,21 +154,33 @@ namespace GovernmentPortal
 
         private void cmdSave_Click(object sender, EventArgs e)
         {
-            shownControl.OnSaveClicked();
+            shownControl?.OnSaveClicked();
         }
 
         private void cmdDelete_Click(object sender, EventArgs e)
         {
-            shownControl.OnDeleteClicked();
+            shownControl?.OnDeleteClicked();
         }
 
         private void cmdNew_Click(object sender, EventArgs e)
         {
-            explorerContext.OnNewClicked();
+            if (shownControl != null && shownControl.IsDirty && WarnDirty() == DialogResult.Cancel)
+            {
+                lstItems.SelectedIndex = priorIndex;
+                return;
+            }
+
+            ShowFromModel(null);
         }
 
+        bool suppressTextChangeEvent = false;
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
+            if (suppressTextChangeEvent)
+            {
+                suppressTextChangeEvent = false;
+                return;
+            }
             FillItems();
         }
     }

@@ -27,7 +27,7 @@ namespace GovernmentPortal.Officials
 
         internal async override Task<List<DropDownItem<Official>>> GetInitialListItems()
         {
-            GetData getData = new GetData(DataAccess.APIs.GovernmentPortal, "Official/GetForGovernment");
+            GetData getData = new GetData(DataAccess.APIs.GovernmentPortal, "Official/GetAllForGovernment");
             getData.Headers.Add("GovernmentID", _governmentID.ToString());
             return (await getData.GetObject<List<Official>>()).Select(o => new DropDownItem<Official>(o, o.OfficialName)).ToList();
         }

@@ -17,6 +17,7 @@ namespace GovernmentPortal.Officials
     public partial class OfficialExplorerControl : UserControl, IExplorerControl<Official>
     {
         public event EventHandler IsDirtyChanged;
+        
         public long GovernmentID { get; set; }
 
         private bool _suppressDirty;
@@ -164,6 +165,16 @@ namespace GovernmentPortal.Officials
 
             loader.Visible = false;
             _suppressDirty = false;
+
+            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+        }
+
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        {
+            if (e.GovernmentID == GovernmentID && e.Permission == PermissionsManager.Permissions.ManageOfficials && !e.Value)
+            {
+                _explorer.ForceClose();
+            }
         }
 
         private void FormValueChanged(object sender, EventArgs e)

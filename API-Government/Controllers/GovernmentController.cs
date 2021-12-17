@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.Http;
 using API.Common;
 using API.Common.Attributes;
 using ClussPro.ObjectBasedFramework.DataSearch;
@@ -17,7 +18,8 @@ namespace API_Government.Controllers
             nameof(Government.Name)
         };
 
-        public List<Government> GetForUser()
+        [HttpGet]
+        public List<Government> GetAllForUser()
         {
             SecurityProfile securityProfile = (SecurityProfile)Request.Properties["SecurityProfile"] as SecurityProfile;
             Search<Government> governmentSearch = new Search<Government>(new ExistsSearchCondition<Government>()

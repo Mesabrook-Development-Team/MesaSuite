@@ -46,11 +46,16 @@ namespace GovernmentPortal.Officials
         {
             if (Model == null)
             {
-                MessageBox.Show("Cannot delete an unsaved Official.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Cannot fire an unhired Official.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                /*
+                 Manager:           "Would you like a job, starting now?"
+                 Official Prospect: "Boy would I!"
+                 Manager:           "You're fired."
+                */
                 return;
             }
 
-            if (MessageBox.Show("Are you sure you want to delete this Official?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to fire this Official?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
             {
                 return;
             }

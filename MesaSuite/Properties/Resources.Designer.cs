@@ -223,6 +223,16 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icn_check {
+            get {
+                object obj = ResourceManager.GetObject("icn_check", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icn_cstudio_hover {
             get {
                 object obj = ResourceManager.GetObject("icn_cstudio_hover", resourceCulture);
@@ -236,6 +246,26 @@ namespace MesaSuite.Properties {
         internal static System.Drawing.Bitmap icn_cstudio_normal {
             get {
                 object obj = ResourceManager.GetObject("icn_cstudio_normal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_govt_portal {
+            get {
+                object obj = ResourceManager.GetObject("icn_govt_portal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_govt_portal_hov {
+            get {
+                object obj = ResourceManager.GetObject("icn_govt_portal_hov", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -271,6 +301,16 @@ namespace MesaSuite.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_x {
+            get {
+                object obj = ResourceManager.GetObject("icn_x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon icnPlaceholder {
@@ -286,6 +326,16 @@ namespace MesaSuite.Properties {
         internal static System.Drawing.Bitmap lbl_cstudio {
             get {
                 object obj = ResourceManager.GetObject("lbl_cstudio", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap lbl_govt_portal {
+            get {
+                object obj = ResourceManager.GetObject("lbl_govt_portal", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -357,6 +407,16 @@ namespace MesaSuite.Properties {
             get {
                 object obj = ResourceManager.GetObject("MC_FONT", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tile_sb {
+            get {
+                object obj = ResourceManager.GetObject("tile_sb", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

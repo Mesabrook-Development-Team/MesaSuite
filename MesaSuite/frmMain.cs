@@ -57,6 +57,7 @@ namespace MesaSuite
             pboxMCSyncLogo.Visible = false;
             pboxSystem.Visible = false;
             pboxCStudio.Visible = false;
+            pboxGPortal.Visible = false;
             Authentication.OnLoggedIn += Authentication_OnLoggedIn;
             Authentication.OnLoggedOut += Authentication_OnLoggedOut;
             Authentication.OnProgramUpdate += Authentication_OnProgramUpdate;
@@ -64,12 +65,14 @@ namespace MesaSuite
             if (Authentication.AuthenticationStatus == Authentication.AuthenticationStatuses.LoggedIn)
             {
                 pnlUserBtn.BackgroundImage = Properties.Resources.btnLogOutBase;
-                lblLogInStatus.Text = "Logged In";
+                pboxLoginStatus.Image = Properties.Resources.icn_check;
+                lblLoginStatus.Text = "Logged In";
             }
             else
             {
                 pnlUserBtn.BackgroundImage = Properties.Resources.btnLoginBase;
-                lblLogInStatus.Text = "Not Logged In";
+                pboxLoginStatus.Image = Properties.Resources.icn_x;
+                lblLoginStatus.Text = "Not Logged In";
             }
 
             Authentication_OnProgramUpdate(sender, e);
@@ -96,12 +99,14 @@ namespace MesaSuite
 
         private void Authentication_OnLoggedOut(object sender, EventArgs e)
         {
-            lblLogInStatus.Text = "Not Logged In";
+            pboxLoginStatus.Image = Properties.Resources.icn_x;
+            lblLoginStatus.Text = "Not Logged In";
         }
 
         private void Authentication_OnLoggedIn(object sender, EventArgs e)
         {
-            lblLogInStatus.Text = "Logged In";
+            pboxLoginStatus.Image = Properties.Resources.icn_check;
+            lblLoginStatus.Text = "Logged In";
         }
 
         private void StartMCSync()
@@ -276,6 +281,18 @@ namespace MesaSuite
         private void pboxGovernmentPortal_Click(object sender, EventArgs e)
         {
             StartProgram(() => GovernmentPortal.Program.Main(StartupArguments.GetArgsForApp("government")));
+        }
+
+        private void pboxGovernmentPortal_MouseEnter(object sender, EventArgs e)
+        {
+            pboxGovernmentPortal.Image = Properties.Resources.icn_govt_portal_hov;
+            pboxGPortal.Visible = true;
+        }
+
+        private void pboxGovernmentPortal_MouseLeave(object sender, EventArgs e)
+        {
+            pboxGovernmentPortal.Image = Properties.Resources.icn_govt_portal;
+            pboxGPortal.Visible = false;
         }
     }
 }

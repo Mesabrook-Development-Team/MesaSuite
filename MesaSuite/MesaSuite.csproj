@@ -38,7 +38,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\icnPlaceholder.ico</ApplicationIcon>
+    <ApplicationIcon>logo_ms.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CefSharp, Version=88.2.90.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
@@ -272,6 +272,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icn_sysmgt_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_govt_portal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_govt_portal_hov.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lbl_govt_portal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="logo_ms.ico" />
+    <None Include="Resources\tile_sb.jpg" />
+    <None Include="Resources\icn_x.png" />
+    <None Include="Resources\icn_check.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

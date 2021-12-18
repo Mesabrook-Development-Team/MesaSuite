@@ -280,6 +280,7 @@ namespace MesaSuite
 
         private void pboxGovernmentPortal_Click(object sender, EventArgs e)
         {
+            PlayButtonClickSound();
             StartProgram(() => GovernmentPortal.Program.Main(StartupArguments.GetArgsForApp("government")));
         }
 

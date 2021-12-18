@@ -131,12 +131,12 @@ namespace MesaSuite
         {
             try
             {
-                PrivateFontCollection pfc = new PrivateFontCollection();
-                int fontLength = Properties.Resources.MC_FONT.Length;
-                byte[] fontdata = Properties.Resources.MC_FONT;
-                System.IntPtr data = Marshal.AllocCoTaskMem(fontLength);
-                Marshal.Copy(fontdata, 0, data, fontLength);
-                pfc.AddMemoryFont(data, fontLength);
+                //PrivateFontCollection pfc = new PrivateFontCollection();
+                //int fontLength = Properties.Resources.MC_FONT.Length;
+                //byte[] fontdata = Properties.Resources.MC_FONT;
+                //System.IntPtr data = Marshal.AllocCoTaskMem(fontLength);
+                //Marshal.Copy(fontdata, 0, data, fontLength);
+                //pfc.AddMemoryFont(data, fontLength);
 
                 // Set font here
                 //lblFontTest.Font = new System.Drawing.Font(pfc.Families[0], lblFontTest.Font.Size);

@@ -262,28 +262,16 @@
     <None Include="Resources\FB_IMG_1626710816410.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icn_cstudio_hover.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icn_cstudio_normal.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icn_sysmgt_hover.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icn_sysmgt_normal.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icn_govt_portal.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icn_govt_portal_hov.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\lbl_govt_portal.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ms.ico" />
+    <None Include="Resources\icn_sysmgt_normal.png" />
+    <None Include="Resources\icn_sysmgt_hover.png" />
+    <None Include="Resources\icn_govt_portal_hov.png" />
+    <None Include="Resources\icn_govt_portal.png" />
+    <None Include="Resources\icn_cstudio_normal.png" />
+    <None Include="Resources\icn_cstudio_hover.png" />
     <None Include="Resources\tile_sb.jpg" />
     <None Include="Resources\icn_x.png" />
     <None Include="Resources\icn_check.png" />

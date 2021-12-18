@@ -373,16 +373,6 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap logo_User {
-            get {
-                object obj = ResourceManager.GetObject("logo_User", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap logoMS {
             get {
                 object obj = ResourceManager.GetObject("logoMS", resourceCulture);
@@ -397,16 +387,6 @@ namespace MesaSuite.Properties {
             get {
                 object obj = ResourceManager.GetObject("logoMSJoke", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] MC_FONT {
-            get {
-                object obj = ResourceManager.GetObject("MC_FONT", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         

@@ -1,6 +1,7 @@
 ﻿using MesaSuite.Common;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Media;
@@ -74,6 +75,9 @@ namespace MesaSuite
                 pboxLoginStatus.Image = Properties.Resources.icn_x;
                 lblLoginStatus.Text = "Not Logged In";
             }
+
+            // Load Personalization Settings
+            UpdateLook();
 
             Authentication_OnProgramUpdate(sender, e);
         }
@@ -237,9 +241,12 @@ namespace MesaSuite
 
         public void PlayButtonClickSound()
         {
-            using (var soundPlayer = new SoundPlayer(Properties.Resources.ui_button_click))
+            if(Properties.Settings.Default.buttonClickSfx)
             {
-                soundPlayer.Play();
+                using (var soundPlayer = new SoundPlayer(Properties.Resources.ui_button_click))
+                {
+                    soundPlayer.Play();
+                }
             }
         }
 
@@ -294,6 +301,77 @@ namespace MesaSuite
         {
             pboxGovernmentPortal.Image = Properties.Resources.icn_govt_portal;
             pboxGPortal.Visible = false;
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
+
+        private void soundEffectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(soundEffectToolStripMenuItem.Checked)
+            {
+                Properties.Settings.Default.buttonClickSfx = true;
+                Properties.Settings.Default.Save();
+                Properties.Settings.Default.Upgrade();
+                PlayButtonClickSound();
+            }
+            else
+            {
+                Properties.Settings.Default.buttonClickSfx = false;
+                Properties.Settings.Default.Save();
+                Properties.Settings.Default.Upgrade();
+            }
+        }
+
+        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmSetBackground form = new frmSetBackground();
+            form.ShowDialog();
+        }
+
+        public void UpdateLook()
+        {
+            if (Properties.Settings.Default.buttonClickSfx)
+            {
+                soundEffectToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                soundEffectToolStripMenuItem.Checked = false;
+            }
+            try
+            {
+                Image bg = new Bitmap(Properties.Settings.Default.wallpaperPath);
+                BackgroundImage = bg;
+
+                if (Properties.Settings.Default.imageLayout == "None")
+                {
+                    BackgroundImageLayout = ImageLayout.None;
+                }
+                else if (Properties.Settings.Default.imageLayout == "Stretch")
+                {
+                    BackgroundImageLayout = ImageLayout.Stretch;
+                }
+                else if (Properties.Settings.Default.imageLayout == "Tile")
+                {
+                    BackgroundImageLayout = ImageLayout.Tile;
+                }
+                else if (Properties.Settings.Default.imageLayout == "Zoom")
+                {
+                    BackgroundImageLayout = ImageLayout.Zoom;
+                }
+                else if (Properties.Settings.Default.imageLayout == "Center")
+                {
+                    BackgroundImageLayout = ImageLayout.Center;
+                }
+            }
+            catch (Exception AwFuckICantBelieveYouveDoneThis)
+            {
+                BackgroundImage = Properties.Resources.bg;
+                BackgroundImageLayout = ImageLayout.Tile;
+            }
         }
     }
 }

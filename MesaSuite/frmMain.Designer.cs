@@ -47,6 +47,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMesaSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.personalizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.soundEffectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxSignIn = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuRegister = new System.Windows.Forms.ToolStripMenuItem();
             this.pboxLoginStatus = new System.Windows.Forms.PictureBox();
@@ -251,7 +254,8 @@
             // 
             this.menuStrip1.BackgroundImage = global::MesaSuite.Properties.Resources.bg_grass;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.personalizeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(879, 24);
@@ -277,6 +281,34 @@
             this.aboutMesaSuiteToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.aboutMesaSuiteToolStripMenuItem.Text = "About MesaSuite";
             this.aboutMesaSuiteToolStripMenuItem.Click += new System.EventHandler(this.aboutMesaSuiteToolStripMenuItem_Click);
+            // 
+            // personalizeToolStripMenuItem
+            // 
+            this.personalizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.backgroundToolStripMenuItem,
+            this.soundEffectToolStripMenuItem});
+            this.personalizeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.personalizeToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.icn_theme;
+            this.personalizeToolStripMenuItem.Name = "personalizeToolStripMenuItem";
+            this.personalizeToolStripMenuItem.Size = new System.Drawing.Size(98, 20);
+            this.personalizeToolStripMenuItem.Text = "Personalize";
+            // 
+            // backgroundToolStripMenuItem
+            // 
+            this.backgroundToolStripMenuItem.Name = "backgroundToolStripMenuItem";
+            this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.backgroundToolStripMenuItem.Text = "Choose Background";
+            this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
+            // 
+            // soundEffectToolStripMenuItem
+            // 
+            this.soundEffectToolStripMenuItem.Checked = true;
+            this.soundEffectToolStripMenuItem.CheckOnClick = true;
+            this.soundEffectToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.soundEffectToolStripMenuItem.Name = "soundEffectToolStripMenuItem";
+            this.soundEffectToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.soundEffectToolStripMenuItem.Text = "Click Sound Effect";
+            this.soundEffectToolStripMenuItem.Click += new System.EventHandler(this.soundEffectToolStripMenuItem_Click);
             // 
             // ctxSignIn
             // 
@@ -335,6 +367,7 @@
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dashboard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSync)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSyncLogo)).EndInit();
@@ -380,5 +413,8 @@
         private System.Windows.Forms.PictureBox pboxGPortal;
         private System.Windows.Forms.PictureBox pboxLoginStatus;
         private System.Windows.Forms.Label lblLoginStatus;
+        private System.Windows.Forms.ToolStripMenuItem personalizeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem soundEffectToolStripMenuItem;
     }
 }

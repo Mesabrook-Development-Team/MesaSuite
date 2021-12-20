@@ -35,6 +35,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icn_govt.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Pluralize.NET, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Pluralize.NET.1.0.2\lib\net46\Pluralize.NET.dll</HintPath>
@@ -138,6 +141,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icn_govt.ico" />
+    <None Include="Resources\icn_official.png" />
     <None Include="Resources\gif_loader.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

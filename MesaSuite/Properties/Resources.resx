@@ -169,11 +169,20 @@
   <data name="icnPlaceholder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icnPlaceholder.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icn_check" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_check.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="icn_cstudio_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_cstudio_hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icn_cstudio_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_cstudio_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_govt_portal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_govt_portal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_govt_portal_hov" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_govt_portal_hov.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icn_information" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_information.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -184,8 +193,14 @@
   <data name="icn_sysmgt_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_sysmgt_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icn_x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="lbl_cstudio" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lbl_cstudio.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="lbl_govt_portal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lbl_govt_portal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="lbl_system" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lbl_system.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -202,11 +217,8 @@
   <data name="logo_MCSync" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo_MCSync.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="logo_User" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\logo_User.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MC_FONT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MC_FONT.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="tile_sb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tile_sb.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tmpBackground" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tmpBackground.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

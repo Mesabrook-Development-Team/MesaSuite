@@ -47,7 +47,7 @@ namespace GovernmentPortal
             // 
             // toolOfficials
             // 
-            this.toolOfficials.Image = ((System.Drawing.Image)(resources.GetObject("toolOfficials.Image")));
+            this.toolOfficials.Image = global::GovernmentPortal.Properties.Resources.icn_official;
             this.toolOfficials.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolOfficials.Name = "toolOfficials";
             this.toolOfficials.Size = new System.Drawing.Size(70, 22);
@@ -61,6 +61,7 @@ namespace GovernmentPortal
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(659, 371);
             this.Controls.Add(this.toolStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "frmPortal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

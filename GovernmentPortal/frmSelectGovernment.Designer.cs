@@ -29,6 +29,7 @@ namespace GovernmentPortal
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSelectGovernment));
             this.label1 = new System.Windows.Forms.Label();
             this.cboGovernments = new System.Windows.Forms.ComboBox();
             this.cmdConnect = new System.Windows.Forms.Button();
@@ -66,6 +67,7 @@ namespace GovernmentPortal
             // 
             // cmdExit
             // 
+            this.cmdExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdExit.Location = new System.Drawing.Point(217, 73);
             this.cmdExit.Name = "cmdExit";
             this.cmdExit.Size = new System.Drawing.Size(75, 23);
@@ -91,11 +93,16 @@ namespace GovernmentPortal
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdExit;
             this.ClientSize = new System.Drawing.Size(385, 126);
+            this.ControlBox = false;
             this.Controls.Add(this.cmdExit);
             this.Controls.Add(this.cmdConnect);
             this.Controls.Add(this.cboGovernments);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.loader);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmSelectGovernment";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Government Selection";

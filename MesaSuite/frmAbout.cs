@@ -9,11 +9,14 @@ using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MesaSuite.Common;
+using MesaSuite.Common.Extensions;
 
 namespace MesaSuite
 {
     public partial class frmAbout : Form
     {
+        bool buttonClickSfx;
         public frmAbout()
         {
             InitializeComponent();
@@ -21,6 +24,7 @@ namespace MesaSuite
 
         private void AboutMesaSuite_Load(object sender, EventArgs e)
         {
+            buttonClickSfx = UserPreferences.Get().GetPreferencesForSection("mcsync").GetOrDefault("buttonClickSfx", true).Cast<bool>(true);
             lbl_Version.Text = "MesaSuite Version: " + Application.ProductVersion;
             tabControl1.SelectedTab = tabPage1;
             btnAbout.BackgroundImage = Properties.Resources.btn_about_hover;
@@ -110,6 +114,11 @@ namespace MesaSuite
 
         public void PlayButtonClickSound()
         {
+            if (!buttonClickSfx)
+            {
+                return;
+            }
+
             using (var soundPlayer = new SoundPlayer(Properties.Resources.ui_button_click))
             {
                 soundPlayer.Play();

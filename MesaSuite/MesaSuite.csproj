@@ -79,6 +79,12 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSetBackground.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSetBackground.Designer.cs">
+      <DependentUpon>frmSetBackground.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSplash.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +107,9 @@
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmSetBackground.resx">
+      <DependentUpon>frmSetBackground.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmSplash.resx">
       <DependentUpon>frmSplash.cs</DependentUpon>
     </EmbeddedResource>
@@ -120,15 +129,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <None Include="Resources\MC_FONT.ttf" />
   </ItemGroup>
   <ItemGroup>
@@ -202,9 +202,6 @@
     <None Include="Resources\logo_User.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Actions-im-user-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\btn_User_hover.png" />
   </ItemGroup>
   <ItemGroup>
@@ -266,6 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ms.ico" />
+    <None Include="Resources\icn_theme.png" />
     <None Include="Resources\icn_sysmgt_normal.png" />
     <None Include="Resources\icn_sysmgt_hover.png" />
     <None Include="Resources\icn_govt_portal_hov.png" />

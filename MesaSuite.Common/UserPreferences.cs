@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using MesaSuite.Common.Extensions;
 using Newtonsoft.Json;
 
 namespace MesaSuite.Common
@@ -11,6 +12,10 @@ namespace MesaSuite.Common
 
         [JsonProperty("sections")]
         public Dictionary<string, Dictionary<string, object>> Sections { get; set; } = new Dictionary<string, Dictionary<string, object>>();
+        public Dictionary<string, object> GetPreferencesForSection(string section)
+        {
+            return Sections.GetOrSetDefault(section, new Dictionary<string, object>());
+        }
 
         public static UserPreferences Get(bool forceReload = false)
         {

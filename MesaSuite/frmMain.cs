@@ -1,4 +1,5 @@
 ﻿using MesaSuite.Common;
+using MesaSuite.Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,6 +14,7 @@ namespace MesaSuite
 {
     public partial class frmMain : Form
     {
+        private bool buttonClickSfx;
         public frmMain()
         {
             InitializeComponent();
@@ -77,6 +79,8 @@ namespace MesaSuite
             }
 
             // Load Personalization Settings
+            UserPreferences preferences = UserPreferences.Get();
+            buttonClickSfx = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("buttonClickSfx", true).Cast<bool>(true);
             UpdateLook();
 
             Authentication_OnProgramUpdate(sender, e);
@@ -241,7 +245,7 @@ namespace MesaSuite
 
         public void PlayButtonClickSound()
         {
-            if(Properties.Settings.Default.buttonClickSfx)
+            if(buttonClickSfx)
             {
                 using (var soundPlayer = new SoundPlayer(Properties.Resources.ui_button_click))
                 {
@@ -310,62 +314,42 @@ namespace MesaSuite
 
         private void soundEffectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(soundEffectToolStripMenuItem.Checked)
+            buttonClickSfx = soundEffectToolStripMenuItem.Checked;
+            UserPreferences preferences = UserPreferences.Get();
+            preferences.GetPreferencesForSection("mcsync")["buttonClickSfx"] = buttonClickSfx;
+            preferences.Save();
+
+            if(buttonClickSfx)
             {
-                Properties.Settings.Default.buttonClickSfx = true;
-                Properties.Settings.Default.Save();
-                Properties.Settings.Default.Upgrade();
                 PlayButtonClickSound();
-            }
-            else
-            {
-                Properties.Settings.Default.buttonClickSfx = false;
-                Properties.Settings.Default.Save();
-                Properties.Settings.Default.Upgrade();
             }
         }
 
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmSetBackground form = new frmSetBackground();
+            frmSetBackground form = new frmSetBackground(this);
             form.ShowDialog();
         }
 
         public void UpdateLook()
         {
-            if (Properties.Settings.Default.buttonClickSfx)
-            {
-                soundEffectToolStripMenuItem.Checked = true;
-            }
-            else
-            {
-                soundEffectToolStripMenuItem.Checked = false;
-            }
+            UserPreferences preferences = UserPreferences.Get();
+            soundEffectToolStripMenuItem.Checked = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("buttonClickSfx", true).Cast<bool>(true);
+
             try
             {
-                Image bg = new Bitmap(Properties.Settings.Default.wallpaperPath);
+                string wallpaperPath = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("wallpaperPath", defaultValue: null).Cast<string>();
+                Image bg = new Bitmap(wallpaperPath);
                 BackgroundImage = bg;
 
-                if (Properties.Settings.Default.imageLayout == "None")
+                string imageLayoutPreference = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("imageLayout", ImageLayout.None.ToString()).Cast<string>(ImageLayout.None.ToString());
+                ImageLayout imageLayout = ImageLayout.None;
+                if (!string.IsNullOrEmpty(imageLayoutPreference) && Enum.TryParse(imageLayoutPreference, true, out ImageLayout imageLayoutParsed))
                 {
-                    BackgroundImageLayout = ImageLayout.None;
+                    imageLayout = imageLayoutParsed;
                 }
-                else if (Properties.Settings.Default.imageLayout == "Stretch")
-                {
-                    BackgroundImageLayout = ImageLayout.Stretch;
-                }
-                else if (Properties.Settings.Default.imageLayout == "Tile")
-                {
-                    BackgroundImageLayout = ImageLayout.Tile;
-                }
-                else if (Properties.Settings.Default.imageLayout == "Zoom")
-                {
-                    BackgroundImageLayout = ImageLayout.Zoom;
-                }
-                else if (Properties.Settings.Default.imageLayout == "Center")
-                {
-                    BackgroundImageLayout = ImageLayout.Center;
-                }
+
+                BackgroundImageLayout = imageLayout;
             }
             catch (Exception AwFuckICantBelieveYouveDoneThis)
             {

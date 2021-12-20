@@ -5,11 +5,11 @@ namespace MesaSuite.Common.Extensions
 {
     public static class ObjectExtensions
     {
-        public static T Cast<T>(this object anObject)
+        public static T Cast<T>(this object anObject, T defaultIfNullOrException = default(T))
         {
             if (anObject == null)
             {
-                return default(T);
+                return defaultIfNullOrException;
             }
 
             try
@@ -23,7 +23,7 @@ namespace MesaSuite.Common.Extensions
             }
             catch
             {
-                return default(T);
+                return defaultIfNullOrException;
             }
         }
     }

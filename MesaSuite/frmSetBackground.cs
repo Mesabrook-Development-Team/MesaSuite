@@ -1,47 +1,46 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using MesaSuite.Common;
+using MesaSuite.Common.Extensions;
 
 namespace MesaSuite
 {
     public partial class frmSetBackground : Form
     {
+        private frmMain _mainForm;
         public frmSetBackground()
         {
             InitializeComponent();
         }
 
+        public frmSetBackground(frmMain mainForm) : this()
+        {
+            _mainForm = mainForm;
+        }
+
         private void frmSetBackground_Load(object sender, EventArgs e)
         {
-            pboxCurrentWallpaper.BackgroundImage = frmMain.ActiveForm.BackgroundImage;
-            txtWallpaperPath.Text = Properties.Settings.Default.wallpaperPath;
+            UserPreferences preferences = UserPreferences.Get();
 
-            if (Properties.Settings.Default.imageLayout == "None")
+            pboxCurrentWallpaper.BackgroundImage = frmMain.ActiveForm.BackgroundImage;
+            txtWallpaperPath.Text = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("wallpaperPath", defaultValue: null).Cast<string>();
+
+            string imageLayoutString = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("imageLayout", defaultValue: null).Cast<string>();
+            ImageLayout imageLayout = ImageLayout.None;
+            if (!string.IsNullOrEmpty(imageLayoutString) && Enum.TryParse(imageLayoutString, true, out ImageLayout parsedImageLayout))
             {
-                pboxCurrentWallpaper.BackgroundImageLayout = ImageLayout.None;
-                rBNone.Checked = true;
+                imageLayout = parsedImageLayout;
             }
-            else if (Properties.Settings.Default.imageLayout == "Stretch")
-            {
-                pboxCurrentWallpaper.BackgroundImageLayout = ImageLayout.Stretch;
-                rBStretch.Checked = true;
-            }
-            else if (Properties.Settings.Default.imageLayout == "Tile")
-            {
-                pboxCurrentWallpaper.BackgroundImageLayout = ImageLayout.Tile;
-                rBTile.Checked = true;
-            }
-            else if (Properties.Settings.Default.imageLayout == "Zoom")
-            {
-                pboxCurrentWallpaper.BackgroundImageLayout = ImageLayout.Zoom;
-                rBZoom.Checked = true;
-            }
-            else if (Properties.Settings.Default.imageLayout == "Center")
-            {
-                pboxCurrentWallpaper.BackgroundImageLayout = ImageLayout.Center;
-                rBCenter.Checked = true;
-            }
+
+            pboxCurrentWallpaper.BackgroundImageLayout = imageLayout;
+            rBNone.Checked = imageLayout == ImageLayout.None;
+            rBStretch.Checked = imageLayout == ImageLayout.Stretch;
+            rBTile.Checked = imageLayout == ImageLayout.Tile;
+            rBZoom.Checked = imageLayout == ImageLayout.Zoom;
+            rBCenter.Checked = imageLayout == ImageLayout.Center;
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -51,24 +50,26 @@ namespace MesaSuite
                 return;
             }
 
-            Properties.Settings.Default.Reset();
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Upgrade();
+            UserPreferences userPreferences = UserPreferences.Get();
+            Dictionary<string, object> settings = userPreferences.GetPreferencesForSection("mcsync");
+            settings["wallpaperPath"] = null;
+            settings["imageLayout"] = ImageLayout.None.ToString();
+            settings["buttonClickSfx"] = true;
+            userPreferences.Save();
 
-            var frmMain = Application.OpenForms.OfType<frmMain>().FirstOrDefault();
-            frmMain.UpdateLook();
+            _mainForm.UpdateLook();
             Close();
         }
 
         private void btnApply_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.wallpaperPath = txtWallpaperPath.Text;
-
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Upgrade();
+            UserPreferences userPreferences = UserPreferences.Get();
+            Dictionary<string, object> preferences = userPreferences.GetPreferencesForSection("mcsync");
+            preferences["wallpaperPath"] = txtWallpaperPath.Text;
+            preferences["imageLayout"] = pboxCurrentWallpaper.BackgroundImageLayout.ToString();
             
-            var frmMain = Application.OpenForms.OfType<frmMain>().FirstOrDefault();
-            frmMain.UpdateLook();
+            userPreferences.Save();
+            _mainForm.UpdateLook();
 
             Close();
         }
@@ -87,31 +88,26 @@ namespace MesaSuite
 
         private void rBNone_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.imageLayout = "None";
             pboxCurrentWallpaper.BackgroundImageLayout = ImageLayout.None;
         }
 
         private void rBTile_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.imageLayout = "Tile";
             pboxCurrentWallpaper.BackgroundImageLayout = ImageLayout.Tile;
         }
 
         private void rBStretch_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.imageLayout = "Stretch";
             pboxCurrentWallpaper.BackgroundImageLayout = ImageLayout.Stretch;
         }
 
         private void rBCenter_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.imageLayout = "Center";
             pboxCurrentWallpaper.BackgroundImageLayout = ImageLayout.Center;
         }
 
         private void rBZoom_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.imageLayout = "Zoom";
             pboxCurrentWallpaper.BackgroundImageLayout = ImageLayout.Zoom;
         }
     }

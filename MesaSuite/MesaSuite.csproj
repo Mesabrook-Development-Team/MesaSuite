@@ -263,6 +263,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ms.ico" />
+    <None Include="Resources\hat_bday.png" />
+    <None Include="Resources\bg_ms.png" />
+    <None Include="Resources\wheeze.jpg" />
+    <None Include="Resources\logo_MS_Orange.png" />
+    <None Include="Resources\hat_pil.png" />
+    <None Include="Resources\bg_thanksgiving.png" />
+    <None Include="Resources\bg_xmas.png" />
+    <None Include="Resources\logo_MS_Ice.png" />
+    <None Include="Resources\logo_MS_Red.png" />
+    <None Include="Resources\bg_halloween.jpg" />
+    <None Include="Resources\icn_santa.png" />
+    <None Include="Resources\bg_ny.jpg" />
+    <None Include="Resources\logo_MS_Gold.png" />
     <None Include="Resources\icn_theme.png" />
     <None Include="Resources\icn_sysmgt_normal.png" />
     <None Include="Resources\icn_sysmgt_hover.png" />

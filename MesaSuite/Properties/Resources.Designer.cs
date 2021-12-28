@@ -83,9 +83,59 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bg_halloween {
+            get {
+                object obj = ResourceManager.GetObject("bg_halloween", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bg_ms {
+            get {
+                object obj = ResourceManager.GetObject("bg_ms", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bg_ny {
+            get {
+                object obj = ResourceManager.GetObject("bg_ny", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bg_thanksgiving {
+            get {
+                object obj = ResourceManager.GetObject("bg_thanksgiving", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap bg_tile_stone {
             get {
                 object obj = ResourceManager.GetObject("bg_tile_stone", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bg_xmas {
+            get {
+                object obj = ResourceManager.GetObject("bg_xmas", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,6 +273,26 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap hat_bday {
+            get {
+                object obj = ResourceManager.GetObject("hat_bday", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap hat_pil {
+            get {
+                object obj = ResourceManager.GetObject("hat_pil", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icn_check {
             get {
                 object obj = ResourceManager.GetObject("icn_check", resourceCulture);
@@ -276,6 +346,16 @@ namespace MesaSuite.Properties {
         internal static System.Drawing.Bitmap icn_information {
             get {
                 object obj = ResourceManager.GetObject("icn_information", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_santa {
+            get {
+                object obj = ResourceManager.GetObject("icn_santa", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -383,6 +463,46 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap logo_MS_Gold {
+            get {
+                object obj = ResourceManager.GetObject("logo_MS_Gold", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_MS_Ice {
+            get {
+                object obj = ResourceManager.GetObject("logo_MS_Ice", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_MS_Orange {
+            get {
+                object obj = ResourceManager.GetObject("logo_MS_Orange", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_MS_Red {
+            get {
+                object obj = ResourceManager.GetObject("logo_MS_Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap logoMS {
             get {
                 object obj = ResourceManager.GetObject("logoMS", resourceCulture);
@@ -426,6 +546,16 @@ namespace MesaSuite.Properties {
         internal static System.IO.UnmanagedMemoryStream ui_button_click {
             get {
                 return ResourceManager.GetStream("ui_button_click", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap wheeze {
+            get {
+                object obj = ResourceManager.GetObject("wheeze", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

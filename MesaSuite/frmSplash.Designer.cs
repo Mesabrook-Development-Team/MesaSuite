@@ -33,7 +33,10 @@
             this.pBoxLogo = new System.Windows.Forms.PictureBox();
             this.lblVersion = new System.Windows.Forms.Label();
             this.fadeTimer = new System.Windows.Forms.Timer(this.components);
+            this.lblMessage = new System.Windows.Forms.Label();
+            this.pboxHat = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxHat)).BeginInit();
             this.SuspendLayout();
             // 
             // pBoxLogo
@@ -62,7 +65,33 @@
             // 
             // fadeTimer
             // 
+            this.fadeTimer.Interval = 20;
             this.fadeTimer.Tick += new System.EventHandler(this.fadeTimer_Tick);
+            // 
+            // lblMessage
+            // 
+            this.lblMessage.BackColor = System.Drawing.Color.Transparent;
+            this.lblMessage.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblMessage.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMessage.ForeColor = System.Drawing.Color.White;
+            this.lblMessage.Location = new System.Drawing.Point(0, 229);
+            this.lblMessage.Name = "lblMessage";
+            this.lblMessage.Padding = new System.Windows.Forms.Padding(10, 0, 10, 10);
+            this.lblMessage.Size = new System.Drawing.Size(593, 114);
+            this.lblMessage.TabIndex = 2;
+            this.lblMessage.Text = resources.GetString("lblMessage.Text");
+            this.lblMessage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // pboxHat
+            // 
+            this.pboxHat.BackColor = System.Drawing.Color.Transparent;
+            this.pboxHat.BackgroundImage = global::MesaSuite.Properties.Resources.icn_santa;
+            this.pboxHat.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxHat.Location = new System.Drawing.Point(72, 81);
+            this.pboxHat.Name = "pboxHat";
+            this.pboxHat.Size = new System.Drawing.Size(50, 50);
+            this.pboxHat.TabIndex = 3;
+            this.pboxHat.TabStop = false;
             // 
             // frmSplash
             // 
@@ -71,6 +100,8 @@
             this.BackgroundImage = global::MesaSuite.Properties.Resources.bg1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(593, 343);
+            this.Controls.Add(this.pboxHat);
+            this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.pBoxLogo);
             this.DoubleBuffered = true;
@@ -84,6 +115,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSplash_FormClosing);
             this.Load += new System.EventHandler(this.frmSplash_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pBoxLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxHat)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -94,5 +126,7 @@
         private System.Windows.Forms.PictureBox pBoxLogo;
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Timer fadeTimer;
+        private System.Windows.Forms.Label lblMessage;
+        private System.Windows.Forms.PictureBox pboxHat;
     }
 }

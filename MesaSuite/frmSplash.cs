@@ -16,10 +16,12 @@ namespace MesaSuite
         public frmSplash()
         {
             InitializeComponent();
+            DoubleBuffered = true;
         }
 
         private void frmSplash_Load(object sender, EventArgs e)
         {
+            fadeTimer.Start();
             if (DateTime.Today.Month == 4  && DateTime.Today.Day == 1)
             {
                 this.BackgroundImage = Properties.Resources.tmpBackground;
@@ -49,6 +51,16 @@ namespace MesaSuite
                 pBoxLogo.Image = Properties.Resources.logoMS;
                 lblVersion.Text = "Version " + Application.ProductVersion;
             }
+        }
+
+        private void fadeTimer_Tick(object sender, EventArgs e)
+        {
+            Opacity += 0.2;
+        }
+
+        private void frmSplash_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            fadeTimer.Stop();
         }
     }
 }

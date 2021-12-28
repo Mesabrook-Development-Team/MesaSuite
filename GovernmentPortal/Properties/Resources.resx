@@ -121,10 +121,22 @@
   <data name="gif_loader" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gif_loader.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="government" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\government.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_alias" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_alias.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_list" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_list.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="icn_govt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icn_govt.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icn_official" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_official.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mail_explorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mail_explorer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

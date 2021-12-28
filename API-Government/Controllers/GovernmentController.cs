@@ -15,7 +15,8 @@ namespace API_Government.Controllers
         public override IEnumerable<string> AllowedFields => new string[]
         {
             nameof(Government.GovernmentID),
-            nameof(Government.Name)
+            nameof(Government.Name),
+            nameof(Government.EmailDomain)
         };
 
         [HttpGet]

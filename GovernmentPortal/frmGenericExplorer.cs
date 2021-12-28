@@ -93,7 +93,10 @@ namespace GovernmentPortal
             {
                 dropDownItems = await explorerContext.GetInitialListItems();
             }
-            catch { }
+            catch(Exception ex)
+            {
+                this.ShowError($"An error occurred while loading data:\r\n{ex.Message}");
+            }
 
             if (doFill)
             {

@@ -16,10 +16,29 @@ namespace API.Common
 
         public virtual bool AllowGetAll { get; }
 
+        public virtual SearchCondition GetBaseSearchCondition() { return null; }
+
         [HttpGet]
         public virtual TDataObject Get(long id)
         {
-            return DataObject.GetReadOnlyByPrimaryKey<TDataObject>(id, null, AllowedFields);
+            SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
+
+            ISearchCondition searchCondition = new LongSearchCondition<TDataObject>()
+            {
+                Field = schemaObject.PrimaryKeyField.FieldName,
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = id
+            };
+
+            SearchCondition baseCondition = GetBaseSearchCondition();
+            if (baseCondition != null)
+            {
+                searchCondition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    searchCondition,
+                    baseCondition);
+            }
+
+            return new Search<TDataObject>(searchCondition).GetReadOnly(null, AllowedFields);
         }
 
         [HttpGet]
@@ -30,7 +49,7 @@ namespace API.Common
                 return NotFound();
             }
 
-            return Ok(new Search<TDataObject>().GetReadOnlyReader(null, AllowedFields).ToList());
+            return Ok(new Search<TDataObject>(GetBaseSearchCondition()).GetReadOnlyReader(null, AllowedFields).ToList());
         }
 
         [HttpPost]

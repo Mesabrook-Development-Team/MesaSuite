@@ -13,5 +13,10 @@ namespace MesaSuite.Common.Extensions
         {
             MessageBox.Show(form, info, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        public static bool Confirm(this Control form, string confirmString, string title = "Warning")
+        {
+            return MessageBox.Show(form, confirmString, title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
+        }
     }
 }

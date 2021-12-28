@@ -14,7 +14,8 @@ namespace API_System.Controllers
         public override IEnumerable<string> AllowedFields => new List<string>()
         {
             nameof(Government.GovernmentID),
-            nameof(Government.Name)
+            nameof(Government.Name),
+            nameof(Government.EmailDomain)
         };
     }
 }

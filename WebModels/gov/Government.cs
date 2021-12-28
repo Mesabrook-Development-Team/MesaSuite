@@ -2,6 +2,7 @@
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System.Collections.Generic;
+using WebModels.hMailServer.dbo;
 
 namespace WebModels.gov
 {
@@ -25,6 +26,14 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _name; }
             set { CheckSet(); _name = value; }
+        }
+
+        private string _emailDomain;
+        [Field("917C14A1-301B-44F1-B9FA-535B988F3FB1", DataSize = 80)]
+        public string EmailDomain
+        {
+            get { CheckGet(); return _emailDomain; }
+            set { CheckSet(); _emailDomain = value; }
         }
 
         #region Relationships

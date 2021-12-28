@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSplash));
             this.pBoxLogo = new System.Windows.Forms.PictureBox();
             this.lblVersion = new System.Windows.Forms.Label();
+            this.fadeTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pBoxLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,12 +51,18 @@
             // 
             this.lblVersion.AutoSize = true;
             this.lblVersion.BackColor = System.Drawing.Color.Transparent;
+            this.lblVersion.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVersion.ForeColor = System.Drawing.Color.White;
-            this.lblVersion.Location = new System.Drawing.Point(12, 321);
+            this.lblVersion.Location = new System.Drawing.Point(257, 205);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(78, 13);
             this.lblVersion.TabIndex = 1;
             this.lblVersion.Text = "Version 1.0.0.0";
+            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // fadeTimer
+            // 
+            this.fadeTimer.Tick += new System.EventHandler(this.fadeTimer_Tick);
             // 
             // frmSplash
             // 
@@ -65,12 +73,15 @@
             this.ClientSize = new System.Drawing.Size(593, 343);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.pBoxLogo);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSplash";
+            this.Opacity = 0D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MesaSuite";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSplash_FormClosing);
             this.Load += new System.EventHandler(this.frmSplash_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pBoxLogo)).EndInit();
             this.ResumeLayout(false);
@@ -82,5 +93,6 @@
 
         private System.Windows.Forms.PictureBox pBoxLogo;
         private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.Timer fadeTimer;
     }
 }

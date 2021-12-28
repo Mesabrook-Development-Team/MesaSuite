@@ -67,12 +67,6 @@
     <Compile Include="frmEditGovernment.Designer.cs">
       <DependentUpon>frmEditGovernment.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmEditOfficial.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmEditOfficial.Designer.cs">
-      <DependentUpon>frmEditOfficial.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmManage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -156,9 +150,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmEditGovernment.resx">
       <DependentUpon>frmEditGovernment.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmEditOfficial.resx">
-      <DependentUpon>frmEditOfficial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmManage.resx">
       <DependentUpon>frmManage.cs</DependentUpon>

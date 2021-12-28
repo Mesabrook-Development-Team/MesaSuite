@@ -39,6 +39,9 @@
     <ApplicationIcon>icn_govt.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Pluralize.NET, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Pluralize.NET.1.0.2\lib\net46\Pluralize.NET.dll</HintPath>
     </Reference>
@@ -55,7 +58,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Email\AliasExplorerContext.cs" />
+    <Compile Include="Email\AliasExplorerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Email\AliasExplorerControl.Designer.cs">
+      <DependentUpon>AliasExplorerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Email\DistributionListExplorerContext.cs" />
+    <Compile Include="Email\DistributionListExplorerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Email\DistributionListExplorerControl.Designer.cs">
+      <DependentUpon>DistributionListExplorerControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExplorerContext.cs" />
+    <Compile Include="Extensions\DataAccessExtensions.cs" />
     <Compile Include="frmGenericExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +99,10 @@
     <Compile Include="Loader.Designer.cs">
       <DependentUpon>Loader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Alias.cs" />
+    <Compile Include="Models\DistributionList.cs" />
+    <Compile Include="Models\DistributionListRecipient.cs" />
+    <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\Government.cs" />
     <Compile Include="Models\Official.cs" />
     <Compile Include="Models\User.cs" />
@@ -94,6 +116,12 @@
     <Compile Include="PermissionsManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Email\AliasExplorerControl.resx">
+      <DependentUpon>AliasExplorerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Email\DistributionListExplorerControl.resx">
+      <DependentUpon>DistributionListExplorerControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmGenericExplorer.resx">
       <DependentUpon>frmGenericExplorer.cs</DependentUpon>
     </EmbeddedResource>
@@ -145,5 +173,6 @@
     <None Include="Resources\icn_official.png" />
     <None Include="Resources\gif_loader.gif" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

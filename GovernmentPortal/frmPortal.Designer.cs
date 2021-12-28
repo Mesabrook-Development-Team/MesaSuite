@@ -32,13 +32,17 @@ namespace GovernmentPortal
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPortal));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolOfficials = new System.Windows.Forms.ToolStripButton();
+            this.toolEmail = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsmiAliases = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDistributionLists = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolOfficials});
+            this.toolOfficials,
+            this.toolEmail});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(659, 25);
@@ -54,6 +58,32 @@ namespace GovernmentPortal
             this.toolOfficials.Text = "Officials";
             this.toolOfficials.Visible = false;
             this.toolOfficials.Click += new System.EventHandler(this.toolOfficials_Click);
+            // 
+            // toolEmail
+            // 
+            this.toolEmail.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAliases,
+            this.tsmiDistributionLists});
+            this.toolEmail.Image = ((System.Drawing.Image)(resources.GetObject("toolEmail.Image")));
+            this.toolEmail.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolEmail.Name = "toolEmail";
+            this.toolEmail.Size = new System.Drawing.Size(65, 22);
+            this.toolEmail.Text = "Email";
+            this.toolEmail.Visible = false;
+            // 
+            // tsmiAliases
+            // 
+            this.tsmiAliases.Name = "tsmiAliases";
+            this.tsmiAliases.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAliases.Text = "Aliases";
+            this.tsmiAliases.Click += new System.EventHandler(this.tsmiAliases_Click);
+            // 
+            // tsmiDistributionLists
+            // 
+            this.tsmiDistributionLists.Name = "tsmiDistributionLists";
+            this.tsmiDistributionLists.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDistributionLists.Text = "Distribution Lists";
+            this.tsmiDistributionLists.Click += new System.EventHandler(this.tsmiDistributionLists_Click);
             // 
             // frmPortal
             // 
@@ -81,6 +111,9 @@ namespace GovernmentPortal
 
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolOfficials;
+        private System.Windows.Forms.ToolStripDropDownButton toolEmail;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAliases;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDistributionLists;
     }
 }
 

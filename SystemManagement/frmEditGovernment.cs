@@ -41,6 +41,14 @@ namespace SystemManagement
             Government government = await getData.GetObject<Government>();
             txtName.Text = government.Name;
 
+            getData = new GetData(DataAccess.APIs.SystemManagement, "Domain/GetAll");
+            List<Domain> domains = await getData.GetObject<List<Domain>>();
+            foreach(Domain domain in domains)
+            {
+                cboDomain.Items.Add(domain.DomainName);
+            }
+            cboDomain.Text = government.EmailDomain;
+
             await SetupOfficialInfo();
 
             Enabled = true;
@@ -58,59 +66,16 @@ namespace SystemManagement
                 { "id", GovernmentID.ToString() }
             };
             _officials = await getData.GetObject<List<Official>>();
-            List<User> users = new List<User>();
-
-            if (_officials.Any())
-            {
-                getData = new GetData(DataAccess.APIs.SystemManagement, "User/GetUsers");
-                MultiMap<string, string> queryString = new MultiMap<string, string>();
-                foreach (Official official in _officials)
-                {
-                    queryString.Add("userids", official.UserID.ToString());
-                }
-                getData.QueryString = queryString;
-                users = await getData.GetObject<List<User>>();
-            }
 
             foreach (Official official in _officials)
             {
-                User user = users.FirstOrDefault(u => u.UserID == official.UserID);
-
                 ListViewItem item = new ListViewItem();
-                item.Text = user?.Username;
+                item.Text = official.OfficialName;
                 item.ImageKey = "user";
                 item.Tag = official;
-                item.SubItems.Add(official.ManageEmails.ToString());
-                item.SubItems.Add(official.ManageOfficials.ToString());
 
                 lstOfficials.Items.Add(item);
             }
-        }
-
-        private void lstOfficials_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            foreach(ListViewItem item in lstOfficials.SelectedItems)
-            {
-                Official official = (Official)item.Tag;
-
-                frmEditOfficial editOfficial = new frmEditOfficial();
-                editOfficial.Official = official;
-                editOfficial.FormClosed += EditOfficial_FormClosed;
-                editOfficial.Show();
-            }
-        }
-
-        private async void EditOfficial_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            frmEditOfficial editOfficial = (frmEditOfficial)sender;
-            editOfficial.FormClosed -= EditOfficial_FormClosed;
-
-            Enabled = false;
-
-            await SetupOfficialInfo();
-
-            Enabled = true;
-            BringToFront();
         }
 
         private async void cmdSave_Click(object sender, EventArgs e)
@@ -124,7 +89,8 @@ namespace SystemManagement
             Government government = new Government()
             {
                 GovernmentID = GovernmentID,
-                Name = txtName.Text
+                Name = txtName.Text,
+                EmailDomain = cboDomain.Text
             };
 
             PutData put = new PutData(DataAccess.APIs.SystemManagement, "Government/Put", government);
@@ -158,22 +124,45 @@ namespace SystemManagement
 
             foreach(long userID in selectUsers.SelectedUserIDs.Except(_officials.Select(o => o.OfficialID)))
             {
-                Official official = new Official();
-                official.GovernmentID = GovernmentID;
-                official.UserID = userID;
+                GetData existingOfficialLookup = new GetData(DataAccess.APIs.SystemManagement, $"Official/GetByUserID");
+                existingOfficialLookup.QueryString = new MultiMap<string, string>()
+                {
+                    { "userID", userID.ToString() },
+                    { "governmentID", GovernmentID.ToString() }
+                };
+                Official officialToUpdate = await existingOfficialLookup.GetObject<Official>();
+                if (!existingOfficialLookup.RequestSuccessful)
+                {
+                    continue;
+                }
 
-                PostData post = new PostData(DataAccess.APIs.SystemManagement, "Official/Post", official);
-                await post.ExecuteNoResult();
+                if (officialToUpdate != null)
+                {
+                    PatchData patchData = new PatchData(DataAccess.APIs.SystemManagement, "Official/Patch", PatchData.PatchMethods.Replace, officialToUpdate.OfficialID, new Dictionary<string, object>()
+                    {
+                        { "ManageOfficials", true }
+                    });
+                    await patchData.Execute();
+                }
+                else
+                {
+                    officialToUpdate = new Official();
+                    officialToUpdate.GovernmentID = GovernmentID;
+                    officialToUpdate.UserID = userID;
+                    officialToUpdate.ManageOfficials = true;
+
+                    PostData post = new PostData(DataAccess.APIs.SystemManagement, "Official/Post", officialToUpdate);
+                    await post.ExecuteNoResult();
+                }
             }
 
             foreach(Official official in _officials.Where(o => !selectUsers.SelectedUserIDs.Contains(o.UserID)))
             {
-                DeleteData delete = new DeleteData(DataAccess.APIs.SystemManagement, "Official/Delete");
-                delete.QueryString = new Dictionary<string, string>()
+                PatchData patchData = new PatchData(DataAccess.APIs.SystemManagement, "Official/Patch", PatchData.PatchMethods.Replace, official.OfficialID, new Dictionary<string, object>()
                 {
-                    { "id", official.OfficialID.ToString() }
-                };
-                await delete.Execute();
+                    { "ManageOfficials", false }
+                });
+                await patchData.Execute();
             }
 
             await SetupOfficialInfo();

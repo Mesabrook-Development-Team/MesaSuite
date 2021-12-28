@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework.Schema;
+﻿using System;
+using ClussPro.ObjectBasedFramework.Schema;
 
 namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 {
@@ -19,14 +20,20 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
         {
             SchemaObject schemaObject = Schema.Schema.GetSchemaObject(dataObject.GetType());
             Field field = schemaObject.GetField(Field);
+            object fieldValue = field.GetValue(dataObject);
 
             if (Value == null)
             {
-                return field.GetValue(dataObject) == null;
+                return fieldValue == null;
+            }
+            else if (fieldValue != null && Value is IConvertible && fieldValue is IConvertible)
+            {
+                var convertedFieldValue = Convert.ChangeType(fieldValue, Value.GetType());
+                return Value.Equals(convertedFieldValue);
             }
             else
             {
-                return Value.Equals(field.GetValue(dataObject));
+                return Value.Equals(fieldValue);
             }
         }
     }

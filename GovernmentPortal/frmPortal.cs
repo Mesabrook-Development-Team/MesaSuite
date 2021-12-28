@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using GovernmentPortal.Models;
 using GovernmentPortal.Officials;
@@ -34,8 +35,19 @@ namespace GovernmentPortal
             }
 
             _government = selectGovernment.SelectedGovernment;
-            foreach(KeyValuePair<PermissionsManager.Permissions, ToolStripItem> kvp in _toolStripItemsByPermission)
+            UpdateMenuVisibility();
+        }
+
+        private void UpdateMenuVisibility()
+        {
+            foreach (KeyValuePair<PermissionsManager.Permissions, ToolStripItem> kvp in _toolStripItemsByPermission)
             {
+                if (_government == null)
+                {
+                    kvp.Value.Visible = false;
+                    continue;
+                }
+
                 kvp.Value.Visible = PermissionsManager.HasPermission(_government.GovernmentID, kvp.Key);
             }
         }
@@ -68,6 +80,33 @@ namespace GovernmentPortal
         {
             PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
             PermissionsManager.StopCheckThread();
+        }
+
+        private void tsbSwitchGovernment_Click(object sender, EventArgs e)
+        {
+            foreach(Form child in MdiChildren)
+            {
+                child.Close();
+            }
+
+            if (MdiChildren.Any())
+            {
+                return;
+            }
+
+            _government = null;
+            UpdateMenuVisibility();
+
+            frmSelectGovernment selectGovernment = new frmSelectGovernment();
+            DialogResult result = selectGovernment.ShowDialog();
+
+            if (result != DialogResult.OK)
+            {
+                Close();
+            }
+
+            _government = selectGovernment.SelectedGovernment;
+            UpdateMenuVisibility();
         }
     }
 }

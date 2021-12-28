@@ -32,13 +32,15 @@ namespace GovernmentPortal
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPortal));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolOfficials = new System.Windows.Forms.ToolStripButton();
+            this.tsbSwitchGovernment = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolOfficials});
+            this.toolOfficials,
+            this.tsbSwitchGovernment});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(659, 25);
@@ -54,6 +56,16 @@ namespace GovernmentPortal
             this.toolOfficials.Text = "Officials";
             this.toolOfficials.Visible = false;
             this.toolOfficials.Click += new System.EventHandler(this.toolOfficials_Click);
+            // 
+            // tsbSwitchGovernment
+            // 
+            this.tsbSwitchGovernment.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsbSwitchGovernment.Image = ((System.Drawing.Image)(resources.GetObject("tsbSwitchGovernment.Image")));
+            this.tsbSwitchGovernment.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSwitchGovernment.Name = "tsbSwitchGovernment";
+            this.tsbSwitchGovernment.Size = new System.Drawing.Size(131, 22);
+            this.tsbSwitchGovernment.Text = "Switch Government";
+            this.tsbSwitchGovernment.Click += new System.EventHandler(this.tsbSwitchGovernment_Click);
             // 
             // frmPortal
             // 
@@ -81,6 +93,7 @@ namespace GovernmentPortal
 
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolOfficials;
+        private System.Windows.Forms.ToolStripButton tsbSwitchGovernment;
     }
 }
 

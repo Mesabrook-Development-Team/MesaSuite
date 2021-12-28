@@ -32,10 +32,10 @@ namespace GovernmentPortal
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPortal));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolOfficials = new System.Windows.Forms.ToolStripButton();
+            this.tsbSwitchGovernment = new System.Windows.Forms.ToolStripButton();
             this.toolEmail = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiAliases = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDistributionLists = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsbSwitchGovernment = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,12 +61,22 @@ namespace GovernmentPortal
             this.toolOfficials.Visible = false;
             this.toolOfficials.Click += new System.EventHandler(this.toolOfficials_Click);
             // 
+            // tsbSwitchGovernment
+            // 
+            this.tsbSwitchGovernment.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsbSwitchGovernment.Image = global::GovernmentPortal.Properties.Resources.government;
+            this.tsbSwitchGovernment.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSwitchGovernment.Name = "tsbSwitchGovernment";
+            this.tsbSwitchGovernment.Size = new System.Drawing.Size(131, 22);
+            this.tsbSwitchGovernment.Text = "Switch Government";
+            this.tsbSwitchGovernment.Click += new System.EventHandler(this.tsbSwitchGovernment_Click);
+            // 
             // toolEmail
             // 
             this.toolEmail.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiAliases,
             this.tsmiDistributionLists});
-            this.toolEmail.Image = ((System.Drawing.Image)(resources.GetObject("toolEmail.Image")));
+            this.toolEmail.Image = global::GovernmentPortal.Properties.Resources.mail_explorer;
             this.toolEmail.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolEmail.Name = "toolEmail";
             this.toolEmail.Size = new System.Drawing.Size(65, 22);
@@ -75,6 +85,7 @@ namespace GovernmentPortal
             // 
             // tsmiAliases
             // 
+            this.tsmiAliases.Image = global::GovernmentPortal.Properties.Resources.icn_alias;
             this.tsmiAliases.Name = "tsmiAliases";
             this.tsmiAliases.Size = new System.Drawing.Size(180, 22);
             this.tsmiAliases.Text = "Aliases";
@@ -82,20 +93,11 @@ namespace GovernmentPortal
             // 
             // tsmiDistributionLists
             // 
+            this.tsmiDistributionLists.Image = global::GovernmentPortal.Properties.Resources.icn_list;
             this.tsmiDistributionLists.Name = "tsmiDistributionLists";
             this.tsmiDistributionLists.Size = new System.Drawing.Size(180, 22);
             this.tsmiDistributionLists.Text = "Distribution Lists";
             this.tsmiDistributionLists.Click += new System.EventHandler(this.tsmiDistributionLists_Click);
-            // 
-            // tsbSwitchGovernment
-            // 
-            this.tsbSwitchGovernment.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.tsbSwitchGovernment.Image = ((System.Drawing.Image)(resources.GetObject("tsbSwitchGovernment.Image")));
-            this.tsbSwitchGovernment.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbSwitchGovernment.Name = "tsbSwitchGovernment";
-            this.tsbSwitchGovernment.Size = new System.Drawing.Size(131, 22);
-            this.tsbSwitchGovernment.Text = "Switch Government";
-            this.tsbSwitchGovernment.Click += new System.EventHandler(this.tsbSwitchGovernment_Click);
             // 
             // frmPortal
             // 

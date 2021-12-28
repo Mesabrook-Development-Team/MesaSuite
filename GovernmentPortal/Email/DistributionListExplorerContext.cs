@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace GovernmentPortal.Email
                 Model = model
             };
         }
+        internal override Icon ExplorerIcon => Properties.Resources.icn_govt;
 
         internal async override Task<List<DropDownItem<DistributionList>>> GetInitialListItems()
         {

@@ -21,7 +21,8 @@ namespace GovernmentPortal
         {
             _toolStripItemsByPermission = new Dictionary<PermissionsManager.Permissions, ToolStripItem>()
             {
-                { PermissionsManager.Permissions.ManageOfficials, toolOfficials }
+                { PermissionsManager.Permissions.ManageOfficials, toolOfficials },
+                { PermissionsManager.Permissions.ManageEmails, toolEmail }
             };
         }
 
@@ -107,6 +108,20 @@ namespace GovernmentPortal
 
             _government = selectGovernment.SelectedGovernment;
             UpdateMenuVisibility();
+        }
+
+        private void tsmiAliases_Click(object sender, EventArgs e)
+        {
+            frmGenericExplorer<Alias> aliasExplorer = new frmGenericExplorer<Alias>(new Email.AliasExplorerContext(_government.GovernmentID));
+            aliasExplorer.MdiParent = this;
+            aliasExplorer.Show();
+        }
+
+        private void tsmiDistributionLists_Click(object sender, EventArgs e)
+        {
+            frmGenericExplorer<DistributionList> distributionListExplorer = new frmGenericExplorer<DistributionList>(new Email.DistributionListExplorerContext(_government.GovernmentID, _government.EmailDomain));
+            distributionListExplorer.MdiParent = this;
+            distributionListExplorer.Show();
         }
     }
 }

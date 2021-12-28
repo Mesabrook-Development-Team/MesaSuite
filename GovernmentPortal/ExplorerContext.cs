@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
 
 namespace GovernmentPortal
@@ -9,6 +10,6 @@ namespace GovernmentPortal
     {
         internal abstract IExplorerControl<TModel> GetControlForModel(TModel model);
         internal abstract Task<List<DropDownItem<TModel>>> GetInitialListItems();
-        internal virtual string ObjectDisplayName => typeof(TModel).Name;
+        internal virtual string ObjectDisplayName => typeof(TModel).Name.ToDisplayName();
     }
 }

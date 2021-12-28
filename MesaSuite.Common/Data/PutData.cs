@@ -61,6 +61,11 @@ namespace MesaSuite.Common.Data
         {
             string json = await InternalExecute();
 
+            if (string.IsNullOrEmpty(json))
+            {
+                return default;
+            }
+
             return JsonConvert.DeserializeObject<T>(json);
         }
 

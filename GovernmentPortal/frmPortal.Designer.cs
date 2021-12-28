@@ -35,6 +35,7 @@ namespace GovernmentPortal
             this.toolEmail = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiAliases = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDistributionLists = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsbSwitchGovernment = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,6 +43,7 @@ namespace GovernmentPortal
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolOfficials,
+            this.tsbSwitchGovernment,
             this.toolEmail});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -85,6 +87,16 @@ namespace GovernmentPortal
             this.tsmiDistributionLists.Text = "Distribution Lists";
             this.tsmiDistributionLists.Click += new System.EventHandler(this.tsmiDistributionLists_Click);
             // 
+            // tsbSwitchGovernment
+            // 
+            this.tsbSwitchGovernment.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsbSwitchGovernment.Image = ((System.Drawing.Image)(resources.GetObject("tsbSwitchGovernment.Image")));
+            this.tsbSwitchGovernment.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSwitchGovernment.Name = "tsbSwitchGovernment";
+            this.tsbSwitchGovernment.Size = new System.Drawing.Size(131, 22);
+            this.tsbSwitchGovernment.Text = "Switch Government";
+            this.tsbSwitchGovernment.Click += new System.EventHandler(this.tsbSwitchGovernment_Click);
+            // 
             // frmPortal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -114,6 +126,7 @@ namespace GovernmentPortal
         private System.Windows.Forms.ToolStripDropDownButton toolEmail;
         private System.Windows.Forms.ToolStripMenuItem tsmiAliases;
         private System.Windows.Forms.ToolStripMenuItem tsmiDistributionLists;
+        private System.Windows.Forms.ToolStripButton tsbSwitchGovernment;
     }
 }
 

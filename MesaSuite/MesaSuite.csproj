@@ -263,6 +263,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ms.ico" />
+    <None Include="Resources\reverb.wav" />
+    <None Include="Resources\loading.png" />
+    <None Include="Resources\failed.png" />
     <None Include="Resources\hat_bday.png" />
     <None Include="Resources\bg_ms.png" />
     <None Include="Resources\wheeze.jpg" />

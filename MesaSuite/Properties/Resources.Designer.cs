@@ -273,6 +273,16 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap failed {
+            get {
+                object obj = ResourceManager.GetObject("failed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap hat_bday {
             get {
                 object obj = ResourceManager.GetObject("hat_bday", resourceCulture);
@@ -443,6 +453,16 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap loading {
+            get {
+                object obj = ResourceManager.GetObject("loading", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap logo_cp {
             get {
                 object obj = ResourceManager.GetObject("logo_cp", resourceCulture);
@@ -517,6 +537,15 @@ namespace MesaSuite.Properties {
             get {
                 object obj = ResourceManager.GetObject("logoMSJoke", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream reverb {
+            get {
+                return ResourceManager.GetStream("reverb", resourceCulture);
             }
         }
         

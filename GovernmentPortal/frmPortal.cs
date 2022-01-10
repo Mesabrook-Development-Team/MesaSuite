@@ -22,7 +22,8 @@ namespace GovernmentPortal
             _toolStripItemsByPermission = new Dictionary<PermissionsManager.Permissions, ToolStripItem>()
             {
                 { PermissionsManager.Permissions.ManageOfficials, toolOfficials },
-                { PermissionsManager.Permissions.ManageEmails, toolEmail }
+                { PermissionsManager.Permissions.ManageEmails, toolEmail },
+                { PermissionsManager.Permissions.ManageAccounts, toolAccounts }
             };
         }
 
@@ -122,6 +123,21 @@ namespace GovernmentPortal
             frmGenericExplorer<DistributionList> distributionListExplorer = new frmGenericExplorer<DistributionList>(new Email.DistributionListExplorerContext(_government.GovernmentID, _government.EmailDomain));
             distributionListExplorer.MdiParent = this;
             distributionListExplorer.Show();
+        }
+
+        private void tsmiAccountList_Click(object sender, EventArgs e)
+        {
+            frmGenericExplorer<Account> accountExplorer = new frmGenericExplorer<Account>(new Accounts.AccountExplorerContext(_government.GovernmentID));
+            accountExplorer.MdiParent = this;
+            accountExplorer.Show();
+        }
+
+        private void tsmiAccountCategories_Click(object sender, EventArgs e)
+        {
+            new frmGenericExplorer<Category>(new Accounts.CategoryExplorerContext(_government.GovernmentID))
+            {
+                MdiParent = this
+            }.Show();
         }
     }
 }

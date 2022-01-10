@@ -72,6 +72,7 @@
     <Compile Include="Migrations\Migration000004.cs" />
     <Compile Include="Migrations\Migration000005.cs" />
     <Compile Include="Migrations\Migration000006.cs" />
+    <Compile Include="Migrations\Migration000007.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="security\Program.cs" />

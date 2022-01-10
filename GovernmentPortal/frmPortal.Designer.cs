@@ -32,10 +32,13 @@ namespace GovernmentPortal
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPortal));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolOfficials = new System.Windows.Forms.ToolStripButton();
+            this.tsbSwitchGovernment = new System.Windows.Forms.ToolStripButton();
             this.toolEmail = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiAliases = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDistributionLists = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsbSwitchGovernment = new System.Windows.Forms.ToolStripButton();
+            this.toolAccounts = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsmiAccountList = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAccountCategories = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,7 +47,8 @@ namespace GovernmentPortal
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolOfficials,
             this.tsbSwitchGovernment,
-            this.toolEmail});
+            this.toolEmail,
+            this.toolAccounts});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(659, 25);
@@ -61,6 +65,16 @@ namespace GovernmentPortal
             this.toolOfficials.Visible = false;
             this.toolOfficials.Click += new System.EventHandler(this.toolOfficials_Click);
             // 
+            // tsbSwitchGovernment
+            // 
+            this.tsbSwitchGovernment.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsbSwitchGovernment.Image = ((System.Drawing.Image)(resources.GetObject("tsbSwitchGovernment.Image")));
+            this.tsbSwitchGovernment.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSwitchGovernment.Name = "tsbSwitchGovernment";
+            this.tsbSwitchGovernment.Size = new System.Drawing.Size(131, 22);
+            this.tsbSwitchGovernment.Text = "Switch Government";
+            this.tsbSwitchGovernment.Click += new System.EventHandler(this.tsbSwitchGovernment_Click);
+            // 
             // toolEmail
             // 
             this.toolEmail.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -76,26 +90,42 @@ namespace GovernmentPortal
             // tsmiAliases
             // 
             this.tsmiAliases.Name = "tsmiAliases";
-            this.tsmiAliases.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAliases.Size = new System.Drawing.Size(162, 22);
             this.tsmiAliases.Text = "Aliases";
             this.tsmiAliases.Click += new System.EventHandler(this.tsmiAliases_Click);
             // 
             // tsmiDistributionLists
             // 
             this.tsmiDistributionLists.Name = "tsmiDistributionLists";
-            this.tsmiDistributionLists.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDistributionLists.Size = new System.Drawing.Size(162, 22);
             this.tsmiDistributionLists.Text = "Distribution Lists";
             this.tsmiDistributionLists.Click += new System.EventHandler(this.tsmiDistributionLists_Click);
             // 
-            // tsbSwitchGovernment
+            // toolAccounts
             // 
-            this.tsbSwitchGovernment.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.tsbSwitchGovernment.Image = ((System.Drawing.Image)(resources.GetObject("tsbSwitchGovernment.Image")));
-            this.tsbSwitchGovernment.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbSwitchGovernment.Name = "tsbSwitchGovernment";
-            this.tsbSwitchGovernment.Size = new System.Drawing.Size(131, 22);
-            this.tsbSwitchGovernment.Text = "Switch Government";
-            this.tsbSwitchGovernment.Click += new System.EventHandler(this.tsbSwitchGovernment_Click);
+            this.toolAccounts.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAccountList,
+            this.tsmiAccountCategories});
+            this.toolAccounts.Image = ((System.Drawing.Image)(resources.GetObject("toolAccounts.Image")));
+            this.toolAccounts.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolAccounts.Name = "toolAccounts";
+            this.toolAccounts.Size = new System.Drawing.Size(86, 22);
+            this.toolAccounts.Text = "Accounts";
+            this.toolAccounts.Visible = false;
+            // 
+            // tsmiAccountList
+            // 
+            this.tsmiAccountList.Name = "tsmiAccountList";
+            this.tsmiAccountList.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAccountList.Text = "List";
+            this.tsmiAccountList.Click += new System.EventHandler(this.tsmiAccountList_Click);
+            // 
+            // tsmiAccountCategories
+            // 
+            this.tsmiAccountCategories.Name = "tsmiAccountCategories";
+            this.tsmiAccountCategories.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAccountCategories.Text = "Categories";
+            this.tsmiAccountCategories.Click += new System.EventHandler(this.tsmiAccountCategories_Click);
             // 
             // frmPortal
             // 
@@ -127,6 +157,9 @@ namespace GovernmentPortal
         private System.Windows.Forms.ToolStripMenuItem tsmiAliases;
         private System.Windows.Forms.ToolStripMenuItem tsmiDistributionLists;
         private System.Windows.Forms.ToolStripButton tsbSwitchGovernment;
+        private System.Windows.Forms.ToolStripDropDownButton toolAccounts;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAccountList;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAccountCategories;
     }
 }
 

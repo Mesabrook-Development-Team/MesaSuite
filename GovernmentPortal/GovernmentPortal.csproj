@@ -58,6 +58,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\AccountExplorerContext.cs" />
+    <Compile Include="Accounts\AccountExplorerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Accounts\AccountExplorerControl.Designer.cs">
+      <DependentUpon>AccountExplorerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\CategoryExplorerContext.cs" />
+    <Compile Include="Accounts\CategoryExplorerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Accounts\CategoryExplorerControl.Designer.cs">
+      <DependentUpon>CategoryExplorerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\frmCloseAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmCloseAccount.Designer.cs">
+      <DependentUpon>frmCloseAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\frmTransfer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmTransfer.Designer.cs">
+      <DependentUpon>frmTransfer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Email\AliasExplorerContext.cs" />
     <Compile Include="Email\AliasExplorerControl.cs">
       <SubType>UserControl</SubType>
@@ -99,12 +125,16 @@
     <Compile Include="Loader.Designer.cs">
       <DependentUpon>Loader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Alias.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\DistributionList.cs" />
     <Compile Include="Models\DistributionListRecipient.cs" />
     <Compile Include="Models\Domain.cs" />
+    <Compile Include="Models\FiscalQuarter.cs" />
     <Compile Include="Models\Government.cs" />
     <Compile Include="Models\Official.cs" />
+    <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Officials\OfficialExplorerContext.cs" />
     <Compile Include="Officials\OfficialExplorerControl.cs">
@@ -116,6 +146,18 @@
     <Compile Include="PermissionsManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Accounts\AccountExplorerControl.resx">
+      <DependentUpon>AccountExplorerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\CategoryExplorerControl.resx">
+      <DependentUpon>CategoryExplorerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\frmCloseAccount.resx">
+      <DependentUpon>frmCloseAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\frmTransfer.resx">
+      <DependentUpon>frmTransfer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Email\AliasExplorerControl.resx">
       <DependentUpon>AliasExplorerControl.cs</DependentUpon>
     </EmbeddedResource>

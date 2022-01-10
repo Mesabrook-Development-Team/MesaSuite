@@ -77,6 +77,7 @@ namespace GovernmentPortal
             Text = $"{explorerContext.ObjectDisplayName} Explorer";
             cmdNew.Text = $"New {explorerContext.ObjectDisplayName}";
             cmdDelete.Text = $"Delete {explorerContext.ObjectDisplayName}";
+            cmdDelete.Visible = explorerContext.DeleteButtonVisible;
             grpContent.Text = explorerContext.ObjectDisplayName;
             LoadAllItems(true);
         }
@@ -199,6 +200,15 @@ namespace GovernmentPortal
             if (!suppressCloseEvent && shownControl != null && shownControl.IsDirty && WarnDirty() == DialogResult.Cancel)
             {
                 e.Cancel = true;
+            }
+        }
+
+        private void frmGenericExplorer_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+            {
+                LoadAllItems(true);
+                grpContent.Controls.Clear();
             }
         }
     }

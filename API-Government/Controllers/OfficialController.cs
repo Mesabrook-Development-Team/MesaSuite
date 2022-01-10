@@ -25,6 +25,7 @@ namespace API_Government.Controllers
             nameof(Official.UserID),
             nameof(Official.ManageOfficials),
             nameof(Official.ManageEmails),
+            nameof(Official.ManageAccounts),
             nameof(Official.OfficialName)
         };
 

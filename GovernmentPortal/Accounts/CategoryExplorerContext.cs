@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using GovernmentPortal.Extensions;
 using GovernmentPortal.Models;
@@ -17,7 +16,9 @@ namespace GovernmentPortal.Accounts
         {
             this._governmentID = governmentID;
         }
-        
+
+        internal override Icon ExplorerIcon => Properties.Resources.icn_govt;
+
         internal override IExplorerControl<Category> GetControlForModel(Category model)
         {
             return new CategoryExplorerControl(_governmentID)

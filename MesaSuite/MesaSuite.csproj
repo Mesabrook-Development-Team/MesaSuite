@@ -99,6 +99,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SplashScreenModifiers\AprilFoolsDay.cs" />
+    <Compile Include="SplashScreenModifiers\BirthdayMesabrook.cs" />
+    <Compile Include="SplashScreenModifiers\Halloween.cs" />
+    <Compile Include="SplashScreenModifiers\HappyHolidays.cs" />
+    <Compile Include="SplashScreenModifiers\ISplashScreenModifier.cs" />
+    <Compile Include="SplashScreenModifiers\NewYearsDay.cs" />
+    <Compile Include="SplashScreenModifiers\NewYearsEve.cs" />
+    <Compile Include="SplashScreenModifiers\SplashScreenModificationController.cs" />
+    <Compile Include="SplashScreenModifiers\ThanksgivingCanada.cs" />
+    <Compile Include="SplashScreenModifiers\ThanksgivingUS.cs" />
     <Compile Include="StartupArguments.cs" />
     <Compile Include="Updater.cs" />
     <EmbeddedResource Include="frmAbout.resx">
@@ -290,6 +300,7 @@
     <None Include="Resources\icn_x.png" />
     <None Include="Resources\icn_check.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

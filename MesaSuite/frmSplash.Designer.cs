@@ -122,10 +122,10 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Timer fadeTimer;
-        private System.Windows.Forms.Label lblMessage;
-        private System.Windows.Forms.PictureBox pboxHat;
-        private System.Windows.Forms.PictureBox pBoxLogo;
+        internal System.Windows.Forms.Label lblVersion;
+        internal System.Windows.Forms.Label lblMessage;
+        internal System.Windows.Forms.PictureBox pboxHat;
+        internal System.Windows.Forms.PictureBox pBoxLogo;
     }
 }

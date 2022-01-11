@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Windows.Forms;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -69,6 +70,8 @@ namespace GovernmentPortal
             {
                 throw new ArgumentNullException("Explorer Content");
             }
+
+            Icon = explorerContext.ExplorerIcon;
 
             Pluralizer pluralizer = new Pluralizer();
             string pluralizedName = pluralizer.Pluralize(explorerContext.ObjectDisplayName);

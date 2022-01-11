@@ -99,6 +99,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SplashScreenModifiers\AprilFoolsDay.cs" />
+    <Compile Include="SplashScreenModifiers\BirthdayMesabrook.cs" />
+    <Compile Include="SplashScreenModifiers\Halloween.cs" />
+    <Compile Include="SplashScreenModifiers\HappyHolidays.cs" />
+    <Compile Include="SplashScreenModifiers\ISplashScreenModifier.cs" />
+    <Compile Include="SplashScreenModifiers\NewYearsDay.cs" />
+    <Compile Include="SplashScreenModifiers\NewYearsEve.cs" />
+    <Compile Include="SplashScreenModifiers\SplashScreenModificationController.cs" />
+    <Compile Include="SplashScreenModifiers\ThanksgivingCanada.cs" />
+    <Compile Include="SplashScreenModifiers\ThanksgivingUS.cs" />
     <Compile Include="StartupArguments.cs" />
     <Compile Include="Updater.cs" />
     <EmbeddedResource Include="frmAbout.resx">
@@ -263,6 +273,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ms.ico" />
+    <None Include="Resources\reverb.wav" />
+    <None Include="Resources\loading.png" />
+    <None Include="Resources\failed.png" />
+    <None Include="Resources\hat_bday.png" />
+    <None Include="Resources\bg_ms.png" />
+    <None Include="Resources\wheeze.jpg" />
+    <None Include="Resources\logo_MS_Orange.png" />
+    <None Include="Resources\hat_pil.png" />
+    <None Include="Resources\bg_thanksgiving.png" />
+    <None Include="Resources\bg_xmas.png" />
+    <None Include="Resources\logo_MS_Ice.png" />
+    <None Include="Resources\logo_MS_Red.png" />
+    <None Include="Resources\bg_halloween.jpg" />
+    <None Include="Resources\icn_santa.png" />
+    <None Include="Resources\bg_ny.jpg" />
+    <None Include="Resources\logo_MS_Gold.png" />
     <None Include="Resources\icn_theme.png" />
     <None Include="Resources\icn_sysmgt_normal.png" />
     <None Include="Resources\icn_sysmgt_hover.png" />
@@ -274,6 +300,7 @@
     <None Include="Resources\icn_x.png" />
     <None Include="Resources\icn_check.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

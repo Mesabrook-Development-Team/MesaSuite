@@ -68,7 +68,7 @@ namespace GovernmentPortal
             // tsbSwitchGovernment
             // 
             this.tsbSwitchGovernment.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.tsbSwitchGovernment.Image = ((System.Drawing.Image)(resources.GetObject("tsbSwitchGovernment.Image")));
+            this.tsbSwitchGovernment.Image = global::GovernmentPortal.Properties.Resources.government;
             this.tsbSwitchGovernment.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbSwitchGovernment.Name = "tsbSwitchGovernment";
             this.tsbSwitchGovernment.Size = new System.Drawing.Size(131, 22);
@@ -80,7 +80,7 @@ namespace GovernmentPortal
             this.toolEmail.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiAliases,
             this.tsmiDistributionLists});
-            this.toolEmail.Image = ((System.Drawing.Image)(resources.GetObject("toolEmail.Image")));
+            this.toolEmail.Image = global::GovernmentPortal.Properties.Resources.mail_explorer;
             this.toolEmail.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolEmail.Name = "toolEmail";
             this.toolEmail.Size = new System.Drawing.Size(65, 22);
@@ -89,6 +89,7 @@ namespace GovernmentPortal
             // 
             // tsmiAliases
             // 
+            this.tsmiAliases.Image = global::GovernmentPortal.Properties.Resources.icn_alias;
             this.tsmiAliases.Name = "tsmiAliases";
             this.tsmiAliases.Size = new System.Drawing.Size(162, 22);
             this.tsmiAliases.Text = "Aliases";
@@ -96,6 +97,7 @@ namespace GovernmentPortal
             // 
             // tsmiDistributionLists
             // 
+            this.tsmiDistributionLists.Image = global::GovernmentPortal.Properties.Resources.icn_list;
             this.tsmiDistributionLists.Name = "tsmiDistributionLists";
             this.tsmiDistributionLists.Size = new System.Drawing.Size(162, 22);
             this.tsmiDistributionLists.Text = "Distribution Lists";

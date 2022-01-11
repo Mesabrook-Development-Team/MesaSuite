@@ -100,6 +100,7 @@ namespace GovernmentPortal.Officials
                 Model.UserID = selectedUser.Object.UserID;
                 Model.ManageEmails = chkEmails.Checked;
                 Model.ManageOfficials = chkOfficials.Checked;
+                Model.ManageAccounts = chkManageAccounts.Checked;
 
                 if (Model.OfficialID == default(long))
                 {
@@ -161,6 +162,7 @@ namespace GovernmentPortal.Officials
 
                 chkEmails.Checked = Model.ManageEmails;
                 chkOfficials.Checked = Model.ManageOfficials;
+                chkManageAccounts.Checked = Model.ManageAccounts;
             }
 
             loader.Visible = false;

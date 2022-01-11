@@ -41,6 +41,7 @@ namespace GovernmentPortal.Officials
             this.label2 = new System.Windows.Forms.Label();
             this.chkEmails = new System.Windows.Forms.CheckBox();
             this.chkOfficials = new System.Windows.Forms.CheckBox();
+            this.chkManageAccounts = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // loader
@@ -107,10 +108,22 @@ namespace GovernmentPortal.Officials
             this.chkOfficials.UseVisualStyleBackColor = true;
             this.chkOfficials.CheckedChanged += new System.EventHandler(this.FormValueChanged);
             // 
+            // chkManageAccounts
+            // 
+            this.chkManageAccounts.AutoSize = true;
+            this.chkManageAccounts.Location = new System.Drawing.Point(6, 89);
+            this.chkManageAccounts.Name = "chkManageAccounts";
+            this.chkManageAccounts.Size = new System.Drawing.Size(113, 17);
+            this.chkManageAccounts.TabIndex = 2;
+            this.chkManageAccounts.Text = "Manage Accounts";
+            this.chkManageAccounts.UseVisualStyleBackColor = true;
+            this.chkManageAccounts.CheckedChanged += new System.EventHandler(this.FormValueChanged);
+            // 
             // OfficialExplorerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chkManageAccounts);
             this.Controls.Add(this.chkOfficials);
             this.Controls.Add(this.chkEmails);
             this.Controls.Add(this.label2);
@@ -133,5 +146,6 @@ namespace GovernmentPortal.Officials
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox chkEmails;
         private System.Windows.Forms.CheckBox chkOfficials;
+        private System.Windows.Forms.CheckBox chkManageAccounts;
     }
 }

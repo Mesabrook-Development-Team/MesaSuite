@@ -71,7 +71,15 @@ namespace WebModels.gov
             set { CheckSet(); _manageOfficials = value; }
         }
 
-        private string _officialName;
+        private bool _manageAccounts;
+        [Field("A7304EA0-9424-4877-A6B9-D3C224D892F7")]
+        public bool ManageAccounts
+        {
+            get { CheckGet(); return _manageAccounts; }
+            set { CheckSet(); _manageAccounts = value; }
+        }
+
+        private string _officialName = null;
         [Field("51C127CE-45FB-4512-8325-00CF355510EA", HasOperation = true)]
         public string OfficialName
         {
@@ -106,6 +114,7 @@ namespace WebModels.gov
         {
             yield return nameof(ManageEmails);
             yield return nameof(ManageOfficials);
+            yield return nameof(ManageAccounts);
         }
     }
 }

@@ -2,6 +2,7 @@
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System.Collections.Generic;
+using WebModels.account;
 using WebModels.hMailServer.dbo;
 
 namespace WebModels.gov
@@ -37,7 +38,21 @@ namespace WebModels.gov
         }
 
         #region Relationships
-        #region company
+        #region account
+        private List<Account> _accounts = new List<Account>();
+        [RelationshipList("133FB533-0F54-452F-A3CF-15A1EBDECF42", "GovernmentID")]
+        public IReadOnlyCollection<Account> Accounts
+        {
+            get { CheckGet(); return _accounts; }
+        }
+        private List<Category> _categories = new List<Category>();
+        [RelationshipList("1C488F28-E5E1-4BC1-B62E-A2C8FE572199", "GovernmentID")]
+        public IReadOnlyCollection<Category> Categories
+        {
+            get { CheckGet(); return _categories; }
+        }
+        #endregion
+        #region gov
         private List<Official> _officials = new List<Official>();
         [RelationshipList("5BB7CEE6-A449-4DA2-9C00-C5BD6957E460", "GovernmentID", AutoDeleteReferences = true)]
         public IReadOnlyCollection<Official> Officials

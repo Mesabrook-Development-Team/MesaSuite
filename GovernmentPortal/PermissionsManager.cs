@@ -115,7 +115,8 @@ namespace GovernmentPortal
         public enum Permissions
         {
             ManageEmails,
-            ManageOfficials
+            ManageOfficials,
+            ManageAccounts
         }
 
         public class PermissionChangeEventArgs : EventArgs

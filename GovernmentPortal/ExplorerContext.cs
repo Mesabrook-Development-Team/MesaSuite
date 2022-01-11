@@ -13,5 +13,6 @@ namespace GovernmentPortal
         internal abstract IExplorerControl<TModel> GetControlForModel(TModel model);
         internal abstract Task<List<DropDownItem<TModel>>> GetInitialListItems();
         internal virtual string ObjectDisplayName => typeof(TModel).Name.ToDisplayName();
+        internal virtual bool DeleteButtonVisible => true;
     }
 }

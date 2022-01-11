@@ -170,6 +170,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icn_govt.ico" />
+    <None Include="Resources\government.png" />
+    <None Include="Resources\icn_alias.png" />
+    <None Include="Resources\mail_explorer.png" />
+    <None Include="Resources\270000455_6691527584253334_8845658681159822728_n.jpg" />
+    <None Include="Resources\icn_list.png" />
     <None Include="Resources\icn_official.png" />
     <None Include="Resources\gif_loader.gif" />
   </ItemGroup>

@@ -229,4 +229,52 @@
   <data name="icn_theme" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_theme.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="logo_MS_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logo_MS_Gold.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bg_halloween" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bg_halloween.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bg_ms" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bg_ms.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bg_ny" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bg_ny.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bg_thanksgiving" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bg_thanksgiving.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bg_xmas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bg_xmas.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hat_bday" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hat_bday.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hat_pil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hat_pil.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_santa" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_santa.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logo_MS_Ice" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logo_MS_Ice.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logo_MS_Orange" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logo_MS_Orange.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logo_MS_Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logo_MS_Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wheeze" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wheeze.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="failed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\failed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="loading" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\loading.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reverb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reverb.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

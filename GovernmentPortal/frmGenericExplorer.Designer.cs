@@ -122,8 +122,9 @@ namespace GovernmentPortal
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lstItems);
             this.Controls.Add(this.lblTitle);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "frmGenericExplorer";
-            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmGenericExplorer_FormClosing);
             this.Load += new System.EventHandler(this.frmGenericExplorer_Load);

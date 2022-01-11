@@ -8,6 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MesaSuite.SplashScreenModifiers;
 
 namespace MesaSuite
 {
@@ -16,17 +17,14 @@ namespace MesaSuite
         public frmSplash()
         {
             InitializeComponent();
+            DoubleBuffered = true;
         }
 
         private void frmSplash_Load(object sender, EventArgs e)
         {
-            if (DateTime.Today.Month == 4  && DateTime.Today.Day == 1)
-            {
-                this.BackgroundImage = Properties.Resources.tmpBackground;
-                pBoxLogo.Image = Properties.Resources.logoMSJoke;
-                lblVersion.Text = "Version 6.9.6.9";
-            }
-            else
+            fadeTimer.Start();
+            lblVersion.Text = "Version " + Application.ProductVersion;
+            if (!SplashScreenModificationController.Modify(this))
             {
                 try
                 {
@@ -47,8 +45,24 @@ namespace MesaSuite
                 }
 
                 pBoxLogo.Image = Properties.Resources.logoMS;
-                lblVersion.Text = "Version " + Application.ProductVersion;
+                lblMessage.Text = "";
+                pboxHat.Visible = false;
             }
+        }
+
+        private void fadeTimer_Tick(object sender, EventArgs e)
+        {
+            Opacity += 0.2;
+            if (Opacity >= 1)
+            {
+                Opacity = 1;
+                fadeTimer.Stop();
+            }
+        }
+
+        private void frmSplash_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            fadeTimer.Stop();
         }
     }
 }

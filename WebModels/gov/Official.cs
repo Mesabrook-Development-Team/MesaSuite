@@ -86,6 +86,14 @@ namespace WebModels.gov
             get { CheckGet(); return _officialName; }
         }
 
+        private bool _canMintCurrency;
+        [Field("3ED77E8D-E474-46C2-AB5A-ED6339F45C7A")]
+        public bool CanMintCurrency
+        {
+            get { CheckGet(); return _canMintCurrency; }
+            set { CheckSet(); _canMintCurrency = value; }
+        }
+
         public static OperationDelegate OfficialNameOperation
         {
             get

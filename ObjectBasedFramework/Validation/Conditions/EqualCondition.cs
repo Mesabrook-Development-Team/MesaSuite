@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ClussPro.ObjectBasedFramework.Schema;
 
 namespace ClussPro.ObjectBasedFramework.Validation.Conditions
@@ -15,6 +16,8 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 
         public string Field { get; set; }
         public object Value { get; set; }
+
+        public override IEnumerable<string> AdditionalDataObjectFields => Field.Contains(".") ? new string[0] : new[] { Field };
 
         public override bool Evaluate(DataObject dataObject)
         {

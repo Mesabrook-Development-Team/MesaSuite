@@ -112,5 +112,12 @@ namespace API_Government.Controllers
 
             return accountSearch.GetReadOnlyReader(null, AllowedFields).ToList();
         }
+
+        [HttpGet]
+        public List<Account> MyAccounts()
+        {
+            Search<Account> accountSearch = new Search<Account>(GetBaseSearchCondition());
+            return accountSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+        }
     }
 }

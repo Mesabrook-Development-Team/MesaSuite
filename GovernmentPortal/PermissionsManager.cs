@@ -116,7 +116,8 @@ namespace GovernmentPortal
         {
             ManageEmails,
             ManageOfficials,
-            ManageAccounts
+            ManageAccounts,
+            CanMintCurrency
         }
 
         public class PermissionChangeEventArgs : EventArgs

@@ -23,7 +23,8 @@ namespace GovernmentPortal
             {
                 { PermissionsManager.Permissions.ManageOfficials, toolOfficials },
                 { PermissionsManager.Permissions.ManageEmails, toolEmail },
-                { PermissionsManager.Permissions.ManageAccounts, toolAccounts }
+                { PermissionsManager.Permissions.ManageAccounts, toolAccounts },
+                { PermissionsManager.Permissions.CanMintCurrency, tsbMintCurrency }
             };
         }
 
@@ -56,7 +57,7 @@ namespace GovernmentPortal
 
         private void toolOfficials_Click(object sender, EventArgs e)
         {
-            frmGenericExplorer<Official> genericExplorer = new frmGenericExplorer<Official>(new OfficialExplorerContext(_government.GovernmentID));
+            frmGenericExplorer<Official> genericExplorer = new frmGenericExplorer<Official>(new OfficialExplorerContext(_government.GovernmentID, _government.CanMintCurrency));
             genericExplorer.MdiParent = this;
             genericExplorer.Show();
         }
@@ -138,6 +139,11 @@ namespace GovernmentPortal
             {
                 MdiParent = this
             }.Show();
+        }
+
+        private void tsbMintCurrency_Click(object sender, EventArgs e)
+        {
+            new frmMintCurrency(_government.GovernmentID).ShowDialog();
         }
     }
 }

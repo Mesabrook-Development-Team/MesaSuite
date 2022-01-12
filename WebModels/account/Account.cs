@@ -219,6 +219,38 @@ namespace WebModels.account
             return true;
         }
 
+        public bool Deposit(decimal amount, string description, ITransaction transaction)
+        {
+            Balance += amount;
+            if (!Save(transaction))
+            {
+                return false;
+            }
+
+            FiscalQuarter fiscalQuarter;
+            try
+            {
+                fiscalQuarter = FiscalQuarter.FindOrCreate(AccountID.Value, DateTime.Now);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to find current Fiscal Quarter\r\n\r\n" + ex.Message, ex);
+            }
+
+            Transaction depositTransaction = DataObjectFactory.Create<Transaction>();
+            depositTransaction.FiscalQuarterID = fiscalQuarter.FiscalQuarterID;
+            depositTransaction.Description = description;
+            depositTransaction.Amount = amount;
+            depositTransaction.TransactionTime = DateTime.Now;
+            if (!depositTransaction.Save(transaction))
+            {
+                Errors.AddRange(depositTransaction.Errors.ToArray());
+                return false;
+            }
+
+            return true;
+        }
+
         protected override void PreValidate()
         {
             if (IsInsert)

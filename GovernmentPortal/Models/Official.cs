@@ -15,5 +15,6 @@ namespace GovernmentPortal.Models
         public bool ManageOfficials { get; set; }
         public bool ManageAccounts { get; set; }
         public string OfficialName { get; set; }
+        public bool CanMintCurrency { get; set; }
     }
 }

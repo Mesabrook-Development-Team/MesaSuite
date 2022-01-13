@@ -39,6 +39,7 @@ namespace GovernmentPortal
             this.toolAccounts = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiAccountList = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAccountCategories = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsbMintCurrency = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,7 +49,8 @@ namespace GovernmentPortal
             this.toolOfficials,
             this.tsbSwitchGovernment,
             this.toolEmail,
-            this.toolAccounts});
+            this.toolAccounts,
+            this.tsbMintCurrency});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(659, 25);
@@ -118,16 +120,26 @@ namespace GovernmentPortal
             // tsmiAccountList
             // 
             this.tsmiAccountList.Name = "tsmiAccountList";
-            this.tsmiAccountList.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAccountList.Size = new System.Drawing.Size(130, 22);
             this.tsmiAccountList.Text = "List";
             this.tsmiAccountList.Click += new System.EventHandler(this.tsmiAccountList_Click);
             // 
             // tsmiAccountCategories
             // 
             this.tsmiAccountCategories.Name = "tsmiAccountCategories";
-            this.tsmiAccountCategories.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAccountCategories.Size = new System.Drawing.Size(130, 22);
             this.tsmiAccountCategories.Text = "Categories";
             this.tsmiAccountCategories.Click += new System.EventHandler(this.tsmiAccountCategories_Click);
+            // 
+            // tsbMintCurrency
+            // 
+            this.tsbMintCurrency.Image = ((System.Drawing.Image)(resources.GetObject("tsbMintCurrency.Image")));
+            this.tsbMintCurrency.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbMintCurrency.Name = "tsbMintCurrency";
+            this.tsbMintCurrency.Size = new System.Drawing.Size(103, 22);
+            this.tsbMintCurrency.Text = "Mint Currency";
+            this.tsbMintCurrency.Visible = false;
+            this.tsbMintCurrency.Click += new System.EventHandler(this.tsbMintCurrency_Click);
             // 
             // frmPortal
             // 
@@ -162,6 +174,7 @@ namespace GovernmentPortal
         private System.Windows.Forms.ToolStripDropDownButton toolAccounts;
         private System.Windows.Forms.ToolStripMenuItem tsmiAccountList;
         private System.Windows.Forms.ToolStripMenuItem tsmiAccountCategories;
+        private System.Windows.Forms.ToolStripButton tsbMintCurrency;
     }
 }
 

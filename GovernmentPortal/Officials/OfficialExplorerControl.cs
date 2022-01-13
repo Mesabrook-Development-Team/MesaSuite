@@ -20,6 +20,8 @@ namespace GovernmentPortal.Officials
         
         public long GovernmentID { get; set; }
 
+        public bool GovCanMintCurrency { get; set; }
+
         private bool _suppressDirty;
         public OfficialExplorerControl()
         {
@@ -101,6 +103,7 @@ namespace GovernmentPortal.Officials
                 Model.ManageEmails = chkEmails.Checked;
                 Model.ManageOfficials = chkOfficials.Checked;
                 Model.ManageAccounts = chkManageAccounts.Checked;
+                Model.CanMintCurrency = GovCanMintCurrency ? chkMintCurrency.Checked : false;
 
                 if (Model.OfficialID == default(long))
                 {
@@ -143,6 +146,8 @@ namespace GovernmentPortal.Officials
             loader.BringToFront();
             loader.Visible = true;
 
+            chkMintCurrency.Enabled = GovCanMintCurrency;
+
             GetData getUsers = new GetData(DataAccess.APIs.GovernmentPortal, "Official/Candidates");
             getUsers.Headers.Add("GovernmentID", GovernmentID.ToString());
             List<User> users = await getUsers.GetObject<List<User>>();
@@ -163,6 +168,7 @@ namespace GovernmentPortal.Officials
                 chkEmails.Checked = Model.ManageEmails;
                 chkOfficials.Checked = Model.ManageOfficials;
                 chkManageAccounts.Checked = Model.ManageAccounts;
+                chkMintCurrency.Checked = Model.CanMintCurrency;
             }
 
             loader.Visible = false;

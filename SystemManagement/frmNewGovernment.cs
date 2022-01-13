@@ -82,6 +82,7 @@ namespace SystemManagement
             Government government = new Government();
             government.Name = txtName.Text;
             government.EmailDomain = cboDomain.Text;
+            government.CanMintCurrency = chkMintCurrency.Checked;
 
             PostData put = new PostData(DataAccess.APIs.SystemManagement, "Government/Post", government);
             government = await put.Execute<Government>();

@@ -21,7 +21,8 @@ namespace API_System.Controllers
             nameof(Official.UserID),
             nameof(Official.ManageEmails),
             nameof(Official.ManageOfficials),
-            nameof(Official.OfficialName)
+            nameof(Official.OfficialName),
+            nameof(Official.CanMintCurrency)
         };
 
         [HttpGet]

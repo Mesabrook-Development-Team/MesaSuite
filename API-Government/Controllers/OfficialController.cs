@@ -26,10 +26,12 @@ namespace API_Government.Controllers
             nameof(Official.ManageOfficials),
             nameof(Official.ManageEmails),
             nameof(Official.ManageAccounts),
-            nameof(Official.OfficialName)
+            nameof(Official.OfficialName),
+            nameof(Official.CanMintCurrency)
         };
 
         [HttpGet]
+        [GovernmentAccess(OptionalPermissions = new string[] { nameof(Official.ManageOfficials), nameof(Official.ManageAccounts) })]
         public List<Official> GetAllForGovernment()
         {
             long govID = long.Parse(Request.Headers.GetValues("GovernmentID").First());

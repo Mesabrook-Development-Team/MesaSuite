@@ -37,6 +37,14 @@ namespace WebModels.gov
             set { CheckSet(); _emailDomain = value; }
         }
 
+        private bool _canMintCurrency;
+        [Field("039FCFE6-8ABB-4ECF-BDDF-7650CB225BCE")]
+        public bool CanMintCurrency
+        {
+            get { CheckGet(); return _canMintCurrency; }
+            set { CheckSet(); _canMintCurrency = value; }
+        }
+
         #region Relationships
         #region account
         private List<Account> _accounts = new List<Account>();

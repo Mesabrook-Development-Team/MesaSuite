@@ -42,6 +42,7 @@ namespace GovernmentPortal.Officials
             this.chkEmails = new System.Windows.Forms.CheckBox();
             this.chkOfficials = new System.Windows.Forms.CheckBox();
             this.chkManageAccounts = new System.Windows.Forms.CheckBox();
+            this.chkMintCurrency = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // loader
@@ -119,10 +120,21 @@ namespace GovernmentPortal.Officials
             this.chkManageAccounts.UseVisualStyleBackColor = true;
             this.chkManageAccounts.CheckedChanged += new System.EventHandler(this.FormValueChanged);
             // 
+            // chkMintCurrency
+            // 
+            this.chkMintCurrency.AutoSize = true;
+            this.chkMintCurrency.Location = new System.Drawing.Point(6, 112);
+            this.chkMintCurrency.Name = "chkMintCurrency";
+            this.chkMintCurrency.Size = new System.Drawing.Size(91, 17);
+            this.chkMintCurrency.TabIndex = 4;
+            this.chkMintCurrency.Text = "Mint Currency";
+            this.chkMintCurrency.UseVisualStyleBackColor = true;
+            // 
             // OfficialExplorerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chkMintCurrency);
             this.Controls.Add(this.chkManageAccounts);
             this.Controls.Add(this.chkOfficials);
             this.Controls.Add(this.chkEmails);
@@ -147,5 +159,6 @@ namespace GovernmentPortal.Officials
         private System.Windows.Forms.CheckBox chkEmails;
         private System.Windows.Forms.CheckBox chkOfficials;
         private System.Windows.Forms.CheckBox chkManageAccounts;
+        private System.Windows.Forms.CheckBox chkMintCurrency;
     }
 }

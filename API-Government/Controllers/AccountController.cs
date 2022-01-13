@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using API.Common;
 using API.Common.Attributes;
@@ -9,6 +10,7 @@ using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
+using Newtonsoft.Json;
 using WebModels.account;
 using WebModels.gov;
 
@@ -111,6 +113,102 @@ namespace API_Government.Controllers
                 GetBaseSearchCondition()));
 
             return accountSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+        }
+
+        [HttpGet]
+        public List<Account> MyAccounts()
+        {
+            SecurityProfile securityProfile = (SecurityProfile)Request.Properties["SecurityProfile"];
+
+            Search<Account> accountSearch = new Search<Account>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new ExistsSearchCondition<Account>()
+                {
+                    ExistsType = ExistsSearchCondition<Account>.ExistsTypes.Exists,
+                    RelationshipName = "AccountClearances",
+                    Condition = new LongSearchCondition<AccountClearance>()
+                    {
+                        Field = "UserID",
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = securityProfile.UserID
+                    }
+                },
+                GetBaseSearchCondition()));
+            return accountSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+        }
+
+        [HttpGet]
+        public long[] GetUserIDAccessForAccount(long id)
+        {
+            Account account = DataObject.GetReadOnlyByPrimaryKey<Account>(id, null, new string[] { "AccountClearances.UserID" });
+
+            return account?.AccountClearances.Where(ac => ac.UserID != null).Select(ac => ac.UserID.Value).ToArray() ?? new long[0];
+        }
+
+        [HttpPut]
+        public async Task<IHttpActionResult> PutUserIDAccessForAccount(long id)
+        {
+            var param = new { userid = 0L, hasAccess = false };
+            param = JsonConvert.DeserializeAnonymousType(await Request.Content.ReadAsStringAsync(), param);
+
+            Search<Account> accountSecurityCheckSearch = new Search<Account>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<Account>()
+                {
+                    Field = "AccountID",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                },
+                GetBaseSearchCondition()));
+
+            if (accountSecurityCheckSearch.GetReadOnly(null, new string[] { "AccountID" }) == null)
+            {
+                return Unauthorized();
+            }
+
+            Search<AccountClearance> existingClearanceSearch = new Search<AccountClearance>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<AccountClearance>()
+                {
+                    Field = "AccountID",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                },
+                new LongSearchCondition<AccountClearance>()
+                {
+                    Field = "UserID",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = param.userid
+                }));
+
+            AccountClearance accountClearance = existingClearanceSearch.GetEditable();
+            if (accountClearance == null && !param.hasAccess)
+            {
+                return Ok();
+            }
+
+            if (accountClearance == null)
+            {
+                accountClearance = DataObjectFactory.Create<AccountClearance>();
+                accountClearance.AccountID = id;
+                accountClearance.UserID = param.userid;
+                if (!accountClearance.Save())
+                {
+                    return accountClearance.HandleFailedValidation(this);
+                }
+
+                return Created($"Account/GetUserIDAccessForAccount/{id}", accountClearance);
+            }
+            else if (!param.hasAccess)
+            {
+                if (!accountClearance.Delete())
+                {
+                    return accountClearance.HandleFailedValidation(this);
+                }
+
+                return Ok();
+            }
+            else
+            {
+                return Ok(accountClearance);
+            }
         }
     }
 }

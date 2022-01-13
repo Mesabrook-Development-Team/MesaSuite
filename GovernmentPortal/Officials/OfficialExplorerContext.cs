@@ -14,9 +14,11 @@ namespace GovernmentPortal.Officials
     internal class OfficialExplorerContext : ExplorerContext<Official>
     {
         private long _governmentID;
-        public OfficialExplorerContext(long governmentID)
+        private bool _govCanMintCurrency;
+        public OfficialExplorerContext(long governmentID, bool govCanMintCurrency)
         {
             _governmentID = governmentID;
+            _govCanMintCurrency = govCanMintCurrency;
         }
 
         internal override Icon ExplorerIcon => Properties.Resources.icn_govt;
@@ -26,7 +28,8 @@ namespace GovernmentPortal.Officials
             return new OfficialExplorerControl()
             {
                 Model = model,
-                GovernmentID = _governmentID
+                GovernmentID = _governmentID,
+                GovCanMintCurrency = _govCanMintCurrency
             };
         }
 

@@ -71,8 +71,8 @@ namespace GovernmentPortal.Accounts
                 PostData post = new PostData(DataAccess.APIs.GovernmentPortal, "Account/Post", accountToSave);
                 post.AddGovHeader(_governmentID);
 
-                await post.ExecuteNoResult();
-                if (post.RequestSuccessful)
+                Account savedAccount = await post.Execute<Account>();
+                if (post.RequestSuccessful && await SaveAccesses(savedAccount.AccountID))
                 {
                     IsDirty = false;
                     _explorer.LoadAllItems(true, accountToSave.Description);
@@ -86,7 +86,7 @@ namespace GovernmentPortal.Accounts
                 put.AddGovHeader(_governmentID);
 
                 await put.ExecuteNoResult();
-                if (put.RequestSuccessful)
+                if (put.RequestSuccessful && await SaveAccesses(Model.AccountID))
                 {
                     IsDirty = false;
                     _explorer.LoadAllItems(true, accountToSave.Description);
@@ -96,6 +96,25 @@ namespace GovernmentPortal.Accounts
             }
 
             loader.Visible = false;
+        }
+
+        private async Task<bool> SaveAccesses(long accountID)
+        {
+            bool success = true;
+
+            foreach(DataGridViewRow row in dgvAccess.Rows)
+            {
+                Official official = (Official)row.Tag;
+                bool hasAccess = (bool)(row.Cells["colAccess"].Value ?? false);
+
+                PutData putAccess = new PutData(DataAccess.APIs.GovernmentPortal, $"Account/PutUserIDAccessForAccount/{accountID}", new { userid = official.UserID, hasAccess });
+                putAccess.AddGovHeader(_governmentID);
+                await putAccess.ExecuteNoResult();
+
+                success &= putAccess.RequestSuccessful;
+            }
+
+            return success;
         }
 
         private async void AccountExplorerControl_Load(object sender, EventArgs e)
@@ -116,12 +135,37 @@ namespace GovernmentPortal.Accounts
                 }
             }
 
+            get = new GetData(DataAccess.APIs.GovernmentPortal, "Official/GetAllForGovernment");
+            get.AddGovHeader(_governmentID);
+            List<Official> allOfficials = await get.GetObject<List<Official>>();
+            if (allOfficials != null)
+            {
+                foreach(Official official in allOfficials)
+                {
+                    DataGridViewRow row = dgvAccess.Rows[dgvAccess.Rows.Add()];
+                    row.Cells["colOfficial"].Value = official.OfficialName;
+                    row.Tag = official;
+                }
+            }
+
             if (Model != null)
             {
                 txtAccountNumber.Text = Model.AccountNumber;
                 txtDescription.Text = Model.Description;
                 cboCategory.SelectedItem = cboCategory.Items.Cast<DropDownItem<Category>>().FirstOrDefault(c => c.Object?.CategoryID == Model.CategoryID);
                 txtBalance.Text = Model.Balance.ToString("N2");
+
+                get = new GetData(DataAccess.APIs.GovernmentPortal, $"Account/GetUserIDAccessForAccount/{Model.AccountID}");
+                get.AddGovHeader(_governmentID);
+                long[] userIDs = await get.GetObject<long[]>();
+                if (get.RequestSuccessful)
+                {
+                    foreach(DataGridViewRow row in dgvAccess.Rows)
+                    {
+                        Official official = (Official)row.Tag;
+                        row.Cells["colAccess"].Value = userIDs.Contains(official.UserID);
+                    }
+                }
             }
 
             loader.Visible = false;

@@ -106,6 +106,12 @@
     <Compile Include="frmGenericExplorer.Designer.cs">
       <DependentUpon>frmGenericExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmMintCurrency.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMintCurrency.Designer.cs">
+      <DependentUpon>frmMintCurrency.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPortal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -166,6 +172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmGenericExplorer.resx">
       <DependentUpon>frmGenericExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMintCurrency.resx">
+      <DependentUpon>frmMintCurrency.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPortal.resx">
       <DependentUpon>frmPortal.cs</DependentUpon>

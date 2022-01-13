@@ -16,6 +16,7 @@ namespace API_Government.Attributes
     public class GovernmentAccessAttribute : ActionFilterAttribute
     {
         public string[] RequiredPermissions { get; set; }
+        public string[] OptionalPermissions { get; set; }
 
         public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
@@ -44,6 +45,14 @@ namespace API_Government.Attributes
             if (RequiredPermissions != null)
             {
                 if (!RequiredPermissions.All(p => cachedOfficial.Permissions.Contains(p)))
+                {
+                    actionContext.Response = actionContext.Request.CreateResponse(System.Net.HttpStatusCode.Forbidden);
+                    return;
+                }
+            }
+            else if (OptionalPermissions != null)
+            {
+                if (!OptionalPermissions.Any(p => cachedOfficial.Permissions.Contains(p)))
                 {
                     actionContext.Response = actionContext.Request.CreateResponse(System.Net.HttpStatusCode.Forbidden);
                     return;

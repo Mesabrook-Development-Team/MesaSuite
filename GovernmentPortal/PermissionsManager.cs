@@ -53,39 +53,42 @@ namespace GovernmentPortal
                 GetData getData = new GetData(DataAccess.APIs.GovernmentPortal, "Government/GetAllForUser");
                 List<Government> companies = getData.GetObject<List<Government>>().Result;
 
-                foreach (Government government in companies)
+                if (getData.RequestSuccessful)
                 {
-                    getData = new GetData(DataAccess.APIs.GovernmentPortal, "Official/GetForGovernment");
-                    getData.Headers.Add("GovernmentID", government.GovernmentID.ToString());
-                    getData.QueryString.Add("id", government.GovernmentID.ToString());
-
-                    Official official = getData.GetObject<Official>().Result;
-                    if (official == null)
+                    foreach (Government government in companies)
                     {
-                        continue;
-                    }
+                        getData = new GetData(DataAccess.APIs.GovernmentPortal, "Official/GetForGovernment");
+                        getData.Headers.Add("GovernmentID", government.GovernmentID.ToString());
+                        getData.QueryString.Add("id", government.GovernmentID.ToString());
 
-                    foreach (var item in Enum.GetValues(typeof(Permissions)))
-                    {
-                        PropertyInfo propertyInfo = permissionPropertiesByName[item.ToString()];
-
-                        bool isNew = !PermissionsByGovernment.ContainsKey(government.GovernmentID) || !PermissionsByGovernment[government.GovernmentID].ContainsKey((Permissions)item);
-                        bool previousValue = false;
-                        if (!isNew)
+                        Official official = getData.GetObject<Official>().Result;
+                        if (official == null)
                         {
-                            previousValue = PermissionsByGovernment[government.GovernmentID][(Permissions)item];
+                            continue;
                         }
 
-                        if (!PermissionsByGovernment.ContainsKey(government.GovernmentID))
+                        foreach (var item in Enum.GetValues(typeof(Permissions)))
                         {
-                            PermissionsByGovernment[government.GovernmentID] = new Dictionary<Permissions, bool>();
-                        }
+                            PropertyInfo propertyInfo = permissionPropertiesByName[item.ToString()];
 
-                        PermissionsByGovernment[government.GovernmentID][(Permissions)item] = (bool)propertyInfo.GetValue(official);
+                            bool isNew = !PermissionsByGovernment.ContainsKey(government.GovernmentID) || !PermissionsByGovernment[government.GovernmentID].ContainsKey((Permissions)item);
+                            bool previousValue = false;
+                            if (!isNew)
+                            {
+                                previousValue = PermissionsByGovernment[government.GovernmentID][(Permissions)item];
+                            }
 
-                        if (!isNew && previousValue != PermissionsByGovernment[government.GovernmentID][(Permissions)item])
-                        {
-                            callback(() => OnPermissionChange?.Invoke(null, new PermissionChangeEventArgs(government.GovernmentID, (Permissions)item, PermissionsByGovernment[government.GovernmentID][(Permissions)item])));
+                            if (!PermissionsByGovernment.ContainsKey(government.GovernmentID))
+                            {
+                                PermissionsByGovernment[government.GovernmentID] = new Dictionary<Permissions, bool>();
+                            }
+
+                            PermissionsByGovernment[government.GovernmentID][(Permissions)item] = (bool)propertyInfo.GetValue(official);
+
+                            if (!isNew && previousValue != PermissionsByGovernment[government.GovernmentID][(Permissions)item])
+                            {
+                                callback(() => OnPermissionChange?.Invoke(null, new PermissionChangeEventArgs(government.GovernmentID, (Permissions)item, PermissionsByGovernment[government.GovernmentID][(Permissions)item])));
+                            }
                         }
                     }
                 }

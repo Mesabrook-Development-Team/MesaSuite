@@ -82,16 +82,21 @@ namespace API_Government.Controllers
                 return Unauthorized();
             }
 
+            Account account = DataObject.GetEditableByPrimaryKey<Account>(parameter.AccountIDDeposit, null, new string[] { "AccountClearances.UserID" });
+            if (account == null)
+            {
+                return BadRequest("Account not found");
+            }
+
+            if (!account.AccountClearances.Any(ac => ac.UserID == securityProfile.UserID))
+            {
+                return Unauthorized();
+            }
+
             // Validate amounts
             if (parameter.Amount <= 0)
             {
                 return BadRequest("Amount must be greater than 0");
-            }
-
-            Account account = DataObject.GetEditableByPrimaryKey<Account>(parameter.AccountIDDeposit, null, null);
-            if (account == null)
-            {
-                return BadRequest("Account not found");
             }
 
             // Perform minting process

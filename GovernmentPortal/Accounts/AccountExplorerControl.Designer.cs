@@ -57,6 +57,10 @@
             this.colEndBalance = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNetChange = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNetPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabAccess = new System.Windows.Forms.TabPage();
+            this.dgvAccess = new System.Windows.Forms.DataGridView();
+            this.colAccess = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colOfficial = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmdTransfer = new System.Windows.Forms.Button();
             this.cmdClose = new System.Windows.Forms.Button();
             this.loader = new GovernmentPortal.Loader();
@@ -66,6 +70,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransactions)).BeginInit();
             this.tabFiscalQuarters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiscalQuarters)).BeginInit();
+            this.tabAccess.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAccess)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -76,6 +82,7 @@
             this.tabControl.Controls.Add(this.tabDetails);
             this.tabControl.Controls.Add(this.tabTransactions);
             this.tabControl.Controls.Add(this.tabFiscalQuarters);
+            this.tabControl.Controls.Add(this.tabAccess);
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -354,6 +361,46 @@
             this.colNetPercent.ReadOnly = true;
             this.colNetPercent.Width = 90;
             // 
+            // tabAccess
+            // 
+            this.tabAccess.Controls.Add(this.dgvAccess);
+            this.tabAccess.Location = new System.Drawing.Point(4, 22);
+            this.tabAccess.Name = "tabAccess";
+            this.tabAccess.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAccess.Size = new System.Drawing.Size(583, 236);
+            this.tabAccess.TabIndex = 3;
+            this.tabAccess.Text = "Access";
+            this.tabAccess.UseVisualStyleBackColor = true;
+            // 
+            // dgvAccess
+            // 
+            this.dgvAccess.AllowUserToAddRows = false;
+            this.dgvAccess.AllowUserToDeleteRows = false;
+            this.dgvAccess.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAccess.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colAccess,
+            this.colOfficial});
+            this.dgvAccess.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvAccess.Location = new System.Drawing.Point(3, 3);
+            this.dgvAccess.Name = "dgvAccess";
+            this.dgvAccess.RowHeadersVisible = false;
+            this.dgvAccess.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvAccess.Size = new System.Drawing.Size(577, 230);
+            this.dgvAccess.TabIndex = 0;
+            // 
+            // colAccess
+            // 
+            this.colAccess.HeaderText = "Access?";
+            this.colAccess.Name = "colAccess";
+            this.colAccess.Width = 60;
+            // 
+            // colOfficial
+            // 
+            this.colOfficial.HeaderText = "Official";
+            this.colOfficial.Name = "colOfficial";
+            this.colOfficial.ReadOnly = true;
+            this.colOfficial.Width = 300;
+            // 
             // cmdTransfer
             // 
             this.cmdTransfer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -408,6 +455,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransactions)).EndInit();
             this.tabFiscalQuarters.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiscalQuarters)).EndInit();
+            this.tabAccess.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAccess)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -446,5 +495,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colEndBalance;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNetChange;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNetPercent;
+        private System.Windows.Forms.TabPage tabAccess;
+        private System.Windows.Forms.DataGridView dgvAccess;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colAccess;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colOfficial;
     }
 }

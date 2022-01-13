@@ -31,6 +31,7 @@ namespace API_Government.Controllers
         };
 
         [HttpGet]
+        [GovernmentAccess(OptionalPermissions = new string[] { nameof(Official.ManageOfficials), nameof(Official.ManageAccounts) })]
         public List<Official> GetAllForGovernment()
         {
             long govID = long.Parse(Request.Headers.GetValues("GovernmentID").First());

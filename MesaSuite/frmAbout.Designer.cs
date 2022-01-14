@@ -140,10 +140,10 @@ namespace MesaSuite
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.lbl_Version);
-            this.tabPage1.Location = new System.Drawing.Point(4, 5);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(350, 346);
+            this.tabPage1.Size = new System.Drawing.Size(350, 327);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "About";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -308,7 +308,7 @@ namespace MesaSuite
             // 
             this.pboxTrainDevil.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pboxTrainDevil.ErrorImage = global::MesaSuite.Properties.Resources.failed;
-            this.pboxTrainDevil.ImageLocation = "https://crafthead.net/helm/743cb50c-59b8-40c1-9145-140c510f6c5c";
+            this.pboxTrainDevil.ImageLocation = "https://crafatar.com/renders/head/743cb50c-59b8-40c1-9145-140c510f6c5c?overlay";
             this.pboxTrainDevil.InitialImage = global::MesaSuite.Properties.Resources.loading;
             this.pboxTrainDevil.Location = new System.Drawing.Point(25, 13);
             this.pboxTrainDevil.Name = "pboxTrainDevil";
@@ -361,7 +361,7 @@ namespace MesaSuite
             // 
             this.pboxSloosecannon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pboxSloosecannon.ErrorImage = global::MesaSuite.Properties.Resources.failed;
-            this.pboxSloosecannon.ImageLocation = "https://crafthead.net/helm/e768c520-83a5-49fc-aa4e-f553cccfc593";
+            this.pboxSloosecannon.ImageLocation = "https://crafatar.com/renders/head/e768c520-83a5-49fc-aa4e-f553cccfc593?overlay";
             this.pboxSloosecannon.InitialImage = global::MesaSuite.Properties.Resources.loading;
             this.pboxSloosecannon.Location = new System.Drawing.Point(25, 13);
             this.pboxSloosecannon.Name = "pboxSloosecannon";
@@ -414,7 +414,7 @@ namespace MesaSuite
             // 
             this.pboxRavenholmZombie.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pboxRavenholmZombie.ErrorImage = global::MesaSuite.Properties.Resources.failed;
-            this.pboxRavenholmZombie.ImageLocation = "https://crafthead.net/helm/c2907bdd-9aba-4c20-b83b-ddb41c004e78";
+            this.pboxRavenholmZombie.ImageLocation = "https://crafatar.com/renders/head/c2907bdd-9aba-4c20-b83b-ddb41c004e78?overlay";
             this.pboxRavenholmZombie.InitialImage = global::MesaSuite.Properties.Resources.loading;
             this.pboxRavenholmZombie.Location = new System.Drawing.Point(25, 13);
             this.pboxRavenholmZombie.Name = "pboxRavenholmZombie";
@@ -467,7 +467,7 @@ namespace MesaSuite
             // 
             this.pboxCSX8600.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pboxCSX8600.ErrorImage = global::MesaSuite.Properties.Resources.failed;
-            this.pboxCSX8600.ImageLocation = "https://crafthead.net/helm/717bb4e7-c701-42a6-b06f-bbe17e0518ae";
+            this.pboxCSX8600.ImageLocation = "https://crafatar.com/renders/head/717bb4e7-c701-42a6-b06f-bbe17e0518ae?overlay";
             this.pboxCSX8600.InitialImage = global::MesaSuite.Properties.Resources.loading;
             this.pboxCSX8600.Location = new System.Drawing.Point(25, 13);
             this.pboxCSX8600.Name = "pboxCSX8600";

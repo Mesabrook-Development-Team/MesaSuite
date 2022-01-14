@@ -221,6 +221,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icn_govt.ico" />
+    <None Include="Resources\icn_view.png" />
+    <None Include="Resources\icn_coins.png" />
+    <None Include="Resources\icn_group.png" />
     <None Include="Resources\government.png" />
     <None Include="Resources\icn_alias.png" />
     <None Include="Resources\mail_explorer.png" />

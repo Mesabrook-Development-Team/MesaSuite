@@ -7,6 +7,7 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
+using WebModels.gov;
 
 namespace WebModels.account
 {
@@ -37,6 +38,21 @@ namespace WebModels.account
         public Company Company
         {
             get { CheckGet(); return _company; }
+        }
+
+        private long? _governmentID;
+        [Field("CA6189D1-8C70-4EC0-86BE-D9C6285F2E61")]
+        public long? GovernmentID
+        {
+            get { CheckGet(); return _governmentID; }
+            set { CheckSet(); _governmentID = value; }
+        }
+
+        private Government _government;
+        [Relationship("C829588D-0D7B-4DDC-9C17-94D6F3FDADE9")]
+        public Government Government
+        {
+            get { CheckGet(); return _government; }
         }
 
         private long? _categoryID;
@@ -197,6 +213,38 @@ namespace WebModels.account
             if (!destinationTransaction.Save(transaction))
             {
                 Errors.AddRange(destinationTransaction.Errors.ToArray());
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool Deposit(decimal amount, string description, ITransaction transaction)
+        {
+            Balance += amount;
+            if (!Save(transaction))
+            {
+                return false;
+            }
+
+            FiscalQuarter fiscalQuarter;
+            try
+            {
+                fiscalQuarter = FiscalQuarter.FindOrCreate(AccountID.Value, DateTime.Now);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to find current Fiscal Quarter\r\n\r\n" + ex.Message, ex);
+            }
+
+            Transaction depositTransaction = DataObjectFactory.Create<Transaction>();
+            depositTransaction.FiscalQuarterID = fiscalQuarter.FiscalQuarterID;
+            depositTransaction.Description = description;
+            depositTransaction.Amount = amount;
+            depositTransaction.TransactionTime = DateTime.Now;
+            if (!depositTransaction.Save(transaction))
+            {
+                Errors.AddRange(depositTransaction.Errors.ToArray());
                 return false;
             }
 

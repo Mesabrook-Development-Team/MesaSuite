@@ -70,6 +70,9 @@ namespace DevTools
             uri = new Uri(GetIISUrlFromProject(baseLocation + "API-System\\API-System.csproj"));
             numSystemPort.Value = uri.Port;
 
+            uri = new Uri(GetIISUrlFromProject(baseLocation + "API-Government\\API-Government.csproj"));
+            numGovPort.Value = uri.Port;
+
             uri = new Uri(GetIISUrlFromProject(baseLocation + "OAuth\\OAuth.csproj"));
             numAuthPort.Value = uri.Port;
 
@@ -84,6 +87,9 @@ namespace DevTools
 
             rdoSyncLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("Host.MCSync"), val => val.StartsWith("http://localhost"));
             rdoSyncLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("Host.MCSync"), val => val.StartsWith("http://localhost"));
+
+            rdoGovLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("Host.GovernmentPortal"), val => val.StartsWith("http://localhost"));
+            rdoGovLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("Host.GovernmentPortal"), val => val.StartsWith("http://localhost"));
 
             rdoAuthLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("AuthHost"), val => val.StartsWith("http://localhost"));
             rdoAuthLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("AuthHost"), val => val.StartsWith("http://localhost"));
@@ -145,6 +151,7 @@ namespace DevTools
                 SetConfigOptions(baseLocation + "API-Company\\Web.config");
                 SetConfigOptions(baseLocation + "API-MCSync\\Web.config");
                 SetConfigOptions(baseLocation + "API-System\\Web.config");
+                SetConfigOptions(baseLocation + "API-Government\\Web.config");
                 SetConfigOptions(baseLocation + "OAuth\\Web.config");
                 SetConfigOptions(baseLocation + "DevTools\\App.config");
                 SetConfigOptions(baseLocation + "Sandbox\\App.config");
@@ -159,6 +166,7 @@ namespace DevTools
             SetPortNumber((int)numCompanyPort.Value, baseLocation + "API-Company\\API-Company.csproj");
             SetPortNumber((int)numSyncPort.Value, baseLocation + "API-MCSync\\API-MCSync.csproj");
             SetPortNumber((int)numSystemPort.Value, baseLocation + "API-System\\API-System.csproj");
+            SetPortNumber((int)numGovPort.Value, baseLocation + "API-Government\\API-Government.csproj");
             SetPortNumber((int)numAuthPort.Value, baseLocation + "OAuth\\OAuth.csproj");
 
             ConfigurationManager.AppSettings.Set("Base.SQLProvider", txtSQLProviderLocation.Text);
@@ -173,6 +181,7 @@ namespace DevTools
                 SetLiveLocalOptions(appSettingsElement, rdoSyncLive, numSyncPort.Value, "MCSync");
                 SetLiveLocalOptions(appSettingsElement, rdoSysLive, numSystemPort.Value, "SystemManagement");
                 SetLiveLocalOptions(appSettingsElement, rdoCompanyLive, numCompanyPort.Value, "CompanyStudio");
+                SetLiveLocalOptions(appSettingsElement, rdoGovLive, numGovPort.Value, "GovernmentPortal");
             }
             catch (Exception ex)
             {
@@ -223,10 +232,10 @@ namespace DevTools
             SetConfigValue(appSettingsElement, "UseDevBackendAuth", rdoLDAP.Checked ? "false" : "true");
             SetConfigValue(appSettingsElement, "OAuthHost", "http://localhost:" + numAuthPort.Value);
 
-            string grantFormat = "http://localhost:{0}/Security/Grant,http://localhost:{1}/Security/Grant";
-            string revokeFormat = "http://localhost:{0}/Security/Revoke,http://localhost:{1}/Security/Revoke";
-            SetConfigValue(appSettingsElement, "TokenGrantNotifications", string.Format(grantFormat, numSystemPort.Value, numCompanyPort.Value));
-            SetConfigValue(appSettingsElement, "TokenRevokeNotifications", string.Format(revokeFormat, numSystemPort.Value, numCompanyPort.Value));
+            string grantFormat = "http://localhost:{0}/Security/Grant;http://localhost:{1}/Security/Grant;http://localhost:{2}/Security/Grant";
+            string revokeFormat = "http://localhost:{0}/Security/Revoke;http://localhost:{1}/Security/Revoke;http://localhost:{2}/Security/Revoke";
+            SetConfigValue(appSettingsElement, "TokenGrantNotifications", string.Format(grantFormat, numSystemPort.Value, numCompanyPort.Value, numGovPort.Value));
+            SetConfigValue(appSettingsElement, "TokenRevokeNotifications", string.Format(revokeFormat, numSystemPort.Value, numCompanyPort.Value, numGovPort.Value));
 
             config.Save(configPath);
         }

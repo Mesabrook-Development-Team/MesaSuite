@@ -107,6 +107,13 @@ namespace MesaSuite.Common.Data
                     RequestSuccessful = false;
                     return Task.FromResult<string>(null);
                 }
+
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    MessageBox.Show("The resource you requested was not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    RequestSuccessful = false;
+                    return Task.FromResult<string>(null);
+                }
             }
 
             throw ex;
@@ -119,7 +126,9 @@ namespace MesaSuite.Common.Data
             [EnumValue("system")]
             SystemManagement,
             [EnumValue("company")]
-            CompanyStudio
+            CompanyStudio,
+            [EnumValue("gov")]
+            GovernmentPortal
         }
     }
 }

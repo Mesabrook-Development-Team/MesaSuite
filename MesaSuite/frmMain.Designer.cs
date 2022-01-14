@@ -34,8 +34,6 @@
             this.pboxMCSyncLogo = new System.Windows.Forms.PictureBox();
             this.pnlMCSync = new System.Windows.Forms.Panel();
             this.pnlUserBtn = new System.Windows.Forms.Panel();
-            this.lblLogInStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.flow = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlSystemManagement = new System.Windows.Forms.Panel();
             this.pboxSystemManagement = new System.Windows.Forms.PictureBox();
@@ -43,15 +41,22 @@
             this.pnlCompanyStudio = new System.Windows.Forms.Panel();
             this.pboxCompanyStudio = new System.Windows.Forms.PictureBox();
             this.pboxCStudio = new System.Windows.Forms.PictureBox();
+            this.pnlGovernmentPortal = new System.Windows.Forms.Panel();
+            this.pboxGovernmentPortal = new System.Windows.Forms.PictureBox();
+            this.pboxGPortal = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMesaSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.personalizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.soundEffectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxSignIn = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuRegister = new System.Windows.Forms.ToolStripMenuItem();
+            this.pboxLoginStatus = new System.Windows.Forms.PictureBox();
+            this.lblLoginStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSync)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSyncLogo)).BeginInit();
             this.pnlMCSync.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.flow.SuspendLayout();
             this.pnlSystemManagement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxSystemManagement)).BeginInit();
@@ -59,8 +64,12 @@
             this.pnlCompanyStudio.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxCompanyStudio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxCStudio)).BeginInit();
+            this.pnlGovernmentPortal.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxGovernmentPortal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxGPortal)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.ctxSignIn.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxLoginStatus)).BeginInit();
             this.SuspendLayout();
             // 
             // pboxMCSync
@@ -107,7 +116,7 @@
             this.pnlUserBtn.BackgroundImage = global::MesaSuite.Properties.Resources.btnLoginBase;
             this.pnlUserBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pnlUserBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pnlUserBtn.Location = new System.Drawing.Point(731, 479);
+            this.pnlUserBtn.Location = new System.Drawing.Point(731, 487);
             this.pnlUserBtn.Name = "pnlUserBtn";
             this.pnlUserBtn.Size = new System.Drawing.Size(136, 40);
             this.pnlUserBtn.TabIndex = 4;
@@ -116,27 +125,6 @@
             this.pnlUserBtn.MouseLeave += new System.EventHandler(this.pnlUserBtn_MouseLeave);
             this.pnlUserBtn.MouseHover += new System.EventHandler(this.pnlUserBtn_MouseHover);
             // 
-            // lblLogInStatus
-            // 
-            this.lblLogInStatus.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.lblLogInStatus.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
-            this.lblLogInStatus.ForeColor = System.Drawing.Color.White;
-            this.lblLogInStatus.Name = "lblLogInStatus";
-            this.lblLogInStatus.Size = new System.Drawing.Size(87, 19);
-            this.lblLogInStatus.Text = "Not Logged In";
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.BackColor = System.Drawing.Color.Transparent;
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblLogInStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 537);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.statusStrip1.Size = new System.Drawing.Size(879, 24);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
             // flow
             // 
             this.flow.AutoScroll = true;
@@ -144,6 +132,7 @@
             this.flow.Controls.Add(this.pnlMCSync);
             this.flow.Controls.Add(this.pnlSystemManagement);
             this.flow.Controls.Add(this.pnlCompanyStudio);
+            this.flow.Controls.Add(this.pnlGovernmentPortal);
             this.flow.Location = new System.Drawing.Point(31, 44);
             this.flow.Name = "flow";
             this.flow.Size = new System.Drawing.Size(836, 429);
@@ -224,11 +213,49 @@
             this.pboxCStudio.TabIndex = 2;
             this.pboxCStudio.TabStop = false;
             // 
+            // pnlGovernmentPortal
+            // 
+            this.pnlGovernmentPortal.BackColor = System.Drawing.Color.Transparent;
+            this.pnlGovernmentPortal.Controls.Add(this.pboxGovernmentPortal);
+            this.pnlGovernmentPortal.Controls.Add(this.pboxGPortal);
+            this.pnlGovernmentPortal.Location = new System.Drawing.Point(417, 3);
+            this.pnlGovernmentPortal.Name = "pnlGovernmentPortal";
+            this.pnlGovernmentPortal.Size = new System.Drawing.Size(132, 155);
+            this.pnlGovernmentPortal.TabIndex = 6;
+            // 
+            // pboxGovernmentPortal
+            // 
+            this.pboxGovernmentPortal.BackColor = System.Drawing.Color.Transparent;
+            this.pboxGovernmentPortal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxGovernmentPortal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pboxGovernmentPortal.Image = global::MesaSuite.Properties.Resources.icn_govt_portal;
+            this.pboxGovernmentPortal.Location = new System.Drawing.Point(26, 19);
+            this.pboxGovernmentPortal.Name = "pboxGovernmentPortal";
+            this.pboxGovernmentPortal.Size = new System.Drawing.Size(80, 97);
+            this.pboxGovernmentPortal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pboxGovernmentPortal.TabIndex = 1;
+            this.pboxGovernmentPortal.TabStop = false;
+            this.pboxGovernmentPortal.Click += new System.EventHandler(this.pboxGovernmentPortal_Click);
+            this.pboxGovernmentPortal.MouseEnter += new System.EventHandler(this.pboxGovernmentPortal_MouseEnter);
+            this.pboxGovernmentPortal.MouseLeave += new System.EventHandler(this.pboxGovernmentPortal_MouseLeave);
+            // 
+            // pboxGPortal
+            // 
+            this.pboxGPortal.BackColor = System.Drawing.Color.Transparent;
+            this.pboxGPortal.BackgroundImage = global::MesaSuite.Properties.Resources.lbl_govt_portal;
+            this.pboxGPortal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxGPortal.Location = new System.Drawing.Point(13, 121);
+            this.pboxGPortal.Name = "pboxGPortal";
+            this.pboxGPortal.Size = new System.Drawing.Size(106, 30);
+            this.pboxGPortal.TabIndex = 2;
+            this.pboxGPortal.TabStop = false;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.BackgroundImage = global::MesaSuite.Properties.Resources.bg_grass;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.personalizeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(879, 24);
@@ -255,6 +282,34 @@
             this.aboutMesaSuiteToolStripMenuItem.Text = "About MesaSuite";
             this.aboutMesaSuiteToolStripMenuItem.Click += new System.EventHandler(this.aboutMesaSuiteToolStripMenuItem_Click);
             // 
+            // personalizeToolStripMenuItem
+            // 
+            this.personalizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.backgroundToolStripMenuItem,
+            this.soundEffectToolStripMenuItem});
+            this.personalizeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.personalizeToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.icn_theme;
+            this.personalizeToolStripMenuItem.Name = "personalizeToolStripMenuItem";
+            this.personalizeToolStripMenuItem.Size = new System.Drawing.Size(98, 20);
+            this.personalizeToolStripMenuItem.Text = "Personalize";
+            // 
+            // backgroundToolStripMenuItem
+            // 
+            this.backgroundToolStripMenuItem.Name = "backgroundToolStripMenuItem";
+            this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.backgroundToolStripMenuItem.Text = "Choose Background";
+            this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
+            // 
+            // soundEffectToolStripMenuItem
+            // 
+            this.soundEffectToolStripMenuItem.Checked = true;
+            this.soundEffectToolStripMenuItem.CheckOnClick = true;
+            this.soundEffectToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.soundEffectToolStripMenuItem.Name = "soundEffectToolStripMenuItem";
+            this.soundEffectToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.soundEffectToolStripMenuItem.Text = "Click Sound Effect";
+            this.soundEffectToolStripMenuItem.Click += new System.EventHandler(this.soundEffectToolStripMenuItem_Click);
+            // 
             // ctxSignIn
             // 
             this.ctxSignIn.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -269,15 +324,40 @@
             this.mnuRegister.Text = "Register MesaSuite";
             this.mnuRegister.Click += new System.EventHandler(this.mnuRegister_Click);
             // 
+            // pboxLoginStatus
+            // 
+            this.pboxLoginStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pboxLoginStatus.BackColor = System.Drawing.Color.Transparent;
+            this.pboxLoginStatus.Image = global::MesaSuite.Properties.Resources.icn_x;
+            this.pboxLoginStatus.Location = new System.Drawing.Point(20, 497);
+            this.pboxLoginStatus.Name = "pboxLoginStatus";
+            this.pboxLoginStatus.Size = new System.Drawing.Size(20, 20);
+            this.pboxLoginStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pboxLoginStatus.TabIndex = 8;
+            this.pboxLoginStatus.TabStop = false;
+            // 
+            // lblLoginStatus
+            // 
+            this.lblLoginStatus.AutoSize = true;
+            this.lblLoginStatus.BackColor = System.Drawing.Color.Transparent;
+            this.lblLoginStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoginStatus.ForeColor = System.Drawing.Color.White;
+            this.lblLoginStatus.Location = new System.Drawing.Point(42, 500);
+            this.lblLoginStatus.Name = "lblLoginStatus";
+            this.lblLoginStatus.Size = new System.Drawing.Size(84, 15);
+            this.lblLoginStatus.TabIndex = 9;
+            this.lblLoginStatus.Text = "Not Logged In";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::MesaSuite.Properties.Resources.bg;
-            this.ClientSize = new System.Drawing.Size(879, 561);
+            this.ClientSize = new System.Drawing.Size(879, 539);
+            this.Controls.Add(this.lblLoginStatus);
+            this.Controls.Add(this.pboxLoginStatus);
             this.Controls.Add(this.flow);
             this.Controls.Add(this.pnlUserBtn);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -287,12 +367,11 @@
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dashboard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSync)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSyncLogo)).EndInit();
             this.pnlMCSync.ResumeLayout(false);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.flow.ResumeLayout(false);
             this.pnlSystemManagement.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pboxSystemManagement)).EndInit();
@@ -300,9 +379,13 @@
             this.pnlCompanyStudio.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pboxCompanyStudio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxCStudio)).EndInit();
+            this.pnlGovernmentPortal.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pboxGovernmentPortal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxGPortal)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ctxSignIn.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pboxLoginStatus)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -313,8 +396,6 @@
         private System.Windows.Forms.PictureBox pboxMCSyncLogo;
         private System.Windows.Forms.Panel pnlMCSync;
         private System.Windows.Forms.Panel pnlUserBtn;
-        private System.Windows.Forms.ToolStripStatusLabel lblLogInStatus;
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.FlowLayoutPanel flow;
         private System.Windows.Forms.Panel pnlSystemManagement;
         private System.Windows.Forms.PictureBox pboxSystemManagement;
@@ -327,5 +408,13 @@
         private System.Windows.Forms.PictureBox pboxCStudio;
         private System.Windows.Forms.ContextMenuStrip ctxSignIn;
         private System.Windows.Forms.ToolStripMenuItem mnuRegister;
+        private System.Windows.Forms.Panel pnlGovernmentPortal;
+        private System.Windows.Forms.PictureBox pboxGovernmentPortal;
+        private System.Windows.Forms.PictureBox pboxGPortal;
+        private System.Windows.Forms.PictureBox pboxLoginStatus;
+        private System.Windows.Forms.Label lblLoginStatus;
+        private System.Windows.Forms.ToolStripMenuItem personalizeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem soundEffectToolStripMenuItem;
     }
 }

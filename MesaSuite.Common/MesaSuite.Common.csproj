@@ -76,7 +76,7 @@
     <Compile Include="Data\ReleaseResourceWriter.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\FormExtensions.cs" />
+    <Compile Include="Extensions\ControlExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\SelectedListViewItemCollectionExtensions.cs" />
     <Compile Include="Extensions\ListViewItemCollectionExtensions.cs" />

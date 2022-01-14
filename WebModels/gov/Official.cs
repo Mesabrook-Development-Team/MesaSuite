@@ -1,4 +1,8 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using System.Collections.Generic;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.security;
@@ -65,6 +69,60 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _manageOfficials; }
             set { CheckSet(); _manageOfficials = value; }
+        }
+
+        private bool _manageAccounts;
+        [Field("A7304EA0-9424-4877-A6B9-D3C224D892F7")]
+        public bool ManageAccounts
+        {
+            get { CheckGet(); return _manageAccounts; }
+            set { CheckSet(); _manageAccounts = value; }
+        }
+
+        private string _officialName = null;
+        [Field("51C127CE-45FB-4512-8325-00CF355510EA", HasOperation = true)]
+        public string OfficialName
+        {
+            get { CheckGet(); return _officialName; }
+        }
+
+        private bool _canMintCurrency;
+        [Field("3ED77E8D-E474-46C2-AB5A-ED6339F45C7A")]
+        public bool CanMintCurrency
+        {
+            get { CheckGet(); return _canMintCurrency; }
+            set { CheckSet(); _canMintCurrency = value; }
+        }
+
+        public static OperationDelegate OfficialNameOperation
+        {
+            get
+            {
+                return alias =>
+                {
+                    ISelectQuery userSelect = SQLProviderFactory.GetSelectQuery();
+                    userSelect.SelectList = new List<Select>()
+                    {
+                        new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)"U.Username" }
+                    };
+                    userSelect.Table = new Table("security", "User", "U");
+                    userSelect.WhereCondition = new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)"U.UserID",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{alias}.UserID"
+                    };
+
+                    return new ClussPro.Base.Data.Operand.SubQuery(userSelect);
+                };
+            }
+        }
+
+        public static IEnumerable<string> GetPermissionFieldNames()
+        {
+            yield return nameof(ManageEmails);
+            yield return nameof(ManageOfficials);
+            yield return nameof(ManageAccounts);
         }
     }
 }

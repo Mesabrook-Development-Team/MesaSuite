@@ -25,6 +25,15 @@ namespace WebModels.Loaders.security
                     { p.Name, "Company Studio" }
                 }
             };
+
+            yield return new LoaderObject<Program>("B6603228-07E3-41C2-B74F-D7203698176A")
+            {
+                DataObjectValues = p => new Dictionary<object, object>()
+                {
+                    { p.Key, "gov" },
+                    { p.Name, "Government Portal" }
+                }
+            };
         }
     }
 }

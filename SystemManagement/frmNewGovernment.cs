@@ -38,6 +38,7 @@ namespace SystemManagement
             {
                 Official official = new Official();
                 official.UserID = newUserID;
+                official.ManageOfficials = true;
                 _officials.Add(official);
             }
 
@@ -67,8 +68,6 @@ namespace SystemManagement
                 item.Text = users[official.UserID].Username;
                 item.ImageKey = "user";
                 item.Tag = official;
-                item.SubItems.Add(official.ManageEmails.ToString());
-                item.SubItems.Add(official.ManageOfficials.ToString());
 
                 lstOfficials.Items.Add(item);
             }
@@ -78,33 +77,13 @@ namespace SystemManagement
             BringToFront();
         }
 
-        private async void lstOfficials_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (lstOfficials.SelectedItems.Count <= 0)
-            {
-                return;
-            }
-
-            Official official = (Official)lstOfficials.SelectedItems[0].Tag;
-
-            frmEditOfficial editOfficial = new frmEditOfficial();
-            editOfficial.Official = official;
-            editOfficial.PerformDatabaseSave = false;
-            editOfficial.GovernmentNameOverride = txtName.Text;
-            DialogResult res = editOfficial.ShowDialog();
-
-            if (res != DialogResult.OK)
-            {
-                return;
-            }
-
-            await SetupOfficialsList();
-        }
-
         private async void cmdSave_Click(object sender, EventArgs e)
         {
             Government government = new Government();
             government.Name = txtName.Text;
+            government.EmailDomain = cboDomain.Text;
+            government.CanMintCurrency = chkMintCurrency.Checked;
+
             PostData put = new PostData(DataAccess.APIs.SystemManagement, "Government/Post", government);
             government = await put.Execute<Government>();
 
@@ -135,6 +114,18 @@ namespace SystemManagement
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private async void frmNewGovernment_Load(object sender, EventArgs e)
+        {
+            GetData getDomains = new GetData(DataAccess.APIs.SystemManagement, "Domain/GetAll");
+            List<Domain> domains = await getDomains.GetObject<List<Domain>>();
+
+            cboDomain.Items.Add(string.Empty);
+            foreach (Domain domain in domains)
+            {
+                cboDomain.Items.Add(domain.DomainName);
+            }
         }
     }
 }

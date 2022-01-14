@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebModels.company;
+using WebModels.gov;
 
 namespace WebModels.hMailServer.dbo
 {
@@ -242,10 +243,10 @@ namespace WebModels.hMailServer.dbo
 
         private bool UpdateEmailSetups(bool isDelete = false)
         {
-            // Update Companies
             string oldEmailDomain = (string)GetDirtyValue("DomainName");
             using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
+                // Update Companies
                 Search<Company> companySearch = new Search<Company>(new StringSearchCondition<Company>()
                 {
                     Field = "EmailDomain",
@@ -267,6 +268,32 @@ namespace WebModels.hMailServer.dbo
                     if (!company.Save(transaction))
                     {
                         Errors.AddBaseMessage($"Could not update Company with ID {company.CompanyID}:\r\n{company.Errors.ToString()}");
+                        return false;
+                    }
+                }
+
+                // Update governments
+                Search<Government> governmentSearch = new Search<Government>(new StringSearchCondition<Government>()
+                {
+                    Field = "EmailDomain",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Like,
+                    Value = $"%{oldEmailDomain}"
+                });
+
+                foreach (Government government in governmentSearch.GetEditableReader())
+                {
+                    if (isDelete)
+                    {
+                        government.EmailDomain = null;
+                    }
+                    else
+                    {
+                        government.EmailDomain = government.EmailDomain.Replace($"{oldEmailDomain}", $"{DomainName}");
+                    }
+
+                    if (!government.Save(transaction))
+                    {
+                        Errors.AddBaseMessage($"Could not update Government with ID {government.GovernmentID}:\r\n{government.Errors.ToString()}");
                         return false;
                     }
                 }

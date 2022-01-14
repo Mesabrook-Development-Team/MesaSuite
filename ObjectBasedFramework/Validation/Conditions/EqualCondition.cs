@@ -1,4 +1,6 @@
-﻿using ClussPro.ObjectBasedFramework.Schema;
+﻿using System;
+using System.Collections.Generic;
+using ClussPro.ObjectBasedFramework.Schema;
 
 namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 {
@@ -15,18 +17,46 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
         public string Field { get; set; }
         public object Value { get; set; }
 
+        public override IEnumerable<string> AdditionalDataObjectFields => !Field.Contains(".") ? new string[0] : new[] { Field };
+
         public override bool Evaluate(DataObject dataObject)
         {
             SchemaObject schemaObject = Schema.Schema.GetSchemaObject(dataObject.GetType());
             Field field = schemaObject.GetField(Field);
 
-            if (Value == null)
+            object fieldValue;
+            if (Field.Contains("."))
             {
-                return field.GetValue(dataObject) == null;
+                SchemaObject workingObject = schemaObject;
+                DataObject workingDataObject = dataObject;
+                string[] parts = Field.Split('.');
+                for(int i = 0; i < parts.Length - 1; i++)
+                {
+                    string path = parts[i];
+                    Relationship relationship = workingObject.GetRelationship(path);
+                    workingObject = relationship.ParentSchemaObject;
+                    workingDataObject = relationship.GetValue(workingDataObject);
+                }
+
+                fieldValue = field.GetValue(workingDataObject);
             }
             else
             {
-                return Value.Equals(field.GetValue(dataObject));
+                fieldValue = field.GetValue(dataObject);
+            }
+
+            if (Value == null)
+            {
+                return fieldValue == null;
+            }
+            else if (fieldValue != null && Value is IConvertible && fieldValue is IConvertible)
+            {
+                var convertedFieldValue = Convert.ChangeType(fieldValue, Value.GetType());
+                return Value.Equals(convertedFieldValue);
+            }
+            else
+            {
+                return Value.Equals(fieldValue);
             }
         }
     }

@@ -10,6 +10,7 @@ using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using WebModels.company;
+using WebModels.gov;
 
 namespace WebModels.account
 {
@@ -39,6 +40,21 @@ namespace WebModels.account
         public Company Company
         {
             get { CheckGet(); return _company; }
+        }
+
+        private long? _governmentID;
+        [Field("6A88E419-42F8-4219-9BD5-F26079005D1D")]
+        public long? GovernmentID
+        {
+            get { CheckGet(); return _governmentID; }
+            set { CheckSet(); _governmentID = value; }
+        }
+
+        private Government _government;
+        [Relationship("6992270A-D896-455B-8EB5-797623973F0B")]
+        public Government Government
+        {
+            get { CheckGet(); return _government; }
         }
 
         private string _name;

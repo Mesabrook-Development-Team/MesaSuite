@@ -1,6 +1,8 @@
 ﻿using MesaSuite.Common;
+using MesaSuite.Common.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Media;
@@ -12,6 +14,7 @@ namespace MesaSuite
 {
     public partial class frmMain : Form
     {
+        private bool buttonClickSfx;
         public frmMain()
         {
             InitializeComponent();
@@ -23,7 +26,8 @@ namespace MesaSuite
             {
                 { pnlMCSync, "" },
                 { pnlSystemManagement, "system" },
-                { pnlCompanyStudio, "company" }
+                { pnlCompanyStudio, "company" },
+                { pnlGovernmentPortal, "gov" }
             };
         }
 
@@ -56,6 +60,7 @@ namespace MesaSuite
             pboxMCSyncLogo.Visible = false;
             pboxSystem.Visible = false;
             pboxCStudio.Visible = false;
+            pboxGPortal.Visible = false;
             Authentication.OnLoggedIn += Authentication_OnLoggedIn;
             Authentication.OnLoggedOut += Authentication_OnLoggedOut;
             Authentication.OnProgramUpdate += Authentication_OnProgramUpdate;
@@ -63,13 +68,20 @@ namespace MesaSuite
             if (Authentication.AuthenticationStatus == Authentication.AuthenticationStatuses.LoggedIn)
             {
                 pnlUserBtn.BackgroundImage = Properties.Resources.btnLogOutBase;
-                lblLogInStatus.Text = "Logged In";
+                pboxLoginStatus.Image = Properties.Resources.icn_check;
+                lblLoginStatus.Text = "Logged In";
             }
             else
             {
                 pnlUserBtn.BackgroundImage = Properties.Resources.btnLoginBase;
-                lblLogInStatus.Text = "Not Logged In";
+                pboxLoginStatus.Image = Properties.Resources.icn_x;
+                lblLoginStatus.Text = "Not Logged In";
             }
+
+            // Load Personalization Settings
+            UserPreferences preferences = UserPreferences.Get();
+            buttonClickSfx = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("buttonClickSfx", true).Cast<bool>(true);
+            UpdateLook();
 
             Authentication_OnProgramUpdate(sender, e);
         }
@@ -95,12 +107,14 @@ namespace MesaSuite
 
         private void Authentication_OnLoggedOut(object sender, EventArgs e)
         {
-            lblLogInStatus.Text = "Not Logged In";
+            pboxLoginStatus.Image = Properties.Resources.icn_x;
+            lblLoginStatus.Text = "Not Logged In";
         }
 
         private void Authentication_OnLoggedIn(object sender, EventArgs e)
         {
-            lblLogInStatus.Text = "Logged In";
+            pboxLoginStatus.Image = Properties.Resources.icn_check;
+            lblLoginStatus.Text = "Logged In";
         }
 
         private void StartMCSync()
@@ -231,9 +245,12 @@ namespace MesaSuite
 
         public void PlayButtonClickSound()
         {
-            using (var soundPlayer = new SoundPlayer(Properties.Resources.ui_button_click))
+            if(buttonClickSfx)
             {
-                soundPlayer.Play();
+                using (var soundPlayer = new SoundPlayer(Properties.Resources.ui_button_click))
+                {
+                    soundPlayer.Play();
+                }
             }
         }
 
@@ -270,6 +287,75 @@ namespace MesaSuite
         private void mnuRegister_Click(object sender, EventArgs e)
         {
             Authentication.Register();
+        }
+
+        private void pboxGovernmentPortal_Click(object sender, EventArgs e)
+        {
+            PlayButtonClickSound();
+            StartProgram(() => GovernmentPortal.Program.Main(StartupArguments.GetArgsForApp("government")));
+        }
+
+        private void pboxGovernmentPortal_MouseEnter(object sender, EventArgs e)
+        {
+            pboxGovernmentPortal.Image = Properties.Resources.icn_govt_portal_hov;
+            pboxGPortal.Visible = true;
+        }
+
+        private void pboxGovernmentPortal_MouseLeave(object sender, EventArgs e)
+        {
+            pboxGovernmentPortal.Image = Properties.Resources.icn_govt_portal;
+            pboxGPortal.Visible = false;
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
+
+        private void soundEffectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            buttonClickSfx = soundEffectToolStripMenuItem.Checked;
+            UserPreferences preferences = UserPreferences.Get();
+            preferences.GetPreferencesForSection("mcsync")["buttonClickSfx"] = buttonClickSfx;
+            preferences.Save();
+
+            if(buttonClickSfx)
+            {
+                PlayButtonClickSound();
+            }
+        }
+
+        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmSetBackground form = new frmSetBackground(this);
+            form.ShowDialog();
+        }
+
+        public void UpdateLook()
+        {
+            UserPreferences preferences = UserPreferences.Get();
+            soundEffectToolStripMenuItem.Checked = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("buttonClickSfx", true).Cast<bool>(true);
+
+            try
+            {
+                string wallpaperPath = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("wallpaperPath", defaultValue: null).Cast<string>();
+                Image bg = new Bitmap(wallpaperPath);
+                BackgroundImage = bg;
+
+                string imageLayoutPreference = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("imageLayout", ImageLayout.None.ToString()).Cast<string>(ImageLayout.None.ToString());
+                ImageLayout imageLayout = ImageLayout.None;
+                if (!string.IsNullOrEmpty(imageLayoutPreference) && Enum.TryParse(imageLayoutPreference, true, out ImageLayout imageLayoutParsed))
+                {
+                    imageLayout = imageLayoutParsed;
+                }
+
+                BackgroundImageLayout = imageLayout;
+            }
+            catch (Exception AwFuckICantBelieveYouveDoneThis)
+            {
+                BackgroundImage = Properties.Resources.bg;
+                BackgroundImageLayout = ImageLayout.Tile;
+            }
         }
     }
 }

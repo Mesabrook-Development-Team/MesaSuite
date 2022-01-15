@@ -93,6 +93,16 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bg_hearts {
+            get {
+                object obj = ResourceManager.GetObject("bg_hearts", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap bg_ms {
             get {
                 object obj = ResourceManager.GetObject("bg_ms", resourceCulture);
@@ -506,6 +516,16 @@ namespace MesaSuite.Properties {
         internal static System.Drawing.Bitmap logo_MS_Orange {
             get {
                 object obj = ResourceManager.GetObject("logo_MS_Orange", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_MS_pink {
+            get {
+                object obj = ResourceManager.GetObject("logo_MS_pink", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

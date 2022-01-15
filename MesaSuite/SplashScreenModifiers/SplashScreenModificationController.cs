@@ -7,6 +7,7 @@ namespace MesaSuite.SplashScreenModifiers
     {
         private static List<ISplashScreenModifier> SplashScreenModifiers = new List<ISplashScreenModifier>()
         {
+            new ValentinesDay(),
             new AprilFoolsDay(),
             new BirthdayMesabrook(),
             new Halloween(),

@@ -109,6 +109,7 @@
     <Compile Include="SplashScreenModifiers\SplashScreenModificationController.cs" />
     <Compile Include="SplashScreenModifiers\ThanksgivingCanada.cs" />
     <Compile Include="SplashScreenModifiers\ThanksgivingUS.cs" />
+    <Compile Include="SplashScreenModifiers\ValentinesDay.cs" />
     <Compile Include="StartupArguments.cs" />
     <Compile Include="Updater.cs" />
     <EmbeddedResource Include="frmAbout.resx">
@@ -273,6 +274,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ms.ico" />
+    <None Include="Resources\bg_hearts.jpg" />
+    <None Include="Resources\logo_MS_pink.png" />
     <None Include="Resources\reverb.wav" />
     <None Include="Resources\loading.png" />
     <None Include="Resources\failed.png" />

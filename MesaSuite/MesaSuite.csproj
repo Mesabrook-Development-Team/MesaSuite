@@ -103,6 +103,7 @@
     <Compile Include="SplashScreenModifiers\BirthdayMesabrook.cs" />
     <Compile Include="SplashScreenModifiers\Halloween.cs" />
     <Compile Include="SplashScreenModifiers\HappyHolidays.cs" />
+    <Compile Include="SplashScreenModifiers\IndependenceDay.cs" />
     <Compile Include="SplashScreenModifiers\ISplashScreenModifier.cs" />
     <Compile Include="SplashScreenModifiers\ITDV.cs" />
     <Compile Include="SplashScreenModifiers\NewYearsDay.cs" />
@@ -276,6 +277,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ms.ico" />
+    <None Include="Resources\logo_MS_white.png" />
+    <None Include="Resources\bg_usa.png" />
+    <None Include="Resources\hat_usa.png" />
+    <None Include="Resources\logo_MS_RWB.png" />
     <None Include="Resources\bg_prideflag.png" />
     <None Include="Resources\logo_MS_teal.png" />
     <None Include="Resources\bg_prideflag_trans.png" />

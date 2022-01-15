@@ -11,6 +11,7 @@ namespace MesaSuite.SplashScreenModifiers
             new ITDV(),
             new AprilFoolsDay(),
             new PrideMonth(),
+            new IndepdenceDay(),
             new BirthdayMesabrook(),
             new Halloween(),
             new HappyHolidays(),

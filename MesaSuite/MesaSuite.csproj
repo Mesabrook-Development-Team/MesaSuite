@@ -104,8 +104,10 @@
     <Compile Include="SplashScreenModifiers\Halloween.cs" />
     <Compile Include="SplashScreenModifiers\HappyHolidays.cs" />
     <Compile Include="SplashScreenModifiers\ISplashScreenModifier.cs" />
+    <Compile Include="SplashScreenModifiers\ITDV.cs" />
     <Compile Include="SplashScreenModifiers\NewYearsDay.cs" />
     <Compile Include="SplashScreenModifiers\NewYearsEve.cs" />
+    <Compile Include="SplashScreenModifiers\PrideMonth.cs" />
     <Compile Include="SplashScreenModifiers\SplashScreenModificationController.cs" />
     <Compile Include="SplashScreenModifiers\ThanksgivingCanada.cs" />
     <Compile Include="SplashScreenModifiers\ThanksgivingUS.cs" />
@@ -274,6 +276,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ms.ico" />
+    <None Include="Resources\bg_prideflag.png" />
+    <None Include="Resources\logo_MS_teal.png" />
+    <None Include="Resources\bg_prideflag_trans.png" />
     <None Include="Resources\bg_hearts.jpg" />
     <None Include="Resources\logo_MS_pink.png" />
     <None Include="Resources\reverb.wav" />

@@ -123,6 +123,26 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bg_prideflag {
+            get {
+                object obj = ResourceManager.GetObject("bg_prideflag", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bg_prideflag_trans {
+            get {
+                object obj = ResourceManager.GetObject("bg_prideflag_trans", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap bg_thanksgiving {
             get {
                 object obj = ResourceManager.GetObject("bg_thanksgiving", resourceCulture);
@@ -536,6 +556,16 @@ namespace MesaSuite.Properties {
         internal static System.Drawing.Bitmap logo_MS_Red {
             get {
                 object obj = ResourceManager.GetObject("logo_MS_Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_MS_teal {
+            get {
+                object obj = ResourceManager.GetObject("logo_MS_teal", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

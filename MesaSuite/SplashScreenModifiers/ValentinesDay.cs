@@ -11,7 +11,7 @@ namespace MesaSuite.SplashScreenModifiers
         {
             splash.pBoxLogo.Image = Properties.Resources.logo_MS_pink;
             splash.BackgroundImage = Properties.Resources.bg_hearts;
-            splash.lblMessage.Text = "Happy Valentine's Day / Singles Awareness Day";
+            splash.lblMessage.Text = "Happy Valentine's / Singles Awareness Day";
             splash.pboxHat.Visible = false;
             splash.lblMessage.ForeColor = Color.White;
         }

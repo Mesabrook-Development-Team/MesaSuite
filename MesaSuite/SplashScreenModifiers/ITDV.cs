@@ -11,7 +11,7 @@ namespace MesaSuite.SplashScreenModifiers
         {
             splash.pBoxLogo.Image = Properties.Resources.logo_MS_pink;
             splash.BackgroundImage = Properties.Resources.bg_prideflag_trans;
-            splash.lblMessage.Text = "Mesabrook proudly stand with the Trans community!";
+            splash.lblMessage.Text = "Mesabrook proudly stands with the Trans community!";
             splash.pboxHat.Visible = false;
             splash.lblVersion.ForeColor = Color.Black;
             splash.lblMessage.ForeColor = Color.Black;

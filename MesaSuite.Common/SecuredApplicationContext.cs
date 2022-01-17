@@ -41,9 +41,13 @@ namespace MesaSuite.Common
                     continue;
                 }
 
-                if (!form.InvokeRequired)
+                if (!form.InvokeRequired && form.IsHandleCreated)
                 {
-                    form.Close();
+                    try
+                    {
+                        form.Close();
+                    }
+                    catch { }
                 }
             }
 
@@ -54,7 +58,7 @@ namespace MesaSuite.Common
                 thread.Start();
             }
 
-            if (!MainForm.IsDisposed)
+            if (!MainForm.IsDisposed && MainForm.IsHandleCreated)
             {
                 MainForm.Close();
             }

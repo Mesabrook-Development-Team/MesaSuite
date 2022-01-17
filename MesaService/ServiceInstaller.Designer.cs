@@ -42,7 +42,7 @@ namespace MesaService
             // 
             this.serviceInstaller1.Description = "Performs background tasks for the MesaSuite software.";
             this.serviceInstaller1.DisplayName = "MesaService";
-            this.serviceInstaller1.ServiceName = "MainService";
+            this.serviceInstaller1.ServiceName = "MesaService";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ServiceInstaller

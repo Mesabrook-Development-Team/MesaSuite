@@ -1,4 +1,5 @@
 ﻿using ReleaseUtility.Extensions;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Linq;
@@ -19,6 +20,11 @@ namespace ReleaseUtility.Steps
             ProcessStartInfo processStartInfo = new ProcessStartInfo(PathToProgramExecutable, Arguments);
             Process process = Process.Start(processStartInfo);
             process.WaitForExit();
+
+            if (process.ExitCode != 0)
+            {
+                throw new Exception("The process did not complete successfully!");
+            }
         }
 
         public void ReadXML(XElement element)

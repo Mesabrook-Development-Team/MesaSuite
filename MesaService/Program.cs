@@ -15,7 +15,7 @@ namespace MesaService
         /// </summary>
         static void Main(string[] args)
         {
-            MainService mainService = new MainService();
+            MesaService mainService = new MesaService();
 #if DEBUG
             Console.WriteLine("Starting Service...");
             mainService.Start(args);

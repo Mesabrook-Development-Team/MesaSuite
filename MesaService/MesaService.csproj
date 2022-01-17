@@ -55,11 +55,11 @@
     <Compile Include="ServiceInstaller.Designer.cs">
       <DependentUpon>ServiceInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainService.cs">
+    <Compile Include="MesaService.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MainService.Designer.cs">
-      <DependentUpon>MainService.cs</DependentUpon>
+    <Compile Include="MesaService.Designer.cs">
+      <DependentUpon>MesaService.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,8 +88,8 @@
     <EmbeddedResource Include="ServiceInstaller.resx">
       <DependentUpon>ServiceInstaller.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainService.resx">
-      <DependentUpon>MainService.cs</DependentUpon>
+    <EmbeddedResource Include="MesaService.resx">
+      <DependentUpon>MesaService.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

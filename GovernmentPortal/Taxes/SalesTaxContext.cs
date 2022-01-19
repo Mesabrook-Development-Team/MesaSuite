@@ -34,7 +34,30 @@ namespace GovernmentPortal.Taxes
             get.AddGovHeader(_governmentID);
             List<SalesTax> salesTaxes = await get.GetObject<List<SalesTax>>();
 
-            return salesTaxes.Select(st => new DropDownItem<SalesTax>(st, GetDropDownDisplayText(st.Rate, st.EffectiveDate))).ToList();
+            List<DropDownItem<SalesTax>> dropDownItems = new List<DropDownItem<SalesTax>>();
+            foreach(SalesTax salesTax in salesTaxes.OrderByDescending(st => st.EffectiveDate))
+            {
+                DropDownItem<SalesTax> ddi = new DropDownItem<SalesTax>(salesTax, GetDropDownDisplayText(salesTax.Rate, salesTax.EffectiveDate));
+                if (salesTax.EffectiveDate > DateTime.Today)
+                {
+                    ddi.BackgroundColor = Color.Green;
+                    ddi.FontStyle = FontStyle.Bold;
+                }
+                dropDownItems.Add(ddi);
+            }
+
+            // Find current
+            if (dropDownItems.Count > 0) 
+            {
+                DropDownItem<SalesTax> current = dropDownItems.FirstOrDefault(ddi => ddi.Object.EffectiveDate <= DateTime.Today);
+                if (current != null)
+                {
+                    current.BackgroundColor = Color.Yellow;
+                    current.FontStyle = FontStyle.Italic;
+                }
+            }
+
+            return dropDownItems;
         }
 
         public static string GetDropDownDisplayText(decimal rate, DateTime effectiveDate)

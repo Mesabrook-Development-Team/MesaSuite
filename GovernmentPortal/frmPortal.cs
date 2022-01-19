@@ -145,5 +145,13 @@ namespace GovernmentPortal
         {
             new frmMintCurrency(_government.GovernmentID).ShowDialog();
         }
+
+        private void tsmiSalesTax_Click(object sender, EventArgs e)
+        {
+            new frmGenericExplorer<SalesTax>(new Taxes.SalesTaxContext(_government.GovernmentID))
+            {
+                MdiParent = this
+            }.Show();
+        }
     }
 }

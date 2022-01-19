@@ -97,6 +97,7 @@
     <Compile Include="Controllers\FiscalQuarterController.cs" />
     <Compile Include="Controllers\GovernmentController.cs" />
     <Compile Include="Controllers\OfficialController.cs" />
+    <Compile Include="Controllers\SalesTaxController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Global.asax.cs">

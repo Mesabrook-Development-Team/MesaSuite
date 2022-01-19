@@ -157,13 +157,13 @@ namespace GovernmentPortal
             this.tsmiTaxes.Name = "tsmiTaxes";
             this.tsmiTaxes.Size = new System.Drawing.Size(64, 22);
             this.tsmiTaxes.Text = "Taxes";
-            this.tsmiTaxes.Visible = false;
             // 
             // tsmiSalesTax
             // 
             this.tsmiSalesTax.Name = "tsmiSalesTax";
             this.tsmiSalesTax.Size = new System.Drawing.Size(180, 22);
             this.tsmiSalesTax.Text = "Sales Tax";
+            this.tsmiSalesTax.Click += new System.EventHandler(this.tsmiSalesTax_Click);
             // 
             // tsmiEmploymentTax
             // 

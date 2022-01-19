@@ -26,6 +26,7 @@ namespace API_Government.Controllers
             nameof(Official.ManageOfficials),
             nameof(Official.ManageEmails),
             nameof(Official.ManageAccounts),
+            nameof(Official.ManageTaxes),
             nameof(Official.OfficialName),
             nameof(Official.CanMintCurrency)
         };

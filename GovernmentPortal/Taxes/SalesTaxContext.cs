@@ -22,7 +22,7 @@ namespace GovernmentPortal.Taxes
 
         internal override IExplorerControl<SalesTax> GetControlForModel(SalesTax model)
         {
-            return new SalesTaxControl()
+            return new SalesTaxControl(_governmentID)
             {
                 Model = model
             };
@@ -34,7 +34,12 @@ namespace GovernmentPortal.Taxes
             get.AddGovHeader(_governmentID);
             List<SalesTax> salesTaxes = await get.GetObject<List<SalesTax>>();
 
-            return salesTaxes.Select(st => new DropDownItem<SalesTax>(st, $"{st.Rate}% effective on {st.EffectiveDate.ToString("MM/dd/yyyy")}")).ToList();
+            return salesTaxes.Select(st => new DropDownItem<SalesTax>(st, GetDropDownDisplayText(st.Rate, st.EffectiveDate))).ToList();
+        }
+
+        public static string GetDropDownDisplayText(decimal rate, DateTime effectiveDate)
+        {
+            return $"{rate}% effective on {effectiveDate.ToString("MM/dd/yyyy")}";
         }
     }
 }

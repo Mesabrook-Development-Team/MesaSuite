@@ -30,10 +30,12 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
-            this.txtPercent = new System.Windows.Forms.MaskedTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dtpEffectiveDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
+            this.loader = new GovernmentPortal.Loader();
+            this.txtPercent = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.SuspendLayout();
@@ -50,6 +52,7 @@
             // 
             // tabGeneral
             // 
+            this.tabGeneral.Controls.Add(this.label3);
             this.tabGeneral.Controls.Add(this.txtPercent);
             this.tabGeneral.Controls.Add(this.label2);
             this.tabGeneral.Controls.Add(this.dtpEffectiveDate);
@@ -61,17 +64,6 @@
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
-            // 
-            // txtPercent
-            // 
-            this.txtPercent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPercent.Location = new System.Drawing.Point(87, 32);
-            this.txtPercent.Mask = "990.00%";
-            this.txtPercent.Name = "txtPercent";
-            this.txtPercent.Size = new System.Drawing.Size(552, 20);
-            this.txtPercent.TabIndex = 4;
-            this.txtPercent.ValidatingType = typeof(System.DateTime);
             // 
             // label2
             // 
@@ -90,6 +82,7 @@
             this.dtpEffectiveDate.Name = "dtpEffectiveDate";
             this.dtpEffectiveDate.Size = new System.Drawing.Size(552, 20);
             this.dtpEffectiveDate.TabIndex = 2;
+            this.dtpEffectiveDate.ValueChanged += new System.EventHandler(this.FormValueChanged);
             // 
             // label1
             // 
@@ -100,11 +93,43 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Effective Date:";
             // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(1, -1);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(653, 399);
+            this.loader.TabIndex = 5;
+            this.loader.Visible = false;
+            // 
+            // txtPercent
+            // 
+            this.txtPercent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPercent.Location = new System.Drawing.Point(87, 32);
+            this.txtPercent.Name = "txtPercent";
+            this.txtPercent.Size = new System.Drawing.Size(531, 20);
+            this.txtPercent.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(624, 35);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(15, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "%";
+            // 
             // SalesTaxControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.loader);
             this.Name = "SalesTaxControl";
             this.Size = new System.Drawing.Size(653, 399);
             this.Load += new System.EventHandler(this.SalesTaxControl_Load);
@@ -119,9 +144,11 @@
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabGeneral;
-        private System.Windows.Forms.MaskedTextBox txtPercent;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DateTimePicker dtpEffectiveDate;
         private System.Windows.Forms.Label label1;
+        private Loader loader;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtPercent;
     }
 }

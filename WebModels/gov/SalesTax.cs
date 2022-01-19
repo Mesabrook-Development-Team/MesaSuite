@@ -15,6 +15,7 @@ namespace WebModels.gov
         public long? SalesTaxID
         {
             get { CheckGet(); return _salesTaxID; }
+            set { CheckSet(); _salesTaxID = value; }
         }
 
         private long? _governmentID;

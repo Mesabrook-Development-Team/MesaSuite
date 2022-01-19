@@ -5,7 +5,8 @@ using ClussPro.Base.Data.Query;
 namespace WebModels.Migrations
 {
     /// <summary>
-    /// Create the gov.SalesTax table
+    /// Create the gov.SalesTax table.
+    /// Add permission for ManageTaxes on Officials.
     /// </summary>
     internal class Migration000009 : IMigration
     {
@@ -29,6 +30,9 @@ namespace WebModels.Migrations
             alterTable.Schema = "gov";
             alterTable.Table = "SalesTax";
             alterTable.AddForeignKey("FKSalesTax_Government_GovernmentID", "GovernmentID", "gov", "Government", "GovernmentID", transaction);
+
+            alterTable.Table = "Official";
+            alterTable.AddColumn("ManageTaxes", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
         }
     }
 }

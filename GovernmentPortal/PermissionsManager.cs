@@ -120,6 +120,7 @@ namespace GovernmentPortal
             ManageEmails,
             ManageOfficials,
             ManageAccounts,
+            ManageTaxes,
             CanMintCurrency
         }
 

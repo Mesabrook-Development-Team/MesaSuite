@@ -24,7 +24,8 @@ namespace GovernmentPortal
                 { PermissionsManager.Permissions.ManageOfficials, toolOfficials },
                 { PermissionsManager.Permissions.ManageEmails, toolEmail },
                 { PermissionsManager.Permissions.ManageAccounts, toolAccounts },
-                { PermissionsManager.Permissions.CanMintCurrency, tsbMintCurrency }
+                { PermissionsManager.Permissions.CanMintCurrency, tsbMintCurrency },
+                { PermissionsManager.Permissions.ManageTaxes, tsmiTaxes }
             };
         }
 

@@ -157,6 +157,7 @@ namespace GovernmentPortal
             this.tsmiTaxes.Name = "tsmiTaxes";
             this.tsmiTaxes.Size = new System.Drawing.Size(64, 22);
             this.tsmiTaxes.Text = "Taxes";
+            this.tsmiTaxes.Visible = false;
             // 
             // tsmiSalesTax
             // 

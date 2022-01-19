@@ -43,6 +43,7 @@ namespace GovernmentPortal.Officials
             this.chkOfficials = new System.Windows.Forms.CheckBox();
             this.chkManageAccounts = new System.Windows.Forms.CheckBox();
             this.chkMintCurrency = new System.Windows.Forms.CheckBox();
+            this.chkManageTaxes = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // loader
@@ -130,10 +131,21 @@ namespace GovernmentPortal.Officials
             this.chkMintCurrency.Text = "Mint Currency";
             this.chkMintCurrency.UseVisualStyleBackColor = true;
             // 
+            // chkManageTaxes
+            // 
+            this.chkManageTaxes.AutoSize = true;
+            this.chkManageTaxes.Location = new System.Drawing.Point(6, 135);
+            this.chkManageTaxes.Name = "chkManageTaxes";
+            this.chkManageTaxes.Size = new System.Drawing.Size(97, 17);
+            this.chkManageTaxes.TabIndex = 5;
+            this.chkManageTaxes.Text = "Manage Taxes";
+            this.chkManageTaxes.UseVisualStyleBackColor = true;
+            // 
             // OfficialExplorerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chkManageTaxes);
             this.Controls.Add(this.chkMintCurrency);
             this.Controls.Add(this.chkManageAccounts);
             this.Controls.Add(this.chkOfficials);
@@ -160,5 +172,6 @@ namespace GovernmentPortal.Officials
         private System.Windows.Forms.CheckBox chkOfficials;
         private System.Windows.Forms.CheckBox chkManageAccounts;
         private System.Windows.Forms.CheckBox chkMintCurrency;
+        private System.Windows.Forms.CheckBox chkManageTaxes;
     }
 }

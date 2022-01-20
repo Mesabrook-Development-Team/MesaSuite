@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Windows.Forms;
@@ -213,6 +214,37 @@ namespace GovernmentPortal
                 LoadAllItems(true);
                 grpContent.Controls.Clear();
             }
+        }
+
+        private void lstItems_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            bool selected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+
+            if (e.Index >= 0 && e.Index < lstItems.Items.Count)
+            {
+                DropDownItem<TModel> item = (DropDownItem<TModel>)lstItems.Items[e.Index];
+                Graphics graphics = e.Graphics;
+
+                if (!selected && item.BackgroundColor != null)
+                {
+                    SolidBrush backgroundBrush = new SolidBrush(item.BackgroundColor.Value);
+                    graphics.FillRectangle(backgroundBrush, e.Bounds);
+                }
+                else
+                {
+                    e.DrawBackground();
+                }
+
+                Font font = item.FontStyle != null ? new Font(lstItems.Font, item.FontStyle.Value) : lstItems.Font;
+                SolidBrush textBrush = selected ?
+                                            new SolidBrush(Color.White) :
+                                            item.FontColor != null ?
+                                                new SolidBrush(item.FontColor.Value) :
+                                                new SolidBrush(lstItems.ForeColor);
+                graphics.DrawString(item.Text, font, textBrush, lstItems.GetItemRectangle(e.Index));
+            }
+            
+            e.DrawFocusRectangle();
         }
     }
 }

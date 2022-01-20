@@ -67,6 +67,13 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _officials; }
         }
+
+        private List<SalesTax> _salesTaxes = new List<SalesTax>();
+        [RelationshipList("100D8EB8-BA7C-414A-9B6D-35E501A6D3E9", "GovernmentID", AutoDeleteReferences = true)]
+        public IReadOnlyCollection<SalesTax> SalesTaxes
+        {
+            get { CheckGet(); return _salesTaxes; }
+        }
         #endregion
         #endregion
     }

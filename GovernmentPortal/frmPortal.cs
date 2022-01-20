@@ -24,7 +24,8 @@ namespace GovernmentPortal
                 { PermissionsManager.Permissions.ManageOfficials, toolOfficials },
                 { PermissionsManager.Permissions.ManageEmails, toolEmail },
                 { PermissionsManager.Permissions.ManageAccounts, toolAccounts },
-                { PermissionsManager.Permissions.CanMintCurrency, tsbMintCurrency }
+                { PermissionsManager.Permissions.CanMintCurrency, tsbMintCurrency },
+                { PermissionsManager.Permissions.ManageTaxes, tsmiTaxes }
             };
         }
 
@@ -144,6 +145,14 @@ namespace GovernmentPortal
         private void tsbMintCurrency_Click(object sender, EventArgs e)
         {
             new frmMintCurrency(_government.GovernmentID).ShowDialog();
+        }
+
+        private void tsmiSalesTax_Click(object sender, EventArgs e)
+        {
+            new frmGenericExplorer<SalesTax>(new Taxes.SalesTaxContext(_government.GovernmentID))
+            {
+                MdiParent = this
+            }.Show();
         }
     }
 }

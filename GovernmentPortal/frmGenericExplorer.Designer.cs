@@ -49,11 +49,13 @@ namespace GovernmentPortal
             // 
             // lstItems
             // 
+            this.lstItems.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.lstItems.FormattingEnabled = true;
             this.lstItems.Location = new System.Drawing.Point(12, 37);
             this.lstItems.Name = "lstItems";
             this.lstItems.Size = new System.Drawing.Size(190, 368);
             this.lstItems.TabIndex = 0;
+            this.lstItems.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstItems_DrawItem);
             this.lstItems.SelectedValueChanged += new System.EventHandler(this.listItems_SelectedIndexChanged);
             // 
             // label2
@@ -123,8 +125,8 @@ namespace GovernmentPortal
             this.Controls.Add(this.lstItems);
             this.Controls.Add(this.lblTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
             this.KeyPreview = true;
+            this.MaximizeBox = false;
             this.Name = "frmGenericExplorer";
             this.ShowInTaskbar = false;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmGenericExplorer_FormClosing);

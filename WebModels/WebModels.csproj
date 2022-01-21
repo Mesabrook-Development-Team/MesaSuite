@@ -51,6 +51,9 @@
     <Compile Include="auth\Token.cs" />
     <Compile Include="company\Company.cs" />
     <Compile Include="company\Employee.cs" />
+    <Compile Include="company\Location.cs" />
+    <Compile Include="company\LocationEmployee.cs" />
+    <Compile Include="company\LocationGovernment.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
     <Compile Include="gov\Government.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="Migrations\Migration000007.cs" />
     <Compile Include="Migrations\Migration000008.cs" />
     <Compile Include="Migrations\Migration000009.cs" />
+    <Compile Include="Migrations\Migration000010.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="security\Program.cs" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
@@ -98,6 +99,24 @@ namespace WebModels.account
 
         public bool Close(long destinationAccountID, ITransaction transaction)
         {
+            #region Move Accounts
+            Search<SalesTax> salesTaxSearch = new Search<SalesTax>(new LongSearchCondition<SalesTax>()
+            {
+                Field = "AccountID",
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = AccountID
+            });
+
+            foreach(SalesTax salesTax in salesTaxSearch.GetEditableReader(transaction))
+            {
+                salesTax.AccountID = destinationAccountID;
+                if (!salesTax.Save(transaction))
+                {
+                    Errors.AddRange(salesTax.Errors.ToArray());
+                    return false;
+                }
+            }
+            #endregion
             Account destinationAccount = DataObject.GetEditableByPrimaryKey<Account>(destinationAccountID, transaction, null);
 
             FiscalQuarter fiscalQuarter;
@@ -305,6 +324,14 @@ namespace WebModels.account
         public IReadOnlyCollection<FiscalQuarter> FiscalQuarters
         {
             get { CheckGet(); return _fiscalQuarters; }
+        }
+        #endregion
+        #region gov
+        private List<SalesTax> _salesTaxes = new List<SalesTax>();
+        [RelationshipList("9B7659DE-80B6-44E4-9380-1576A62897AF", "AccountID")]
+        public IReadOnlyCollection<SalesTax> SalesTaxes
+        {
+            get { CheckGet(); return _salesTaxes; }
         }
         #endregion
         #endregion

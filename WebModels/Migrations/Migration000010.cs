@@ -80,9 +80,10 @@ namespace WebModels.Migrations
                 { "LocationIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "InvoiceNumber", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 11) },
                 { "Description", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 300) },
+                { "InvoiceDate", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
                 { "DueDate", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
-                { "CreationType", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 2) },
-                { "Status", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 1) },
+                { "CreationType", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 18) },
+                { "Status", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 14) },
                 { "AccountIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "AccountFromHistorical", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 69) },
                 { "AccountIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
@@ -95,6 +96,8 @@ namespace WebModels.Migrations
             alterTable.AddForeignKey("FKInvoice_Government_GovernmentIDTo", "GovernmentIDTo", "gov", "Government", "GovernmentID", transaction);
             alterTable.AddForeignKey("FKInvoice_Location_LocationIDFrom", "LocationIDFrom", "company", "Location", "LocationID", transaction);
             alterTable.AddForeignKey("FKInvoice_Location_LocationIDTo", "LocationIDTo", "company", "Location", "LocationID", transaction);
+            alterTable.AddForeignKey("FKInvoice_Account_AccountIDFrom", "AccountIDFrom", "account", "Account", "AccountID", transaction);
+            alterTable.AddForeignKey("FKInvoice_Account_AccountIDTo", "AccountIDTo", "account", "Account", "AccountID", transaction);
 
             createTable.TableName = "InvoiceLine";
             createTable.Columns = new Dictionary<string, FieldSpecification>()

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using WebModels.invoicing;
 
 namespace WebModels.company
 {
@@ -74,6 +75,21 @@ namespace WebModels.company
         public IReadOnlyCollection<LocationGovernment> LocationGovernments
         {
             get { CheckGet(); return _locationGovernments; }
+        }
+        #endregion
+        #region invoicing
+        private List<Invoice> _invoicesFrom = new List<Invoice>();
+        [RelationshipList("6DD822E0-7449-4F56-AF7C-559C44E94EA0", "LocationIDFrom")]
+        public IReadOnlyCollection<Invoice> InvoicesFrom
+        {
+            get { CheckGet(); return _invoicesFrom; }
+        }
+
+        private List<Invoice> _invoicesTo = new List<Invoice>();
+        [RelationshipList("1C3F6214-C3E8-4882-9F10-10CF7BC7A8DE", "InvoiceIDTo")]
+        public IReadOnlyCollection<Invoice> InvoicesTo
+        {
+            get { CheckGet(); return _invoicesTo; }
         }
         #endregion
         #endregion

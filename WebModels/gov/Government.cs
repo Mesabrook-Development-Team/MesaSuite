@@ -3,7 +3,9 @@ using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System.Collections.Generic;
 using WebModels.account;
+using WebModels.company;
 using WebModels.hMailServer.dbo;
+using WebModels.invoicing;
 
 namespace WebModels.gov
 {
@@ -60,6 +62,14 @@ namespace WebModels.gov
             get { CheckGet(); return _categories; }
         }
         #endregion
+        #region company
+        private List<LocationGovernment> _locationGovernments = new List<LocationGovernment>();
+        [RelationshipList("A49440B9-B080-4AF5-A76E-6E9290F019D3", "GovernmentID")]
+        public IReadOnlyCollection<LocationGovernment> LocationGovernments
+        {
+            get { CheckGet(); return _locationGovernments; }
+        }
+        #endregion
         #region gov
         private List<Official> _officials = new List<Official>();
         [RelationshipList("5BB7CEE6-A449-4DA2-9C00-C5BD6957E460", "GovernmentID", AutoDeleteReferences = true)]
@@ -73,6 +83,21 @@ namespace WebModels.gov
         public IReadOnlyCollection<SalesTax> SalesTaxes
         {
             get { CheckGet(); return _salesTaxes; }
+        }
+        #endregion
+        #region invoicing
+        private List<Invoice> _invoicesFrom = new List<Invoice>();
+        [RelationshipList("951A3ECC-A13B-4369-A164-B5FA43609BED", "GovernmentIDFrom")]
+        public IReadOnlyCollection<Invoice> InvoicesFrom
+        {
+            get { CheckGet(); return _invoicesFrom;}
+        }
+
+        private List<Invoice> _invoicesTo = new List<Invoice>();
+        [RelationshipList("26113316-061E-44F7-9021-2B9F1C4B68B4", "GovernmentIDTo")]
+        public IReadOnlyCollection<Invoice> InvoicesTo
+        {
+            get { CheckGet(); return _invoicesTo; }
         }
         #endregion
         #endregion

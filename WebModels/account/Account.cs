@@ -9,6 +9,7 @@ using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
+using WebModels.invoicing;
 
 namespace WebModels.account
 {
@@ -332,6 +333,21 @@ namespace WebModels.account
         public IReadOnlyCollection<SalesTax> SalesTaxes
         {
             get { CheckGet(); return _salesTaxes; }
+        }
+        #endregion
+        #region invoicing
+        private List<Invoice> _invoicesFrom = new List<Invoice>();
+        [RelationshipList("78141444-B311-4C0D-8B80-BBD9E7412B37", "AccountIDFrom")]
+        public IReadOnlyCollection<Invoice> InvoicesFrom
+        {
+            get { CheckGet(); return _invoicesFrom; }
+        }
+
+        private List<Invoice> _invoicesTo = new List<Invoice>();
+        [RelationshipList("2EEE3F87-BFF4-4AE4-A1BE-7D07BB9817C1", "AccountIDTo")]
+        public IReadOnlyCollection<Invoice> InvoicesTo
+        {
+            get { CheckGet(); return _invoicesTo; }
         }
         #endregion
         #endregion

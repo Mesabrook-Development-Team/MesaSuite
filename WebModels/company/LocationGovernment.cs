@@ -47,12 +47,12 @@ namespace WebModels.company
             get { CheckGet(); return _government; }
         }
 
-        private bool _manageInvoices;
+        private bool _paySalesTax;
         [Field("1A264E06-DC32-4DD7-A88A-868D22F18C3E")]
-        public bool ManageInvoices
+        public bool PaySalesTax
         {
-            get { CheckGet(); return _manageInvoices; }
-            set { CheckSet(); _manageInvoices = value; }
+            get { CheckGet(); return _paySalesTax; }
+            set { CheckSet(); _paySalesTax = value; }
         }
     }
 }

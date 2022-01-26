@@ -99,7 +99,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                     if (fieldType == null)
                     {
                         Type propType = propertyInfo.PropertyType;
-                        if (propType == typeof(string))
+                        if (propType == typeof(string) || typeof(Enum).IsAssignableFrom(propType) || (Nullable.GetUnderlyingType(propType) != null && typeof(Enum).IsAssignableFrom(Nullable.GetUnderlyingType(propType))))
                         {
                             fieldType = FieldSpecification.FieldTypes.NVarChar;
                         }

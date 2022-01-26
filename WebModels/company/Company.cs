@@ -122,6 +122,14 @@ namespace WebModels.company
             get { CheckGet(); return _employees; }
         }
         #endregion
+        #region gov
+        private List<Location> _locations = new List<Location>();
+        [RelationshipList("FF16FF45-B566-4FA1-B2B4-616F9A58A1CE", "CompanyID")]
+        public IReadOnlyCollection<Location> Locations
+        {
+            get { CheckGet(); return _locations; }
+        }
+        #endregion
         #endregion
     }
 }

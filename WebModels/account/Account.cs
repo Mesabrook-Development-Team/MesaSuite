@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
+using WebModels.invoicing;
 
 namespace WebModels.account
 {
@@ -98,6 +100,57 @@ namespace WebModels.account
 
         public bool Close(long destinationAccountID, ITransaction transaction)
         {
+            #region Move Accounts
+            Search<SalesTax> salesTaxSearch = new Search<SalesTax>(new LongSearchCondition<SalesTax>()
+            {
+                Field = "AccountID",
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = AccountID
+            });
+
+            foreach(SalesTax salesTax in salesTaxSearch.GetEditableReader(transaction))
+            {
+                salesTax.AccountID = destinationAccountID;
+                if (!salesTax.Save(transaction))
+                {
+                    Errors.AddRange(salesTax.Errors.ToArray());
+                    return false;
+                }
+            }
+
+            Search<Invoice> invoiceSearch = new Search<Invoice>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                new LongSearchCondition<Invoice>()
+                {
+                    Field = "AccountIDFrom",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = AccountID
+                },
+                new LongSearchCondition<Invoice>()
+                {
+                    Field = "AccountIDTo",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = AccountID
+                }));
+
+            foreach(Invoice invoice in invoiceSearch.GetEditableReader(transaction))
+            {
+                if (invoice.AccountIDFrom == AccountID)
+                {
+                    invoice.AccountIDFrom = destinationAccountID;
+                }
+
+                if (invoice.AccountIDTo == AccountID)
+                {
+                    invoice.AccountIDTo = destinationAccountID;
+                }
+
+                if (!invoice.Save(transaction))
+                {
+                    Errors.AddRange(invoice.Errors.ToArray());
+                    return false;
+                }
+            }
+            #endregion
             Account destinationAccount = DataObject.GetEditableByPrimaryKey<Account>(destinationAccountID, transaction, null);
 
             FiscalQuarter fiscalQuarter;
@@ -305,6 +358,29 @@ namespace WebModels.account
         public IReadOnlyCollection<FiscalQuarter> FiscalQuarters
         {
             get { CheckGet(); return _fiscalQuarters; }
+        }
+        #endregion
+        #region gov
+        private List<SalesTax> _salesTaxes = new List<SalesTax>();
+        [RelationshipList("9B7659DE-80B6-44E4-9380-1576A62897AF", "AccountID")]
+        public IReadOnlyCollection<SalesTax> SalesTaxes
+        {
+            get { CheckGet(); return _salesTaxes; }
+        }
+        #endregion
+        #region invoicing
+        private List<Invoice> _invoicesFrom = new List<Invoice>();
+        [RelationshipList("78141444-B311-4C0D-8B80-BBD9E7412B37", "AccountIDFrom")]
+        public IReadOnlyCollection<Invoice> InvoicesFrom
+        {
+            get { CheckGet(); return _invoicesFrom; }
+        }
+
+        private List<Invoice> _invoicesTo = new List<Invoice>();
+        [RelationshipList("2EEE3F87-BFF4-4AE4-A1BE-7D07BB9817C1", "AccountIDTo")]
+        public IReadOnlyCollection<Invoice> InvoicesTo
+        {
+            get { CheckGet(); return _invoicesTo; }
         }
         #endregion
         #endregion

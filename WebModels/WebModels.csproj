@@ -70,6 +70,7 @@
     <Compile Include="invoicing\Invoice.cs" />
     <Compile Include="invoicing\InvoiceLine.cs" />
     <Compile Include="invoicing\InvoiceSalesTax.cs" />
+    <Compile Include="invoicing\Validations\InvoiceValidationDefinition.cs" />
     <Compile Include="Loaders\security\ProgramLoader.cs" />
     <Compile Include="mesasys\CrashReport.cs" />
     <Compile Include="mesasys\MigrationHistory.cs" />

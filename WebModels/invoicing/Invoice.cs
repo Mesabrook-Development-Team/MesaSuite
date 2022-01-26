@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.account;
 using WebModels.company;
 using WebModels.gov;
@@ -83,6 +84,7 @@ namespace WebModels.invoicing
 
         private string _invoiceNumber;
         [Field("30F4F4AC-8503-48D7-8377-BD847E174A49", DataSize = 11)]
+        [Required]
         public string InvoiceNumber
         {
             get { CheckGet(); return _invoiceNumber; }
@@ -91,6 +93,7 @@ namespace WebModels.invoicing
 
         private string _description;
         [Field("B6152DA9-0BDE-43B0-B428-49689E6BF21E", DataSize = 300)]
+        [Required]
         public string Description
         {
             get { CheckGet(); return _description; }
@@ -99,6 +102,7 @@ namespace WebModels.invoicing
 
         private DateTime? _invoiceDate;
         [Field("0B19B097-5619-4C48-8C8B-B04F27CDB4C0", DataSize = 7)]
+        [Required]
         public DateTime? InvoiceDate
         {
             get { CheckGet(); return _invoiceDate; }
@@ -122,6 +126,7 @@ namespace WebModels.invoicing
 
         public CreationTypes _creationType = CreationTypes.Blank;
         [Field("82E1EA52-12F0-4EA6-91A6-002FE51AF8EB", DataSize = 18)]
+        [Required]
         public CreationTypes CreationType
         {
             get { CheckGet(); return _creationType; }
@@ -137,6 +142,7 @@ namespace WebModels.invoicing
 
         public Statuses _status = Statuses.WorkInProgress;
         [Field("A889CD9D-34B1-42F8-B8C6-EF1D9C7AB834", DataSize = 14)]
+        [Required]
         public Statuses Status
         {
             get { CheckGet(); return _status; }

@@ -1,5 +1,6 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 
 namespace WebModels.invoicing
 {
@@ -18,6 +19,7 @@ namespace WebModels.invoicing
 
         private long? _invoiceID;
         [Field("92777FA0-C6BE-47AF-AFEE-F94E34035BC3")]
+        [Required]
         public long? InvoiceID
         {
             get { CheckGet(); return _invoiceID; }
@@ -33,6 +35,7 @@ namespace WebModels.invoicing
 
         private string _municipality;
         [Field("233EA475-1D1A-4C4E-9F47-A8463E7FBA06", DataSize = 50)]
+        [Required]
         public string Municipality
         {
             get { CheckGet(); return _municipality; }
@@ -41,6 +44,7 @@ namespace WebModels.invoicing
 
         private decimal? _rate;
         [Field("88E4AFE6-D78F-4F71-A409-00A4823865EF", DataSize = 5, DataScale = 2)]
+        [Required]
         public decimal? Rate
         {
             get { CheckGet(); return _rate; }
@@ -49,6 +53,7 @@ namespace WebModels.invoicing
 
         private decimal? _appliedAmount;
         [Field("DB3019E0-D714-4B97-95A1-8D9BA0C71264", DataSize = 9, DataScale = 2)]
+        [Required]
         public decimal? AppliedAmount
         {
             get { CheckGet(); return _appliedAmount; }

@@ -1,9 +1,11 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 
 namespace WebModels.company
 {
     [Table("497C8DED-10B5-4F24-BE72-5AECA70B2382")]
+    [Unique(new [] { nameof(EmployeeID), nameof(LocationID) })]
     public class LocationEmployee : DataObject
     {
         protected LocationEmployee() : base() { }
@@ -18,6 +20,7 @@ namespace WebModels.company
 
         private long? _locationID;
         [Field("9954534E-F835-4685-9189-68390763FAB0")]
+        [Required]
         public long? LocationID
         {
             get { CheckGet(); return _locationID; }
@@ -33,6 +36,7 @@ namespace WebModels.company
 
         private long? _employeeID;
         [Field("EC60F9E4-C295-4907-BCFD-66DC6C7F95E4")]
+        [Required]
         public long? EmployeeID
         {
             get { CheckGet(); return _employeeID; }

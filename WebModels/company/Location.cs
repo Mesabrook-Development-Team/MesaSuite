@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.invoicing;
 
 namespace WebModels.company
 {
     [Table("A3A28E39-0FA0-423C-B6D4-43F2802ED19D")]
+    [Unique(new [] { nameof(CompanyID), nameof(Name) })]
     public class Location : DataObject
     {
         protected Location() : base() { }
@@ -39,6 +37,7 @@ namespace WebModels.company
 
         private string _name;
         [Field("1FB1B286-C72B-462A-ABD4-E149EF13BCC4", DataSize = 50)]
+        [Required]
         public string Name
         {
             get { CheckGet(); return _name; }

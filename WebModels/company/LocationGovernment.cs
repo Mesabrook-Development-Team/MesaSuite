@@ -1,10 +1,12 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.gov;
 
 namespace WebModels.company
 {
     [Table("00562464-0E3B-4AD2-87B0-3B92684210B8")]
+    [Unique(new[] { nameof(LocationID), nameof(GovernmentID) })]
     public class LocationGovernment : DataObject
     {
         protected LocationGovernment() : base() { }
@@ -19,6 +21,7 @@ namespace WebModels.company
 
         private long? _locationID;
         [Field("B78818C0-492B-4AEB-BD9C-D09A4E91A656")]
+        [Required]
         public long? LocationID
         {
             get { CheckGet(); return _locationID; }
@@ -34,6 +37,7 @@ namespace WebModels.company
 
         private long? _governmentID;
         [Field("FA841068-BBBE-4F67-A722-ECB77DF26780")]
+        [Required]
         public long? GovernmentID
         {
             get { CheckGet(); return _governmentID; }

@@ -158,7 +158,7 @@ namespace WebModels.invoicing
         }
 
         private Account _accountFrom = null;
-        [Relationship("FF407B7F-7143-4CD2-8B2E-89163D98A0AA")]
+        [Relationship("FF407B7F-7143-4CD2-8B2E-89163D98A0AA", ForeignKeyField = nameof(AccountIDFrom))]
         public Account AccountFrom
         {
             get { CheckGet(); return _accountFrom; }
@@ -181,7 +181,7 @@ namespace WebModels.invoicing
         }
 
         private Account _accountTo = null;
-        [Relationship("D598522C-227E-4414-A775-6D78F3B7D38E")]
+        [Relationship("D598522C-227E-4414-A775-6D78F3B7D38E", ForeignKeyField = nameof(AccountIDTo))]
         public Account AccountTo
         {
             get { CheckGet(); return _accountTo; }

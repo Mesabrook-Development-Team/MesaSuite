@@ -85,7 +85,7 @@ namespace WebModels.company
         }
 
         private List<Invoice> _invoicesTo = new List<Invoice>();
-        [RelationshipList("1C3F6214-C3E8-4882-9F10-10CF7BC7A8DE", "InvoiceIDTo")]
+        [RelationshipList("1C3F6214-C3E8-4882-9F10-10CF7BC7A8DE", "LocationIDTo")]
         public IReadOnlyCollection<Invoice> InvoicesTo
         {
             get { CheckGet(); return _invoicesTo; }

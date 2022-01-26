@@ -117,6 +117,39 @@ namespace WebModels.account
                     return false;
                 }
             }
+
+            Search<Invoice> invoiceSearch = new Search<Invoice>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                new LongSearchCondition<Invoice>()
+                {
+                    Field = "AccountIDFrom",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = AccountID
+                },
+                new LongSearchCondition<Invoice>()
+                {
+                    Field = "AccountIDTo",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = AccountID
+                }));
+
+            foreach(Invoice invoice in invoiceSearch.GetEditableReader(transaction))
+            {
+                if (invoice.AccountIDFrom == AccountID)
+                {
+                    invoice.AccountIDFrom = destinationAccountID;
+                }
+
+                if (invoice.AccountIDTo == AccountID)
+                {
+                    invoice.AccountIDTo = destinationAccountID;
+                }
+
+                if (!invoice.Save(transaction))
+                {
+                    Errors.AddRange(invoice.Errors.ToArray());
+                    return false;
+                }
+            }
             #endregion
             Account destinationAccount = DataObject.GetEditableByPrimaryKey<Account>(destinationAccountID, transaction, null);
 

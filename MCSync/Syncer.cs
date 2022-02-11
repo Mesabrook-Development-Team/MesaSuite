@@ -54,7 +54,8 @@ namespace MCSync
                 Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
 
                 if (!configValues.ContainsKey("modsDirectory") || !configValues.ContainsKey("resourcePackDirectory") || !configValues.ContainsKey("configFilesDirectory") || !configValues.ContainsKey("mode") ||
-                    string.IsNullOrEmpty(configValues.GetOrDefault("modsDirectory", string.Empty).Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("resourcePackDirectory", "").Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("configFilesDirectory", "").Cast<string>()) || !Enum.TryParse(configValues["mode"].Cast<string>(), true, out SyncMode configSyncMode))
+                    string.IsNullOrEmpty(configValues.GetOrDefault("modsDirectory", string.Empty).Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("resourcePackDirectory", "").Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("configFilesDirectory", "").Cast<string>()) || !Enum.TryParse(configValues["mode"].Cast<string>(), true, out SyncMode configSyncMode) ||
+                    (configSyncMode == SyncMode.Client && (!configValues.ContainsKey("oResourcesDirectory") || string.IsNullOrEmpty(configValues["oResourcesDirectory"].Cast<string>()))))
                 {
                     Task.Errors.Add("Configuration file not setup");
                     SyncComplete?.Invoke(this, new EventArgs());
@@ -64,6 +65,7 @@ namespace MCSync
                 string modsDirectory = configValues["modsDirectory"].Cast<string>();
                 string resourcePackDirectory = configValues["resourcePackDirectory"].Cast<string>();
                 string configFilesDirectory = configValues["configFilesDirectory"].Cast<string>();
+                string oResourcesDirectory = configValues["oResourcesDirectory"].Cast<string>();
 
                 string[] clientSideWhiteListMods = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("mods_whitelist")?.Cast<string[]>() ?? new string[0];
                 string[] clientSideWhiteListResourcePacks = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("resourcepacks_whitelist")?.Cast<string[]>() ?? new string[0];
@@ -159,6 +161,34 @@ namespace MCSync
                     }
                 }
 
+                // OResources Files
+                IEnumerable<MCSyncFile> oResourcesSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.oresources && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                foreach (string file in Directory.EnumerateFiles(oResourcesDirectory, "*", SearchOption.AllDirectories))
+                {
+                    string strippedFile = StripDirectory(file, MCSyncFile.FileTypes.oresources);
+                    byte[] fileHash = CalculateHash(file);
+                    MCSyncFile syncFile = oResourcesSyncFiles.FirstOrDefault(f => f.Filename == strippedFile);
+                    if (syncFile == null)
+                    {
+                        // Extrinsic, delete
+                        Task deleteTask = new Task($"Delete oresource file {strippedFile}", () =>
+                        {
+                            File.Delete(file);
+                            return true;
+                        });
+                        tasks.Add(deleteTask);
+                        TaskAdded?.Invoke(this, deleteTask);
+                    }
+                    else if (!syncFile.Checksum.SequenceEqual(fileHash))
+                    {
+                        Task updateTask = new Task($"Update oresource file {strippedFile}", () => DownloadFile(syncFile.FileType, oResourcesDirectory, strippedFile, syncFile.DownloadType));
+                        tasks.Add(updateTask);
+                        TaskAdded?.Invoke(this, updateTask);
+                    }
+
+                    handledFiles.Add(strippedFile);
+                }
+
                 // Missing Files
                 IEnumerable<MCSyncFile> missingFiles = syncFiles.Where(f => IsDownloadTypeValid(configSyncMode, f.DownloadType) && !handledFiles.Contains(f.Filename));
                 foreach (MCSyncFile missingFile in missingFiles)
@@ -180,6 +210,9 @@ namespace MCSync
                             break;
                         case MCSyncFile.FileTypes.config:
                             directory = configFilesDirectory;
+                            break;
+                        case MCSyncFile.FileTypes.oresources:
+                            directory = oResourcesDirectory;
                             break;
                     }
 

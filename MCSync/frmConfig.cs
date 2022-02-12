@@ -62,6 +62,7 @@ namespace MCSync
             configValues["modsDirectory"] = txtModsDirectory.Text;
             configValues["resourcePackDirectory"] = txtResourcePacksDirectory.Text;
             configValues["configFilesDirectory"] = txtConfigDirectory.Text;
+            configValues["oResourcesDirectory"] = txtOResourcesDirectory.Text;
 
             if (rbClient.Checked)
             {
@@ -84,6 +85,7 @@ namespace MCSync
             txtModsDirectory.Text = configValues.GetOrSetDefault("modsDirectory", string.Empty).Cast<string>();
             txtResourcePacksDirectory.Text = configValues.GetOrSetDefault("resourcePackDirectory", "").Cast<string>();
             txtConfigDirectory.Text = configValues.GetOrSetDefault("configFilesDirectory", "").Cast<string>();
+            txtOResourcesDirectory.Text = configValues.GetOrSetDefault("oResourcesDirectory", "").Cast<string>();
             Enum.TryParse(configValues.GetOrSetDefault("mode", SyncMode.Client.ToString()).Cast<string>(), true, out SyncMode syncMode);
 
             rbClient.Checked = syncMode == SyncMode.Client;
@@ -120,6 +122,20 @@ namespace MCSync
             whitelist.WhitelistName = "resourcepacks_whitelist";
             whitelist.lblIntro.Text = "Edit your Resource Packs whitelist.";
             whitelist.ShowDialog();
+        }
+
+        private void cmdBrowseOResources_Click(object sender, EventArgs e)
+        {
+            BetterFolderBrowser browser = new BetterFolderBrowser();
+            browser.Title = "Select OResources folder";
+            browser.Multiselect = false;
+            browser.RootFolder = txtOResourcesDirectory.Text;
+            if (browser.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            txtOResourcesDirectory.Text = browser.SelectedPath;
         }
     }
 }

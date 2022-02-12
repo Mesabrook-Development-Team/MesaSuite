@@ -66,6 +66,9 @@
     <Compile Include="ServiceTasks\AuditAccountBalances.cs" />
     <Compile Include="ServiceTasks\AuditFiscalQuarters.cs" />
     <Compile Include="ServiceTasks\IServiceTask.cs" />
+	<Content Include="..\SqlServerProvider\bin\Debug\MSSqlServerProvider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

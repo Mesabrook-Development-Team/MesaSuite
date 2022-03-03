@@ -18,7 +18,8 @@ namespace MCSync
         {
             mods,
             resourcepacks,
-            config
+            config,
+            oresources
         }
 
         public enum DownloadTypes

@@ -263,12 +263,20 @@ namespace ClussPro.ObjectBasedFramework.Schema
             for (int i = 0; i < parts.Length - 1; i++)
             {
                 Relationship relationship = lastSchemaObject.PrivateGetRelationship(parts[i]);
-                if (relationship == null)
+                if (relationship != null)
                 {
-                    throw new KeyNotFoundException($"Could not find relationship {parts[i]} on Data Object {lastSchemaObject.SchemaName}.{lastSchemaObject.ObjectName}");
+                    lastSchemaObject = Schema.GetSchemaObject(relationship.RelatedObjectType);
+                    continue;
                 }
 
-                lastSchemaObject = Schema.GetSchemaObject(relationship.RelatedObjectType);
+                RelationshipList relationshipList = lastSchemaObject.PrivateGetRelationshipList(parts[i]);
+                if (relationshipList != null)
+                {
+                    lastSchemaObject = Schema.GetSchemaObject(relationshipList.RelatedObjectType);
+                    continue;
+                }
+
+                throw new KeyNotFoundException($"Could not find relationship {parts[i]} on Data Object {lastSchemaObject.SchemaName}.{lastSchemaObject.ObjectName}");
             }
 
             return lastSchemaObject;

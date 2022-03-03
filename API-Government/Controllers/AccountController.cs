@@ -21,7 +21,7 @@ namespace API_Government.Controllers
     [GovernmentAccess(RequiredPermissions = new[] { nameof(Official.ManageAccounts) })]
     public class AccountController : DataObjectController<Account>
     {
-        public override IEnumerable<string> AllowedFields => new[]
+        public override IEnumerable<string> DefaultRetrievedFields => new[]
         {
             nameof(Account.AccountID),
             nameof(Account.GovernmentID),
@@ -112,7 +112,7 @@ namespace API_Government.Controllers
                 },
                 GetBaseSearchCondition()));
 
-            return accountSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+            return accountSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
 
         [HttpGet]
@@ -133,7 +133,7 @@ namespace API_Government.Controllers
                     }
                 },
                 GetBaseSearchCondition()));
-            return accountSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+            return accountSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
 
         [HttpGet]

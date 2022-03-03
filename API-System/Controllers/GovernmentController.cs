@@ -11,7 +11,7 @@ namespace API_System.Controllers
     {
         public override bool AllowGetAll => true;
 
-        public override IEnumerable<string> AllowedFields => new List<string>()
+        public override IEnumerable<string> DefaultRetrievedFields => new List<string>()
         {
             nameof(Government.GovernmentID),
             nameof(Government.Name),

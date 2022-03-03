@@ -2,6 +2,7 @@
 using ClussPro.ObjectBasedFramework.Schema;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using WebModels.dbo;
 
@@ -11,22 +12,22 @@ namespace API_MCSync.Controllers
     {
         public override bool AllowGetAll => true;
 
-        public override IEnumerable<string> AllowedFields => Schema.GetSchemaObject<MCSyncFile>().GetFields().Select(f => f.FieldName);
+        public override IEnumerable<string> DefaultRetrievedFields => Schema.GetSchemaObject<MCSyncFile>().GetFields().Select(f => f.FieldName);
 
         [NonAction]
-        public override MCSyncFile Get(long id)
+        public async override Task<MCSyncFile> Get(long id)
         {
             return null;
         }
 
         [NonAction]
-        public override IHttpActionResult Post(MCSyncFile dataObject)
+        public async override Task<IHttpActionResult> Post(MCSyncFile dataObject)
         {
             return null;
         }
 
         [NonAction]
-        public override IHttpActionResult Put(MCSyncFile dataObject)
+        public async override Task<IHttpActionResult> Put(MCSyncFile dataObject)
         {
             return null;
         }

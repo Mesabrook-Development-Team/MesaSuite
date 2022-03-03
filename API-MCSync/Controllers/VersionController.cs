@@ -4,6 +4,7 @@ using ClussPro.ObjectBasedFramework.Schema;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using WebModels.dbo;
 
@@ -13,7 +14,7 @@ namespace API_MCSync.Controllers
     {
         public override bool AllowGetAll => true;
 
-        public override IEnumerable<string> AllowedFields => Schema.GetSchemaObject<MCSyncVersion>().GetFields().Select(f => f.FieldName);
+        public override IEnumerable<string> DefaultRetrievedFields => Schema.GetSchemaObject<MCSyncVersion>().GetFields().Select(f => f.FieldName);
 
         [HttpGet]
         public string GetLatest()
@@ -42,25 +43,25 @@ namespace API_MCSync.Controllers
         }
 
         [NonAction]
-        public override MCSyncVersion Get(long id)
+        public async override Task<MCSyncVersion> Get(long id)
         {
             return null;
         }
 
         [HttpGet]
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
-            return GetAll();
+            return await GetAll();
         }
 
         [NonAction]
-        public override IHttpActionResult Post(MCSyncVersion dataObject)
+        public async override Task<IHttpActionResult> Post(MCSyncVersion dataObject)
         {
             return null;
         }
 
         [NonAction]
-        public override IHttpActionResult Put(MCSyncVersion dataObject)
+        public async override Task<IHttpActionResult> Put(MCSyncVersion dataObject)
         {
             return null;
         }

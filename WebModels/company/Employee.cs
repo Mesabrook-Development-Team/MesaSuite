@@ -121,6 +121,7 @@ namespace WebModels.company
             yield return nameof(ManageEmails);
             yield return nameof(ManageEmployees);
             yield return nameof(ManageAccounts);
+            yield return nameof(ManageLocations);
         }
 
         #region Relationships

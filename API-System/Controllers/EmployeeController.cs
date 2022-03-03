@@ -14,7 +14,7 @@ namespace API_System.Controllers
     [ProgramAccess("system")]
     public class EmployeeController : DataObjectController<Employee>
     {
-        public override IEnumerable<string> AllowedFields => new List<string>()
+        public override IEnumerable<string> DefaultRetrievedFields => new List<string>()
         {
             nameof(Employee.EmployeeID),
             nameof(Employee.CompanyID),
@@ -38,7 +38,7 @@ namespace API_System.Controllers
                     Value = true
                 }));
 
-            return employeeSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+            return employeeSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
 
         [HttpPut]
@@ -93,7 +93,7 @@ namespace API_System.Controllers
                 return dbEmployee.HandleFailedValidation(this);
             }
 
-            return Ok(DataObject.GetReadOnlyByPrimaryKey<Employee>(dbEmployee.EmployeeID, null, AllowedFields));
+            return Ok(DataObject.GetReadOnlyByPrimaryKey<Employee>(dbEmployee.EmployeeID, null, DefaultRetrievedFields));
         }
     }
 }

@@ -91,6 +91,36 @@
     <Compile Include="BaseCompanyStudioContent.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CompanyForms\frmLocation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompanyForms\frmLocation.Designer.cs">
+      <DependentUpon>frmLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyForms\frmLocationChildManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompanyForms\frmLocationChildManager.Designer.cs">
+      <DependentUpon>frmLocationChildManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyForms\frmLocationExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompanyForms\frmLocationExplorer.Designer.cs">
+      <DependentUpon>frmLocationExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyForms\LocationEmployees.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CompanyForms\LocationEmployees.Designer.cs">
+      <DependentUpon>LocationEmployees.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyForms\LocationGovernments.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CompanyForms\LocationGovernments.Designer.cs">
+      <DependentUpon>LocationGovernments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Email\frmAddRecipient.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +157,7 @@
     <Compile Include="Employees\frmEmployeeExplorer.Designer.cs">
       <DependentUpon>frmEmployeeExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\DataAccessExt.cs" />
     <Compile Include="Extensions\ICompanyStudioContentExt.cs" />
     <Compile Include="frmCompanyConnect.cs">
       <SubType>Form</SubType>
@@ -162,6 +193,10 @@
     <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\FiscalQuarter.cs" />
+    <Compile Include="Models\Government.cs" />
+    <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\LocationEmployee.cs" />
+    <Compile Include="Models\LocationGovernment.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="PermissionsManager.cs" />
@@ -192,6 +227,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Accounts\frmTransferFunds.resx">
       <DependentUpon>frmTransferFunds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseCompanyStudioContent.resx">
+      <DependentUpon>BaseCompanyStudioContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompanyForms\frmLocation.resx">
+      <DependentUpon>frmLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompanyForms\frmLocationChildManager.resx">
+      <DependentUpon>frmLocationChildManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompanyForms\frmLocationExplorer.resx">
+      <DependentUpon>frmLocationExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompanyForms\LocationEmployees.resx">
+      <DependentUpon>LocationEmployees.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompanyForms\LocationGovernments.resx">
+      <DependentUpon>LocationGovernments.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Email\frmAddRecipient.resx">
       <DependentUpon>frmAddRecipient.cs</DependentUpon>

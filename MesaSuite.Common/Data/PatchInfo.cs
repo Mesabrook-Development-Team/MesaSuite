@@ -7,5 +7,6 @@ namespace MesaSuite.Common.Data
         public long? PrimaryKey { get; set; }
         public string Method { get; set; }
         public Dictionary<string, object> Values { get; set; }
+        public List<string> RequestFields { get; set; }
     }
 }

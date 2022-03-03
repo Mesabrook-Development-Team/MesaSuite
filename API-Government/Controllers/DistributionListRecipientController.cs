@@ -15,7 +15,7 @@ namespace API_Government.Controllers
     [GovernmentAccess(RequiredPermissions = new string[] { nameof(Official.ManageEmails) })]
     public class DistributionListRecipientController : DataObjectController<DistributionListRecipient>
     {
-        public override IEnumerable<string> AllowedFields => new List<string>()
+        public override IEnumerable<string> DefaultRetrievedFields => new List<string>()
         {
             nameof(DistributionListRecipient.DistributionListRecipientID),
             nameof(DistributionListRecipient.DistributionListRecipientListID),
@@ -32,7 +32,7 @@ namespace API_Government.Controllers
                 Value = id
             });
 
-            return recipientSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+            return recipientSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
     }
 }

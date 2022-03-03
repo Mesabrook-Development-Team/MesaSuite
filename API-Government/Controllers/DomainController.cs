@@ -16,7 +16,7 @@ namespace API_Government.Controllers
     [GovernmentAccess(RequiredPermissions = new string[] { nameof(Official.ManageEmails) })]
     public class DomainController : DataObjectController<Domain>
     {
-        public override IEnumerable<string> AllowedFields => new string[]
+        public override IEnumerable<string> DefaultRetrievedFields => new string[]
         {
             nameof(Domain.DomainID),
             nameof(Domain.DomainName)
@@ -39,7 +39,7 @@ namespace API_Government.Controllers
                 Value = government.EmailDomain
             });
 
-            return domainSearch.GetReadOnly(null, AllowedFields);
+            return domainSearch.GetReadOnly(null, DefaultRetrievedFields);
         }
     }
 }

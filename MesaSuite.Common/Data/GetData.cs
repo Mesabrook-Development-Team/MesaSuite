@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,25 @@ namespace MesaSuite.Common.Data
                     uriBuilder.Append(queryString.Key);
                     uriBuilder.Append("=");
                     uriBuilder.Append(Uri.EscapeDataString(queryStringValue));
+                }
+            }
+
+            if (RequestFields != null)
+            {
+                foreach (string field in RequestFields)
+                {
+                    if (first)
+                    {
+                        uriBuilder.Append("?");
+                        first = false;
+                    }
+                    else
+                    {
+                        uriBuilder.Append("&");
+                    }
+
+                    uriBuilder.Append("requestField=");
+                    uriBuilder.Append(Uri.EscapeDataString(field));
                 }
             }
 

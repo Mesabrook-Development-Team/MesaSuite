@@ -18,7 +18,7 @@ namespace API_Government.Controllers
     
     public class OfficialController : DataObjectController<Official>
     {
-        public override IEnumerable<string> AllowedFields => new string[]
+        public override IEnumerable<string> DefaultRetrievedFields => new string[]
         {
             nameof(Official.OfficialID),
             nameof(Official.GovernmentID),
@@ -43,7 +43,7 @@ namespace API_Government.Controllers
                 Value = govID
             });
 
-            return officialSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+            return officialSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
 
         [HttpGet]
@@ -84,7 +84,7 @@ namespace API_Government.Controllers
                     Value = securityProfile.UserID
                 }));
 
-            return officialSeach.GetReadOnly(null, AllowedFields);
+            return officialSeach.GetReadOnly(null, DefaultRetrievedFields);
         }
     }
 }

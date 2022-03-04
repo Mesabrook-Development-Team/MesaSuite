@@ -8,7 +8,7 @@ namespace API_Government.Controllers
 {
     public class SalesTaxController : DataObjectController<SalesTax>
     {
-        public override IEnumerable<string> AllowedFields => new[]
+        public override IEnumerable<string> DefaultRetrievedFields => new[]
         {
             nameof(SalesTax.SalesTaxID),
             nameof(SalesTax.GovernmentID),

@@ -18,7 +18,6 @@ namespace CompanyStudio.Accounts
         public frmAccount()
         {
             InitializeComponent();
-            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
         }
 
         public async void Save()
@@ -79,9 +78,9 @@ namespace CompanyStudio.Accounts
             }
         }
 
-        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
         {
-            if (e.CompanyID == Company.CompanyID && e.Permission == PermissionsManager.Permissions.ManageAccounts && !e.Value)
+            if (e.CompanyID == Company.CompanyID && e.Permission == PermissionsManager.CompanyWidePermissions.ManageAccounts && !e.Value)
             {
                 IsDirty = false;
                 Close();
@@ -90,6 +89,7 @@ namespace CompanyStudio.Accounts
 
         private void frmAccount_Load(object sender, EventArgs e)
         {
+            PermissionsManager.OnCompanyPermissionChange += PermissionsManager_OnPermissionChange;
             PopulateForm();
         }
 
@@ -159,7 +159,7 @@ namespace CompanyStudio.Accounts
 
         private void frmAccount_FormClosed(object sender, FormClosedEventArgs e)
         {
-            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnPermissionChange;
         }
 
         private void cmdClose_Click(object sender, EventArgs e)

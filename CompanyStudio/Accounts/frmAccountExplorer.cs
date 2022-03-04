@@ -72,7 +72,7 @@ namespace CompanyStudio.Accounts
         private void frmAccountExplorer_Load(object sender, EventArgs e)
         {
             Text += " - " + Company.Name;
-            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange += PermissionsManager_OnPermissionChange;
             Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrDefault("company", new Dictionary<string, object>());
             if (configValues.ContainsKey("accountExplorerLastViewOptions"))
             {
@@ -115,9 +115,9 @@ namespace CompanyStudio.Accounts
             toolStripExtender.SetStyle(toolStrip1, WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender.VsVersion.Vs2015, Theme);
         }
 
-        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
         {
-            if (e.CompanyID != Company.CompanyID || e.Permission != PermissionsManager.Permissions.ManageAccounts)
+            if (e.CompanyID != Company.CompanyID || e.Permission != PermissionsManager.CompanyWidePermissions.ManageAccounts)
             {
                 return;
             }
@@ -501,7 +501,7 @@ namespace CompanyStudio.Accounts
 
         private void frmAccountExplorer_FormClosing(object sender, FormClosingEventArgs e)
         {
-            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnPermissionChange;
         }
     }
 }

@@ -21,6 +21,7 @@ namespace MesaSuite.Common.Data
         public bool RequestSuccessful { get; protected set; }
         public bool RequireAuthentication { internal get; set; } = true;
         public Dictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
+        public List<string> RequestFields { get; set; } = new List<string>();
 
         public DataAccess(APIs api, string resource)
         {

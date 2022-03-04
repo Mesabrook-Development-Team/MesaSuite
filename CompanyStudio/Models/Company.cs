@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace CompanyStudio.Models
 {
@@ -11,5 +7,6 @@ namespace CompanyStudio.Models
         public long CompanyID { get; set; }
         public string Name { get; set; }
         public string EmailDomain { get; set; }
+        public List<Location> Locations { get; set; }
     }
 }

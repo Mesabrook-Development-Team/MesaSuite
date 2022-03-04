@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -46,11 +48,15 @@ namespace MesaSuite.Common.Data
             }
             request.ContentType = "application/json";
 
-            string json = JsonConvert.SerializeObject(ObjectToPost);
+            JObject jObject = JObject.FromObject(ObjectToPost);
+            if (RequestFields != null && RequestFields.Any())
+            {
+                jObject.Add(new JProperty("requestfields", RequestFields));
+            }
 
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
             {
-                await writer.WriteAsync(json);
+                await writer.WriteAsync(jObject.ToString());
             }
 
             try

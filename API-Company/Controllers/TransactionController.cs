@@ -17,7 +17,7 @@ namespace API_Company.Controllers
     [CompanyAccess(RequiredPermissions = new string[] { nameof(Employee.ManageAccounts) })]
     public class TransactionController : DataObjectController<Transaction>
     {
-        public override IEnumerable<string> AllowedFields => new string[]
+        public override IEnumerable<string> DefaultRetrievedFields => new string[]
         {
             nameof(Transaction.TransactionID),
             nameof(Transaction.FiscalQuarterID),
@@ -63,7 +63,7 @@ namespace API_Company.Controllers
             transactionSearch.Skip = skip;
             transactionSearch.Take = take;
 
-            List<Transaction> transactions = transactionSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+            List<Transaction> transactions = transactionSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
 
             return new
             {

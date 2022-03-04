@@ -1,4 +1,7 @@
 ﻿using CompanyStudio.Models;
+using MesaSuite.Common.Data;
+using MesaSuite.Common.Extensions;
+using MesaSuite.Common.Utility;
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System;
@@ -34,12 +37,39 @@ namespace CompanyStudio
             set
             {
                 _activeCompany = value;
-                toolCompanyDropDown.SelectedItem = _activeCompany?.Name;
-                emailToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.Permissions.ManageEmails);
-                employeesToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.Permissions.ManageEmployees);
-                accountsToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.Permissions.ManageAccounts);
+                toolCompanyDropDown.Text = _activeCompany?.Name ?? "";
+                emailToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageEmails);
+                employeesToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageEmployees);
+                accountsToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts);
+                mnuLocationExplorer.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageLocations);
+
+                toolLocationDropDown.SelectedItem = null;
+                toolLocationDropDown.Items.Clear();
+
+                if (_activeCompany != null)
+                {
+                    foreach (Location location in _activeCompany.Locations)
+                    {
+                        toolLocationDropDown.Items.Add(new DropDownItem<Location>(location, location.Name));
+                    }
+
+                    toolLocationDropDown.SelectedItem = toolLocationDropDown.Items.Cast<DropDownItem<Location>>().FirstOrDefault();
+                }
             }
         }
+
+        private Location _activeLocation = null;
+        public Location ActiveLocation
+        {
+            get => _activeLocation;
+            set
+            {
+                _activeLocation = value;
+                toolLocationDropDown.SelectedItem = toolLocationDropDown.Items.Cast<DropDownItem<Location>>().FirstOrDefault(ddi => ddi.Object == _activeLocation);
+                invoicingToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices);
+            }
+        }
+
         private List<Company> _companies = new List<Company>();
         public IReadOnlyCollection<Company> Companies => new List<Company>(_companies);
 
@@ -72,24 +102,41 @@ namespace CompanyStudio
             frmCompanyExplorer companyExplorer = GetForm<frmCompanyExplorer>();
             companyExplorer.Show(dockPanel, DockState.DockLeft);
 
-            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange += PermissionsManager_OnCompanyPermissionChange;
+            PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
             PermissionsManager.StartCheckThread((method) => Invoke(method));
         }
 
-        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        private void PermissionsManager_OnCompanyPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
         {
             if (e.CompanyID == (ActiveCompany?.CompanyID ?? -1))
             {
                 switch(e.Permission)
                 {
-                    case PermissionsManager.Permissions.ManageEmails:
+                    case PermissionsManager.CompanyWidePermissions.ManageEmails:
                         emailToolStripMenuItem.Visible = e.Value;
                         break;
-                    case PermissionsManager.Permissions.ManageEmployees:
+                    case PermissionsManager.CompanyWidePermissions.ManageEmployees:
                         employeesToolStripMenuItem.Visible = e.Value;
                         break;
-                    case PermissionsManager.Permissions.ManageAccounts:
+                    case PermissionsManager.CompanyWidePermissions.ManageAccounts:
                         accountsToolStripMenuItem.Visible = e.Value;
+                        break;
+                    case PermissionsManager.CompanyWidePermissions.ManageLocations:
+                        mnuLocationExplorer.Visible = e.Value;
+                        break;
+                }
+            }
+        }
+
+        private void PermissionsManager_OnLocationPermissionChange(object sender, PermissionsManager.LocationWidePermissionChangeEventArgs e)
+        {
+            if (e.LocationID == (ActiveLocation?.LocationID ?? 0))
+            {
+                switch (e.Permission)
+                {
+                    case PermissionsManager.LocationWidePermissions.ManageInvoices:
+                        invoicingToolStripMenuItem.Visible = e.Value;
                         break;
                 }
             }
@@ -250,7 +297,7 @@ namespace CompanyStudio
                 ActiveCompany = null;
             }
 
-            OnCompanyRemoved(this, company);
+            OnCompanyRemoved?.Invoke(this, company);
         }
 
         private void mnuCompanyExplorer_Click(object sender, EventArgs e)
@@ -352,6 +399,8 @@ namespace CompanyStudio
 
         private void frmStudio_FormClosing(object sender, FormClosingEventArgs e)
         {
+            PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnCompanyPermissionChange;
+            PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
             PermissionsManager.StopCheckThread();
         }
 
@@ -376,6 +425,93 @@ namespace CompanyStudio
             categories.Theme = currentTheme;
             categories.Company = ActiveCompany;
             categories.Show();
+        }
+
+        DropDownItem<Location> valueWhenLocationDropDownEntered = null;
+        private void toolLocationDropDown_Enter(object sender, EventArgs e)
+        {
+            valueWhenLocationDropDownEntered = toolLocationDropDown.SelectedItem.Cast<DropDownItem<Location>>();
+        }
+
+        private void toolLocationDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ActiveLocation = toolLocationDropDown.SelectedItem.Cast<DropDownItem<Location>>()?.Object;
+        }
+
+        private void toolLocationDropDown_Leave(object sender, EventArgs e)
+        {
+            DropDownItem<Location> selectedLocation = toolLocationDropDown.Items.Cast<DropDownItem<Location>>().FirstOrDefault(ddi => ddi.Text == toolLocationDropDown.Text);
+            if (selectedLocation == null)
+            {
+                toolLocationDropDown.SelectedItem = valueWhenLocationDropDownEntered;
+            }
+
+            valueWhenLocationDropDownEntered = null;
+        }
+
+        private void mnuLocationExplorer_Click(object sender, EventArgs e)
+        {
+            CompanyForms.frmLocationExplorer existingLocationExplorer = dockPanel.Contents.OfType<CompanyForms.frmLocationExplorer>().FirstOrDefault(le => le.Company.CompanyID == ActiveCompany.CompanyID);
+
+            if (existingLocationExplorer != null)
+            {
+                existingLocationExplorer.BringToFront();
+                return;
+            }
+
+            CompanyForms.frmLocationExplorer locationExplorer = new CompanyForms.frmLocationExplorer();
+            DecorateStudioContent(locationExplorer);
+            locationExplorer.Show(dockPanel, DockState.DockRight);
+        }
+
+        private async void tmrLocationUpdater_Tick(object sender, EventArgs e)
+        {
+            if (ActiveCompany == null)
+            {
+                return;
+            }
+
+            tmrLocationUpdater.Enabled = false;
+
+            try
+            {
+                bool shouldQuery = PermissionsManager.AccessibleLocationIDs.Except(ActiveCompany.Locations.Select(l => l.LocationID)).Any() || // Need to add
+                                    Companies.SelectMany(c => c.Locations).Select(l => l.LocationID).Except(PermissionsManager.AccessibleLocationIDs).Any(); // Need to remove
+
+                if (shouldQuery)
+                {
+                    GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Company/GetForEmployee");
+                    List<Company> refreshedCompanies = await get.GetObject<List<Company>>() ?? new List<Company>();
+                    Dictionary<long, Company> companiesByCompanyID = refreshedCompanies.ToDictionary(c => c.CompanyID);
+
+                    foreach (Company company in Companies.ToList())
+                    {
+                        Company refreshedCompany = companiesByCompanyID.GetOrDefault(company.CompanyID);
+                        if (refreshedCompany == null)
+                        {
+                            RemoveCompany(company);
+                            continue;
+                        }
+
+                        company.Locations = refreshedCompany.Locations;
+
+                        if (company == ActiveCompany)
+                        {
+                            Location currentLocation = ActiveLocation;
+                            ActiveCompany = company;
+
+                            if (currentLocation != null)
+                            {
+                                ActiveLocation = company.Locations.FirstOrDefault(l => l.LocationID == currentLocation.LocationID);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                tmrLocationUpdater.Enabled = true;
+            }
         }
     }
 }

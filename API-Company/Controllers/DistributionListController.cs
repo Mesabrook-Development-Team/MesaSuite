@@ -14,7 +14,7 @@ namespace API_Company.Controllers
     [CompanyAccess(RequiredPermissions = new string[] { nameof(Employee.ManageEmails) })]
     public class DistributionListController : DataObjectController<DistributionList>
     {
-        public override IEnumerable<string> AllowedFields => new List<string>()
+        public override IEnumerable<string> DefaultRetrievedFields => new List<string>()
         {
             nameof(DistributionList.DistributionListID),
             nameof(DistributionList.DistributionListDomainID),
@@ -34,7 +34,7 @@ namespace API_Company.Controllers
                 Value = domainName
             });
 
-            return dlSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+            return dlSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
     }
 }

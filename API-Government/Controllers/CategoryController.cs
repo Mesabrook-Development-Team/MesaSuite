@@ -17,7 +17,7 @@ namespace API_Government.Controllers
     [GovernmentAccess(RequiredPermissions = new [] { nameof(Official.ManageAccounts) })]
     public class CategoryController : DataObjectController<Category>
     {
-        public override IEnumerable<string> AllowedFields => new[]
+        public override IEnumerable<string> DefaultRetrievedFields => new[]
         {
             nameof(Category.CategoryID),
             nameof(Category.GovernmentID),

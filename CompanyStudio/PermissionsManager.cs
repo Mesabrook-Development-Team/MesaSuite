@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CompanyStudio.Extensions;
 using CompanyStudio.Models;
 using MesaSuite.Common.Data;
 
@@ -15,9 +16,11 @@ namespace CompanyStudio
     {
         private static bool _requestStop;
         private static bool _isRunning;
-        private static ConcurrentDictionary<long, Dictionary<Permissions, bool>> PermissionsByCompany = new ConcurrentDictionary<long, Dictionary<Permissions, bool>>();
+        private static ConcurrentDictionary<long, Dictionary<CompanyWidePermissions, bool>> CompanyWidePermissionsByCompany = new ConcurrentDictionary<long, Dictionary<CompanyWidePermissions, bool>>();
+        private static ConcurrentDictionary<long, Dictionary<LocationWidePermissions, bool>> LocationWidePermissionsByLocation = new ConcurrentDictionary<long, Dictionary<LocationWidePermissions, bool>>();
 
-        public static event EventHandler<PermissionChangeEventArgs> OnPermissionChange;
+        public static event EventHandler<CompanyWidePermissionChangeEventArgs> OnCompanyPermissionChange;
+        public static event EventHandler<LocationWidePermissionChangeEventArgs> OnLocationPermissionChange;
 
         public static void StartCheckThread(Action<Action> threadSafeCallback)
         {
@@ -39,19 +42,28 @@ namespace CompanyStudio
 
             _isRunning = true;
             _requestStop = false;
-            PermissionsByCompany = new ConcurrentDictionary<long, Dictionary<Permissions, bool>>();
-            Dictionary<string, PropertyInfo> permissionPropertiesByName = new Dictionary<string, PropertyInfo>();
+            CompanyWidePermissionsByCompany = new ConcurrentDictionary<long, Dictionary<CompanyWidePermissions, bool>>();
+            Dictionary<string, PropertyInfo> companyPermissionPropertiesByName = new Dictionary<string, PropertyInfo>();
             Type employeeType = typeof(Employee);
-            foreach (var item in Enum.GetValues(typeof(Permissions)))
+            foreach (var item in Enum.GetValues(typeof(CompanyWidePermissions)))
             {
                 PropertyInfo permissionProperty = employeeType.GetProperty(item.ToString());
-                permissionPropertiesByName.Add(item.ToString(), permissionProperty);
+                companyPermissionPropertiesByName.Add(item.ToString(), permissionProperty);
+            }
+
+            LocationWidePermissionsByLocation = new ConcurrentDictionary<long, Dictionary<LocationWidePermissions, bool>>();
+            Dictionary<string, PropertyInfo> locationPermissionPropertiesByName = new Dictionary<string, PropertyInfo>();
+            Type locationEmployeeType = typeof(LocationEmployee);
+            foreach (var item in Enum.GetValues(typeof(LocationWidePermissions)))
+            {
+                PropertyInfo permissionProperty = locationEmployeeType.GetProperty(item.ToString());
+                locationPermissionPropertiesByName.Add(item.ToString(), permissionProperty);
             }
 
             while (!_requestStop)
             {
                 GetData getData = new GetData(DataAccess.APIs.CompanyStudio, "Company/GetForEmployee");
-                List<Company> companies = getData.GetObject<List<Company>>().Result;
+                List<Company> companies = getData.GetObject<List<Company>>().Result ?? new List<Company>();
 
                 foreach (Company company in companies)
                 {
@@ -65,29 +77,105 @@ namespace CompanyStudio
                         continue;
                     }
 
-                    foreach (var item in Enum.GetValues(typeof(Permissions)))
+                    foreach (var item in Enum.GetValues(typeof(CompanyWidePermissions)))
                     {
-                        PropertyInfo propertyInfo = permissionPropertiesByName[item.ToString()];
+                        PropertyInfo propertyInfo = companyPermissionPropertiesByName[item.ToString()];
 
-                        bool isNew = !PermissionsByCompany.ContainsKey(company.CompanyID) || !PermissionsByCompany[company.CompanyID].ContainsKey((Permissions)item);
+                        bool isNew = !CompanyWidePermissionsByCompany.ContainsKey(company.CompanyID) || !CompanyWidePermissionsByCompany[company.CompanyID].ContainsKey((CompanyWidePermissions)item);
                         bool previousValue = false;
                         if (!isNew)
                         {
-                            previousValue = PermissionsByCompany[company.CompanyID][(Permissions)item];
+                            previousValue = CompanyWidePermissionsByCompany[company.CompanyID][(CompanyWidePermissions)item];
                         }
 
-                        if (!PermissionsByCompany.ContainsKey(company.CompanyID))
+                        if (!CompanyWidePermissionsByCompany.ContainsKey(company.CompanyID))
                         {
-                            PermissionsByCompany[company.CompanyID] = new Dictionary<Permissions, bool>();
+                            CompanyWidePermissionsByCompany[company.CompanyID] = new Dictionary<CompanyWidePermissions, bool>();
                         }
 
-                        PermissionsByCompany[company.CompanyID][(Permissions)item] = (bool)propertyInfo.GetValue(employee);
+                        CompanyWidePermissionsByCompany[company.CompanyID][(CompanyWidePermissions)item] = (bool)propertyInfo.GetValue(employee);
 
-                        if (!isNew && previousValue != PermissionsByCompany[company.CompanyID][(Permissions)item])
+                        if (!isNew && previousValue != CompanyWidePermissionsByCompany[company.CompanyID][(CompanyWidePermissions)item])
                         {
-                            callback(() => OnPermissionChange?.Invoke(null, new PermissionChangeEventArgs(company.CompanyID, (Permissions)item, PermissionsByCompany[company.CompanyID][(Permissions)item])));
+                            callback(() => OnCompanyPermissionChange?.Invoke(null, new CompanyWidePermissionChangeEventArgs(company.CompanyID, (CompanyWidePermissions)item, CompanyWidePermissionsByCompany[company.CompanyID][(CompanyWidePermissions)item])));
                         }
                     }
+
+                    foreach(Location location in company.Locations)
+                    {
+                        getData = new GetData(DataAccess.APIs.CompanyStudio, "LocationEmployee/GetForCurrentUser");
+                        getData.AddCompanyHeader(company.CompanyID);
+                        getData.QueryString.Add("locationID", location.LocationID.ToString());
+
+                        LocationEmployee locationEmployee = getData.GetObject<LocationEmployee>().Result ?? new LocationEmployee();
+
+                        foreach(var item in Enum.GetValues(typeof(LocationWidePermissions)))
+                        {
+                            PropertyInfo propertyInfo = locationPermissionPropertiesByName[item.ToString()];
+
+                            bool isNew = !LocationWidePermissionsByLocation.ContainsKey(location.LocationID) || !LocationWidePermissionsByLocation[location.LocationID].ContainsKey((LocationWidePermissions)item);
+                            bool previousValue = false;
+
+                            if (!isNew)
+                            {
+                                previousValue = LocationWidePermissionsByLocation[location.LocationID][(LocationWidePermissions)item];
+                            }
+
+                            if (!LocationWidePermissionsByLocation.ContainsKey(location.LocationID))
+                            {
+                                LocationWidePermissionsByLocation[location.LocationID] = new Dictionary<LocationWidePermissions, bool>();
+                            }
+
+                            LocationWidePermissionsByLocation[location.LocationID][(LocationWidePermissions)item] = (bool)propertyInfo.GetValue(locationEmployee);
+
+                            if (!isNew && previousValue != LocationWidePermissionsByLocation[location.LocationID][(LocationWidePermissions)item])
+                            {
+                                callback(() => OnLocationPermissionChange?.Invoke(null, new LocationWidePermissionChangeEventArgs(location.LocationID, (LocationWidePermissions)item, LocationWidePermissionsByLocation[location.LocationID][(LocationWidePermissions)item])));
+                            }
+                        }
+                    }
+                }
+
+                foreach(long missingCompanyID in CompanyWidePermissionsByCompany.Keys.Except(companies.Select(c => c.CompanyID)).ToList())
+                {
+                    foreach(var item in Enum.GetValues(typeof(CompanyWidePermissions)))
+                    {
+                        CompanyWidePermissions permission = (CompanyWidePermissions)item;
+                        if (!CompanyWidePermissionsByCompany[missingCompanyID].ContainsKey(permission))
+                        {
+                            continue;
+                        }
+
+                        bool previousValue = CompanyWidePermissionsByCompany[missingCompanyID][permission];
+                        if (previousValue)
+                        {
+                            CompanyWidePermissionsByCompany[missingCompanyID][permission] = false;
+                            callback(() => OnCompanyPermissionChange?.Invoke(null, new CompanyWidePermissionChangeEventArgs(missingCompanyID, permission, false)));
+                        }
+                    }
+
+                    CompanyWidePermissionsByCompany.TryRemove(missingCompanyID, out _);
+                }
+
+                foreach (long missingLocationID in LocationWidePermissionsByLocation.Keys.Except(companies.SelectMany(c => c.Locations).Select(c => c.LocationID)).ToList())
+                {
+                    foreach (var item in Enum.GetValues(typeof(LocationWidePermissions)))
+                    {
+                        LocationWidePermissions permission = (LocationWidePermissions)item;
+                        if (!LocationWidePermissionsByLocation[missingLocationID].ContainsKey(permission))
+                        {
+                            continue;
+                        }
+
+                        bool previousValue = LocationWidePermissionsByLocation[missingLocationID][permission];
+                        if (previousValue)
+                        {
+                            LocationWidePermissionsByLocation[missingLocationID][permission] = false;
+                            callback(() => OnLocationPermissionChange?.Invoke(null, new LocationWidePermissionChangeEventArgs(missingLocationID, permission, false)));
+                        }
+                    }
+
+                    LocationWidePermissionsByLocation.TryRemove(missingLocationID, out _);
                 }
 
                 Thread.Sleep(3000);
@@ -97,37 +185,79 @@ namespace CompanyStudio
             _isRunning = false;
         }
 
-        public static bool HasPermission(long companyID, Permissions permission)
+        public static bool HasPermission(long companyID, CompanyWidePermissions permission)
         {
-            if (!PermissionsByCompany.ContainsKey(companyID))
+            if (!CompanyWidePermissionsByCompany.ContainsKey(companyID))
             {
                 return false;
             }
 
-            if (!PermissionsByCompany[companyID].ContainsKey(permission))
+            if (!CompanyWidePermissionsByCompany[companyID].ContainsKey(permission))
             {
                 return false;
             }
 
-            return PermissionsByCompany[companyID][permission];
+            return CompanyWidePermissionsByCompany[companyID][permission];
         }
 
-        public enum Permissions
+        public static bool HasPermission(long locationID, LocationWidePermissions permission)
+        {
+            if (!LocationWidePermissionsByLocation.ContainsKey(locationID))
+            {
+                return false;
+            }
+
+            if (!LocationWidePermissionsByLocation[locationID].ContainsKey(permission))
+            {
+                return false;
+            }
+
+            return LocationWidePermissionsByLocation[locationID][permission];
+        }
+
+        public static bool HasAccessToLocation(long locationID)
+        {
+            return LocationWidePermissionsByLocation.ContainsKey(locationID);
+        }
+
+        public static IReadOnlyCollection<long> AccessibleLocationIDs => LocationWidePermissionsByLocation.Keys.ToList();
+
+        public enum CompanyWidePermissions
         {
             ManageEmails,
             ManageEmployees,
-            ManageAccounts
+            ManageAccounts,
+            ManageLocations
         }
 
-        public class PermissionChangeEventArgs : EventArgs
+        public enum LocationWidePermissions
+        {
+            ManageInvoices
+        }
+
+        public class CompanyWidePermissionChangeEventArgs : EventArgs
         {
             public long CompanyID { get; }
-            public Permissions Permission { get; }
+            public CompanyWidePermissions Permission { get; }
             public bool Value { get; }
 
-            public PermissionChangeEventArgs(long companyID, Permissions permission, bool value)
+            public CompanyWidePermissionChangeEventArgs(long companyID, CompanyWidePermissions permission, bool value)
             {
                 CompanyID = companyID;
+                Permission = permission;
+                Value = value;
+            }
+        }
+
+        public class LocationWidePermissionChangeEventArgs : EventArgs
+        {
+            public long LocationID { get; }
+            public LocationWidePermissions Permission { get; }
+            public bool Value { get; }
+
+            public LocationWidePermissionChangeEventArgs(long locationID, LocationWidePermissions permission, bool value)
+            {
+                LocationID = locationID;
                 Permission = permission;
                 Value = value;
             }

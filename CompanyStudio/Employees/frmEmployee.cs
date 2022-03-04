@@ -32,7 +32,7 @@ namespace CompanyStudio.Employees
                 return;
             }
 
-            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange += PermissionsManager_OnPermissionChange;
 
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Employee/GetCandidates");
             get.Headers.Add("CompanyID", Company.CompanyID.ToString());
@@ -59,14 +59,15 @@ namespace CompanyStudio.Employees
                 chkManageEmails.Checked = Employee.ManageEmails;
                 chkManageEmployees.Checked = Employee.ManageEmployees;
                 chkManageAccounts.Checked = Employee.ManageAccounts;
+                chkManageLocations.Checked = Employee.ManageLocations;
 
                 IsDirty = false;
             }
         }
 
-        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
         {
-            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.Permissions.ManageEmployees && !e.Value)
+            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.CompanyWidePermissions.ManageEmployees && !e.Value)
             {
                 IsDirty = false;
                 Close();
@@ -112,6 +113,7 @@ namespace CompanyStudio.Employees
             Employee.ManageEmails = chkManageEmails.Checked;
             Employee.ManageEmployees = chkManageEmployees.Checked;
             Employee.ManageAccounts = chkManageAccounts.Checked;
+            Employee.ManageLocations = chkManageLocations.Checked;
 
             if (Employee.EmployeeID == default)
             {
@@ -148,7 +150,7 @@ namespace CompanyStudio.Employees
 
         private void frmEmployee_FormClosed(object sender, FormClosedEventArgs e)
         {
-            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnPermissionChange;
         }
     }
 }

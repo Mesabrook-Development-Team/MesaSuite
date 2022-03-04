@@ -17,7 +17,7 @@ namespace API_Government.Controllers
     [ProgramAccess("gov")]
     public class GovernmentController : DataObjectController<Government>
     {
-        public override IEnumerable<string> AllowedFields => new string[]
+        public override IEnumerable<string> DefaultRetrievedFields => new string[]
         {
             nameof(Government.GovernmentID),
             nameof(Government.Name),
@@ -41,7 +41,7 @@ namespace API_Government.Controllers
                 }
             });
 
-            return governmentSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+            return governmentSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
 
         public class MintCurrencyParameter

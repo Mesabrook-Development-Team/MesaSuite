@@ -44,8 +44,9 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             }
 
             SchemaObject schemaObject = Schema.Schema.GetSchemaObject<TDataObject>();
+            RelationshipList relationshipList = schemaObject.GetRelationshipList(RelationshipName);
+            schemaObject = relationshipList.ParentSchemaObject;
             DataObject objectInstance = DataObjectFactory.Create(schemaObject.DataObjectType);
-            RelationshipList relationshipList = schemaObject.GetRelationshipList(relationship);
             SchemaObject outerRelatedSchemaObject = relationshipList.RelatedSchemaObject;
 
             string existsAliasPrefix = "exists_table_0_";
@@ -134,7 +135,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
             {
                 Left = (Base.Data.Operand.Field)$"{existsAliasesByFieldPath[""]}.{relationshipList.ForeignKeyName}",
                 ConditionType = Base.Data.Conditions.Condition.ConditionTypes.Equal,
-                Right = (Base.Data.Operand.Field)$"{tableAliasesByFieldPath[GetFieldPaths().First()]}.{relationshipList.ParentSchemaObject.PrimaryKeyField.FieldName}"
+                Right = (Base.Data.Operand.Field)$"{tableAliasesByFieldPath[GetFieldPaths().First().Replace(upperFieldsToIgnore == null ? "/" : upperFieldsToIgnore.Contains(".") ? upperFieldsToIgnore.Substring(0, upperFieldsToIgnore.LastIndexOf(".")) : upperFieldsToIgnore, "")]}.{relationshipList.ParentSchemaObject.PrimaryKeyField.FieldName}"
             };
 
             ICondition existsQueryCondition;

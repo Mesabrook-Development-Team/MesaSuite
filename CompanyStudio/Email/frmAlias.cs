@@ -20,13 +20,13 @@ namespace CompanyStudio.Email
 
         private void frmAlias_Load(object sender, System.EventArgs e)
         {
-            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange += PermissionsManager_OnPermissionChange;
             SetAliasFields();
         }
 
-        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
         {
-            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.Permissions.ManageEmails && !e.Value)
+            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.CompanyWidePermissions.ManageEmails && !e.Value)
             {
                 IsDirty = false;
                 Close();
@@ -190,7 +190,7 @@ namespace CompanyStudio.Email
 
         private void frmAlias_FormClosed(object sender, FormClosedEventArgs e)
         {
-            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnPermissionChange;
         }
     }
 }

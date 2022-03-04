@@ -22,6 +22,7 @@ namespace WebModels.company
 
         private long? _companyID;
         [Field("0254C75D-C356-45C0-AB7A-A68C75D8B42F")]
+        [Required]
         public long? CompanyID
         {
             get { CheckGet(); return _companyID; }

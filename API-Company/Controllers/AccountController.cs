@@ -22,7 +22,7 @@ namespace API_Company.Controllers
     [CompanyAccess(RequiredPermissions = new string[] { nameof(Employee.ManageAccounts) })]
     public class AccountController : DataObjectController<Account>
     {
-        public override IEnumerable<string> AllowedFields => new List<string>()
+        public override IEnumerable<string> DefaultRetrievedFields => new List<string>()
         {
             nameof(Account.AccountID),
             nameof(Account.CompanyID),
@@ -43,7 +43,7 @@ namespace API_Company.Controllers
                 Value = companyID
             });
 
-            return accountSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+            return accountSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
 
         public class CloseParameter

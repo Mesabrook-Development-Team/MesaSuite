@@ -18,8 +18,8 @@ namespace API_Company
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "{controller}/{action}",
-                defaults: new { action = "Get" }
+                routeTemplate: "{controller}/{action}/{id}",
+                defaults: new { action = "Get", id = RouteParameter.Optional }
             );
         }
     }

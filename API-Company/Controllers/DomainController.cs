@@ -16,7 +16,7 @@ namespace API_Company.Controllers
     [CompanyAccess(RequiredPermissions = new string[] { nameof(Employee.ManageEmails) })]
     public class DomainController : DataObjectController<Domain>
     {
-        public override IEnumerable<string> AllowedFields => new List<string>()
+        public override IEnumerable<string> DefaultRetrievedFields => new List<string>()
         {
             nameof(Domain.DomainID),
             nameof(Domain.DomainName)
@@ -31,7 +31,7 @@ namespace API_Company.Controllers
                 Value = domainName
             });
 
-            return domainSearch.GetReadOnly(null, AllowedFields);
+            return domainSearch.GetReadOnly(null, DefaultRetrievedFields);
         }
     }
 }

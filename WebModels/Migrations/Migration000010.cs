@@ -55,7 +55,7 @@ namespace WebModels.Migrations
             createTable.TableName = "LocationGovernment";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
             {
-                { "LocationGovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocationGovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "LocationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "GovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "PaySalesTax", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } }

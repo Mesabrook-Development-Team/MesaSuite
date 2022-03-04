@@ -62,7 +62,6 @@
             this.rdoSysLocal = new System.Windows.Forms.RadioButton();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.rdoSyncLive = new System.Windows.Forms.RadioButton();
@@ -70,9 +69,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.rdoCompanyLive = new System.Windows.Forms.RadioButton();
             this.rdoCompanyLocal = new System.Windows.Forms.RadioButton();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.rdoAuthLive = new System.Windows.Forms.RadioButton();
-            this.rdoAuthLocal = new System.Windows.Forms.RadioButton();
             this.panel5 = new System.Windows.Forms.Panel();
             this.rdoVersionLive = new System.Windows.Forms.RadioButton();
             this.rdoVersionLocal = new System.Windows.Forms.RadioButton();
@@ -93,10 +89,25 @@
             this.rdoGovLive = new System.Windows.Forms.RadioButton();
             this.rdoGovLocal = new System.Windows.Forms.RadioButton();
             this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.label42 = new System.Windows.Forms.Label();
+            this.numCTCPort = new System.Windows.Forms.NumericUpDown();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.rdoAuthLive = new System.Windows.Forms.RadioButton();
+            this.rdoAuthLocal = new System.Windows.Forms.RadioButton();
+            this.label19 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCompanyPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSyncPort)).BeginInit();
@@ -104,6 +115,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numAuthPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numGovPort)).BeginInit();
             this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numCTCPort)).BeginInit();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -112,7 +125,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(171, 16);
+            this.label1.Size = new System.Drawing.Size(170, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "1. Confirm Configuration";
             // 
@@ -268,15 +281,15 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(12, 351);
+            this.label11.Location = new System.Drawing.Point(12, 377);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(199, 16);
+            this.label11.Size = new System.Drawing.Size(198, 16);
             this.label11.TabIndex = 0;
             this.label11.Text = "2. Run Database Migrations";
             // 
             // cmdSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(650, 296);
+            this.cmdSave.Location = new System.Drawing.Point(650, 322);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 16;
@@ -286,7 +299,7 @@
             // 
             // cmdMigrations
             // 
-            this.cmdMigrations.Location = new System.Drawing.Point(15, 370);
+            this.cmdMigrations.Location = new System.Drawing.Point(15, 396);
             this.cmdMigrations.Name = "cmdMigrations";
             this.cmdMigrations.Size = new System.Drawing.Size(710, 23);
             this.cmdMigrations.TabIndex = 18;
@@ -298,15 +311,15 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(12, 396);
+            this.label12.Location = new System.Drawing.Point(12, 422);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(112, 16);
+            this.label12.Size = new System.Drawing.Size(111, 16);
             this.label12.TabIndex = 0;
             this.label12.Text = "3. Run Loaders";
             // 
             // cmdLoaders
             // 
-            this.cmdLoaders.Location = new System.Drawing.Point(15, 415);
+            this.cmdLoaders.Location = new System.Drawing.Point(15, 441);
             this.cmdLoaders.Name = "cmdLoaders";
             this.cmdLoaders.Size = new System.Drawing.Size(710, 23);
             this.cmdLoaders.TabIndex = 19;
@@ -318,15 +331,15 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(12, 306);
+            this.label13.Location = new System.Drawing.Point(12, 332);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(142, 16);
+            this.label13.Size = new System.Drawing.Size(141, 16);
             this.label13.TabIndex = 0;
             this.label13.Text = "1.5 Deploy Schema";
             // 
             // cmdDeploy
             // 
-            this.cmdDeploy.Location = new System.Drawing.Point(15, 325);
+            this.cmdDeploy.Location = new System.Drawing.Point(15, 351);
             this.cmdDeploy.Name = "cmdDeploy";
             this.cmdDeploy.Size = new System.Drawing.Size(710, 23);
             this.cmdDeploy.TabIndex = 17;
@@ -338,7 +351,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(153, 310);
+            this.label14.Location = new System.Drawing.Point(153, 336);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(75, 9);
             this.label14.TabIndex = 4;
@@ -348,15 +361,15 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(12, 441);
+            this.label15.Location = new System.Drawing.Point(12, 467);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(89, 16);
+            this.label15.Size = new System.Drawing.Size(88, 16);
             this.label15.TabIndex = 0;
             this.label15.Text = "Other Tools";
             // 
             // cmdBackEndAuth
             // 
-            this.cmdBackEndAuth.Location = new System.Drawing.Point(15, 460);
+            this.cmdBackEndAuth.Location = new System.Drawing.Point(15, 486);
             this.cmdBackEndAuth.Name = "cmdBackEndAuth";
             this.cmdBackEndAuth.Size = new System.Drawing.Size(81, 61);
             this.cmdBackEndAuth.TabIndex = 20;
@@ -367,7 +380,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(490, 158);
+            this.label16.Location = new System.Drawing.Point(490, 184);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(109, 13);
             this.label16.TabIndex = 1;
@@ -398,7 +411,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(549, 181);
+            this.label17.Location = new System.Drawing.Point(549, 207);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(50, 13);
             this.label17.TabIndex = 1;
@@ -407,26 +420,17 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(512, 229);
+            this.label18.Location = new System.Drawing.Point(512, 255);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(87, 13);
             this.label18.TabIndex = 1;
             this.label18.Text = "Company Studio:";
             // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(521, 275);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(78, 13);
-            this.label19.TabIndex = 1;
-            this.label19.Text = "Authentication:";
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.rdoSysLive);
             this.panel1.Controls.Add(this.rdoSysLocal);
-            this.panel1.Location = new System.Drawing.Point(605, 158);
+            this.panel1.Location = new System.Drawing.Point(605, 184);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(91, 17);
             this.panel1.TabIndex = 15;
@@ -435,7 +439,7 @@
             // 
             this.panel2.Controls.Add(this.rdoSyncLive);
             this.panel2.Controls.Add(this.rdoSyncLocal);
-            this.panel2.Location = new System.Drawing.Point(605, 181);
+            this.panel2.Location = new System.Drawing.Point(605, 207);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(91, 17);
             this.panel2.TabIndex = 16;
@@ -466,7 +470,7 @@
             // 
             this.panel3.Controls.Add(this.rdoCompanyLive);
             this.panel3.Controls.Add(this.rdoCompanyLocal);
-            this.panel3.Location = new System.Drawing.Point(605, 227);
+            this.panel3.Location = new System.Drawing.Point(605, 253);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(91, 17);
             this.panel3.TabIndex = 17;
@@ -493,42 +497,11 @@
             this.rdoCompanyLocal.Text = "Local";
             this.rdoCompanyLocal.UseVisualStyleBackColor = true;
             // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.rdoAuthLive);
-            this.panel4.Controls.Add(this.rdoAuthLocal);
-            this.panel4.Location = new System.Drawing.Point(605, 273);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(91, 17);
-            this.panel4.TabIndex = 16;
-            // 
-            // rdoAuthLive
-            // 
-            this.rdoAuthLive.AutoSize = true;
-            this.rdoAuthLive.Location = new System.Drawing.Point(0, 0);
-            this.rdoAuthLive.Name = "rdoAuthLive";
-            this.rdoAuthLive.Size = new System.Drawing.Size(45, 17);
-            this.rdoAuthLive.TabIndex = 0;
-            this.rdoAuthLive.TabStop = true;
-            this.rdoAuthLive.Text = "Live";
-            this.rdoAuthLive.UseVisualStyleBackColor = true;
-            // 
-            // rdoAuthLocal
-            // 
-            this.rdoAuthLocal.AutoSize = true;
-            this.rdoAuthLocal.Location = new System.Drawing.Point(45, 0);
-            this.rdoAuthLocal.Name = "rdoAuthLocal";
-            this.rdoAuthLocal.Size = new System.Drawing.Size(51, 17);
-            this.rdoAuthLocal.TabIndex = 1;
-            this.rdoAuthLocal.TabStop = true;
-            this.rdoAuthLocal.Text = "Local";
-            this.rdoAuthLocal.UseVisualStyleBackColor = true;
-            // 
             // panel5
             // 
             this.panel5.Controls.Add(this.rdoVersionLive);
             this.panel5.Controls.Add(this.rdoVersionLocal);
-            this.panel5.Location = new System.Drawing.Point(605, 204);
+            this.panel5.Location = new System.Drawing.Point(605, 230);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(91, 17);
             this.panel5.TabIndex = 18;
@@ -558,7 +531,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(554, 206);
+            this.label20.Location = new System.Drawing.Point(554, 232);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(45, 13);
             this.label20.TabIndex = 17;
@@ -683,7 +656,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(537, 136);
+            this.label24.Location = new System.Drawing.Point(537, 162);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(62, 13);
             this.label24.TabIndex = 1;
@@ -691,7 +664,7 @@
             // 
             // numAuthPort
             // 
-            this.numAuthPort.Location = new System.Drawing.Point(605, 132);
+            this.numAuthPort.Location = new System.Drawing.Point(605, 158);
             this.numAuthPort.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -746,7 +719,7 @@
             // 
             this.panel6.Controls.Add(this.rdoGovLive);
             this.panel6.Controls.Add(this.rdoGovLocal);
-            this.panel6.Location = new System.Drawing.Point(605, 250);
+            this.panel6.Location = new System.Drawing.Point(605, 276);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(91, 17);
             this.panel6.TabIndex = 16;
@@ -776,39 +749,217 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(501, 252);
+            this.label26.Location = new System.Drawing.Point(501, 278);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(98, 13);
             this.label26.TabIndex = 1;
             this.label26.Text = "Government Portal:";
             // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(12, 377);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(198, 16);
+            this.label27.TabIndex = 0;
+            this.label27.Text = "2. Run Database Migrations";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Location = new System.Drawing.Point(12, 332);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(141, 16);
+            this.label28.TabIndex = 0;
+            this.label28.Text = "1.5 Deploy Schema";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(12, 422);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(111, 16);
+            this.label29.TabIndex = 0;
+            this.label29.Text = "3. Run Loaders";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(12, 467);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(88, 16);
+            this.label30.TabIndex = 0;
+            this.label30.Text = "Other Tools";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.Location = new System.Drawing.Point(153, 336);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(75, 9);
+            this.label31.TabIndex = 4;
+            this.label31.Text = "* fresh database only";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(650, 322);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 16;
+            this.button1.Text = "Save";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.cmdSave_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(15, 396);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(710, 23);
+            this.button2.TabIndex = 18;
+            this.button2.Text = "Run";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.cmdMigrations_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(15, 351);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(710, 23);
+            this.button3.TabIndex = 17;
+            this.button3.Text = "Run";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.cmdDeploy_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(15, 441);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(710, 23);
+            this.button4.TabIndex = 19;
+            this.button4.Text = "Run";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.cmdLoaders_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(15, 486);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(81, 61);
+            this.button5.TabIndex = 20;
+            this.button5.Text = "Start Development Backend Auth";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.cmdBackEndAuth_Click);
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(526, 134);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(73, 13);
+            this.label42.TabIndex = 1;
+            this.label42.Text = "API-CTC Port:";
+            // 
+            // numCTCPort
+            // 
+            this.numCTCPort.Location = new System.Drawing.Point(605, 132);
+            this.numCTCPort.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.numCTCPort.Minimum = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+            this.numCTCPort.Name = "numCTCPort";
+            this.numCTCPort.Size = new System.Drawing.Size(120, 20);
+            this.numCTCPort.TabIndex = 15;
+            this.numCTCPort.Value = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.rdoAuthLive);
+            this.panel4.Controls.Add(this.rdoAuthLocal);
+            this.panel4.Location = new System.Drawing.Point(605, 299);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(91, 17);
+            this.panel4.TabIndex = 16;
+            // 
+            // rdoAuthLive
+            // 
+            this.rdoAuthLive.AutoSize = true;
+            this.rdoAuthLive.Location = new System.Drawing.Point(0, 0);
+            this.rdoAuthLive.Name = "rdoAuthLive";
+            this.rdoAuthLive.Size = new System.Drawing.Size(45, 17);
+            this.rdoAuthLive.TabIndex = 0;
+            this.rdoAuthLive.TabStop = true;
+            this.rdoAuthLive.Text = "Live";
+            this.rdoAuthLive.UseVisualStyleBackColor = true;
+            // 
+            // rdoAuthLocal
+            // 
+            this.rdoAuthLocal.AutoSize = true;
+            this.rdoAuthLocal.Location = new System.Drawing.Point(45, 0);
+            this.rdoAuthLocal.Name = "rdoAuthLocal";
+            this.rdoAuthLocal.Size = new System.Drawing.Size(51, 17);
+            this.rdoAuthLocal.TabIndex = 1;
+            this.rdoAuthLocal.TabStop = true;
+            this.rdoAuthLocal.Text = "Local";
+            this.rdoAuthLocal.UseVisualStyleBackColor = true;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(521, 301);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(78, 13);
+            this.label19.TabIndex = 1;
+            this.label19.Text = "Authentication:";
+            // 
             // frmDevTools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(740, 530);
+            this.ClientSize = new System.Drawing.Size(740, 559);
             this.Controls.Add(this.numGovPort);
             this.Controls.Add(this.label25);
+            this.Controls.Add(this.numCTCPort);
             this.Controls.Add(this.numAuthPort);
             this.Controls.Add(this.numSystemPort);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.numSyncPort);
-            this.Controls.Add(this.label26);
             this.Controls.Add(this.label19);
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.panel4);
             this.Controls.Add(this.numCompanyPort);
             this.Controls.Add(this.panel6);
-            this.Controls.Add(this.panel4);
             this.Controls.Add(this.rdoBackend);
             this.Controls.Add(this.rdoLDAP);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.panel2);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.cmdBackEndAuth);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.cmdLoaders);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.cmdDeploy);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.cmdMigrations);
+            this.Controls.Add(this.label31);
             this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label10);
@@ -826,6 +977,7 @@
             this.Controls.Add(this.txtAddress);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtMailConnectionString);
+            this.Controls.Add(this.label42);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.txtConnectionString);
@@ -834,9 +986,13 @@
             this.Controls.Add(this.label22);
             this.Controls.Add(this.txtSQLProviderLocation);
             this.Controls.Add(this.label21);
+            this.Controls.Add(this.label30);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.label29);
             this.Controls.Add(this.label15);
+            this.Controls.Add(this.label28);
             this.Controls.Add(this.label12);
+            this.Controls.Add(this.label27);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label1);
@@ -850,8 +1006,6 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCompanyPort)).EndInit();
@@ -861,6 +1015,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numGovPort)).EndInit();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numCTCPort)).EndInit();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -902,7 +1059,6 @@
         private System.Windows.Forms.RadioButton rdoSysLocal;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.RadioButton rdoSyncLive;
@@ -910,9 +1066,6 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.RadioButton rdoCompanyLive;
         private System.Windows.Forms.RadioButton rdoCompanyLocal;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.RadioButton rdoAuthLive;
-        private System.Windows.Forms.RadioButton rdoAuthLocal;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.RadioButton rdoVersionLive;
         private System.Windows.Forms.RadioButton rdoVersionLocal;
@@ -933,6 +1086,22 @@
         private System.Windows.Forms.RadioButton rdoGovLive;
         private System.Windows.Forms.RadioButton rdoGovLocal;
         private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.NumericUpDown numCTCPort;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.RadioButton rdoAuthLive;
+        private System.Windows.Forms.RadioButton rdoAuthLocal;
+        private System.Windows.Forms.Label label19;
     }
 }
 

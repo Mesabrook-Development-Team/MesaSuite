@@ -73,6 +73,9 @@ namespace DevTools
             uri = new Uri(GetIISUrlFromProject(baseLocation + "API-Government\\API-Government.csproj"));
             numGovPort.Value = uri.Port;
 
+            uri = new Uri(GetIISUrlFromProject(baseLocation + "API-CTC\\API-CTC.csproj"));
+            numCTCPort.Value = uri.Port;
+
             uri = new Uri(GetIISUrlFromProject(baseLocation + "OAuth\\OAuth.csproj"));
             numAuthPort.Value = uri.Port;
 
@@ -152,6 +155,7 @@ namespace DevTools
                 SetConfigOptions(baseLocation + "API-MCSync\\Web.config");
                 SetConfigOptions(baseLocation + "API-System\\Web.config");
                 SetConfigOptions(baseLocation + "API-Government\\Web.config");
+                SetConfigOptions(baseLocation + "API-CTC\\Web.config");
                 SetConfigOptions(baseLocation + "OAuth\\Web.config");
                 SetConfigOptions(baseLocation + "DevTools\\App.config");
                 SetConfigOptions(baseLocation + "Sandbox\\App.config");
@@ -167,6 +171,7 @@ namespace DevTools
             SetPortNumber((int)numSyncPort.Value, baseLocation + "API-MCSync\\API-MCSync.csproj");
             SetPortNumber((int)numSystemPort.Value, baseLocation + "API-System\\API-System.csproj");
             SetPortNumber((int)numGovPort.Value, baseLocation + "API-Government\\API-Government.csproj");
+            SetPortNumber((int)numGovPort.Value, baseLocation + "API-CTC\\API-CTC.csproj");
             SetPortNumber((int)numAuthPort.Value, baseLocation + "OAuth\\OAuth.csproj");
 
             ConfigurationManager.AppSettings.Set("Base.SQLProvider", txtSQLProviderLocation.Text);

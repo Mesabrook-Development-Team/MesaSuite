@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using System;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 
@@ -66,6 +67,13 @@ namespace WebModels.invoicing
         {
             get { CheckGet(); return _description; }
             set { CheckSet(); _description = value; }
+        }
+
+        protected override void PreValidate()
+        {
+            base.PreValidate();
+
+            Total = Math.Round((Quantity ?? 0M) * (UnitCost ?? 0M), 2, MidpointRounding.AwayFromZero);
         }
     }
 }

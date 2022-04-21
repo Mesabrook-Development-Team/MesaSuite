@@ -26,7 +26,7 @@ namespace API_Government.Controllers
             nameof(Transaction.Description)
         };
 
-        public override SearchCondition GetBaseSearchCondition()
+        public override ISearchCondition GetBaseSearchCondition()
         {
             long governmentID = long.Parse(Request.Headers.GetValues("GovernmentID").First());
 

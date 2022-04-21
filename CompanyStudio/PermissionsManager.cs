@@ -16,8 +16,8 @@ namespace CompanyStudio
     {
         private static bool _requestStop;
         private static bool _isRunning;
-        private static ConcurrentDictionary<long, Dictionary<CompanyWidePermissions, bool>> CompanyWidePermissionsByCompany = new ConcurrentDictionary<long, Dictionary<CompanyWidePermissions, bool>>();
-        private static ConcurrentDictionary<long, Dictionary<LocationWidePermissions, bool>> LocationWidePermissionsByLocation = new ConcurrentDictionary<long, Dictionary<LocationWidePermissions, bool>>();
+        private static ConcurrentDictionary<long?, Dictionary<CompanyWidePermissions, bool>> CompanyWidePermissionsByCompany = new ConcurrentDictionary<long?, Dictionary<CompanyWidePermissions, bool>>();
+        private static ConcurrentDictionary<long?, Dictionary<LocationWidePermissions, bool>> LocationWidePermissionsByLocation = new ConcurrentDictionary<long?, Dictionary<LocationWidePermissions, bool>>();
 
         public static event EventHandler<CompanyWidePermissionChangeEventArgs> OnCompanyPermissionChange;
         public static event EventHandler<LocationWidePermissionChangeEventArgs> OnLocationPermissionChange;
@@ -42,7 +42,7 @@ namespace CompanyStudio
 
             _isRunning = true;
             _requestStop = false;
-            CompanyWidePermissionsByCompany = new ConcurrentDictionary<long, Dictionary<CompanyWidePermissions, bool>>();
+            CompanyWidePermissionsByCompany = new ConcurrentDictionary<long?, Dictionary<CompanyWidePermissions, bool>>();
             Dictionary<string, PropertyInfo> companyPermissionPropertiesByName = new Dictionary<string, PropertyInfo>();
             Type employeeType = typeof(Employee);
             foreach (var item in Enum.GetValues(typeof(CompanyWidePermissions)))
@@ -51,7 +51,7 @@ namespace CompanyStudio
                 companyPermissionPropertiesByName.Add(item.ToString(), permissionProperty);
             }
 
-            LocationWidePermissionsByLocation = new ConcurrentDictionary<long, Dictionary<LocationWidePermissions, bool>>();
+            LocationWidePermissionsByLocation = new ConcurrentDictionary<long?, Dictionary<LocationWidePermissions, bool>>();
             Dictionary<string, PropertyInfo> locationPermissionPropertiesByName = new Dictionary<string, PropertyInfo>();
             Type locationEmployeeType = typeof(LocationEmployee);
             foreach (var item in Enum.GetValues(typeof(LocationWidePermissions)))
@@ -136,7 +136,7 @@ namespace CompanyStudio
                     }
                 }
 
-                foreach(long missingCompanyID in CompanyWidePermissionsByCompany.Keys.Except(companies.Select(c => c.CompanyID)).ToList())
+                foreach(long? missingCompanyID in CompanyWidePermissionsByCompany.Keys.Except(companies.Select(c => c.CompanyID)).ToList())
                 {
                     foreach(var item in Enum.GetValues(typeof(CompanyWidePermissions)))
                     {
@@ -220,7 +220,7 @@ namespace CompanyStudio
             return LocationWidePermissionsByLocation.ContainsKey(locationID);
         }
 
-        public static IReadOnlyCollection<long> AccessibleLocationIDs => LocationWidePermissionsByLocation.Keys.ToList();
+        public static IReadOnlyCollection<long?> AccessibleLocationIDs => LocationWidePermissionsByLocation.Keys.ToList();
 
         public enum CompanyWidePermissions
         {
@@ -237,11 +237,11 @@ namespace CompanyStudio
 
         public class CompanyWidePermissionChangeEventArgs : EventArgs
         {
-            public long CompanyID { get; }
+            public long? CompanyID { get; }
             public CompanyWidePermissions Permission { get; }
             public bool Value { get; }
 
-            public CompanyWidePermissionChangeEventArgs(long companyID, CompanyWidePermissions permission, bool value)
+            public CompanyWidePermissionChangeEventArgs(long? companyID, CompanyWidePermissions permission, bool value)
             {
                 CompanyID = companyID;
                 Permission = permission;
@@ -251,11 +251,11 @@ namespace CompanyStudio
 
         public class LocationWidePermissionChangeEventArgs : EventArgs
         {
-            public long LocationID { get; }
+            public long? LocationID { get; }
             public LocationWidePermissions Permission { get; }
             public bool Value { get; }
 
-            public LocationWidePermissionChangeEventArgs(long locationID, LocationWidePermissions permission, bool value)
+            public LocationWidePermissionChangeEventArgs(long? locationID, LocationWidePermissions permission, bool value)
             {
                 LocationID = locationID;
                 Permission = permission;

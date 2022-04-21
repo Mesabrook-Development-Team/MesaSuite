@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using CompanyStudio.Extensions;
 using CompanyStudio.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Utility;
@@ -43,6 +45,8 @@ namespace CompanyStudio.Accounts
 
                 if (patch.RequestSuccessful)
                 {
+                    await SaveAccess();
+
                     IsDirty = false;
                     OnSave?.Invoke(this, new EventArgs());
                     Account.Description = txtDescription.Text;
@@ -63,10 +67,13 @@ namespace CompanyStudio.Accounts
 
                 PostData post = new PostData(DataAccess.APIs.CompanyStudio, "Account/Post", account);
                 post.Headers.Add("CompanyID", Company.CompanyID.ToString());
+                post.RequestFields.AddRange(frmAccountExplorer.REQUEST_FIELDS);
                 Account = await post.Execute<Account>();
 
                 if (post.RequestSuccessful)
                 {
+                    await SaveAccess();
+
                     IsDirty = false;
                     OnSave?.Invoke(this, new EventArgs());
                     PopulateForm();
@@ -74,6 +81,22 @@ namespace CompanyStudio.Accounts
                 else
                 {
                     loader.Visible = false;
+                }
+            }
+        }
+
+        private async Task SaveAccess()
+        {
+            if (Account != null)
+            {
+                foreach (DataGridViewRow row in dgvAccess.Rows)
+                {
+                    long userID = (long)row.Cells["colEmployee"].Tag;
+                    bool access = row.Cells["colAccess"].Value == null ? false : (bool)row.Cells["colAccess"].Value;
+
+                    PutData put = new PutData(DataAccess.APIs.CompanyStudio, $"Account/PutUserIDAccountAccess/{Account.AccountID}", new { userid = userID, hasAccess = access });
+                    put.AddCompanyHeader(Company.CompanyID);
+                    await put.ExecuteNoResult();
                 }
             }
         }
@@ -103,6 +126,7 @@ namespace CompanyStudio.Accounts
                 GetData getAccount = new GetData(DataAccess.APIs.CompanyStudio, $"Account/Get");
                 getAccount.Headers.Add("CompanyID", Company.CompanyID.ToString());
                 getAccount.QueryString.Add("id", Account.AccountID.ToString());
+                getAccount.RequestFields.AddRange(frmAccountExplorer.REQUEST_FIELDS);
                 Account = await getAccount.GetObject<Account>();
             }
 
@@ -137,6 +161,8 @@ namespace CompanyStudio.Accounts
                 cmdTransfer.Enabled = false;
                 Text = "New Account - " + Company.Name;
             }
+
+            LoadAccess();
 
             txtDescription.Focus();
 
@@ -281,6 +307,32 @@ namespace CompanyStudio.Accounts
             }
 
             loaderFQ.Visible = false;
+        }
+
+        public async void LoadAccess()
+        {
+            dgvAccess.Rows.Clear();
+
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Employee/GetAllForCompany");
+            get.AddCompanyHeader(Company.CompanyID);
+            List<Employee> employees = await get.GetObject<List<Employee>>() ?? new List<Employee>();
+
+            long?[] userIDsSelected = new long?[0];
+            if (Account != null)
+            {
+                get.Resource = $"Account/GetUserIDAccessForAccount/{Account.AccountID}";
+                userIDsSelected = await get.GetObject<long?[]>() ?? new long?[0];
+            }
+
+            foreach (Employee employee in employees)
+            {
+                int rowIndex = dgvAccess.Rows.Add();
+                DataGridViewRow row = dgvAccess.Rows[rowIndex];
+
+                row.Cells["colEmployee"].Value = employee.EmployeeName;
+                row.Cells["colEmployee"].Tag = employee.UserID;
+                row.Cells["colAccess"].Value = userIDsSelected.Contains(employee.UserID);
+            }
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)

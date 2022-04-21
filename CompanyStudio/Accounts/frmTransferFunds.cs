@@ -17,7 +17,7 @@ namespace CompanyStudio.Accounts
     public partial class frmTransferFunds : Form
     {
         public long? AccountIDFrom { get; set; }
-        public long CompanyID { get; set; }
+        public long? CompanyID { get; set; }
         public ThemeBase Theme { get; set; }
         public frmTransferFunds()
         {

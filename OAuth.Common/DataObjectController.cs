@@ -1,4 +1,6 @@
 ﻿using API.Common.Extensions;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
@@ -59,7 +61,7 @@ namespace API.Common
 
         public virtual bool AllowGetAll { get; }
 
-        public virtual SearchCondition GetBaseSearchCondition() { return null; }
+        public virtual ISearchCondition GetBaseSearchCondition() { return null; }
 
         [HttpGet]
         public async virtual Task<TDataObject> Get(long id)
@@ -73,7 +75,7 @@ namespace API.Common
                 Value = id
             };
 
-            SearchCondition baseCondition = GetBaseSearchCondition();
+            ISearchCondition baseCondition = GetBaseSearchCondition();
             if (baseCondition != null)
             {
                 searchCondition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
@@ -113,9 +115,31 @@ namespace API.Common
                 }
             }
 
-            if (!dataObject.Save())
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
-                return dataObject.HandleFailedValidation(this);
+                if (!dataObject.Save(transaction))
+                {
+                    return dataObject.HandleFailedValidation(this);
+                }
+
+                SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
+
+                Search<TDataObject> securitySearch = new Search<TDataObject>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    GetBaseSearchCondition(),
+                    new LongSearchCondition<TDataObject>()
+                    {
+                        Field = schemaObject.PrimaryKeyField.FieldName,
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = ConvertUtility.GetNullableLong(schemaObject.PrimaryKeyField.GetValue(dataObject))
+                    }));
+
+                if (!securitySearch.ExecuteExists(transaction))
+                {
+                    transaction.Rollback();
+                    return BadRequest("You do not have permission to save this object");
+                }
+
+                transaction.Commit();
             }
 
             return Created("Get?id=" + dataObject.PrimaryKeyField.GetValue(dataObject), DataObject.GetReadOnlyByPrimaryKey<TDataObject>(ConvertUtility.GetNullableLong(dataObject.PrimaryKeyField.GetValue(dataObject)), null, await FieldsToRetrieve()));
@@ -124,32 +148,11 @@ namespace API.Common
         [HttpPut]
         public async virtual Task<IHttpActionResult> Put(TDataObject dataObject)
         {
-            object primaryKeyValue = null;
-            if (dataObject.PrimaryKeyField.ReturnType == typeof(long?))
-            {
-                primaryKeyValue = dataObject.PrimaryKeyField.GetValue(dataObject) as long?;
-            }
-            else if (dataObject.PrimaryKeyField.ReturnType == typeof(int?))
-            {
-                primaryKeyValue = dataObject.PrimaryKeyField.GetValue(dataObject) as int?;
-            }
+            TDataObject dbDataObject = await GetPutObjectResult(dataObject);
 
-            if (primaryKeyValue != null && typeof(Nullable<>).IsAssignableFrom(primaryKeyValue.GetType()))
+            if (dbDataObject == null)
             {
-                Type underlyingType = Nullable.GetUnderlyingType(primaryKeyValue.GetType());
-                primaryKeyValue = Convert.ChangeType(primaryKeyValue, underlyingType);
-            }
-
-            TDataObject dbDataObject = DataObject.GetEditableByPrimaryKey<TDataObject>(primaryKeyValue != null ? (long)Convert.ChangeType(primaryKeyValue, typeof(long)) : 0, null, null);
-            SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
-            foreach(Field field in schemaObject.GetFields().Where(f => !f.HasOperation && f != schemaObject.PrimaryKeyField))
-            {
-                if (!(await FieldsToRetrieve()).Contains(field.FieldName))
-                {
-                    continue;
-                }
-
-                field.SetValue(dbDataObject, field.GetValue(dataObject));
+                return NotFound();
             }
 
             if (!dbDataObject.Save())
@@ -160,10 +163,52 @@ namespace API.Common
             return Ok(DataObject.GetReadOnlyByPrimaryKey<TDataObject>(ConvertUtility.GetNullableLong(dbDataObject.PrimaryKeyField.GetValue(dbDataObject)), null, await FieldsToRetrieve()));
         }
 
+        protected async Task<TDataObject> GetPutObjectResult(TDataObject modifiedObject)
+        {
+            SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
+            Search<TDataObject> dataObjectSearch = new Search<TDataObject>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                GetBaseSearchCondition(),
+                new LongSearchCondition<TDataObject>()
+                {
+                    Field = schemaObject.PrimaryKeyField.FieldName,
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = ConvertUtility.GetNullableLong(modifiedObject.PrimaryKeyField.GetValue(modifiedObject)),
+                }));
+
+            TDataObject dbDataObject = dataObjectSearch.GetEditable();
+
+            if (dbDataObject == null)
+            {
+                return null;
+            }
+
+            foreach (Field field in schemaObject.GetFields().Where(f => !f.HasOperation && f != schemaObject.PrimaryKeyField))
+            {
+                if (!(await FieldsToRetrieve()).Contains(field.FieldName))
+                {
+                    continue;
+                }
+
+                field.SetValue(dbDataObject, field.GetValue(modifiedObject));
+            }
+
+            return dbDataObject;
+        }
+
         [HttpDelete]
         public virtual IHttpActionResult Delete(long id)
         {
-            TDataObject dataObject = DataObject.GetEditableByPrimaryKey<TDataObject>(id, null, null);
+            SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
+            Search<TDataObject> dataObjectSearch = new Search<TDataObject>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                GetBaseSearchCondition(),
+                new LongSearchCondition<TDataObject>()
+                {
+                    Field = schemaObject.PrimaryKeyField.FieldName,
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                }));
+
+            TDataObject dataObject = dataObjectSearch.GetEditable();
 
             if (dataObject == null)
             {
@@ -181,7 +226,17 @@ namespace API.Common
         [HttpPatch]
         public async virtual Task<IHttpActionResult> Patch(PatchData patchData)
         {
-            TDataObject dataObject = DataObject.GetEditableByPrimaryKey<TDataObject>(patchData.PrimaryKey, null, Enumerable.Empty<string>());
+            SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
+            Search<TDataObject> dataObjectSearch = new Search<TDataObject>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                GetBaseSearchCondition(),
+                new LongSearchCondition<TDataObject>()
+                {
+                    Field = schemaObject.PrimaryKeyField.FieldName,
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = patchData.PrimaryKey
+                }));
+
+            TDataObject dataObject = dataObjectSearch.GetEditable();
             if (dataObject == null)
             {
                 return NotFound();
@@ -196,6 +251,15 @@ namespace API.Common
             }
 
             return Ok();
+        }
+
+        public SecurityProfile SecurityProfile
+        {
+            get
+            {
+                Request.Properties.TryGetValue("SecurityProfile", out object securityProfile);
+                return securityProfile as SecurityProfile;
+            }
         }
     }
 }

@@ -8,8 +8,8 @@ namespace CompanyStudio.Models
 {
     public class Account
     {
-        public long AccountID { get; set; }
-        public long CompanyID { get; set; }
+        public long? AccountID { get; set; }
+        public long? CompanyID { get; set; }
         public long? CategoryID { get; set; }
         public string Description { get; set; }
         public string AccountNumber { get; set; }

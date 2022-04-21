@@ -122,6 +122,7 @@ namespace WebModels.company
             yield return nameof(ManageEmployees);
             yield return nameof(ManageAccounts);
             yield return nameof(ManageLocations);
+            yield return $"{nameof(LocationEmployees)}.{nameof(LocationEmployee.ManageInvoices)}";
         }
 
         #region Relationships

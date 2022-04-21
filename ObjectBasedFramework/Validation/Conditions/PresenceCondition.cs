@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework.Schema;
+﻿using System;
+using ClussPro.ObjectBasedFramework.Schema;
 
 namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 {

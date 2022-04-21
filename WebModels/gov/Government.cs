@@ -1,6 +1,12 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using System;
 using System.Collections.Generic;
 using WebModels.account;
 using WebModels.company;
@@ -45,6 +51,64 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _canMintCurrency; }
             set { CheckSet(); _canMintCurrency = value; }
+        }
+
+        private SalesTax _effectiveSalesTax = null;
+        [Relationship("A639E317-BBD6-40B2-87B3-F42E2FBB7123")]
+        public SalesTax EffectiveSalesTax
+        {
+            get { CheckGet(); return _effectiveSalesTax; }
+        }
+
+        public override ICondition GetRelationshipCondition(Relationship relationship, string myAlias, string otherAlias)
+        {
+            if (relationship.RelationshipName == nameof(EffectiveSalesTax))
+            {
+                return EffectiveSalesTaxRelationship(myAlias, otherAlias);
+            }
+            return base.GetRelationshipCondition(relationship, myAlias, otherAlias);
+        }
+
+        private ICondition EffectiveSalesTaxRelationship(string myAlias, string otherAlias)
+        {
+            ISelectQuery selectQuery = SQLProviderFactory.GetSelectQuery();
+            selectQuery.SelectList = new List<Select>() { new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.SalesTaxID" } };
+            selectQuery.Table = new TableAlias(otherAlias);
+            selectQuery.WhereCondition = new ConditionGroup()
+            {
+                ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                Conditions = new List<ICondition>()
+                {
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.GovernmentID",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.GovernmentID"
+                    },
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.EffectiveDate",
+                        ConditionType = Condition.ConditionTypes.LessEqual,
+                        Right = new Literal(DateTime.Today)
+                    }
+                }
+            };
+            selectQuery.OrderByList = new List<Order>()
+            {
+                new Order()
+                {
+                    Field = "EffectiveDate",
+                    OrderDirection = Order.OrderDirections.Descending
+                }
+            };
+            selectQuery.PageSize = 1;
+
+            return new Condition()
+            {
+                Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.SalesTaxID",
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = new SubQuery(selectQuery)
+            };
         }
 
         #region Relationships

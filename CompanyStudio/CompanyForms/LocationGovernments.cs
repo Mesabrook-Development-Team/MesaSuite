@@ -40,14 +40,17 @@ namespace CompanyStudio.CompanyForms
             governmentsCol.ValueMember = nameof(Government.GovernmentID);
             governmentsCol.DataSource = governments;
 
-            foreach (LocationGovernment locationGovernment in LocationModel.LocationGovernments)
+            if (LocationModel != null)
             {
-                int rowIndex = dgvGovernments.Rows.Add();
-                DataGridViewRow row = dgvGovernments.Rows[rowIndex];
+                foreach (LocationGovernment locationGovernment in LocationModel.LocationGovernments)
+                {
+                    int rowIndex = dgvGovernments.Rows.Add();
+                    DataGridViewRow row = dgvGovernments.Rows[rowIndex];
 
-                row.Cells["colLocationGovernmentID"].Value = locationGovernment.LocationGovernmentID;
-                row.Cells["colGovernment"].Value = locationGovernment.GovernmentID;
-                row.Cells["colHasSalesTax"].Value = locationGovernment.PaySalesTax;
+                    row.Cells["colLocationGovernmentID"].Value = locationGovernment.LocationGovernmentID;
+                    row.Cells["colGovernment"].Value = locationGovernment.GovernmentID;
+                    row.Cells["colHasSalesTax"].Value = locationGovernment.PaySalesTax;
+                }
             }
 
             loader.Visible = false;
@@ -98,7 +101,7 @@ namespace CompanyStudio.CompanyForms
 
             itemsToDelete.AddRange(LocationModel.LocationGovernments.Where(lg => !itemsToSave.Concat(itemsToCreate).Any(item => item.LocationGovernmentID == lg.LocationGovernmentID)));
 
-            HashSet<long> governmentIDs = new HashSet<long>();
+            HashSet<long?> governmentIDs = new HashSet<long?>();
             foreach (LocationGovernment item in itemsToSave.Concat(itemsToCreate))
             {
                 if (!governmentIDs.Add(item.GovernmentID))

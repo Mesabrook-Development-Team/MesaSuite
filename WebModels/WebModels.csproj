@@ -67,10 +67,13 @@
     <Compile Include="hMailServer\Validations\Conditions\EndsWithOtherFieldCondition.cs" />
     <Compile Include="hMailServer\Validations\dbo\AliasValidations.cs" />
     <Compile Include="hMailServer\Validations\dbo\DistributionListValidations.cs" />
+    <Compile Include="invoicing\Attributes\SentPermissionAttribute.cs" />
     <Compile Include="invoicing\Invoice.cs" />
     <Compile Include="invoicing\InvoiceLine.cs" />
     <Compile Include="invoicing\InvoiceSalesTax.cs" />
+    <Compile Include="invoicing\Validations\InvoiceLineValidationDefinition.cs" />
     <Compile Include="invoicing\Validations\InvoiceValidationDefinition.cs" />
+    <Compile Include="invoicing\Validations\IsValidForSentStatusCondition.cs" />
     <Compile Include="Loaders\security\ProgramLoader.cs" />
     <Compile Include="mesasys\CrashReport.cs" />
     <Compile Include="mesasys\MigrationHistory.cs" />

@@ -27,7 +27,8 @@ namespace MesaSuite
                 { pnlMCSync, "" },
                 { pnlSystemManagement, "system" },
                 { pnlCompanyStudio, "company" },
-                { pnlGovernmentPortal, "gov" }
+                { pnlGovernmentPortal, "gov" },
+                { pnlTowing, "tow" }
             };
         }
 
@@ -356,6 +357,12 @@ namespace MesaSuite
                 BackgroundImage = Properties.Resources.bg;
                 BackgroundImageLayout = ImageLayout.Tile;
             }
+        }
+
+        private void pboxTowing_Click(object sender, EventArgs e)
+        {
+            StartProgram(() => Towing.Program.Main(StartupArguments.GetArgsForApp("tow")));
+            PlayButtonClickSound();
         }
     }
 }

@@ -26,13 +26,20 @@ namespace Towing
 
         private Label _selectedLabel;
         private static readonly Color SAFETY_ORANGE = Color.FromArgb(255, 121, 0);
+        private static Dictionary<Label, IContent> LANDING_CONTENT_BY_LABEL = new Dictionary<Label, IContent>();
+
         public frmMain()
         {
             InitializeComponent();
             Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 10, 10));
 
             _selectedLabel = lblMyTickets;
-            LabelButton_MouseEnter(lblMyTickets, EventArgs.Empty);
+
+            LANDING_CONTENT_BY_LABEL = new Dictionary<Label, IContent>()
+            {
+                { lblMyTickets, new MyTickets.List() }
+            };
+            LabelButton_Click(lblMyTickets, EventArgs.Empty);
         }
 
         private void frmMain_Paint(object sender, PaintEventArgs e)
@@ -70,6 +77,29 @@ namespace Towing
 
             LabelButton_MouseLeave(oldLabel, EventArgs.Empty);
             LabelButton_MouseEnter(_selectedLabel, EventArgs.Empty);
+
+            if (LANDING_CONTENT_BY_LABEL.ContainsKey(_selectedLabel))
+            {
+                SetShownContent(LANDING_CONTENT_BY_LABEL[_selectedLabel]);
+            }
+        }
+
+        internal async void SetShownContent(IContent content)
+        {
+            foreach(Control control in pnlContent.Controls.OfType<IContent>().OfType<Control>().ToList())
+            {
+                pnlContent.Controls.Remove(control);
+            }
+
+            loader.BringToFront();
+            loader.Visible = true;
+
+            await content.LoadData();
+
+            loader.Visible = false;
+            Control contentControl = (Control)content;
+            contentControl.Size = pnlContent.Size;
+            pnlContent.Controls.Add(contentControl);
         }
 
         private void cmdExit_Click(object sender, EventArgs e)

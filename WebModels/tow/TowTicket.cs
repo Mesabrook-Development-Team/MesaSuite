@@ -37,6 +37,23 @@ namespace WebModels.tow
             get { CheckGet(); return _userIssuedTo; }
         }
 
+        private string _ticketNumber;
+        [Field("030A59B6-A3F2-4F9C-A906-6558334A0EEC", DataSize = 6)]
+        [Required]
+        public string TicketNumber
+        {
+            get { CheckGet(); return _ticketNumber; }
+            set { CheckSet(); _ticketNumber = value; }
+        }
+
+        private DateTime? _issueDate;
+        [Field("05A2D94F-F2CB-42E5-A317-47744105FBDD")]
+        public DateTime? IssueDate
+        {
+            get { CheckGet(); return _issueDate; }
+            set { CheckSet(); _issueDate = value; }
+        }
+
         private int? _coordX;
         [Field("77E7BF92-B613-4D32-959A-7C26C4FBD6B1")]
         public int? CoordX

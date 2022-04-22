@@ -6,6 +6,6 @@ namespace Towing
     {
         frmMain MainForm { get; set; }
 
-        Task Load();
+        Task LoadData();
     }
 }

@@ -28,6 +28,8 @@ namespace WebModels.Migrations
             createTable.Columns = new Dictionary<string, FieldSpecification>(){
                 { "TowTicketID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true  } },
                 { "UserIDIssuedTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "TicketNumber", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 6) },
+                { "IssueDate", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
                 { "CoordX", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
                 { "CoordZ", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
                 { "Description", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 500) },

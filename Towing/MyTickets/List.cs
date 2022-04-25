@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MesaSuite.Common.Data;
+using MesaSuite.Common.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Towing.Models;
 
 namespace Towing.MyTickets
 {
@@ -21,17 +24,52 @@ namespace Towing.MyTickets
 
         public async Task LoadData()
         {
-            dgvList.Rows.Add();
-            dgvList.Rows[0].Cells["colTicketNumber"].Value = "Test";
-            dgvList.Rows.Add();
-            dgvList.Rows[1].Cells["colTicketNumber"].Value = "Test 2";
-            dgvList.Rows.Add();
-            dgvList.Rows[2].Cells["colTicketNumber"].Value = "Test 3";
-            dgvList.Rows.Add();
-            dgvList.Rows[3].Cells["colTicketNumber"].Value = "Test 4";
-            dgvList.Rows.Add();
-            dgvList.Rows[4].Cells["colTicketNumber"].Value = "Test 5";
-            await Task.Run(() => { });
+            dgvList.Rows.Clear();
+
+            if (await TicketAlreadyInProgress())
+            {
+                Dispose();
+
+                MainForm.SetShownContent(new InProgressMessage());
+            }
+
+            GetData getData = new GetData(DataAccess.APIs.TowTickets, "TowTicket/GetMyTickets");
+            List<TowTicket> towTickets = await getData.GetObject<List<TowTicket>>() ?? new List<TowTicket>();
+
+            foreach(TowTicket ticket in towTickets)
+            {
+                int rowIndex = dgvList.Rows.Add();
+                dgvList.Rows[rowIndex].Cells["colTicketNumber"].Value = ticket.TicketNumber;
+                dgvList.Rows[rowIndex].Cells["colIssueDate"].Value = ticket.IssueDate?.ConvertToLocalTime().ToString("MM/dd/yyyy HH:mm") ?? String.Empty;
+                dgvList.Rows[rowIndex].Tag = ticket;
+            }
+        }
+
+        private async Task<bool> TicketAlreadyInProgress()
+        {
+            GetData checkTicket = new GetData(DataAccess.APIs.TowTickets, "TowTicket/GetCurrentTicketStatus");
+
+            GetStatusModel response = await checkTicket.GetObject<GetStatusModel>();
+
+            return !response.status.Equals("none", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void dgvList_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex != colUse.Index)
+            {
+                return;
+            }
+
+            TowTicket ticket = (TowTicket)dgvList.Rows[e.RowIndex].Tag;
+            frmViewTicket newTicket = new frmViewTicket();
+            newTicket.TowTicket = ticket;
+            DialogResult newTicketResult = newTicket.ShowDialog();
+
+            if (newTicketResult == DialogResult.OK)
+            {
+                MainForm.SetShownContent(new List());
+            }
         }
     }
 }

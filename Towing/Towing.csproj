@@ -55,6 +55,12 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmViewTicket.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmViewTicket.Designer.cs">
+      <DependentUpon>frmViewTicket.cs</DependentUpon>
+    </Compile>
     <Compile Include="IContent.cs" />
     <Compile Include="Loader.cs">
       <SubType>UserControl</SubType>
@@ -62,22 +68,36 @@
     <Compile Include="Loader.Designer.cs">
       <DependentUpon>Loader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetStatusModel.cs" />
+    <Compile Include="Models\TowTicket.cs" />
     <Compile Include="MyTickets\List.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MyTickets\List.Designer.cs">
       <DependentUpon>List.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyTickets\InProgressMessage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MyTickets\InProgressMessage.Designer.cs">
+      <DependentUpon>InProgressMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmViewTicket.resx">
+      <DependentUpon>frmViewTicket.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyTickets\List.resx">
       <DependentUpon>List.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyTickets\InProgressMessage.resx">
+      <DependentUpon>InProgressMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -111,6 +131,14 @@
   <ItemGroup>
     <None Include="Resources\gif_loader.gif" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\icons8-tow-truck.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\output-onlinegiftools.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\output-onlinegiftools %281%29.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

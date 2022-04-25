@@ -30,6 +30,7 @@ namespace WebModels.Migrations
                 { "UserIDIssuedTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "TicketNumber", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 6) },
                 { "IssueDate", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
+                { "PhoneNumber", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 8) },
                 { "CoordX", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
                 { "CoordZ", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
                 { "Description", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 500) },

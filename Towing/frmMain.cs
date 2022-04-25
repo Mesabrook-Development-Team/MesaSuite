@@ -14,7 +14,7 @@ namespace Towing
     public partial class frmMain : Form
     {
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
+        public static extern IntPtr CreateRoundRectRgn
         (
             int nLeftRect,     // x-coordinate of upper-left corner
             int nTopRect,      // y-coordinate of upper-left corner
@@ -94,12 +94,17 @@ namespace Towing
             loader.BringToFront();
             loader.Visible = true;
 
+            content.MainForm = this;
             await content.LoadData();
 
             loader.Visible = false;
             Control contentControl = (Control)content;
-            contentControl.Size = pnlContent.Size;
-            pnlContent.Controls.Add(contentControl);
+
+            if (!contentControl.IsDisposed)
+            {
+                contentControl.Size = pnlContent.Size;
+                pnlContent.Controls.Add(contentControl);
+            }
         }
 
         private void cmdExit_Click(object sender, EventArgs e)

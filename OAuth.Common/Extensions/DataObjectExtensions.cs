@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -29,6 +30,7 @@ namespace API.Common.Extensions
 
                 PropertyInfo property = dataObject.GetType().GetProperty(workingValueToUpdate.Key);
                 bool isEnumerable = property.PropertyType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(property.PropertyType);
+                bool isNullable = Nullable.GetUnderlyingType(property.PropertyType) != null;
 
                 MethodInfo addMethod = null;
                 MethodInfo removeMethod = null;
@@ -42,6 +44,11 @@ namespace API.Common.Extensions
                         JArray array = (JArray)workingValueToUpdate.Value;
                         workingValueToUpdate = new KeyValuePair<string, object>(workingValueToUpdate.Key, array.ToObject(property.PropertyType));
                     }
+                }
+
+                if (isNullable && workingValueToUpdate.Value != null && Nullable.GetUnderlyingType(workingValueToUpdate.Value.GetType()) == null)
+                {
+                    workingValueToUpdate = new KeyValuePair<string, object>(workingValueToUpdate.Key, Convert.ChangeType(workingValueToUpdate.Value, Nullable.GetUnderlyingType(property.PropertyType)));
                 }
 
                 switch(method)

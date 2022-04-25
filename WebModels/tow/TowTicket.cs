@@ -13,6 +13,8 @@ namespace WebModels.tow
     [Table("7F15B038-5461-4C4E-9727-23D560652661")]
     public class TowTicket : DataObject
     {
+        protected TowTicket() : base() { }
+
         private long? _towTicketID;
         [Field("E4F17EC8-13F6-4F94-94C5-EDE4A3BDDE5A")]
         public long? TowTicketID
@@ -54,8 +56,17 @@ namespace WebModels.tow
             set { CheckSet(); _issueDate = value; }
         }
 
+        private string _phoneNumber;
+        [Field("C8D3F9E3-5156-4975-90CE-D85FF8FC06DE", DataSize = 8)]
+        public string PhoneNumber
+        {
+            get { CheckGet(); return _phoneNumber; }
+            set { CheckSet(); _phoneNumber = value; }
+        }
+
         private int? _coordX;
         [Field("77E7BF92-B613-4D32-959A-7C26C4FBD6B1")]
+        
         public int? CoordX
         {
             get { CheckGet(); return _coordX; }

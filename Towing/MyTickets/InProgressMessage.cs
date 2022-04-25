@@ -39,7 +39,7 @@ namespace Towing.MyTickets
         private const string REQUESTED_MESSAGE = "Your ticket is now available for a tow truck driver to respond to. Please wait while someone accepts the ticket.";
 
         private const string ENROUTE_TITLE = "Driver Is On The Way";
-        private const string ENROUTE_MESSAGE = "{0} is responding to your ticket. Keep an eye out!\r\n\r\nPlease let us know when {0} has finished towing so we can close out your ticket!";
+        private const string ENROUTE_MESSAGE = "{0} started responding to your ticket at {1}. Keep an eye out!\r\n\r\nPlease let us know when {0} has finished towing so we can close out your ticket!";
         private async void tmrPoll_Tick(object sender, EventArgs e)
         {
             tmrPoll.Enabled = false;
@@ -65,7 +65,7 @@ namespace Towing.MyTickets
             if (getStatus.status.Equals("responseenroute", StringComparison.OrdinalIgnoreCase))
             {
                 lblTitle.Text = ENROUTE_TITLE;
-                lblMessage.Text = string.Format(ENROUTE_MESSAGE, getStatus.responder);
+                lblMessage.Text = string.Format(ENROUTE_MESSAGE, getStatus.responder, getStatus.responsetime?.ConvertToLocalTime().ToString("MM/dd/yyyy HH:mm"));
                 cmdAction.Text = "Mark Tow Complete";
                 cmdAction.Visible = true;
                 _actionButtonMethod = ActionButtonMethods.MarkComplete;
@@ -88,6 +88,20 @@ namespace Towing.MyTickets
                     await cancelPut.ExecuteNoResult();
 
                     if (cancelPut.RequestSuccessful)
+                    {
+                        MainForm.SetShownContent(new List());
+                    }
+                    break;
+                case ActionButtonMethods.MarkComplete:
+                    if (!this.Confirm("Are you sure you want to mark this Tow Request complete?"))
+                    {
+                        return;
+                    }
+
+                    PutData markComplete = new PutData(DataAccess.APIs.TowTickets, "TowTicket/TowComplete", null);
+                    await markComplete.ExecuteNoResult();
+
+                    if (markComplete.RequestSuccessful)
                     {
                         MainForm.SetShownContent(new List());
                     }

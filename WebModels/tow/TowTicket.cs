@@ -104,6 +104,22 @@ namespace WebModels.tow
             get { CheckGet(); return _userResponding; }
         }
 
+        private DateTime? _respondingTime;
+        [Field("4889B8C2-6620-4794-BC22-4F6F9EC1136E", DataSize = 7)]
+        public DateTime? RespondingTime
+        {
+            get { CheckGet(); return _respondingTime; }
+            set { CheckSet(); _respondingTime = value; }
+        }
+
+        private DateTime? _completionTime;
+        [Field("CF998315-7E30-4B92-9C30-B41994B1AB3B", DataSize = 7)]
+        public DateTime? CompletionTime
+        {
+            get { CheckGet(); return _completionTime; }
+            set { CheckSet(); _completionTime = value; }
+        }
+
         public enum Statuses
         {
             New = 0,
@@ -126,5 +142,16 @@ namespace WebModels.tow
             get { CheckGet(); return _statusCode; }
             set { CheckSet(); _statusCode = value; }
         }
+
+        #region Relationships
+        #region tow
+        private List<AccessCode> _accessCodes = new List<AccessCode>();
+        [RelationshipList("F0C82754-F12F-49F0-90D9-BCA4B0CEC72E", nameof(AccessCode.TowTicketID))]
+        public IReadOnlyCollection<AccessCode> AccessCodes
+        {
+            get { CheckGet(); return _accessCodes; }
+        }
+        #endregion
+        #endregion
     }
 }

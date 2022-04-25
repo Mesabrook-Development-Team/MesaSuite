@@ -37,7 +37,8 @@ namespace Towing
 
             LANDING_CONTENT_BY_LABEL = new Dictionary<Label, IContent>()
             {
-                { lblMyTickets, new MyTickets.List() }
+                { lblMyTickets, new MyTickets.List() },
+                { lblPerformTowing, new PerformTowing.List() }
             };
             LabelButton_Click(lblMyTickets, EventArgs.Empty);
         }

@@ -35,6 +35,7 @@
             this.colUse = new System.Windows.Forms.DataGridViewButtonColumn();
             this.colTicketNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIssueDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,6 +46,9 @@
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
             this.dgvList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(121)))), ((int)(((byte)(0)))));
             this.dgvList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgvList.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -71,7 +75,6 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvList.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvList.EnableHeadersVisualStyles = false;
             this.dgvList.GridColor = System.Drawing.Color.White;
             this.dgvList.Location = new System.Drawing.Point(0, 0);
@@ -80,7 +83,7 @@
             this.dgvList.RowHeadersVisible = false;
             this.dgvList.RowTemplate.Height = 26;
             this.dgvList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvList.Size = new System.Drawing.Size(665, 311);
+            this.dgvList.Size = new System.Drawing.Size(665, 265);
             this.dgvList.TabIndex = 0;
             this.dgvList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvList_CellContentClick);
             // 
@@ -106,11 +109,26 @@
             this.colIssueDate.ReadOnly = true;
             this.colIssueDate.Width = 150;
             // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(0, 268);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(665, 43);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "These are your tow tickets. If you get stuck or need help, use a tow ticket to ge" +
+    "t help from a tow truck.";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // List
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(121)))), ((int)(((byte)(0)))));
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvList);
             this.ForeColor = System.Drawing.Color.Black;
             this.Name = "List";
@@ -126,5 +144,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn colUse;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTicketNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn colIssueDate;
+        private System.Windows.Forms.Label label1;
     }
 }

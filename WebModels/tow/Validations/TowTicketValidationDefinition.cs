@@ -34,6 +34,26 @@ namespace WebModels.tow.Validations
                         new EqualCondition(nameof(TowTicket.StatusCode), (int)TowTicket.Statuses.New),
                         new PresenceCondition(nameof(TowTicket.CoordZ)))
                 };
+
+                yield return new ValidationRule()
+                {
+                    ID = new Guid("F31665ED-A4D8-4823-832E-BC1FB67C9EC3"),
+                    Field = nameof(TowTicket.RespondingTime),
+                    Message = "Responding Time is a required field",
+                    Condition = new ConditionGroup(ConditionGroup.ConditionGroupTypes.Or,
+                        new InequalityCondition(nameof(TowTicket.StatusCode), InequalityCondition.Operations.LessThan, (int)TowTicket.Statuses.ResponseEnRoute),
+                        new PresenceCondition(nameof(TowTicket.RespondingTime)))
+                };
+
+                yield return new ValidationRule()
+                {
+                    ID = new Guid("F31665ED-A4D8-4823-832E-BC1FB67C9EC3"),
+                    Field = nameof(TowTicket.CompletionTime),
+                    Message = "Completion Time is a required field",
+                    Condition = new ConditionGroup(ConditionGroup.ConditionGroupTypes.Or,
+                        new InequalityCondition(nameof(TowTicket.StatusCode), InequalityCondition.Operations.LessThan, (int)TowTicket.Statuses.History),
+                        new PresenceCondition(nameof(TowTicket.CompletionTime)))
+                };
             }
         }
     }

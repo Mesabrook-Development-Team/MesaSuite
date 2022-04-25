@@ -81,6 +81,7 @@
     <Compile Include="security\Program.cs" />
     <Compile Include="security\User.cs" />
     <Compile Include="security\UserProgram.cs" />
+    <Compile Include="tow\AccessCode.cs" />
     <Compile Include="tow\TowTicket.cs" />
     <Compile Include="tow\Validations\TowTicketValidationDefinition.cs" />
   </ItemGroup>

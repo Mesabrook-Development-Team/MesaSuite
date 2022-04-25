@@ -7,6 +7,9 @@ using API.Common;
 using API.Common.Attributes;
 using API.Common.Extensions;
 using API_Towing.Models;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using WebModels.tow;
 
@@ -35,22 +38,8 @@ namespace API_Towing.Controllers
                     Value = (int)TowTicket.Statuses.New
                 }));
 
-            string[] fields = new string[]
-            {
-                nameof(TowTicket.TowTicketID),
-                $"{nameof(TowTicket.UserIssuedTo)}.{nameof(WebModels.security.User.Username)}",
-                nameof(TowTicket.PhoneNumber),
-                nameof(TowTicket.TicketNumber),
-                nameof(TowTicket.IssueDate),
-                nameof(TowTicket.CoordX),
-                nameof(TowTicket.CoordZ),
-                nameof(TowTicket.Description),
-                $"{nameof(TowTicket.UserResponding)}.{nameof(WebModels.security.User.Username)}",
-                nameof(TowTicket.StatusCode)
-            };
-
             List<TowTicketViewModel> towTickets = new List<TowTicketViewModel>();
-            foreach (TowTicket towTicket in towTicketSearch.GetReadOnlyReader(null, fields))
+            foreach (TowTicket towTicket in towTicketSearch.GetReadOnlyReader(null, TowTicketViewModel.SEARCH_FIELDS))
             {
                 towTickets.Add(TowTicketViewModel.CreateFromTowTicket(towTicket));
             }
@@ -125,6 +114,7 @@ namespace API_Towing.Controllers
             TowTicket inProgressTicket = towTicketSearch.GetReadOnly(null, new string[]
             {
                 nameof(TowTicket.StatusCode),
+                nameof(TowTicket.RespondingTime),
                 $"{nameof(TowTicket.UserResponding)}.{nameof(WebModels.security.User.Username)}"
             });
 
@@ -136,6 +126,7 @@ namespace API_Towing.Controllers
             return new GetStatusModel()
             {
                 status = inProgressTicket.Status.ToString().ToLower(),
+                responsetime = inProgressTicket.RespondingTime,
                 responder = inProgressTicket.UserResponding?.Username
             };
         }
@@ -173,6 +164,97 @@ namespace API_Towing.Controllers
             }
 
             return Ok(inProgressTicket);
+        }
+
+        [HttpPut]
+        public IHttpActionResult TowComplete()
+        {
+            Search<TowTicket> towTicketSearch = new Search<TowTicket>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<TowTicket>()
+                {
+                    Field = nameof(TowTicket.UserIDIssuedTo),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = UserID
+                },
+                new IntSearchCondition<TowTicket>()
+                {
+                    Field = nameof(TowTicket.StatusCode),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = (int)TowTicket.Statuses.ResponseEnRoute
+                }));
+
+            TowTicket inProgressTicket = towTicketSearch.GetEditable();
+            if (inProgressTicket == null)
+            {
+                return NotFound();
+            }
+
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
+            {
+                inProgressTicket.CompletionTime = DateTime.Now;
+                inProgressTicket.Status = TowTicket.Statuses.History;
+                if (!inProgressTicket.Save(transaction))
+                {
+                    return inProgressTicket.HandleFailedValidation(this);
+                }
+
+                string nextTowTicketNumber;
+                while(true)
+                {
+                    nextTowTicketNumber = new Random().Next(1000, 999999).ToString();
+                    Search<TowTicket> duplicateNumberSearch = new Search<TowTicket>(new StringSearchCondition<TowTicket>()
+                    {
+                        Field = nameof(TowTicket.TicketNumber),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = nextTowTicketNumber
+                    });
+
+                    if (!duplicateNumberSearch.ExecuteExists(transaction))
+                    {
+                        break;
+                    }
+                }
+
+                TowTicket rewardTicket = DataObjectFactory.Create<TowTicket>();
+                rewardTicket.UserIDIssuedTo = inProgressTicket.UserIDResponding;
+                rewardTicket.IssueDate = DateTime.Now;
+                rewardTicket.TicketNumber = nextTowTicketNumber;
+                rewardTicket.Status = TowTicket.Statuses.New;
+                if (!rewardTicket.Save(transaction))
+                {
+                    return rewardTicket.HandleFailedValidation(this);
+                }
+
+                transaction.Commit();
+            }
+
+            return Ok();
+        }
+
+        [HttpGet]
+        public List<TowTicketViewModel> GetTowableTickets()
+        {
+            Search<TowTicket> towTicketSearch = new Search<TowTicket>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+            new LongSearchCondition<TowTicket>()
+            {
+                Field = nameof(TowTicket.StatusCode),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = (int)TowTicket.Statuses.Requested
+            },
+            new LongSearchCondition<TowTicket>()
+            {
+                Field = nameof(TowTicket.UserIDIssuedTo),
+                SearchConditionType = SearchCondition.SearchConditionTypes.NotEquals,
+                Value = UserID
+            }));
+
+            List<TowTicketViewModel> returnedResults = new List<TowTicketViewModel>();
+            foreach(TowTicket ticket in towTicketSearch.GetReadOnlyReader(null, TowTicketViewModel.SEARCH_FIELDS))
+            {
+                returnedResults.Add(TowTicketViewModel.CreateFromTowTicket(ticket));
+            }
+
+            return returnedResults;
         }
     }
 }

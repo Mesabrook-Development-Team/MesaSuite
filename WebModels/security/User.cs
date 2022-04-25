@@ -87,6 +87,13 @@ namespace WebModels.security
         {
             get { CheckGet(); return _towTicketsResponding; }
         }
+
+        private List<AccessCode> _accessCodes = new List<AccessCode>();
+        [RelationshipList("D130873B-8CD5-422E-9613-B5C164ADF0F6", nameof(AccessCode.UserID))]
+        public IReadOnlyCollection<AccessCode> AccessCodes
+        {
+            get { CheckGet(); return _accessCodes; }
+        }
         #endregion
         #endregion
     }

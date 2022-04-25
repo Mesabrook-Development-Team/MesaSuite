@@ -2,12 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 using WebModels.tow;
 
 namespace API_Towing.Models
 {
     public class TowTicketViewModel
     {
+        [JsonIgnore]
+        public static readonly string[] SEARCH_FIELDS = new string[]
+        {
+            nameof(TowTicket.TowTicketID),
+            $"{nameof(TowTicket.UserIssuedTo)}.{nameof(WebModels.security.User.Username)}",
+            nameof(TowTicket.PhoneNumber),
+            nameof(TowTicket.TicketNumber),
+            nameof(TowTicket.IssueDate),
+            nameof(TowTicket.CoordX),
+            nameof(TowTicket.CoordZ),
+            nameof(TowTicket.Description),
+            $"{nameof(TowTicket.UserResponding)}.{nameof(WebModels.security.User.Username)}",
+            nameof(TowTicket.StatusCode)
+        };
+
         public long? TowTicketID { get; set; }
         public string UserIssuedTo { get; set; }
         public string TicketNumber { get; set; }

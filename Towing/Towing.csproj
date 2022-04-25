@@ -82,6 +82,12 @@
     <Compile Include="MyTickets\InProgressMessage.Designer.cs">
       <DependentUpon>InProgressMessage.cs</DependentUpon>
     </Compile>
+    <Compile Include="PerformTowing\List.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PerformTowing\List.Designer.cs">
+      <DependentUpon>List.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmMain.resx">
@@ -98,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyTickets\InProgressMessage.resx">
       <DependentUpon>InProgressMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PerformTowing\List.resx">
+      <DependentUpon>List.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

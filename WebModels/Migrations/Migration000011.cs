@@ -35,7 +35,9 @@ namespace WebModels.Migrations
                 { "CoordZ", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
                 { "Description", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 500) },
                 { "UserIDResponding", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "StatusCode", new FieldSpecification(FieldSpecification.FieldTypes.Int) }
+                { "StatusCode", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "RespondingTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
+                { "CompletionTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
             };
             createTable.Execute(transaction);
 
@@ -44,6 +46,22 @@ namespace WebModels.Migrations
             alterTable.Table = "TowTicket";
             alterTable.AddForeignKey("FKTowTicket_UserIDIssuedTo_User_UserID", "UserIDIssuedTo", "security", "User", "UserID", transaction);
             alterTable.AddForeignKey("FKTowTicket_UseriDResponding_User_UserID", "UserIDResponding", "security", "User", "UserID", transaction);
+
+            createTable.TableName = "AccessCode";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "AccessCodeID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "TowTicketID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "UserID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Code", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 4) }
+            };
+            createTable.Execute(transaction);
+
+            alterTable = SQLProviderFactory.GetAlterTableQuery();
+            alterTable.Schema = "tow";
+            alterTable.Table = "AccessCode";
+            alterTable.AddForeignKey("FKAccessCode_UserID_User_UserID", "UserID", "security", "User", "UserID", transaction);
+            alterTable.AddForeignKey("FKAccessCode_TowTicketID_TowTicket_TowTicketID", "TowTicketID", "tow", "TowTicket", "TowTicketID", transaction);
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MesaSuite.Common.Data;
+using MesaSuite.Common.Extensions;
 using Towing.Models;
 
 namespace Towing.PerformTowing
@@ -35,6 +36,35 @@ namespace Towing.PerformTowing
                 row.Cells[nameof(colTicketNumber)].Value = ticket.TicketNumber;
                 row.Cells[nameof(colSubmitter)].Value = ticket.UserIssuedTo;
                 row.Tag = ticket;
+            }
+        }
+
+        private async void dgvList_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow row = dgvList.Rows[e.RowIndex];
+            TowTicket ticket = row.Tag as TowTicket;
+            if (ticket == null)
+            {
+                return;
+            }
+
+            if (dgvList.Columns[e.ColumnIndex] == colView)
+            {
+                frmViewTicket viewTicket = new frmViewTicket();
+                viewTicket.TowTicket = ticket;
+                viewTicket.ViewMode = frmViewTicket.ViewModes.ViewTicket;
+                viewTicket.ShowDialog();
+                return;
+            }
+
+            if (dgvList.Columns[e.ColumnIndex] == colTow)
+            {
+                PutData startTow = new PutData(DataAccess.APIs.TowTickets, $"TowTicket/StartTow/{ticket.TowTicketID}", null);
+                await startTow.ExecuteNoResult();
+                if (startTow.RequestSuccessful)
+                {
+                    
+                }
             }
         }
     }

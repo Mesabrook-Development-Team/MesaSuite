@@ -169,6 +169,10 @@
       <Project>{7d2068c5-df3c-4de0-9f27-477d75b65fb6}</Project>
       <Name>SystemManagement</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Towing\Towing.csproj">
+      <Project>{d744a709-6eae-4981-a147-df4d234b02c6}</Project>
+      <Name>Towing</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

@@ -6,6 +6,7 @@ using WebModels.account;
 using WebModels.auth;
 using WebModels.company;
 using WebModels.gov;
+using WebModels.tow;
 
 namespace WebModels.security
 {
@@ -70,6 +71,28 @@ namespace WebModels.security
         public IReadOnlyCollection<UserProgram> UserPrograms
         {
             get { CheckGet(); return _userPrograms; }
+        }
+        #endregion
+        #region tow
+        private List<TowTicket> _towTicketsIssued = new List<TowTicket>();
+        [RelationshipList("19241116-4D32-42BB-B53C-A243469E1703", nameof(TowTicket.UserIDIssuedTo), AutoRemoveReferences = true)]
+        public IReadOnlyCollection<TowTicket> TowTicketsIssued
+        {
+            get { CheckGet(); return _towTicketsIssued; }
+        }
+
+        private List<TowTicket> _towTicketsResponding = new List<TowTicket>();
+        [RelationshipList("AA5B7A3F-CEFC-4539-95A0-1A92EE35429E", nameof(TowTicket.UserIDResponding), AutoRemoveReferences = true)]
+        public IReadOnlyCollection<TowTicket> TowTicketsResponding
+        {
+            get { CheckGet(); return _towTicketsResponding; }
+        }
+
+        private List<AccessCode> _accessCodes = new List<AccessCode>();
+        [RelationshipList("D130873B-8CD5-422E-9613-B5C164ADF0F6", nameof(AccessCode.UserID))]
+        public IReadOnlyCollection<AccessCode> AccessCodes
+        {
+            get { CheckGet(); return _accessCodes; }
         }
         #endregion
         #endregion

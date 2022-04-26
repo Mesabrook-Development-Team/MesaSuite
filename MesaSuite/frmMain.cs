@@ -62,6 +62,7 @@ namespace MesaSuite
             pboxSystem.Visible = false;
             pboxCStudio.Visible = false;
             pboxGPortal.Visible = false;
+            pboxTowTxt.Visible = false;
             Authentication.OnLoggedIn += Authentication_OnLoggedIn;
             Authentication.OnLoggedOut += Authentication_OnLoggedOut;
             Authentication.OnProgramUpdate += Authentication_OnProgramUpdate;
@@ -363,6 +364,18 @@ namespace MesaSuite
         {
             StartProgram(() => Towing.Program.Main(StartupArguments.GetArgsForApp("tow")));
             PlayButtonClickSound();
+        }
+
+        private void pboxTowing_MouseEnter(object sender, EventArgs e)
+        {
+            pboxTowing.Image = Properties.Resources.icn_tow_hover;
+            pboxTowTxt.Visible = true;
+        }
+
+        private void pboxTowing_MouseLeave(object sender, EventArgs e)
+        {
+            pboxTowing.Image = Properties.Resources.icn_tow;
+            pboxTowTxt.Visible = false;
         }
     }
 }

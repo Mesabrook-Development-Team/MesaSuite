@@ -58,8 +58,8 @@
             // 
             this.lblTicketNumber.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTicketNumber.Font = new System.Drawing.Font("Times New Roman", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTicketNumber.Location = new System.Drawing.Point(12, 9);
+            this.lblTicketNumber.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTicketNumber.Location = new System.Drawing.Point(12, 1);
             this.lblTicketNumber.Name = "lblTicketNumber";
             this.lblTicketNumber.Size = new System.Drawing.Size(588, 54);
             this.lblTicketNumber.TabIndex = 0;

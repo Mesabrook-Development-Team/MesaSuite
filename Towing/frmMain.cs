@@ -26,7 +26,7 @@ namespace Towing
 
         private Label _selectedLabel;
         private static readonly Color SAFETY_ORANGE = Color.FromArgb(255, 121, 0);
-        private static Dictionary<Label, IContent> LANDING_CONTENT_BY_LABEL = new Dictionary<Label, IContent>();
+        private static Dictionary<Label, Type> LANDING_CONTENT_BY_LABEL = new Dictionary<Label, Type>();
 
         public frmMain()
         {
@@ -35,18 +35,19 @@ namespace Towing
 
             _selectedLabel = lblMyTickets;
 
-            LANDING_CONTENT_BY_LABEL = new Dictionary<Label, IContent>()
+            LANDING_CONTENT_BY_LABEL = new Dictionary<Label, Type>()
             {
-                { lblMyTickets, new MyTickets.List() },
-                { lblPerformTowing, new PerformTowing.List() }
+                { lblMyTickets, typeof(MyTickets.List) },
+                { lblPerformTowing, typeof(PerformTowing.List) },
+                { lblTicketHistory, typeof(History.List) }
             };
             LabelButton_Click(lblMyTickets, EventArgs.Empty);
         }
 
         private void frmMain_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawLine(Pens.White, 0, label1.Location.Y + label1.Height, Width, label1.Location.Y + label1.Height);
-            e.Graphics.DrawLine(Pens.White, lblMyTickets.Location.X + lblMyTickets.Width, label1.Location.Y + label1.Height, lblMyTickets.Location.X + lblMyTickets.Width, Height);
+            e.Graphics.DrawLine(Pens.White, 0, lblTitle.Location.Y + lblTitle.Height, Width, lblTitle.Location.Y + lblTitle.Height);
+            e.Graphics.DrawLine(Pens.White, lblMyTickets.Location.X + lblMyTickets.Width, lblTitle.Location.Y + lblTitle.Height, lblMyTickets.Location.X + lblMyTickets.Width, Height);
         }
 
         private void LabelButton_MouseEnter(object sender, EventArgs e)
@@ -81,7 +82,7 @@ namespace Towing
 
             if (LANDING_CONTENT_BY_LABEL.ContainsKey(_selectedLabel))
             {
-                SetShownContent(LANDING_CONTENT_BY_LABEL[_selectedLabel]);
+                SetShownContent((IContent)Activator.CreateInstance(LANDING_CONTENT_BY_LABEL[_selectedLabel]));
             }
         }
 
@@ -89,6 +90,7 @@ namespace Towing
         {
             foreach(Control control in pnlContent.Controls.OfType<IContent>().OfType<Control>().ToList())
             {
+                control.Dispose();
                 pnlContent.Controls.Remove(control);
             }
 
@@ -111,6 +113,27 @@ namespace Towing
         private void cmdExit_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        bool isMousePressed = false;
+        private int xOffset;
+        private int yOffset;
+        private void lblTitle_MouseDown(object sender, MouseEventArgs e)
+        {
+            isMousePressed = true;
+            xOffset = PointToClient(Cursor.Position).X;
+            yOffset = PointToClient(Cursor.Position).Y;
+        }
+
+        private void lblTitle_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!isMousePressed) { return; }
+            Location = new Point(Cursor.Position.X - xOffset, Cursor.Position.Y - yOffset);
+        }
+
+        private void lblTitle_MouseUp(object sender, MouseEventArgs e)
+        {
+            isMousePressed = false;
         }
     }
 }

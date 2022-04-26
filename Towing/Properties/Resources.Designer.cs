@@ -63,6 +63,16 @@ namespace Towing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap door_lock {
+            get {
+                object obj = ResourceManager.GetObject("door_lock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap gif_loader {
             get {
                 object obj = ResourceManager.GetObject("gif_loader", resourceCulture);

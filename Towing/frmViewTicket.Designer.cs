@@ -46,6 +46,12 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtPhoneNumber = new System.Windows.Forms.TextBox();
             this.cmdClose = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtResponder = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtResponseTime = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtCompleteTime = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblTicketNumber
@@ -78,7 +84,7 @@
             this.txtIssuedTo.Name = "txtIssuedTo";
             this.txtIssuedTo.ReadOnly = true;
             this.txtIssuedTo.Size = new System.Drawing.Size(437, 29);
-            this.txtIssuedTo.TabIndex = 0;
+            this.txtIssuedTo.TabIndex = 11;
             // 
             // label2
             // 
@@ -98,7 +104,7 @@
             this.txtIssueDate.Name = "txtIssueDate";
             this.txtIssueDate.ReadOnly = true;
             this.txtIssueDate.Size = new System.Drawing.Size(437, 29);
-            this.txtIssueDate.TabIndex = 1;
+            this.txtIssueDate.TabIndex = 12;
             // 
             // label3
             // 
@@ -117,7 +123,7 @@
             this.txtCoordX.Location = new System.Drawing.Point(163, 171);
             this.txtCoordX.Name = "txtCoordX";
             this.txtCoordX.Size = new System.Drawing.Size(67, 29);
-            this.txtCoordX.TabIndex = 3;
+            this.txtCoordX.TabIndex = 1;
             // 
             // label4
             // 
@@ -136,7 +142,7 @@
             this.txtCoordZ.Location = new System.Drawing.Point(366, 171);
             this.txtCoordZ.Name = "txtCoordZ";
             this.txtCoordZ.Size = new System.Drawing.Size(67, 29);
-            this.txtCoordZ.TabIndex = 4;
+            this.txtCoordZ.TabIndex = 2;
             // 
             // lnkDynmap
             // 
@@ -145,7 +151,7 @@
             this.lnkDynmap.Location = new System.Drawing.Point(442, 174);
             this.lnkDynmap.Name = "lnkDynmap";
             this.lnkDynmap.Size = new System.Drawing.Size(158, 24);
-            this.lnkDynmap.TabIndex = 5;
+            this.lnkDynmap.TabIndex = 3;
             this.lnkDynmap.TabStop = true;
             this.lnkDynmap.Text = "View On Dynmap";
             this.lnkDynmap.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDynmap_LinkClicked);
@@ -169,7 +175,7 @@
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescription.Size = new System.Drawing.Size(584, 121);
-            this.txtDescription.TabIndex = 6;
+            this.txtDescription.TabIndex = 4;
             // 
             // label6
             // 
@@ -183,10 +189,10 @@
             // cmdSave
             // 
             this.cmdSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmdSave.Location = new System.Drawing.Point(525, 363);
+            this.cmdSave.Location = new System.Drawing.Point(525, 470);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 7;
+            this.cmdSave.TabIndex = 5;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -195,10 +201,10 @@
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmdCancel.Location = new System.Drawing.Point(444, 363);
+            this.cmdCancel.Location = new System.Drawing.Point(444, 470);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 8;
+            this.cmdCancel.TabIndex = 6;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             // 
@@ -219,20 +225,80 @@
             this.txtPhoneNumber.Location = new System.Drawing.Point(163, 136);
             this.txtPhoneNumber.Name = "txtPhoneNumber";
             this.txtPhoneNumber.Size = new System.Drawing.Size(437, 29);
-            this.txtPhoneNumber.TabIndex = 2;
+            this.txtPhoneNumber.TabIndex = 0;
             // 
             // cmdClose
             // 
             this.cmdClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmdClose.Location = new System.Drawing.Point(525, 363);
+            this.cmdClose.Location = new System.Drawing.Point(525, 470);
             this.cmdClose.Name = "cmdClose";
             this.cmdClose.Size = new System.Drawing.Size(75, 23);
-            this.cmdClose.TabIndex = 8;
+            this.cmdClose.TabIndex = 7;
             this.cmdClose.Text = "Close";
             this.cmdClose.UseVisualStyleBackColor = true;
             this.cmdClose.Visible = false;
             this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(12, 366);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(109, 24);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Responder:";
+            // 
+            // txtResponder
+            // 
+            this.txtResponder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(121)))), ((int)(((byte)(0)))));
+            this.txtResponder.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtResponder.Location = new System.Drawing.Point(163, 363);
+            this.txtResponder.Name = "txtResponder";
+            this.txtResponder.ReadOnly = true;
+            this.txtResponder.Size = new System.Drawing.Size(437, 29);
+            this.txtResponder.TabIndex = 8;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(12, 401);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(149, 24);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "Response Time:";
+            // 
+            // txtResponseTime
+            // 
+            this.txtResponseTime.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(121)))), ((int)(((byte)(0)))));
+            this.txtResponseTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtResponseTime.Location = new System.Drawing.Point(163, 398);
+            this.txtResponseTime.Name = "txtResponseTime";
+            this.txtResponseTime.ReadOnly = true;
+            this.txtResponseTime.Size = new System.Drawing.Size(437, 29);
+            this.txtResponseTime.TabIndex = 9;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(12, 436);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(144, 24);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Complete Time:";
+            // 
+            // txtCompleteTime
+            // 
+            this.txtCompleteTime.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(121)))), ((int)(((byte)(0)))));
+            this.txtCompleteTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCompleteTime.Location = new System.Drawing.Point(163, 433);
+            this.txtCompleteTime.Name = "txtCompleteTime";
+            this.txtCompleteTime.ReadOnly = true;
+            this.txtCompleteTime.Size = new System.Drawing.Size(437, 29);
+            this.txtCompleteTime.TabIndex = 10;
             // 
             // frmViewTicket
             // 
@@ -241,7 +307,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(121)))), ((int)(((byte)(0)))));
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(612, 399);
+            this.ClientSize = new System.Drawing.Size(612, 505);
             this.Controls.Add(this.cmdClose);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);
@@ -250,9 +316,15 @@
             this.Controls.Add(this.txtCoordZ);
             this.Controls.Add(this.txtCoordX);
             this.Controls.Add(this.txtDescription);
+            this.Controls.Add(this.txtCompleteTime);
+            this.Controls.Add(this.txtResponseTime);
+            this.Controls.Add(this.txtResponder);
             this.Controls.Add(this.txtPhoneNumber);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.txtIssueDate);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label3);
@@ -292,5 +364,11 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtPhoneNumber;
         private System.Windows.Forms.Button cmdClose;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtResponder;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtResponseTime;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtCompleteTime;
     }
 }

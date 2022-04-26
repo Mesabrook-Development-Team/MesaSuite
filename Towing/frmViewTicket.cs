@@ -33,11 +33,14 @@ namespace Towing
             txtCoordX.Text = TowTicket.CoordX.ToString();
             txtCoordZ.Text = TowTicket.CoordZ.ToString();
             txtDescription.Text = TowTicket.Description;
+            txtResponder.Text = TowTicket.UserResponding;
+            txtResponseTime.Text = TowTicket.RespondingTime?.ConvertToLocalTime().ToString("MM/dd/yyyy HH:mm");
+            txtCompleteTime.Text = TowTicket.CompletionTime?.ConvertToLocalTime().ToString("MM/dd/yyyy HH:mm");
 
-            txtPhoneNumber.Enabled = ViewMode == ViewModes.NewTicket;
-            txtCoordX.Enabled = ViewMode == ViewModes.NewTicket;
-            txtCoordZ.Enabled = ViewMode == ViewModes.NewTicket;
-            txtDescription.Enabled = ViewMode == ViewModes.NewTicket;
+            txtPhoneNumber.ReadOnly = ViewMode == ViewModes.NewTicket;
+            txtCoordX.ReadOnly = ViewMode == ViewModes.NewTicket;
+            txtCoordZ.ReadOnly = ViewMode == ViewModes.NewTicket;
+            txtDescription.ReadOnly = ViewMode == ViewModes.NewTicket;
 
             cmdSave.Visible = ViewMode == ViewModes.NewTicket;
             cmdCancel.Visible = ViewMode == ViewModes.NewTicket;

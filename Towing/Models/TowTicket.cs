@@ -18,5 +18,7 @@ namespace Towing.Models
         public string Description { get; set; }
         public string UserResponding { get; set; }
         public string Status { get; set; }
+        public DateTime? RespondingTime { get; set; }
+        public DateTime? CompletionTime { get; set; }
     }
 }

@@ -54,6 +54,14 @@ namespace WebModels.tow.Validations
                         new InequalityCondition(nameof(TowTicket.StatusCode), InequalityCondition.Operations.LessThan, (int)TowTicket.Statuses.History),
                         new PresenceCondition(nameof(TowTicket.CompletionTime)))
                 };
+
+                yield return new ValidationRule()
+                {
+                    ID = new Guid("C71EDBF7-C325-4EF0-B4AE-04D4522D1FAD"),
+                    Field = nameof(TowTicket.UserIDResponding),
+                    Message = "Only one active job may be taken at a time",
+                    Condition = new SingleJobPerUserCondition()
+                };
             }
         }
     }

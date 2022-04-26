@@ -113,6 +113,7 @@ namespace API_Towing.Controllers
 
             TowTicket inProgressTicket = towTicketSearch.GetReadOnly(null, new string[]
             {
+                nameof(TowTicket.TicketNumber),
                 nameof(TowTicket.StatusCode),
                 nameof(TowTicket.RespondingTime),
                 $"{nameof(TowTicket.UserResponding)}.{nameof(WebModels.security.User.Username)}"
@@ -125,6 +126,7 @@ namespace API_Towing.Controllers
 
             return new GetStatusModel()
             {
+                ticketnumber = inProgressTicket.TicketNumber,
                 status = inProgressTicket.Status.ToString().ToLower(),
                 responsetime = inProgressTicket.RespondingTime,
                 responder = inProgressTicket.UserResponding?.Username
@@ -148,19 +150,40 @@ namespace API_Towing.Controllers
                     Value = (int)TowTicket.Statuses.Requested
                 }));
 
-            TowTicket inProgressTicket = towTicketSearch.GetEditable();
-            if (inProgressTicket == null)
+            TowTicket inProgressTicket;
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
-                return NotFound();
-            }
+                inProgressTicket = towTicketSearch.GetEditable(transaction);
+                if (inProgressTicket == null)
+                {
+                    return NotFound();
+                }
 
-            inProgressTicket.CoordX = null;
-            inProgressTicket.CoordZ = null;
-            inProgressTicket.Description = null;
-            inProgressTicket.Status = TowTicket.Statuses.New;
-            if (!inProgressTicket.Save())
-            {
-                return inProgressTicket.HandleFailedValidation(this);
+                inProgressTicket.CoordX = null;
+                inProgressTicket.CoordZ = null;
+                inProgressTicket.Description = null;
+                inProgressTicket.Status = TowTicket.Statuses.New;
+                if (!inProgressTicket.Save(transaction))
+                {
+                    return inProgressTicket.HandleFailedValidation(this);
+                }
+
+                Search<AccessCode> accessCodesSearch = new Search<AccessCode>(new LongSearchCondition<AccessCode>()
+                {
+                    Field = nameof(AccessCode.TowTicketID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = inProgressTicket.TowTicketID
+                });
+
+                foreach (AccessCode accessCode in accessCodesSearch.GetEditableReader())
+                {
+                    if (!accessCode.Delete(transaction))
+                    {
+                        return accessCode.HandleFailedValidation(this);
+                    }
+                }
+
+                transaction.Commit();
             }
 
             return Ok(inProgressTicket);
@@ -288,51 +311,157 @@ namespace API_Towing.Controllers
                 return NotFound();
             }
 
-            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
+            string newAccessCode;
+            while(true)
             {
-                newTicket.Status = TowTicket.Statuses.ResponseEnRoute;
-                newTicket.RespondingTime = DateTime.Now;
-                if (!newTicket.Save(transaction))
+                Random rand = new Random();
+
+                newAccessCode = "";
+                for(int i = 0; i < 2; i++)
                 {
-                    return newTicket.HandleFailedValidation(this);
+                    newAccessCode += LETTERS[rand.Next(0, 26)];
                 }
 
-                string newAccessCode;
-                while(true)
+                newAccessCode += (rand.Next(0, 10)).ToString();
+                newAccessCode += (rand.Next(0, 10)).ToString();
+                Search<AccessCode> accessCodeSearch = new Search<AccessCode>(new StringSearchCondition<AccessCode>()
                 {
-                    newAccessCode = "";
-                    for(int i = 0; i < 2; i++)
-                    {
-                        newAccessCode += LETTERS[new Random().Next(0, 26) - 1];
-                    }
+                    Field = nameof(AccessCode.Code),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = newAccessCode
+                });
 
-                    newAccessCode += (new Random().Next(1, 10) - 1).ToString();
-                    Search<AccessCode> accessCodeSearch = new Search<AccessCode>(new StringSearchCondition<AccessCode>()
-                    {
-                        Field = nameof(AccessCode.Code),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = newAccessCode
-                    });
-
-                    if (!accessCodeSearch.ExecuteExists(null))
-                    {
-                        break;
-                    }
-                }
-
-                AccessCode accessCode = DataObjectFactory.Create<AccessCode>();
-                accessCode.TowTicketID = newTicket.TowTicketID;
-                accessCode.UserID = UserID;
-                accessCode.Code = newAccessCode;
-                if (!accessCode.Save(transaction))
+                if (!accessCodeSearch.ExecuteExists(null))
                 {
-                    return accessCode.HandleFailedValidation(this);
+                    break;
                 }
+            }
 
-                transaction.Commit();
+            AccessCode accessCode = DataObjectFactory.Create<AccessCode>();
+            accessCode.TowTicketID = newTicket.TowTicketID;
+            accessCode.UserID = UserID;
+            accessCode.Code = newAccessCode;
+            if (!accessCode.Save())
+            {
+                return accessCode.HandleFailedValidation(this);
             }
 
             return Ok();
+        }
+
+        [HttpGet]
+        public GetStatusModel GetTowingStatus()
+        {
+            Search<TowTicket> towingTicketSearch = new Search<TowTicket>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<TowTicket>()
+                {
+                    Field = nameof(TowTicket.UserIDResponding),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = UserID
+                },
+                new IntSearchCondition<TowTicket>()
+                {
+                    Field = nameof(TowTicket.StatusCode),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = (int)TowTicket.Statuses.ResponseEnRoute
+                }));
+
+            TowTicket towingTicket = towingTicketSearch.GetReadOnly(null, new string[]
+            {
+                nameof(TowTicket.TicketNumber),
+                nameof(TowTicket.StatusCode),
+                $"{nameof(TowTicket.UserResponding)}.{nameof(WebModels.security.User.Username)}",
+                nameof(TowTicket.RespondingTime)
+            });
+
+            if (towingTicket == null)
+            {
+                return new GetStatusModel() { status = "none" };
+            }
+
+            return new GetStatusModel()
+            {
+                ticketnumber = towingTicket.TicketNumber,
+                status = towingTicket.Status.ToString(),
+                responder = towingTicket.UserResponding?.Username ?? string.Empty,
+                responsetime = towingTicket.RespondingTime
+            };
+        }
+
+        [HttpGet]
+        public TowTicketViewModel GetByNumber(string id)
+        {
+            Search<TowTicket> towTicketSearch = new Search<TowTicket>(new StringSearchCondition<TowTicket>()
+            {
+                Field = nameof(TowTicket.TicketNumber),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = id
+            });
+
+            TowTicket ticket = towTicketSearch.GetReadOnly(null, TowTicketViewModel.SEARCH_FIELDS);
+            if (ticket == null)
+            {
+                return null;
+            }
+
+            return TowTicketViewModel.CreateFromTowTicket(ticket);
+        }
+
+        [HttpGet]
+        public TowTicketViewModel GetByAccessCode(string id)
+        {
+            Search<TowTicket> towTicketSearch = new Search<TowTicket>(new ExistsSearchCondition<TowTicket>()
+            {
+                ExistsType = ExistsSearchCondition<TowTicket>.ExistsTypes.Exists,
+                RelationshipName = nameof(TowTicket.AccessCodes),
+                Condition = new StringSearchCondition<AccessCode>()
+                {
+                    Field = nameof(AccessCode.Code),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                }
+            });
+
+            TowTicket foundTicket = towTicketSearch.GetReadOnly(null, TowTicketViewModel.SEARCH_FIELDS);
+            if (foundTicket == null)
+            {
+                return null;
+            }
+
+            return TowTicketViewModel.CreateFromTowTicket(foundTicket);
+        }
+
+        // HISTORY ACTIONS
+        public List<TowTicketViewModel> GetHistorical()
+        {
+            Search<TowTicket> towTicketSearch = new Search<TowTicket>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                    new LongSearchCondition<TowTicket>()
+                    {
+                        Field = nameof(TowTicket.UserIDIssuedTo),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = UserID
+                    },
+                    new LongSearchCondition<TowTicket>()
+                    {
+                        Field = nameof(TowTicket.UserIDResponding),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = UserID
+                    }),
+                new IntSearchCondition<TowTicket>()
+                {
+                    Field = nameof(TowTicket.StatusCode),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = (int)TowTicket.Statuses.History
+                }));
+
+            List<TowTicketViewModel> viewModels = new List<TowTicketViewModel>();
+            foreach(TowTicket ticket in towTicketSearch.GetReadOnlyReader(null, TowTicketViewModel.SEARCH_FIELDS))
+            {
+                viewModels.Add(TowTicketViewModel.CreateFromTowTicket(ticket));
+            }
+
+            return viewModels;
         }
     }
 }

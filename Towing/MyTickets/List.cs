@@ -36,7 +36,7 @@ namespace Towing.MyTickets
             GetData getData = new GetData(DataAccess.APIs.TowTickets, "TowTicket/GetMyTickets");
             List<TowTicket> towTickets = await getData.GetObject<List<TowTicket>>() ?? new List<TowTicket>();
 
-            foreach(TowTicket ticket in towTickets)
+            foreach(TowTicket ticket in towTickets.OrderByDescending(tt => tt.IssueDate ?? DateTime.MinValue))
             {
                 int rowIndex = dgvList.Rows.Add();
                 dgvList.Rows[rowIndex].Cells["colTicketNumber"].Value = ticket.TicketNumber;

@@ -61,6 +61,12 @@
     <Compile Include="frmViewTicket.Designer.cs">
       <DependentUpon>frmViewTicket.cs</DependentUpon>
     </Compile>
+    <Compile Include="History\List.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="History\List.Designer.cs">
+      <DependentUpon>List.cs</DependentUpon>
+    </Compile>
     <Compile Include="IContent.cs" />
     <Compile Include="Loader.cs">
       <SubType>UserControl</SubType>
@@ -82,11 +88,23 @@
     <Compile Include="MyTickets\InProgressMessage.Designer.cs">
       <DependentUpon>InProgressMessage.cs</DependentUpon>
     </Compile>
+    <Compile Include="PerformTowing\AccessCode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PerformTowing\AccessCode.Designer.cs">
+      <DependentUpon>AccessCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="PerformTowing\List.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PerformTowing\List.Designer.cs">
       <DependentUpon>List.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PerformTowing\TowInProgress.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PerformTowing\TowInProgress.Designer.cs">
+      <DependentUpon>TowInProgress.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,6 +113,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmViewTicket.resx">
       <DependentUpon>frmViewTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="History\List.resx">
+      <DependentUpon>List.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>
@@ -105,8 +126,14 @@
     <EmbeddedResource Include="MyTickets\InProgressMessage.resx">
       <DependentUpon>InProgressMessage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PerformTowing\AccessCode.resx">
+      <DependentUpon>AccessCode.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PerformTowing\List.resx">
       <DependentUpon>List.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PerformTowing\TowInProgress.resx">
+      <DependentUpon>TowInProgress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -148,6 +175,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\output-onlinegiftools %281%29.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\door-lock.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

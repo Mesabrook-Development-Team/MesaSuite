@@ -21,7 +21,9 @@ namespace API_Towing.Models
             nameof(TowTicket.CoordZ),
             nameof(TowTicket.Description),
             $"{nameof(TowTicket.UserResponding)}.{nameof(WebModels.security.User.Username)}",
-            nameof(TowTicket.StatusCode)
+            nameof(TowTicket.StatusCode),
+            nameof(TowTicket.RespondingTime),
+            nameof(TowTicket.CompletionTime)
         };
 
         public long? TowTicketID { get; set; }
@@ -34,6 +36,8 @@ namespace API_Towing.Models
         public string Description { get; set; }
         public string UserResponding { get; set; }
         public string Status { get; set; }
+        public DateTime? RespondingTime { get; set; }
+        public DateTime? CompletionTime { get; set; }
 
         public static TowTicketViewModel CreateFromTowTicket(TowTicket towTicket)
         {
@@ -48,7 +52,9 @@ namespace API_Towing.Models
                 CoordZ = towTicket.CoordZ ?? 0,
                 Description = towTicket.Description,
                 UserResponding = towTicket.UserResponding.Username,
-                Status = towTicket.Status.ToString()
+                Status = towTicket.Status.ToString(),
+                RespondingTime = towTicket.RespondingTime,
+                CompletionTime = towTicket.CompletionTime
             };
 
             return instance;

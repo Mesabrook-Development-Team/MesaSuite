@@ -26,6 +26,25 @@ namespace Towing.PerformTowing
         {
             dgvList.Rows.Clear();
 
+            GetData getAccessCode = new GetData(DataAccess.APIs.TowTickets, "AccessCode/Get");
+            string accessCode = await getAccessCode.GetObject<string>() ?? "[none]";
+
+            if (!accessCode.Equals("[none]", StringComparison.OrdinalIgnoreCase))
+            {
+                MainForm.SetShownContent(new AccessCode());
+                Dispose();
+                return;
+            }
+
+            GetData getCurrentTowingStatus = new GetData(DataAccess.APIs.TowTickets, "TowTicket/GetTowingStatus");
+            GetStatusModel towingStatusModel = await getCurrentTowingStatus.GetObject<GetStatusModel>() ?? new GetStatusModel() { status = "none" };
+            if (!towingStatusModel.status.Equals("none", StringComparison.OrdinalIgnoreCase))
+            {
+                MainForm.SetShownContent(new TowInProgress());
+                Dispose();
+                return;
+            }
+
             GetData getTickets = new GetData(DataAccess.APIs.TowTickets, "TowTicket/GetTowableTickets");
             List<TowTicket> towTickets = await getTickets.GetObject<List<TowTicket>>();
             foreach(TowTicket ticket in towTickets)
@@ -63,7 +82,7 @@ namespace Towing.PerformTowing
                 await startTow.ExecuteNoResult();
                 if (startTow.RequestSuccessful)
                 {
-                    
+                    MainForm.SetShownContent(new AccessCode());
                 }
             }
         }

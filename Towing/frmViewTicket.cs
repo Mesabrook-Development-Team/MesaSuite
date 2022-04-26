@@ -37,10 +37,10 @@ namespace Towing
             txtResponseTime.Text = TowTicket.RespondingTime?.ConvertToLocalTime().ToString("MM/dd/yyyy HH:mm");
             txtCompleteTime.Text = TowTicket.CompletionTime?.ConvertToLocalTime().ToString("MM/dd/yyyy HH:mm");
 
-            txtPhoneNumber.ReadOnly = ViewMode == ViewModes.NewTicket;
-            txtCoordX.ReadOnly = ViewMode == ViewModes.NewTicket;
-            txtCoordZ.ReadOnly = ViewMode == ViewModes.NewTicket;
-            txtDescription.ReadOnly = ViewMode == ViewModes.NewTicket;
+            txtPhoneNumber.ReadOnly = ViewMode == ViewModes.ViewTicket;
+            txtCoordX.ReadOnly = ViewMode == ViewModes.ViewTicket;
+            txtCoordZ.ReadOnly = ViewMode == ViewModes.ViewTicket;
+            txtDescription.ReadOnly = ViewMode == ViewModes.ViewTicket;
 
             cmdSave.Visible = ViewMode == ViewModes.NewTicket;
             cmdCancel.Visible = ViewMode == ViewModes.NewTicket;

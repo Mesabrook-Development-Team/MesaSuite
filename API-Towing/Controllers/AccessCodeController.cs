@@ -14,12 +14,12 @@ using WebModels.tow;
 
 namespace API_Towing.Controllers
 {
-    [MesabrookAuthorization]
-    [ProgramAccess("tow")]
     public class AccessCodeController : ApiController
     {
-        protected long UserID => ((SecurityProfile)Request.Properties["SecurityProfile"]).UserID;
+        protected long UserID => (Request.Properties["SecurityProfile"] as SecurityProfile)?.UserID ?? 0L;
 
+        [MesabrookAuthorization]
+        [ProgramAccess("tow")]
         [HttpGet]
         public string Get()
         {
@@ -33,6 +33,8 @@ namespace API_Towing.Controllers
             return accessCodeSearch.GetReadOnly(null, new string[] { nameof(AccessCode.Code) })?.Code ?? "[none]";
         }
 
+        [MesabrookAuthorization]
+        [ProgramAccess("tow")]
         [HttpPut]
         public IHttpActionResult Cancel()
         {
@@ -64,7 +66,7 @@ namespace API_Towing.Controllers
                 Value = accessCode
             });
 
-            AccessCode foundCode = codeToVerify.GetReadOnly(null, new string[] { nameof(AccessCode.TowTicketID) });
+            AccessCode foundCode = codeToVerify.GetReadOnly(null, new string[] { nameof(AccessCode.TowTicketID), nameof(AccessCode.UserID) });
             if (foundCode == null)
             {
                 return NotFound();
@@ -73,7 +75,7 @@ namespace API_Towing.Controllers
             using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
                 TowTicket ticket = DataObject.GetEditableByPrimaryKey<TowTicket>(foundCode.TowTicketID, transaction, null);
-                ticket.UserIDResponding = UserID;
+                ticket.UserIDResponding = foundCode.UserID;
                 ticket.RespondingTime = DateTime.Now;
                 ticket.Status = TowTicket.Statuses.ResponseEnRoute;
                 if (!ticket.Save(transaction))

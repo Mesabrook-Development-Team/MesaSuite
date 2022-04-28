@@ -25,8 +25,8 @@ namespace Sandbox
             HttpWebRequest request = WebRequest.CreateHttp("http://localhost:65171/AccessCode/Verify");
             request.Method = "PUT";
             request.ContentType = "application/json";
-            Console.Write("Enter OAuth Token:");
-            request.Headers.Add("Authorization", "Bearer " + Console.ReadLine());
+            //Console.Write("Enter OAuth Token:");
+            //request.Headers.Add("Authorization", "Bearer " + Console.ReadLine());
 
             Console.Write("Enter Door Code:");
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))

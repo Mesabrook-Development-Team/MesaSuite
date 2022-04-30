@@ -31,6 +31,8 @@ namespace Towing.MyTickets
                 Dispose();
 
                 MainForm.SetShownContent(new InProgressMessage());
+
+                return;
             }
 
             GetData getData = new GetData(DataAccess.APIs.TowTickets, "TowTicket/GetMyTickets");

@@ -169,6 +169,10 @@
       <Project>{7d2068c5-df3c-4de0-9f27-477d75b65fb6}</Project>
       <Name>SystemManagement</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Towing\Towing.csproj">
+      <Project>{d744a709-6eae-4981-a147-df4d234b02c6}</Project>
+      <Name>Towing</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -277,6 +281,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ms.ico" />
+    <None Include="Resources\txt_tow.png" />
+    <None Include="Resources\icn_tow_hover.png" />
+    <None Include="Resources\icn_tow.png" />
     <None Include="Resources\logo_MS_white.png" />
     <None Include="Resources\bg_usa.png" />
     <None Include="Resources\hat_usa.png" />

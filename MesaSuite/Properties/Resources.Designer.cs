@@ -453,6 +453,26 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icn_tow {
+            get {
+                object obj = ResourceManager.GetObject("icn_tow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_tow_hover {
+            get {
+                object obj = ResourceManager.GetObject("icn_tow_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icn_x {
             get {
                 object obj = ResourceManager.GetObject("icn_x", resourceCulture);
@@ -655,6 +675,16 @@ namespace MesaSuite.Properties {
         internal static System.Drawing.Bitmap tmpBackground {
             get {
                 object obj = ResourceManager.GetObject("tmpBackground", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap txt_tow {
+            get {
+                object obj = ResourceManager.GetObject("txt_tow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -44,6 +44,9 @@
             this.pnlGovernmentPortal = new System.Windows.Forms.Panel();
             this.pboxGovernmentPortal = new System.Windows.Forms.PictureBox();
             this.pboxGPortal = new System.Windows.Forms.PictureBox();
+            this.pnlTowing = new System.Windows.Forms.Panel();
+            this.pboxTowing = new System.Windows.Forms.PictureBox();
+            this.pboxTowTxt = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMesaSuiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,6 +70,9 @@
             this.pnlGovernmentPortal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxGovernmentPortal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxGPortal)).BeginInit();
+            this.pnlTowing.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxTowing)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxTowTxt)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.ctxSignIn.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxLoginStatus)).BeginInit();
@@ -133,6 +139,7 @@
             this.flow.Controls.Add(this.pnlSystemManagement);
             this.flow.Controls.Add(this.pnlCompanyStudio);
             this.flow.Controls.Add(this.pnlGovernmentPortal);
+            this.flow.Controls.Add(this.pnlTowing);
             this.flow.Location = new System.Drawing.Point(31, 44);
             this.flow.Name = "flow";
             this.flow.Size = new System.Drawing.Size(836, 429);
@@ -249,6 +256,43 @@
             this.pboxGPortal.Size = new System.Drawing.Size(106, 30);
             this.pboxGPortal.TabIndex = 2;
             this.pboxGPortal.TabStop = false;
+            // 
+            // pnlTowing
+            // 
+            this.pnlTowing.BackColor = System.Drawing.Color.Transparent;
+            this.pnlTowing.Controls.Add(this.pboxTowing);
+            this.pnlTowing.Controls.Add(this.pboxTowTxt);
+            this.pnlTowing.Location = new System.Drawing.Point(555, 3);
+            this.pnlTowing.Name = "pnlTowing";
+            this.pnlTowing.Size = new System.Drawing.Size(132, 155);
+            this.pnlTowing.TabIndex = 7;
+            // 
+            // pboxTowing
+            // 
+            this.pboxTowing.BackColor = System.Drawing.Color.Transparent;
+            this.pboxTowing.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxTowing.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pboxTowing.Image = global::MesaSuite.Properties.Resources.icn_tow;
+            this.pboxTowing.Location = new System.Drawing.Point(3, 19);
+            this.pboxTowing.Name = "pboxTowing";
+            this.pboxTowing.Size = new System.Drawing.Size(126, 97);
+            this.pboxTowing.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pboxTowing.TabIndex = 1;
+            this.pboxTowing.TabStop = false;
+            this.pboxTowing.Click += new System.EventHandler(this.pboxTowing_Click);
+            this.pboxTowing.MouseEnter += new System.EventHandler(this.pboxTowing_MouseEnter);
+            this.pboxTowing.MouseLeave += new System.EventHandler(this.pboxTowing_MouseLeave);
+            // 
+            // pboxTowTxt
+            // 
+            this.pboxTowTxt.BackColor = System.Drawing.Color.Transparent;
+            this.pboxTowTxt.BackgroundImage = global::MesaSuite.Properties.Resources.txt_tow;
+            this.pboxTowTxt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxTowTxt.Location = new System.Drawing.Point(13, 126);
+            this.pboxTowTxt.Name = "pboxTowTxt";
+            this.pboxTowTxt.Size = new System.Drawing.Size(106, 16);
+            this.pboxTowTxt.TabIndex = 2;
+            this.pboxTowTxt.TabStop = false;
             // 
             // menuStrip1
             // 
@@ -382,6 +426,9 @@
             this.pnlGovernmentPortal.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pboxGovernmentPortal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxGPortal)).EndInit();
+            this.pnlTowing.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pboxTowing)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxTowTxt)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ctxSignIn.ResumeLayout(false);
@@ -416,5 +463,8 @@
         private System.Windows.Forms.ToolStripMenuItem personalizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem soundEffectToolStripMenuItem;
+        private System.Windows.Forms.Panel pnlTowing;
+        private System.Windows.Forms.PictureBox pboxTowing;
+        private System.Windows.Forms.PictureBox pboxTowTxt;
     }
 }

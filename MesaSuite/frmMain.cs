@@ -27,7 +27,8 @@ namespace MesaSuite
                 { pnlMCSync, "" },
                 { pnlSystemManagement, "system" },
                 { pnlCompanyStudio, "company" },
-                { pnlGovernmentPortal, "gov" }
+                { pnlGovernmentPortal, "gov" },
+                { pnlTowing, "tow" }
             };
         }
 
@@ -61,6 +62,7 @@ namespace MesaSuite
             pboxSystem.Visible = false;
             pboxCStudio.Visible = false;
             pboxGPortal.Visible = false;
+            pboxTowTxt.Visible = false;
             Authentication.OnLoggedIn += Authentication_OnLoggedIn;
             Authentication.OnLoggedOut += Authentication_OnLoggedOut;
             Authentication.OnProgramUpdate += Authentication_OnProgramUpdate;
@@ -356,6 +358,24 @@ namespace MesaSuite
                 BackgroundImage = Properties.Resources.bg;
                 BackgroundImageLayout = ImageLayout.Tile;
             }
+        }
+
+        private void pboxTowing_Click(object sender, EventArgs e)
+        {
+            StartProgram(() => Towing.Program.Main(StartupArguments.GetArgsForApp("tow")));
+            PlayButtonClickSound();
+        }
+
+        private void pboxTowing_MouseEnter(object sender, EventArgs e)
+        {
+            pboxTowing.Image = Properties.Resources.icn_tow_hover;
+            pboxTowTxt.Visible = true;
+        }
+
+        private void pboxTowing_MouseLeave(object sender, EventArgs e)
+        {
+            pboxTowing.Image = Properties.Resources.icn_tow;
+            pboxTowTxt.Visible = false;
         }
     }
 }

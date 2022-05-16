@@ -34,6 +34,15 @@ namespace WebModels.Loaders.security
                     { p.Name, "Government Portal" }
                 }
             };
+
+            yield return new LoaderObject<Program>("434BC1C8-2C43-427C-9991-548AF521112E")
+            {
+                DataObjectValues = p => new Dictionary<object, object>()
+                {
+                    { p.Key, "tow" },
+                    { p.Name, "Tow Tickets" }
+                }
+            };
         }
     }
 }

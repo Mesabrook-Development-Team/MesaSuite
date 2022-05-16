@@ -129,7 +129,9 @@ namespace MesaSuite.Common.Data
             [EnumValue("company")]
             CompanyStudio,
             [EnumValue("gov")]
-            GovernmentPortal
+            GovernmentPortal,
+            [EnumValue("tow")]
+            TowTickets
         }
     }
 }

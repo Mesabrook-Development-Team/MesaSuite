@@ -83,6 +83,7 @@
     <Compile Include="Migrations\Migration000006.cs" />
     <Compile Include="Migrations\Migration000007.cs" />
     <Compile Include="Migrations\Migration000008.cs" />
+    <Compile Include="Migrations\Migration000011.cs" />
     <Compile Include="Migrations\Migration000009.cs" />
     <Compile Include="Migrations\Migration000010.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
@@ -90,6 +91,10 @@
     <Compile Include="security\Program.cs" />
     <Compile Include="security\User.cs" />
     <Compile Include="security\UserProgram.cs" />
+    <Compile Include="tow\AccessCode.cs" />
+    <Compile Include="tow\TowTicket.cs" />
+    <Compile Include="tow\Validations\SingleJobPerUserCondition.cs" />
+    <Compile Include="tow\Validations\TowTicketValidationDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">

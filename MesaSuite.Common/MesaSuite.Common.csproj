@@ -74,6 +74,7 @@
     <Compile Include="Data\PostData.cs" />
     <Compile Include="Data\PutData.cs" />
     <Compile Include="Data\ReleaseResourceWriter.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ControlExtensions.cs" />

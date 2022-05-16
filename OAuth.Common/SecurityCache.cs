@@ -9,7 +9,7 @@ namespace API.Common
 {
     public static class SecurityCache
     {
-        private static ConcurrentDictionary<string, SecurityProfile> usersByAccessToken = new ConcurrentDictionary<string, SecurityProfile>();
+        private static ConcurrentDictionary<string, SecurityProfile> usersByAccessToken = new ConcurrentDictionary<string, SecurityProfile>(StringComparer.OrdinalIgnoreCase);
 
         public async static Task<bool> IsValid(string accessToken)
         {

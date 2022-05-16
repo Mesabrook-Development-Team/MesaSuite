@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using GovernmentPortal.Extensions;
 using GovernmentPortal.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
+using MesaSuite.Common.Utility;
 
 namespace GovernmentPortal.Taxes
 {
@@ -87,6 +90,7 @@ namespace GovernmentPortal.Taxes
 
             modelToSave.EffectiveDate = dtpEffectiveDate.Value;
             modelToSave.Rate = percentage;
+            modelToSave.AccountID = (cboAccount.SelectedItem as DropDownItem<Account>)?.Object.AccountID ?? 0L;
 
             if (modelToSave.SalesTaxID == default)
             {
@@ -118,12 +122,23 @@ namespace GovernmentPortal.Taxes
             loader.Visible = false;
         }
 
-        private void SalesTaxControl_Load(object sender, EventArgs e)
+        private async void SalesTaxControl_Load(object sender, EventArgs e)
         {
+            loader.BringToFront();
+            loader.Visible = true;
+
             dtpEffectiveDate.Value = Model?.EffectiveDate ?? DateTime.Today;
             txtPercent.Text = Model?.Rate.ToString();
 
+            GetData getAccounts = new GetData(DataAccess.APIs.GovernmentPortal, "Account/MyAccounts");
+            getAccounts.AddGovHeader(_governmentID);
+            List<Account> accounts = await getAccounts.GetObject<List<Account>>() ?? new List<Account>();
+            cboAccount.Items.AddRange(accounts.Select(acc => new DropDownItem<Account>(acc, $"{acc.Description} ({acc.AccountNumber})")).ToArray());
+            cboAccount.SelectedItem = cboAccount.Items.OfType<DropDownItem<Account>>().FirstOrDefault(ddi => ddi.Object.AccountID == Model?.AccountID);
+
             IsDirty = false;
+
+            loader.Visible = false;
         }
 
         private void FormValueChanged(object sender, EventArgs e)

@@ -15,9 +15,7 @@ namespace WebModels.invoicing.Attributes
         public enum SenderTypes
         {
             Sender,
-            Recipient,
-            Payee,
-            Payor
+            Recipient
         }
     }
 }

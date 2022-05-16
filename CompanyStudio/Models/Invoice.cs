@@ -21,19 +21,12 @@ namespace CompanyStudio.Models
         public string Description { get; set; }
         public DateTime InvoiceDate { get; set; }
         public DateTime DueDate { get; set; }
-        public enum CreationTypes
-        {
-            Blank,
-            AccountsPayable,
-            AccountsReceivable
-        }
-
-        public CreationTypes? CreationType { get; set; }
 
         public enum Statuses
         {
             WorkInProgress,
             Sent,
+            ReadyForReceipt,
             Complete
         }
 

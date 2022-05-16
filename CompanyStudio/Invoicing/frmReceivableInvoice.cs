@@ -23,6 +23,8 @@ namespace CompanyStudio.Invoicing
 
         public Invoice Invoice { get; set; }
 
+        private decimal _initialAmount = 0M;
+
         public frmReceivableInvoice()
         {
             InitializeComponent();
@@ -106,32 +108,56 @@ namespace CompanyStudio.Invoicing
                 dtpInvoiceDate.Value = Invoice.InvoiceDate;
                 dtpDueDate.Value = Invoice.DueDate;
                 txtDescription.Text = Invoice.Description;
-                cboAccount.SelectedItem = cboAccount.Items.Cast<DropDownItem<Account>>().FirstOrDefault(ddi => ddi.Object.AccountID == Invoice.AccountIDTo);
+                if (Invoice.Status == Invoice.Statuses.Complete)
+                {
+                    cboAccount.Items.Insert(0, new DropDownItem<Account>(new Account(), Invoice.AccountFromHistorical));
+                    cboAccount.SelectedIndex = 0;
+                }
+                else
+                {
+                    cboAccount.SelectedItem = cboAccount.Items.Cast<DropDownItem<Account>>().FirstOrDefault(ddi => ddi.Object.AccountID == Invoice.AccountIDTo);
+                }
 
                 decimal invoiceTotal = 0M;
-                foreach(InvoiceLine line in Invoice.InvoiceLines)
+                if (Invoice.InvoiceLines != null)
                 {
-                    int rowIndex = dgvLines.Rows.Add();
-                    DataGridViewRow row = dgvLines.Rows[rowIndex];
+                    foreach (InvoiceLine line in Invoice.InvoiceLines)
+                    {
+                        int rowIndex = dgvLines.Rows.Add();
+                        DataGridViewRow row = dgvLines.Rows[rowIndex];
 
-                    row.Cells["colInvoiceLineID"].Value = line.InvoiceLineID?.ToString();
-                    row.Cells["colDescription"].Value = line.Description;
-                    row.Cells["colQuantity"].Value = line.Quantity.ToString();
-                    row.Cells["colUnitCost"].Value = line.UnitCost.ToString();
-                    row.Cells["colTotal"].Value = line.Total.ToString();
+                        row.Cells["colInvoiceLineID"].Value = line.InvoiceLineID?.ToString();
+                        row.Cells["colDescription"].Value = line.Description;
+                        row.Cells["colQuantity"].Value = line.Quantity.ToString();
+                        row.Cells["colUnitCost"].Value = line.UnitCost.ToString();
+                        row.Cells["colTotal"].Value = line.Total.ToString();
 
-                    invoiceTotal += line.Total;
+                        invoiceTotal += line.Total;
+                    }
                 }
 
                 txtTotal.Text = invoiceTotal.ToString("N2");
+                _initialAmount = invoiceTotal;
 
-                if (Invoice.CreationType == Invoice.CreationTypes.AccountsPayable && Invoice.Status == Invoice.Statuses.Sent)
+                if (Invoice.Status == Invoice.Statuses.Complete)
+                {
+                    foreach(Control control in Controls)
+                    {
+                        control.Enabled = false;
+                    }
+
+                    cmdAction.Visible = false;
+                    cmdSave.Visible = false;
+                    cmdCancel.Visible = false;
+                }
+
+                if (Invoice.Status == Invoice.Statuses.ReadyForReceipt)
                 {
                     actionButtonAction = ActionButtonActions.ReceivePayment;
                     cmdAction.Visible = true;
                     cmdAction.Text = "Receive Payment";
                 }
-                else if (Invoice.CreationType == Invoice.CreationTypes.AccountsReceivable && Invoice.Status == Invoice.Statuses.WorkInProgress)
+                else if (Invoice.Status == Invoice.Statuses.WorkInProgress)
                 {
                     actionButtonAction = ActionButtonActions.IssueInvoice;
                     cmdAction.Visible = true;
@@ -238,25 +264,44 @@ namespace CompanyStudio.Invoicing
         private void cmdSave_Click(object sender, EventArgs e)
         {
             Save();
+            skipActionButton = false;
         }
 
         public async void Save()
         {
-            await InternalSave();
+            await InternalSave(false);
         }
 
-        private async Task InternalSave()
+        private bool skipActionButton = false;
+        private async Task InternalSave(bool fromActionButton)
         {
             loader.BringToFront();
             loader.Visible = true;
 
-            Invoice invoiceToSave = Invoice;
-            if (invoiceToSave == null)
+            Invoice invoiceToSave = new Invoice()
+            {
+                LocationIDFrom = LocationModel.LocationID,
+                Status = Invoice.Statuses.WorkInProgress
+            };
+
+            if (Invoice != null)
             {
                 invoiceToSave = new Invoice();
-                invoiceToSave.LocationIDFrom = LocationModel.LocationID;
-                invoiceToSave.Status = Invoice.Statuses.WorkInProgress;
-                invoiceToSave.CreationType = Invoice.CreationTypes.AccountsReceivable;
+                invoiceToSave.InvoiceID = Invoice.InvoiceID;
+                invoiceToSave.LocationIDFrom = Invoice.LocationIDFrom;
+                invoiceToSave.Status = Invoice.Status;
+                invoiceToSave.AccountIDFrom = Invoice.AccountIDFrom;
+            }
+            else if ((invoiceToSave.Status == Invoice.Statuses.Sent || invoiceToSave.Status == Invoice.Statuses.ReadyForReceipt) && 
+                decimal.TryParse(txtTotal.Text, out decimal newTotal) && 
+                newTotal != _initialAmount)
+            {
+                skipActionButton = fromActionButton;
+                if (!this.Confirm("Changing an Invoice's Total Amount after it has been sent will put the Invoice back into Work In Progress.\r\n\r\nDo you want to continue?"))
+                {
+                    loader.Visible = false;
+                    return;
+                }
             }
 
             invoiceToSave.LocationIDTo = null;
@@ -269,6 +314,19 @@ namespace CompanyStudio.Invoicing
             if (rdoGovernment.Checked)
             {
                 invoiceToSave.GovernmentIDTo = cboGovernment.SelectedItem.Cast<DropDownItem<Government>>()?.Object?.GovernmentID;
+            }
+
+            if (Invoice != null && (invoiceToSave.Status == Invoice.Statuses.Sent || invoiceToSave.Status == Invoice.Statuses.ReadyForReceipt))
+            {
+                if (invoiceToSave.LocationIDTo != Invoice.LocationIDTo || invoiceToSave.GovernmentIDTo != Invoice.GovernmentIDTo)
+                {
+                    skipActionButton = fromActionButton;
+                    if (!this.Confirm("Changing an Invoice's Payor after it has been sent will put the Invoice back into Work In Progress.\r\n\r\nDo you want to continue?"))
+                    {
+                        loader.Visible = false;
+                        return;
+                    }
+                }
             }
 
             invoiceToSave.InvoiceNumber = txtInvoiceNumber.Text;
@@ -363,28 +421,29 @@ namespace CompanyStudio.Invoicing
 
         private async void cmdAction_Click(object sender, EventArgs e)
         {
-            await InternalSave();
+            await InternalSave(true);
 
-            if (actionButtonAction == ActionButtonActions.ReceivePayment)
+            if (skipActionButton)
             {
-
+                skipActionButton = false;
+                return;
             }
-            else if (actionButtonAction == ActionButtonActions.IssueInvoice)
+
+            loader.BringToFront();
+            loader.Visible = true;
+
+            string destURL = actionButtonAction == ActionButtonActions.IssueInvoice ? "Invoice/Issue" : "Invoice/Receive";
+            PutData put = new PutData(DataAccess.APIs.CompanyStudio, destURL, Invoice);
+            put.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            Invoice returnedInvoice = await put.Execute<Invoice>();
+            if (put.RequestSuccessful)
             {
-                loader.BringToFront();
-                loader.Visible = true;
-
-                PutData put = new PutData(DataAccess.APIs.CompanyStudio, $"Invoice/Issue", Invoice);
-                put.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-                Invoice returnedInvoice = await put.Execute<Invoice>();
-                if (put.RequestSuccessful)
-                {
-                    Invoice = returnedInvoice;
-                    await LoadForm();
-                }
-
-                loader.Visible = false;
+                OnSave?.Invoke(this, EventArgs.Empty);
+                Invoice = returnedInvoice;
+                await LoadForm();
             }
+
+            loader.Visible = false;
         }
 
         private enum ActionButtonActions

@@ -34,10 +34,9 @@ namespace API_Company.Controllers
             nameof(Invoice.DueDate),
             nameof(Invoice.Description),
             nameof(Invoice.AccountIDTo),
-            nameof(Invoice.AccountToHistorical),
+            nameof(Invoice.AccountFromHistorical),
             nameof(Invoice.AccountIDFrom),
             nameof(Invoice.AccountToHistorical),
-            nameof(Invoice.CreationType),
             nameof(Invoice.Status),
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.InvoiceLineID)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.InvoiceID)}",
@@ -53,19 +52,12 @@ namespace API_Company.Controllers
 
         public override ISearchCondition GetBaseSearchCondition()
         {
-            return new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
-                new LongSearchCondition<Invoice>()
-                {
-                    Field = "LocationIDFrom",
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = LocationID
-                },
-                new LongSearchCondition<Invoice>()
-                {
-                    Field = "LocationIDTo",
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = LocationID
-                });
+            return new LongSearchCondition<Invoice>()
+            {
+                Field = "LocationIDFrom",
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = LocationID
+            };
         }
 
         [HttpPut]
@@ -110,7 +102,7 @@ namespace API_Company.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult Issue(Invoice invoice)
+        public async Task<IHttpActionResult> Issue(Invoice invoice)
         {
             Invoice dbInvoice = new Search<Invoice>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 GetBaseSearchCondition(),
@@ -119,14 +111,14 @@ namespace API_Company.Controllers
                     Field = "InvoiceID",
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = invoice.InvoiceID
-                })).GetEditable();
+                })).GetEditable(readOnlyFields: await FieldsToRetrieve());
 
             if (dbInvoice == null)
             {
                 return NotFound();
             }
 
-            if (dbInvoice.CreationType != Invoice.CreationTypes.AccountsReceivable || dbInvoice.LocationIDFrom != LocationID)
+            if (dbInvoice.LocationIDFrom != LocationID)
             {
                 dbInvoice.Errors.AddBaseMessage("Only Locations that created an Accounts Receivable Invoice may issue it");
                 return dbInvoice.HandleFailedValidation(this);
@@ -142,7 +134,7 @@ namespace API_Company.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult Receive(Invoice invoice)
+        public async Task<IHttpActionResult> Receive(Invoice invoice)
         {
             Invoice dbInvoice = new Search<Invoice>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 GetBaseSearchCondition(),
@@ -151,19 +143,24 @@ namespace API_Company.Controllers
                     Field = "InvoiceID",
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = invoice.InvoiceID
-                })).GetEditable();
+                })).GetEditable(readOnlyFields: await FieldsToRetrieve());
 
             if (dbInvoice == null)
             {
                 return NotFound();
             }
 
-            if (dbInvoice.CreationType != Invoice.CreationTypes.AccountsPayable || dbInvoice.LocationIDFrom != LocationID)
+            if (dbInvoice.LocationIDFrom != LocationID)
             {
                 dbInvoice.Errors.AddBaseMessage("Only Locations that created an Accounts Receivable Invoice may issue it");
                 return dbInvoice.HandleFailedValidation(this);
             }
 
+            dbInvoice.ReceiveInvoice();
+            if (dbInvoice.Errors.Any())
+            {
+                return dbInvoice.HandleFailedValidation(this);
+            }
 
             return Ok(dbInvoice);
         }

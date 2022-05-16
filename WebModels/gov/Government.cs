@@ -54,7 +54,7 @@ namespace WebModels.gov
         }
 
         private SalesTax _effectiveSalesTax = null;
-        [Relationship("A639E317-BBD6-40B2-87B3-F42E2FBB7123")]
+        [Relationship("A639E317-BBD6-40B2-87B3-F42E2FBB7123", HasForeignKey = false)]
         public SalesTax EffectiveSalesTax
         {
             get { CheckGet(); return _effectiveSalesTax; }
@@ -72,8 +72,8 @@ namespace WebModels.gov
         private ICondition EffectiveSalesTaxRelationship(string myAlias, string otherAlias)
         {
             ISelectQuery selectQuery = SQLProviderFactory.GetSelectQuery();
-            selectQuery.SelectList = new List<Select>() { new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.SalesTaxID" } };
-            selectQuery.Table = new TableAlias(otherAlias);
+            selectQuery.SelectList = new List<Select>() { new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)"effective_sales_tax_subquery.SalesTaxID" } };
+            selectQuery.Table = new Table("gov", "SalesTax", "effective_sales_tax_subquery");
             selectQuery.WhereCondition = new ConditionGroup()
             {
                 ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
@@ -81,13 +81,13 @@ namespace WebModels.gov
                 {
                     new Condition()
                     {
-                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.GovernmentID",
+                        Left = (ClussPro.Base.Data.Operand.Field)$"effective_sales_tax_subquery.GovernmentID",
                         ConditionType = Condition.ConditionTypes.Equal,
                         Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.GovernmentID"
                     },
                     new Condition()
                     {
-                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.EffectiveDate",
+                        Left = (ClussPro.Base.Data.Operand.Field)$"effective_sales_tax_subquery.EffectiveDate",
                         ConditionType = Condition.ConditionTypes.LessEqual,
                         Right = new Literal(DateTime.Today)
                     }
@@ -97,7 +97,7 @@ namespace WebModels.gov
             {
                 new Order()
                 {
-                    Field = "EffectiveDate",
+                    Field = "effective_sales_tax_subquery.EffectiveDate",
                     OrderDirection = Order.OrderDirections.Descending
                 }
             };

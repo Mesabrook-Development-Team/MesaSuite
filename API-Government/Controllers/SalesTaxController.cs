@@ -13,7 +13,8 @@ namespace API_Government.Controllers
             nameof(SalesTax.SalesTaxID),
             nameof(SalesTax.GovernmentID),
             nameof(SalesTax.EffectiveDate),
-            nameof(SalesTax.Rate)
+            nameof(SalesTax.Rate),
+            nameof(SalesTax.AccountID)
         };
 
         public override bool AllowGetAll => true;

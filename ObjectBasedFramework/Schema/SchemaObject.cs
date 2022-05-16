@@ -228,7 +228,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                 }
             }
 
-            foreach(Relationship relationship in relationships)
+            foreach(Relationship relationship in relationships.Where(rel => rel.RelationshipAttribute.HasForeignKey))
             {
                 string fieldName = relationship.RelationshipAttribute.ForeignKeyField ?? relationship.RelationshipName + "ID";
                 Field backingField = PrivateGetField(fieldName);

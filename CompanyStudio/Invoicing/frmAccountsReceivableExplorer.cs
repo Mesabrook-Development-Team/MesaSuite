@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using MesaSuite.Common;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 
@@ -18,6 +19,7 @@ namespace CompanyStudio.Invoicing
     public partial class frmAccountsReceivableExplorer : BaseCompanyStudioContent, ILocationScoped
     {
         private List<Invoice> invoices = new List<Invoice>();
+        private FilterOptions filterOption;
         public frmAccountsReceivableExplorer()
         {
             InitializeComponent();
@@ -47,6 +49,7 @@ namespace CompanyStudio.Invoicing
 
         private void frmAccountsReceivableExplorer_Load(object sender, EventArgs e)
         {
+            ReadSettings();
             LoadInvoices();
         }
 
@@ -58,7 +61,6 @@ namespace CompanyStudio.Invoicing
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Invoice/GetAll");
             get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
             invoices = await get.GetObject<List<Invoice>>() ?? new List<Invoice>();
-            invoices = invoices.Where(inv => (inv.CreationType == Invoice.CreationTypes.AccountsReceivable && inv.LocationIDFrom == LocationModel.LocationID) || (inv.CreationType == Invoice.CreationTypes.AccountsPayable && inv.LocationIDFrom == LocationModel.LocationID && (inv.Status == Invoice.Statuses.Sent || inv.Status == Invoice.Statuses.Complete))).ToList();
 
             loader.Visible = false;
 
@@ -71,6 +73,14 @@ namespace CompanyStudio.Invoicing
 
             foreach (Invoice invoice in invoices)
             {
+                if ((invoice.Status == Invoice.Statuses.WorkInProgress && !filterOption.HasFlag(FilterOptions.WIP)) ||
+                    (invoice.Status == Invoice.Statuses.Sent && !filterOption.HasFlag(FilterOptions.Sent)) ||
+                    (invoice.Status == Invoice.Statuses.ReadyForReceipt && !filterOption.HasFlag(FilterOptions.ReadyForReceipt)) ||
+                    (invoice.Status == Invoice.Statuses.Complete && !filterOption.HasFlag(FilterOptions.Complete)))
+                {
+                    continue;
+                }
+
                 string payor = "";
                 if (invoice.LocationIDTo != default)
                 {
@@ -126,7 +136,7 @@ namespace CompanyStudio.Invoicing
             foreach(ListViewItem item in lstInvoices.SelectedItems)
             {
                 Invoice invoice = (Invoice)item.Tag;
-                if (invoice.Status == Invoice.Statuses.WorkInProgress || invoice.Status == Invoice.Statuses.Sent)
+                if (invoice.Status == Invoice.Statuses.WorkInProgress || invoice.Status == Invoice.Statuses.Sent || invoice.Status == Invoice.Statuses.ReadyForReceipt)
                 {
                     mnuDelete.Enabled = true;
                     return;
@@ -142,7 +152,7 @@ namespace CompanyStudio.Invoicing
             foreach(ListViewItem item in lstInvoices.SelectedItems)
             {
                 Invoice invoice = (Invoice)item.Tag;
-                if (invoice.Status == Invoice.Statuses.WorkInProgress || invoice.Status == Invoice.Statuses.Sent)
+                if (invoice.Status == Invoice.Statuses.WorkInProgress || invoice.Status == Invoice.Statuses.Sent || invoice.Status == Invoice.Statuses.ReadyForReceipt)
                 {
                     invoicesToDelete.Add(invoice);
                 }
@@ -188,6 +198,95 @@ namespace CompanyStudio.Invoicing
             {
                 DeleteSelectedInvoices();
             }
+        }
+
+        bool loadingSettings = false;
+        private void ReadSettings()
+        {
+            UserPreferences preferences = UserPreferences.Get();
+            Dictionary<string, object> companySettings = preferences.GetPreferencesForSection("company");
+
+            int filter = companySettings.GetOrDefault("accountsReceivableExplorerFilter").Cast<int>();
+            filterOption = (FilterOptions)filter;
+
+            loadingSettings = true;
+            mnuFilterWIP.Checked = filterOption.HasFlag(FilterOptions.WIP);
+            mnuFilterSent.Checked = filterOption.HasFlag(FilterOptions.Sent);
+            mnuFilterCompleted.Checked = filterOption.HasFlag(FilterOptions.Complete);
+            mnuFilterReadyToReceive.Checked = filterOption.HasFlag(FilterOptions.ReadyForReceipt);
+
+            string[] columnOrder = companySettings.GetOrDefault("accountsReceivableExplorerColumnOrder").Cast<string[]>();
+            int i = 0;
+            foreach(string column in columnOrder)
+            {
+                ColumnHeader col = lstInvoices.Columns.OfType<ColumnHeader>().FirstOrDefault(colu => colu.Text == column);
+                if (col == null)
+                {
+                    continue;
+                }
+
+                col.DisplayIndex = i++;
+            }
+
+            loadingSettings = false;
+        }
+
+        private void WriteSettings()
+        {
+            UserPreferences preferences = UserPreferences.Get();
+            Dictionary<string, object> companySettings = preferences.GetPreferencesForSection("company");
+            companySettings["accountsReceivableExplorerFilter"] = (int)filterOption;
+            List<string> columns = new List<string>();
+            foreach(ColumnHeader column in lstInvoices.Columns.OfType<ColumnHeader>().OrderBy(col => col.DisplayIndex))
+            {
+                columns.Add(column.Text);
+            }
+            companySettings["accountsReceivableExplorerColumnOrder"] = columns.ToArray();
+            preferences.Save();
+        }
+
+        private void FilterItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (loadingSettings) return;
+
+            filterOption = FilterOptions.None;
+            if (mnuFilterWIP.Checked) filterOption |= FilterOptions.WIP;
+            if (mnuFilterSent.Checked) filterOption |= FilterOptions.Sent;
+            if (mnuFilterCompleted.Checked) filterOption |= FilterOptions.Complete;
+            if (mnuFilterReadyToReceive.Checked) filterOption |= FilterOptions.ReadyForReceipt;
+
+            AddInvoicesToList();
+        }
+
+        [Flags]
+        private enum FilterOptions
+        {
+            None = 0,
+            WIP = 1,
+            Sent = 2,
+            Complete = 4,
+            ReadyForReceipt = 8
+        }
+
+        private void frmAccountsReceivableExplorer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            WriteSettings();
+        }
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            try { WriteSettings(); } catch { }
+
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

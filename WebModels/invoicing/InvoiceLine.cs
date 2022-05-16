@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
@@ -74,6 +76,26 @@ namespace WebModels.invoicing
             base.PreValidate();
 
             Total = Math.Round((Quantity ?? 0M) * (UnitCost ?? 0M), 2, MidpointRounding.AwayFromZero);
+        }
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            decimal previousTotal = (GetDirtyValue(nameof(Total)) as decimal?) ?? 0M;
+            if (previousTotal != Total)
+            {
+                Invoice invoice = DataObject.GetEditableByPrimaryKey<Invoice>(InvoiceID, transaction, null);
+                if (invoice.Status == Invoice.Statuses.Sent || invoice.Status == Invoice.Statuses.ReadyForReceipt)
+                {
+                    invoice.Status = Invoice.Statuses.WorkInProgress;
+                    if (!invoice.Save(transaction))
+                    {
+                        Errors.AddRange(invoice.Errors.ToArray());
+                        return false;
+                    }
+                }
+            }
+
+            return base.PostSave(transaction);
         }
     }
 }

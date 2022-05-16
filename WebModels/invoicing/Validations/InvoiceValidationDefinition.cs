@@ -77,7 +77,7 @@ namespace WebModels.invoicing.Validations
                 #region Status
                 yield return new ValidationRule()
                 {
-                    ID = new Guid("284044F7-2AA3-4C7B-BCF6-D1B5B24C255D"),
+                    ID = Invoice.ValidationIDs.V_HistoryStatusChanges,
                     Message = "Completed Invoices may not be updated or deleted",
                     ApplyOnDelete = true,
                     Condition = new NotCondition(new EqualCondition("Status", Invoice.Statuses.Complete))

@@ -152,7 +152,7 @@ namespace API_Company.Controllers
 
             if (dbInvoice.LocationIDFrom != LocationID)
             {
-                dbInvoice.Errors.AddBaseMessage("Only Locations that created an Accounts Receivable Invoice may issue it");
+                dbInvoice.Errors.AddBaseMessage("Only Locations that created an Accounts Receivable Invoice may receive it");
                 return dbInvoice.HandleFailedValidation(this);
             }
 

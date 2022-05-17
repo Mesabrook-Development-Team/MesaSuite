@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompanyStudio.Models;
 using MesaSuite.Common;
@@ -16,6 +14,18 @@ namespace CompanyStudio.Accounts
 {
     public partial class frmAccountExplorer : BaseCompanyStudioContent
     {
+        public static readonly List<string> REQUEST_FIELDS = new List<string>()
+        {
+            "AccountID",
+            "CompanyID",
+            "CategoryID",
+            "AccountNumber",
+            "Description",
+            "Balance",
+            "AccountClearances.AccountClearanceID",
+            "AccountClearances.UserID"
+        };
+
         private List<Account> accounts = new List<Account>();
         private List<Category> categories = new List<Category>();
 
@@ -156,6 +166,7 @@ namespace CompanyStudio.Accounts
 
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Account/GetForCompany");
             get.Headers.Add("CompanyID", Company.CompanyID.ToString());
+            get.RequestFields = REQUEST_FIELDS;
             accounts = await get.GetObject<List<Account>>() ?? new List<Account>();
 
             get.Resource = "Category/GetForCompany";
@@ -174,7 +185,7 @@ namespace CompanyStudio.Accounts
         {
             treAccounts.Nodes.Clear();
 
-            Dictionary<long, TreeNode> groupNodeByID = new Dictionary<long, TreeNode>();
+            Dictionary<long?, TreeNode> groupNodeByID = new Dictionary<long?, TreeNode>();
             if (groupOptions == GroupOptions.Category)
             {
                 foreach(Category category in categories)

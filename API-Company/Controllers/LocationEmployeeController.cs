@@ -21,7 +21,7 @@ namespace API_Company.Controllers
             nameof(LocationEmployee.ManageInvoices)
         };
 
-        public override SearchCondition GetBaseSearchCondition()
+        public override ISearchCondition GetBaseSearchCondition()
         {
             long companyID = long.Parse(Request.Headers.GetValues("CompanyID").First());
             return new LongSearchCondition<LocationEmployee>()

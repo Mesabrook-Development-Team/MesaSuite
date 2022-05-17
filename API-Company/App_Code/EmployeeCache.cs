@@ -38,7 +38,8 @@ namespace API_Company.App_Code
                 {
                     nameof(Employee.EmployeeID),
                     nameof(Employee.UserID),
-                    nameof(Employee.CompanyID)
+                    nameof(Employee.CompanyID),
+                    $"{nameof(Employee.LocationEmployees)}.{nameof(LocationEmployee.LocationID)}"
                 };
 
                 Employee employee = await Task.Run(() => employeeSearch.GetReadOnly(null, fields));
@@ -58,9 +59,29 @@ namespace API_Company.App_Code
                     foreach(string permissionField in Employee.GetPermissionFieldNames())
                     {
                         Field field = employeeSchemaObject.GetField(permissionField);
-                        if ((bool)field.GetValue(employee))
+
+                        if (permissionField.StartsWith(nameof(Employee.LocationEmployees)))
                         {
-                            cachedEmployee.Permissions.Add(permissionField);
+                            string permission = permissionField.Replace($"{nameof(Employee.LocationEmployees)}.", "");
+                            foreach(LocationEmployee locationEmployee in employee.LocationEmployees)
+                            {
+                                if ((bool)field.GetValue(locationEmployee))
+                                {
+                                    if (!cachedEmployee.PermissionsByLocationID.ContainsKey(locationEmployee.LocationID.Value))
+                                    {
+                                        cachedEmployee.PermissionsByLocationID[locationEmployee.LocationID.Value] = new HashSet<string>();
+                                    }
+
+                                    cachedEmployee.PermissionsByLocationID[locationEmployee.LocationID.Value].Add(permission);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if ((bool)field.GetValue(employee))
+                            {
+                                cachedEmployee.Permissions.Add(permissionField);
+                            }
                         }
                     }
                 }
@@ -78,6 +99,7 @@ namespace API_Company.App_Code
             public long UserID { get; set; }
             public DateTime CacheExpiration { get; set; }
             public HashSet<string> Permissions { get; set; } = new HashSet<string>();
+            public Dictionary<long, HashSet<string>> PermissionsByLocationID { get; set; } = new Dictionary<long, HashSet<string>>();
         }
     }
 }

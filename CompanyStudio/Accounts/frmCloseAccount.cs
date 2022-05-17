@@ -10,7 +10,7 @@ namespace CompanyStudio.Accounts
     public partial class frmCloseAccount : Form
     {
         public Account AccountToClose { get; set; }
-        public long CompanyID { get; set; }
+        public long? CompanyID { get; set; }
         public ThemeBase Theme { get; set; }
 
         public frmCloseAccount()

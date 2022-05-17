@@ -387,6 +387,11 @@ namespace ClussPro.ObjectBasedFramework
 
         public static DataObject GetReadOnlyByPrimaryKey(Type dataObjectType, long? primaryKey, ITransaction transaction, IEnumerable<string> fields)
         {
+            if (primaryKey == null)
+            {
+                return null;
+            }
+
             SchemaObject searchSchemaObject = Schema.Schema.GetSchemaObject(dataObjectType);
             Search search = new Search(dataObjectType, new LongSearchCondition(dataObjectType)
             {
@@ -400,6 +405,11 @@ namespace ClussPro.ObjectBasedFramework
 
         public static DataObject GetEditableByPrimaryKey(Type dataObjectType, long? primaryKey, ITransaction transaction = null, IEnumerable<string> readOnlyFields = null)
         {
+            if (primaryKey == null)
+            {
+                return null;
+            }
+
             SchemaObject schemaObject = Schema.Schema.GetSchemaObject(dataObjectType);
             Search editableSearch = new Search(dataObjectType, new LongSearchCondition(dataObjectType)
             {
@@ -510,7 +520,7 @@ namespace ClussPro.ObjectBasedFramework
                 for(int i = 0; i < fieldPathParts.Length; i++)
                 {
                     Relationship relationship = currentSchemaObject.GetRelationship(fieldPathParts[i]);
-                    DataObject relatedObject = relationship.GetValue(this);
+                    DataObject relatedObject = relationship.GetValue(currentObject);
 
                     if (relatedObject == null)
                     {

@@ -4,9 +4,9 @@ using ClussPro.Base.Data.Query;
 
 namespace WebModels.Migrations
 {
-    internal class Migration000010 : IMigration
+    internal class Migration000013 : IMigration
     {
-        public int MigrationNumber => 10;
+        public int MigrationNumber => 13;
 
         public void Execute(ITransaction transaction)
         {
@@ -82,8 +82,7 @@ namespace WebModels.Migrations
                 { "Description", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 300) },
                 { "InvoiceDate", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
                 { "DueDate", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
-                { "CreationType", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 18) },
-                { "Status", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 14) },
+                { "Status", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
                 { "AccountIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "AccountFromHistorical", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 69) },
                 { "AccountIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },

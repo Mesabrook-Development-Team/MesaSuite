@@ -42,7 +42,7 @@ namespace API_Company.Controllers
             $"{nameof(Location.LocationGovernments)}.{nameof(LocationGovernment.Government)}.{nameof(Government.Name)}"
         };
 
-        public override SearchCondition GetBaseSearchCondition()
+        public override ISearchCondition GetBaseSearchCondition()
         {
             long companyID = long.Parse(Request.Headers.GetValues("CompanyID").First());
             return new LongSearchCondition<Location>()

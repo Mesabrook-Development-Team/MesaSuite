@@ -129,7 +129,7 @@ namespace CompanyStudio.CompanyForms
                 locationEmployeesToCreate.Add(newLocationEmployee);
             }
 
-            HashSet<long> employeesInGrid = new HashSet<long>();
+            HashSet<long?> employeesInGrid = new HashSet<long?>();
             foreach(LocationEmployee locationEmployee in locationEmployeesToSave.Concat(locationEmployeesToCreate))
             {
                 if (!employeesInGrid.Add(locationEmployee.EmployeeID) && !locationEmployeesToDelete.Any(le => le.EmployeeID == locationEmployee.EmployeeID))

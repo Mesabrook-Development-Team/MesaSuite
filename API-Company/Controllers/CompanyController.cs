@@ -21,6 +21,8 @@ namespace API_Company.Controllers
             "Locations.Name"
         };
 
+        public override bool AllowGetAll => true;
+
         [HttpGet]
         public List<Company> GetForEmployee()
         {

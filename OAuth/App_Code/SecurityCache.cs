@@ -155,13 +155,13 @@ namespace OAuth.App_Code
                 grantNotification.Headers.Add("Authorization", $"Basic {base64String}");
                 grantNotification.ContentType = "application/json";
 
-                using (StreamWriter writer = new StreamWriter(grantNotification.GetRequestStream()))
-                {
-                    writer.Write(JsonConvert.SerializeObject(profile));
-                }
-
                 try
                 {
+                    using (StreamWriter writer = new StreamWriter(grantNotification.GetRequestStream()))
+                    {
+                        writer.Write(JsonConvert.SerializeObject(profile));
+                    }
+
                     grantNotification.GetResponseAsync();
                 }
                 catch (Exception) { }
@@ -196,13 +196,13 @@ namespace OAuth.App_Code
                 revokeNotification.Headers.Add("Authorization", $"Basic {base64String}");
                 revokeNotification.ContentType = "application/json";
 
-                using (StreamWriter writer = new StreamWriter(revokeNotification.GetRequestStream()))
-                {
-                    writer.Write(JsonConvert.SerializeObject(new { token = accessToken }));
-                }
-
                 try
                 {
+                    using (StreamWriter writer = new StreamWriter(revokeNotification.GetRequestStream()))
+                    {
+                        writer.Write(JsonConvert.SerializeObject(new { token = accessToken }));
+                    }
+
                     revokeNotification.GetResponseAsync();
                 }
                 catch (Exception) { }

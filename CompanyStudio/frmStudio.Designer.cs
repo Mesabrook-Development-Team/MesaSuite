@@ -43,7 +43,6 @@
             this.employeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEmployeeExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.invoicingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.theresNothingHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wIndowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuThemes = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLightTheme = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,6 +61,7 @@
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolLocationDropDown = new System.Windows.Forms.ToolStripComboBox();
             this.tmrLocationUpdater = new System.Windows.Forms.Timer(this.components);
+            this.mnuInvoicingReceivables = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuBanner.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -191,19 +191,11 @@
             // invoicingToolStripMenuItem
             // 
             this.invoicingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.theresNothingHereToolStripMenuItem});
+            this.mnuInvoicingReceivables});
             this.invoicingToolStripMenuItem.Name = "invoicingToolStripMenuItem";
             this.invoicingToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
             this.invoicingToolStripMenuItem.Text = "Invoicing";
             this.invoicingToolStripMenuItem.Visible = false;
-            // 
-            // theresNothingHereToolStripMenuItem
-            // 
-            this.theresNothingHereToolStripMenuItem.Enabled = false;
-            this.theresNothingHereToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.theresNothingHereToolStripMenuItem.Name = "theresNothingHereToolStripMenuItem";
-            this.theresNothingHereToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.theresNothingHereToolStripMenuItem.Text = "There\'s nothing here...";
             // 
             // wIndowToolStripMenuItem
             // 
@@ -327,6 +319,13 @@
             this.tmrLocationUpdater.Interval = 1000;
             this.tmrLocationUpdater.Tick += new System.EventHandler(this.tmrLocationUpdater_Tick);
             // 
+            // mnuInvoicingReceivables
+            // 
+            this.mnuInvoicingReceivables.Name = "mnuInvoicingReceivables";
+            this.mnuInvoicingReceivables.Size = new System.Drawing.Size(180, 22);
+            this.mnuInvoicingReceivables.Text = "Receivables";
+            this.mnuInvoicingReceivables.Click += new System.EventHandler(this.mnuInvoicingReceivables_Click);
+            // 
             // frmStudio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -383,9 +382,9 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripComboBox toolLocationDropDown;
         private System.Windows.Forms.ToolStripMenuItem invoicingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem theresNothingHereToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuLocationExplorer;
         private System.Windows.Forms.Timer tmrLocationUpdater;
+        private System.Windows.Forms.ToolStripMenuItem mnuInvoicingReceivables;
     }
 }
 

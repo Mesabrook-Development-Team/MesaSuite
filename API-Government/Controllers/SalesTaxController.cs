@@ -13,12 +13,13 @@ namespace API_Government.Controllers
             nameof(SalesTax.SalesTaxID),
             nameof(SalesTax.GovernmentID),
             nameof(SalesTax.EffectiveDate),
-            nameof(SalesTax.Rate)
+            nameof(SalesTax.Rate),
+            nameof(SalesTax.AccountID)
         };
 
         public override bool AllowGetAll => true;
 
-        public override SearchCondition GetBaseSearchCondition()
+        public override ISearchCondition GetBaseSearchCondition()
         {
             long governmentID = long.Parse(Request.Headers.GetValues("GovernmentID").First());
 

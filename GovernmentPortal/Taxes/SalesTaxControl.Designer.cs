@@ -30,12 +30,14 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtPercent = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dtpEffectiveDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.loader = new GovernmentPortal.Loader();
-            this.txtPercent = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.cboAccount = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.SuspendLayout();
@@ -52,6 +54,8 @@
             // 
             // tabGeneral
             // 
+            this.tabGeneral.Controls.Add(this.label4);
+            this.tabGeneral.Controls.Add(this.cboAccount);
             this.tabGeneral.Controls.Add(this.label3);
             this.tabGeneral.Controls.Add(this.txtPercent);
             this.tabGeneral.Controls.Add(this.label2);
@@ -64,6 +68,25 @@
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(624, 35);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(15, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "%";
+            // 
+            // txtPercent
+            // 
+            this.txtPercent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPercent.Location = new System.Drawing.Point(113, 32);
+            this.txtPercent.Name = "txtPercent";
+            this.txtPercent.Size = new System.Drawing.Size(505, 20);
+            this.txtPercent.TabIndex = 4;
             // 
             // label2
             // 
@@ -78,9 +101,9 @@
             // 
             this.dtpEffectiveDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dtpEffectiveDate.Location = new System.Drawing.Point(87, 6);
+            this.dtpEffectiveDate.Location = new System.Drawing.Point(113, 6);
             this.dtpEffectiveDate.Name = "dtpEffectiveDate";
-            this.dtpEffectiveDate.Size = new System.Drawing.Size(552, 20);
+            this.dtpEffectiveDate.Size = new System.Drawing.Size(526, 20);
             this.dtpEffectiveDate.TabIndex = 2;
             this.dtpEffectiveDate.ValueChanged += new System.EventHandler(this.FormValueChanged);
             // 
@@ -105,24 +128,25 @@
             this.loader.TabIndex = 5;
             this.loader.Visible = false;
             // 
-            // txtPercent
+            // cboAccount
             // 
-            this.txtPercent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.cboAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPercent.Location = new System.Drawing.Point(87, 32);
-            this.txtPercent.Name = "txtPercent";
-            this.txtPercent.Size = new System.Drawing.Size(531, 20);
-            this.txtPercent.TabIndex = 4;
+            this.cboAccount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboAccount.FormattingEnabled = true;
+            this.cboAccount.Location = new System.Drawing.Point(113, 58);
+            this.cboAccount.Name = "cboAccount";
+            this.cboAccount.Size = new System.Drawing.Size(526, 21);
+            this.cboAccount.TabIndex = 6;
             // 
-            // label3
+            // label4
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(624, 35);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(15, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "%";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 61);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(101, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Receiving Account:";
             // 
             // SalesTaxControl
             // 
@@ -150,5 +174,7 @@
         private Loader loader;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtPercent;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cboAccount;
     }
 }

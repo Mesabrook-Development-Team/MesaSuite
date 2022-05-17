@@ -177,6 +177,19 @@
     <Compile Include="frmStudio.Designer.cs">
       <DependentUpon>frmStudio.cs</DependentUpon>
     </Compile>
+    <Compile Include="ILocationScoped.cs" />
+    <Compile Include="Invoicing\frmAccountsReceivableExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoicing\frmAccountsReceivableExplorer.Designer.cs">
+      <DependentUpon>frmAccountsReceivableExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Invoicing\frmReceivableInvoice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoicing\frmReceivableInvoice.Designer.cs">
+      <DependentUpon>frmReceivableInvoice.cs</DependentUpon>
+    </Compile>
     <Compile Include="ISaveable.cs" />
     <Compile Include="Loader.cs">
       <SubType>UserControl</SubType>
@@ -194,6 +207,8 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\FiscalQuarter.cs" />
     <Compile Include="Models\Government.cs" />
+    <Compile Include="Models\Invoice.cs" />
+    <Compile Include="Models\InvoiceLine.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LocationEmployee.cs" />
     <Compile Include="Models\LocationGovernment.cs" />
@@ -274,6 +289,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmStudio.resx">
       <DependentUpon>frmStudio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\frmAccountsReceivableExplorer.resx">
+      <DependentUpon>frmAccountsReceivableExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\frmReceivableInvoice.resx">
+      <DependentUpon>frmReceivableInvoice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>

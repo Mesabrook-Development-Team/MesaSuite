@@ -99,7 +99,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                     if (fieldType == null)
                     {
                         Type propType = propertyInfo.PropertyType;
-                        if (propType == typeof(string) || typeof(Enum).IsAssignableFrom(propType) || (Nullable.GetUnderlyingType(propType) != null && typeof(Enum).IsAssignableFrom(Nullable.GetUnderlyingType(propType))))
+                        if (propType == typeof(string))
                         {
                             fieldType = FieldSpecification.FieldTypes.NVarChar;
                         }
@@ -127,7 +127,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                         {
                             fieldType = FieldSpecification.FieldTypes.Bit;
                         }
-                        else if (propType == typeof(int) || propType == typeof(int?))
+                        else if (propType == typeof(int) || propType == typeof(int?) || typeof(Enum).IsAssignableFrom(propType) || (Nullable.GetUnderlyingType(propType) != null && typeof(Enum).IsAssignableFrom(Nullable.GetUnderlyingType(propType))))
                         {
                             fieldType = FieldSpecification.FieldTypes.Int;
                         }
@@ -155,7 +155,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                         HashSet<string> retrievedPaths = (HashSet<string>)retrievedPathsField.GetValue(instance);
                         retrievedPaths.Add(propertyInfo.Name);
                         Dictionary<string, object> originalValues = (Dictionary<string, object>)originalValuesField.GetValue(instance);
-                        originalValues[field.FieldName] = valueToSet;
+                        originalValues[field.FieldName] = fieldInfo.GetValue(instance);
                     };
                     field.GetPrivateDataCallback = (instance) => fieldInfo.GetValue(instance);
                     field.SetValue = propertyInfo.SetValue;
@@ -228,7 +228,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                 }
             }
 
-            foreach(Relationship relationship in relationships)
+            foreach(Relationship relationship in relationships.Where(rel => rel.RelationshipAttribute.HasForeignKey))
             {
                 string fieldName = relationship.RelationshipAttribute.ForeignKeyField ?? relationship.RelationshipName + "ID";
                 Field backingField = PrivateGetField(fieldName);

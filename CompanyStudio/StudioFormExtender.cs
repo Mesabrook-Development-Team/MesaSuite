@@ -82,6 +82,14 @@ namespace CompanyStudio
             {
                 ApplyStyle(userControl, theme);
             }
+
+            foreach(GroupBox groupBox in control.Controls.OfType<GroupBox>())
+            {
+                //groupBox.ForeColor = theme.ColorPalette.CommandBarMenuDefault.Text;
+                //groupBox.BackColor = theme.ColorPalette.CommandBarToolbarDefault.Background;
+
+                ApplyStyle(groupBox, theme);
+            }
         }
     }
 }

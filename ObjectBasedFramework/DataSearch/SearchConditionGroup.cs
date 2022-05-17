@@ -34,9 +34,9 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
                 conditionGroup.ConditionGroupType = ConditionGroup.ConditionGroupTypes.Or;
             }
 
-            conditionGroup.Conditions.AddRange(SearchConditions.Select(sc => sc.GetCondition(tableAliasesByFieldPath, upperFieldPathToIgnore, ignoredUpperFieldPaths)).Where(condition => condition != null));
+            conditionGroup.Conditions.AddRange(SearchConditions.Where(sc => sc != null).Select(sc => sc.GetCondition(tableAliasesByFieldPath, upperFieldPathToIgnore, ignoredUpperFieldPaths)).Where(condition => condition != null));
 
-            if (conditionGroup.Conditions.Any())
+            if (conditionGroup.Conditions.Any(c => c != null))
             {
                 return conditionGroup;
             }
@@ -48,7 +48,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
 
         public IEnumerable<string> GetFieldPaths()
         {
-            return SearchConditions.SelectMany(sc => sc.GetFieldPaths());
+            return SearchConditions.SelectMany(sc => sc?.GetFieldPaths() ?? Enumerable.Empty<string>());
         }
     }
 }

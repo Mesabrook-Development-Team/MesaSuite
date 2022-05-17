@@ -273,6 +273,11 @@ namespace CompanyStudio
             content.Studio = this;
             content.Company = ActiveCompany;
             content.OnIsDirtyChange += Content_OnIsDirtyChange;
+
+            if (content is ILocationScoped locationScoped)
+            {
+                locationScoped.LocationModel = ActiveLocation;
+            }
         }
 
         private void Content_OnIsDirtyChange(object sender, EventArgs e)
@@ -482,7 +487,7 @@ namespace CompanyStudio
                 {
                     GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Company/GetForEmployee");
                     List<Company> refreshedCompanies = await get.GetObject<List<Company>>() ?? new List<Company>();
-                    Dictionary<long, Company> companiesByCompanyID = refreshedCompanies.ToDictionary(c => c.CompanyID);
+                    Dictionary<long?, Company> companiesByCompanyID = refreshedCompanies.ToDictionary(c => c.CompanyID);
 
                     foreach (Company company in Companies.ToList())
                     {
@@ -512,6 +517,20 @@ namespace CompanyStudio
             {
                 tmrLocationUpdater.Enabled = true;
             }
+        }
+
+        private void mnuInvoicingReceivables_Click(object sender, EventArgs e)
+        {
+            Invoicing.frmAccountsReceivableExplorer explorer = dockPanel.Contents.OfType<Invoicing.frmAccountsReceivableExplorer>().FirstOrDefault(are => are.Company.CompanyID == ActiveCompany?.CompanyID);
+            if (explorer != null)
+            {
+                explorer.Activate();
+                return;
+            }
+
+            explorer = new Invoicing.frmAccountsReceivableExplorer();
+            DecorateStudioContent(explorer);
+            explorer.Show(dockPanel, DockState.DockRight);
         }
     }
 }

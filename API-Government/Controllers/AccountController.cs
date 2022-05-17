@@ -21,6 +21,8 @@ namespace API_Government.Controllers
     [GovernmentAccess(RequiredPermissions = new[] { nameof(Official.ManageAccounts) })]
     public class AccountController : DataObjectController<Account>
     {
+        protected long UserID => ((SecurityProfile)Request.Properties["SecurityProfile"]).UserID;
+
         public override IEnumerable<string> DefaultRetrievedFields => new[]
         {
             nameof(Account.AccountID),
@@ -33,7 +35,7 @@ namespace API_Government.Controllers
 
         public override bool AllowGetAll => true;
 
-        public override SearchCondition GetBaseSearchCondition()
+        public override ISearchCondition GetBaseSearchCondition()
         {
             long governmentID = long.Parse(Request.Headers.GetValues("GovernmentID").First());
 
@@ -116,6 +118,7 @@ namespace API_Government.Controllers
         }
 
         [HttpGet]
+        [GovernmentAccess]
         public List<Account> MyAccounts()
         {
             SecurityProfile securityProfile = (SecurityProfile)Request.Properties["SecurityProfile"];

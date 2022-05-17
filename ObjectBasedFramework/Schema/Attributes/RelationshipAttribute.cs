@@ -8,6 +8,7 @@ namespace ClussPro.ObjectBasedFramework.Schema.Attributes
         public Guid RelationshipID { get; set; }
         public string ForeignKeyField { get; set; }
         public string ParentKeyField { get; set; }
+        public bool HasForeignKey { get; set; } = true;
 
         public RelationshipAttribute(string RelationshipID)
         {

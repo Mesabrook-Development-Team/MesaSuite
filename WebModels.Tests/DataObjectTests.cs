@@ -59,7 +59,7 @@ namespace WebModels.Tests
             StringBuilder errors = new StringBuilder();
             foreach(SchemaObject schemaObject in Schema.GetAllSchemaObjects())
             {
-                foreach(Relationship relationship in schemaObject.GetRelationships())
+                foreach(Relationship relationship in schemaObject.GetRelationships().Where(rel => rel.HasForeignKey))
                 {
                     SchemaObject relatedSchemaObject = relationship.RelatedSchemaObject;
                     if (!relatedSchemaObject.GetRelationshipLists().Any(rl => rl.ForeignKeyName == relationship.ForeignKeyField.FieldName))

@@ -4,9 +4,9 @@ using ClussPro.Base.Data.Query;
 
 namespace WebModels.Migrations
 {
-    internal class Migration000010 : IMigration
+    internal class Migration000013 : IMigration
     {
-        public int MigrationNumber => 10;
+        public int MigrationNumber => 13;
 
         public void Execute(ITransaction transaction)
         {

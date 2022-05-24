@@ -58,7 +58,7 @@ namespace CompanyStudio.Invoicing
 
             if (!string.IsNullOrEmpty(txtInvoiceNumber.Text))
             {
-                Text = $"Invoice {txtInvoiceNumber.Text}";
+                Text = $"{txtInvoiceNumber.Text} [AR]";
             }
 
             get.Resource = "Government/GetAll";
@@ -257,7 +257,7 @@ namespace CompanyStudio.Invoicing
             }
             else
             {
-                Text = $"Invoice {txtInvoiceNumber.Text}";
+                Text = $"{txtInvoiceNumber.Text} [AR]";
             }
         }
 

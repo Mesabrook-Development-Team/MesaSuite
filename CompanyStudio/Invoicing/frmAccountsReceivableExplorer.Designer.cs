@@ -89,7 +89,7 @@
             // 
             this.mnuFilterWIP.CheckOnClick = true;
             this.mnuFilterWIP.Name = "mnuFilterWIP";
-            this.mnuFilterWIP.Size = new System.Drawing.Size(180, 22);
+            this.mnuFilterWIP.Size = new System.Drawing.Size(164, 22);
             this.mnuFilterWIP.Text = "Work In Progress";
             this.mnuFilterWIP.CheckedChanged += new System.EventHandler(this.FilterItem_CheckedChanged);
             // 
@@ -97,7 +97,7 @@
             // 
             this.mnuFilterSent.CheckOnClick = true;
             this.mnuFilterSent.Name = "mnuFilterSent";
-            this.mnuFilterSent.Size = new System.Drawing.Size(180, 22);
+            this.mnuFilterSent.Size = new System.Drawing.Size(164, 22);
             this.mnuFilterSent.Text = "Sent";
             this.mnuFilterSent.CheckedChanged += new System.EventHandler(this.FilterItem_CheckedChanged);
             // 
@@ -105,7 +105,7 @@
             // 
             this.mnuFilterReadyToReceive.CheckOnClick = true;
             this.mnuFilterReadyToReceive.Name = "mnuFilterReadyToReceive";
-            this.mnuFilterReadyToReceive.Size = new System.Drawing.Size(180, 22);
+            this.mnuFilterReadyToReceive.Size = new System.Drawing.Size(164, 22);
             this.mnuFilterReadyToReceive.Text = "Ready To Receive";
             this.mnuFilterReadyToReceive.Click += new System.EventHandler(this.FilterItem_CheckedChanged);
             // 
@@ -113,7 +113,7 @@
             // 
             this.mnuFilterCompleted.CheckOnClick = true;
             this.mnuFilterCompleted.Name = "mnuFilterCompleted";
-            this.mnuFilterCompleted.Size = new System.Drawing.Size(180, 22);
+            this.mnuFilterCompleted.Size = new System.Drawing.Size(164, 22);
             this.mnuFilterCompleted.Text = "Completed";
             this.mnuFilterCompleted.CheckedChanged += new System.EventHandler(this.FilterItem_CheckedChanged);
             // 
@@ -179,11 +179,14 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.loader);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "frmAccountsReceivableExplorer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Receivables";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmAccountsReceivableExplorer_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmAccountsReceivableExplorer_FormClosed);
             this.Load += new System.EventHandler(this.frmAccountsReceivableExplorer_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmAccountsReceivableExplorer_KeyDown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);

@@ -26,9 +26,13 @@ namespace API_Company.Controllers
             $"{nameof(Invoice.LocationTo)}.{nameof(Location.CompanyID)}",
             $"{nameof(Invoice.LocationTo)}.{nameof(Location.Company)}.{nameof(Company.Name)}",
             nameof(Invoice.LocationIDFrom),
+            $"{nameof(Invoice.LocationFrom)}.{nameof(Location.Name)}",
+            $"{nameof(Invoice.LocationFrom)}.{nameof(Location.CompanyID)}",
+            $"{nameof(Invoice.LocationFrom)}.{nameof(Location.Company)}.{nameof(Company.Name)}",
             nameof(Invoice.GovernmentIDTo),
             $"{nameof(Invoice.GovernmentTo)}.{nameof(Government.Name)}",
             nameof(Invoice.GovernmentIDFrom),
+            $"{nameof(Invoice.GovernmentFrom)}.{nameof(Government.Name)}",
             nameof(Invoice.InvoiceNumber),
             nameof(Invoice.InvoiceDate),
             nameof(Invoice.DueDate),
@@ -43,21 +47,57 @@ namespace API_Company.Controllers
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Quantity)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.UnitCost)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Total)}",
-            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Description)}"
+            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Description)}",
+            $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.InvoiceSalesTaxID)}",
+            $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.InvoiceID)}",
+            $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.Municipality)}",
+            $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.Rate)}",
+            $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.AppliedAmount)}"
         };
-
-        public override bool AllowGetAll => true;
 
         private long LocationID => long.Parse(Request.Headers.GetValues("LocationID").First());
 
         public override ISearchCondition GetBaseSearchCondition()
         {
-            return new LongSearchCondition<Invoice>()
+            return new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                new LongSearchCondition<Invoice>()
+                {
+                    Field = "LocationIDFrom",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = LocationID
+                },
+                new LongSearchCondition<Invoice>()
+                {
+                    Field = "LocationIDTo",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = LocationID
+                });
+        }
+
+        [HttpGet]
+        public async Task<List<Invoice>> GetPayables()
+        {
+            Search<Invoice> invoiceSearch = new Search<Invoice>(new LongSearchCondition<Invoice>()
             {
-                Field = "LocationIDFrom",
+                Field = nameof(Invoice.LocationIDTo),
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                 Value = LocationID
-            };
+            });
+
+            return invoiceSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
+        }
+
+        [HttpGet]
+        public async Task<List<Invoice>> GetReceivables()
+        {
+            Search<Invoice> invoiceSearch = new Search<Invoice>(new LongSearchCondition<Invoice>()
+            {
+                Field = nameof(Invoice.LocationIDFrom),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = LocationID
+            });
+
+            return invoiceSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
         }
 
         [HttpPut]
@@ -163,6 +203,39 @@ namespace API_Company.Controllers
             }
 
             return Ok(dbInvoice);
+        }
+
+        [HttpPut]
+        public IHttpActionResult AuthorizePayment(long id)
+        {
+            Search<Invoice> invoiceSearch = new Search<Invoice>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                GetBaseSearchCondition(),
+                new LongSearchCondition<Invoice>()
+                {
+                    Field = nameof(Invoice.InvoiceID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                }));
+
+            Invoice invoice = invoiceSearch.GetEditable();
+            if (invoice == null)
+            {
+                return NotFound();
+            }
+
+            if (invoice.LocationIDTo != LocationID)
+            {
+                invoice.Errors.Add(nameof(Invoice.Status), "Only Payors may authorize payment");
+                return invoice.HandleFailedValidation(this);
+            }
+
+            invoice.Status = Invoice.Statuses.ReadyForReceipt;
+            if (!invoice.Save())
+            {
+                return invoice.HandleFailedValidation(this);
+            }
+
+            return Ok();
         }
     }
 }

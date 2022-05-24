@@ -43,6 +43,8 @@
             this.employeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEmployeeExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.invoicingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuInvoicingReceivables = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuInvoicePayables = new System.Windows.Forms.ToolStripMenuItem();
             this.wIndowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuThemes = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLightTheme = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,7 +63,6 @@
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolLocationDropDown = new System.Windows.Forms.ToolStripComboBox();
             this.tmrLocationUpdater = new System.Windows.Forms.Timer(this.components);
-            this.mnuInvoicingReceivables = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuBanner.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -138,14 +139,14 @@
             this.mnuCompanyExplorer.Image = global::CompanyStudio.Properties.Resources.icn_com;
             this.mnuCompanyExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuCompanyExplorer.Name = "mnuCompanyExplorer";
-            this.mnuCompanyExplorer.Size = new System.Drawing.Size(188, 54);
+            this.mnuCompanyExplorer.Size = new System.Drawing.Size(196, 54);
             this.mnuCompanyExplorer.Text = "Company Explorer";
             this.mnuCompanyExplorer.Click += new System.EventHandler(this.mnuCompanyExplorer_Click);
             // 
             // mnuLocationExplorer
             // 
             this.mnuLocationExplorer.Name = "mnuLocationExplorer";
-            this.mnuLocationExplorer.Size = new System.Drawing.Size(188, 54);
+            this.mnuLocationExplorer.Size = new System.Drawing.Size(196, 54);
             this.mnuLocationExplorer.Text = "Location Explorer";
             this.mnuLocationExplorer.Click += new System.EventHandler(this.mnuLocationExplorer_Click);
             // 
@@ -191,11 +192,26 @@
             // invoicingToolStripMenuItem
             // 
             this.invoicingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuInvoicingReceivables});
+            this.mnuInvoicingReceivables,
+            this.mnuInvoicePayables});
             this.invoicingToolStripMenuItem.Name = "invoicingToolStripMenuItem";
             this.invoicingToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
             this.invoicingToolStripMenuItem.Text = "Invoicing";
             this.invoicingToolStripMenuItem.Visible = false;
+            // 
+            // mnuInvoicingReceivables
+            // 
+            this.mnuInvoicingReceivables.Name = "mnuInvoicingReceivables";
+            this.mnuInvoicingReceivables.Size = new System.Drawing.Size(180, 22);
+            this.mnuInvoicingReceivables.Text = "Receivables";
+            this.mnuInvoicingReceivables.Click += new System.EventHandler(this.mnuInvoicingReceivables_Click);
+            // 
+            // mnuInvoicePayables
+            // 
+            this.mnuInvoicePayables.Name = "mnuInvoicePayables";
+            this.mnuInvoicePayables.Size = new System.Drawing.Size(180, 22);
+            this.mnuInvoicePayables.Text = "Payables";
+            this.mnuInvoicePayables.Click += new System.EventHandler(this.mnuInvoicePayables_Click);
             // 
             // wIndowToolStripMenuItem
             // 
@@ -319,13 +335,6 @@
             this.tmrLocationUpdater.Interval = 1000;
             this.tmrLocationUpdater.Tick += new System.EventHandler(this.tmrLocationUpdater_Tick);
             // 
-            // mnuInvoicingReceivables
-            // 
-            this.mnuInvoicingReceivables.Name = "mnuInvoicingReceivables";
-            this.mnuInvoicingReceivables.Size = new System.Drawing.Size(180, 22);
-            this.mnuInvoicingReceivables.Text = "Receivables";
-            this.mnuInvoicingReceivables.Click += new System.EventHandler(this.mnuInvoicingReceivables_Click);
-            // 
             // frmStudio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -385,6 +394,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuLocationExplorer;
         private System.Windows.Forms.Timer tmrLocationUpdater;
         private System.Windows.Forms.ToolStripMenuItem mnuInvoicingReceivables;
+        private System.Windows.Forms.ToolStripMenuItem mnuInvoicePayables;
     }
 }
 

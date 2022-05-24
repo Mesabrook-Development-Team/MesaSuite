@@ -32,6 +32,7 @@ namespace CompanyStudio.Invoicing
             frmReceivableInvoice receivableInvoice = new frmReceivableInvoice();
             Studio.DecorateStudioContent(receivableInvoice);
             receivableInvoice.Company = Company;
+            receivableInvoice.LocationModel = LocationModel;
             receivableInvoice.OnSave += ReceivableInvoice_OnSave;
             receivableInvoice.FormClosed += ReceivableInvoice_FormClosed;
             receivableInvoice.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
@@ -49,8 +50,21 @@ namespace CompanyStudio.Invoicing
 
         private void frmAccountsReceivableExplorer_Load(object sender, EventArgs e)
         {
+            Text += " - " + LocationModel.Name;
+
+            PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
+
             ReadSettings();
             LoadInvoices();
+        }
+
+        private void PermissionsManager_OnLocationPermissionChange(object sender, PermissionsManager.LocationWidePermissionChangeEventArgs e)
+        {
+            if (e.LocationID == LocationModel.LocationID && e.Permission == PermissionsManager.LocationWidePermissions.ManageInvoices && !e.Value)
+            {
+                this.ShowError("You no longer have permission to use Receivable Invoices for " + LocationModel.Name);
+                Close();
+            }
         }
 
         private async void LoadInvoices()
@@ -58,7 +72,7 @@ namespace CompanyStudio.Invoicing
             loader.BringToFront();
             loader.Visible = true;
 
-            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Invoice/GetAll");
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Invoice/GetReceivables");
             get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
             invoices = await get.GetObject<List<Invoice>>() ?? new List<Invoice>();
 
@@ -92,8 +106,15 @@ namespace CompanyStudio.Invoicing
                 }
 
                 string amount = invoice.InvoiceLines.Sum(il => il.Total).ToString("N2");
+                
+                ListViewItem listViewItem = new ListViewItem(new[] { invoice.InvoiceNumber, payor, amount, invoice.Status.ToString() }) { Tag = invoice };
+                if (invoice.Status != Invoice.Statuses.Complete && invoice.DueDate <= DateTime.Today)
+                {
+                    listViewItem.BackColor = Color.Yellow;
+                    listViewItem.ForeColor = Color.Black;
+                }
 
-                lstInvoices.Items.Add(new ListViewItem(new[] { invoice.InvoiceNumber, payor, amount, invoice.Status.ToString() }) { Tag = invoice });
+                lstInvoices.Items.Add(listViewItem);
             }
         }
 
@@ -215,7 +236,7 @@ namespace CompanyStudio.Invoicing
             mnuFilterCompleted.Checked = filterOption.HasFlag(FilterOptions.Complete);
             mnuFilterReadyToReceive.Checked = filterOption.HasFlag(FilterOptions.ReadyForReceipt);
 
-            string[] columnOrder = companySettings.GetOrDefault("accountsReceivableExplorerColumnOrder").Cast<string[]>();
+            string[] columnOrder = companySettings.GetOrDefault("accountsReceivableExplorerColumnOrder").Cast<string[]>() ?? new string[0];
             int i = 0;
             foreach(string column in columnOrder)
             {
@@ -287,6 +308,19 @@ namespace CompanyStudio.Invoicing
             }
 
             base.Dispose(disposing);
+        }
+
+        private void frmAccountsReceivableExplorer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
+        }
+
+        private void frmAccountsReceivableExplorer_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+            {
+                LoadInvoices();
+            }
         }
     }
 }

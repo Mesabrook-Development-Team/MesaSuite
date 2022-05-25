@@ -38,5 +38,6 @@ namespace CompanyStudio.Models
         public string AccountToHistorical { get; set; }
 
         public List<InvoiceLine> InvoiceLines { get; set; }
+        public List<InvoiceSalesTax> InvoiceSalesTaxes { get; set; }
     }
 }

@@ -184,6 +184,18 @@
     <Compile Include="Invoicing\frmAccountsReceivableExplorer.Designer.cs">
       <DependentUpon>frmAccountsReceivableExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Invoicing\frmPayableExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoicing\frmPayableExplorer.Designer.cs">
+      <DependentUpon>frmPayableExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Invoicing\frmPayableInvoice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoicing\frmPayableInvoice.Designer.cs">
+      <DependentUpon>frmPayableInvoice.cs</DependentUpon>
+    </Compile>
     <Compile Include="Invoicing\frmReceivableInvoice.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -209,9 +221,11 @@
     <Compile Include="Models\Government.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceLine.cs" />
+    <Compile Include="Models\InvoiceSalesTax.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LocationEmployee.cs" />
     <Compile Include="Models\LocationGovernment.cs" />
+    <Compile Include="Models\SalesTax.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="PermissionsManager.cs" />
@@ -292,6 +306,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\frmAccountsReceivableExplorer.resx">
       <DependentUpon>frmAccountsReceivableExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\frmPayableExplorer.resx">
+      <DependentUpon>frmPayableExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\frmPayableInvoice.resx">
+      <DependentUpon>frmPayableInvoice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\frmReceivableInvoice.resx">
       <DependentUpon>frmReceivableInvoice.cs</DependentUpon>

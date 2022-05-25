@@ -532,5 +532,19 @@ namespace CompanyStudio
             DecorateStudioContent(explorer);
             explorer.Show(dockPanel, DockState.DockRight);
         }
+
+        private void mnuInvoicePayables_Click(object sender, EventArgs e)
+        {
+            Invoicing.frmPayableExplorer explorer = dockPanel.Contents.OfType<Invoicing.frmPayableExplorer>().FirstOrDefault(pe => pe.Company.CompanyID == ActiveCompany?.CompanyID);
+            if (explorer != null)
+            {
+                explorer.Activate();
+                return;
+            }
+
+            explorer = new Invoicing.frmPayableExplorer();
+            DecorateStudioContent(explorer);
+            explorer.Show(dockPanel, DockState.DockRight);
+        }
     }
 }

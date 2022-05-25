@@ -292,7 +292,8 @@ namespace CompanyStudio.Invoicing
                 invoiceToSave.Status = Invoice.Status;
                 invoiceToSave.AccountIDFrom = Invoice.AccountIDFrom;
             }
-            else if ((invoiceToSave.Status == Invoice.Statuses.Sent || invoiceToSave.Status == Invoice.Statuses.ReadyForReceipt) && 
+            
+            if ((invoiceToSave.Status == Invoice.Statuses.Sent || invoiceToSave.Status == Invoice.Statuses.ReadyForReceipt) && 
                 decimal.TryParse(txtTotal.Text, out decimal newTotal) && 
                 newTotal != _initialAmount)
             {

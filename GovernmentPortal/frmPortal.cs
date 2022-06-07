@@ -25,7 +25,8 @@ namespace GovernmentPortal
                 { PermissionsManager.Permissions.ManageEmails, toolEmail },
                 { PermissionsManager.Permissions.ManageAccounts, toolAccounts },
                 { PermissionsManager.Permissions.CanMintCurrency, tsbMintCurrency },
-                { PermissionsManager.Permissions.ManageTaxes, tsmiTaxes }
+                { PermissionsManager.Permissions.ManageTaxes, tsmiTaxes },
+                { PermissionsManager.Permissions.ManageInvoices, mnuInvoices }
             };
         }
 
@@ -52,13 +53,13 @@ namespace GovernmentPortal
                     continue;
                 }
 
-                kvp.Value.Visible = PermissionsManager.HasPermission(_government.GovernmentID, kvp.Key);
+                kvp.Value.Visible = PermissionsManager.HasPermission(_government.GovernmentID.Value, kvp.Key);
             }
         }
 
         private void toolOfficials_Click(object sender, EventArgs e)
         {
-            frmGenericExplorer<Official> genericExplorer = new frmGenericExplorer<Official>(new OfficialExplorerContext(_government.GovernmentID, _government.CanMintCurrency));
+            frmGenericExplorer<Official> genericExplorer = new frmGenericExplorer<Official>(new OfficialExplorerContext(_government.GovernmentID.Value, _government.CanMintCurrency));
             genericExplorer.MdiParent = this;
             genericExplorer.Show();
         }
@@ -115,28 +116,28 @@ namespace GovernmentPortal
 
         private void tsmiAliases_Click(object sender, EventArgs e)
         {
-            frmGenericExplorer<Alias> aliasExplorer = new frmGenericExplorer<Alias>(new Email.AliasExplorerContext(_government.GovernmentID));
+            frmGenericExplorer<Alias> aliasExplorer = new frmGenericExplorer<Alias>(new Email.AliasExplorerContext(_government.GovernmentID.Value));
             aliasExplorer.MdiParent = this;
             aliasExplorer.Show();
         }
 
         private void tsmiDistributionLists_Click(object sender, EventArgs e)
         {
-            frmGenericExplorer<DistributionList> distributionListExplorer = new frmGenericExplorer<DistributionList>(new Email.DistributionListExplorerContext(_government.GovernmentID, _government.EmailDomain));
+            frmGenericExplorer<DistributionList> distributionListExplorer = new frmGenericExplorer<DistributionList>(new Email.DistributionListExplorerContext(_government.GovernmentID.Value, _government.EmailDomain));
             distributionListExplorer.MdiParent = this;
             distributionListExplorer.Show();
         }
 
         private void tsmiAccountList_Click(object sender, EventArgs e)
         {
-            frmGenericExplorer<Account> accountExplorer = new frmGenericExplorer<Account>(new Accounts.AccountExplorerContext(_government.GovernmentID));
+            frmGenericExplorer<Account> accountExplorer = new frmGenericExplorer<Account>(new Accounts.AccountExplorerContext(_government.GovernmentID.Value));
             accountExplorer.MdiParent = this;
             accountExplorer.Show();
         }
 
         private void tsmiAccountCategories_Click(object sender, EventArgs e)
         {
-            new frmGenericExplorer<Category>(new Accounts.CategoryExplorerContext(_government.GovernmentID))
+            new frmGenericExplorer<Category>(new Accounts.CategoryExplorerContext(_government.GovernmentID.Value))
             {
                 MdiParent = this
             }.Show();
@@ -144,15 +145,28 @@ namespace GovernmentPortal
 
         private void tsbMintCurrency_Click(object sender, EventArgs e)
         {
-            new frmMintCurrency(_government.GovernmentID).ShowDialog();
+            new frmMintCurrency(_government.GovernmentID.Value).ShowDialog();
         }
 
         private void tsmiSalesTax_Click(object sender, EventArgs e)
         {
-            new frmGenericExplorer<SalesTax>(new Taxes.SalesTaxContext(_government.GovernmentID))
+            new frmGenericExplorer<SalesTax>(new Taxes.SalesTaxContext(_government.GovernmentID.Value))
             {
                 MdiParent = this
             }.Show();
+        }
+
+        private void mnuInvoiceReceivable_Click(object sender, EventArgs e)
+        {
+            new frmGenericExplorer<Invoice>(new Invoicing.ReceivableInvoiceContext(_government.GovernmentID.Value))
+            {
+                MdiParent = this
+            }.Show();
+        }
+
+        private void mnuInvoicesInvoiceConfiguration_Click(object sender, EventArgs e)
+        {
+            new Invoicing.frmInvoiceConfiguration(_government.GovernmentID.Value).ShowDialog();
         }
     }
 }

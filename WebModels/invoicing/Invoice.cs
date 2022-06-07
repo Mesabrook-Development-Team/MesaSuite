@@ -216,12 +216,10 @@ namespace WebModels.invoicing
         #endregion
         #endregion
 
-        public bool DoesLocationHavePermissionToUpdateByStatus(long locationID)
+        public bool DoesEntityHavePermissionToUpdateByStatus(bool isPayee)
         {
-            bool isPayee = LocationIDFrom == locationID;
-
             if (Status == Statuses.Complete ||
-                (Status == Statuses.WorkInProgress && LocationIDFrom != locationID))
+                (Status == Statuses.WorkInProgress && !isPayee))
             {
                 return false;
             }
@@ -229,15 +227,14 @@ namespace WebModels.invoicing
             return true;
         }
 
-        public bool DoesLocationHavePermissionToUpdateFields(long locationID)
+        public bool DoesEntityHavePermissionToUpdateFields(bool isPayee)
         {
 
-            if (!DoesLocationHavePermissionToUpdateByStatus(locationID))
+            if (!DoesEntityHavePermissionToUpdateByStatus(isPayee))
             {
                 return false;
             }
 
-            bool isPayee = LocationIDFrom == locationID;
             foreach(PropertyInfo propInfo in GetType().GetProperties().Where(prop => prop.GetCustomAttribute<SentPermissionAttribute>() != null))
             {
                 if (!IsFieldDirty(propInfo.Name))
@@ -254,11 +251,6 @@ namespace WebModels.invoicing
             }
 
             return true;
-        }
-
-        public bool DoesLocationHavePermissionToDelete(long locationID)
-        {
-            return LocationIDFrom == locationID;
         }
 
         protected override bool PreSave(ITransaction transaction)
@@ -279,19 +271,35 @@ namespace WebModels.invoicing
         {
             if (IsInsert)
             {
-                if (LocationIDFrom == null)
+                if (LocationIDFrom == null && GovernmentIDFrom == null)
                 {
                     return base.PostSave(transaction);
                 }
 
-                Location location = DataObject.GetEditableByPrimaryKey<Location>(LocationIDFrom, transaction, null);
-                string nextInvoiceNumber = location.InvoiceNumberPrefix + location.NextInvoiceNumber;
+                string nextInvoiceNumber;
+                string invoiceNumberPrefix;
+                Location locationFrom = null;
+                Government governmentFrom = null;
+
+                if (LocationIDFrom != null)
+                {
+                    locationFrom = DataObject.GetEditableByPrimaryKey<Location>(LocationIDFrom, transaction, null);
+                    invoiceNumberPrefix = locationFrom.InvoiceNumberPrefix;
+                    nextInvoiceNumber = locationFrom.InvoiceNumberPrefix + locationFrom.NextInvoiceNumber;
+                }
+                else
+                {
+                    governmentFrom = DataObject.GetEditableByPrimaryKey<Government>(GovernmentIDFrom, transaction, null);
+                    invoiceNumberPrefix = governmentFrom.InvoiceNumberPrefix;
+                    nextInvoiceNumber = governmentFrom.InvoiceNumberPrefix + governmentFrom.NextInvoiceNumber;
+                }
+
                 if (!nextInvoiceNumber.Equals(InvoiceNumber))
                 {
                     return base.PostSave(transaction);
                 }
 
-                string newInvoiceNumber = InvoiceNumber.Substring(location.InvoiceNumberPrefix.Length);
+                string newInvoiceNumber = InvoiceNumber.Substring(invoiceNumberPrefix.Length);
                 if (!int.TryParse(newInvoiceNumber, out int newInvoiceNumberInt))
                 {
                     return base.PostSave(transaction);
@@ -299,10 +307,22 @@ namespace WebModels.invoicing
 
                 newInvoiceNumberInt++;
                 newInvoiceNumber = newInvoiceNumberInt.ToString().PadLeft(newInvoiceNumber.Length, '0');
-                location.NextInvoiceNumber = newInvoiceNumber;
-                if (!location.Save(transaction))
+
+                if (locationFrom != null)
                 {
-                    Errors.AddRange(location.Errors.ToArray());
+                    locationFrom.NextInvoiceNumber = newInvoiceNumber;
+                    if (!locationFrom.Save(transaction))
+                    {
+                        Errors.AddRange(locationFrom.Errors.ToArray());
+                    }
+                }
+                else
+                {
+                    governmentFrom.NextInvoiceNumber = newInvoiceNumber;
+                    if (!governmentFrom.Save(transaction))
+                    {
+                        Errors.AddRange(governmentFrom.Errors.ToArray());
+                    }
                 }
             }
             return base.PostSave(transaction);
@@ -341,7 +361,7 @@ namespace WebModels.invoicing
                 decimal taxRate = 1M;
                 List<Tuple<string, decimal, long>> taxRateByGovernment = new List<Tuple<string, decimal, long>>();
 
-                if (LocationIDFrom != null && LocationIDTo != null)
+                if (LocationIDFrom != null && LocationIDTo != null && GovernmentIDFrom == null && GovernmentIDTo == null)
                 {
                     Search<LocationGovernment> locationGovernmentSearch = new Search<LocationGovernment>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                         new LongSearchCondition<LocationGovernment>()

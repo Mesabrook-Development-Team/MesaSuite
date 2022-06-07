@@ -53,6 +53,22 @@ namespace WebModels.gov
             set { CheckSet(); _canMintCurrency = value; }
         }
 
+        private string _invoiceNumberPrefix;
+        [Field("0F5A0F5F-A6D1-46E8-95ED-634E9A6931CE", DataSize = 3)]
+        public string InvoiceNumberPrefix
+        {
+            get { CheckGet(); return _invoiceNumberPrefix; }
+            set { CheckSet(); _invoiceNumberPrefix = value; }
+        }
+
+        private string _nextInvoiceNumber;
+        [Field("32424A24-C76A-4E3C-8050-B1257E1E6045", DataSize = 8)]
+        public string NextInvoiceNumber
+        {
+            get { CheckGet(); return _nextInvoiceNumber; }
+            set { CheckSet(); _nextInvoiceNumber = value; }
+        }
+
         private SalesTax _effectiveSalesTax = null;
         [Relationship("A639E317-BBD6-40B2-87B3-F42E2FBB7123", HasForeignKey = false)]
         public SalesTax EffectiveSalesTax

@@ -125,6 +125,22 @@
       <DependentUpon>frmSelectGovernment.cs</DependentUpon>
     </Compile>
     <Compile Include="IExplorerControl.cs" />
+    <Compile Include="Invoicing\frmInvoiceConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoicing\frmInvoiceConfiguration.Designer.cs">
+      <DependentUpon>frmInvoiceConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Invoicing\ReceivableInvoiceContext.cs" />
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\Invoice.cs" />
+    <Compile Include="Models\InvoiceLine.cs" />
+    <Compile Include="Invoicing\ReceivableInvoiceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Invoicing\ReceivableInvoiceControl.Designer.cs">
+      <DependentUpon>ReceivableInvoiceControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Loader.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -139,6 +155,7 @@
     <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\FiscalQuarter.cs" />
     <Compile Include="Models\Government.cs" />
+    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Official.cs" />
     <Compile Include="Models\SalesTax.cs" />
     <Compile Include="Models\Transaction.cs" />
@@ -190,6 +207,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSelectGovernment.resx">
       <DependentUpon>frmSelectGovernment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\frmInvoiceConfiguration.resx">
+      <DependentUpon>frmInvoiceConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\ReceivableInvoiceControl.resx">
+      <DependentUpon>ReceivableInvoiceControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>

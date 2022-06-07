@@ -62,7 +62,7 @@ namespace CompanyStudio.Invoicing
                                                             (i.Status == Invoice.Statuses.ReadyForReceipt && filterOption.HasFlag(FilterOptions.ReadyForReceipt)) ||
                                                             (i.Status == Invoice.Statuses.Complete && filterOption.HasFlag(FilterOptions.Complete))))
             {
-                ListViewItem listViewItem = new ListViewItem(new string[] { invoice.InvoiceNumber, invoice.LocationFrom?.Company.Name, invoice.DueDate.ToString("MM/dd/yyyy"), invoice.InvoiceLines.Sum(il => il.Total).ToString("N2"), invoice.Status.ToString().ToDisplayName() });
+                ListViewItem listViewItem = new ListViewItem(new string[] { invoice.InvoiceNumber, invoice.LocationFrom?.Company.Name ?? invoice.GovernmentFrom?.Name, invoice.DueDate.ToString("MM/dd/yyyy"), invoice.InvoiceLines.Sum(il => il.Total).ToString("N2"), invoice.Status.ToString().ToDisplayName() });
                 listViewItem.Tag = invoice;
 
                 if (invoice.Status == Invoice.Statuses.Sent && invoice.DueDate <= DateTime.Today)

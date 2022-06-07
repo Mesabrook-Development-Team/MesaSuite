@@ -11,5 +11,6 @@
         public bool ManageTaxes { get; set; }
         public string OfficialName { get; set; }
         public bool CanMintCurrency { get; set; }
+        public bool ManageInvoices { get; set; }
     }
 }

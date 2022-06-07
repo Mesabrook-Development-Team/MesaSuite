@@ -1,23 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using API.Common;
 using API.Common.Attributes;
 using API.Common.Extensions;
-using API_Company.Attributes;
+using API_Government.Attributes;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using WebModels.company;
 using WebModels.gov;
 using WebModels.invoicing;
 
-namespace API_Company.Controllers
+namespace API_Government.Controllers
 {
     [MesabrookAuthorization]
-    [ProgramAccess("company")]
-    [LocationAccess(RequiredPermissions = new[] { nameof(LocationEmployee.ManageInvoices) })]
+    [ProgramAccess("gov")]
+    [GovernmentAccess(RequiredPermissions = new[] { nameof(Official.ManageInvoices) })]
     public class InvoiceController : DataObjectController<Invoice>
     {
+        private long GovernmentID => long.Parse(Request.Headers.GetValues("GovernmentID").First());
+
         public override IEnumerable<string> DefaultRetrievedFields => new[]
         {
             nameof(Invoice.InvoiceID),
@@ -47,71 +51,48 @@ namespace API_Company.Controllers
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Quantity)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.UnitCost)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Total)}",
-            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Description)}",
-            $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.InvoiceSalesTaxID)}",
-            $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.InvoiceID)}",
-            $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.Municipality)}",
-            $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.Rate)}",
-            $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.AppliedAmount)}"
+            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Description)}"
         };
 
-        private long LocationID => long.Parse(Request.Headers.GetValues("LocationID").First());
-
-        public override ISearchCondition GetBaseSearchCondition()
-        {
-            return new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+        public override ISearchCondition GetBaseSearchCondition() => new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
                 new LongSearchCondition<Invoice>()
                 {
-                    Field = "LocationIDFrom",
+                    Field = nameof(Invoice.GovernmentIDFrom),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = LocationID
+                    Value = GovernmentID
                 },
                 new LongSearchCondition<Invoice>()
                 {
-                    Field = "LocationIDTo",
+                    Field = nameof(Invoice.GovernmentIDTo),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = LocationID
+                    Value = GovernmentID
                 });
-        }
-
-        [HttpGet]
-        public async Task<List<Invoice>> GetPayables()
-        {
-            Search<Invoice> invoiceSearch = new Search<Invoice>(new LongSearchCondition<Invoice>()
-            {
-                Field = nameof(Invoice.LocationIDTo),
-                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = LocationID
-            });
-
-            return invoiceSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
-        }
 
         [HttpGet]
         public async Task<List<Invoice>> GetReceivables()
         {
             Search<Invoice> invoiceSearch = new Search<Invoice>(new LongSearchCondition<Invoice>()
             {
-                Field = nameof(Invoice.LocationIDFrom),
+                Field = nameof(Invoice.GovernmentIDFrom),
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = LocationID
+                Value = GovernmentID
             });
 
             return invoiceSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
         }
 
         [HttpPut]
-        public override async Task<IHttpActionResult> Put(Invoice dataObject)
+        public override async Task<IHttpActionResult> Put(Invoice invoice)
         {
-            Invoice dbInvoice = await GetPutObjectResult(dataObject);
+            Invoice dbInvoice = await GetPutObjectResult(invoice);
 
-            if (!dbInvoice.DoesEntityHavePermissionToUpdateByStatus(LocationID == dbInvoice.LocationIDFrom) || !dbInvoice.DoesEntityHavePermissionToUpdateFields(LocationID == dbInvoice.LocationIDFrom))
+            if (!dbInvoice.DoesEntityHavePermissionToUpdateByStatus(dbInvoice.GovernmentIDFrom == GovernmentID) || !dbInvoice.DoesEntityHavePermissionToUpdateFields(dbInvoice.GovernmentIDFrom == GovernmentID))
             {
-                dbInvoice.Errors.AddBaseMessage("Location does not have permission to update at least one field");
+                dbInvoice.Errors.AddBaseMessage("Government does not have permission to update at least one field");
                 return dbInvoice.HandleFailedValidation(this);
             }
-            
-            return await base.Put(dataObject);
+
+            return await base.Put(dbInvoice);
         }
 
         [HttpDelete]
@@ -132,9 +113,9 @@ namespace API_Company.Controllers
                 return NotFound();
             }
 
-            if (invoice.LocationIDFrom != LocationID)
+            if (invoice.GovernmentIDFrom != GovernmentID)
             {
-                invoice.Errors.AddBaseMessage("Location does not have permission to delete this Invoice");
+                invoice.Errors.AddBaseMessage("Government does not have permission to delete this Invoice");
                 return invoice.HandleFailedValidation(this);
             }
 
@@ -158,9 +139,9 @@ namespace API_Company.Controllers
                 return NotFound();
             }
 
-            if (dbInvoice.LocationIDFrom != LocationID)
+            if (dbInvoice.GovernmentIDFrom != GovernmentID)
             {
-                dbInvoice.Errors.AddBaseMessage("Only Locations that created an Accounts Receivable Invoice may issue it");
+                dbInvoice.Errors.AddBaseMessage("Only Governments that created an Accounts Receivable Invoice may issue it");
                 return dbInvoice.HandleFailedValidation(this);
             }
 
@@ -190,9 +171,9 @@ namespace API_Company.Controllers
                 return NotFound();
             }
 
-            if (dbInvoice.LocationIDFrom != LocationID)
+            if (dbInvoice.GovernmentIDFrom != GovernmentID)
             {
-                dbInvoice.Errors.AddBaseMessage("Only Locations that created an Accounts Receivable Invoice may receive it");
+                dbInvoice.Errors.AddBaseMessage("Only Governments that created an Accounts Receivable Invoice may receive it");
                 return dbInvoice.HandleFailedValidation(this);
             }
 
@@ -203,39 +184,6 @@ namespace API_Company.Controllers
             }
 
             return Ok(dbInvoice);
-        }
-
-        [HttpPut]
-        public IHttpActionResult AuthorizePayment(long id)
-        {
-            Search<Invoice> invoiceSearch = new Search<Invoice>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
-                GetBaseSearchCondition(),
-                new LongSearchCondition<Invoice>()
-                {
-                    Field = nameof(Invoice.InvoiceID),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = id
-                }));
-
-            Invoice invoice = invoiceSearch.GetEditable();
-            if (invoice == null)
-            {
-                return NotFound();
-            }
-
-            if (invoice.LocationIDTo != LocationID)
-            {
-                invoice.Errors.Add(nameof(Invoice.Status), "Only Payors may authorize payment");
-                return invoice.HandleFailedValidation(this);
-            }
-
-            invoice.Status = Invoice.Statuses.ReadyForReceipt;
-            if (!invoice.Save())
-            {
-                return invoice.HandleFailedValidation(this);
-            }
-
-            return Ok();
         }
     }
 }

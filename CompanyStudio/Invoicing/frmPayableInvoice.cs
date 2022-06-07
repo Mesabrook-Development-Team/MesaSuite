@@ -91,7 +91,7 @@ namespace CompanyStudio.Invoicing
 
             Text = Invoice.InvoiceNumber + " [AP]";
 
-            txtPayee.Text = $"{Invoice.LocationFrom?.Company?.Name ?? Invoice.GovernmentFrom?.Name} ({Invoice.LocationFrom?.Name ?? Invoice.GovernmentFrom?.Name})";
+            txtPayee.Text = $"{Invoice.LocationFrom?.Company?.Name ?? Invoice.GovernmentFrom?.Name} (Government)";
             txtPayor.Text = $"{Invoice.LocationTo.Company.Name} ({Invoice.LocationTo.Name})";
             txtInvoiceNumber.Text = Invoice.InvoiceNumber;
             dtpInvoiceDate.Value = Invoice.InvoiceDate;

@@ -118,14 +118,35 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="icn_govt" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\icn_govt.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_alias" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_alias.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_dollar_in" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_dollar_in.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_list" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_list.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_bill" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_bill.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icn_coins" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icn_coins.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icn_alias" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_alias.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="mail_explorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mail_explorer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_govt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icn_govt.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_group" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_group.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_view" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_view.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icn_official" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_official.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="government" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\government.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -133,19 +154,10 @@
   <data name="gif_loader" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gif_loader.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icn_list" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_list.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_dollar_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_dollar_out.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icn_group" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_group.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mail_explorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mail_explorer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icn_official" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_official.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icn_view" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icn_view.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icn_dollar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icn_dollar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

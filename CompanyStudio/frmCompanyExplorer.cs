@@ -151,5 +151,10 @@ namespace CompanyStudio
             Studio.OnCompanyAdded -= Studio_OnCompanyChanged;
             Studio.OnCompanyRemoved -= Studio_OnCompanyChanged;
         }
+
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
     }
 }

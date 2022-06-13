@@ -158,7 +158,7 @@ namespace GovernmentPortal
             this.tsmiTaxes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiSalesTax,
             this.tsmiEmploymentTax});
-            this.tsmiTaxes.Image = ((System.Drawing.Image)(resources.GetObject("tsmiTaxes.Image")));
+            this.tsmiTaxes.Image = global::GovernmentPortal.Properties.Resources.icn_dollar_in;
             this.tsmiTaxes.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiTaxes.Name = "tsmiTaxes";
             this.tsmiTaxes.Size = new System.Drawing.Size(64, 22);
@@ -167,15 +167,17 @@ namespace GovernmentPortal
             // 
             // tsmiSalesTax
             // 
+            this.tsmiSalesTax.Image = global::GovernmentPortal.Properties.Resources.icn_dollar;
             this.tsmiSalesTax.Name = "tsmiSalesTax";
-            this.tsmiSalesTax.Size = new System.Drawing.Size(162, 22);
+            this.tsmiSalesTax.Size = new System.Drawing.Size(180, 22);
             this.tsmiSalesTax.Text = "Sales Tax";
             this.tsmiSalesTax.Click += new System.EventHandler(this.tsmiSalesTax_Click);
             // 
             // tsmiEmploymentTax
             // 
+            this.tsmiEmploymentTax.Image = global::GovernmentPortal.Properties.Resources.icn_group;
             this.tsmiEmploymentTax.Name = "tsmiEmploymentTax";
-            this.tsmiEmploymentTax.Size = new System.Drawing.Size(162, 22);
+            this.tsmiEmploymentTax.Size = new System.Drawing.Size(180, 22);
             this.tsmiEmploymentTax.Text = "Employment Tax";
             this.tsmiEmploymentTax.Visible = false;
             // 
@@ -186,7 +188,7 @@ namespace GovernmentPortal
             this.mnuInvoicePayable,
             this.toolStripMenuItem1,
             this.mnuInvoicesInvoiceConfiguration});
-            this.mnuInvoices.Image = ((System.Drawing.Image)(resources.GetObject("mnuInvoices.Image")));
+            this.mnuInvoices.Image = global::GovernmentPortal.Properties.Resources.icn_bill;
             this.mnuInvoices.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuInvoices.Name = "mnuInvoices";
             this.mnuInvoices.Size = new System.Drawing.Size(79, 22);
@@ -195,6 +197,7 @@ namespace GovernmentPortal
             // 
             // mnuInvoiceReceivable
             // 
+            this.mnuInvoiceReceivable.Image = global::GovernmentPortal.Properties.Resources.icn_dollar_in;
             this.mnuInvoiceReceivable.Name = "mnuInvoiceReceivable";
             this.mnuInvoiceReceivable.Size = new System.Drawing.Size(189, 22);
             this.mnuInvoiceReceivable.Text = "Receivable";
@@ -202,6 +205,7 @@ namespace GovernmentPortal
             // 
             // mnuInvoicePayable
             // 
+            this.mnuInvoicePayable.Image = global::GovernmentPortal.Properties.Resources.icn_dollar_out;
             this.mnuInvoicePayable.Name = "mnuInvoicePayable";
             this.mnuInvoicePayable.Size = new System.Drawing.Size(189, 22);
             this.mnuInvoicePayable.Text = "Payable";
@@ -214,6 +218,7 @@ namespace GovernmentPortal
             // 
             // mnuInvoicesInvoiceConfiguration
             // 
+            this.mnuInvoicesInvoiceConfiguration.Image = global::GovernmentPortal.Properties.Resources.icn_view;
             this.mnuInvoicesInvoiceConfiguration.Name = "mnuInvoicesInvoiceConfiguration";
             this.mnuInvoicesInvoiceConfiguration.Size = new System.Drawing.Size(189, 22);
             this.mnuInvoicesInvoiceConfiguration.Text = "Invoice Configuration";

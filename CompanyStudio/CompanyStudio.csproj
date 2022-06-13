@@ -422,5 +422,20 @@
   <ItemGroup>
     <None Include="Resources\CompanyStudioFullRes.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_dollar_in.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_dollar_out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_earth.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

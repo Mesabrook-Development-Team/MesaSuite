@@ -116,7 +116,7 @@
             this.mnuSent,
             this.mnuReadyForReceipt,
             this.mnuComplete});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.Image = global::CompanyStudio.Properties.Resources.icn_view;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(62, 22);
@@ -126,7 +126,7 @@
             // 
             this.mnuSent.CheckOnClick = true;
             this.mnuSent.Name = "mnuSent";
-            this.mnuSent.Size = new System.Drawing.Size(168, 22);
+            this.mnuSent.Size = new System.Drawing.Size(180, 22);
             this.mnuSent.Text = "Sent";
             this.mnuSent.CheckedChanged += new System.EventHandler(this.FilterCheckChanged);
             // 
@@ -134,7 +134,7 @@
             // 
             this.mnuReadyForReceipt.CheckOnClick = true;
             this.mnuReadyForReceipt.Name = "mnuReadyForReceipt";
-            this.mnuReadyForReceipt.Size = new System.Drawing.Size(168, 22);
+            this.mnuReadyForReceipt.Size = new System.Drawing.Size(180, 22);
             this.mnuReadyForReceipt.Text = "Ready For Receipt";
             this.mnuReadyForReceipt.CheckedChanged += new System.EventHandler(this.FilterCheckChanged);
             // 
@@ -142,7 +142,7 @@
             // 
             this.mnuComplete.CheckOnClick = true;
             this.mnuComplete.Name = "mnuComplete";
-            this.mnuComplete.Size = new System.Drawing.Size(168, 22);
+            this.mnuComplete.Size = new System.Drawing.Size(180, 22);
             this.mnuComplete.Text = "Complete";
             this.mnuComplete.CheckedChanged += new System.EventHandler(this.FilterCheckChanged);
             // 

@@ -265,6 +265,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icn_govt.ico" />
+    <None Include="Resources\icn_dollar.png" />
+    <None Include="Resources\icn_dollar_out.png" />
+    <None Include="Resources\icn_bill.png" />
+    <None Include="Resources\icn_dollar_in.png" />
     <None Include="Resources\icn_view.png" />
     <None Include="Resources\icn_coins.png" />
     <None Include="Resources\icn_group.png" />

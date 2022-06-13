@@ -205,6 +205,7 @@ namespace GovernmentPortal
             this.mnuInvoicePayable.Name = "mnuInvoicePayable";
             this.mnuInvoicePayable.Size = new System.Drawing.Size(189, 22);
             this.mnuInvoicePayable.Text = "Payable";
+            this.mnuInvoicePayable.Click += new System.EventHandler(this.mnuInvoicePayable_Click);
             // 
             // toolStripMenuItem1
             // 

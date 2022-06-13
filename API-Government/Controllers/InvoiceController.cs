@@ -185,5 +185,51 @@ namespace API_Government.Controllers
 
             return Ok(dbInvoice);
         }
+
+        [HttpGet]
+        public async Task<List<Invoice>> GetPayables()
+        {
+            Search<Invoice> invoiceSearch = new Search<Invoice>(new LongSearchCondition<Invoice>()
+            {
+                Field = nameof(Invoice.GovernmentIDTo),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = GovernmentID
+            });
+
+            return invoiceSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
+        }
+
+        [HttpPut]
+        public IHttpActionResult AuthorizePayment(long id)
+        {
+            Search<Invoice> invoiceSearch = new Search<Invoice>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                GetBaseSearchCondition(),
+                new LongSearchCondition<Invoice>()
+                {
+                    Field = nameof(Invoice.InvoiceID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                }));
+
+            Invoice invoice = invoiceSearch.GetEditable();
+            if (invoice == null)
+            {
+                return NotFound();
+            }
+
+            if (invoice.GovernmentIDTo != GovernmentID)
+            {
+                invoice.Errors.Add(nameof(Invoice.Status), "Only Payors may authorize payment");
+                return invoice.HandleFailedValidation(this);
+            }
+
+            invoice.Status = Invoice.Statuses.ReadyForReceipt;
+            if (!invoice.Save())
+            {
+                return invoice.HandleFailedValidation(this);
+            }
+
+            return Ok();
+        }
     }
 }

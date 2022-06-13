@@ -168,5 +168,13 @@ namespace GovernmentPortal
         {
             new Invoicing.frmInvoiceConfiguration(_government.GovernmentID.Value).ShowDialog();
         }
+
+        private void mnuInvoicePayable_Click(object sender, EventArgs e)
+        {
+            new frmGenericExplorer<Invoice>(new Invoicing.PayableInvoiceContext(_government.GovernmentID.Value))
+            {
+                MdiParent = this
+            }.Show();
+        }
     }
 }

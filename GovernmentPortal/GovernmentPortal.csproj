@@ -131,6 +131,13 @@
     <Compile Include="Invoicing\frmInvoiceConfiguration.Designer.cs">
       <DependentUpon>frmInvoiceConfiguration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Invoicing\PayableInvoiceContext.cs" />
+    <Compile Include="Invoicing\PayableInvoiceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Invoicing\PayableInvoiceControl.Designer.cs">
+      <DependentUpon>PayableInvoiceControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Invoicing\ReceivableInvoiceContext.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Invoice.cs" />
@@ -210,6 +217,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\frmInvoiceConfiguration.resx">
       <DependentUpon>frmInvoiceConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\PayableInvoiceControl.resx">
+      <DependentUpon>PayableInvoiceControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\ReceivableInvoiceControl.resx">
       <DependentUpon>ReceivableInvoiceControl.cs</DependentUpon>

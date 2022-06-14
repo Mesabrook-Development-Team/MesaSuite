@@ -19,10 +19,6 @@ namespace WebModels.Migrations
             alterTable.Table = "Official";
             alterTable.AddColumn("ManageInvoices", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false });
 
-            alterTable.Table = "SalesTax";
-            alterTable.AddColumn("AccountID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt));
-            alterTable.AddForeignKey("FKSalesTax_Account_AccountID", "AccountID", "account", "Account", "AccountID", transaction);
-
             ICreateTable createTable = SQLProviderFactory.GetCreateTableQuery();
             createTable.SchemaName = "company";
             createTable.TableName = "Location";

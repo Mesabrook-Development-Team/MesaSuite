@@ -252,10 +252,10 @@ namespace DevTools
             if (!live.Checked)
             {
                 resourceWriterElement.Attribute("value").Value = "MesaSuite.Common.Data.DebugResourceWriter";
-                XElement hostElement = appSettings.Elements().Where(e => e.Attribute("key").Value.Equals($"MesaSuite.Common.DebugResourceWriter.ResourceWriter.{system}")).FirstOrDefault();
+                XElement hostElement = appSettings.Elements().Where(e => e.Attribute("key").Value.Equals($"MesaSuite.Common.DebugResourceWriter.Host.{system}")).FirstOrDefault();
                 if (hostElement == null)
                 {
-                    hostElement = new XElement("add", new XAttribute("key", $"MesaSuite.Common.DebugResourceWriter.ResourceWriter.{system}"), new XAttribute("value", ""));
+                    hostElement = new XElement("add", new XAttribute("key", $"MesaSuite.Common.DebugResourceWriter.Host.{system}"), new XAttribute("value", ""));
                     appSettings.Add(hostElement);
                 }
 

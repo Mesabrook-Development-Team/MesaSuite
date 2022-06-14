@@ -437,5 +437,8 @@
   <ItemGroup>
     <None Include="Resources\icn_earth.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icn_update.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -114,7 +114,7 @@ namespace SystemManagement
 
                 if (userPrograms.Any())
                 {
-                    post = new PostData(DataAccess.APIs.SystemManagement, "Program/SetProgramsForUser", userPrograms);
+                    post = new PostData(DataAccess.APIs.SystemManagement, "Program/SetProgramsForUser", new { newlySelectedPrograms  = userPrograms });
                     await post.ExecuteNoResult();
 
                     if (!post.RequestSuccessful)

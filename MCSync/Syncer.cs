@@ -232,7 +232,7 @@ namespace MCSync
                         }
 
                         bool errorsOccurred = false;
-                        foreach(string file in Directory.EnumerateFiles(modsDirectory + "\\..\\cache\\universalmodcore"))
+                        foreach(string file in Directory.EnumerateFiles(modsDirectory + "\\..\\cache\\universalmodcore", "*", SearchOption.AllDirectories))
                         {
                             try
                             {

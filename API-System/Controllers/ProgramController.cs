@@ -55,11 +55,11 @@ namespace API_System.Controllers
         [HttpPost]
         [MesabrookAuthorization]
         [ProgramAccess("system")]
-        public IHttpActionResult SetProgramsForUser(List<UserProgram> userPrograms)
+        public IHttpActionResult SetProgramsForUser(SetProgramsForUserParam userPrograms)
         {
-            long? userID = userPrograms.First().UserID;
+            long? userID = userPrograms.newlySelectedPrograms.First().UserID;
 
-            if (userPrograms.Any(up => up.UserID != userID))
+            if (userPrograms.newlySelectedPrograms.Any(up => up.UserID != userID))
             {
                 return BadRequest("All User IDs must be the same.");
             }
@@ -67,7 +67,7 @@ namespace API_System.Controllers
             StringBuilder errorBuilder = new StringBuilder("The following errors occurred:");
             using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
-                foreach(UserProgram userProgram in userPrograms)
+                foreach(UserProgram userProgram in userPrograms.newlySelectedPrograms)
                 {
                     if (!userProgram.Save(transaction))
                     {
@@ -81,12 +81,17 @@ namespace API_System.Controllers
                 transaction.Commit();
             }
 
-            if (userPrograms.Any(up => up.Errors.Any()))
+            if (userPrograms.newlySelectedPrograms.Any(up => up.Errors.Any()))
             {
                 return BadRequest(errorBuilder.ToString());
             }
 
             return Ok();
+        }
+
+        public class SetProgramsForUserParam
+        {
+            public List<UserProgram> newlySelectedPrograms { get; set; } = new List<UserProgram>();
         }
 
         [HttpDelete]

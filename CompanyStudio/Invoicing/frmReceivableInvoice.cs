@@ -110,7 +110,7 @@ namespace CompanyStudio.Invoicing
                 txtDescription.Text = Invoice.Description;
                 if (Invoice.Status == Invoice.Statuses.Complete)
                 {
-                    cboAccount.Items.Insert(0, new DropDownItem<Account>(new Account(), Invoice.AccountFromHistorical));
+                    cboAccount.Items.Insert(0, new DropDownItem<Account>(new Account(), Invoice.AccountToHistorical));
                     cboAccount.SelectedIndex = 0;
                 }
                 else
@@ -416,6 +416,8 @@ namespace CompanyStudio.Invoicing
 
                 await LoadForm();
             }
+
+            skipActionButton = fromActionButton && !saveSuccessful;
 
             loader.Visible = false;
         }

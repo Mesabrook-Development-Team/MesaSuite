@@ -114,57 +114,67 @@ namespace GovernmentPortal.Invoicing
                 return;
             }
 
-            loader.BringToFront();
-            loader.Visible = true;
-
-            txtPayee.Text = Model.LocationFrom != null ? $"{Model.LocationFrom.Name} ({Model.LocationFrom.Company?.Name})" : Model.GovernmentFrom?.Name;
-            txtPayor.Text = Model.GovernmentTo?.Name;
-            txtInvoiceNumber.Text = Model.InvoiceNumber;
-            dtpInvoiceDate.Value = Model.InvoiceDate;
-            dtpDueDate.Value = Model.DueDate;
-            txtDescription.Text = Model.Description;
-            decimal invoiceTotal = Model.InvoiceLines.Sum(x => x.Total);
-            txtInvoiceTotalInfoTab.Text = invoiceTotal.ToString("N2");
-            txtInvoiceTotalLinesTab.Text = invoiceTotal.ToString("N2");
-            lblStatus.Text = Model.Status.ToString().ToDisplayName();
-
-            if (Model.Status == Invoice.Statuses.Complete)
+            try
             {
-                DropDownItem<Account> accountItem = new DropDownItem<Account>(new Account(), Model.AccountFromHistorical);
-                cboPayableAccount.Items.Add(accountItem);
-                cboPayableAccount.SelectedItem = accountItem;
-            }
-            else
-            {
-                GetData get = new GetData(DataAccess.APIs.GovernmentPortal, "Account/MyAccounts");
-                get.AddGovHeader(_governmentID);
-                List<Account> accounts = await get.GetObject<List<Account>>() ?? new List<Account>();
+                loader.BringToFront();
+                loader.Visible = true;
 
-                foreach(Account account in accounts)
+                txtPayee.Text = Model.LocationFrom != null ? $"{Model.LocationFrom.Name} ({Model.LocationFrom.Company?.Name})" : Model.GovernmentFrom?.Name;
+                txtPayor.Text = Model.GovernmentTo?.Name;
+                txtInvoiceNumber.Text = Model.InvoiceNumber;
+                dtpInvoiceDate.Value = Model.InvoiceDate;
+                dtpDueDate.Value = Model.DueDate;
+                txtDescription.Text = Model.Description;
+                decimal invoiceTotal = Model.InvoiceLines.Sum(x => x.Total);
+                txtInvoiceTotalInfoTab.Text = invoiceTotal.ToString("N2");
+                txtInvoiceTotalLinesTab.Text = invoiceTotal.ToString("N2");
+                lblStatus.Text = Model.Status.ToString().ToDisplayName();
+
+                if (Model.Status == Invoice.Statuses.Complete)
                 {
-                    DropDownItem<Account> accountItem = new DropDownItem<Account>(account, $"{account.Description} ({account.AccountNumber})");
+                    DropDownItem<Account> accountItem = new DropDownItem<Account>(new Account(), Model.AccountFromHistorical);
                     cboPayableAccount.Items.Add(accountItem);
+                    cboPayableAccount.SelectedItem = accountItem;
+                }
+                else
+                {
+                    GetData get = new GetData(DataAccess.APIs.GovernmentPortal, "Account/MyAccounts");
+                    get.AddGovHeader(_governmentID);
+                    List<Account> accounts = await get.GetObject<List<Account>>() ?? new List<Account>();
 
-                    if (account.AccountID == Model.AccountIDFrom)
+                    foreach (Account account in accounts)
                     {
-                        cboPayableAccount.SelectedItem = accountItem;
+                        DropDownItem<Account> accountItem = new DropDownItem<Account>(account, $"{account.Description} ({account.AccountNumber})");
+                        cboPayableAccount.Items.Add(accountItem);
+
+                        if (account.AccountID == Model.AccountIDFrom)
+                        {
+                            cboPayableAccount.SelectedItem = accountItem;
+                        }
                     }
                 }
-            }
 
-            foreach(InvoiceLine line in Model.InvoiceLines)
+                foreach (InvoiceLine line in Model.InvoiceLines)
+                {
+                    int rowIndex = dgvLines.Rows.Add();
+                    dgvLines[colDescription.Name, rowIndex].Value = line.Description;
+                    dgvLines[colQuantity.Name, rowIndex].Value = line.Quantity.ToString("N2");
+                    dgvLines[colUnitCost.Name, rowIndex].Value = line.UnitCost.ToString("N2");
+                    dgvLines[colTotal.Name, rowIndex].Value = line.Total.ToString("N2");
+                }
+
+                cboPayableAccount.Enabled = Model.Status == Invoice.Statuses.Sent;
+                cmdAuthorizePayment.Visible = Model.Status == Invoice.Statuses.Sent;
+
+                loader.Visible = false;
+            }
+            catch(Exception ex)
             {
-                int rowIndex = dgvLines.Rows.Add();
-                dgvLines[colDescription.Name, rowIndex].Value = line.Description;
-                dgvLines[colQuantity.Name, rowIndex].Value = line.Quantity.ToString("N2");
-                dgvLines[colUnitCost.Name, rowIndex].Value = line.UnitCost.ToString("N2");
-                dgvLines[colTotal.Name, rowIndex].Value = line.Total.ToString("N2");
+                if (!IsDisposed)
+                {
+                    throw ex;
+                }
             }
-
-            cboPayableAccount.Enabled = Model.Status == Invoice.Statuses.Sent;
-            cmdAuthorizePayment.Visible = Model.Status == Invoice.Statuses.Sent;
-
-            loader.Visible = false;
         }
 
         private async void cmdAuthorizePayment_Click(object sender, EventArgs e)

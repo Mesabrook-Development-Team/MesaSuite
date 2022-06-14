@@ -239,151 +239,161 @@ namespace GovernmentPortal.Invoicing
 
         private async void ReceivableInvoiceControl_Load(object sender, EventArgs e)
         {
-            loader.BringToFront();
-            loader.Visible = true;
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
 
-            GetData get = new GetData(DataAccess.APIs.GovernmentPortal, $"Government/Get/{_governmentID}");
-            get.AddGovHeader(_governmentID);
-            get.RequestFields = new List<string>()
+                GetData get = new GetData(DataAccess.APIs.GovernmentPortal, $"Government/Get/{_governmentID}");
+                get.AddGovHeader(_governmentID);
+                get.RequestFields = new List<string>()
             {
                 nameof(Government.Name),
                 nameof(Government.InvoiceNumberPrefix),
                 nameof(Government.NextInvoiceNumber)
             };
-            Government currentGovernment = await get.GetObject<Government>() ?? new Government();
-            get.RequestFields.Clear();
+                Government currentGovernment = await get.GetObject<Government>() ?? new Government();
+                get.RequestFields.Clear();
 
-            txtPayee.Text = currentGovernment.Name;
+                txtPayee.Text = currentGovernment.Name;
 
-            get.Resource = "Company/GetAll";
-            List<Company> companies = await get.GetObject<List<Company>>() ?? new List<Company>();
+                get.Resource = "Company/GetAll";
+                List<Company> companies = await get.GetObject<List<Company>>() ?? new List<Company>();
 
-            foreach(Company company in companies)
-            {
-                cboCompany.Items.Add(new DropDownItem<Company>(company, company.Name));
-            }
-
-            get.Resource = "Government/GetAll";
-            List<Government> governments = await get.GetObject<List<Government>>() ?? new List<Government>();
-            foreach(Government government in governments)
-            {
-                cboGovernment.Items.Add(new DropDownItem<Government>(government, government.Name));
-            }
-
-            txtInvoiceNumber.Text = $"{currentGovernment.InvoiceNumberPrefix}{currentGovernment.NextInvoiceNumber}";
-
-            colQuantity.ValueType = typeof(decimal);
-            colUnitCost.ValueType = typeof(decimal);
-            colTotal.ValueType = typeof(decimal);
-
-            cboReceivingAccount.Items.Clear();
-            get.Resource = "Account/MyAccounts";
-            List<Account> accounts = await get.GetObject<List<Account>>() ?? new List<Account>();
-            foreach(Account account in accounts)
-            {
-                cboReceivingAccount.Items.Add(new DropDownItem<Account>(account, $"{account.Description} ({account.AccountNumber})"));
-            }
-
-            lblStatus.Text = Model?.Status.ToString().ToDisplayName() ?? Invoice.Statuses.WorkInProgress.ToString().ToDisplayName();
-
-            if (Model != null)
-            {
-                if (Model.LocationIDTo != null)
+                foreach (Company company in companies)
                 {
-                    rdoGovernment.Checked = false;
-                    rdoCompany.Checked = true;
-                    cboLocation.Items.Clear();
-                    cboCompany.Enabled = true;
-                    cboLocation.Enabled = true;
-                    cboGovernment.Enabled = false;
+                    cboCompany.Items.Add(new DropDownItem<Company>(company, company.Name));
+                }
 
-                    DropDownItem<Company> selectedCompany = cboCompany.Items.OfType<DropDownItem<Company>>().FirstOrDefault(ddi => ddi.Object.Locations.Any(loc => loc.LocationID == Model.LocationIDTo));
-                    cboCompany.SelectedItem = selectedCompany;
+                get.Resource = "Government/GetAll";
+                List<Government> governments = await get.GetObject<List<Government>>() ?? new List<Government>();
+                foreach (Government government in governments)
+                {
+                    cboGovernment.Items.Add(new DropDownItem<Government>(government, government.Name));
+                }
 
-                    if (selectedCompany != null)
+                txtInvoiceNumber.Text = $"{currentGovernment.InvoiceNumberPrefix}{currentGovernment.NextInvoiceNumber}";
+
+                colQuantity.ValueType = typeof(decimal);
+                colUnitCost.ValueType = typeof(decimal);
+                colTotal.ValueType = typeof(decimal);
+
+                cboReceivingAccount.Items.Clear();
+                get.Resource = "Account/MyAccounts";
+                List<Account> accounts = await get.GetObject<List<Account>>() ?? new List<Account>();
+                foreach (Account account in accounts)
+                {
+                    cboReceivingAccount.Items.Add(new DropDownItem<Account>(account, $"{account.Description} ({account.AccountNumber})"));
+                }
+
+                lblStatus.Text = Model?.Status.ToString().ToDisplayName() ?? Invoice.Statuses.WorkInProgress.ToString().ToDisplayName();
+
+                if (Model != null)
+                {
+                    if (Model.LocationIDTo != null)
                     {
-                        foreach(Location location in selectedCompany.Object.Locations)
-                        {
-                            DropDownItem<Location> locationDDI = new DropDownItem<Location>(location, location.Name);
-                            cboLocation.Items.Add(locationDDI);
+                        rdoGovernment.Checked = false;
+                        rdoCompany.Checked = true;
+                        cboLocation.Items.Clear();
+                        cboCompany.Enabled = true;
+                        cboLocation.Enabled = true;
+                        cboGovernment.Enabled = false;
 
-                            if (location.LocationID == Model.LocationIDTo)
+                        DropDownItem<Company> selectedCompany = cboCompany.Items.OfType<DropDownItem<Company>>().FirstOrDefault(ddi => ddi.Object.Locations.Any(loc => loc.LocationID == Model.LocationIDTo));
+                        cboCompany.SelectedItem = selectedCompany;
+
+                        if (selectedCompany != null)
+                        {
+                            foreach (Location location in selectedCompany.Object.Locations)
                             {
-                                cboLocation.SelectedItem = locationDDI;
+                                DropDownItem<Location> locationDDI = new DropDownItem<Location>(location, location.Name);
+                                cboLocation.Items.Add(locationDDI);
+
+                                if (location.LocationID == Model.LocationIDTo)
+                                {
+                                    cboLocation.SelectedItem = locationDDI;
+                                }
                             }
                         }
                     }
+                    else if (Model.GovernmentIDTo != null)
+                    {
+                        rdoGovernment.Checked = true;
+                        rdoCompany.Checked = false;
+                        cboCompany.Enabled = false;
+                        cboLocation.Enabled = false;
+                        cboGovernment.Enabled = true;
+
+                        DropDownItem<Government> selectedGovernment = cboGovernment.Items.OfType<DropDownItem<Government>>().FirstOrDefault(ddi => ddi.Object.GovernmentID == Model.GovernmentIDTo);
+                        cboGovernment.SelectedItem = selectedGovernment;
+                    }
+
+                    txtInvoiceNumber.Text = Model.InvoiceNumber;
+                    dtpInvoiceDate.Value = Model.InvoiceDate;
+                    dtpDueDate.Value = Model.DueDate;
+                    txtDescription.Text = Model.Description;
+
+                    decimal invoiceTotal = 0M;
+                    foreach (InvoiceLine invoiceLine in Model.InvoiceLines)
+                    {
+                        int rowIndex = dgvLines.Rows.Add();
+                        DataGridViewRow row = dgvLines.Rows[rowIndex];
+                        row.Cells[colInvoiceLineID.Name].Value = invoiceLine.InvoiceLineID.ToString();
+                        row.Cells[colDescription.Name].Value = invoiceLine.Description;
+                        row.Cells[colQuantity.Name].Value = invoiceLine.Quantity;
+                        row.Cells[colUnitCost.Name].Value = invoiceLine.UnitCost;
+                        row.Cells[colTotal.Name].Value = invoiceLine.Total;
+                        invoiceTotal += invoiceLine.Total;
+                    }
+                    txtInvoiceTotal.Text = invoiceTotal.ToString("N2");
+
+                    if (Model.Status == Invoice.Statuses.Complete)
+                    {
+                        DropDownItem<Account> historicalAccount = new DropDownItem<Account>(new Account(), Model.AccountToHistorical);
+                        cboReceivingAccount.Items.Add(historicalAccount);
+                        cboReceivingAccount.SelectedItem = historicalAccount;
+                    }
+                    else
+                    {
+                        DropDownItem<Account> receivingAccount = cboReceivingAccount.Items.Cast<DropDownItem<Account>>().FirstOrDefault(acc => acc.Object.AccountID == Model.AccountIDTo);
+                        cboReceivingAccount.SelectedItem = receivingAccount;
+                    }
+
+                    if (Model.Status == Invoice.Statuses.Complete)
+                    {
+                        foreach (Control control in tabPage1.Controls.OfType<Control>().Concat(tabPage2.Controls.OfType<Control>()).Concat(tabPage3.Controls.OfType<Control>()).Concat(tabPage4.Controls.OfType<Control>()))
+                        {
+                            control.Enabled = false;
+                        }
+                    }
                 }
-                else if (Model.GovernmentIDTo != null)
-                {
-                    rdoGovernment.Checked = true;
-                    rdoCompany.Checked = false;
-                    cboCompany.Enabled = false;
-                    cboLocation.Enabled = false;
-                    cboGovernment.Enabled = true;
 
-                    DropDownItem<Government> selectedGovernment = cboGovernment.Items.OfType<DropDownItem<Government>>().FirstOrDefault(ddi => ddi.Object.GovernmentID == Model.GovernmentIDTo);
-                    cboGovernment.SelectedItem = selectedGovernment;
+                if (Model == null || Model.Status == Invoice.Statuses.WorkInProgress)
+                {
+                    cmdActionButton.Visible = true;
+                    cmdActionButton.Text = "Issue Invoice";
                 }
-
-                txtInvoiceNumber.Text = Model.InvoiceNumber;
-                dtpInvoiceDate.Value = Model.InvoiceDate;
-                dtpDueDate.Value = Model.DueDate;
-                txtDescription.Text = Model.Description;
-
-                decimal invoiceTotal = 0M;
-                foreach(InvoiceLine invoiceLine in Model.InvoiceLines)
+                else if (Model != null && Model.Status == Invoice.Statuses.ReadyForReceipt)
                 {
-                    int rowIndex = dgvLines.Rows.Add();
-                    DataGridViewRow row = dgvLines.Rows[rowIndex];
-                    row.Cells[colInvoiceLineID.Name].Value = invoiceLine.InvoiceLineID.ToString();
-                    row.Cells[colDescription.Name].Value = invoiceLine.Description;
-                    row.Cells[colQuantity.Name].Value = invoiceLine.Quantity;
-                    row.Cells[colUnitCost.Name].Value = invoiceLine.UnitCost;
-                    row.Cells[colTotal.Name].Value = invoiceLine.Total;
-                    invoiceTotal += invoiceLine.Total;
-                }
-                txtInvoiceTotal.Text = invoiceTotal.ToString("N2");
-
-                if (Model.Status == Invoice.Statuses.Complete)
-                {
-                    DropDownItem<Account> historicalAccount = new DropDownItem<Account>(new Account(), Model.AccountToHistorical);
-                    cboReceivingAccount.Items.Add(historicalAccount);
-                    cboReceivingAccount.SelectedItem = historicalAccount;
+                    cmdActionButton.Visible = true;
+                    cmdActionButton.Text = "Receive Invoice";
                 }
                 else
                 {
-                    DropDownItem<Account> receivingAccount = cboReceivingAccount.Items.Cast<DropDownItem<Account>>().FirstOrDefault(acc => acc.Object.AccountID == Model.AccountIDTo);
-                    cboReceivingAccount.SelectedItem = receivingAccount;
+                    cmdActionButton.Visible = false;
                 }
 
-                if (Model.Status == Invoice.Statuses.Complete)
+                IsDirty = false;
+
+                loader.Visible = false;
+            }
+            catch(Exception ex)
+            {
+                if (!IsDisposed)
                 {
-                    foreach(Control control in tabPage1.Controls.OfType<Control>().Concat(tabPage2.Controls.OfType<Control>()).Concat(tabPage3.Controls.OfType<Control>()).Concat(tabPage4.Controls.OfType<Control>()))
-                    {
-                        control.Enabled = false;
-                    }
+                    throw ex;
                 }
             }
-
-            if (Model == null || Model.Status == Invoice.Statuses.WorkInProgress)
-            {
-                cmdActionButton.Visible = true;
-                cmdActionButton.Text = "Issue Invoice";
-            }
-            else if (Model != null && Model.Status == Invoice.Statuses.ReadyForReceipt)
-            {
-                cmdActionButton.Visible = true;
-                cmdActionButton.Text = "Receive Invoice";
-            }
-            else
-            {
-                cmdActionButton.Visible = false;
-            }
-
-            IsDirty = false;
-
-            loader.Visible = false;
         }
 
         private void DestinationCheckedChanged(object sender, EventArgs e)

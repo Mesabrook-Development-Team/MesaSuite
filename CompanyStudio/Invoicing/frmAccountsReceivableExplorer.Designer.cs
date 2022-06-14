@@ -17,20 +17,20 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAccountsReceivableExplorer));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.mnuAdd = new System.Windows.Forms.ToolStripButton();
-            this.mnuDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.mnuFilterWIP = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuFilterSent = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuFilterReadyToReceive = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuFilterCompleted = new System.Windows.Forms.ToolStripMenuItem();
             this.lstInvoices = new System.Windows.Forms.ListView();
             this.colInvoiceNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colPayor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colAmount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.loader = new CompanyStudio.Loader();
+            this.mnuAdd = new System.Windows.Forms.ToolStripButton();
+            this.mnuDelete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.mnuFilterWIP = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFilterSent = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFilterReadyToReceive = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFilterCompleted = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,74 +48,10 @@
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // mnuAdd
-            // 
-            this.mnuAdd.Image = ((System.Drawing.Image)(resources.GetObject("mnuAdd.Image")));
-            this.mnuAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuAdd.Name = "mnuAdd";
-            this.mnuAdd.Size = new System.Drawing.Size(108, 20);
-            this.mnuAdd.Text = "Add Receivable";
-            this.mnuAdd.Click += new System.EventHandler(this.mnuAdd_Click);
-            // 
-            // mnuDelete
-            // 
-            this.mnuDelete.Enabled = false;
-            this.mnuDelete.Image = ((System.Drawing.Image)(resources.GetObject("mnuDelete.Image")));
-            this.mnuDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuDelete.Name = "mnuDelete";
-            this.mnuDelete.Size = new System.Drawing.Size(119, 20);
-            this.mnuDelete.Text = "Delete Receivable";
-            this.mnuDelete.Click += new System.EventHandler(this.mnuDelete_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuFilterWIP,
-            this.mnuFilterSent,
-            this.mnuFilterReadyToReceive,
-            this.mnuFilterCompleted});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(62, 20);
-            this.toolStripDropDownButton1.Text = "Filter";
-            // 
-            // mnuFilterWIP
-            // 
-            this.mnuFilterWIP.CheckOnClick = true;
-            this.mnuFilterWIP.Name = "mnuFilterWIP";
-            this.mnuFilterWIP.Size = new System.Drawing.Size(164, 22);
-            this.mnuFilterWIP.Text = "Work In Progress";
-            this.mnuFilterWIP.CheckedChanged += new System.EventHandler(this.FilterItem_CheckedChanged);
-            // 
-            // mnuFilterSent
-            // 
-            this.mnuFilterSent.CheckOnClick = true;
-            this.mnuFilterSent.Name = "mnuFilterSent";
-            this.mnuFilterSent.Size = new System.Drawing.Size(164, 22);
-            this.mnuFilterSent.Text = "Sent";
-            this.mnuFilterSent.CheckedChanged += new System.EventHandler(this.FilterItem_CheckedChanged);
-            // 
-            // mnuFilterReadyToReceive
-            // 
-            this.mnuFilterReadyToReceive.CheckOnClick = true;
-            this.mnuFilterReadyToReceive.Name = "mnuFilterReadyToReceive";
-            this.mnuFilterReadyToReceive.Size = new System.Drawing.Size(164, 22);
-            this.mnuFilterReadyToReceive.Text = "Ready To Receive";
-            this.mnuFilterReadyToReceive.Click += new System.EventHandler(this.FilterItem_CheckedChanged);
-            // 
-            // mnuFilterCompleted
-            // 
-            this.mnuFilterCompleted.CheckOnClick = true;
-            this.mnuFilterCompleted.Name = "mnuFilterCompleted";
-            this.mnuFilterCompleted.Size = new System.Drawing.Size(164, 22);
-            this.mnuFilterCompleted.Text = "Completed";
-            this.mnuFilterCompleted.CheckedChanged += new System.EventHandler(this.FilterItem_CheckedChanged);
             // 
             // lstInvoices
             // 
@@ -169,6 +105,70 @@
             this.loader.Size = new System.Drawing.Size(800, 450);
             this.loader.TabIndex = 2;
             this.loader.Visible = false;
+            // 
+            // mnuAdd
+            // 
+            this.mnuAdd.Image = global::CompanyStudio.Properties.Resources.icn_plus;
+            this.mnuAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuAdd.Name = "mnuAdd";
+            this.mnuAdd.Size = new System.Drawing.Size(108, 20);
+            this.mnuAdd.Text = "Add Receivable";
+            this.mnuAdd.Click += new System.EventHandler(this.mnuAdd_Click);
+            // 
+            // mnuDelete
+            // 
+            this.mnuDelete.Enabled = false;
+            this.mnuDelete.Image = global::CompanyStudio.Properties.Resources.icn_minus;
+            this.mnuDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuDelete.Name = "mnuDelete";
+            this.mnuDelete.Size = new System.Drawing.Size(119, 20);
+            this.mnuDelete.Text = "Delete Receivable";
+            this.mnuDelete.Click += new System.EventHandler(this.mnuDelete_Click);
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuFilterWIP,
+            this.mnuFilterSent,
+            this.mnuFilterReadyToReceive,
+            this.mnuFilterCompleted});
+            this.toolStripDropDownButton1.Image = global::CompanyStudio.Properties.Resources.icn_view;
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(62, 20);
+            this.toolStripDropDownButton1.Text = "Filter";
+            // 
+            // mnuFilterWIP
+            // 
+            this.mnuFilterWIP.CheckOnClick = true;
+            this.mnuFilterWIP.Name = "mnuFilterWIP";
+            this.mnuFilterWIP.Size = new System.Drawing.Size(164, 22);
+            this.mnuFilterWIP.Text = "Work In Progress";
+            this.mnuFilterWIP.CheckedChanged += new System.EventHandler(this.FilterItem_CheckedChanged);
+            // 
+            // mnuFilterSent
+            // 
+            this.mnuFilterSent.CheckOnClick = true;
+            this.mnuFilterSent.Name = "mnuFilterSent";
+            this.mnuFilterSent.Size = new System.Drawing.Size(164, 22);
+            this.mnuFilterSent.Text = "Sent";
+            this.mnuFilterSent.CheckedChanged += new System.EventHandler(this.FilterItem_CheckedChanged);
+            // 
+            // mnuFilterReadyToReceive
+            // 
+            this.mnuFilterReadyToReceive.CheckOnClick = true;
+            this.mnuFilterReadyToReceive.Name = "mnuFilterReadyToReceive";
+            this.mnuFilterReadyToReceive.Size = new System.Drawing.Size(164, 22);
+            this.mnuFilterReadyToReceive.Text = "Ready To Receive";
+            this.mnuFilterReadyToReceive.Click += new System.EventHandler(this.FilterItem_CheckedChanged);
+            // 
+            // mnuFilterCompleted
+            // 
+            this.mnuFilterCompleted.CheckOnClick = true;
+            this.mnuFilterCompleted.Name = "mnuFilterCompleted";
+            this.mnuFilterCompleted.Size = new System.Drawing.Size(164, 22);
+            this.mnuFilterCompleted.Text = "Completed";
+            this.mnuFilterCompleted.CheckedChanged += new System.EventHandler(this.FilterItem_CheckedChanged);
             // 
             // frmAccountsReceivableExplorer
             // 

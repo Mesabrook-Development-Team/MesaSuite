@@ -79,8 +79,8 @@
             // 
             this.lblTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.Location = new System.Drawing.Point(12, 9);
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Location = new System.Drawing.Point(3, 0);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(581, 36);
             this.lblTitle.TabIndex = 1;
@@ -103,7 +103,7 @@
             this.txtPayee.Location = new System.Drawing.Point(90, 3);
             this.txtPayee.Name = "txtPayee";
             this.txtPayee.ReadOnly = true;
-            this.txtPayee.Size = new System.Drawing.Size(474, 20);
+            this.txtPayee.Size = new System.Drawing.Size(491, 20);
             this.txtPayee.TabIndex = 0;
             // 
             // label2
@@ -122,7 +122,7 @@
             this.txtPayor.Location = new System.Drawing.Point(90, 29);
             this.txtPayor.Name = "txtPayor";
             this.txtPayor.ReadOnly = true;
-            this.txtPayor.Size = new System.Drawing.Size(474, 20);
+            this.txtPayor.Size = new System.Drawing.Size(491, 20);
             this.txtPayor.TabIndex = 1;
             // 
             // label3
@@ -141,7 +141,7 @@
             this.txtInvoiceNumber.Location = new System.Drawing.Point(90, 55);
             this.txtInvoiceNumber.Name = "txtInvoiceNumber";
             this.txtInvoiceNumber.ReadOnly = true;
-            this.txtInvoiceNumber.Size = new System.Drawing.Size(474, 20);
+            this.txtInvoiceNumber.Size = new System.Drawing.Size(491, 20);
             this.txtInvoiceNumber.TabIndex = 2;
             // 
             // label4
@@ -160,7 +160,7 @@
             this.dtpInvoiceDate.Enabled = false;
             this.dtpInvoiceDate.Location = new System.Drawing.Point(90, 81);
             this.dtpInvoiceDate.Name = "dtpInvoiceDate";
-            this.dtpInvoiceDate.Size = new System.Drawing.Size(474, 20);
+            this.dtpInvoiceDate.Size = new System.Drawing.Size(491, 20);
             this.dtpInvoiceDate.TabIndex = 3;
             // 
             // label5
@@ -179,7 +179,7 @@
             this.dtpDueDate.Enabled = false;
             this.dtpDueDate.Location = new System.Drawing.Point(90, 107);
             this.dtpDueDate.Name = "dtpDueDate";
-            this.dtpDueDate.Size = new System.Drawing.Size(474, 20);
+            this.dtpDueDate.Size = new System.Drawing.Size(491, 20);
             this.dtpDueDate.TabIndex = 4;
             // 
             // label6
@@ -200,7 +200,7 @@
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ReadOnly = true;
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(560, 70);
+            this.txtDescription.Size = new System.Drawing.Size(577, 70);
             this.txtDescription.TabIndex = 5;
             // 
             // groupBox1
@@ -212,7 +212,7 @@
             this.groupBox1.Controls.Add(this.dgvLineItems);
             this.groupBox1.Location = new System.Drawing.Point(4, 228);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(563, 152);
+            this.groupBox1.Size = new System.Drawing.Size(580, 152);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Invoice Line Items";
@@ -224,7 +224,7 @@
             this.txtSubtotal.Location = new System.Drawing.Point(67, 124);
             this.txtSubtotal.Name = "txtSubtotal";
             this.txtSubtotal.ReadOnly = true;
-            this.txtSubtotal.Size = new System.Drawing.Size(493, 20);
+            this.txtSubtotal.Size = new System.Drawing.Size(510, 20);
             this.txtSubtotal.TabIndex = 1;
             // 
             // label8
@@ -256,7 +256,7 @@
             this.dgvLineItems.ReadOnly = true;
             this.dgvLineItems.RowHeadersVisible = false;
             this.dgvLineItems.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvLineItems.Size = new System.Drawing.Size(554, 99);
+            this.dgvLineItems.Size = new System.Drawing.Size(571, 99);
             this.dgvLineItems.TabIndex = 0;
             // 
             // colDescription
@@ -293,7 +293,7 @@
             this.grpTaxes.Controls.Add(this.dgvTaxes);
             this.grpTaxes.Location = new System.Drawing.Point(4, 386);
             this.grpTaxes.Name = "grpTaxes";
-            this.grpTaxes.Size = new System.Drawing.Size(560, 125);
+            this.grpTaxes.Size = new System.Drawing.Size(577, 125);
             this.grpTaxes.TabIndex = 7;
             this.grpTaxes.TabStop = false;
             this.grpTaxes.Text = "Taxes";
@@ -305,7 +305,7 @@
             this.txtTaxTotal.Location = new System.Drawing.Point(71, 100);
             this.txtTaxTotal.Name = "txtTaxTotal";
             this.txtTaxTotal.ReadOnly = true;
-            this.txtTaxTotal.Size = new System.Drawing.Size(486, 20);
+            this.txtTaxTotal.Size = new System.Drawing.Size(503, 20);
             this.txtTaxTotal.TabIndex = 1;
             // 
             // label7
@@ -337,7 +337,7 @@
             this.dgvTaxes.ReadOnly = true;
             this.dgvTaxes.RowHeadersVisible = false;
             this.dgvTaxes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTaxes.Size = new System.Drawing.Size(554, 79);
+            this.dgvTaxes.Size = new System.Drawing.Size(571, 79);
             this.dgvTaxes.TabIndex = 0;
             // 
             // colMunicipality
@@ -383,7 +383,7 @@
             this.panel1.Controls.Add(this.txtDescription);
             this.panel1.Location = new System.Drawing.Point(12, 48);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(588, 557);
+            this.panel1.Size = new System.Drawing.Size(588, 606);
             this.panel1.TabIndex = 0;
             // 
             // groupBox3
@@ -396,7 +396,7 @@
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Location = new System.Drawing.Point(4, 517);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(560, 77);
+            this.groupBox3.Size = new System.Drawing.Size(577, 77);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Payable Information";
@@ -409,7 +409,7 @@
             this.cboAccount.FormattingEnabled = true;
             this.cboAccount.Location = new System.Drawing.Point(103, 45);
             this.cboAccount.Name = "cboAccount";
-            this.cboAccount.Size = new System.Drawing.Size(454, 21);
+            this.cboAccount.Size = new System.Drawing.Size(471, 21);
             this.cboAccount.TabIndex = 1;
             // 
             // label10
@@ -428,7 +428,7 @@
             this.txtInvoiceTotal.Location = new System.Drawing.Point(103, 19);
             this.txtInvoiceTotal.Name = "txtInvoiceTotal";
             this.txtInvoiceTotal.ReadOnly = true;
-            this.txtInvoiceTotal.Size = new System.Drawing.Size(454, 20);
+            this.txtInvoiceTotal.Size = new System.Drawing.Size(471, 20);
             this.txtInvoiceTotal.TabIndex = 0;
             // 
             // label9
@@ -445,7 +445,7 @@
             // cmdSave
             // 
             this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSave.Location = new System.Drawing.Point(518, 611);
+            this.cmdSave.Location = new System.Drawing.Point(518, 660);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 1;
@@ -456,7 +456,7 @@
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.Location = new System.Drawing.Point(437, 612);
+            this.cmdCancel.Location = new System.Drawing.Point(437, 661);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 2;
@@ -466,7 +466,7 @@
             // cmdAuthorize
             // 
             this.cmdAuthorize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdAuthorize.Location = new System.Drawing.Point(323, 612);
+            this.cmdAuthorize.Location = new System.Drawing.Point(323, 661);
             this.cmdAuthorize.Name = "cmdAuthorize";
             this.cmdAuthorize.Size = new System.Drawing.Size(108, 23);
             this.cmdAuthorize.TabIndex = 3;
@@ -482,7 +482,7 @@
             this.loader.BackColor = System.Drawing.Color.Transparent;
             this.loader.Location = new System.Drawing.Point(0, 0);
             this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(600, 648);
+            this.loader.Size = new System.Drawing.Size(600, 697);
             this.loader.TabIndex = 8;
             this.loader.Visible = false;
             // 
@@ -491,7 +491,7 @@
             this.AcceptButton = this.cmdSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(605, 646);
+            this.ClientSize = new System.Drawing.Size(605, 695);
             this.Controls.Add(this.cmdAuthorize);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);

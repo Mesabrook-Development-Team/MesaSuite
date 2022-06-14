@@ -100,7 +100,7 @@
             // toolUpdateGovernment
             // 
             this.toolUpdateGovernment.Enabled = false;
-            this.toolUpdateGovernment.Image = ((System.Drawing.Image)(resources.GetObject("toolUpdateGovernment.Image")));
+            this.toolUpdateGovernment.Image = global::CompanyStudio.Properties.Resources.icn_update;
             this.toolUpdateGovernment.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolUpdateGovernment.Name = "toolUpdateGovernment";
             this.toolUpdateGovernment.Size = new System.Drawing.Size(133, 20);

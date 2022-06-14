@@ -79,8 +79,8 @@
             // 
             this.lblTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.Location = new System.Drawing.Point(12, 9);
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Location = new System.Drawing.Point(5, 1);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(524, 36);
             this.lblTitle.TabIndex = 0;
@@ -103,7 +103,7 @@
             this.txtPayee.Location = new System.Drawing.Point(58, 3);
             this.txtPayee.Name = "txtPayee";
             this.txtPayee.ReadOnly = true;
-            this.txtPayee.Size = new System.Drawing.Size(460, 20);
+            this.txtPayee.Size = new System.Drawing.Size(477, 20);
             this.txtPayee.TabIndex = 0;
             // 
             // groupBox1
@@ -118,7 +118,7 @@
             this.groupBox1.Controls.Add(this.rdoCompany);
             this.groupBox1.Location = new System.Drawing.Point(12, 29);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(513, 78);
+            this.groupBox1.Size = new System.Drawing.Size(530, 78);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Payor";
@@ -141,7 +141,7 @@
             this.cboGovernment.FormattingEnabled = true;
             this.cboGovernment.Location = new System.Drawing.Point(88, 46);
             this.cboGovernment.Name = "cboGovernment";
-            this.cboGovernment.Size = new System.Drawing.Size(419, 21);
+            this.cboGovernment.Size = new System.Drawing.Size(436, 21);
             this.cboGovernment.TabIndex = 4;
             // 
             // cboLocation
@@ -153,7 +153,7 @@
             this.cboLocation.FormattingEnabled = true;
             this.cboLocation.Location = new System.Drawing.Point(335, 18);
             this.cboLocation.Name = "cboLocation";
-            this.cboLocation.Size = new System.Drawing.Size(172, 21);
+            this.cboLocation.Size = new System.Drawing.Size(189, 21);
             this.cboLocation.TabIndex = 2;
             // 
             // rdoGovernment
@@ -206,7 +206,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInvoiceNumber.Location = new System.Drawing.Point(97, 13);
             this.txtInvoiceNumber.Name = "txtInvoiceNumber";
-            this.txtInvoiceNumber.Size = new System.Drawing.Size(410, 20);
+            this.txtInvoiceNumber.Size = new System.Drawing.Size(427, 20);
             this.txtInvoiceNumber.TabIndex = 0;
             this.txtInvoiceNumber.TextChanged += new System.EventHandler(this.txtInvoiceNumber_TextChanged);
             // 
@@ -225,7 +225,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpDueDate.Location = new System.Drawing.Point(97, 65);
             this.dtpDueDate.Name = "dtpDueDate";
-            this.dtpDueDate.Size = new System.Drawing.Size(410, 20);
+            this.dtpDueDate.Size = new System.Drawing.Size(427, 20);
             this.dtpDueDate.TabIndex = 2;
             // 
             // label6
@@ -246,7 +246,7 @@
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(501, 64);
+            this.txtDescription.Size = new System.Drawing.Size(518, 64);
             this.txtDescription.TabIndex = 3;
             // 
             // groupBox2
@@ -263,7 +263,7 @@
             this.groupBox2.Controls.Add(this.dtpDueDate);
             this.groupBox2.Location = new System.Drawing.Point(12, 113);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(513, 187);
+            this.groupBox2.Size = new System.Drawing.Size(530, 187);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Invoice Details";
@@ -283,7 +283,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpInvoiceDate.Location = new System.Drawing.Point(97, 39);
             this.dtpInvoiceDate.Name = "dtpInvoiceDate";
-            this.dtpInvoiceDate.Size = new System.Drawing.Size(410, 20);
+            this.dtpInvoiceDate.Size = new System.Drawing.Size(427, 20);
             this.dtpInvoiceDate.TabIndex = 1;
             // 
             // groupBox3
@@ -295,7 +295,7 @@
             this.groupBox3.Controls.Add(this.dgvLines);
             this.groupBox3.Location = new System.Drawing.Point(12, 306);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(513, 183);
+            this.groupBox3.Size = new System.Drawing.Size(530, 183);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Invoice Line Items";
@@ -307,7 +307,7 @@
             this.txtTotal.Location = new System.Drawing.Point(97, 157);
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
-            this.txtTotal.Size = new System.Drawing.Size(416, 20);
+            this.txtTotal.Size = new System.Drawing.Size(433, 20);
             this.txtTotal.TabIndex = 2;
             // 
             // label8
@@ -336,7 +336,7 @@
             this.dgvLines.Location = new System.Drawing.Point(0, 19);
             this.dgvLines.Name = "dgvLines";
             this.dgvLines.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvLines.Size = new System.Drawing.Size(513, 132);
+            this.dgvLines.Size = new System.Drawing.Size(530, 132);
             this.dgvLines.TabIndex = 1;
             this.dgvLines.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLines_CellValueChanged);
             // 
@@ -380,7 +380,7 @@
             this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Location = new System.Drawing.Point(12, 506);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(513, 56);
+            this.groupBox4.Size = new System.Drawing.Size(530, 56);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Receivable Information";
@@ -393,7 +393,7 @@
             this.cboAccount.FormattingEnabled = true;
             this.cboAccount.Location = new System.Drawing.Point(113, 19);
             this.cboAccount.Name = "cboAccount";
-            this.cboAccount.Size = new System.Drawing.Size(394, 21);
+            this.cboAccount.Size = new System.Drawing.Size(411, 21);
             this.cboAccount.TabIndex = 0;
             // 
             // label7
@@ -408,7 +408,7 @@
             // cmdSave
             // 
             this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSave.Location = new System.Drawing.Point(455, 577);
+            this.cmdSave.Location = new System.Drawing.Point(455, 631);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 1;
@@ -420,7 +420,7 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(374, 577);
+            this.cmdCancel.Location = new System.Drawing.Point(374, 631);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 2;
@@ -441,7 +441,7 @@
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Location = new System.Drawing.Point(0, 48);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(548, 523);
+            this.panel1.Size = new System.Drawing.Size(548, 577);
             this.panel1.TabIndex = 0;
             // 
             // toolStripExtender
@@ -456,14 +456,14 @@
             this.loader.BackColor = System.Drawing.Color.Transparent;
             this.loader.Location = new System.Drawing.Point(0, 0);
             this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(548, 610);
+            this.loader.Size = new System.Drawing.Size(548, 664);
             this.loader.TabIndex = 0;
             this.loader.Visible = false;
             // 
             // cmdAction
             // 
             this.cmdAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdAction.Location = new System.Drawing.Point(273, 577);
+            this.cmdAction.Location = new System.Drawing.Point(273, 631);
             this.cmdAction.Name = "cmdAction";
             this.cmdAction.Size = new System.Drawing.Size(95, 23);
             this.cmdAction.TabIndex = 3;
@@ -477,7 +477,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(548, 608);
+            this.ClientSize = new System.Drawing.Size(548, 662);
             this.Controls.Add(this.cmdAction);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);

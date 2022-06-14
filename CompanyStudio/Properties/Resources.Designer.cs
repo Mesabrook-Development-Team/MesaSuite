@@ -19,7 +19,7 @@ namespace CompanyStudio.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -153,6 +153,36 @@ namespace CompanyStudio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icn_dollar_in {
+            get {
+                object obj = ResourceManager.GetObject("icn_dollar_in", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_dollar_out {
+            get {
+                object obj = ResourceManager.GetObject("icn_dollar_out", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_earth {
+            get {
+                object obj = ResourceManager.GetObject("icn_earth", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icn_eye {
             get {
                 object obj = ResourceManager.GetObject("icn_eye", resourceCulture);
@@ -233,6 +263,26 @@ namespace CompanyStudio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icn_minus {
+            get {
+                object obj = ResourceManager.GetObject("icn_minus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_plus {
+            get {
+                object obj = ResourceManager.GetObject("icn_plus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icn_plus_green {
             get {
                 object obj = ResourceManager.GetObject("icn_plus_green", resourceCulture);
@@ -266,6 +316,16 @@ namespace CompanyStudio.Properties {
         internal static System.Drawing.Bitmap icn_theme {
             get {
                 object obj = ResourceManager.GetObject("icn_theme", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_update {
+            get {
+                object obj = ResourceManager.GetObject("icn_update", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

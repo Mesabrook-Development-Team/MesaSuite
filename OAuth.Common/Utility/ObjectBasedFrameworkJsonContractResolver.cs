@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Schema;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -15,7 +16,13 @@ namespace API.Common.Utility
             {
                 if (obj is DataObject dataObject)
                 {
-                    return dataObject.IsPathRetrieved(member.Name);
+                    SchemaObject objectSchema = Schema.GetSchemaObject(dataObject.GetType());
+                    if (objectSchema.GetField(member.Name) != null || // Only schema fields should be checked for retrieval
+                        objectSchema.GetRelationship(member.Name) != null ||
+                        objectSchema.GetRelationshipList(member.Name) != null)
+                    {
+                        return dataObject.IsPathRetrieved(member.Name);
+                    }
                 }
 
                 return true;

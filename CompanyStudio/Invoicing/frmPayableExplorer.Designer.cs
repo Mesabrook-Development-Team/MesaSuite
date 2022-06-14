@@ -93,6 +93,9 @@
             // 
             // loader
             // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.loader.BackColor = System.Drawing.Color.Transparent;
             this.loader.Location = new System.Drawing.Point(0, 0);
             this.loader.Name = "loader";
@@ -126,7 +129,7 @@
             // 
             this.mnuSent.CheckOnClick = true;
             this.mnuSent.Name = "mnuSent";
-            this.mnuSent.Size = new System.Drawing.Size(180, 22);
+            this.mnuSent.Size = new System.Drawing.Size(168, 22);
             this.mnuSent.Text = "Sent";
             this.mnuSent.CheckedChanged += new System.EventHandler(this.FilterCheckChanged);
             // 
@@ -134,7 +137,7 @@
             // 
             this.mnuReadyForReceipt.CheckOnClick = true;
             this.mnuReadyForReceipt.Name = "mnuReadyForReceipt";
-            this.mnuReadyForReceipt.Size = new System.Drawing.Size(180, 22);
+            this.mnuReadyForReceipt.Size = new System.Drawing.Size(168, 22);
             this.mnuReadyForReceipt.Text = "Ready For Receipt";
             this.mnuReadyForReceipt.CheckedChanged += new System.EventHandler(this.FilterCheckChanged);
             // 
@@ -142,7 +145,7 @@
             // 
             this.mnuComplete.CheckOnClick = true;
             this.mnuComplete.Name = "mnuComplete";
-            this.mnuComplete.Size = new System.Drawing.Size(180, 22);
+            this.mnuComplete.Size = new System.Drawing.Size(168, 22);
             this.mnuComplete.Text = "Complete";
             this.mnuComplete.CheckedChanged += new System.EventHandler(this.FilterCheckChanged);
             // 

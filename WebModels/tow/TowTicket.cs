@@ -49,7 +49,7 @@ namespace WebModels.tow
         }
 
         private DateTime? _issueDate;
-        [Field("05A2D94F-F2CB-42E5-A317-47744105FBDD")]
+        [Field("05A2D94F-F2CB-42E5-A317-47744105FBDD", DataSize = 7)]
         public DateTime? IssueDate
         {
             get { CheckGet(); return _issueDate; }

@@ -14,7 +14,7 @@ namespace API_System.Controllers
     [ProgramAccess("system")]
     public class OfficialController : DataObjectController<Official>
     {
-        public override IEnumerable<string> AllowedFields => new List<string>()
+        public override IEnumerable<string> DefaultRetrievedFields => new List<string>()
         {
             nameof(Official.OfficialID),
             nameof(Official.GovernmentID),
@@ -47,7 +47,7 @@ namespace API_System.Controllers
                     Field = "UserID",
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = userID
-                })).GetReadOnly(null, AllowedFields);
+                })).GetReadOnly(null, DefaultRetrievedFields);
         }
     }
 }

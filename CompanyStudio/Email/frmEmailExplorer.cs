@@ -37,7 +37,7 @@ namespace CompanyStudio.Email
 
             Text += $" - {Company.Name.Replace("&", "&&")}";
 
-            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange += PermissionsManager_OnPermissionChange;
 
             await RefreshEmailExplorer();
         }
@@ -48,9 +48,9 @@ namespace CompanyStudio.Email
             visualStudioToolStripExtender.SetStyle(toolStrip, VisualStudioToolStripExtender.VsVersion.Vs2015, e);
         }
 
-        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
         {
-            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.Permissions.ManageEmails && !e.Value)
+            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.CompanyWidePermissions.ManageEmails && !e.Value)
             {
                 MessageBox.Show($"You do not have access to Email Explorer for {Company.Name}", "No Permission", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 Close();
@@ -348,7 +348,7 @@ namespace CompanyStudio.Email
 
         private void frmEmailExplorer_FormClosed(object sender, FormClosedEventArgs e)
         {
-            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnPermissionChange;
             OnThemeChange -= OnThemeChanged;
         }
     }

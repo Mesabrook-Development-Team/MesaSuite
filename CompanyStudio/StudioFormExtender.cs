@@ -66,6 +66,30 @@ namespace CompanyStudio
                 dataGridView.BackgroundColor = theme.ColorPalette.CommandBarToolbarDefault.Background;
                 dataGridView.ForeColor = Color.Black;
             }
+
+            foreach(ToolStrip toolStrip in control.Controls.OfType<ToolStrip>())
+            {
+                toolStrip.BackColor = theme.ColorPalette.CommandBarToolbarDefault.Background;
+                toolStrip.ForeColor = theme.ColorPalette.CommandBarMenuDefault.Text;
+            }
+
+            foreach(Panel panel in control.Controls.OfType<Panel>())
+            {
+                ApplyStyle(panel, theme);
+            }
+
+            foreach(UserControl userControl in control.Controls.OfType<UserControl>())
+            {
+                ApplyStyle(userControl, theme);
+            }
+
+            foreach(GroupBox groupBox in control.Controls.OfType<GroupBox>())
+            {
+                //groupBox.ForeColor = theme.ColorPalette.CommandBarMenuDefault.Text;
+                //groupBox.BackColor = theme.ColorPalette.CommandBarToolbarDefault.Background;
+
+                ApplyStyle(groupBox, theme);
+            }
         }
     }
 }

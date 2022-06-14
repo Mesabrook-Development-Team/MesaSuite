@@ -1,12 +1,11 @@
-﻿using ClussPro.Base.Data;
+﻿using System.Collections.Generic;
+using ClussPro.Base.Data;
 using ClussPro.Base.Data.Conditions;
 using ClussPro.Base.Data.Operand;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
-using System.Collections;
-using System.Collections.Generic;
 using WebModels.security;
 
 namespace WebModels.company
@@ -81,6 +80,14 @@ namespace WebModels.company
             set { CheckSet(); _manageAccounts = value; }
         }
 
+        private bool _manageLocations;
+        [Field("383B5A34-D43F-498D-AC32-B67757F5FC29")]
+        public bool ManageLocations
+        {
+            get { CheckGet(); return _manageLocations; }
+            set { CheckSet(); _manageLocations = value; }
+        }
+
         private string _employeeName;
         [Field("E792C619-76D5-4A69-8264-BF7D067C25DF", HasOperation = true)]
         public string EmployeeName
@@ -114,6 +121,19 @@ namespace WebModels.company
             yield return nameof(ManageEmails);
             yield return nameof(ManageEmployees);
             yield return nameof(ManageAccounts);
+            yield return nameof(ManageLocations);
+            yield return $"{nameof(LocationEmployees)}.{nameof(LocationEmployee.ManageInvoices)}";
         }
+
+        #region Relationships
+        #region company
+        private List<LocationEmployee> _locationEmployees = new List<LocationEmployee>();
+        [RelationshipList("C2BBAAFE-497E-4BF6-B89D-B45C6335651D", "EmployeeID")]
+        public IReadOnlyCollection<LocationEmployee> LocationEmployees
+        {
+            get { CheckGet();  return _locationEmployees; }
+        }
+        #endregion
+        #endregion
     }
 }

@@ -8,17 +8,18 @@ namespace API_Government.Controllers
 {
     public class SalesTaxController : DataObjectController<SalesTax>
     {
-        public override IEnumerable<string> AllowedFields => new[]
+        public override IEnumerable<string> DefaultRetrievedFields => new[]
         {
             nameof(SalesTax.SalesTaxID),
             nameof(SalesTax.GovernmentID),
             nameof(SalesTax.EffectiveDate),
-            nameof(SalesTax.Rate)
+            nameof(SalesTax.Rate),
+            nameof(SalesTax.AccountID)
         };
 
         public override bool AllowGetAll => true;
 
-        public override SearchCondition GetBaseSearchCondition()
+        public override ISearchCondition GetBaseSearchCondition()
         {
             long governmentID = long.Parse(Request.Headers.GetValues("GovernmentID").First());
 

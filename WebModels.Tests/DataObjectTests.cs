@@ -59,7 +59,7 @@ namespace WebModels.Tests
             StringBuilder errors = new StringBuilder();
             foreach(SchemaObject schemaObject in Schema.GetAllSchemaObjects())
             {
-                foreach(Relationship relationship in schemaObject.GetRelationships())
+                foreach(Relationship relationship in schemaObject.GetRelationships().Where(rel => rel.HasForeignKey))
                 {
                     SchemaObject relatedSchemaObject = relationship.RelatedSchemaObject;
                     if (!relatedSchemaObject.GetRelationshipLists().Any(rl => rl.ForeignKeyName == relationship.ForeignKeyField.FieldName))
@@ -70,6 +70,24 @@ namespace WebModels.Tests
             }
 
             Assert.AreEqual(0, errors.Length, errors.ToString());
+        }
+
+        [TestMethod]
+        public void FieldsHaveValidDataSizes()
+        {
+            StringBuilder errors = new StringBuilder();
+            foreach(SchemaObject schemaObject in Schema.GetAllSchemaObjects())
+            {
+                foreach(Field field in schemaObject.GetFields().Where(f => !f.HasOperation))
+                {
+                    if (field.FieldType == ClussPro.Base.Data.FieldSpecification.FieldTypes.DateTime2 && field.DataSize == -1)
+                    {
+                        errors.AppendLine($"Field {field.ParentSchemaObject.SchemaName}.{field.ParentSchemaObject.ObjectName}.{field.FieldName} is of SQL type DateTime2, but does not have a DataSize specified.");
+                    }
+                }
+            }
+
+            Assert.AreEqual(0, errors.Length, $"The following fields have invalid Data Sizes:\r\n{errors.ToString()}");
         }
     }
 }

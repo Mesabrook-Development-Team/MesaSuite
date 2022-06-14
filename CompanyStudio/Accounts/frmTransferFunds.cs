@@ -17,7 +17,7 @@ namespace CompanyStudio.Accounts
     public partial class frmTransferFunds : Form
     {
         public long? AccountIDFrom { get; set; }
-        public long CompanyID { get; set; }
+        public long? CompanyID { get; set; }
         public ThemeBase Theme { get; set; }
         public frmTransferFunds()
         {
@@ -27,13 +27,13 @@ namespace CompanyStudio.Accounts
         private void frmTransferFunds_Load(object sender, EventArgs e)
         {
             studioFormExtender1.ApplyStyle(this, Theme);
-            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange += PermissionsManager_OnPermissionChange;
             PopulateBoxes();
         }
 
-        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
         {
-            if (e.CompanyID == CompanyID && e.Permission == PermissionsManager.Permissions.ManageAccounts && !e.Value)
+            if (e.CompanyID == CompanyID && e.Permission == PermissionsManager.CompanyWidePermissions.ManageAccounts && !e.Value)
             {
                 DialogResult = DialogResult.Cancel;
                 Close();
@@ -73,7 +73,7 @@ namespace CompanyStudio.Accounts
 
         private void frmTransferFunds_FormClosed(object sender, FormClosedEventArgs e)
         {
-            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnPermissionChange;
         }
 
         private void txtTransfer_KeyPress(object sender, KeyPressEventArgs e)

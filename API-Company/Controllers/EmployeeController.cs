@@ -4,6 +4,7 @@ using API_Company.Attributes;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using WebModels.company;
 using WebModels.security;
@@ -14,7 +15,7 @@ namespace API_Company.Controllers
     [ProgramAccess("company")]
     public class EmployeeController : DataObjectController<Employee>
     {
-        public override IEnumerable<string> AllowedFields => new List<string>()
+        public override IEnumerable<string> DefaultRetrievedFields => new List<string>()
         {
             nameof(Employee.EmployeeID),
             nameof(Employee.CompanyID),
@@ -22,7 +23,8 @@ namespace API_Company.Controllers
             nameof(Employee.EmployeeName),
             nameof(Employee.ManageEmails),
             nameof(Employee.ManageEmployees),
-            nameof(Employee.ManageAccounts)
+            nameof(Employee.ManageAccounts),
+            nameof(Employee.ManageLocations)
         };
 
         [HttpGet]
@@ -44,11 +46,11 @@ namespace API_Company.Controllers
                     Value = securityProfile.UserID
                 }));
 
-            return employeeSearch.GetReadOnly(null, new List<string>(AllowedFields) { nameof(Employee.EmployeeName) });
+            return employeeSearch.GetReadOnly(null, new List<string>(DefaultRetrievedFields) { nameof(Employee.EmployeeName) });
         }
 
         [HttpGet]
-        [CompanyAccess(RequiredPermissions = new string[] { nameof(Employee.ManageEmployees) })]
+        [CompanyAccess(OptionalPermissions = new string[] { nameof(Employee.ManageEmployees), nameof(Employee.ManageLocations), nameof(Employee.ManageAccounts) })]
         public List<Employee> GetAllForCompany()
         {
             long companyID = long.Parse(Request.Headers.GetValues("CompanyID").First());
@@ -60,14 +62,14 @@ namespace API_Company.Controllers
                 Value = companyID
             });
 
-            return employeeSearch.GetReadOnlyReader(null, new List<string>(AllowedFields) { nameof(Employee.EmployeeName) }).ToList();
+            return employeeSearch.GetReadOnlyReader(null, new List<string>(DefaultRetrievedFields) { nameof(Employee.EmployeeName) }).ToList();
         }
 
         [HttpPatch]
         [CompanyAccess(RequiredPermissions = new string[] { nameof(Employee.ManageEmployees) })]
-        public override IHttpActionResult Patch(PatchData patchData)
+        public async override Task<IHttpActionResult> Patch(PatchData patchData)
         {
-            return base.Patch(patchData);
+            return await base.Patch(patchData);
         }
 
         [HttpGet]
@@ -93,16 +95,16 @@ namespace API_Company.Controllers
 
         [HttpPut]
         [CompanyAccess(RequiredPermissions = new string[] { nameof(Employee.ManageEmployees) })]
-        public override IHttpActionResult Put(Employee dataObject)
+        public async override Task<IHttpActionResult> Put(Employee dataObject)
         {
-            return base.Put(dataObject);
+            return await base.Put(dataObject);
         }
 
         [HttpPost]
         [CompanyAccess(RequiredPermissions = new string[] { nameof(Employee.ManageEmployees) })]
-        public override IHttpActionResult Post(Employee dataObject)
+        public async override Task<IHttpActionResult> Post(Employee dataObject)
         {
-            return base.Post(dataObject);
+            return await base.Post(dataObject);
         }
     }
 }

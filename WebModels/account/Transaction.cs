@@ -61,6 +61,10 @@ namespace WebModels.account
             public const string CLOSING_DEPOSIT = "Deposit from closing account: {0} ({1})";
             public const string TRANSFER_DEPOSIT = "Transfer from account: {0} ({1})";
             public const string TRANSFER_WITHDRAWAL = "Transfer to account: {0} ({1})";
+            public const string INVOICE_PAYMENT = "Accounts payable invoice payment: {0}";
+            public const string TAX_PAYMENT = "Tax payment on invoice {0} to government {1}";
+            public const string INVOICE_COLLECTED = "Accounts receivable invoice collection: {0}";
+            public const string TAX_COLLECTED = "Tax collection on invoice {0}";
         }
     }
 }

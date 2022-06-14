@@ -120,7 +120,7 @@ namespace SystemManagement
                 if (newlySelectedPrograms.Any())
                 {
                     PostData post = new PostData(DataAccess.APIs.SystemManagement, "Program/SetProgramsForUser");
-                    post.ObjectToPost = newlySelectedPrograms.Select(p => new UserProgram() { UserID = UserID.Value, ProgramID = p.ProgramID }).ToList();
+                    post.ObjectToPost = new { newlySelectedPrograms = newlySelectedPrograms.Select(p => new UserProgram() { UserID = UserID.Value, ProgramID = p.ProgramID }).ToList() };
                     await post.ExecuteNoResult();
                 }
             }

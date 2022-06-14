@@ -16,7 +16,7 @@ namespace API_Company.Controllers
     [CompanyAccess(RequiredPermissions = new string[] { nameof(Employee.ManageAccounts) })]
     public class CategoryController : DataObjectController<Category>
     {
-        public override IEnumerable<string> AllowedFields => new string[]
+        public override IEnumerable<string> DefaultRetrievedFields => new string[]
         {
             nameof(Category.CategoryID),
             nameof(Category.CompanyID),
@@ -34,7 +34,7 @@ namespace API_Company.Controllers
                 Value = companyID
             });
 
-            return categorySearch.GetReadOnlyReader(null, AllowedFields).ToList();
+            return categorySearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
     }
 }

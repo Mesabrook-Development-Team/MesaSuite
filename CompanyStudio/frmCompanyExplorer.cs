@@ -38,11 +38,11 @@ namespace CompanyStudio
 
         private void frmCompanyExplorer_Load(object sender, System.EventArgs e)
         {
-            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange += PermissionsManager_OnPermissionChange;
             SetupCompanies();
         }
 
-        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
         {
             foreach(ListViewItem item in lstCompanies.Items)
             {
@@ -52,13 +52,13 @@ namespace CompanyStudio
                 {
                     switch(e.Permission)
                     {
-                        case PermissionsManager.Permissions.ManageEmails:
+                        case PermissionsManager.CompanyWidePermissions.ManageEmails:
                             item.SubItems[1].Text = e.Value.ToString();
                             break;
-                        case PermissionsManager.Permissions.ManageEmployees:
+                        case PermissionsManager.CompanyWidePermissions.ManageEmployees:
                             item.SubItems[2].Text = e.Value.ToString();
                             break;
-                        case PermissionsManager.Permissions.ManageAccounts:
+                        case PermissionsManager.CompanyWidePermissions.ManageAccounts:
                             item.SubItems[3].Text = e.Value.ToString();
                             break;
                     }
@@ -66,7 +66,7 @@ namespace CompanyStudio
             }
         }
 
-        private async void SetupCompanies()
+        public async void SetupCompanies()
         {
             loader.BringToFront();
             loader.Visible = true;
@@ -147,7 +147,14 @@ namespace CompanyStudio
 
         private void frmCompanyExplorer_FormClosed(object sender, FormClosedEventArgs e)
         {
-            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnPermissionChange;
+            Studio.OnCompanyAdded -= Studio_OnCompanyChanged;
+            Studio.OnCompanyRemoved -= Studio_OnCompanyChanged;
+        }
+
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }

@@ -17,7 +17,7 @@ namespace API_Government.Controllers
     [GovernmentAccess(RequiredPermissions = new [] { nameof(Official.ManageAccounts) })]
     public class CategoryController : DataObjectController<Category>
     {
-        public override IEnumerable<string> AllowedFields => new[]
+        public override IEnumerable<string> DefaultRetrievedFields => new[]
         {
             nameof(Category.CategoryID),
             nameof(Category.GovernmentID),
@@ -26,7 +26,7 @@ namespace API_Government.Controllers
 
         public override bool AllowGetAll => true;
 
-        public override SearchCondition GetBaseSearchCondition()
+        public override ISearchCondition GetBaseSearchCondition()
         {
             long governmentID = long.Parse(Request.Headers.GetValues("GovernmentID").First());
             return new LongSearchCondition<Category>()

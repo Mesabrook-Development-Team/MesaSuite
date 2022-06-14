@@ -1,9 +1,8 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using System.Reflection;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema;
-using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Reflection;
 
 namespace API.Common.Utility
 {
@@ -13,30 +12,21 @@ namespace API.Common.Utility
         {
             JsonProperty property = base.CreateProperty(member, memberSerialization);
 
-            if (member.GetCustomAttribute<RelationshipAttribute>() != null || member.GetCustomAttribute<RelationshipListAttribute>() != null)
+            property.ShouldSerialize = obj =>
             {
-                property.ShouldSerialize = i => false;
-                property.Ignored = true;
-            }
-
-            if (typeof(ISystemLoaded).IsAssignableFrom(member.DeclaringType) && (member.Name.Equals(nameof(ISystemLoaded.SystemID), System.StringComparison.OrdinalIgnoreCase) || member.Name.Equals(nameof(ISystemLoaded.SystemHash), System.StringComparison.OrdinalIgnoreCase)))
-            {
-                property.ShouldSerialize = i => false;
-                property.Ignored = true;
-            }
-
-            if (!property.Ignored)
-            {
-                property.ShouldSerialize = obj =>
+                if (obj is DataObject dataObject)
                 {
-                    if (obj is DataObject dataObject && Schema.GetSchemaObject(obj.GetType()).GetField(member.Name) != null)
+                    SchemaObject objectSchema = Schema.GetSchemaObject(dataObject.GetType());
+                    if (objectSchema.GetField(member.Name) != null || // Only schema fields should be checked for retrieval
+                        objectSchema.GetRelationship(member.Name) != null ||
+                        objectSchema.GetRelationshipList(member.Name) != null)
                     {
                         return dataObject.IsPathRetrieved(member.Name);
                     }
+                }
 
-                    return true;
-                };
-            }
+                return true;
+            };
 
             return property;
         }

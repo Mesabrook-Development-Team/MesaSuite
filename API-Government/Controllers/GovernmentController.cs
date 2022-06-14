@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using API.Common;
 using API.Common.Attributes;
 using API.Common.Extensions;
@@ -17,13 +19,21 @@ namespace API_Government.Controllers
     [ProgramAccess("gov")]
     public class GovernmentController : DataObjectController<Government>
     {
-        public override IEnumerable<string> AllowedFields => new string[]
+        public override IEnumerable<string> DefaultRetrievedFields => new string[]
         {
             nameof(Government.GovernmentID),
             nameof(Government.Name),
             nameof(Government.EmailDomain),
             nameof(Government.CanMintCurrency)
         };
+
+        protected override IEnumerable<string> RequestableFields => new List<string>(DefaultRetrievedFields)
+        {
+            nameof(Government.InvoiceNumberPrefix),
+            nameof(Government.NextInvoiceNumber)
+        };
+
+        public override bool AllowGetAll => true;
 
         [HttpGet]
         public List<Government> GetAllForUser()
@@ -41,7 +51,7 @@ namespace API_Government.Controllers
                 }
             });
 
-            return governmentSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+            return governmentSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
 
         public class MintCurrencyParameter
@@ -111,6 +121,40 @@ namespace API_Government.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPost]
+        public override Task<IHttpActionResult> Post(Government government)
+        {
+            return Task.FromResult<IHttpActionResult>(new StatusCodeResult(System.Net.HttpStatusCode.Forbidden, this));
+        }
+
+        [HttpPut]
+        public override Task<IHttpActionResult> Put(Government dataObject)
+        {
+            return Task.FromResult<IHttpActionResult>(new StatusCodeResult(System.Net.HttpStatusCode.Forbidden, this));
+        }
+
+        private readonly List<string> patchableFields = new List<string>()
+        {
+            nameof(Government.InvoiceNumberPrefix),
+            nameof(Government.NextInvoiceNumber)
+        };
+
+        [HttpPatch]
+        public override Task<IHttpActionResult> Patch(PatchData patchData)
+        {
+            Dictionary<string, object> replacementValues = new Dictionary<string, object>();
+            foreach(KeyValuePair<string, object> kvp in patchData.Values)
+            {
+                if (patchableFields.Contains(kvp.Key))
+                {
+                    replacementValues[kvp.Key] = kvp.Value;
+                }
+            }
+
+            patchData.Values = replacementValues;
+            return base.Patch(patchData);
         }
     }
 }

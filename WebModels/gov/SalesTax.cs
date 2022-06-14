@@ -2,6 +2,7 @@
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using WebModels.account;
 
 namespace WebModels.gov
 {
@@ -50,6 +51,21 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _rate; }
             set { CheckSet(); _rate = value; }
+        }
+
+        private long? _accountID;
+        [Field("80F00E37-C784-47D9-8936-B34749E55C39")]
+        public long? AccountID
+        {
+            get { CheckGet(); return _accountID; }
+            set { CheckSet(); _accountID = value; }
+        }
+
+        private Account _account;
+        [Relationship("C594B157-321B-4AFE-A59F-58BDC0F98814")]
+        public Account Account
+        {
+            get { CheckGet(); return _account; }
         }
     }
 }

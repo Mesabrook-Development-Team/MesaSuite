@@ -8,9 +8,9 @@ namespace WebModels.Migrations
     /// Create the gov.SalesTax table.
     /// Add permission for ManageTaxes on Officials.
     /// </summary>
-    internal class Migration000009 : IMigration
+    internal class Migration000012 : IMigration
     {
-        public int MigrationNumber => 9;
+        public int MigrationNumber => 12;
 
         public void Execute(ITransaction transaction)
         {
@@ -22,7 +22,8 @@ namespace WebModels.Migrations
                 { "SalesTaxID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "GovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "EffectiveDate", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
-                { "Rate", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 5, 2) }
+                { "Rate", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 5, 2) },
+                { "AccountID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
             };
             table.Execute(transaction);
 
@@ -30,6 +31,7 @@ namespace WebModels.Migrations
             alterTable.Schema = "gov";
             alterTable.Table = "SalesTax";
             alterTable.AddForeignKey("FKSalesTax_Government_GovernmentID", "GovernmentID", "gov", "Government", "GovernmentID", transaction);
+            alterTable.AddForeignKey("FKSalesTax_Account_AccountID", "AccountID", "account", "Account", "AccountID", transaction);
 
             alterTable.Table = "Official";
             alterTable.AddColumn("ManageTaxes", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);

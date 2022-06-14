@@ -8,5 +8,6 @@ namespace GovernmentPortal.Models
         public long GovernmentID { get; set; }
         public DateTime EffectiveDate { get; set; }
         public decimal Rate { get; set; }
+        public long? AccountID { get; set; }
     }
 }

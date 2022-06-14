@@ -15,7 +15,7 @@ namespace API_Government.Controllers
     [GovernmentAccess(RequiredPermissions = new[] { nameof(Official.ManageAccounts) })]
     public class FiscalQuarterController : DataObjectController<FiscalQuarter>
     {
-        public override IEnumerable<string> AllowedFields => new []
+        public override IEnumerable<string> DefaultRetrievedFields => new []
         {
             nameof(FiscalQuarter.FiscalQuarterID),
             nameof(FiscalQuarter.AccountID),
@@ -61,7 +61,7 @@ namespace API_Government.Controllers
                 }
             };
 
-            return fiscalQuarterSearch.GetReadOnlyReader(null, AllowedFields).ToList();
+            return fiscalQuarterSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
     }
 }

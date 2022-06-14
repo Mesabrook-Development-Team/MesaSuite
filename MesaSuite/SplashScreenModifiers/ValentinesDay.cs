@@ -5,7 +5,7 @@ namespace MesaSuite.SplashScreenModifiers
 {
     internal class ValentinesDay : ISplashScreenModifier
     {
-        public bool IsValid() => DateTime.Today.Month == 2 && DateTime.Today.Day == 15;
+        public bool IsValid() => DateTime.Today.Month == 2 && DateTime.Today.Day == 14;
 
         public void Modify(frmSplash splash)
         {

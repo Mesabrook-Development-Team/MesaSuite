@@ -35,6 +35,7 @@ namespace CompanyStudio
             this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colManageEmails = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colManageEmployees = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colManageAccounts = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ctxCompanies = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,7 +45,6 @@ namespace CompanyStudio
             this.visualStudioToolStripExtender = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
             this.loader = new CompanyStudio.Loader();
             this.imlSmall = new System.Windows.Forms.ImageList(this.components);
-            this.colManageAccounts = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ctxCompanies.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -85,6 +85,11 @@ namespace CompanyStudio
             this.colManageEmployees.Text = "Manage Employees";
             this.colManageEmployees.Width = 120;
             // 
+            // colManageAccounts
+            // 
+            this.colManageAccounts.Text = "Manage  Accounts";
+            this.colManageAccounts.Width = 120;
+            // 
             // ctxCompanies
             // 
             this.ctxCompanies.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -118,6 +123,7 @@ namespace CompanyStudio
             this.toolStrip1.Size = new System.Drawing.Size(632, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip1_ItemClicked);
             // 
             // mnuConnect
             // 
@@ -156,11 +162,6 @@ namespace CompanyStudio
             this.imlSmall.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.imlSmall.ImageSize = new System.Drawing.Size(16, 16);
             this.imlSmall.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // colManageAccounts
-            // 
-            this.colManageAccounts.Text = "Manage  Accounts";
-            this.colManageAccounts.Width = 120;
             // 
             // frmCompanyExplorer
             // 

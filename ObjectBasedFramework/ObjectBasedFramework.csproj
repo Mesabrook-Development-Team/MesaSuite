@@ -82,6 +82,8 @@
     <Compile Include="Validation\Conditions\Condition.cs" />
     <Compile Include="Validation\Conditions\ConditionGroup.cs" />
     <Compile Include="Validation\Conditions\EqualCondition.cs" />
+    <Compile Include="Validation\Conditions\FieldToFieldEqualCondition.cs" />
+    <Compile Include="Validation\Conditions\IsFieldDirtyCondition.cs" />
     <Compile Include="Validation\Conditions\InequalityCondition.cs" />
     <Compile Include="Validation\Conditions\MaxLengthCondition.cs" />
     <Compile Include="Validation\Conditions\NotCondition.cs" />

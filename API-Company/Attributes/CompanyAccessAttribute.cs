@@ -16,6 +16,7 @@ namespace API_Company.Attributes
     public class CompanyAccessAttribute : ActionFilterAttribute
     {
         public string[] RequiredPermissions { get; set; }
+        public string[] OptionalPermissions { get; set; }
 
         public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
@@ -44,6 +45,15 @@ namespace API_Company.Attributes
             if (RequiredPermissions != null)
             {
                 if (!RequiredPermissions.All(p => cachedEmployee.Permissions.Contains(p)))
+                {
+                    actionContext.Response = actionContext.Request.CreateResponse(System.Net.HttpStatusCode.Forbidden);
+                    return;
+                }
+            }
+
+            if (OptionalPermissions != null)
+            {
+                if (!OptionalPermissions.Any(p => cachedEmployee.Permissions.Contains(p)))
                 {
                     actionContext.Response = actionContext.Request.CreateResponse(System.Net.HttpStatusCode.Forbidden);
                     return;

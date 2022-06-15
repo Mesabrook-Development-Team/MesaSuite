@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GovernmentPortal.Models
+﻿namespace GovernmentPortal.Models
 {
     public class Official
     {
@@ -14,7 +8,9 @@ namespace GovernmentPortal.Models
         public bool ManageEmails { get; set; }
         public bool ManageOfficials { get; set; }
         public bool ManageAccounts { get; set; }
+        public bool ManageTaxes { get; set; }
         public string OfficialName { get; set; }
         public bool CanMintCurrency { get; set; }
+        public bool ManageInvoices { get; set; }
     }
 }

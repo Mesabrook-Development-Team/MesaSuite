@@ -1,9 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework.Schema.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using ClussPro.ObjectBasedFramework.Schema.Attributes;
 
 namespace ClussPro.ObjectBasedFramework.Schema
 {
@@ -18,6 +14,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
         public Type RelatedObjectType { get; internal set; }
         public Field ForeignKeyField { get; internal set; }
         public Field ParentKeyField { get; internal set; }
+        public bool HasForeignKey => RelationshipAttribute?.HasForeignKey ?? true;
 
         internal Func<object, object> GetPrivateDataCallback { get; set; }
         internal Action<DataObject, object> SetPrivateDataCallback { get; set; }

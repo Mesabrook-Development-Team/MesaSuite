@@ -94,6 +94,22 @@ namespace WebModels.gov
             set { CheckSet(); _canMintCurrency = value; }
         }
 
+        private bool _manageTaxes;
+        [Field("1469A00B-F68B-4F95-8E34-9412029F5CE4")]
+        public bool ManageTaxes
+        {
+            get { CheckGet(); return _manageTaxes; }
+            set { CheckSet(); _manageTaxes = value; }
+        }
+
+        private bool _manageInvoices;
+        [Field("721FFCCA-8FE4-4E20-BCD2-21B066B1AEBB")]
+        public bool ManageInvoices
+        {
+            get { CheckGet(); return _manageInvoices; }
+            set { CheckSet(); _manageInvoices = value; }
+        }
+
         public static OperationDelegate OfficialNameOperation
         {
             get
@@ -123,6 +139,8 @@ namespace WebModels.gov
             yield return nameof(ManageEmails);
             yield return nameof(ManageOfficials);
             yield return nameof(ManageAccounts);
+            yield return nameof(ManageTaxes);
+            yield return nameof(ManageInvoices);
         }
     }
 }

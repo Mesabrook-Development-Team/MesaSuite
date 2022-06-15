@@ -62,14 +62,21 @@ namespace CompanyStudio.Accounts
             this.colNetChange = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNetPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loaderFQ = new CompanyStudio.Loader();
+            this.tabAccess = new System.Windows.Forms.TabPage();
+            this.dgvAccess = new System.Windows.Forms.DataGridView();
+            this.loaderAccess = new CompanyStudio.Loader();
             this.loader = new CompanyStudio.Loader();
             this.cmdTransfer = new System.Windows.Forms.Button();
             this.cmdClose = new System.Windows.Forms.Button();
+            this.colAccess = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colEmployee = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tctrlInfo.SuspendLayout();
             this.tabTransactions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransactions)).BeginInit();
             this.tabFiscalQuarters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiscalQuarters)).BeginInit();
+            this.tabAccess.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAccess)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -179,6 +186,7 @@ namespace CompanyStudio.Accounts
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tctrlInfo.Controls.Add(this.tabTransactions);
             this.tctrlInfo.Controls.Add(this.tabFiscalQuarters);
+            this.tctrlInfo.Controls.Add(this.tabAccess);
             this.tctrlInfo.Location = new System.Drawing.Point(6, 146);
             this.tctrlInfo.Name = "tctrlInfo";
             this.tctrlInfo.SelectedIndex = 0;
@@ -399,6 +407,43 @@ namespace CompanyStudio.Accounts
             this.loaderFQ.TabIndex = 7;
             this.loaderFQ.Visible = false;
             // 
+            // tabAccess
+            // 
+            this.tabAccess.Controls.Add(this.dgvAccess);
+            this.tabAccess.Controls.Add(this.loaderAccess);
+            this.tabAccess.Location = new System.Drawing.Point(4, 22);
+            this.tabAccess.Name = "tabAccess";
+            this.tabAccess.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAccess.Size = new System.Drawing.Size(774, 266);
+            this.tabAccess.TabIndex = 2;
+            this.tabAccess.Text = "Access";
+            this.tabAccess.UseVisualStyleBackColor = true;
+            // 
+            // dgvAccess
+            // 
+            this.dgvAccess.AllowUserToAddRows = false;
+            this.dgvAccess.AllowUserToDeleteRows = false;
+            this.dgvAccess.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAccess.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colAccess,
+            this.colEmployee});
+            this.dgvAccess.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvAccess.Location = new System.Drawing.Point(3, 3);
+            this.dgvAccess.Name = "dgvAccess";
+            this.dgvAccess.RowHeadersVisible = false;
+            this.dgvAccess.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvAccess.Size = new System.Drawing.Size(768, 260);
+            this.dgvAccess.TabIndex = 1;
+            // 
+            // loaderAccess
+            // 
+            this.loaderAccess.BackColor = System.Drawing.Color.Transparent;
+            this.loaderAccess.Location = new System.Drawing.Point(2, 3);
+            this.loaderAccess.Name = "loaderAccess";
+            this.loaderAccess.Size = new System.Drawing.Size(769, 260);
+            this.loaderAccess.TabIndex = 2;
+            this.loaderAccess.Visible = false;
+            // 
             // loader
             // 
             this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -429,6 +474,19 @@ namespace CompanyStudio.Accounts
             this.cmdClose.Text = "Close Account";
             this.cmdClose.UseVisualStyleBackColor = true;
             this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
+            // 
+            // colAccess
+            // 
+            this.colAccess.HeaderText = "Access?";
+            this.colAccess.Name = "colAccess";
+            this.colAccess.Width = 60;
+            // 
+            // colEmployee
+            // 
+            this.colEmployee.HeaderText = "Employee";
+            this.colEmployee.Name = "colEmployee";
+            this.colEmployee.ReadOnly = true;
+            this.colEmployee.Width = 300;
             // 
             // frmAccount
             // 
@@ -464,6 +522,8 @@ namespace CompanyStudio.Accounts
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransactions)).EndInit();
             this.tabFiscalQuarters.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiscalQuarters)).EndInit();
+            this.tabAccess.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAccess)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -506,5 +566,10 @@ namespace CompanyStudio.Accounts
         private System.Windows.Forms.DataGridViewTextBoxColumn colEndBalance;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNetChange;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNetPercent;
+        private System.Windows.Forms.TabPage tabAccess;
+        private System.Windows.Forms.DataGridView dgvAccess;
+        private Loader loaderAccess;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colAccess;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colEmployee;
     }
 }

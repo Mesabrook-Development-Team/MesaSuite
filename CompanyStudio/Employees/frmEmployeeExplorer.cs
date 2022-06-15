@@ -32,16 +32,16 @@ namespace CompanyStudio.Employees
                 return;
             }
 
-            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange += PermissionsManager_OnPermissionChange;
 
             Text += $" - {Company.Name.Replace("&", "&&")}";
 
             RefreshEmployeeExplorer();
         }
 
-        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
         {
-            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.Permissions.ManageEmployees && !e.Value)
+            if (Company.CompanyID == e.CompanyID && e.Permission == PermissionsManager.CompanyWidePermissions.ManageEmployees && !e.Value)
             {
                 MessageBox.Show($"You do not have access to Employee Explorer for {Company.Name}", "No Permission", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 Close();
@@ -98,6 +98,11 @@ namespace CompanyStudio.Employees
                     manageAccounts.ContextMenuStrip = ctxPermission;
                     manageAccounts.Tag = nameof(Employee.ManageAccounts);
                     permissionsNode.Nodes.Add(manageAccounts);
+
+                    TreeNode manageLocations = new TreeNode($"Manage Locations - {employee.ManageLocations}");
+                    manageLocations.ContextMenuStrip = ctxPermission;
+                    manageLocations.Tag = nameof(Employee.ManageLocations);
+                    permissionsNode.Nodes.Add(manageLocations);
                 }
             }
 
@@ -240,7 +245,7 @@ namespace CompanyStudio.Employees
         private void frmEmployeeExplorer_FormClosed(object sender, FormClosedEventArgs e)
         {
             OnThemeChange -= OnThemeChanged;
-            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnPermissionChange;
         }
     }
 }

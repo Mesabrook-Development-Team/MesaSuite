@@ -20,12 +20,12 @@ namespace CompanyStudio.Accounts
         public frmCategories()
         {
             InitializeComponent();
-            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange += PermissionsManager_OnPermissionChange;
         }
 
-        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
         {
-            if (e.CompanyID == Company.CompanyID && e.Permission == PermissionsManager.Permissions.ManageAccounts && !e.Value)
+            if (e.CompanyID == Company.CompanyID && e.Permission == PermissionsManager.CompanyWidePermissions.ManageAccounts && !e.Value)
             {
                 Close();
             }
@@ -133,7 +133,7 @@ namespace CompanyStudio.Accounts
 
         private void frmCategories_FormClosed(object sender, FormClosedEventArgs e)
         {
-            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnPermissionChange;
         }
     }
 }

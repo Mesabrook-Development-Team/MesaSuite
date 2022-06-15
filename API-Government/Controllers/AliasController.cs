@@ -15,7 +15,7 @@ namespace API_Government.Controllers
     [GovernmentAccess(RequiredPermissions = new string[] { nameof(Official.ManageEmails) })]
     public class AliasController : DataObjectController<Alias>
     {
-        public override IEnumerable<string> AllowedFields => new string[]
+        public override IEnumerable<string> DefaultRetrievedFields => new string[]
         {
             nameof(Alias.AliasID),
             nameof(Alias.AliasDomainID),
@@ -33,7 +33,7 @@ namespace API_Government.Controllers
                 Value = id
             });
 
-            return aliases.GetReadOnlyReader(null, AllowedFields).ToList();
+            return aliases.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
     }
 }

@@ -36,6 +36,7 @@
             this.companyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.employeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.invoicingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wIndowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripExtender = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
             this.vS2015LightTheme = new WeifenLuo.WinFormsUI.Docking.VS2015LightTheme();
@@ -44,13 +45,20 @@
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolCompanyDropDown = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.toolLocationDropDown = new System.Windows.Forms.ToolStripComboBox();
+            this.tmrLocationUpdater = new System.Windows.Forms.Timer(this.components);
             this.toolSave = new System.Windows.Forms.ToolStripButton();
             this.toolSaveAll = new System.Windows.Forms.ToolStripButton();
             this.mnuAccountExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCategories = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCompanyExplorer = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLocationExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEmailExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEmployeeExplorer = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuInvoicingReceivables = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuInvoicePayables = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuThemes = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLightTheme = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDarkTheme = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +88,7 @@
             this.companyToolStripMenuItem,
             this.emailToolStripMenuItem,
             this.employeesToolStripMenuItem,
+            this.invoicingToolStripMenuItem,
             this.wIndowToolStripMenuItem});
             this.mnuBanner.Location = new System.Drawing.Point(0, 0);
             this.mnuBanner.Name = "mnuBanner";
@@ -100,7 +109,8 @@
             // companyToolStripMenuItem
             // 
             this.companyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuCompanyExplorer});
+            this.mnuCompanyExplorer,
+            this.mnuLocationExplorer});
             this.companyToolStripMenuItem.Name = "companyToolStripMenuItem";
             this.companyToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.companyToolStripMenuItem.Text = "Company";
@@ -123,6 +133,16 @@
             this.employeesToolStripMenuItem.Text = "Employees";
             this.employeesToolStripMenuItem.Visible = false;
             // 
+            // invoicingToolStripMenuItem
+            // 
+            this.invoicingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuInvoicingReceivables,
+            this.mnuInvoicePayables});
+            this.invoicingToolStripMenuItem.Name = "invoicingToolStripMenuItem";
+            this.invoicingToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.invoicingToolStripMenuItem.Text = "Invoicing";
+            this.invoicingToolStripMenuItem.Visible = false;
+            // 
             // wIndowToolStripMenuItem
             // 
             this.wIndowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -141,7 +161,10 @@
             this.toolSave,
             this.toolSaveAll,
             this.toolStripLabel1,
-            this.toolCompanyDropDown});
+            this.toolCompanyDropDown,
+            this.toolStripSeparator1,
+            this.toolStripLabel2,
+            this.toolLocationDropDown});
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(800, 25);
@@ -150,8 +173,9 @@
             // 
             // toolStripLabel1
             // 
+            this.toolStripLabel1.Image = global::CompanyStudio.Properties.Resources.icn_com;
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(62, 22);
+            this.toolStripLabel1.Size = new System.Drawing.Size(78, 22);
             this.toolStripLabel1.Text = "Company:";
             // 
             // toolCompanyDropDown
@@ -162,6 +186,32 @@
             this.toolCompanyDropDown.SelectedIndexChanged += new System.EventHandler(this.toolCompanyDropDown_SelectedIndexChanged);
             this.toolCompanyDropDown.Enter += new System.EventHandler(this.toolCompanyDropDown_Enter);
             this.toolCompanyDropDown.Leave += new System.EventHandler(this.toolCompanyDropDown_Leave);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Image = global::CompanyStudio.Properties.Resources.icn_earth;
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(72, 22);
+            this.toolStripLabel2.Text = "Location:";
+            // 
+            // toolLocationDropDown
+            // 
+            this.toolLocationDropDown.Name = "toolLocationDropDown";
+            this.toolLocationDropDown.Size = new System.Drawing.Size(121, 25);
+            this.toolLocationDropDown.SelectedIndexChanged += new System.EventHandler(this.toolLocationDropDown_SelectedIndexChanged);
+            this.toolLocationDropDown.Enter += new System.EventHandler(this.toolLocationDropDown_Enter);
+            this.toolLocationDropDown.Leave += new System.EventHandler(this.toolLocationDropDown_Leave);
+            // 
+            // tmrLocationUpdater
+            // 
+            this.tmrLocationUpdater.Enabled = true;
+            this.tmrLocationUpdater.Interval = 1000;
+            this.tmrLocationUpdater.Tick += new System.EventHandler(this.tmrLocationUpdater_Tick);
             // 
             // toolSave
             // 
@@ -184,18 +234,16 @@
             // mnuAccountExplorer
             // 
             this.mnuAccountExplorer.Image = global::CompanyStudio.Properties.Resources.icn_mbd_slim;
-            this.mnuAccountExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuAccountExplorer.Name = "mnuAccountExplorer";
-            this.mnuAccountExplorer.Size = new System.Drawing.Size(213, 38);
+            this.mnuAccountExplorer.Size = new System.Drawing.Size(165, 22);
             this.mnuAccountExplorer.Text = "Account Explorer";
             this.mnuAccountExplorer.Click += new System.EventHandler(this.mnuAccountExplorer_Click);
             // 
             // mnuCategories
             // 
             this.mnuCategories.Image = global::CompanyStudio.Properties.Resources.icn_group;
-            this.mnuCategories.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuCategories.Name = "mnuCategories";
-            this.mnuCategories.Size = new System.Drawing.Size(213, 38);
+            this.mnuCategories.Size = new System.Drawing.Size(165, 22);
             this.mnuCategories.Text = "Categories";
             this.mnuCategories.Click += new System.EventHandler(this.mnuCategories_Click);
             // 
@@ -203,20 +251,25 @@
             // 
             this.mnuCompanyExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mnuCompanyExplorer.Image = global::CompanyStudio.Properties.Resources.icn_com;
-            this.mnuCompanyExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuCompanyExplorer.Name = "mnuCompanyExplorer";
-            this.mnuCompanyExplorer.Size = new System.Drawing.Size(196, 54);
+            this.mnuCompanyExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuCompanyExplorer.Text = "Company Explorer";
             this.mnuCompanyExplorer.Click += new System.EventHandler(this.mnuCompanyExplorer_Click);
             // 
+            // mnuLocationExplorer
+            // 
+            this.mnuLocationExplorer.Image = global::CompanyStudio.Properties.Resources.icn_earth;
+            this.mnuLocationExplorer.Name = "mnuLocationExplorer";
+            this.mnuLocationExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuLocationExplorer.Text = "Location Explorer";
+            this.mnuLocationExplorer.Click += new System.EventHandler(this.mnuLocationExplorer_Click);
+            // 
             // mnuEmailExplorer
             // 
-            this.mnuEmailExplorer.BackgroundImage = global::CompanyStudio.Properties.Resources.mail_explorer;
             this.mnuEmailExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mnuEmailExplorer.Image = global::CompanyStudio.Properties.Resources.mail_explorer;
-            this.mnuEmailExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuEmailExplorer.Name = "mnuEmailExplorer";
-            this.mnuEmailExplorer.Size = new System.Drawing.Size(196, 26);
+            this.mnuEmailExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuEmailExplorer.Text = "Email Explorer";
             this.mnuEmailExplorer.Click += new System.EventHandler(this.mnuEmailExplorer_Click);
             // 
@@ -224,11 +277,26 @@
             // 
             this.mnuEmployeeExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mnuEmployeeExplorer.Image = global::CompanyStudio.Properties.Resources.icn_hire;
-            this.mnuEmployeeExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuEmployeeExplorer.Name = "mnuEmployeeExplorer";
-            this.mnuEmployeeExplorer.Size = new System.Drawing.Size(196, 38);
+            this.mnuEmployeeExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuEmployeeExplorer.Text = "Employee Explorer";
             this.mnuEmployeeExplorer.Click += new System.EventHandler(this.mnuEmployeeExplorer_Click);
+            // 
+            // mnuInvoicingReceivables
+            // 
+            this.mnuInvoicingReceivables.Image = global::CompanyStudio.Properties.Resources.icn_dollar_in;
+            this.mnuInvoicingReceivables.Name = "mnuInvoicingReceivables";
+            this.mnuInvoicingReceivables.Size = new System.Drawing.Size(180, 22);
+            this.mnuInvoicingReceivables.Text = "Receivables";
+            this.mnuInvoicingReceivables.Click += new System.EventHandler(this.mnuInvoicingReceivables_Click);
+            // 
+            // mnuInvoicePayables
+            // 
+            this.mnuInvoicePayables.Image = global::CompanyStudio.Properties.Resources.icn_dollar_out;
+            this.mnuInvoicePayables.Name = "mnuInvoicePayables";
+            this.mnuInvoicePayables.Size = new System.Drawing.Size(180, 22);
+            this.mnuInvoicePayables.Text = "Payables";
+            this.mnuInvoicePayables.Click += new System.EventHandler(this.mnuInvoicePayables_Click);
             // 
             // mnuThemes
             // 
@@ -237,15 +305,14 @@
             this.mnuDarkTheme,
             this.mnuBlueTheme});
             this.mnuThemes.Image = global::CompanyStudio.Properties.Resources.icn_theme;
-            this.mnuThemes.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuThemes.Name = "mnuThemes";
-            this.mnuThemes.Size = new System.Drawing.Size(196, 40);
+            this.mnuThemes.Size = new System.Drawing.Size(180, 22);
             this.mnuThemes.Text = "Theme";
             // 
             // mnuLightTheme
             // 
             this.mnuLightTheme.Name = "mnuLightTheme";
-            this.mnuLightTheme.Size = new System.Drawing.Size(101, 22);
+            this.mnuLightTheme.Size = new System.Drawing.Size(180, 22);
             this.mnuLightTheme.Tag = "light";
             this.mnuLightTheme.Text = "Light";
             this.mnuLightTheme.Click += new System.EventHandler(this.mnuTheme_Click);
@@ -253,7 +320,7 @@
             // mnuDarkTheme
             // 
             this.mnuDarkTheme.Name = "mnuDarkTheme";
-            this.mnuDarkTheme.Size = new System.Drawing.Size(101, 22);
+            this.mnuDarkTheme.Size = new System.Drawing.Size(180, 22);
             this.mnuDarkTheme.Tag = "dark";
             this.mnuDarkTheme.Text = "Dark";
             this.mnuDarkTheme.Click += new System.EventHandler(this.mnuTheme_Click);
@@ -261,7 +328,7 @@
             // mnuBlueTheme
             // 
             this.mnuBlueTheme.Name = "mnuBlueTheme";
-            this.mnuBlueTheme.Size = new System.Drawing.Size(101, 22);
+            this.mnuBlueTheme.Size = new System.Drawing.Size(180, 22);
             this.mnuBlueTheme.Tag = "blue";
             this.mnuBlueTheme.Text = "Blue";
             this.mnuBlueTheme.Click += new System.EventHandler(this.mnuTheme_Click);
@@ -318,6 +385,14 @@
         private System.Windows.Forms.ToolStripMenuItem accountsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuAccountExplorer;
         private System.Windows.Forms.ToolStripMenuItem mnuCategories;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripComboBox toolLocationDropDown;
+        private System.Windows.Forms.ToolStripMenuItem invoicingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuLocationExplorer;
+        private System.Windows.Forms.Timer tmrLocationUpdater;
+        private System.Windows.Forms.ToolStripMenuItem mnuInvoicingReceivables;
+        private System.Windows.Forms.ToolStripMenuItem mnuInvoicePayables;
     }
 }
 

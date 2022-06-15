@@ -14,7 +14,7 @@ namespace API_System.Controllers
 
     public class CrashController : DataObjectController<CrashReport>
     {
-        public override IEnumerable<string> AllowedFields => new string[]
+        public override IEnumerable<string> DefaultRetrievedFields => new string[]
         {
             nameof(CrashReport.CrashReportID),
             nameof(CrashReport.Program),

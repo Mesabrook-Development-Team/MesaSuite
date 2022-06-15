@@ -79,17 +79,17 @@ namespace DevTools
             config = XDocument.Load(baseLocation + "MesaSuite\\App.config");
             appSettingsElement = config.Descendants("appSettings").First();
 
-            rdoSysLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("Host.SystemManagement"), val => val.StartsWith("http://localhost"));
-            rdoSysLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("Host.SystemManagement"), val => val.StartsWith("http://localhost"));
+            rdoSysLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("ResourceWriter.SystemManagement"), val => val.EndsWith("DebugResourceWriter"));
+            rdoSysLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("ResourceWriter.SystemManagement"), val => val.EndsWith("DebugResourceWriter"));
 
-            rdoCompanyLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("Host.CompanyStudio"), val => val.StartsWith("http://localhost"));
-            rdoCompanyLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("Host.CompanyStudio"), val => val.StartsWith("http://localhost"));
+            rdoCompanyLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("ResourceWriter.CompanyStudio"), val => val.EndsWith("DebugResourceWriter"));
+            rdoCompanyLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("ResourceWriter.CompanyStudio"), val => val.EndsWith("DebugResourceWriter"));
 
-            rdoSyncLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("Host.MCSync"), val => val.StartsWith("http://localhost"));
-            rdoSyncLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("Host.MCSync"), val => val.StartsWith("http://localhost"));
+            rdoSyncLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("ResourceWriter.MCSync"), val => val.EndsWith("DebugResourceWriter"));
+            rdoSyncLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("ResourceWriter.MCSync"), val => val.EndsWith("DebugResourceWriter"));
 
-            rdoGovLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("Host.GovernmentPortal"), val => val.StartsWith("http://localhost"));
-            rdoGovLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("Host.GovernmentPortal"), val => val.StartsWith("http://localhost"));
+            rdoGovLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("ResourceWriter.GovernmentPortal"), val => val.EndsWith("DebugResourceWriter"));
+            rdoGovLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("ResourceWriter.GovernmentPortal"), val => val.EndsWith("DebugResourceWriter"));
 
             rdoAuthLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("AuthHost"), val => val.StartsWith("http://localhost"));
             rdoAuthLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("AuthHost"), val => val.StartsWith("http://localhost"));

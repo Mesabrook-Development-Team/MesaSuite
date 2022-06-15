@@ -127,7 +127,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                         {
                             fieldType = FieldSpecification.FieldTypes.Bit;
                         }
-                        else if (propType == typeof(int) || propType == typeof(int?))
+                        else if (propType == typeof(int) || propType == typeof(int?) || typeof(Enum).IsAssignableFrom(propType) || (Nullable.GetUnderlyingType(propType) != null && typeof(Enum).IsAssignableFrom(Nullable.GetUnderlyingType(propType))))
                         {
                             fieldType = FieldSpecification.FieldTypes.Int;
                         }
@@ -155,7 +155,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                         HashSet<string> retrievedPaths = (HashSet<string>)retrievedPathsField.GetValue(instance);
                         retrievedPaths.Add(propertyInfo.Name);
                         Dictionary<string, object> originalValues = (Dictionary<string, object>)originalValuesField.GetValue(instance);
-                        originalValues[field.FieldName] = valueToSet;
+                        originalValues[field.FieldName] = fieldInfo.GetValue(instance);
                     };
                     field.GetPrivateDataCallback = (instance) => fieldInfo.GetValue(instance);
                     field.SetValue = propertyInfo.SetValue;
@@ -228,7 +228,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                 }
             }
 
-            foreach(Relationship relationship in relationships)
+            foreach(Relationship relationship in relationships.Where(rel => rel.RelationshipAttribute.HasForeignKey))
             {
                 string fieldName = relationship.RelationshipAttribute.ForeignKeyField ?? relationship.RelationshipName + "ID";
                 Field backingField = PrivateGetField(fieldName);
@@ -263,12 +263,20 @@ namespace ClussPro.ObjectBasedFramework.Schema
             for (int i = 0; i < parts.Length - 1; i++)
             {
                 Relationship relationship = lastSchemaObject.PrivateGetRelationship(parts[i]);
-                if (relationship == null)
+                if (relationship != null)
                 {
-                    throw new KeyNotFoundException($"Could not find relationship {parts[i]} on Data Object {lastSchemaObject.SchemaName}.{lastSchemaObject.ObjectName}");
+                    lastSchemaObject = Schema.GetSchemaObject(relationship.RelatedObjectType);
+                    continue;
                 }
 
-                lastSchemaObject = Schema.GetSchemaObject(relationship.RelatedObjectType);
+                RelationshipList relationshipList = lastSchemaObject.PrivateGetRelationshipList(parts[i]);
+                if (relationshipList != null)
+                {
+                    lastSchemaObject = Schema.GetSchemaObject(relationshipList.RelatedObjectType);
+                    continue;
+                }
+
+                throw new KeyNotFoundException($"Could not find relationship {parts[i]} on Data Object {lastSchemaObject.SchemaName}.{lastSchemaObject.ObjectName}");
             }
 
             return lastSchemaObject;

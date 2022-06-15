@@ -125,6 +125,29 @@
       <DependentUpon>frmSelectGovernment.cs</DependentUpon>
     </Compile>
     <Compile Include="IExplorerControl.cs" />
+    <Compile Include="Invoicing\frmInvoiceConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoicing\frmInvoiceConfiguration.Designer.cs">
+      <DependentUpon>frmInvoiceConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Invoicing\PayableInvoiceContext.cs" />
+    <Compile Include="Invoicing\PayableInvoiceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Invoicing\PayableInvoiceControl.Designer.cs">
+      <DependentUpon>PayableInvoiceControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Invoicing\ReceivableInvoiceContext.cs" />
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\Invoice.cs" />
+    <Compile Include="Models\InvoiceLine.cs" />
+    <Compile Include="Invoicing\ReceivableInvoiceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Invoicing\ReceivableInvoiceControl.Designer.cs">
+      <DependentUpon>ReceivableInvoiceControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Loader.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -139,7 +162,9 @@
     <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\FiscalQuarter.cs" />
     <Compile Include="Models\Government.cs" />
+    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Official.cs" />
+    <Compile Include="Models\SalesTax.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Officials\OfficialExplorerContext.cs" />
@@ -152,6 +177,13 @@
     <Compile Include="PermissionsManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Taxes\SalesTaxContext.cs" />
+    <Compile Include="Taxes\SalesTaxControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Taxes\SalesTaxControl.Designer.cs">
+      <DependentUpon>SalesTaxControl.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Accounts\AccountExplorerControl.resx">
       <DependentUpon>AccountExplorerControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -183,6 +215,15 @@
     <EmbeddedResource Include="frmSelectGovernment.resx">
       <DependentUpon>frmSelectGovernment.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\frmInvoiceConfiguration.resx">
+      <DependentUpon>frmInvoiceConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\PayableInvoiceControl.resx">
+      <DependentUpon>PayableInvoiceControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\ReceivableInvoiceControl.resx">
+      <DependentUpon>ReceivableInvoiceControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>
     </EmbeddedResource>
@@ -199,6 +240,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Taxes\SalesTaxControl.resx">
+      <DependentUpon>SalesTaxControl.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -221,6 +265,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icn_govt.ico" />
+    <None Include="Resources\icn_dollar.png" />
+    <None Include="Resources\icn_dollar_out.png" />
+    <None Include="Resources\icn_bill.png" />
+    <None Include="Resources\icn_dollar_in.png" />
     <None Include="Resources\icn_view.png" />
     <None Include="Resources\icn_coins.png" />
     <None Include="Resources\icn_group.png" />

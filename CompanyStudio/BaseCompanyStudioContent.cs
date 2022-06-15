@@ -18,26 +18,54 @@ namespace CompanyStudio
         public Company Company
         {
             get { return _company; }
-            set { _company = value; OnCompanyChange?.Invoke(this, new EventArgs()); }
+            set
+            {
+                _company = value;
+                OnCompanyChange?.Invoke(this, new EventArgs());
+
+                if (Studio != null)
+                {
+                    Studio.OnCompanyRemoved -= Studio_OnCompanyRemoved;
+                    Studio.OnCompanyRemoved += Studio_OnCompanyRemoved;
+                    FormClosed -= BaseCompanyStudioContent_FormClosed;
+                    FormClosed += BaseCompanyStudioContent_FormClosed;
+                }
+            }
         }
 
         private ThemeBase _theme;
-        public ThemeBase Theme 
+        public ThemeBase Theme
         {
             protected get { return _theme; }
-            set 
+            set
             {
                 _theme = value;
-                studioFormExtender.ApplyStyle(this, value); 
+                studioFormExtender.ApplyStyle(this, value);
                 OnThemeChange?.Invoke(this, value);
-            } 
+            }
         }
 
         private frmStudio _frmStudio;
         public frmStudio Studio
         {
             get { return _frmStudio; }
-            set { _frmStudio = value; OnStudioChange?.Invoke(this, new EventArgs()); }
+            set
+            {
+                if (_frmStudio != null)
+                {
+                    _frmStudio.OnCompanyRemoved -= Studio_OnCompanyRemoved;
+                }
+
+                _frmStudio = value;
+                OnStudioChange?.Invoke(this, new EventArgs());
+                if (Company != null)
+                {
+                    _frmStudio.OnCompanyRemoved -= Studio_OnCompanyRemoved;
+                    _frmStudio.OnCompanyRemoved += Studio_OnCompanyRemoved;
+                    FormClosed -= BaseCompanyStudioContent_FormClosed;
+                    FormClosed += BaseCompanyStudioContent_FormClosed;
+                }
+            }
         }
 
         private bool _isDirty;
@@ -103,5 +131,31 @@ namespace CompanyStudio
         }
 
         protected virtual void HandlePersistObject(JObject value) { }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // BaseCompanyStudioContent
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Name = "BaseCompanyStudioContent";
+            this.ResumeLayout(false);
+
+        }
+
+        private void Studio_OnCompanyRemoved(object sender, Company e)
+        {
+            if (e.CompanyID == (Company?.CompanyID ?? 0))
+            {
+                Close();
+            }
+        }
+
+        private void BaseCompanyStudioContent_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            FormClosed -= BaseCompanyStudioContent_FormClosed;
+            Studio.OnCompanyRemoved -= Studio_OnCompanyRemoved;
+        }
     }
 }

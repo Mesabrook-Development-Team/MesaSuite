@@ -40,6 +40,14 @@ namespace GovernmentPortal
             this.tsmiAccountList = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAccountCategories = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbMintCurrency = new System.Windows.Forms.ToolStripButton();
+            this.tsmiTaxes = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsmiSalesTax = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiEmploymentTax = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuInvoices = new System.Windows.Forms.ToolStripDropDownButton();
+            this.mnuInvoiceReceivable = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuInvoicePayable = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuInvoicesInvoiceConfiguration = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,7 +58,9 @@ namespace GovernmentPortal
             this.tsbSwitchGovernment,
             this.toolEmail,
             this.toolAccounts,
-            this.tsbMintCurrency});
+            this.tsbMintCurrency,
+            this.tsmiTaxes,
+            this.mnuInvoices});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(659, 25);
@@ -93,7 +103,7 @@ namespace GovernmentPortal
             // 
             this.tsmiAliases.Image = global::GovernmentPortal.Properties.Resources.icn_alias;
             this.tsmiAliases.Name = "tsmiAliases";
-            this.tsmiAliases.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAliases.Size = new System.Drawing.Size(162, 22);
             this.tsmiAliases.Text = "Aliases";
             this.tsmiAliases.Click += new System.EventHandler(this.tsmiAliases_Click);
             // 
@@ -101,7 +111,7 @@ namespace GovernmentPortal
             // 
             this.tsmiDistributionLists.Image = global::GovernmentPortal.Properties.Resources.icn_list;
             this.tsmiDistributionLists.Name = "tsmiDistributionLists";
-            this.tsmiDistributionLists.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDistributionLists.Size = new System.Drawing.Size(162, 22);
             this.tsmiDistributionLists.Text = "Distribution Lists";
             this.tsmiDistributionLists.Click += new System.EventHandler(this.tsmiDistributionLists_Click);
             // 
@@ -121,7 +131,7 @@ namespace GovernmentPortal
             // 
             this.tsmiAccountList.Image = global::GovernmentPortal.Properties.Resources.icn_list;
             this.tsmiAccountList.Name = "tsmiAccountList";
-            this.tsmiAccountList.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAccountList.Size = new System.Drawing.Size(130, 22);
             this.tsmiAccountList.Text = "List";
             this.tsmiAccountList.Click += new System.EventHandler(this.tsmiAccountList_Click);
             // 
@@ -129,7 +139,7 @@ namespace GovernmentPortal
             // 
             this.tsmiAccountCategories.Image = global::GovernmentPortal.Properties.Resources.icn_view;
             this.tsmiAccountCategories.Name = "tsmiAccountCategories";
-            this.tsmiAccountCategories.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAccountCategories.Size = new System.Drawing.Size(130, 22);
             this.tsmiAccountCategories.Text = "Categories";
             this.tsmiAccountCategories.Click += new System.EventHandler(this.tsmiAccountCategories_Click);
             // 
@@ -142,6 +152,77 @@ namespace GovernmentPortal
             this.tsbMintCurrency.Text = "Mint Currency";
             this.tsbMintCurrency.Visible = false;
             this.tsbMintCurrency.Click += new System.EventHandler(this.tsbMintCurrency_Click);
+            // 
+            // tsmiTaxes
+            // 
+            this.tsmiTaxes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiSalesTax,
+            this.tsmiEmploymentTax});
+            this.tsmiTaxes.Image = global::GovernmentPortal.Properties.Resources.icn_dollar_in;
+            this.tsmiTaxes.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsmiTaxes.Name = "tsmiTaxes";
+            this.tsmiTaxes.Size = new System.Drawing.Size(64, 22);
+            this.tsmiTaxes.Text = "Taxes";
+            this.tsmiTaxes.Visible = false;
+            // 
+            // tsmiSalesTax
+            // 
+            this.tsmiSalesTax.Image = global::GovernmentPortal.Properties.Resources.icn_dollar;
+            this.tsmiSalesTax.Name = "tsmiSalesTax";
+            this.tsmiSalesTax.Size = new System.Drawing.Size(180, 22);
+            this.tsmiSalesTax.Text = "Sales Tax";
+            this.tsmiSalesTax.Click += new System.EventHandler(this.tsmiSalesTax_Click);
+            // 
+            // tsmiEmploymentTax
+            // 
+            this.tsmiEmploymentTax.Image = global::GovernmentPortal.Properties.Resources.icn_group;
+            this.tsmiEmploymentTax.Name = "tsmiEmploymentTax";
+            this.tsmiEmploymentTax.Size = new System.Drawing.Size(180, 22);
+            this.tsmiEmploymentTax.Text = "Employment Tax";
+            this.tsmiEmploymentTax.Visible = false;
+            // 
+            // mnuInvoices
+            // 
+            this.mnuInvoices.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuInvoiceReceivable,
+            this.mnuInvoicePayable,
+            this.toolStripMenuItem1,
+            this.mnuInvoicesInvoiceConfiguration});
+            this.mnuInvoices.Image = global::GovernmentPortal.Properties.Resources.icn_bill;
+            this.mnuInvoices.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuInvoices.Name = "mnuInvoices";
+            this.mnuInvoices.Size = new System.Drawing.Size(79, 22);
+            this.mnuInvoices.Text = "Invoices";
+            this.mnuInvoices.Visible = false;
+            // 
+            // mnuInvoiceReceivable
+            // 
+            this.mnuInvoiceReceivable.Image = global::GovernmentPortal.Properties.Resources.icn_dollar_in;
+            this.mnuInvoiceReceivable.Name = "mnuInvoiceReceivable";
+            this.mnuInvoiceReceivable.Size = new System.Drawing.Size(189, 22);
+            this.mnuInvoiceReceivable.Text = "Receivable";
+            this.mnuInvoiceReceivable.Click += new System.EventHandler(this.mnuInvoiceReceivable_Click);
+            // 
+            // mnuInvoicePayable
+            // 
+            this.mnuInvoicePayable.Image = global::GovernmentPortal.Properties.Resources.icn_dollar_out;
+            this.mnuInvoicePayable.Name = "mnuInvoicePayable";
+            this.mnuInvoicePayable.Size = new System.Drawing.Size(189, 22);
+            this.mnuInvoicePayable.Text = "Payable";
+            this.mnuInvoicePayable.Click += new System.EventHandler(this.mnuInvoicePayable_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(186, 6);
+            // 
+            // mnuInvoicesInvoiceConfiguration
+            // 
+            this.mnuInvoicesInvoiceConfiguration.Image = global::GovernmentPortal.Properties.Resources.icn_view;
+            this.mnuInvoicesInvoiceConfiguration.Name = "mnuInvoicesInvoiceConfiguration";
+            this.mnuInvoicesInvoiceConfiguration.Size = new System.Drawing.Size(189, 22);
+            this.mnuInvoicesInvoiceConfiguration.Text = "Invoice Configuration";
+            this.mnuInvoicesInvoiceConfiguration.Click += new System.EventHandler(this.mnuInvoicesInvoiceConfiguration_Click);
             // 
             // frmPortal
             // 
@@ -177,6 +258,14 @@ namespace GovernmentPortal
         private System.Windows.Forms.ToolStripMenuItem tsmiAccountList;
         private System.Windows.Forms.ToolStripMenuItem tsmiAccountCategories;
         private System.Windows.Forms.ToolStripButton tsbMintCurrency;
+        private System.Windows.Forms.ToolStripDropDownButton tsmiTaxes;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSalesTax;
+        private System.Windows.Forms.ToolStripMenuItem tsmiEmploymentTax;
+        private System.Windows.Forms.ToolStripDropDownButton mnuInvoices;
+        private System.Windows.Forms.ToolStripMenuItem mnuInvoiceReceivable;
+        private System.Windows.Forms.ToolStripMenuItem mnuInvoicePayable;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem mnuInvoicesInvoiceConfiguration;
     }
 }
 

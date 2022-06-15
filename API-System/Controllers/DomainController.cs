@@ -13,7 +13,7 @@ namespace API_System.Controllers
     public class DomainController : DataObjectController<Domain>
     {
         public override bool AllowGetAll => true;
-        public override IEnumerable<string> AllowedFields => new List<string>()
+        public override IEnumerable<string> DefaultRetrievedFields => new List<string>()
         {
             nameof(Domain.DomainID),
             nameof(Domain.DomainName)

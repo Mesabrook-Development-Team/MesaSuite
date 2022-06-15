@@ -1,9 +1,17 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using System;
 using System.Collections.Generic;
 using WebModels.account;
+using WebModels.company;
 using WebModels.hMailServer.dbo;
+using WebModels.invoicing;
 
 namespace WebModels.gov
 {
@@ -45,6 +53,80 @@ namespace WebModels.gov
             set { CheckSet(); _canMintCurrency = value; }
         }
 
+        private string _invoiceNumberPrefix;
+        [Field("0F5A0F5F-A6D1-46E8-95ED-634E9A6931CE", DataSize = 3)]
+        public string InvoiceNumberPrefix
+        {
+            get { CheckGet(); return _invoiceNumberPrefix; }
+            set { CheckSet(); _invoiceNumberPrefix = value; }
+        }
+
+        private string _nextInvoiceNumber;
+        [Field("32424A24-C76A-4E3C-8050-B1257E1E6045", DataSize = 8)]
+        public string NextInvoiceNumber
+        {
+            get { CheckGet(); return _nextInvoiceNumber; }
+            set { CheckSet(); _nextInvoiceNumber = value; }
+        }
+
+        private SalesTax _effectiveSalesTax = null;
+        [Relationship("A639E317-BBD6-40B2-87B3-F42E2FBB7123", HasForeignKey = false)]
+        public SalesTax EffectiveSalesTax
+        {
+            get { CheckGet(); return _effectiveSalesTax; }
+        }
+
+        public override ICondition GetRelationshipCondition(Relationship relationship, string myAlias, string otherAlias)
+        {
+            if (relationship.RelationshipName == nameof(EffectiveSalesTax))
+            {
+                return EffectiveSalesTaxRelationship(myAlias, otherAlias);
+            }
+            return base.GetRelationshipCondition(relationship, myAlias, otherAlias);
+        }
+
+        private ICondition EffectiveSalesTaxRelationship(string myAlias, string otherAlias)
+        {
+            ISelectQuery selectQuery = SQLProviderFactory.GetSelectQuery();
+            selectQuery.SelectList = new List<Select>() { new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)"effective_sales_tax_subquery.SalesTaxID" } };
+            selectQuery.Table = new Table("gov", "SalesTax", "effective_sales_tax_subquery");
+            selectQuery.WhereCondition = new ConditionGroup()
+            {
+                ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                Conditions = new List<ICondition>()
+                {
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"effective_sales_tax_subquery.GovernmentID",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.GovernmentID"
+                    },
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"effective_sales_tax_subquery.EffectiveDate",
+                        ConditionType = Condition.ConditionTypes.LessEqual,
+                        Right = new Literal(DateTime.Today)
+                    }
+                }
+            };
+            selectQuery.OrderByList = new List<Order>()
+            {
+                new Order()
+                {
+                    Field = "effective_sales_tax_subquery.EffectiveDate",
+                    OrderDirection = Order.OrderDirections.Descending
+                }
+            };
+            selectQuery.PageSize = 1;
+
+            return new Condition()
+            {
+                Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.SalesTaxID",
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = new SubQuery(selectQuery)
+            };
+        }
+
         #region Relationships
         #region account
         private List<Account> _accounts = new List<Account>();
@@ -60,12 +142,42 @@ namespace WebModels.gov
             get { CheckGet(); return _categories; }
         }
         #endregion
+        #region company
+        private List<LocationGovernment> _locationGovernments = new List<LocationGovernment>();
+        [RelationshipList("A49440B9-B080-4AF5-A76E-6E9290F019D3", "GovernmentID")]
+        public IReadOnlyCollection<LocationGovernment> LocationGovernments
+        {
+            get { CheckGet(); return _locationGovernments; }
+        }
+        #endregion
         #region gov
         private List<Official> _officials = new List<Official>();
         [RelationshipList("5BB7CEE6-A449-4DA2-9C00-C5BD6957E460", "GovernmentID", AutoDeleteReferences = true)]
         public IReadOnlyCollection<Official> Officials
         {
             get { CheckGet(); return _officials; }
+        }
+
+        private List<SalesTax> _salesTaxes = new List<SalesTax>();
+        [RelationshipList("100D8EB8-BA7C-414A-9B6D-35E501A6D3E9", "GovernmentID", AutoDeleteReferences = true)]
+        public IReadOnlyCollection<SalesTax> SalesTaxes
+        {
+            get { CheckGet(); return _salesTaxes; }
+        }
+        #endregion
+        #region invoicing
+        private List<Invoice> _invoicesFrom = new List<Invoice>();
+        [RelationshipList("951A3ECC-A13B-4369-A164-B5FA43609BED", "GovernmentIDFrom")]
+        public IReadOnlyCollection<Invoice> InvoicesFrom
+        {
+            get { CheckGet(); return _invoicesFrom;}
+        }
+
+        private List<Invoice> _invoicesTo = new List<Invoice>();
+        [RelationshipList("26113316-061E-44F7-9021-2B9F1C4B68B4", "GovernmentIDTo")]
+        public IReadOnlyCollection<Invoice> InvoicesTo
+        {
+            get { CheckGet(); return _invoicesTo; }
         }
         #endregion
         #endregion

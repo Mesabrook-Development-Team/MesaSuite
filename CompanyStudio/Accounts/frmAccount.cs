@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using CompanyStudio.Extensions;
 using CompanyStudio.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Utility;
@@ -18,7 +20,6 @@ namespace CompanyStudio.Accounts
         public frmAccount()
         {
             InitializeComponent();
-            PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
         }
 
         public async void Save()
@@ -44,6 +45,8 @@ namespace CompanyStudio.Accounts
 
                 if (patch.RequestSuccessful)
                 {
+                    await SaveAccess();
+
                     IsDirty = false;
                     OnSave?.Invoke(this, new EventArgs());
                     Account.Description = txtDescription.Text;
@@ -64,10 +67,13 @@ namespace CompanyStudio.Accounts
 
                 PostData post = new PostData(DataAccess.APIs.CompanyStudio, "Account/Post", account);
                 post.Headers.Add("CompanyID", Company.CompanyID.ToString());
+                post.RequestFields.AddRange(frmAccountExplorer.REQUEST_FIELDS);
                 Account = await post.Execute<Account>();
 
                 if (post.RequestSuccessful)
                 {
+                    await SaveAccess();
+
                     IsDirty = false;
                     OnSave?.Invoke(this, new EventArgs());
                     PopulateForm();
@@ -79,9 +85,25 @@ namespace CompanyStudio.Accounts
             }
         }
 
-        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
+        private async Task SaveAccess()
         {
-            if (e.CompanyID == Company.CompanyID && e.Permission == PermissionsManager.Permissions.ManageAccounts && !e.Value)
+            if (Account != null)
+            {
+                foreach (DataGridViewRow row in dgvAccess.Rows)
+                {
+                    long userID = (long)row.Cells["colEmployee"].Tag;
+                    bool access = row.Cells["colAccess"].Value == null ? false : (bool)row.Cells["colAccess"].Value;
+
+                    PutData put = new PutData(DataAccess.APIs.CompanyStudio, $"Account/PutUserIDAccountAccess/{Account.AccountID}", new { userid = userID, hasAccess = access });
+                    put.AddCompanyHeader(Company.CompanyID);
+                    await put.ExecuteNoResult();
+                }
+            }
+        }
+
+        private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
+        {
+            if (e.CompanyID == Company.CompanyID && e.Permission == PermissionsManager.CompanyWidePermissions.ManageAccounts && !e.Value)
             {
                 IsDirty = false;
                 Close();
@@ -90,6 +112,7 @@ namespace CompanyStudio.Accounts
 
         private void frmAccount_Load(object sender, EventArgs e)
         {
+            PermissionsManager.OnCompanyPermissionChange += PermissionsManager_OnPermissionChange;
             PopulateForm();
         }
 
@@ -103,6 +126,7 @@ namespace CompanyStudio.Accounts
                 GetData getAccount = new GetData(DataAccess.APIs.CompanyStudio, $"Account/Get");
                 getAccount.Headers.Add("CompanyID", Company.CompanyID.ToString());
                 getAccount.QueryString.Add("id", Account.AccountID.ToString());
+                getAccount.RequestFields.AddRange(frmAccountExplorer.REQUEST_FIELDS);
                 Account = await getAccount.GetObject<Account>();
             }
 
@@ -138,6 +162,8 @@ namespace CompanyStudio.Accounts
                 Text = "New Account - " + Company.Name;
             }
 
+            LoadAccess();
+
             txtDescription.Focus();
 
             IsDirty = false;
@@ -159,7 +185,7 @@ namespace CompanyStudio.Accounts
 
         private void frmAccount_FormClosed(object sender, FormClosedEventArgs e)
         {
-            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnPermissionChange;
         }
 
         private void cmdClose_Click(object sender, EventArgs e)
@@ -281,6 +307,32 @@ namespace CompanyStudio.Accounts
             }
 
             loaderFQ.Visible = false;
+        }
+
+        public async void LoadAccess()
+        {
+            dgvAccess.Rows.Clear();
+
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Employee/GetAllForCompany");
+            get.AddCompanyHeader(Company.CompanyID);
+            List<Employee> employees = await get.GetObject<List<Employee>>() ?? new List<Employee>();
+
+            long?[] userIDsSelected = new long?[0];
+            if (Account != null)
+            {
+                get.Resource = $"Account/GetUserIDAccessForAccount/{Account.AccountID}";
+                userIDsSelected = await get.GetObject<long?[]>() ?? new long?[0];
+            }
+
+            foreach (Employee employee in employees)
+            {
+                int rowIndex = dgvAccess.Rows.Add();
+                DataGridViewRow row = dgvAccess.Rows[rowIndex];
+
+                row.Cells["colEmployee"].Value = employee.EmployeeName;
+                row.Cells["colEmployee"].Tag = employee.UserID;
+                row.Cells["colAccess"].Value = userIDsSelected.Contains(employee.UserID);
+            }
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)

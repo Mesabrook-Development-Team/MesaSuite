@@ -58,8 +58,8 @@ namespace GovernmentPortal
                     foreach (Government government in companies)
                     {
                         getData = new GetData(DataAccess.APIs.GovernmentPortal, "Official/GetForGovernment");
-                        getData.Headers.Add("GovernmentID", government.GovernmentID.ToString());
-                        getData.QueryString.Add("id", government.GovernmentID.ToString());
+                        getData.Headers.Add("GovernmentID", government.GovernmentID.Value.ToString());
+                        getData.QueryString.Add("id", government.GovernmentID.Value.ToString());
 
                         Official official = getData.GetObject<Official>().Result;
                         if (official == null)
@@ -71,23 +71,23 @@ namespace GovernmentPortal
                         {
                             PropertyInfo propertyInfo = permissionPropertiesByName[item.ToString()];
 
-                            bool isNew = !PermissionsByGovernment.ContainsKey(government.GovernmentID) || !PermissionsByGovernment[government.GovernmentID].ContainsKey((Permissions)item);
+                            bool isNew = !PermissionsByGovernment.ContainsKey(government.GovernmentID.Value) || !PermissionsByGovernment[government.GovernmentID.Value].ContainsKey((Permissions)item);
                             bool previousValue = false;
                             if (!isNew)
                             {
-                                previousValue = PermissionsByGovernment[government.GovernmentID][(Permissions)item];
+                                previousValue = PermissionsByGovernment[government.GovernmentID.Value][(Permissions)item];
                             }
 
-                            if (!PermissionsByGovernment.ContainsKey(government.GovernmentID))
+                            if (!PermissionsByGovernment.ContainsKey(government.GovernmentID.Value))
                             {
-                                PermissionsByGovernment[government.GovernmentID] = new Dictionary<Permissions, bool>();
+                                PermissionsByGovernment[government.GovernmentID.Value] = new Dictionary<Permissions, bool>();
                             }
 
-                            PermissionsByGovernment[government.GovernmentID][(Permissions)item] = (bool)propertyInfo.GetValue(official);
+                            PermissionsByGovernment[government.GovernmentID.Value][(Permissions)item] = (bool)propertyInfo.GetValue(official);
 
-                            if (!isNew && previousValue != PermissionsByGovernment[government.GovernmentID][(Permissions)item])
+                            if (!isNew && previousValue != PermissionsByGovernment[government.GovernmentID.Value][(Permissions)item])
                             {
-                                callback(() => OnPermissionChange?.Invoke(null, new PermissionChangeEventArgs(government.GovernmentID, (Permissions)item, PermissionsByGovernment[government.GovernmentID][(Permissions)item])));
+                                callback(() => OnPermissionChange?.Invoke(null, new PermissionChangeEventArgs(government.GovernmentID.Value, (Permissions)item, PermissionsByGovernment[government.GovernmentID.Value][(Permissions)item])));
                             }
                         }
                     }
@@ -120,7 +120,9 @@ namespace GovernmentPortal
             ManageEmails,
             ManageOfficials,
             ManageAccounts,
-            CanMintCurrency
+            ManageTaxes,
+            CanMintCurrency,
+            ManageInvoices
         }
 
         public class PermissionChangeEventArgs : EventArgs

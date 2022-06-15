@@ -25,7 +25,7 @@ namespace MesaSuite
             versions = versions.Where(v => v.Valid <= DateTime.Now).ToList();
 
             Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            int currentVersionValue = (currentVersion.Major * 8) + (currentVersion.Minor * 4) + (currentVersion.Build * 2) + currentVersion.Revision;
+            int currentVersionValue = int.Parse(currentVersion.Major.ToString() + currentVersion.Minor.ToString() + currentVersion.Build.ToString() + currentVersion.Revision.ToString());
 
             // Identify which versions we're behind on
             versions = versions.Where(v => v.VersionValue > currentVersionValue).ToList();
@@ -96,7 +96,7 @@ namespace MesaSuite
             {
                 get
                 {
-                    return (Major * 8) + (Minor * 4) + (Revision * 2) + Build;
+                    return int.Parse(VersionString.Replace(".", ""));
                 }
             }
         }

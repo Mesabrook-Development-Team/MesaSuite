@@ -179,6 +179,13 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _invoicesTo; }
         }
+
+        private List<WireTransferHistory> _wireTransferHistories = new List<WireTransferHistory>();
+        [RelationshipList("79AE85AC-F5CF-4BB4-98AC-72F38EEACD1E", nameof(WireTransferHistory.GovernmentIDFrom))]
+        public IReadOnlyCollection<WireTransferHistory> WireTransferHistories
+        {
+            get { CheckGet(); return _wireTransferHistories; }
+        }
         #endregion
         #endregion
     }

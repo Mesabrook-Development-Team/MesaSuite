@@ -228,6 +228,7 @@
     <Compile Include="Models\SalesTax.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\WireTransferHistory.cs" />
     <Compile Include="PermissionsManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -241,6 +242,18 @@
     </Compile>
     <Compile Include="StudioFormExtender.Designer.cs">
       <DependentUpon>StudioFormExtender.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WireTransfers\frmSendWireTransfer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WireTransfers\frmSendWireTransfer.Designer.cs">
+      <DependentUpon>frmSendWireTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WireTransfers\frmWireTransferHistoryExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WireTransfers\frmWireTransferHistoryExplorer.Designer.cs">
+      <DependentUpon>frmWireTransferHistoryExplorer.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Accounts\frmAccount.resx">
       <DependentUpon>frmAccount.cs</DependentUpon>
@@ -323,6 +336,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WireTransfers\frmSendWireTransfer.resx">
+      <DependentUpon>frmSendWireTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WireTransfers\frmWireTransferHistoryExplorer.resx">
+      <DependentUpon>frmWireTransferHistoryExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

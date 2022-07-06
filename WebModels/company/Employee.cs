@@ -88,6 +88,14 @@ namespace WebModels.company
             set { CheckSet(); _manageLocations = value; }
         }
 
+        private bool _issueWireTransfers;
+        [Field("52C0DA10-6D3C-4540-BC45-F95E80C07E97")]
+        public bool IssueWireTransfers
+        {
+            get { CheckGet(); return _issueWireTransfers; }
+            set { CheckSet(); _issueWireTransfers = value; }
+        }
+
         private string _employeeName;
         [Field("E792C619-76D5-4A69-8264-BF7D067C25DF", HasOperation = true)]
         public string EmployeeName
@@ -122,8 +130,8 @@ namespace WebModels.company
             yield return nameof(ManageEmployees);
             yield return nameof(ManageAccounts);
             yield return nameof(ManageLocations);
+            yield return nameof(IssueWireTransfers);
             yield return $"{nameof(LocationEmployees)}.{nameof(LocationEmployee.ManageInvoices)}";
-            yield return $"{nameof(LocationEmployees)}.{nameof(LocationEmployee.IssueWireTransfers)}";
         }
 
         #region Relationships

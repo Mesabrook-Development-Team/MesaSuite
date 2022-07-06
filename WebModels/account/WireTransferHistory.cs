@@ -38,27 +38,57 @@ namespace WebModels.account
             get { CheckGet(); return _governmentFrom; }
         }
 
-        private long? _locationIDFrom;
+        private long? _companyIDFrom;
         [Field("5EC9731C-1B74-4B74-B59C-EEE181C88AA5")]
-        public long? LocationIDFrom
+        public long? CompanyIDFrom
         {
-            get { CheckGet(); return _locationIDFrom; }
-            set { CheckSet(); _locationIDFrom = value; }
+            get { CheckGet(); return _companyIDFrom; }
+            set { CheckSet(); _companyIDFrom = value; }
         }
 
-        private Location _locationFrom = null;
-        [Relationship("1F20202A-2CEA-40A2-BDF9-1C4E7DBA7094", ForeignKeyField = nameof(LocationIDFrom))]
-        public Location LocationFrom
+        private Company _companyFrom = null;
+        [Relationship("1F20202A-2CEA-40A2-BDF9-1C4E7DBA7094", ForeignKeyField = nameof(CompanyIDFrom))]
+        public Company CompanyFrom
         {
-            get { CheckGet(); return _locationFrom; }
+            get { CheckGet(); return _companyFrom; }
         }
 
-        private string _to;
-        [Field("32DF54FB-BCF4-4564-81EB-92FE4C9E616B", DataSize = 103)]
-        public string To
+        private long? _governmentIDTo;
+        [Field("020E3090-720A-42CF-8FA4-D1AE41CD3567")]
+        public long? GovernmentIDTo
         {
-            get { CheckGet(); return _to; }
-            set { CheckSet(); _to = value; }
+            get { CheckGet(); return _governmentIDTo; }
+            set { CheckSet(); _governmentIDTo = value; }
+        }
+
+        private Government _governmentTo = null;
+        [Relationship("7531E5D4-665A-487B-A575-A6F24246EF03", ForeignKeyField = nameof(GovernmentIDTo))]
+        public Government GovernmentTo
+        {
+            get { CheckGet(); return _governmentTo; }
+        }
+
+        private long? _companyIDTo;
+        [Field("9CA6B2FF-B016-4312-8661-5AE01C307472")]
+        public long? CompanyIDTo
+        {
+            get { CheckGet(); return _companyIDTo; }
+            set { CheckSet(); _companyIDTo = value; }
+        }
+
+        private Company _companyTo = null;
+        [Relationship("956D9527-7705-4BA6-971D-B21F30DE254F", ForeignKeyField = nameof(CompanyIDTo))]
+        public Company CompanyTo
+        {
+            get { CheckGet(); return _companyTo; }
+        }
+
+        private DateTime? _transferTime;
+        [Field("A25E1562-E7F2-4BED-978B-05864196EE29", DataSize = 7)]
+        public DateTime? TransferTime
+        {
+            get { CheckGet(); return _transferTime; }
+            set { CheckSet(); _transferTime = value; }
         }
 
         private string _accountFromHistorical;
@@ -67,6 +97,22 @@ namespace WebModels.account
         {
             get { CheckGet(); return _accountFromHistorical; }
             set { CheckSet(); _accountFromHistorical = value; }
+        }
+
+        private string _accountFromMasked;
+        [Field("0ADBF493-A2BA-4A8F-84B0-4DBB352B48F9", DataSize = 16)]
+        public string AccountFromMasked
+        {
+            get { CheckGet(); return _accountFromMasked; }
+            set { CheckSet(); _accountFromMasked = value; }
+        }
+
+        private string _accountToHistorical;
+        [Field("4774C26D-F98A-4415-BA31-E92F4FE58919", DataSize = 69)]
+        public string AccountToHistorical
+        {
+            get { CheckGet(); return _accountToHistorical; }
+            set { CheckSet(); _accountToHistorical = value; }
         }
 
         private string _accountToMasked;
@@ -83,6 +129,14 @@ namespace WebModels.account
         {
             get { CheckGet(); return _amount; }
             set { CheckSet(); _amount = value; }
+        }
+
+        private string _memo;
+        [Field("E0A71C7F-EF1D-47AB-9B94-1208DADEBE84", DataSize = 100)]
+        public string Memo
+        {
+            get { CheckGet(); return _memo; }
+            set { CheckSet(); _memo = value; }
         }
     }
 }

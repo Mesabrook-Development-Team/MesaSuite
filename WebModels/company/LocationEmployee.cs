@@ -57,13 +57,5 @@ namespace WebModels.company
             get { CheckGet(); return _manageInvoices; }
             set { CheckSet(); _manageInvoices = value; }
         }
-
-        private bool _issueWireTransfers;
-        [Field("52C0DA10-6D3C-4540-BC45-F95E80C07E97")]
-        public bool IssueWireTransfers
-        {
-            get { CheckGet(); return _issueWireTransfers; }
-            set { CheckSet(); _issueWireTransfers = value; }
-        }
     }
 }

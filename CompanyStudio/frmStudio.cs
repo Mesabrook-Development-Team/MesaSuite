@@ -38,9 +38,13 @@ namespace CompanyStudio
             {
                 _activeCompany = value;
                 toolCompanyDropDown.Text = _activeCompany?.Name ?? "";
+
+                financeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts) ||
+                                                   PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices) ||
+                                                   PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
+
                 emailToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageEmails);
                 employeesToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageEmployees);
-                accountsToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts);
                 mnuLocationExplorer.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageLocations);
 
                 toolLocationDropDown.SelectedItem = null;
@@ -66,7 +70,13 @@ namespace CompanyStudio
             {
                 _activeLocation = value;
                 toolLocationDropDown.SelectedItem = toolLocationDropDown.Items.Cast<DropDownItem<Location>>().FirstOrDefault(ddi => ddi.Object == _activeLocation);
+
+                financeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts) ||
+                                                   PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices) ||
+                                                   PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
+
                 invoicingToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices);
+                mnuWireTransfers.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
             }
         }
 
@@ -119,13 +129,17 @@ namespace CompanyStudio
                     case PermissionsManager.CompanyWidePermissions.ManageEmployees:
                         employeesToolStripMenuItem.Visible = e.Value;
                         break;
-                    case PermissionsManager.CompanyWidePermissions.ManageAccounts:
-                        accountsToolStripMenuItem.Visible = e.Value;
-                        break;
                     case PermissionsManager.CompanyWidePermissions.ManageLocations:
                         mnuLocationExplorer.Visible = e.Value;
                         break;
+                    case PermissionsManager.CompanyWidePermissions.ManageAccounts:
+                        accountsToolStripMenuItem.Visible = e.Value;
+                        break;
                 }
+
+                financeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts) ||
+                                                   PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices) ||
+                                                   PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
             }
         }
 
@@ -133,12 +147,16 @@ namespace CompanyStudio
         {
             if (e.LocationID == (ActiveLocation?.LocationID ?? 0))
             {
-                switch (e.Permission)
+                switch(e.Permission)
                 {
                     case PermissionsManager.LocationWidePermissions.ManageInvoices:
                         invoicingToolStripMenuItem.Visible = e.Value;
                         break;
                 }
+
+                financeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts) ||
+                                                   PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices) ||
+                                                   PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
             }
         }
 
@@ -535,7 +553,7 @@ namespace CompanyStudio
 
         private void mnuInvoicePayables_Click(object sender, EventArgs e)
         {
-            Invoicing.frmPayableExplorer explorer = dockPanel.Contents.OfType<Invoicing.frmPayableExplorer>().FirstOrDefault(pe => pe.Company.CompanyID == ActiveCompany?.CompanyID);
+            Invoicing.frmPayableExplorer explorer = dockPanel.Contents.OfType<Invoicing.frmPayableExplorer>().FirstOrDefault(pe => pe.LocationModel.LocationID == ActiveLocation?.LocationID);
             if (explorer != null)
             {
                 explorer.Activate();
@@ -545,6 +563,27 @@ namespace CompanyStudio
             explorer = new Invoicing.frmPayableExplorer();
             DecorateStudioContent(explorer);
             explorer.Show(dockPanel, DockState.DockRight);
+        }
+
+        private void financeToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            accountsToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts);
+            invoicingToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices);
+            mnuWireTransfers.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
+        }
+
+        private void mnuWireTransfers_Click(object sender, EventArgs e)
+        {
+            WireTransfers.frmWireTransferHistoryExplorer explorer = dockPanel.Contents.OfType<WireTransfers.frmWireTransferHistoryExplorer>().FirstOrDefault(pe => pe.Company.CompanyID == ActiveCompany?.CompanyID);
+            if (explorer != null)
+            {
+                explorer.Activate();
+                return;
+            }
+
+            explorer = new WireTransfers.frmWireTransferHistoryExplorer();
+            DecorateStudioContent(explorer);
+            explorer.Show(dockPanel, DockState.Document);
         }
     }
 }

@@ -62,14 +62,6 @@ namespace WebModels.company
         }
 
         #region Relationships
-        #region account
-        private List<account.WireTransferHistory> _wireTransferHistories = new List<account.WireTransferHistory>();
-        [RelationshipList("72AF3D64-C652-48AE-B43C-369ABDB83F2B", nameof(account.WireTransferHistory.LocationIDFrom))]
-        public IReadOnlyCollection<account.WireTransferHistory> WireTransferHistories
-        {
-            get { CheckGet();  return _wireTransferHistories; }
-        }
-        #endregion
         #region company
         private List<LocationEmployee> _locationEmployees = new List<LocationEmployee>();
         [RelationshipList("04569132-78B1-42E6-BD47-5729B5B392ED", "LocationID")]

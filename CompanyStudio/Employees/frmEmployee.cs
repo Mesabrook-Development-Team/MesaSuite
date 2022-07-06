@@ -60,6 +60,7 @@ namespace CompanyStudio.Employees
                 chkManageEmployees.Checked = Employee.ManageEmployees;
                 chkManageAccounts.Checked = Employee.ManageAccounts;
                 chkManageLocations.Checked = Employee.ManageLocations;
+                chkIssueWireTransfers.Checked = Employee.IssueWireTransfers;
 
                 IsDirty = false;
             }
@@ -114,6 +115,7 @@ namespace CompanyStudio.Employees
             Employee.ManageEmployees = chkManageEmployees.Checked;
             Employee.ManageAccounts = chkManageAccounts.Checked;
             Employee.ManageLocations = chkManageLocations.Checked;
+            Employee.IssueWireTransfers = chkIssueWireTransfers.Checked;
 
             if (Employee.EmployeeID == default)
             {

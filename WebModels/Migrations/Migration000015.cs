@@ -20,22 +20,35 @@ namespace WebModels.Migrations
             {
                 { "WireTransferHistoryID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "GovernmentIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "LocationIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "To", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 103) },
+                { "CompanyIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "TransferTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
                 { "AccountFromHistorical", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 69 ) },
+                { "AccountFromMasked", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 16) },
+                { "AccountToHistorical", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 69 ) },
                 { "AccountToMasked", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 16) },
-                { "Amount", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) }
+                { "Amount", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
+                { "Memo", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 100) }
             };
             createTable.Execute(transaction);
 
             IAlterTable addPermission = SQLProviderFactory.GetAlterTableQuery();
             addPermission.Schema = "company";
-            addPermission.Table = "LocationEmployee";
+            addPermission.Table = "Employee";
             addPermission.AddColumn("IssueWireTransfers", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
 
             addPermission.Schema = "gov";
             addPermission.Table = "Official";
             addPermission.AddColumn("IssueWireTransfers", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
+
+            IAlterTable addForeignKey = SQLProviderFactory.GetAlterTableQuery();
+            addForeignKey.Schema = "account";
+            addForeignKey.Table = "WireTransferHistory";
+            addForeignKey.AddForeignKey("FKWireTransferHistory_Company_CompanyIDFrom", "CompanyIDFrom", "company", "Company", "CompanyID", transaction);
+            addForeignKey.AddForeignKey("FKWireTransferHistory_Company_CompanyIDTo", "CompanyIDTo", "company", "Company", "CompanyID", transaction);
+            addForeignKey.AddForeignKey("FKWireTransferHistory_Gov_GovernmentIDFrom", "GovernmentIDFrom", "gov", "Government", "GovernmentID", transaction);
+            addForeignKey.AddForeignKey("FKWireTransferHistory_Gov_GovernmentIDTo", "GovernmentIDTo", "gov", "Government", "GovernmentID", transaction);
         }
     }
 }

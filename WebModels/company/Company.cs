@@ -113,6 +113,13 @@ namespace WebModels.company
         {
             get { CheckGet(); return _categories; }
         }
+
+        private List<account.WireTransferHistory> _wireTransferHistories = new List<account.WireTransferHistory>();
+        [RelationshipList("72AF3D64-C652-48AE-B43C-369ABDB83F2B", nameof(account.WireTransferHistory.CompanyIDFrom))]
+        public IReadOnlyCollection<account.WireTransferHistory> WireTransferHistories
+        {
+            get { CheckGet(); return _wireTransferHistories; }
+        }
         #endregion
         #region company
         private List<Employee> _employees = new List<Employee>();

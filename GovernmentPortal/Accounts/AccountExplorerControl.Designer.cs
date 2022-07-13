@@ -110,6 +110,8 @@
             // 
             // cboCategory
             // 
+            this.cboCategory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCategory.FormattingEnabled = true;
             this.cboCategory.Location = new System.Drawing.Point(102, 58);
@@ -119,6 +121,8 @@
             // 
             // txtBalance
             // 
+            this.txtBalance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBalance.Location = new System.Drawing.Point(102, 84);
             this.txtBalance.Name = "txtBalance";
             this.txtBalance.ReadOnly = true;
@@ -145,6 +149,8 @@
             // 
             // txtDescription
             // 
+            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDescription.Location = new System.Drawing.Point(102, 32);
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(475, 20);
@@ -161,6 +167,8 @@
             // 
             // txtAccountNumber
             // 
+            this.txtAccountNumber.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAccountNumber.Location = new System.Drawing.Point(102, 6);
             this.txtAccountNumber.Name = "txtAccountNumber";
             this.txtAccountNumber.ReadOnly = true;

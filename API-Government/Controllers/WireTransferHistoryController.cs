@@ -8,7 +8,7 @@ using System.Web.Http.Results;
 using API.Common;
 using API.Common.Attributes;
 using API.Common.Extensions;
-using API_Company.Attributes;
+using API_Government.Attributes;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
@@ -17,14 +17,14 @@ using WebModels.account;
 using WebModels.company;
 using WebModels.gov;
 
-namespace API_Company.Controllers
+namespace API_Government.Controllers
 {
     [MesabrookAuthorization]
     [ProgramAccess("company")]
-    [CompanyAccess(RequiredPermissions = new[] { nameof(Employee.IssueWireTransfers) })]
+    [GovernmentAccess(RequiredPermissions = new[] { nameof(Official.IssueWireTransfers) })]
     public class WireTransferHistoryController : DataObjectController<WireTransferHistory>
     {
-        protected long CompanyID => long.Parse(Request.Headers.GetValues("CompanyID").First());
+        protected long GovernmentID => long.Parse(Request.Headers.GetValues("GovernmentID").First());
 
         public override IEnumerable<string> DefaultRetrievedFields => new[]
         {
@@ -51,9 +51,9 @@ namespace API_Company.Controllers
         {
             Search<WireTransferHistory> originatingWireTransfers = new Search<WireTransferHistory>(new LongSearchCondition<WireTransferHistory>()
             {
-                Field = "CompanyIDFrom",
+                Field = "GovernmentIDFrom",
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = CompanyID
+                Value = GovernmentID
             });
 
             List<WireTransferHistory> wireTransferHistories = new List<WireTransferHistory>();
@@ -65,9 +65,9 @@ namespace API_Company.Controllers
 
             Search<WireTransferHistory> receivedWireTransfers = new Search<WireTransferHistory>(new LongSearchCondition<WireTransferHistory>()
             {
-                Field = "CompanyIDTo",
+                Field = "GovernmentIDTo",
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = CompanyID
+                Value = GovernmentID
             });
             wireTransferHistories.AddRange(receivedWireTransfers.GetReadOnlyReader(null, new List<string>(await FieldsToRetrieve())
             {
@@ -90,9 +90,9 @@ namespace API_Company.Controllers
                 },
                 new LongSearchCondition<WireTransferHistory>()
                 {
-                    Field = nameof(WireTransferHistory.CompanyIDFrom),
+                    Field = nameof(WireTransferHistory.GovernmentIDFrom),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = CompanyID
+                    Value = GovernmentID
                 }));
 
             WireTransferHistory wireTransferHistory = wireTransferSearch.GetReadOnly(null, new List<string>(await FieldsToRetrieve())
@@ -112,9 +112,9 @@ namespace API_Company.Controllers
                 },
                 new LongSearchCondition<WireTransferHistory>()
                 {
-                    Field = nameof(WireTransferHistory.CompanyIDTo),
+                    Field = nameof(WireTransferHistory.GovernmentIDTo),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = CompanyID
+                    Value = GovernmentID
                 }));
 
                 wireTransferHistory = wireTransferSearch.GetReadOnly(null, new List<string>(await FieldsToRetrieve())
@@ -170,9 +170,9 @@ namespace API_Company.Controllers
                 return history.HandleFailedValidation(this);
             }
 
-            if (accountFrom.CompanyID != CompanyID)
+            if (accountFrom.GovernmentID != GovernmentID)
             {
-                history.Errors.Add("AccountFromHistorical", "Account From does not belong to this Company.");
+                history.Errors.Add("AccountFromHistorical", "Account From does not belong to this Government.");
                 return history.HandleFailedValidation(this);
             }
 
@@ -267,7 +267,7 @@ namespace API_Company.Controllers
                 }
 
                 WireTransferHistory wireTransfer = DataObjectFactory.Create<WireTransferHistory>();
-                wireTransfer.CompanyIDFrom = CompanyID;
+                wireTransfer.GovernmentIDFrom = GovernmentID;
                 wireTransfer.CompanyIDTo = accountTo.CompanyID;
                 wireTransfer.GovernmentIDTo = accountTo.GovernmentID;
                 wireTransfer.AccountFromHistorical = $"{accountFrom.Description} ({accountFrom.AccountNumber})";

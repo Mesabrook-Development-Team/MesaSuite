@@ -77,6 +77,9 @@
     <Compile Include="invoicing\Validations\IsValidForSentStatusCondition.cs" />
     <Compile Include="Loaders\security\ProgramLoader.cs" />
     <Compile Include="mesasys\CrashReport.cs" />
+    <Compile Include="mesasys\OutboundEmail.cs" />
+    <Compile Include="mesasys\EmailImplementation.cs" />
+    <Compile Include="mesasys\EmailTemplate.cs" />
     <Compile Include="mesasys\MigrationHistory.cs" />
     <Compile Include="Migrations\IMigration.cs" />
     <Compile Include="Migrations\Migration000001.cs" />
@@ -92,6 +95,7 @@
     <Compile Include="Migrations\Migration000013.cs" />
     <Compile Include="Migrations\Migration000014.cs" />
     <Compile Include="Migrations\Migration000015.cs" />
+    <Compile Include="Migrations\Migration000016.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="security\Program.cs" />

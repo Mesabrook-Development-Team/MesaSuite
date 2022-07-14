@@ -46,6 +46,7 @@
     <Compile Include="account\Category.cs" />
     <Compile Include="account\FiscalQuarter.cs" />
     <Compile Include="account\Transaction.cs" />
+    <Compile Include="account\WireTransferHistory.cs" />
     <Compile Include="auth\Client.cs" />
     <Compile Include="auth\Code.cs" />
     <Compile Include="auth\Token.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Migrations\Migration000012.cs" />
     <Compile Include="Migrations\Migration000013.cs" />
     <Compile Include="Migrations\Migration000014.cs" />
+    <Compile Include="Migrations\Migration000015.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="security\Program.cs" />

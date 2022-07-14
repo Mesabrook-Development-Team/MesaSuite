@@ -26,7 +26,8 @@ namespace GovernmentPortal
                 { PermissionsManager.Permissions.ManageAccounts, toolAccounts },
                 { PermissionsManager.Permissions.CanMintCurrency, tsbMintCurrency },
                 { PermissionsManager.Permissions.ManageTaxes, tsmiTaxes },
-                { PermissionsManager.Permissions.ManageInvoices, mnuInvoices }
+                { PermissionsManager.Permissions.ManageInvoices, mnuInvoices },
+                { PermissionsManager.Permissions.IssueWireTransfers, mnuWireTransfers }
             };
         }
 
@@ -45,6 +46,7 @@ namespace GovernmentPortal
 
         private void UpdateMenuVisibility()
         {
+            bool shouldShowFinanceToolstrip = false;
             foreach (KeyValuePair<PermissionsManager.Permissions, ToolStripItem> kvp in _toolStripItemsByPermission)
             {
                 if (_government == null)
@@ -53,8 +55,15 @@ namespace GovernmentPortal
                     continue;
                 }
 
+                if (kvp.Value.OwnerItem == toolFinance)
+                {
+                    shouldShowFinanceToolstrip |= PermissionsManager.HasPermission(_government.GovernmentID.Value, kvp.Key);
+                }
+
                 kvp.Value.Visible = PermissionsManager.HasPermission(_government.GovernmentID.Value, kvp.Key);
             }
+
+            toolFinance.Visible = shouldShowFinanceToolstrip;
         }
 
         private void toolOfficials_Click(object sender, EventArgs e)
@@ -175,6 +184,32 @@ namespace GovernmentPortal
             {
                 MdiParent = this
             }.Show();
+        }
+
+        private void toolFinance_DropDownOpening(object sender, EventArgs e)
+        {
+            foreach(KeyValuePair<PermissionsManager.Permissions, ToolStripItem> kvp in _toolStripItemsByPermission)
+            {
+                if (kvp.Value.OwnerItem != toolFinance)
+                {
+                    continue;
+                }
+
+                kvp.Value.Visible = PermissionsManager.HasPermission(_government.GovernmentID.Value, kvp.Key);
+            }
+        }
+
+        private void mnuWireTransferHistory_Click(object sender, EventArgs e)
+        {
+            new frmGenericExplorer<WireTransferHistory>(new WireTransfers.WireTransferHistoryContext(_government.GovernmentID.Value))
+            {
+                MdiParent = this
+            }.Show();
+        }
+
+        private void mnuIssueWireTransfer_Click(object sender, EventArgs e)
+        {
+            new WireTransfers.frmIssue(_government.GovernmentID.Value).ShowDialog();
         }
     }
 }

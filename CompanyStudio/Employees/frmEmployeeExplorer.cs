@@ -103,6 +103,11 @@ namespace CompanyStudio.Employees
                     manageLocations.ContextMenuStrip = ctxPermission;
                     manageLocations.Tag = nameof(Employee.ManageLocations);
                     permissionsNode.Nodes.Add(manageLocations);
+
+                    TreeNode issueWireTransfers = new TreeNode($"Issue Wire Transfers - {employee.IssueWireTransfers}");
+                    issueWireTransfers.ContextMenuStrip = ctxPermission;
+                    issueWireTransfers.Tag = nameof(Employee.IssueWireTransfers);
+                    permissionsNode.Nodes.Add(issueWireTransfers);
                 }
             }
 

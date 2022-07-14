@@ -12,5 +12,6 @@
         public string OfficialName { get; set; }
         public bool CanMintCurrency { get; set; }
         public bool ManageInvoices { get; set; }
+        public bool IssueWireTransfers { get; set; }
     }
 }

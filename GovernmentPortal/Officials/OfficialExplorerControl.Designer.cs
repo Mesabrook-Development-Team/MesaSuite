@@ -45,6 +45,7 @@ namespace GovernmentPortal.Officials
             this.chkMintCurrency = new System.Windows.Forms.CheckBox();
             this.chkManageTaxes = new System.Windows.Forms.CheckBox();
             this.chkManageInvoices = new System.Windows.Forms.CheckBox();
+            this.chkIssueWireTransfers = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // loader
@@ -152,10 +153,21 @@ namespace GovernmentPortal.Officials
             this.chkManageInvoices.Text = "Manage Invoices";
             this.chkManageInvoices.UseVisualStyleBackColor = true;
             // 
+            // chkIssueWireTransfers
+            // 
+            this.chkIssueWireTransfers.AutoSize = true;
+            this.chkIssueWireTransfers.Location = new System.Drawing.Point(6, 181);
+            this.chkIssueWireTransfers.Name = "chkIssueWireTransfers";
+            this.chkIssueWireTransfers.Size = new System.Drawing.Size(123, 17);
+            this.chkIssueWireTransfers.TabIndex = 5;
+            this.chkIssueWireTransfers.Text = "Issue Wire Transfers";
+            this.chkIssueWireTransfers.UseVisualStyleBackColor = true;
+            // 
             // OfficialExplorerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chkIssueWireTransfers);
             this.Controls.Add(this.chkManageInvoices);
             this.Controls.Add(this.chkManageTaxes);
             this.Controls.Add(this.chkMintCurrency);
@@ -186,5 +198,6 @@ namespace GovernmentPortal.Officials
         private System.Windows.Forms.CheckBox chkMintCurrency;
         private System.Windows.Forms.CheckBox chkManageTaxes;
         private System.Windows.Forms.CheckBox chkManageInvoices;
+        private System.Windows.Forms.CheckBox chkIssueWireTransfers;
     }
 }

@@ -9,6 +9,7 @@
         public bool ManageEmployees { get; set; }
         public bool ManageAccounts { get; set; }
         public bool ManageLocations { get; set; }
+        public bool IssueWireTransfers { get; set; }
         public string EmployeeName { get; set; }
     }
 }

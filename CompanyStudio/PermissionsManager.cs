@@ -227,7 +227,8 @@ namespace CompanyStudio
             ManageEmails,
             ManageEmployees,
             ManageAccounts,
-            ManageLocations
+            ManageLocations,
+            IssueWireTransfers
         }
 
         public enum LocationWidePermissions

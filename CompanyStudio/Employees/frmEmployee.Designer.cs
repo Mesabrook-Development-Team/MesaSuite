@@ -39,6 +39,7 @@
             this.loader = new CompanyStudio.Loader();
             this.chkManageAccounts = new System.Windows.Forms.CheckBox();
             this.chkManageLocations = new System.Windows.Forms.CheckBox();
+            this.chkIssueWireTransfers = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -148,6 +149,17 @@
             this.chkManageLocations.UseVisualStyleBackColor = true;
             this.chkManageLocations.CheckedChanged += new System.EventHandler(this.CheckedChanged);
             // 
+            // chkIssueWireTransfers
+            // 
+            this.chkIssueWireTransfers.AutoSize = true;
+            this.chkIssueWireTransfers.Location = new System.Drawing.Point(18, 143);
+            this.chkIssueWireTransfers.Name = "chkIssueWireTransfers";
+            this.chkIssueWireTransfers.Size = new System.Drawing.Size(123, 17);
+            this.chkIssueWireTransfers.TabIndex = 4;
+            this.chkIssueWireTransfers.Text = "Issue Wire Transfers";
+            this.chkIssueWireTransfers.UseVisualStyleBackColor = true;
+            this.chkIssueWireTransfers.CheckedChanged += new System.EventHandler(this.CheckedChanged);
+            // 
             // frmEmployee
             // 
             this.AcceptButton = this.cmdSave;
@@ -155,6 +167,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(404, 185);
+            this.Controls.Add(this.chkIssueWireTransfers);
             this.Controls.Add(this.chkManageLocations);
             this.Controls.Add(this.cboEmployees);
             this.Controls.Add(this.cmdCancel);
@@ -189,5 +202,6 @@
         private Loader loader;
         private System.Windows.Forms.CheckBox chkManageAccounts;
         private System.Windows.Forms.CheckBox chkManageLocations;
+        private System.Windows.Forms.CheckBox chkIssueWireTransfers;
     }
 }

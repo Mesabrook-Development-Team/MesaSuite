@@ -114,12 +114,20 @@ namespace WebModels.company
             get { CheckGet(); return _categories; }
         }
 
-        private List<account.WireTransferHistory> _wireTransferHistories = new List<account.WireTransferHistory>();
-        [RelationshipList("72AF3D64-C652-48AE-B43C-369ABDB83F2B", nameof(account.WireTransferHistory.CompanyIDFrom))]
-        public IReadOnlyCollection<account.WireTransferHistory> WireTransferHistories
+        private List<account.WireTransferHistory> _wireTransferHistoryFroms = new List<WireTransferHistory>();
+        [RelationshipList("1C4ADE88-1C88-49F2-BA2B-4233B163F010", nameof(account.WireTransferHistory.CompanyIDTo))]
+        public IReadOnlyCollection<account.WireTransferHistory> WireTransferHistoryFroms
         {
-            get { CheckGet(); return _wireTransferHistories; }
+            get { CheckGet(); return _wireTransferHistoryFroms; }
         }
+
+        private List<account.WireTransferHistory> _wireTransferHistoryTos = new List<account.WireTransferHistory>();
+        [RelationshipList("72AF3D64-C652-48AE-B43C-369ABDB83F2B", nameof(account.WireTransferHistory.CompanyIDFrom))]
+        public IReadOnlyCollection<account.WireTransferHistory> WireTransferHistoryTos
+        {
+            get { CheckGet(); return _wireTransferHistoryTos; }
+        }
+        
         #endregion
         #region company
         private List<Employee> _employees = new List<Employee>();

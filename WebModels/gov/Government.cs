@@ -180,11 +180,18 @@ namespace WebModels.gov
             get { CheckGet(); return _invoicesTo; }
         }
 
-        private List<WireTransferHistory> _wireTransferHistories = new List<WireTransferHistory>();
+        private List<WireTransferHistory> _wireTransferHistoryFroms = new List<WireTransferHistory>();
         [RelationshipList("79AE85AC-F5CF-4BB4-98AC-72F38EEACD1E", nameof(WireTransferHistory.GovernmentIDFrom))]
-        public IReadOnlyCollection<WireTransferHistory> WireTransferHistories
+        public IReadOnlyCollection<WireTransferHistory> WireTransferHistoryFroms
         {
-            get { CheckGet(); return _wireTransferHistories; }
+            get { CheckGet(); return _wireTransferHistoryFroms; }
+        }
+
+        private List<WireTransferHistory> _wireTransferHistoryTos = new List<WireTransferHistory>();
+        [RelationshipList("35D06C00-44F0-463F-8247-CD424C69FA46", nameof(WireTransferHistory.GovernmentIDTo))]
+        public IReadOnlyCollection<WireTransferHistory> WireTransferHistoryTos
+        {
+            get { CheckGet(); return _wireTransferHistoryTos; }
         }
         #endregion
         #endregion

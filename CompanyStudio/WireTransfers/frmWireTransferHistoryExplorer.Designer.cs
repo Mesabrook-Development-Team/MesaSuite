@@ -38,8 +38,8 @@
             this.colFromAccount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colToAccount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colAmount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.loader = new CompanyStudio.Loader();
             this.colMemo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.loader = new CompanyStudio.Loader();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,7 +57,7 @@
             // 
             // toolSendWireTransfer
             // 
-            this.toolSendWireTransfer.Image = ((System.Drawing.Image)(resources.GetObject("toolSendWireTransfer.Image")));
+            this.toolSendWireTransfer.Image = global::CompanyStudio.Properties.Resources.icn_dollar_out;
             this.toolSendWireTransfer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSendWireTransfer.Name = "toolSendWireTransfer";
             this.toolSendWireTransfer.Size = new System.Drawing.Size(132, 28);
@@ -114,6 +114,11 @@
             this.colAmount.Text = "Amount";
             this.colAmount.Width = 100;
             // 
+            // colMemo
+            // 
+            this.colMemo.Text = "Memo";
+            this.colMemo.Width = 160;
+            // 
             // loader
             // 
             this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -126,11 +131,6 @@
             this.loader.Size = new System.Drawing.Size(1125, 568);
             this.loader.TabIndex = 2;
             this.loader.Visible = false;
-            // 
-            // colMemo
-            // 
-            this.colMemo.Text = "Memo";
-            this.colMemo.Width = 160;
             // 
             // frmWireTransferHistoryExplorer
             // 

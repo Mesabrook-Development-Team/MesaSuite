@@ -81,6 +81,8 @@
     <Compile Include="mesasys\EmailImplementation.cs" />
     <Compile Include="mesasys\EmailTemplate.cs" />
     <Compile Include="mesasys\MigrationHistory.cs" />
+    <Compile Include="mesasys\Validations\EmailImplementationValidations.cs" />
+    <Compile Include="mesasys\Validations\HasValidBindingsCondition.cs" />
     <Compile Include="Migrations\IMigration.cs" />
     <Compile Include="Migrations\Migration000001.cs" />
     <Compile Include="Migrations\Migration000002.cs" />

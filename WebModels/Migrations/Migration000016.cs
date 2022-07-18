@@ -19,6 +19,8 @@ namespace WebModels.Migrations
                 { "SystemID", new FieldSpecification(FieldSpecification.FieldTypes.UniqueIdentifier) },
                 { "SystemHash", new FieldSpecification(FieldSpecification.FieldTypes.Binary) },
                 { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 255) },
+                { "TemplateSchema", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 30) },
+                { "TemplateObject", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 100) },
                 { "Template", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 4000) },
                 { "AllowedFields", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, -1) }
             };

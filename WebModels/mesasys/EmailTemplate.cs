@@ -46,6 +46,22 @@ namespace WebModels.mesasys
             set { CheckSet(); _name = value; }
         }
 
+        private string _templateSchema;
+        [Field("E17A3B04-1476-4575-8F0C-0CD939B7EA7E", DataSize = 30, IsSystemLoaded = true)]
+        public String TemplateSchema
+        {
+            get { CheckGet(); return _templateSchema; }
+            set { CheckSet(); _templateSchema = value; }
+        }
+
+        private string _templateObject;
+        [Field("907B19CE-C82F-444F-8E76-924077FD35E8", DataSize = 100)]
+        public string TemplateObject
+        {
+            get { CheckGet(); return _templateObject; }
+            set { CheckSet(); _templateObject = value; }
+        }
+
         private string _template;
         [Field("3146B64C-FF09-407D-885A-4D503563FFE3", DataSize = 4000, IsSystemLoaded = true)]
         public string Template

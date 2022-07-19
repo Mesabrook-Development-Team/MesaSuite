@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
@@ -197,6 +199,34 @@ namespace WebModels.invoicing
             get { CheckGet(); return _accountToHistorical; }
             set { CheckSet(); _accountToHistorical = value; }
         }
+
+        private decimal? _amount = null;
+        [Field("AFC90715-B402-4337-965E-BA594A3E86E6", HasOperation = true)]
+        public decimal? Amount
+        {
+            get { CheckGet(); return _amount; }
+        }
+
+        private OperationDelegate AmountOperation => alias =>
+        {
+            ISelectQuery select = SQLProviderFactory.GetSelectQuery();
+            select.SelectList = new List<Select>()
+            {
+                new Select()
+                {
+                    SelectOperand = new Sum((Field)"detail.Total")
+                }
+            };
+            select.Table = new Table("invoicing", "InvoiceLine", "detail");
+            select.WhereCondition = new Condition()
+            {
+                Left = (Field)"detail.InvoiceID",
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = (Field)$"{alias}.InvoiceID"
+            };
+
+            return new SubQuery(select);
+        };
 
         #region Relationships
         #region invoicing

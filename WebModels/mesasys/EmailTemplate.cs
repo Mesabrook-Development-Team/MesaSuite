@@ -86,5 +86,12 @@ namespace WebModels.mesasys
             get { CheckGet(); return _emailImplementations; }
         }
         #endregion
+
+        public static class EmailTemplates
+        {
+            public static readonly Guid WireTransferReceived = new Guid("E80AB286-A196-4D19-A3D4-90DCC3EE3CE1");
+            public static readonly Guid AccountsPayableInvoiceReceived = new Guid("17CAC754-4ACD-489E-9945-CA970AA2F18E");
+            public static readonly Guid AccountsReceivableInvoiceReadyForReceipt = new Guid("74A6C54A-EA00-43F5-8612-0BC76224149B");
+        }
     }
 }

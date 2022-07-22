@@ -115,7 +115,7 @@ namespace API.Common
                 }
             }
 
-            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction(Schema.GetSchemaObject<TDataObject>().ConnectionName))
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction(Schema.GetSchemaObject<TDataObject>().ConnectionName ?? "_default"))
             {
                 if (!dataObject.Save(transaction))
                 {

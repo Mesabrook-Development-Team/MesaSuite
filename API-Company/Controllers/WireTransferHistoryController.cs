@@ -16,6 +16,7 @@ using ClussPro.ObjectBasedFramework.DataSearch;
 using WebModels.account;
 using WebModels.company;
 using WebModels.gov;
+using WebModels.mesasys;
 
 namespace API_Company.Controllers
 {
@@ -280,6 +281,36 @@ namespace API_Company.Controllers
                 if (!wireTransfer.Save(transaction))
                 {
                     return wireTransfer.HandleFailedValidation(this);
+                }
+
+                transaction.Commit();
+            }
+
+            return Ok();
+        }
+
+        [HttpPut]
+        public IHttpActionResult SetWireTransferEmailImplementationID(long id)
+        {
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
+            {
+                Company company = DataObject.GetEditableByPrimaryKey<Company>(CompanyID, transaction, null);
+                long? emailImplementationToDrop = company.EmailImplementationIDWireTransferHistory;
+                company.EmailImplementationIDWireTransferHistory = id == -1L ? (long?)null : id;
+                if (!company.Save(transaction))
+                {
+                    transaction.Rollback();
+                    return company.HandleFailedValidation(this);
+                }
+
+                if (emailImplementationToDrop != null)
+                {
+                    EmailImplementation implementationToDelete = DataObject.GetEditableByPrimaryKey<EmailImplementation>(emailImplementationToDrop, transaction, null);
+                    if (!implementationToDelete.Delete(transaction))
+                    {
+                        transaction.Rollback();
+                        return implementationToDelete.HandleFailedValidation(this);
+                    }                    
                 }
 
                 transaction.Commit();

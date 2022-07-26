@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using WebModels.account;
 using WebModels.hMailServer.dbo;
+using WebModels.mesasys;
 
 namespace WebModels.company
 {
@@ -39,6 +40,21 @@ namespace WebModels.company
         {
             get { CheckGet(); return _emailDomain; }
             set { CheckSet(); _emailDomain = value; }
+        }
+
+        private long? _emailImplementationIDWireTransferHistory;
+        [Field("ADCD5F15-B180-4BEC-9CFD-E8FDB72BC51B")]
+        public long? EmailImplementationIDWireTransferHistory
+        {
+            get { CheckGet(); return _emailImplementationIDWireTransferHistory; }
+            set { CheckSet();_emailImplementationIDWireTransferHistory = value; }
+        }
+
+        private EmailImplementation _emailImplementationWireTransferHistory = null;
+        [Relationship("E57BB310-8467-4963-AE74-0D7CDFD76E07", ForeignKeyField = nameof(EmailImplementationIDWireTransferHistory))]
+        public EmailImplementation EmailImplementationWireTransferHistory
+        {
+            get { CheckGet(); return _emailImplementationWireTransferHistory; }
         }
 
         protected override bool PostSave(ITransaction transaction)

@@ -28,6 +28,8 @@ namespace API_Company.Controllers
 
         protected override IEnumerable<string> RequestableFields => new string[]
         {
+            nameof(Location.EmailImplementationIDPayableInvoice),
+            nameof(Location.EmailImplementationPayableInvoice),
             $"{nameof(Location.LocationEmployees)}.{nameof(LocationEmployee.LocationEmployeeID)}",
             $"{nameof(Location.LocationEmployees)}.{nameof(LocationEmployee.LocationID)}",
             $"{nameof(Location.LocationEmployees)}.{nameof(LocationEmployee.EmployeeID)}",

@@ -22,7 +22,8 @@ namespace WebModels.Migrations
                 { "TemplateSchema", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 30) },
                 { "TemplateObject", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 100) },
                 { "Template", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 4000) },
-                { "AllowedFields", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, -1) }
+                { "AllowedFields", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, -1) },
+                { "SecurityCheckType", new FieldSpecification(FieldSpecification.FieldTypes.Int) }
             };
             createTable.Execute(transaction);
 
@@ -31,7 +32,8 @@ namespace WebModels.Migrations
             {
                 { "EmailImplementationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "EmailTemplateID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "From", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 255) },
+                { "FromName", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 100) },
+                { "FromEmail", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 255) },
                 { "To", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 255) },
                 { "Subject", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) },
                 { "Body", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 4000) }
@@ -42,7 +44,8 @@ namespace WebModels.Migrations
             createTable.Columns = new Dictionary<string, FieldSpecification>()
             {
                 { "OutboundEmailID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
-                { "From", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 255) },
+                { "FromName", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 100) },
+                { "FromEmail", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 255) },
                 { "To", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 255) },
                 { "Subject", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) },
                 { "Body", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 4000) }
@@ -53,6 +56,17 @@ namespace WebModels.Migrations
             alterTable.Schema = "mesasys";
             alterTable.Table = "EmailImplementation";
             alterTable.AddForeignKey("FKEmailImplementation_EmailTemplate_EmailTemplateID", "EmailTemplateID", "mesasys", "EmailTemplate", "EmailTemplateID", transaction);
+
+            alterTable.Schema = "company";
+            alterTable.Table = "Company";
+            alterTable.AddColumn("EmailImplementationIDWireTransferHistory", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
+            alterTable.AddForeignKey("FKCompany_EmailImplementation_EmailImplementationIDWireTransferHistory", "EmailImplementationIDWireTransferHistory", "mesasys", "EmailImplementation", "EmailImplementationID", transaction);
+
+            alterTable.Table = "Location";
+            alterTable.AddColumn("EmailImplementationIDPayableInvoice", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
+            alterTable.AddForeignKey("FKCompany_EmailImplementation_EmailImplementationIDPayableInvoice", "EmailImplementationIDPayableInvoice", "mesasys", "EmailImplementation", "EmailImplementationID", transaction);
+            alterTable.AddColumn("EmailImplementationIDReadyForReceipt", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
+            alterTable.AddForeignKey("FKCompany_EmailImplementation_EmailImplementationIDReadyForReceipt", "EmailImplementationIDReadyForReceipt", "mesasys", "EmailImplementation", "EmailImplementationID", transaction);
         }
     }
 }

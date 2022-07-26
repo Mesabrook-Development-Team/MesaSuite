@@ -16,12 +16,20 @@ namespace WebModels.mesasys
             set { CheckSet(); _outboundEmailID = value; }
         }
 
-        private string _from;
-        [Field("4D827A7C-CB43-473B-A353-1C8B58B98E4A", DataSize = 255)]
-        public string From
+        private string _fromName;
+        [Field("1A1E6919-303C-4691-8142-AD07EFFC2A2C", DataSize = 100)]
+        public string FromName
         {
-            get { CheckGet(); return _from; }
-            set { CheckSet(); _from = value; }
+            get { CheckGet(); return _fromName; }
+            set { CheckSet(); _fromName = value; }
+        }
+
+        private string _fromEmail;
+        [Field("72F154E1-ED59-4D6B-AE48-CFF92661A76A", DataSize = 255)]
+        public string FromEmail
+        {
+            get { CheckGet(); return _fromEmail; }
+            set { CheckSet(); _fromEmail = value; }
         }
 
         private string _to;

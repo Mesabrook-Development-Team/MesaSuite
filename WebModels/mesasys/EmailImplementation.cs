@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using WebModels.company;
 
 namespace WebModels.mesasys
 {
@@ -36,12 +37,20 @@ namespace WebModels.mesasys
             get { CheckGet(); return _emailTemplate; }
         }
 
-        private string _from;
-        [Field("765561DB-E98F-4C0D-A993-69EB671A0CCA", DataSize = 255)]
-        public string From
+        private string _fromName;
+        [Field("6260B516-FFC9-4292-B0E1-80D249B16F66", DataSize = 100)]
+        public string FromName
         {
-            get { CheckGet(); return _from; }
-            set { CheckSet(); _from = value; }
+            get { CheckGet(); return _fromName; }
+            set { CheckSet(); _fromName = value; }
+        }
+
+        private string _fromEmail;
+        [Field("765561DB-E98F-4C0D-A993-69EB671A0CCA", DataSize = 255)]
+        public string FromEmail
+        {
+            get { CheckGet(); return _fromEmail; }
+            set { CheckSet(); _fromEmail = value; }
         }
 
         private string _to;
@@ -67,5 +76,30 @@ namespace WebModels.mesasys
             get { CheckGet(); return _body; }
             set { CheckSet(); _body = value; }
         }
+
+        #region Relationships
+        #region company
+        private List<Company> _companyWireTransferHistories = new List<Company>();
+        [RelationshipList("E03E4DFC-C7D6-4932-A148-F57C470EBEE6", nameof(Company.EmailImplementationIDWireTransferHistory))]
+        public IReadOnlyCollection<Company> CompanyWireTransferHistories
+        {
+            get { CheckGet(); return _companyWireTransferHistories; }
+        }
+
+        private List<Location> _locationPayableInvoices = new List<Location>();
+        [RelationshipList("1EE39ABB-9D43-4585-BF30-76F35A68A22A", nameof(Location.EmailImplementationIDPayableInvoice))]
+        public IReadOnlyCollection<Location> LocationPayableInvoices
+        {
+            get { CheckGet(); return _locationPayableInvoices; }
+        }
+
+        private List<Location> _locationReadyForReceipts = new List<Location>();
+        [RelationshipList("1EE39ABB-9D43-4585-BF30-76F35A68A22A", nameof(Location.EmailImplementationIDReadyForReceipt))]
+        public IReadOnlyCollection<Location> LocationReadyForReceipts
+        {
+            get { CheckGet(); return _locationReadyForReceipts; }
+        }
+        #endregion
+        #endregion
     }
 }

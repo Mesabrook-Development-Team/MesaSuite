@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using WebModels.company;
+using WebModels.gov;
 
 namespace WebModels.mesasys
 {
@@ -48,7 +51,7 @@ namespace WebModels.mesasys
 
         private string _templateSchema;
         [Field("E17A3B04-1476-4575-8F0C-0CD939B7EA7E", DataSize = 30, IsSystemLoaded = true)]
-        public String TemplateSchema
+        public string TemplateSchema
         {
             get { CheckGet(); return _templateSchema; }
             set { CheckSet(); _templateSchema = value; }
@@ -76,6 +79,127 @@ namespace WebModels.mesasys
         {
             get { CheckGet(); return _allowedFields; }
             set { CheckSet(); _allowedFields = value; }
+        }
+
+        public enum SecurityCheckTypes
+        {
+            WireTransferHistory,
+            Invoicing
+        }
+
+        private SecurityCheckTypes _securityCheckType;
+        [Field("E006A7E4-1AE4-4375-98FB-98B685BC5612")]
+        public SecurityCheckTypes SecurityCheckType
+        {
+            get { CheckGet(); return _securityCheckType; }
+            set { CheckSet(); _securityCheckType = value; }
+        }
+
+        public bool SecurityCheck(long? userID, long? companyID, long? locationID, long? governmentID)
+        {
+            switch(SecurityCheckType)
+            {
+                case SecurityCheckTypes.WireTransferHistory:
+                    return CheckWireTransferHistorySecurity(userID, companyID, governmentID);
+                case SecurityCheckTypes.Invoicing:
+                    return CheckInvoicingSecurity(userID, locationID, governmentID);
+            }
+
+            return true;
+        }
+
+        private bool CheckWireTransferHistorySecurity(long? userID, long? companyID, long? governmentID)
+        {
+            if (userID == null)
+            {
+                return false;
+            }
+
+            if (companyID != null)
+            {
+                Search<Employee> employeeSearch = new Search<Employee>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<Employee>()
+                    {
+                        Field = nameof(Employee.CompanyID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = companyID
+                    },
+                    new LongSearchCondition<Employee>()
+                    {
+                        Field = nameof(Employee.UserID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = userID
+                    }));
+
+                return employeeSearch.GetReadOnly(null, new[] { nameof(Employee.IssueWireTransfers) })?.IssueWireTransfers ?? false;
+            }
+            else if (governmentID != null)
+            {
+                Search<Official> officialSearch = new Search<Official>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<Official>()
+                    {
+                        Field = nameof(Official.GovernmentID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = governmentID
+                    },
+                    new LongSearchCondition<Official>()
+                    {
+                        Field = nameof(Official.UserID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = userID
+                    }));
+
+                return officialSearch.GetReadOnly(null, new[] { nameof(Official.IssueWireTransfers) })?.IssueWireTransfers ?? false;
+            }
+
+            return false;
+        }
+
+        private bool CheckInvoicingSecurity(long? userID, long? locationID, long? governmentID)
+        {
+            if (userID == null)
+            {
+                return false;
+            }
+
+            if (locationID != null)
+            {
+                Search<LocationEmployee> locationEmployeeSearch = new Search<LocationEmployee>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<LocationEmployee>()
+                    {
+                        Field = $"{nameof(LocationEmployee.Employee)}.{nameof(Employee.UserID)}",
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = userID
+                    },
+                    new LongSearchCondition<LocationEmployee>()
+                    {
+                        Field = nameof(LocationEmployee.LocationID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = locationID
+                    }));
+
+                return locationEmployeeSearch.GetReadOnly(null, new[] { nameof(LocationEmployee.ManageInvoices) })?.ManageInvoices ?? false;
+            }
+            else if (governmentID != null)
+            {
+                Search<Official> officialSearch = new Search<Official>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<Official>()
+                    {
+                        Field = nameof(Official.GovernmentID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = governmentID
+                    },
+                    new LongSearchCondition<Official>()
+                    {
+                        Field = nameof(Official.UserID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = userID
+                    }));
+
+                return officialSearch.GetReadOnly(null, new[] { nameof(Official.ManageInvoices) })?.ManageInvoices ?? false;
+            }
+
+            return false;
         }
 
         #region Relationships

@@ -20,6 +20,7 @@ namespace WebModels.Loaders.mesasys
             yield return new EmailTemplateLoaderObject<WireTransferHistory>(EmailTemplate.EmailTemplates.WireTransferReceived,
                                                                             "Wire Transfer Received",
                                                                             "A Wire Transfer has been sent to you from {GovernmentFrom.Name}{CompanyFrom.Name} at {TransferTime}. The amount of MBD${Amount} has been deposited into your account of {AccountToHistorical}.\r\n\r\nMemo:\r\n{Memo}",
+                                                                            EmailTemplate.SecurityCheckTypes.WireTransferHistory,
                                                                             wth => new List<object>()
                                                                             {
                                                                                 wth.GovernmentFrom.Name,
@@ -40,6 +41,7 @@ namespace WebModels.Loaders.mesasys
                                                                             "Invoice Date: {InvoiceDate}\r\n" +
                                                                             "Description: {Description}\r\n" +
                                                                             "Due Date: {DueDate}",
+                                                                          EmailTemplate.SecurityCheckTypes.Invoicing,
                                                                           invoice => new List<object>()
                                                                           {
                                                                               invoice.GovernmentFrom.Name,
@@ -59,6 +61,7 @@ namespace WebModels.Loaders.mesasys
             yield return new EmailTemplateLoaderObject<invoicing.Invoice>(EmailTemplate.EmailTemplates.AccountsReceivableInvoiceReadyForReceipt,
                                                                           "Receivable Invoice Ready For Receipt",
                                                                           "Your Invoice {InvoiceNumber} to {GovernmentTo.Name}{LocationTo.Company.Name} has been authorized for payment and is ready for receipt.",
+                                                                          EmailTemplate.SecurityCheckTypes.Invoicing,
                                                                           invoice => new List<object>()
                                                                           {
                                                                               invoice.GovernmentFrom.Name,
@@ -80,7 +83,7 @@ namespace WebModels.Loaders.mesasys
 
         private class EmailTemplateLoaderObject<TTemplateObject> : LoaderObject where TTemplateObject : DataObject
         {
-            public EmailTemplateLoaderObject(Guid systemID, string name, string template, Expression<Func<TTemplateObject, List<object>>> allowedFields) : base(typeof(EmailTemplate))
+            public EmailTemplateLoaderObject(Guid systemID, string name, string template, EmailTemplate.SecurityCheckTypes securityCheckType, Expression<Func<TTemplateObject, List<object>>> allowedFields) : base(typeof(EmailTemplate))
             {
                 SystemID = systemID;
                 Values = new Dictionary<string, object>()
@@ -89,6 +92,7 @@ namespace WebModels.Loaders.mesasys
                     { nameof(EmailTemplate.TemplateObject), Schema.GetSchemaObject<TTemplateObject>().ObjectName },
                     { nameof(EmailTemplate.Name), name },
                     { nameof(EmailTemplate.Template), template },
+                    { nameof(EmailTemplate.SecurityCheckType), securityCheckType },
                     { nameof(EmailTemplate.AllowedFields), FieldPathUtility.CreateFieldPaths(allowedFields) }
                 };
             }

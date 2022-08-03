@@ -32,7 +32,7 @@ namespace MesaSuite.Common.Data
             }
             request.ContentType = "application/json";
 
-            JObject jObject = JObject.FromObject(_objectToPut);
+            JObject jObject = JObject.FromObject(_objectToPut ?? new object());
 
             if (RequestFields != null && RequestFields.Any())
             {

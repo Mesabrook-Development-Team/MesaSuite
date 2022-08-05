@@ -8,6 +8,7 @@ using System.Web.Http.Results;
 using API.Common;
 using API.Common.Attributes;
 using API.Common.Extensions;
+using API_Company.App_Code;
 using API_Company.Attributes;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
@@ -292,28 +293,11 @@ namespace API_Company.Controllers
         [HttpPut]
         public IHttpActionResult SetWireTransferEmailImplementationID(long id)
         {
-            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
+            Company company = DataObject.GetEditableByPrimaryKey<Company>(CompanyID, null, null);
+            company.EmailImplementationIDWireTransferHistory = id == -1L ? (long?)null : id;
+            if (!company.Save())
             {
-                Company company = DataObject.GetEditableByPrimaryKey<Company>(CompanyID, transaction, null);
-                long? emailImplementationToDrop = company.EmailImplementationIDWireTransferHistory;
-                company.EmailImplementationIDWireTransferHistory = id == -1L ? (long?)null : id;
-                if (!company.Save(transaction))
-                {
-                    transaction.Rollback();
-                    return company.HandleFailedValidation(this);
-                }
-
-                if (emailImplementationToDrop != null)
-                {
-                    EmailImplementation implementationToDelete = DataObject.GetEditableByPrimaryKey<EmailImplementation>(emailImplementationToDrop, transaction, null);
-                    if (!implementationToDelete.Delete(transaction))
-                    {
-                        transaction.Rollback();
-                        return implementationToDelete.HandleFailedValidation(this);
-                    }                    
-                }
-
-                transaction.Commit();
+                return company.HandleFailedValidation(this);
             }
 
             return Ok();

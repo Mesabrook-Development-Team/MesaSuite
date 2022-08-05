@@ -47,7 +47,7 @@ namespace CompanyStudio.Invoicing
             dgvLines.Rows.Clear();
 
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Company/GetAll");
-            get.AddCompanyHeader(Company.CompanyID);
+            get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
             companyList = await get.GetObject<List<Company>>() ?? new List<Company>();
 
             get.Resource = $"Location/Get/{LocationModel.LocationID}";

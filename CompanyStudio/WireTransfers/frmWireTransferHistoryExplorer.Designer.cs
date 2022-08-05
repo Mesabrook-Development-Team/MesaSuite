@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmWireTransferHistoryExplorer));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolSendWireTransfer = new System.Windows.Forms.ToolStripButton();
-            this.toolEmailSettings = new System.Windows.Forms.ToolStripButton();
             this.lstWireTransfers = new System.Windows.Forms.ListView();
             this.colDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colFrom = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -48,12 +47,11 @@
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolSendWireTransfer,
-            this.toolEmailSettings});
+            this.toolSendWireTransfer});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(1688, 34);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this.toolStrip1.Size = new System.Drawing.Size(1125, 31);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -62,18 +60,9 @@
             this.toolSendWireTransfer.Image = ((System.Drawing.Image)(resources.GetObject("toolSendWireTransfer.Image")));
             this.toolSendWireTransfer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSendWireTransfer.Name = "toolSendWireTransfer";
-            this.toolSendWireTransfer.Size = new System.Drawing.Size(187, 29);
+            this.toolSendWireTransfer.Size = new System.Drawing.Size(132, 28);
             this.toolSendWireTransfer.Text = "Send Wire Transfer";
             this.toolSendWireTransfer.Click += new System.EventHandler(this.toolSendWireTransfer_Click);
-            // 
-            // toolEmailSettings
-            // 
-            this.toolEmailSettings.Image = ((System.Drawing.Image)(resources.GetObject("toolEmailSettings.Image")));
-            this.toolEmailSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolEmailSettings.Name = "toolEmailSettings";
-            this.toolEmailSettings.Size = new System.Drawing.Size(151, 29);
-            this.toolEmailSettings.Text = "Email Settings";
-            this.toolEmailSettings.Click += new System.EventHandler(this.toolEmailSettings_Click);
             // 
             // lstWireTransfers
             // 
@@ -88,10 +77,9 @@
             this.lstWireTransfers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstWireTransfers.FullRowSelect = true;
             this.lstWireTransfers.HideSelection = false;
-            this.lstWireTransfers.Location = new System.Drawing.Point(0, 34);
-            this.lstWireTransfers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.lstWireTransfers.Location = new System.Drawing.Point(0, 31);
             this.lstWireTransfers.Name = "lstWireTransfers";
-            this.lstWireTransfers.Size = new System.Drawing.Size(1688, 840);
+            this.lstWireTransfers.Size = new System.Drawing.Size(1125, 537);
             this.lstWireTransfers.TabIndex = 1;
             this.lstWireTransfers.UseCompatibleStateImageBehavior = false;
             this.lstWireTransfers.View = System.Windows.Forms.View.Details;
@@ -138,22 +126,21 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.loader.BackColor = System.Drawing.Color.Transparent;
             this.loader.Location = new System.Drawing.Point(0, 0);
-            this.loader.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.loader.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(1688, 874);
+            this.loader.Size = new System.Drawing.Size(1125, 568);
             this.loader.TabIndex = 2;
             this.loader.Visible = false;
             // 
             // frmWireTransferHistoryExplorer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1688, 874);
+            this.ClientSize = new System.Drawing.Size(1125, 568);
             this.Controls.Add(this.lstWireTransfers);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.loader);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmWireTransferHistoryExplorer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Wire Transfer History";
@@ -179,6 +166,5 @@
         private Loader loader;
         private System.Windows.Forms.ColumnHeader colFrom;
         private System.Windows.Forms.ColumnHeader colMemo;
-        private System.Windows.Forms.ToolStripButton toolEmailSettings;
     }
 }

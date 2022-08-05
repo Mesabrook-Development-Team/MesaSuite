@@ -72,36 +72,5 @@ namespace CompanyStudio.WireTransfers
 
             ReloadHistory();
         }
-
-        private async void toolEmailSettings_Click(object sender, System.EventArgs e)
-        {
-            loader.BringToFront();
-            loader.Visible = true;
-
-            GetData get = new GetData(DataAccess.APIs.CompanyStudio, $"Company/Get/{Company.CompanyID}");
-            get.RequestFields = new List<string>() { nameof(Company.EmailImplementationIDWireTransferHistory) };
-            get.AddCompanyHeader(Company.CompanyID);
-            Company companyForEmailImplementationID = await get.GetObject<Company>();
-            loader.Visible = false;
-
-            frmEmailEditor editor = new frmEmailEditor();
-            editor.CompanyID = Company.CompanyID;
-            editor.EmailName = "Wire Transfer Received";
-            editor.Theme = Theme;
-            editor.EmailImplementationID = companyForEmailImplementationID.EmailImplementationIDWireTransferHistory;
-            editor.ShowDialog();
-
-            if (editor.DialogResult == DialogResult.OK)
-            {
-                loader.BringToFront();
-                loader.Visible = true;
-
-                PutData put = new PutData(DataAccess.APIs.CompanyStudio, $"WireTransferHistory/SetWireTransferEmailImplementationID/{editor.EmailImplementationID ?? -1L}", new object());
-                put.AddCompanyHeader(Company.CompanyID);
-                await put.ExecuteNoResult();
-
-                loader.Visible = false;
-            }
-        }
     }
 }

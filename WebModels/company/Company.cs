@@ -6,6 +6,7 @@ using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WebModels.account;
 using WebModels.hMailServer.dbo;
 using WebModels.mesasys;
@@ -59,9 +60,29 @@ namespace WebModels.company
 
         protected override bool PostSave(ITransaction transaction)
         {
-            if (!IsInsert && IsFieldDirty("EmailDomain") && !string.IsNullOrEmpty(EmailDomain))
+            if (!IsInsert)
             {
-                return UpdateEmailInfo();
+                bool savesSuccessful = true;
+                if (IsFieldDirty("EmailDomain") && !string.IsNullOrEmpty(EmailDomain))
+                {
+                    savesSuccessful &= UpdateEmailInfo();
+                }
+
+                if (IsFieldDirty(nameof(EmailImplementationIDWireTransferHistory)))
+                {
+                    long? previousEmailImpID = GetDirtyValue(nameof(EmailImplementationIDWireTransferHistory)) as long?;
+                    if (previousEmailImpID != null)
+                    {
+                        EmailImplementation oldImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(previousEmailImpID, transaction, null);
+                        if (!oldImplementation.Delete(transaction))
+                        {
+                            Errors.AddRange(oldImplementation.Errors.ToArray());
+                            savesSuccessful = false;
+                        }
+                    }
+                }
+
+                return savesSuccessful;
             }
 
             return base.PostSave(transaction);

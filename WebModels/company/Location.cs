@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
@@ -90,6 +92,46 @@ namespace WebModels.company
         public EmailImplementation EmailImplementationReadyForReceipt
         {
             get { CheckGet(); return _emailImplementationReadyForReceipt; }
+        }
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (!IsInsert)
+            {
+                bool deleteSuccessful = true;
+                if (IsFieldDirty(nameof(EmailImplementationIDPayableInvoice)))
+                {
+                    long? previousEmailImpID = GetDirtyValue(nameof(EmailImplementationIDPayableInvoice)) as long?;
+                    if (previousEmailImpID != null)
+                    {
+                        EmailImplementation oldImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(previousEmailImpID, transaction, null);
+                        if (!oldImplementation.Delete(transaction))
+                        {
+                            Errors.AddRange(oldImplementation.Errors.ToArray());
+                            deleteSuccessful = false;
+                        }
+                    }
+                }
+
+
+                if (IsFieldDirty(nameof(EmailImplementationIDReadyForReceipt)))
+                {
+                    long? previousEmailImpID = GetDirtyValue(nameof(EmailImplementationIDReadyForReceipt)) as long?;
+                    if (previousEmailImpID != null)
+                    {
+                        EmailImplementation oldImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(previousEmailImpID, transaction, null);
+                        if (!oldImplementation.Delete(transaction))
+                        {
+                            Errors.AddRange(oldImplementation.Errors.ToArray());
+                            deleteSuccessful = false;
+                        }
+                    }
+                }
+
+                return deleteSuccessful;
+            }
+
+            return base.PostSave(transaction);
         }
 
         #region Relationships

@@ -63,7 +63,7 @@ namespace CompanyStudio
                     {
                         if (parentNode == null)
                         {
-                            TreeNode rootNode = treFields.Nodes.Find(relationshipPathParts[i], false).FirstOrDefault();
+                            TreeNode rootNode = treFields.Nodes.OfType<TreeNode>().FirstOrDefault(tn => tn.Text == relationshipPathParts[i]);
                             if (rootNode == null)
                             {
                                 rootNode = new TreeNode(relationshipPathParts[i]);
@@ -73,7 +73,7 @@ namespace CompanyStudio
                         }
                         else
                         {
-                            TreeNode childNode = parentNode.Nodes.Find(relationshipPathParts[i], false).FirstOrDefault();
+                            TreeNode childNode = parentNode.Nodes.OfType<TreeNode>().FirstOrDefault(tn => tn.Text == relationshipPathParts[i]);
                             if (childNode == null)
                             {
                                 childNode = new TreeNode(relationshipPathParts[i]);

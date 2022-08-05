@@ -281,6 +281,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ms.ico" />
+    <None Include="Resources\icn_update_arrows.png" />
     <None Include="Resources\txt_tow.png" />
     <None Include="Resources\icn_tow_hover.png" />
     <None Include="Resources\icn_tow.png" />

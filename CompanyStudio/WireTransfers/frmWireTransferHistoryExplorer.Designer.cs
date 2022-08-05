@@ -57,7 +57,7 @@
             // 
             // toolSendWireTransfer
             // 
-            this.toolSendWireTransfer.Image = ((System.Drawing.Image)(resources.GetObject("toolSendWireTransfer.Image")));
+            this.toolSendWireTransfer.Image = global::CompanyStudio.Properties.Resources.icn_dollar_out;
             this.toolSendWireTransfer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSendWireTransfer.Name = "toolSendWireTransfer";
             this.toolSendWireTransfer.Size = new System.Drawing.Size(132, 28);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using WebModels.mesasys;
@@ -25,12 +26,21 @@ namespace MesaService.ServiceTasks
                 return false;
             }
 
+            string smtpUser = ConfigurationManager.AppSettings.GetValues("SMTPUser")?.FirstOrDefault();
+            string smtpPassword = ConfigurationManager.AppSettings.GetValues("SMTPPassword")?.FirstOrDefault();
+
             try
             {
+                SmtpClient smtpClient = new SmtpClient(server, port);
+                    
+                if (!string.IsNullOrEmpty(smtpUser) && !string.IsNullOrEmpty(smtpPassword))
+                {
+                    smtpClient.Credentials = new NetworkCredential(smtpUser, smtpPassword);
+                }
+
                 Search<OutboundEmail> outboundEmailSearch = new Search<OutboundEmail>();
                 foreach (OutboundEmail email in outboundEmailSearch.GetEditableReader())
                 {
-                    SmtpClient smtpClient = new SmtpClient(server, port);
                     MailMessage mailMessage = new MailMessage();
                     MailAddress fromAddress = new MailAddress(email.FromEmail, email.FromName);
                     mailMessage.From = fromAddress;

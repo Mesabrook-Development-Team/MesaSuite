@@ -288,6 +288,19 @@ namespace API_Government.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        public IHttpActionResult SetWireTransferEmailImplementationID(long id)
+        {
+            Government government = DataObject.GetEditableByPrimaryKey<Government>(GovernmentID, null, null);
+            government.EmailImplementationIDWireTransferHistory = id == -1L ? (long?)null : id;
+            if (!government.Save())
+            {
+                return government.HandleFailedValidation(this);
+            }
+
+            return Ok();
+        }
+
         public class PerformTransferParameter
         {
             public long? AccountIDFrom { get; set; }

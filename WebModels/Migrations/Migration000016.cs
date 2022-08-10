@@ -64,9 +64,18 @@ namespace WebModels.Migrations
 
             alterTable.Table = "Location";
             alterTable.AddColumn("EmailImplementationIDPayableInvoice", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
-            alterTable.AddForeignKey("FKCompany_EmailImplementation_EmailImplementationIDPayableInvoice", "EmailImplementationIDPayableInvoice", "mesasys", "EmailImplementation", "EmailImplementationID", transaction);
+            alterTable.AddForeignKey("FKLocation_EmailImplementation_EmailImplementationIDPayableInvoice", "EmailImplementationIDPayableInvoice", "mesasys", "EmailImplementation", "EmailImplementationID", transaction);
             alterTable.AddColumn("EmailImplementationIDReadyForReceipt", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
-            alterTable.AddForeignKey("FKCompany_EmailImplementation_EmailImplementationIDReadyForReceipt", "EmailImplementationIDReadyForReceipt", "mesasys", "EmailImplementation", "EmailImplementationID", transaction);
+            alterTable.AddForeignKey("FKLocation_EmailImplementation_EmailImplementationIDReadyForReceipt", "EmailImplementationIDReadyForReceipt", "mesasys", "EmailImplementation", "EmailImplementationID", transaction);
+
+            alterTable.Schema = "gov";
+            alterTable.Table = "Government";
+            alterTable.AddColumn("EmailImplementationIDWireTransferHistory", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
+            alterTable.AddForeignKey("FKGovernment_EmailImplementation_EmailImplementationIDWireTransferHistory", "EmailImplementationIDWireTransferHistory", "mesasys", "EmailImplementation", "EmailImplementationID", transaction);
+            alterTable.AddColumn("EmailImplementationIDPayableInvoice", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
+            alterTable.AddForeignKey("FKGovernment_EmailImplementation_EmailImplementationIDPayableInvoice", "EmailImplementationIDPayableInvoice", "mesasys", "EmailImplementation", "EmailImplementationID", transaction);
+            alterTable.AddColumn("EmailImplementationIDReadyForReceipt", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
+            alterTable.AddForeignKey("FKGovernment_EmailImplementation_EmailImplementationIDReadyForReceipt", "EmailImplementationIDReadyForReceipt", "mesasys", "EmailImplementation", "EmailImplementationID", transaction);
         }
     }
 }

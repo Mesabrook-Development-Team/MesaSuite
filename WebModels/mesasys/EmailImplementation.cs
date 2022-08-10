@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using WebModels.company;
+using WebModels.gov;
 
 namespace WebModels.mesasys
 {
@@ -98,6 +99,28 @@ namespace WebModels.mesasys
         public IReadOnlyCollection<Location> LocationReadyForReceipts
         {
             get { CheckGet(); return _locationReadyForReceipts; }
+        }
+        #endregion
+        #region gov
+        private List<Government> _governmentWireTransferHistories = new List<Government>();
+        [RelationshipList("BC2F8A11-6721-4B27-84D0-0E02F39B6F82", nameof(Government.EmailImplementationIDWireTransferHistory))]
+        public IReadOnlyCollection<Government> GovernmentWireTransferHistories
+        {
+            get { CheckGet(); return _governmentWireTransferHistories; }
+        }
+
+        private List<Government> _governmentPayableInvoices = new List<Government>();
+        [RelationshipList("A5751F14-0969-46EE-8F4D-F21EA6BAEF63", nameof(Government.EmailImplementationIDPayableInvoice))]
+        public IReadOnlyCollection<Government> GovernmentPayableInvoices
+        {
+            get { CheckGet(); return _governmentPayableInvoices; }
+        }
+
+        private List<Government> _governmentReadyForReceipts = new List<Government>();
+        [RelationshipList("81C9D097-E4F2-4D76-B5A9-2418782213EA", nameof(Government.EmailImplementationIDReadyForReceipt))]
+        public IReadOnlyCollection<Government> GovernmentReadyForReceipts
+        {
+            get { CheckGet(); return _governmentReadyForReceipts; }
         }
         #endregion
         #endregion

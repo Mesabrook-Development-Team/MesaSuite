@@ -100,6 +100,12 @@
     </Compile>
     <Compile Include="ExplorerContext.cs" />
     <Compile Include="Extensions\DataAccessExtensions.cs" />
+    <Compile Include="frmEmailEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEmailEditor.Designer.cs">
+      <DependentUpon>frmEmailEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmGenericExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +146,8 @@
     </Compile>
     <Compile Include="Invoicing\ReceivableInvoiceContext.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\EmailImplementation.cs" />
+    <Compile Include="Models\EmailTemplate.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceLine.cs" />
     <Compile Include="Invoicing\ReceivableInvoiceControl.cs">
@@ -215,6 +223,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Email\DistributionListExplorerControl.resx">
       <DependentUpon>DistributionListExplorerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEmailEditor.resx">
+      <DependentUpon>frmEmailEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGenericExplorer.resx">
       <DependentUpon>frmGenericExplorer.cs</DependentUpon>

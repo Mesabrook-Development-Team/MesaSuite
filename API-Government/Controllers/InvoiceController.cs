@@ -8,6 +8,7 @@ using API.Common;
 using API.Common.Attributes;
 using API.Common.Extensions;
 using API_Government.Attributes;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using WebModels.company;
 using WebModels.gov;
@@ -230,6 +231,22 @@ namespace API_Government.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPut]
+        public IHttpActionResult PutEmailImplementationIDPayableInvoice(long? id)
+        {
+            Government government = DataObject.GetEditableByPrimaryKey<Government>(GovernmentID, null, null);
+            government.EmailImplementationIDPayableInvoice = id == -1L ? null : id;
+            return government.Save() ? Ok() : government.HandleFailedValidation(this);
+        }
+
+        [HttpPut]
+        public IHttpActionResult PutEmailImplementationIDReadyForReceipt(long? id)
+        {
+            Government government = DataObject.GetEditableByPrimaryKey<Government>(GovernmentID, null, null);
+            government.EmailImplementationIDReadyForReceipt = id == -1L ? null : id;
+            return government.Save() ? Ok() : government.HandleFailedValidation(this);
         }
     }
 }

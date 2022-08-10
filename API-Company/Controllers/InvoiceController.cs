@@ -6,6 +6,7 @@ using API.Common;
 using API.Common.Attributes;
 using API.Common.Extensions;
 using API_Company.Attributes;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using WebModels.company;
 using WebModels.gov;
@@ -236,6 +237,22 @@ namespace API_Company.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPut]
+        public IHttpActionResult PutEmailImplementationIDPayableInvoice(long? id)
+        {
+            Location location = DataObject.GetEditableByPrimaryKey<Location>(LocationID, null, null);
+            location.EmailImplementationIDPayableInvoice = id == -1L ? null : id;
+            return location.Save() ? Ok() : location.HandleFailedValidation(this);
+        }
+
+        [HttpPut]
+        public IHttpActionResult PutEmailImplementationIDReadyForReceipt(long? id)
+        {
+            Location location = DataObject.GetEditableByPrimaryKey<Location>(LocationID, null, null);
+            location.EmailImplementationIDReadyForReceipt = id == -1L ? null : id;
+            return location.Save() ? Ok() : location.HandleFailedValidation(this);
         }
     }
 }

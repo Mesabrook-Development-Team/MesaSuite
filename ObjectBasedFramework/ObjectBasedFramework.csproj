@@ -77,6 +77,7 @@
     <Compile Include="Schema\Schema.cs" />
     <Compile Include="DataSearch\Search.cs" />
     <Compile Include="Utility\ConvertUtility.cs" />
+    <Compile Include="Utility\FieldPathUtility.cs" />
     <Compile Include="Validation\Attributes\RequiredAttribute.cs" />
     <Compile Include="Validation\Attributes\UniqueAttribute.cs" />
     <Compile Include="Validation\Conditions\Condition.cs" />

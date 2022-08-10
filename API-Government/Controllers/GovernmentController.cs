@@ -30,7 +30,10 @@ namespace API_Government.Controllers
         protected override IEnumerable<string> RequestableFields => new List<string>(DefaultRetrievedFields)
         {
             nameof(Government.InvoiceNumberPrefix),
-            nameof(Government.NextInvoiceNumber)
+            nameof(Government.NextInvoiceNumber),
+            nameof(Government.EmailImplementationIDPayableInvoice),
+            nameof(Government.EmailImplementationIDReadyForReceipt),
+            nameof(Government.EmailImplementationIDWireTransferHistory)
         };
 
         public override bool AllowGetAll => true;

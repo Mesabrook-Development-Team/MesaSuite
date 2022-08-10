@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.invoicing;
+using WebModels.mesasys;
 
 namespace WebModels.company
 {
@@ -59,6 +62,76 @@ namespace WebModels.company
         {
             get { CheckGet(); return _nextInvoiceNumber; }
             set { CheckSet(); _nextInvoiceNumber = value; }
+        }
+
+        private long? _emailImplementationIDPayableInvoice;
+        [Field("EC680184-ADE4-4F81-8DA8-47BAA42E9647")]
+        public long? EmailImplementationIDPayableInvoice
+        {
+            get { CheckGet(); return _emailImplementationIDPayableInvoice; }
+            set { CheckSet(); _emailImplementationIDPayableInvoice = value; }
+        }
+
+        private EmailImplementation _emailImplementationPayableInvoice = null;
+        [Relationship("8524C29D-6CA0-47FD-84AE-D742DB329090", ForeignKeyField = nameof(EmailImplementationIDPayableInvoice))]
+        public EmailImplementation EmailImplementationPayableInvoice
+        {
+            get { CheckGet(); return _emailImplementationPayableInvoice; }
+        }
+
+        private long? _emailImplementationIDReadyForReceipt;
+        [Field("EC680184-ADE4-4F81-8DA8-47BAA42E9647")]
+        public long? EmailImplementationIDReadyForReceipt
+        {
+            get { CheckGet(); return _emailImplementationIDReadyForReceipt; }
+            set { CheckSet(); _emailImplementationIDReadyForReceipt = value; }
+        }
+
+        private EmailImplementation _emailImplementationReadyForReceipt = null;
+        [Relationship("8524C29D-6CA0-47FD-84AE-D742DB329090", ForeignKeyField = nameof(EmailImplementationIDReadyForReceipt))]
+        public EmailImplementation EmailImplementationReadyForReceipt
+        {
+            get { CheckGet(); return _emailImplementationReadyForReceipt; }
+        }
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (!IsInsert)
+            {
+                bool deleteSuccessful = true;
+                if (IsFieldDirty(nameof(EmailImplementationIDPayableInvoice)))
+                {
+                    long? previousEmailImpID = GetDirtyValue(nameof(EmailImplementationIDPayableInvoice)) as long?;
+                    if (previousEmailImpID != null)
+                    {
+                        EmailImplementation oldImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(previousEmailImpID, transaction, null);
+                        if (!oldImplementation.Delete(transaction))
+                        {
+                            Errors.AddRange(oldImplementation.Errors.ToArray());
+                            deleteSuccessful = false;
+                        }
+                    }
+                }
+
+
+                if (IsFieldDirty(nameof(EmailImplementationIDReadyForReceipt)))
+                {
+                    long? previousEmailImpID = GetDirtyValue(nameof(EmailImplementationIDReadyForReceipt)) as long?;
+                    if (previousEmailImpID != null)
+                    {
+                        EmailImplementation oldImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(previousEmailImpID, transaction, null);
+                        if (!oldImplementation.Delete(transaction))
+                        {
+                            Errors.AddRange(oldImplementation.Errors.ToArray());
+                            deleteSuccessful = false;
+                        }
+                    }
+                }
+
+                return deleteSuccessful;
+            }
+
+            return base.PostSave(transaction);
         }
 
         #region Relationships

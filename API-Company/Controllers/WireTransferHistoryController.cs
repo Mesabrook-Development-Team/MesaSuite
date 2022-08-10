@@ -8,6 +8,7 @@ using System.Web.Http.Results;
 using API.Common;
 using API.Common.Attributes;
 using API.Common.Extensions;
+using API_Company.App_Code;
 using API_Company.Attributes;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
@@ -16,6 +17,7 @@ using ClussPro.ObjectBasedFramework.DataSearch;
 using WebModels.account;
 using WebModels.company;
 using WebModels.gov;
+using WebModels.mesasys;
 
 namespace API_Company.Controllers
 {
@@ -283,6 +285,19 @@ namespace API_Company.Controllers
                 }
 
                 transaction.Commit();
+            }
+
+            return Ok();
+        }
+
+        [HttpPut]
+        public IHttpActionResult SetWireTransferEmailImplementationID(long id)
+        {
+            Company company = DataObject.GetEditableByPrimaryKey<Company>(CompanyID, null, null);
+            company.EmailImplementationIDWireTransferHistory = id == -1L ? (long?)null : id;
+            if (!company.Save())
+            {
+                return company.HandleFailedValidation(this);
             }
 
             return Ok();

@@ -6,8 +6,10 @@ using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WebModels.account;
 using WebModels.hMailServer.dbo;
+using WebModels.mesasys;
 
 namespace WebModels.company
 {
@@ -41,11 +43,46 @@ namespace WebModels.company
             set { CheckSet(); _emailDomain = value; }
         }
 
+        private long? _emailImplementationIDWireTransferHistory;
+        [Field("ADCD5F15-B180-4BEC-9CFD-E8FDB72BC51B")]
+        public long? EmailImplementationIDWireTransferHistory
+        {
+            get { CheckGet(); return _emailImplementationIDWireTransferHistory; }
+            set { CheckSet();_emailImplementationIDWireTransferHistory = value; }
+        }
+
+        private EmailImplementation _emailImplementationWireTransferHistory = null;
+        [Relationship("E57BB310-8467-4963-AE74-0D7CDFD76E07", ForeignKeyField = nameof(EmailImplementationIDWireTransferHistory))]
+        public EmailImplementation EmailImplementationWireTransferHistory
+        {
+            get { CheckGet(); return _emailImplementationWireTransferHistory; }
+        }
+
         protected override bool PostSave(ITransaction transaction)
         {
-            if (!IsInsert && IsFieldDirty("EmailDomain") && !string.IsNullOrEmpty(EmailDomain))
+            if (!IsInsert)
             {
-                return UpdateEmailInfo();
+                bool savesSuccessful = true;
+                if (IsFieldDirty("EmailDomain") && !string.IsNullOrEmpty(EmailDomain))
+                {
+                    savesSuccessful &= UpdateEmailInfo();
+                }
+
+                if (IsFieldDirty(nameof(EmailImplementationIDWireTransferHistory)))
+                {
+                    long? previousEmailImpID = GetDirtyValue(nameof(EmailImplementationIDWireTransferHistory)) as long?;
+                    if (previousEmailImpID != null)
+                    {
+                        EmailImplementation oldImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(previousEmailImpID, transaction, null);
+                        if (!oldImplementation.Delete(transaction))
+                        {
+                            Errors.AddRange(oldImplementation.Errors.ToArray());
+                            savesSuccessful = false;
+                        }
+                    }
+                }
+
+                return savesSuccessful;
             }
 
             return base.PostSave(transaction);

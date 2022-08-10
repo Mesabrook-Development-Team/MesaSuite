@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using GovernmentPortal.Extensions;
 using GovernmentPortal.Models;
 using GovernmentPortal.Officials;
+using MesaSuite.Common.Data;
 
 namespace GovernmentPortal
 {
@@ -210,6 +213,60 @@ namespace GovernmentPortal
         private void mnuIssueWireTransfer_Click(object sender, EventArgs e)
         {
             new WireTransfers.frmIssue(_government.GovernmentID.Value).ShowDialog();
+        }
+
+        private async void mnuWireTransfersEmailConfiguration_Click(object sender, EventArgs e)
+        {
+            await ShowEmailEditor(nameof(Government.EmailImplementationIDWireTransferHistory), "Wire Transfer Received", "WireTransferHistory/SetWireTransferEmailImplementationID/{0}");
+        }
+
+        private async void mnuInvoicePayableReceived_Click(object sender, EventArgs e)
+        {
+            await ShowEmailEditor(nameof(Government.EmailImplementationIDPayableInvoice), "Payable Invoice Received", "Invoice/PutEmailImplementationIDPayableInvoice/{0}");
+        }
+
+        private async void mnuInvoiceReceivableReady_Click(object sender, EventArgs e)
+        {
+            await ShowEmailEditor(nameof(Government.EmailImplementationIDReadyForReceipt), "Receivable Invoice Ready For Receipt", "Invoice/PutEmailImplementationIDReadyForReceipt/{0}");
+        }
+
+        private async Task ShowEmailEditor(string emailField, string emailName, string putURLFormat)
+        {
+            loader.BringToFront();
+            loader.Visible = true;
+
+            GetData getForEmailImpID = new GetData(DataAccess.APIs.GovernmentPortal, $"Government/Get/{_government.GovernmentID}");
+            getForEmailImpID.RequestFields = new List<string>()
+            {
+                emailField
+            };
+            getForEmailImpID.AddGovHeader(_government.GovernmentID.Value);
+            Government governmentForEmailImpID = await getForEmailImpID.GetObject<Government>();
+            if (governmentForEmailImpID == null)
+            {
+                loader.Visible = false;
+                return;
+            }
+
+            frmEmailEditor emailEditor = new frmEmailEditor()
+            {
+                GovernmentID = _government.GovernmentID.Value,
+                EmailImplementationID = typeof(Government).GetProperty(emailField).GetValue(governmentForEmailImpID) as long?,
+                EmailName = emailName
+            };
+
+            loader.Visible = false;
+
+            if (emailEditor.ShowDialog() == DialogResult.OK)
+            {
+                loader.Visible = true;
+
+                PutData putNewID = new PutData(DataAccess.APIs.GovernmentPortal, string.Format(putURLFormat, emailEditor.EmailImplementationID ?? -1L), new object());
+                putNewID.AddGovHeader(_government.GovernmentID.Value);
+                await putNewID.ExecuteNoResult();
+
+                loader.Visible = false;
+            }
         }
     }
 }

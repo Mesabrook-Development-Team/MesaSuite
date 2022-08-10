@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
@@ -12,6 +14,7 @@ using WebModels.account;
 using WebModels.company;
 using WebModels.gov;
 using WebModels.invoicing.Attributes;
+using WebModels.mesasys;
 
 namespace WebModels.invoicing
 {
@@ -198,6 +201,34 @@ namespace WebModels.invoicing
             set { CheckSet(); _accountToHistorical = value; }
         }
 
+        private decimal? _amount = null;
+        [Field("AFC90715-B402-4337-965E-BA594A3E86E6", HasOperation = true)]
+        public decimal? Amount
+        {
+            get { CheckGet(); return _amount; }
+        }
+
+        public static OperationDelegate AmountOperation => alias =>
+        {
+            ISelectQuery select = SQLProviderFactory.GetSelectQuery();
+            select.SelectList = new List<Select>()
+            {
+                new Select()
+                {
+                    SelectOperand = new Sum((Field)"detail.Total")
+                }
+            };
+            select.Table = new Table("invoicing", "InvoiceLine", "detail");
+            select.WhereCondition = new Condition()
+            {
+                Left = (Field)"detail.InvoiceID",
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = (Field)$"{alias}.InvoiceID"
+            };
+
+            return new SubQuery(select);
+        };
+
         #region Relationships
         #region invoicing
         private List<InvoiceLine> _invoiceLines = new List<InvoiceLine>();
@@ -322,6 +353,54 @@ namespace WebModels.invoicing
                     if (!governmentFrom.Save(transaction))
                     {
                         Errors.AddRange(governmentFrom.Errors.ToArray());
+                    }
+                }
+            }
+            else
+            {
+                if (IsFieldDirty(nameof(Status)))
+                {
+                    Statuses oldStatus = (Statuses)GetDirtyValue(nameof(Status));
+                    if (oldStatus == Statuses.WorkInProgress && Status == Statuses.Sent)
+                    {
+                        long? emailImpID;
+
+                        if (GovernmentIDTo != null)
+                        {
+                            emailImpID = DataObject.GetReadOnlyByPrimaryKey<Government>(GovernmentIDTo, transaction, new[] { nameof(Government.EmailImplementationIDPayableInvoice) }).EmailImplementationIDPayableInvoice;
+                        }
+                        else
+                        {
+                            emailImpID = DataObject.GetReadOnlyByPrimaryKey<Location>(LocationIDTo, transaction, new[] { nameof(Location.EmailImplementationIDPayableInvoice) }).EmailImplementationIDPayableInvoice;
+                        }
+
+                        EmailImplementation emailImp = DataObject.GetReadOnlyByPrimaryKey<EmailImplementation>(emailImpID, transaction, ClussPro.ObjectBasedFramework.Schema.Schema.GetSchemaObject<EmailImplementation>().GetFields().Select(f => f.FieldName));
+
+                        if (emailImp != null)
+                        {
+                            emailImp.SendEmail<Invoice>(InvoiceID, transaction);
+                        }
+                    }
+
+                    if (oldStatus == Statuses.Sent && Status == Statuses.ReadyForReceipt)
+                    {
+                        long? emailImpID;
+
+                        if (GovernmentIDFrom != null)
+                        {
+                            emailImpID = DataObject.GetReadOnlyByPrimaryKey<Government>(GovernmentIDFrom, transaction, new[] { nameof(Government.EmailImplementationIDReadyForReceipt) }).EmailImplementationIDReadyForReceipt;
+                        }
+                        else
+                        {
+                            emailImpID = DataObject.GetReadOnlyByPrimaryKey<Location>(LocationIDFrom, transaction, new[] { nameof(Location.EmailImplementationIDReadyForReceipt) }).EmailImplementationIDReadyForReceipt;
+                        }
+
+                        EmailImplementation emailImp = DataObject.GetReadOnlyByPrimaryKey<EmailImplementation>(emailImpID, transaction, ClussPro.ObjectBasedFramework.Schema.Schema.GetSchemaObject<EmailImplementation>().GetFields().Select(f => f.FieldName));
+
+                        if (emailImp != null)
+                        {
+                            emailImp.SendEmail<Invoice>(InvoiceID, transaction);
+                        }
                     }
                 }
             }

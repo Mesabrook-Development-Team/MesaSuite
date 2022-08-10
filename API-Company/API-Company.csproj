@@ -137,6 +137,8 @@
     <Compile Include="Controllers\DistributionListController.cs" />
     <Compile Include="Controllers\DistributionListRecipientController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
+    <Compile Include="Controllers\EmailImplementationController.cs" />
+    <Compile Include="Controllers\EmailTemplateController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\FiscalQuarterController.cs" />
     <Compile Include="Controllers\GovernmentController.cs" />

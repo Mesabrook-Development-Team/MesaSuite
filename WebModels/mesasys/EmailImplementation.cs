@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using WebModels.company;
@@ -124,5 +125,34 @@ namespace WebModels.mesasys
         }
         #endregion
         #endregion
+
+        public bool SendEmail<TModel>(long? primaryKeyOfModel, ITransaction transaction) where TModel : DataObject
+        {
+            string workingBody = Body;
+
+            HashSet<string> fieldPaths = new HashSet<string>();
+            while(workingBody.Contains("{"))
+            {
+                workingBody = workingBody.Substring(workingBody.IndexOf("{"));
+                string fieldPath = workingBody.Substring(1, workingBody.IndexOf("}") - 1);
+                fieldPaths.Add(fieldPath);
+                workingBody = workingBody.Substring(fieldPath.Length + 2);
+            }
+
+            workingBody = Body;
+            TModel model = DataObject.GetReadOnlyByPrimaryKey<TModel>(primaryKeyOfModel, transaction, fieldPaths);
+            foreach(string fieldPath in fieldPaths)
+            {
+                workingBody = workingBody.Replace($"{{{fieldPath}}}", model.GetValue(fieldPath)?.ToString());
+            }
+
+            OutboundEmail outboundEmail = DataObjectFactory.Create<OutboundEmail>();
+            outboundEmail.FromName = FromName;
+            outboundEmail.FromEmail = FromEmail;
+            outboundEmail.To = To;
+            outboundEmail.Subject = Subject;
+            outboundEmail.Body = workingBody;
+            return outboundEmail.Save(transaction);
+        }
     }
 }

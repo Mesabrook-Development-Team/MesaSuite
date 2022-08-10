@@ -11,7 +11,7 @@ namespace API_Company.Controllers
 {
     [MesabrookAuthorization]
     [ProgramAccess("company")]
-    [CompanyAccess(RequiredPermissions = new string[] { nameof(Employee.ManageLocations) })]
+    [CompanyAccess]
     public class GovernmentController : DataObjectController<Government>
     {
         public override IEnumerable<string> DefaultRetrievedFields => new string[]

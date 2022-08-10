@@ -19,7 +19,7 @@ namespace WebModels.Loaders.mesasys
         {
             yield return new EmailTemplateLoaderObject<WireTransferHistory>(EmailTemplate.EmailTemplates.WireTransferReceived,
                                                                             "Wire Transfer Received",
-                                                                            "A Wire Transfer has been sent to you from {GovernmentFrom.Name}{CompanyFrom.Name} at {TransferTime}. The amount of MBD${Amount} has been deposited into your account of {AccountToHistorical}.\r\n\r\nMemo:\r\n{Memo}",
+                                                                            "A Wire Transfer has been sent to you from {GovernmentFrom.Name}{CompanyFrom.Name} at {TransferTime}. The amount of MBD${Amount:N2} has been deposited into your account of {AccountToHistorical}.\r\n\r\nMemo:\r\n{Memo}",
                                                                             EmailTemplate.SecurityCheckTypes.WireTransferHistory,
                                                                             wth => new List<object>()
                                                                             {
@@ -37,10 +37,10 @@ namespace WebModels.Loaders.mesasys
 
             yield return new EmailTemplateLoaderObject<invoicing.Invoice>(EmailTemplate.EmailTemplates.AccountsPayableInvoiceReceived,
                                                                           "Payable Invoice Received",
-                                                                          "Invoice Number {InvoiceNumber} has been issued to you by {GovernmentFrom.Name}{LocationFrom.Company.Name} for the amount of MBD${Amount}.\r\n\r\n" +
-                                                                            "Invoice Date: {InvoiceDate}\r\n" +
+                                                                          "Invoice Number {InvoiceNumber} has been issued to you by {GovernmentFrom.Name}{LocationFrom.Company.Name} for the amount of MBD${Amount:N2}.\r\n\r\n" +
+                                                                            "Invoice Date: {InvoiceDate:MM/dd/yyyy}\r\n" +
                                                                             "Description: {Description}\r\n" +
-                                                                            "Due Date: {DueDate}",
+                                                                            "Due Date: {DueDate:MM/dd/yyyy}",
                                                                           EmailTemplate.SecurityCheckTypes.Invoicing,
                                                                           invoice => new List<object>()
                                                                           {

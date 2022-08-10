@@ -34,6 +34,11 @@ namespace WebModels.mesasys.Validations
                 }
 
                 string binding = workingString.Substring(0, workingString.IndexOf('}'));
+                if (binding.Contains(":"))
+                {
+                    binding = binding.Substring(0, binding.IndexOf(":"));
+                }
+
                 if (!validBindings.Contains(binding))
                 {
                     return false;

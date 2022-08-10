@@ -140,10 +140,38 @@ namespace WebModels.mesasys
             }
 
             workingBody = Body;
-            TModel model = DataObject.GetReadOnlyByPrimaryKey<TModel>(primaryKeyOfModel, transaction, fieldPaths);
+            TModel model = DataObject.GetReadOnlyByPrimaryKey<TModel>(primaryKeyOfModel, transaction, fieldPaths.Select(fp => fp.Contains(":") ? fp.Substring(0, fp.IndexOf(":")) : fp));
             foreach(string fieldPath in fieldPaths)
             {
-                workingBody = workingBody.Replace($"{{{fieldPath}}}", model.GetValue(fieldPath)?.ToString());
+                string format = "";
+                if (fieldPath.Contains(":"))
+                {
+                    format = fieldPath.Substring(fieldPath.IndexOf(":") + 1);
+                }
+
+                object fieldValue = model.GetValue(fieldPath.Contains(":") ? fieldPath.Substring(0, fieldPath.IndexOf(":")) : fieldPath);
+                if (fieldValue != null && !string.IsNullOrEmpty(format))
+                {
+                    if (fieldValue is DateTime dateTime)
+                    {
+                        try
+                        {
+                            fieldValue = dateTime.ToString(format);
+                        }
+                        catch { }
+                    }
+
+                    if (fieldValue is decimal decimalValue)
+                    {
+                        try
+                        {
+                            fieldValue = decimalValue.ToString(format);
+                        }
+                        catch { }
+                    }
+                }
+
+                workingBody = workingBody.Replace($"{{{fieldPath}}}", fieldValue?.ToString());
             }
 
             OutboundEmail outboundEmail = DataObjectFactory.Create<OutboundEmail>();

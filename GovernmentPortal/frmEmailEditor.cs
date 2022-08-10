@@ -185,6 +185,12 @@ namespace GovernmentPortal
                 }
 
                 string binding = bodyString.Substring(0, bodyString.IndexOf('}'));
+
+                if (binding.Contains(":"))
+                {
+                    binding = binding.Substring(0, binding.IndexOf(":"));
+                }
+
                 if (!allowedBindings.Contains(binding))
                 {
                     return false;

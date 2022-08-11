@@ -56,8 +56,8 @@
             this.mnuTile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuList = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDetails = new System.Windows.Forms.ToolStripMenuItem();
-            this.loader1 = new CompanyStudio.Loader();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loader1 = new SystemManagement.Loader();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -255,6 +255,13 @@
             this.mnuDetails.Text = "Details";
             this.mnuDetails.Click += new System.EventHandler(this.ListViewTypeUpdate);
             // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
             // loader1
             // 
             this.loader1.BackColor = System.Drawing.Color.Transparent;
@@ -262,13 +269,6 @@
             this.loader1.Name = "loader1";
             this.loader1.Size = new System.Drawing.Size(196, 101);
             this.loader1.TabIndex = 5;
-            // 
-            // refreshToolStripMenuItem
-            // 
-            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
-            this.refreshToolStripMenuItem.Text = "Refresh";
-            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // frmManage
             // 
@@ -316,7 +316,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuList;
         private System.Windows.Forms.ToolStripMenuItem mnuDetails;
         private System.Windows.Forms.ToolStripMenuItem mnuNewDomain;
-        private CompanyStudio.Loader loader1;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private Loader loader1;
     }
 }

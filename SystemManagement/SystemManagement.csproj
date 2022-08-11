@@ -131,6 +131,12 @@
     <Compile Include="frmSelectUsers.Designer.cs">
       <DependentUpon>frmSelectUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Loader.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Loader.Designer.cs">
+      <DependentUpon>Loader.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CrashReport.cs" />
     <Compile Include="Models\Domain.cs" />
@@ -188,16 +194,15 @@
     <EmbeddedResource Include="frmSelectUsers.resx">
       <DependentUpon>frmSelectUsers.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Loader.resx">
+      <DependentUpon>Loader.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompanyStudio\CompanyStudio.csproj">
-      <Project>{958B665B-0BED-4A1C-80D1-4FCC0DD861B7}</Project>
-      <Name>CompanyStudio</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MesaSuite.Common\MesaSuite.Common.csproj">
       <Project>{5894467E-F5D9-4AEA-91E3-07851FE3E722}</Project>
       <Name>MesaSuite.Common</Name>

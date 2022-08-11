@@ -121,6 +121,12 @@
     <Compile Include="frmSelectUsers.Designer.cs">
       <DependentUpon>frmSelectUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Loader.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Loader.Designer.cs">
+      <DependentUpon>Loader.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CrashReport.cs" />
     <Compile Include="Models\Domain.cs" />
@@ -178,6 +184,9 @@
     <EmbeddedResource Include="frmSelectUsers.resx">
       <DependentUpon>frmSelectUsers.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Loader.resx">
+      <DependentUpon>Loader.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -233,6 +242,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\government_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gif_loader.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

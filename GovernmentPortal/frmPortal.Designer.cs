@@ -84,7 +84,7 @@ namespace GovernmentPortal
             this.tsmiTaxes,
             this.mnuWireTransfers,
             this.tsbMintCurrency});
-            this.toolFinance.Image = global::GovernmentPortal.Properties.Resources.icn_dollar;
+            this.toolFinance.Image = global::GovernmentPortal.Properties.Resources.icn_dollar_out;
             this.toolFinance.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolFinance.Name = "toolFinance";
             this.toolFinance.Size = new System.Drawing.Size(85, 28);
@@ -106,7 +106,7 @@ namespace GovernmentPortal
             // 
             this.tsmiAccountList.Image = global::GovernmentPortal.Properties.Resources.icn_list;
             this.tsmiAccountList.Name = "tsmiAccountList";
-            this.tsmiAccountList.Size = new System.Drawing.Size(130, 22);
+            this.tsmiAccountList.Size = new System.Drawing.Size(188, 30);
             this.tsmiAccountList.Text = "List";
             this.tsmiAccountList.Click += new System.EventHandler(this.tsmiAccountList_Click);
             // 
@@ -114,7 +114,7 @@ namespace GovernmentPortal
             // 
             this.tsmiAccountCategories.Image = global::GovernmentPortal.Properties.Resources.icn_view;
             this.tsmiAccountCategories.Name = "tsmiAccountCategories";
-            this.tsmiAccountCategories.Size = new System.Drawing.Size(130, 22);
+            this.tsmiAccountCategories.Size = new System.Drawing.Size(188, 30);
             this.tsmiAccountCategories.Text = "Categories";
             this.tsmiAccountCategories.Click += new System.EventHandler(this.tsmiAccountCategories_Click);
             // 
@@ -135,7 +135,7 @@ namespace GovernmentPortal
             // 
             this.mnuInvoiceReceivable.Image = global::GovernmentPortal.Properties.Resources.icn_dollar_in;
             this.mnuInvoiceReceivable.Name = "mnuInvoiceReceivable";
-            this.mnuInvoiceReceivable.Size = new System.Drawing.Size(197, 30);
+            this.mnuInvoiceReceivable.Size = new System.Drawing.Size(189, 22);
             this.mnuInvoiceReceivable.Text = "Receivable";
             this.mnuInvoiceReceivable.Click += new System.EventHandler(this.mnuInvoiceReceivable_Click);
             // 
@@ -143,20 +143,20 @@ namespace GovernmentPortal
             // 
             this.mnuInvoicePayable.Image = global::GovernmentPortal.Properties.Resources.icn_dollar_out;
             this.mnuInvoicePayable.Name = "mnuInvoicePayable";
-            this.mnuInvoicePayable.Size = new System.Drawing.Size(197, 30);
+            this.mnuInvoicePayable.Size = new System.Drawing.Size(189, 22);
             this.mnuInvoicePayable.Text = "Payable";
             this.mnuInvoicePayable.Click += new System.EventHandler(this.mnuInvoicePayable_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(194, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(186, 6);
             // 
             // mnuInvoicesInvoiceConfiguration
             // 
             this.mnuInvoicesInvoiceConfiguration.Image = global::GovernmentPortal.Properties.Resources.icn_view;
             this.mnuInvoicesInvoiceConfiguration.Name = "mnuInvoicesInvoiceConfiguration";
-            this.mnuInvoicesInvoiceConfiguration.Size = new System.Drawing.Size(197, 30);
+            this.mnuInvoicesInvoiceConfiguration.Size = new System.Drawing.Size(189, 22);
             this.mnuInvoicesInvoiceConfiguration.Text = "Invoice Configuration";
             this.mnuInvoicesInvoiceConfiguration.Click += new System.EventHandler(this.mnuInvoicesInvoiceConfiguration_Click);
             // 
@@ -166,20 +166,20 @@ namespace GovernmentPortal
             this.mnuInvoicePayableReceived,
             this.mnuInvoiceReceivableReady});
             this.emailConfigurationToolStripMenuItem1.Name = "emailConfigurationToolStripMenuItem1";
-            this.emailConfigurationToolStripMenuItem1.Size = new System.Drawing.Size(197, 30);
+            this.emailConfigurationToolStripMenuItem1.Size = new System.Drawing.Size(189, 22);
             this.emailConfigurationToolStripMenuItem1.Text = "Email Configuration";
             // 
             // mnuInvoicePayableReceived
             // 
             this.mnuInvoicePayableReceived.Name = "mnuInvoicePayableReceived";
-            this.mnuInvoicePayableReceived.Size = new System.Drawing.Size(180, 22);
+            this.mnuInvoicePayableReceived.Size = new System.Drawing.Size(165, 22);
             this.mnuInvoicePayableReceived.Text = "Payable Received";
             this.mnuInvoicePayableReceived.Click += new System.EventHandler(this.mnuInvoicePayableReceived_Click);
             // 
             // mnuInvoiceReceivableReady
             // 
             this.mnuInvoiceReceivableReady.Name = "mnuInvoiceReceivableReady";
-            this.mnuInvoiceReceivableReady.Size = new System.Drawing.Size(180, 22);
+            this.mnuInvoiceReceivableReady.Size = new System.Drawing.Size(165, 22);
             this.mnuInvoiceReceivableReady.Text = "Receivable Ready";
             this.mnuInvoiceReceivableReady.Click += new System.EventHandler(this.mnuInvoiceReceivableReady_Click);
             // 
@@ -215,6 +215,7 @@ namespace GovernmentPortal
             this.mnuWireTransferHistory,
             this.toolStripMenuItem1,
             this.mnuWireTransfersEmailConfiguration});
+            this.mnuWireTransfers.Image = global::GovernmentPortal.Properties.Resources.icn_dollar_out;
             this.mnuWireTransfers.Name = "mnuWireTransfers";
             this.mnuWireTransfers.Size = new System.Drawing.Size(188, 30);
             this.mnuWireTransfers.Text = "Wire Transfers";
@@ -223,7 +224,7 @@ namespace GovernmentPortal
             // 
             this.mnuIssueWireTransfer.Image = global::GovernmentPortal.Properties.Resources.icn_dollar_out;
             this.mnuIssueWireTransfer.Name = "mnuIssueWireTransfer";
-            this.mnuIssueWireTransfer.Size = new System.Drawing.Size(183, 22);
+            this.mnuIssueWireTransfer.Size = new System.Drawing.Size(191, 30);
             this.mnuIssueWireTransfer.Text = "Issue Wire Transfer";
             this.mnuIssueWireTransfer.Click += new System.EventHandler(this.mnuIssueWireTransfer_Click);
             // 
@@ -231,19 +232,20 @@ namespace GovernmentPortal
             // 
             this.mnuWireTransferHistory.Image = global::GovernmentPortal.Properties.Resources.icn_list;
             this.mnuWireTransferHistory.Name = "mnuWireTransferHistory";
-            this.mnuWireTransferHistory.Size = new System.Drawing.Size(183, 22);
+            this.mnuWireTransferHistory.Size = new System.Drawing.Size(191, 30);
             this.mnuWireTransferHistory.Text = "Wire Transfer History";
             this.mnuWireTransferHistory.Click += new System.EventHandler(this.mnuWireTransferHistory_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(188, 6);
             // 
             // mnuWireTransfersEmailConfiguration
             // 
+            this.mnuWireTransfersEmailConfiguration.Image = global::GovernmentPortal.Properties.Resources.mail_explorer;
             this.mnuWireTransfersEmailConfiguration.Name = "mnuWireTransfersEmailConfiguration";
-            this.mnuWireTransfersEmailConfiguration.Size = new System.Drawing.Size(183, 22);
+            this.mnuWireTransfersEmailConfiguration.Size = new System.Drawing.Size(191, 30);
             this.mnuWireTransfersEmailConfiguration.Text = "Email Configuration";
             this.mnuWireTransfersEmailConfiguration.Click += new System.EventHandler(this.mnuWireTransfersEmailConfiguration_Click);
             // 

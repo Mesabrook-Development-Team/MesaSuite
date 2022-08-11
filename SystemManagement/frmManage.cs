@@ -42,7 +42,12 @@ namespace SystemManagement
 
         private async Task LoadData()
         {
-            Enabled = false;
+            menuStrip1.Visible = false;
+            loader1.Visible = true;
+            lstSecurities.Visible = false;
+            txtSearch.Visible = false;
+            label1.Visible = false;
+            loader1.BringToFront();
             lstSecurities.Items.Clear();
 
             GetData getData = new GetData(DataAccess.APIs.SystemManagement, "User/GetAllUsers");
@@ -84,7 +89,12 @@ namespace SystemManagement
                 AddCrashReport(crashReport);
             }
 
-            Enabled = true;
+            loader1.Visible = false;
+            loader1.SendToBack();
+            menuStrip1.Visible = true;
+            lstSecurities.Visible = true;
+            txtSearch.Visible = true;
+            label1.Visible = true;
             BringToFront();
         }
 
@@ -413,6 +423,11 @@ namespace SystemManagement
             frmNewDomain newDomain = (frmNewDomain)sender;
             newDomain.FormClosed -= NewDomain_FormClosed;
 
+            await LoadData();
+        }
+
+        private async void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             await LoadData();
         }
     }

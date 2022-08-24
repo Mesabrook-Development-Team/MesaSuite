@@ -162,11 +162,15 @@ namespace GovernmentPortal
 
         private void cmdSave_Click(object sender, EventArgs e)
         {
+            if (((Control)shownControl).IsDisposed) return;
+
             shownControl?.OnSaveClicked();
         }
 
         private void cmdDelete_Click(object sender, EventArgs e)
         {
+            if (((Control)shownControl).IsDisposed) return;
+
             shownControl?.OnDeleteClicked();
         }
 

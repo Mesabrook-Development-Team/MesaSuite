@@ -122,7 +122,8 @@ namespace GovernmentPortal
             ManageAccounts,
             ManageTaxes,
             CanMintCurrency,
-            ManageInvoices
+            ManageInvoices,
+            IssueWireTransfers
         }
 
         public class PermissionChangeEventArgs : EventArgs

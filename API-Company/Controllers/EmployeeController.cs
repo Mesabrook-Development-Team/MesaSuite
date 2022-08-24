@@ -24,7 +24,8 @@ namespace API_Company.Controllers
             nameof(Employee.ManageEmails),
             nameof(Employee.ManageEmployees),
             nameof(Employee.ManageAccounts),
-            nameof(Employee.ManageLocations)
+            nameof(Employee.ManageLocations),
+            nameof(Employee.IssueWireTransfers)
         };
 
         [HttpGet]

@@ -106,6 +106,7 @@ namespace GovernmentPortal.Officials
                 Model.CanMintCurrency = GovCanMintCurrency ? chkMintCurrency.Checked : false;
                 Model.ManageTaxes = chkManageTaxes.Checked;
                 Model.ManageInvoices = chkManageInvoices.Checked;
+                Model.IssueWireTransfers = chkIssueWireTransfers.Checked;
 
                 if (Model.OfficialID == default(long))
                 {
@@ -173,6 +174,7 @@ namespace GovernmentPortal.Officials
                 chkMintCurrency.Checked = Model.CanMintCurrency;
                 chkManageTaxes.Checked = Model.ManageTaxes;
                 chkManageInvoices.Checked = Model.ManageInvoices;
+                chkIssueWireTransfers.Checked = Model.IssueWireTransfers;
             }
 
             loader.Visible = false;

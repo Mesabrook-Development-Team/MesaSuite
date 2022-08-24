@@ -68,7 +68,7 @@ namespace MesaSuite
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(203, 373);
+            this.btnApply.Location = new System.Drawing.Point(475, 202);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 4;
@@ -78,7 +78,7 @@ namespace MesaSuite
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(12, 373);
+            this.btnReset.Location = new System.Drawing.Point(12, 202);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(92, 23);
             this.btnReset.TabIndex = 5;
@@ -96,9 +96,9 @@ namespace MesaSuite
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.btnBrowse);
             this.groupBox1.Controls.Add(this.txtWallpaperPath);
-            this.groupBox1.Location = new System.Drawing.Point(12, 202);
+            this.groupBox1.Location = new System.Drawing.Point(284, 29);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(266, 152);
+            this.groupBox1.Size = new System.Drawing.Size(266, 167);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Set Wallpaper";
@@ -200,7 +200,7 @@ namespace MesaSuite
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(291, 413);
+            this.ClientSize = new System.Drawing.Size(561, 237);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnApply);

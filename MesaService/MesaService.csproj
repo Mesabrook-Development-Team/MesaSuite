@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -66,7 +67,8 @@
     <Compile Include="ServiceTasks\AuditAccountBalances.cs" />
     <Compile Include="ServiceTasks\AuditFiscalQuarters.cs" />
     <Compile Include="ServiceTasks\IServiceTask.cs" />
-	<Content Include="..\SqlServerProvider\bin\Debug\MSSqlServerProvider.dll">
+    <Compile Include="ServiceTasks\SendOutboundEmails.cs" />
+    <Content Include="..\SqlServerProvider\bin\Debug\MSSqlServerProvider.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

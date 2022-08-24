@@ -12,6 +12,7 @@ using WebModels.account;
 using WebModels.company;
 using WebModels.hMailServer.dbo;
 using WebModels.invoicing;
+using WebModels.mesasys;
 
 namespace WebModels.gov
 {
@@ -127,6 +128,51 @@ namespace WebModels.gov
             };
         }
 
+        private long? _emailImplementationIDWireTransferHistory;
+        [Field("02F2E0EE-13BA-4F91-A221-0DA2E679F399")]
+        public long? EmailImplementationIDWireTransferHistory
+        {
+            get { CheckGet(); return _emailImplementationIDWireTransferHistory; }
+            set { CheckSet(); _emailImplementationIDWireTransferHistory = value; }
+        }
+
+        private EmailImplementation _emailImplementationWireTransferHistory = null;
+        [Relationship("7418B878-7708-4891-A370-C6BAE9D24D7C", ForeignKeyField = nameof(EmailImplementationIDWireTransferHistory))]
+        public EmailImplementation EmailImplementationWireTransferHistory
+        {
+            get { CheckGet(); return _emailImplementationWireTransferHistory; }
+        }
+
+        private long? _emailImplementationIDPayableInvoice;
+        [Field("6DE5EF8C-46D1-483E-81BA-C7EE25005188")]
+        public long? EmailImplementationIDPayableInvoice
+        {
+            get { CheckGet(); return _emailImplementationIDPayableInvoice; }
+            set { CheckSet(); _emailImplementationIDPayableInvoice = value; }
+        }
+
+        private EmailImplementation _emailImplementationPayableInvoice = null;
+        [Relationship("7BFE926B-44AD-4481-9309-E62335F8EE18", ForeignKeyField = nameof(EmailImplementationIDPayableInvoice))]
+        public EmailImplementation EmailImplementationPayableInvoice
+        {
+            get { CheckGet(); return _emailImplementationPayableInvoice; }
+        }
+
+        private long? _emailImplementationIDReadyForReceipt;
+        [Field("6B9C1165-EAE2-468E-85B4-26FA3ED200CB")]
+        public long? EmailImplementationIDReadyForReceipt
+        {
+            get { CheckGet(); return _emailImplementationIDReadyForReceipt; }
+            set { CheckSet(); _emailImplementationIDReadyForReceipt = value; }
+        }
+
+        private EmailImplementation _emailImplementationReadyForReceipt = null;
+        [Relationship("81CDA9C9-D95B-4E28-8CFD-5FF220DB7990", ForeignKeyField = nameof(EmailImplementationIDReadyForReceipt))]
+        public EmailImplementation EmailImplementationReadyForReceipt
+        {
+            get { CheckGet(); return _emailImplementationReadyForReceipt; }
+        }
+
         #region Relationships
         #region account
         private List<Account> _accounts = new List<Account>();
@@ -178,6 +224,20 @@ namespace WebModels.gov
         public IReadOnlyCollection<Invoice> InvoicesTo
         {
             get { CheckGet(); return _invoicesTo; }
+        }
+
+        private List<WireTransferHistory> _wireTransferHistoryFroms = new List<WireTransferHistory>();
+        [RelationshipList("79AE85AC-F5CF-4BB4-98AC-72F38EEACD1E", nameof(WireTransferHistory.GovernmentIDFrom))]
+        public IReadOnlyCollection<WireTransferHistory> WireTransferHistoryFroms
+        {
+            get { CheckGet(); return _wireTransferHistoryFroms; }
+        }
+
+        private List<WireTransferHistory> _wireTransferHistoryTos = new List<WireTransferHistory>();
+        [RelationshipList("35D06C00-44F0-463F-8247-CD424C69FA46", nameof(WireTransferHistory.GovernmentIDTo))]
+        public IReadOnlyCollection<WireTransferHistory> WireTransferHistoryTos
+        {
+            get { CheckGet(); return _wireTransferHistoryTos; }
         }
         #endregion
         #endregion

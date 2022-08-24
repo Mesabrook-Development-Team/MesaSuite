@@ -137,6 +137,8 @@
     <Compile Include="Controllers\DistributionListController.cs" />
     <Compile Include="Controllers\DistributionListRecipientController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
+    <Compile Include="Controllers\EmailImplementationController.cs" />
+    <Compile Include="Controllers\EmailTemplateController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\FiscalQuarterController.cs" />
     <Compile Include="Controllers\GovernmentController.cs" />
@@ -148,6 +150,7 @@
     <Compile Include="Controllers\SalesTaxController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
+    <Compile Include="Controllers\WireTransferHistoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

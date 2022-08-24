@@ -46,6 +46,7 @@
     <Compile Include="account\Category.cs" />
     <Compile Include="account\FiscalQuarter.cs" />
     <Compile Include="account\Transaction.cs" />
+    <Compile Include="account\WireTransferHistory.cs" />
     <Compile Include="auth\Client.cs" />
     <Compile Include="auth\Code.cs" />
     <Compile Include="auth\Token.cs" />
@@ -74,9 +75,15 @@
     <Compile Include="invoicing\Validations\InvoiceLineValidationDefinition.cs" />
     <Compile Include="invoicing\Validations\InvoiceValidationDefinition.cs" />
     <Compile Include="invoicing\Validations\IsValidForSentStatusCondition.cs" />
+    <Compile Include="Loaders\mesasys\EmailTemplateLoader.cs" />
     <Compile Include="Loaders\security\ProgramLoader.cs" />
     <Compile Include="mesasys\CrashReport.cs" />
+    <Compile Include="mesasys\OutboundEmail.cs" />
+    <Compile Include="mesasys\EmailImplementation.cs" />
+    <Compile Include="mesasys\EmailTemplate.cs" />
     <Compile Include="mesasys\MigrationHistory.cs" />
+    <Compile Include="mesasys\Validations\EmailImplementationValidations.cs" />
+    <Compile Include="mesasys\Validations\HasValidBindingsCondition.cs" />
     <Compile Include="Migrations\IMigration.cs" />
     <Compile Include="Migrations\Migration000001.cs" />
     <Compile Include="Migrations\Migration000002.cs" />
@@ -90,6 +97,8 @@
     <Compile Include="Migrations\Migration000012.cs" />
     <Compile Include="Migrations\Migration000013.cs" />
     <Compile Include="Migrations\Migration000014.cs" />
+    <Compile Include="Migrations\Migration000015.cs" />
+    <Compile Include="Migrations\Migration000016.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="security\Program.cs" />

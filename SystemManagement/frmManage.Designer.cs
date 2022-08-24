@@ -56,6 +56,8 @@
             this.mnuTile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuList = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDetails = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loader1 = new SystemManagement.Loader();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -141,7 +143,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.mnuView});
+            this.mnuView,
+            this.refreshToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(753, 24);
@@ -252,16 +255,31 @@
             this.mnuDetails.Text = "Details";
             this.mnuDetails.Click += new System.EventHandler(this.ListViewTypeUpdate);
             // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
+            // loader1
+            // 
+            this.loader1.BackColor = System.Drawing.Color.Transparent;
+            this.loader1.Location = new System.Drawing.Point(278, 172);
+            this.loader1.Name = "loader1";
+            this.loader1.Size = new System.Drawing.Size(196, 101);
+            this.loader1.TabIndex = 5;
+            // 
             // frmManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(753, 445);
+            this.Controls.Add(this.loader1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lstSecurities);
-            this.Enabled = false;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmManage";
@@ -298,5 +316,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuList;
         private System.Windows.Forms.ToolStripMenuItem mnuDetails;
         private System.Windows.Forms.ToolStripMenuItem mnuNewDomain;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private Loader loader1;
     }
 }

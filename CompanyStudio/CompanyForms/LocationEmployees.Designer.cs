@@ -48,6 +48,7 @@
             this.colManageInvoices});
             this.dgvEmployees.Location = new System.Drawing.Point(0, 0);
             this.dgvEmployees.Name = "dgvEmployees";
+            this.dgvEmployees.RowHeadersWidth = 62;
             this.dgvEmployees.Size = new System.Drawing.Size(649, 248);
             this.dgvEmployees.TabIndex = 0;
             // 
@@ -58,6 +59,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.loader.BackColor = System.Drawing.Color.Transparent;
             this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.loader.Name = "loader";
             this.loader.Size = new System.Drawing.Size(649, 248);
             this.loader.TabIndex = 1;
@@ -65,18 +67,24 @@
             // colLocationEmployeeID
             // 
             this.colLocationEmployeeID.HeaderText = "";
+            this.colLocationEmployeeID.MinimumWidth = 8;
             this.colLocationEmployeeID.Name = "colLocationEmployeeID";
             this.colLocationEmployeeID.Visible = false;
+            this.colLocationEmployeeID.Width = 150;
             // 
             // colEmployee
             // 
             this.colEmployee.HeaderText = "Employee";
+            this.colEmployee.MinimumWidth = 8;
             this.colEmployee.Name = "colEmployee";
+            this.colEmployee.Width = 150;
             // 
             // colManageInvoices
             // 
             this.colManageInvoices.HeaderText = "Manage Invoices";
+            this.colManageInvoices.MinimumWidth = 8;
             this.colManageInvoices.Name = "colManageInvoices";
+            this.colManageInvoices.Width = 150;
             // 
             // LocationEmployees
             // 

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
+using System.Web.Http;
 using API.Common;
 using API.Common.Attributes;
 using API_Company.Attributes;
@@ -28,6 +28,8 @@ namespace API_Company.Controllers
 
         protected override IEnumerable<string> RequestableFields => new string[]
         {
+            nameof(Location.EmailImplementationIDPayableInvoice),
+            nameof(Location.EmailImplementationIDReadyForReceipt),
             $"{nameof(Location.LocationEmployees)}.{nameof(LocationEmployee.LocationEmployeeID)}",
             $"{nameof(Location.LocationEmployees)}.{nameof(LocationEmployee.LocationID)}",
             $"{nameof(Location.LocationEmployees)}.{nameof(LocationEmployee.EmployeeID)}",
@@ -51,6 +53,14 @@ namespace API_Company.Controllers
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                 Value = companyID
             };
+        }
+
+        [HttpGet]
+        [CompanyAccess]
+        [LocationAccess]
+        public override Task<Location> Get(long id)
+        {
+            return base.Get(id);
         }
     }
 }

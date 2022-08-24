@@ -6,8 +6,10 @@ using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WebModels.account;
 using WebModels.hMailServer.dbo;
+using WebModels.mesasys;
 
 namespace WebModels.company
 {
@@ -41,11 +43,46 @@ namespace WebModels.company
             set { CheckSet(); _emailDomain = value; }
         }
 
+        private long? _emailImplementationIDWireTransferHistory;
+        [Field("ADCD5F15-B180-4BEC-9CFD-E8FDB72BC51B")]
+        public long? EmailImplementationIDWireTransferHistory
+        {
+            get { CheckGet(); return _emailImplementationIDWireTransferHistory; }
+            set { CheckSet();_emailImplementationIDWireTransferHistory = value; }
+        }
+
+        private EmailImplementation _emailImplementationWireTransferHistory = null;
+        [Relationship("E57BB310-8467-4963-AE74-0D7CDFD76E07", ForeignKeyField = nameof(EmailImplementationIDWireTransferHistory))]
+        public EmailImplementation EmailImplementationWireTransferHistory
+        {
+            get { CheckGet(); return _emailImplementationWireTransferHistory; }
+        }
+
         protected override bool PostSave(ITransaction transaction)
         {
-            if (!IsInsert && IsFieldDirty("EmailDomain") && !string.IsNullOrEmpty(EmailDomain))
+            if (!IsInsert)
             {
-                return UpdateEmailInfo();
+                bool savesSuccessful = true;
+                if (IsFieldDirty("EmailDomain") && !string.IsNullOrEmpty(EmailDomain))
+                {
+                    savesSuccessful &= UpdateEmailInfo();
+                }
+
+                if (IsFieldDirty(nameof(EmailImplementationIDWireTransferHistory)))
+                {
+                    long? previousEmailImpID = GetDirtyValue(nameof(EmailImplementationIDWireTransferHistory)) as long?;
+                    if (previousEmailImpID != null)
+                    {
+                        EmailImplementation oldImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(previousEmailImpID, transaction, null);
+                        if (!oldImplementation.Delete(transaction))
+                        {
+                            Errors.AddRange(oldImplementation.Errors.ToArray());
+                            savesSuccessful = false;
+                        }
+                    }
+                }
+
+                return savesSuccessful;
             }
 
             return base.PostSave(transaction);
@@ -113,6 +150,21 @@ namespace WebModels.company
         {
             get { CheckGet(); return _categories; }
         }
+
+        private List<account.WireTransferHistory> _wireTransferHistoryFroms = new List<WireTransferHistory>();
+        [RelationshipList("1C4ADE88-1C88-49F2-BA2B-4233B163F010", nameof(account.WireTransferHistory.CompanyIDTo))]
+        public IReadOnlyCollection<account.WireTransferHistory> WireTransferHistoryFroms
+        {
+            get { CheckGet(); return _wireTransferHistoryFroms; }
+        }
+
+        private List<account.WireTransferHistory> _wireTransferHistoryTos = new List<account.WireTransferHistory>();
+        [RelationshipList("72AF3D64-C652-48AE-B43C-369ABDB83F2B", nameof(account.WireTransferHistory.CompanyIDFrom))]
+        public IReadOnlyCollection<account.WireTransferHistory> WireTransferHistoryTos
+        {
+            get { CheckGet(); return _wireTransferHistoryTos; }
+        }
+        
         #endregion
         #region company
         private List<Employee> _employees = new List<Employee>();

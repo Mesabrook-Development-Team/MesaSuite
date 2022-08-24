@@ -1,4 +1,5 @@
-﻿using CompanyStudio.Models;
+﻿using CompanyStudio.Extensions;
+using CompanyStudio.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -38,9 +40,13 @@ namespace CompanyStudio
             {
                 _activeCompany = value;
                 toolCompanyDropDown.Text = _activeCompany?.Name ?? "";
+
+                financeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts) ||
+                                                   PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices) ||
+                                                   PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
+
                 emailToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageEmails);
                 employeesToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageEmployees);
-                accountsToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts);
                 mnuLocationExplorer.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageLocations);
 
                 toolLocationDropDown.SelectedItem = null;
@@ -66,7 +72,13 @@ namespace CompanyStudio
             {
                 _activeLocation = value;
                 toolLocationDropDown.SelectedItem = toolLocationDropDown.Items.Cast<DropDownItem<Location>>().FirstOrDefault(ddi => ddi.Object == _activeLocation);
+
+                financeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts) ||
+                                                   PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices) ||
+                                                   PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
+
                 invoicingToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices);
+                mnuWireTransfers.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
             }
         }
 
@@ -119,13 +131,17 @@ namespace CompanyStudio
                     case PermissionsManager.CompanyWidePermissions.ManageEmployees:
                         employeesToolStripMenuItem.Visible = e.Value;
                         break;
-                    case PermissionsManager.CompanyWidePermissions.ManageAccounts:
-                        accountsToolStripMenuItem.Visible = e.Value;
-                        break;
                     case PermissionsManager.CompanyWidePermissions.ManageLocations:
                         mnuLocationExplorer.Visible = e.Value;
                         break;
+                    case PermissionsManager.CompanyWidePermissions.ManageAccounts:
+                        accountsToolStripMenuItem.Visible = e.Value;
+                        break;
                 }
+
+                financeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts) ||
+                                                   PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices) ||
+                                                   PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
             }
         }
 
@@ -133,12 +149,16 @@ namespace CompanyStudio
         {
             if (e.LocationID == (ActiveLocation?.LocationID ?? 0))
             {
-                switch (e.Permission)
+                switch(e.Permission)
                 {
                     case PermissionsManager.LocationWidePermissions.ManageInvoices:
                         invoicingToolStripMenuItem.Visible = e.Value;
                         break;
                 }
+
+                financeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts) ||
+                                                   PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices) ||
+                                                   PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
             }
         }
 
@@ -204,6 +224,8 @@ namespace CompanyStudio
             {
                 connect.Theme = currentTheme;
             }
+
+            studioFormExtender.ApplyStyle(loader, currentTheme);
         }
 
         private IDockContent HandlePersistString(string persistString)
@@ -535,7 +557,7 @@ namespace CompanyStudio
 
         private void mnuInvoicePayables_Click(object sender, EventArgs e)
         {
-            Invoicing.frmPayableExplorer explorer = dockPanel.Contents.OfType<Invoicing.frmPayableExplorer>().FirstOrDefault(pe => pe.Company.CompanyID == ActiveCompany?.CompanyID);
+            Invoicing.frmPayableExplorer explorer = dockPanel.Contents.OfType<Invoicing.frmPayableExplorer>().FirstOrDefault(pe => pe.LocationModel.LocationID == ActiveLocation?.LocationID);
             if (explorer != null)
             {
                 explorer.Activate();
@@ -545,6 +567,137 @@ namespace CompanyStudio
             explorer = new Invoicing.frmPayableExplorer();
             DecorateStudioContent(explorer);
             explorer.Show(dockPanel, DockState.DockRight);
+        }
+
+        private void financeToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            accountsToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts);
+            invoicingToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices);
+            mnuWireTransfers.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
+        }
+
+        private void mnuWireTransfersHistoryExplorer_Click(object sender, EventArgs e)
+        {
+            WireTransfers.frmWireTransferHistoryExplorer explorer = dockPanel.Contents.OfType<WireTransfers.frmWireTransferHistoryExplorer>().FirstOrDefault(pe => pe.Company.CompanyID == ActiveCompany?.CompanyID);
+            if (explorer != null)
+            {
+                explorer.Activate();
+                return;
+            }
+
+            explorer = new WireTransfers.frmWireTransferHistoryExplorer();
+            DecorateStudioContent(explorer);
+            explorer.Show(dockPanel, DockState.Document);
+        }
+
+        /// <summary>
+        /// Opens the Email Editor for the specified Email Implementation
+        /// </summary>
+        /// <param name="emailImplementationIDField">The field on Location which holds the EmailImplementationID</param>
+        /// <param name="emailName">The name of the Email as specified in the database</param>
+        /// <param name="formattedPutURL">The URL format in which to put the new Email Implementation ID (example: Location/SetEmailIDForInvoices/{0} where {0} is the new Email Implementation ID)</param>
+        /// <returns></returns>
+        private async Task OpenLocationBasedEmailEditor(string emailImplementationIDField, string emailName, string formattedPutURL)
+        {
+            loader.BringToFront();
+            loader.Visible = true;
+
+            GetData getLocationForEmailData = new GetData(DataAccess.APIs.CompanyStudio, $"Location/Get/{ActiveLocation?.LocationID}");
+            getLocationForEmailData.RequestFields = new List<string>()
+            {
+                nameof(Models.Location.LocationID),
+                emailImplementationIDField
+            };
+            getLocationForEmailData.AddLocationHeader(ActiveCompany?.CompanyID, ActiveLocation?.LocationID);
+            Location location = await getLocationForEmailData.GetObject<Location>();
+            loader.Visible = false;
+
+            if (location == null)
+            {
+                return;
+            }
+
+            frmEmailEditor emailEditor = new frmEmailEditor()
+            {
+                CompanyID = ActiveCompany?.CompanyID,
+                LocationID = ActiveLocation?.LocationID,
+                EmailName = emailName,
+                Theme = currentTheme,
+                EmailImplementationID = typeof(Location).GetProperty(emailImplementationIDField).GetValue(location) as long?
+            };
+
+            if (emailEditor.ShowDialog() == DialogResult.OK)
+            {
+                loader.Visible = true;
+
+                PutData putNewID = new PutData(DataAccess.APIs.CompanyStudio, string.Format(formattedPutURL, emailEditor.EmailImplementationID ?? -1L), new object());
+                putNewID.AddLocationHeader(ActiveCompany?.CompanyID, ActiveLocation?.LocationID);
+                await putNewID.ExecuteNoResult();
+
+                loader.Visible = false;
+            }
+        }
+
+        /// <summary>
+        /// Opens the Email Editor for the specified Email Implementation
+        /// </summary>
+        /// <param name="emailImplementationIDField">The field on Location which holds the EmailImplementationID</param>
+        /// <param name="emailName">The name of the Email as specified in the database</param>
+        /// <param name="formattedPutURL">The URL format in which to put the new Email Implementation ID (example: Company/SetEmailIDForInvoices/{0} where {0} is the new Email Implementation ID)</param>
+        /// <returns></returns>
+        private async Task OpenCompanyBasedEmailEditor(string emailImplementationIDField, string emailName, string formattedPutURL)
+        {
+            loader.BringToFront();
+            loader.Visible = true;
+
+            GetData getCompanyForEmailData = new GetData(DataAccess.APIs.CompanyStudio, $"Company/Get/{ActiveCompany?.CompanyID}");
+            getCompanyForEmailData.RequestFields = new List<string>()
+            {
+                nameof(Models.Company.CompanyID),
+                emailImplementationIDField
+            };
+            getCompanyForEmailData.AddCompanyHeader(ActiveCompany?.CompanyID);
+            Company company = await getCompanyForEmailData.GetObject<Company>();
+            loader.Visible = false;
+
+            if (company == null)
+            {
+                return;
+            }
+
+            frmEmailEditor emailEditor = new frmEmailEditor()
+            {
+                CompanyID = ActiveCompany?.CompanyID,
+                EmailName = emailName,
+                Theme = currentTheme,
+                EmailImplementationID = typeof(Company).GetProperty(emailImplementationIDField).GetValue(company) as long?
+            };
+
+            if (emailEditor.ShowDialog() == DialogResult.OK)
+            {
+                loader.Visible = true;
+
+                PutData putNewID = new PutData(DataAccess.APIs.CompanyStudio, string.Format(formattedPutURL, emailEditor.EmailImplementationID ?? -1L), new object());
+                putNewID.AddLocationHeader(ActiveCompany?.CompanyID, ActiveLocation?.LocationID);
+                await putNewID.ExecuteNoResult();
+
+                loader.Visible = false;
+            }
+        }
+
+        private async void mnuInvoicingEmailPayableReceived_Click(object sender, EventArgs e)
+        {
+            await OpenLocationBasedEmailEditor(nameof(Models.Location.EmailImplementationIDPayableInvoice), "Payable Invoice Received", "Invoice/PutEmailImplementationIDPayableInvoice/{0}");
+        }
+
+        private async void mnuInvoicingEmailReceivableReady_Click(object sender, EventArgs e)
+        {
+            await OpenLocationBasedEmailEditor(nameof(Models.Location.EmailImplementationIDReadyForReceipt), "Receivable Invoice Ready For Receipt", "Invoice/PutEmailImplementationIDReadyForReceipt/{0}");
+        }
+
+        private async void mnuWireTransferEmailConfiguration_Click(object sender, EventArgs e)
+        {
+            await OpenCompanyBasedEmailEditor(nameof(Company.EmailImplementationIDWireTransferHistory), "Wire Transfer Received", "WireTransferHistory/SetWireTransferEmailImplementationID/{0}");
         }
     }
 }

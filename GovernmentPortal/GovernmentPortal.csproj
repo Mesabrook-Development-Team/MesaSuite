@@ -100,6 +100,12 @@
     </Compile>
     <Compile Include="ExplorerContext.cs" />
     <Compile Include="Extensions\DataAccessExtensions.cs" />
+    <Compile Include="frmEmailEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEmailEditor.Designer.cs">
+      <DependentUpon>frmEmailEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmGenericExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +146,8 @@
     </Compile>
     <Compile Include="Invoicing\ReceivableInvoiceContext.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\EmailImplementation.cs" />
+    <Compile Include="Models\EmailTemplate.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceLine.cs" />
     <Compile Include="Invoicing\ReceivableInvoiceControl.cs">
@@ -167,6 +175,7 @@
     <Compile Include="Models\SalesTax.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\WireTransferHistory.cs" />
     <Compile Include="Officials\OfficialExplorerContext.cs" />
     <Compile Include="Officials\OfficialExplorerControl.cs">
       <SubType>UserControl</SubType>
@@ -183,6 +192,19 @@
     </Compile>
     <Compile Include="Taxes\SalesTaxControl.Designer.cs">
       <DependentUpon>SalesTaxControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WireTransfers\frmIssue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WireTransfers\frmIssue.Designer.cs">
+      <DependentUpon>frmIssue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WireTransfers\WireTransferHistoryContext.cs" />
+    <Compile Include="WireTransfers\WireTransferHistoryControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WireTransfers\WireTransferHistoryControl.Designer.cs">
+      <DependentUpon>WireTransferHistoryControl.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Accounts\AccountExplorerControl.resx">
       <DependentUpon>AccountExplorerControl.cs</DependentUpon>
@@ -201,6 +223,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Email\DistributionListExplorerControl.resx">
       <DependentUpon>DistributionListExplorerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEmailEditor.resx">
+      <DependentUpon>frmEmailEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGenericExplorer.resx">
       <DependentUpon>frmGenericExplorer.cs</DependentUpon>
@@ -242,6 +267,12 @@
     </Compile>
     <EmbeddedResource Include="Taxes\SalesTaxControl.resx">
       <DependentUpon>SalesTaxControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WireTransfers\frmIssue.resx">
+      <DependentUpon>frmIssue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WireTransfers\WireTransferHistoryControl.resx">
+      <DependentUpon>WireTransferHistoryControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

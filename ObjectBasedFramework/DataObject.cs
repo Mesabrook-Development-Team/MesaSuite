@@ -738,6 +738,34 @@ namespace ClussPro.ObjectBasedFramework
             return retrievedPaths.Contains(path);
         }
 
+        public object GetValue(string fieldPath)
+        {
+            SchemaObject lastSchemaObject = Schema.Schema.GetSchemaObject(GetType());
+            DataObject lastObject = this;
+
+            while(fieldPath.Contains("."))
+            {
+                string relationship = fieldPath.Substring(0, fieldPath.IndexOf("."));
+                Relationship schemaRelationship = lastSchemaObject.GetRelationship(relationship);
+                if (schemaRelationship == null)
+                {
+                    throw new ArgumentException($"Could not find field path part {relationship} in field path {fieldPath}");
+                }
+
+                lastObject = schemaRelationship.GetValue(lastObject);
+                lastSchemaObject = schemaRelationship.RelatedSchemaObject;
+                fieldPath = fieldPath.Substring(fieldPath.IndexOf(".") + 1);
+            }
+
+            ClussPro.ObjectBasedFramework.Schema.Field field = lastSchemaObject.GetField(fieldPath.Substring(fieldPath.LastIndexOf(".") + 1));
+            return field.GetValue(lastObject);
+        }
+
+        public object GetValue<T>(string fieldPath)
+        {
+            return (T)GetValue(fieldPath);
+        }
+
         public class FKConstraintConflict
         {
             public long? ForeignKey { get; set; }

@@ -171,6 +171,12 @@
     <Compile Include="frmCompanyExplorer.Designer.cs">
       <DependentUpon>frmCompanyExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmEmailEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEmailEditor.Designer.cs">
+      <DependentUpon>frmEmailEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmStudio.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -216,6 +222,8 @@
     <Compile Include="Models\DistributionList.cs" />
     <Compile Include="Models\DistributionListRecipient.cs" />
     <Compile Include="Models\Domain.cs" />
+    <Compile Include="Models\EmailImplementation.cs" />
+    <Compile Include="Models\EmailTemplate.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\FiscalQuarter.cs" />
     <Compile Include="Models\Government.cs" />
@@ -228,6 +236,7 @@
     <Compile Include="Models\SalesTax.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\WireTransferHistory.cs" />
     <Compile Include="PermissionsManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -241,6 +250,18 @@
     </Compile>
     <Compile Include="StudioFormExtender.Designer.cs">
       <DependentUpon>StudioFormExtender.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WireTransfers\frmSendWireTransfer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WireTransfers\frmSendWireTransfer.Designer.cs">
+      <DependentUpon>frmSendWireTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WireTransfers\frmWireTransferHistoryExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WireTransfers\frmWireTransferHistoryExplorer.Designer.cs">
+      <DependentUpon>frmWireTransferHistoryExplorer.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Accounts\frmAccount.resx">
       <DependentUpon>frmAccount.cs</DependentUpon>
@@ -301,6 +322,9 @@
     <EmbeddedResource Include="frmCompanyExplorer.resx">
       <DependentUpon>frmCompanyExplorer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmEmailEditor.resx">
+      <DependentUpon>frmEmailEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmStudio.resx">
       <DependentUpon>frmStudio.cs</DependentUpon>
     </EmbeddedResource>
@@ -323,6 +347,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WireTransfers\frmSendWireTransfer.resx">
+      <DependentUpon>frmSendWireTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WireTransfers\frmWireTransferHistoryExplorer.resx">
+      <DependentUpon>frmWireTransferHistoryExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

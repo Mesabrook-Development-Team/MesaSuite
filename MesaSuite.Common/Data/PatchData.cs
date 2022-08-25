@@ -56,7 +56,7 @@ namespace MesaSuite.Common.Data
 
             try
             {
-                await request.GetResponseAsync();
+                using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync()) { }
                 RequestSuccessful = true;
             }
             catch(WebException ex)

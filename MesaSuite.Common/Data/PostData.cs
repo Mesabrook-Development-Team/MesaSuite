@@ -61,8 +61,8 @@ namespace MesaSuite.Common.Data
 
             try
             {
-                WebResponse response = await request.GetResponseAsync();
                 string responseJson;
+                using (WebResponse response = await request.GetResponseAsync())
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
                     responseJson = await reader.ReadToEndAsync();

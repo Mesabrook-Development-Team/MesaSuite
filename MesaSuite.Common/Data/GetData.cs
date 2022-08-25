@@ -76,8 +76,8 @@ namespace MesaSuite.Common.Data
 
             try
             {
-                HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
                 string json;
+                using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
                     json = await reader.ReadToEndAsync();

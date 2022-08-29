@@ -8,9 +8,10 @@ namespace MesaSuite.Common.Data
     {
         public string Write(DataAccess dataAccess)
         {
-            StringBuilder builder = new StringBuilder(dataAccess.UseHTTPS ? "https://" : "http://");
+            StringBuilder builder = new StringBuilder(dataAccess.UseHTTPS ? "https" : "http");
+            builder.Append("://api.mesabrook.com/");
             builder.Append(dataAccess.API.GetAttribute<EnumValueAttribute>().Value);
-            builder.Append(".api.mesabrook.com/");
+            builder.Append("/");
             builder.Append(dataAccess.Resource);
 
             return builder.ToString();

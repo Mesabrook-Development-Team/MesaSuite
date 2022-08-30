@@ -174,6 +174,21 @@ namespace WebModels.company
             get { CheckGet(); return _employees; }
         }
         #endregion
+        #region fleet
+        private List<fleet.Locomotive> _locomotives = new List<fleet.Locomotive>();
+        [RelationshipList("500A7C05-EA28-4460-80E7-031E2EAB7A4C", nameof(fleet.Locomotive.CompanyIDOwner))]
+        public IReadOnlyCollection<fleet.Locomotive> Locomotives
+        {
+            get { CheckGet(); return _locomotives; }
+        }
+
+        private List<fleet.Railcar> _railcars = new List<fleet.Railcar>();
+        [RelationshipList("73980C31-26C2-4063-85FF-C9921B5CF0E1", nameof(fleet.Railcar.CompanyIDOwner))]
+        public IReadOnlyCollection<fleet.Railcar> Railcars
+        {
+            get { CheckGet(); return _railcars; }
+        }
+        #endregion
         #region gov
         private List<Location> _locations = new List<Location>();
         [RelationshipList("FF16FF45-B566-4FA1-B2B4-616F9A58A1CE", "CompanyID")]

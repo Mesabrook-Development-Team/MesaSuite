@@ -196,6 +196,21 @@ namespace WebModels.gov
             get { CheckGet(); return _locationGovernments; }
         }
         #endregion
+        #region fleet
+        private List<fleet.Locomotive> _locomotives = new List<fleet.Locomotive>();
+        [RelationshipList("0237C142-DD8E-49FC-93F3-0A57211F589C", nameof(fleet.Locomotive.GovernmentIDOwner))]
+        public IReadOnlyCollection<fleet.Locomotive> Locomotives
+        {
+            get { CheckGet(); return _locomotives; }
+        }
+
+        private List<fleet.Railcar> _railcars = new List<fleet.Railcar>();
+        [RelationshipList("8CAD76EA-2D7C-48DC-B1A5-4A0073650BB6", nameof(fleet.Railcar.GovernmentIDOwner))]
+        public IReadOnlyCollection<fleet.Railcar> Railcars
+        {
+            get { CheckGet(); return _railcars; }
+        }
+        #endregion
         #region gov
         private List<Official> _officials = new List<Official>();
         [RelationshipList("5BB7CEE6-A449-4DA2-9C00-C5BD6957E460", "GovernmentID", AutoDeleteReferences = true)]

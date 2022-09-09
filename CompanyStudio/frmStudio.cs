@@ -1,5 +1,7 @@
 ﻿using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using FleetTracking;
+using FleetTracking.Interop;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -20,6 +22,7 @@ namespace CompanyStudio
     {
         Dictionary<string, ThemeBase> themes = new Dictionary<string, ThemeBase>();
         ThemeBase currentTheme = null;
+        FleetTrackingApplication fleetTrackingApplication = null;
 
         private void InitializeThemeLookup()
         {
@@ -89,6 +92,58 @@ namespace CompanyStudio
         {
             InitializeComponent();
             InitializeThemeLookup();
+            InitializeFleetTracking();
+        }
+
+        private void InitializeFleetTracking()
+        {
+            fleetTrackingApplication = new FleetTrackingApplication();
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.OpenForm(FleetTracking_OpenForm));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<GetData>(FleetTracking_GetData));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<PutData>(FleetTracking_PutData));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<PostData>(FleetTracking_PostData));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<DeleteData>(FleetTracking_DeleteData));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<PatchData>(FleetTracking_PatchData));
+
+        }
+
+        private Form FleetTracking_OpenForm(IFleetTrackingControl fleetTrackingControl)
+        {
+            FleetTracking.frmFleetForm fleetForm = new FleetTracking.frmFleetForm();
+            fleetForm.FleetTrackingControl = fleetTrackingControl;
+            fleetForm.Show(dockPanel, DockState.Document);
+            return fleetForm;
+        }
+
+        private TAccess FleetTracking_AppendHeaders<TAccess>(TAccess dataAccess) where TAccess : DataAccess
+        {
+            dataAccess.AddLocationHeader(ActiveCompany?.CompanyID, ActiveLocation?.LocationID);
+            return dataAccess;
+        }
+
+        private GetData FleetTracking_GetData()
+        {
+            return FleetTracking_AppendHeaders(new GetData(DataAccess.APIs.FleetTracking, ""));
+        }
+
+        private PutData FleetTracking_PutData()
+        {
+            return FleetTracking_AppendHeaders(new PutData(DataAccess.APIs.FleetTracking, "", null));
+        }
+
+        private PostData FleetTracking_PostData()
+        {
+            return FleetTracking_AppendHeaders(new PostData(DataAccess.APIs.FleetTracking, ""));
+        }
+
+        private DeleteData FleetTracking_DeleteData()
+        {
+            return FleetTracking_AppendHeaders(new DeleteData(DataAccess.APIs.FleetTracking, ""));
+        }
+
+        private PatchData FleetTracking_PatchData()
+        {
+            return FleetTracking_AppendHeaders(new PatchData(DataAccess.APIs.FleetTracking, "", PatchData.PatchMethods.Replace, null, null));
         }
 
         private void frmStudio_Load(object sender, EventArgs e)
@@ -698,6 +753,11 @@ namespace CompanyStudio
         private async void mnuWireTransferEmailConfiguration_Click(object sender, EventArgs e)
         {
             await OpenCompanyBasedEmailEditor(nameof(Company.EmailImplementationIDWireTransferHistory), "Wire Transfer Received", "WireTransferHistory/SetWireTransferEmailImplementationID/{0}");
+        }
+
+        private void fleetTestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fleetTrackingApplication.BrowseLocomotiveModels();
         }
     }
 }

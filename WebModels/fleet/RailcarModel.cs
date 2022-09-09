@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 
@@ -56,6 +52,8 @@ namespace WebModels.fleet
             BulkheadStanchionFlat = 5,
             Centerbeam = 6,
             Autorack = 7,
+            Gondola = 8,
+            Well = 9,
 
             // Passenger
             Coach = 50,
@@ -63,7 +61,8 @@ namespace WebModels.fleet
             Sleeper = 52,
             Baggage = 53,
             Mail = 54,
-            Caboose = 55
+            Caboose = 55,
+            Cab = 56
         }
 
         private Types _type;

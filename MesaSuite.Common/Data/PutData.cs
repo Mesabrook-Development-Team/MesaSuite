@@ -11,6 +11,12 @@ namespace MesaSuite.Common.Data
     public class PutData : DataAccess
     {
         private object _objectToPut;
+        public object ObjectToPut
+        {
+            get => _objectToPut;
+            set => _objectToPut = value;
+        }
+
         public PutData(APIs api, string resource, object objectToPut) : base(api, resource)
         {
             _objectToPut = objectToPut;

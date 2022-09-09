@@ -82,6 +82,9 @@ namespace DevTools
             rdoGovLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("ResourceWriter.GovernmentPortal"), val => val.EndsWith("DebugResourceWriter"));
             rdoGovLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("ResourceWriter.GovernmentPortal"), val => val.EndsWith("DebugResourceWriter"));
 
+            rdoFleetLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("ResourceWriter.FleetTracking"), val => val.EndsWith("DebugResourceWriter"));
+            rdoFleetLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("ResourceWriter.FleetTracking"), val => val.EndsWith("DebugResourceWriter"));
+
             rdoAuthLive.Checked = IsLive(appSettingsElement, key => key.EndsWith("AuthHost"), val => val.StartsWith("http://localhost"));
             rdoAuthLocal.Checked = !IsLive(appSettingsElement, key => key.EndsWith("AuthHost"), val => val.StartsWith("http://localhost"));
 
@@ -143,6 +146,7 @@ namespace DevTools
                 SetConfigOptions(baseLocation + "API-MCSync\\Web.config");
                 SetConfigOptions(baseLocation + "API-System\\Web.config");
                 SetConfigOptions(baseLocation + "API-Government\\Web.config");
+                SetConfigOptions(baseLocation + "API-Fleet\\Web.config");
                 SetConfigOptions(baseLocation + "OAuth\\Web.config");
                 SetConfigOptions(baseLocation + "DevTools\\App.config");
                 SetConfigOptions(baseLocation + "Sandbox\\App.config");
@@ -159,6 +163,7 @@ namespace DevTools
             SetPortNumber((int)numAPIPort.Value, baseLocation + "API-System\\API-System.csproj", "system");
             SetPortNumber((int)numAPIPort.Value, baseLocation + "API-Government\\API-Government.csproj", "gov");
             SetPortNumber((int)numAPIPort.Value, baseLocation + "API-Towing\\API-Towing.csproj", "tow");
+            SetPortNumber((int)numAPIPort.Value, baseLocation + "API-Fleet\\API-Fleet.csproj", "fleet");
             SetPortNumber((int)numAuthPort.Value, baseLocation + "OAuth\\OAuth.csproj", "");
 
             ConfigurationManager.AppSettings.Set("Base.SQLProvider", txtSQLProviderLocation.Text);
@@ -175,6 +180,7 @@ namespace DevTools
                 SetLiveLocalOptions(appSettingsElement, rdoCompanyLive, numAPIPort.Value, "CompanyStudio", "company");
                 SetLiveLocalOptions(appSettingsElement, rdoGovLive, numAPIPort.Value, "GovernmentPortal", "gov");
                 SetLiveLocalOptions(appSettingsElement, rdoGovLive, numAPIPort.Value, "Towing", "tow");
+                SetLiveLocalOptions(appSettingsElement, rdoFleetLive, numAPIPort.Value, "FleetTracking", "fleet");
             }
             catch (Exception ex)
             {
@@ -225,8 +231,8 @@ namespace DevTools
             SetConfigValue(appSettingsElement, "UseDevBackendAuth", rdoLDAP.Checked ? "false" : "true");
             SetConfigValue(appSettingsElement, "OAuthHost", "http://localhost:" + numAuthPort.Value);
 
-            string grantFormat = "http://localhost:{0}/company/Security/Grant;http://localhost:{0}/gov/Security/Grant;http://localhost:{0}/system/Security/Grant;http://localhost:{0}/tow/Security/Grant";
-            string revokeFormat = "http://localhost:{0}/company/Security/Revoke;http://localhost:{0}/gov/Security/Revoke;http://localhost:{0}/system/Security/Revoke;http://localhost:{0}/tow/Security/Revoke";
+            string grantFormat = "http://localhost:{0}/company/Security/Grant;http://localhost:{0}/gov/Security/Grant;http://localhost:{0}/system/Security/Grant;http://localhost:{0}/tow/Security/Grant;http://localhost:{0}/fleet/Security/Grant";
+            string revokeFormat = "http://localhost:{0}/company/Security/Revoke;http://localhost:{0}/gov/Security/Revoke;http://localhost:{0}/system/Security/Revoke;http://localhost:{0}/tow/Security/Revoke;http://localhost:{0}/fleet/Security/Revoke";
             SetConfigValue(appSettingsElement, "TokenGrantNotifications", string.Format(grantFormat, numAPIPort.Value));
             SetConfigValue(appSettingsElement, "TokenRevokeNotifications", string.Format(revokeFormat, numAPIPort.Value));
 

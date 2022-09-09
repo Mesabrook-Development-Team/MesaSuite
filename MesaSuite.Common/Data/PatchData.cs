@@ -20,6 +20,10 @@ namespace MesaSuite.Common.Data
             _values = valuesToUpdate;
         }
 
+        public PatchMethods PatchMethod { get => _patchMethod; set => _patchMethod = value; }
+        public long? PrimaryKey { get => _primaryKey; set => _primaryKey = value; }
+        public Dictionary<string, object> Values { get => _values; set => _values = value; }
+
         public async Task Execute()
         {
             await InternalExecute();

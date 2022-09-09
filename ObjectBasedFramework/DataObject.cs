@@ -321,6 +321,7 @@ namespace ClussPro.ObjectBasedFramework
 
                 FieldValue fieldValue = new FieldValue();
                 fieldValue.FieldName = field.FieldName;
+                fieldValue.FieldType = field.FieldType;
                 fieldValue.Value = field.GetValue(this);
                 insertQuery.FieldValueList.Add(fieldValue);
             }
@@ -357,6 +358,7 @@ namespace ClussPro.ObjectBasedFramework
             {
                 FieldValue fieldValue = new FieldValue();
                 fieldValue.FieldName = field.FieldName;
+                fieldValue.FieldType = field.FieldType;
                 fieldValue.Value = field.GetValue(this);
                 updateQuery.FieldValueList.Add(fieldValue);
             }

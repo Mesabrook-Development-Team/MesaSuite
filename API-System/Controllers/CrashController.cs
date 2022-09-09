@@ -28,7 +28,7 @@ namespace API_System.Controllers
         [HttpPost]
         [OverrideActionFilters]
         [MesabrookAuthorization]
-        [ProgramAccess(null)]
+        [ProgramAccess(ProgramKey: null)]
         public void Report(CrashReport crashReport)
         {
             SecurityProfile profile = Request.Properties["SecurityProfile"] as SecurityProfile;

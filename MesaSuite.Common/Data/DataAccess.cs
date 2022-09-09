@@ -131,7 +131,9 @@ namespace MesaSuite.Common.Data
             [EnumValue("gov")]
             GovernmentPortal,
             [EnumValue("tow")]
-            TowTickets
+            TowTickets,
+            [EnumValue("fleet")]
+            FleetTracking
         }
     }
 }

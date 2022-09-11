@@ -59,10 +59,23 @@ namespace MCSync
         {
             UserPreferences userPreferences = UserPreferences.Get();
             Dictionary<string, object> configValues = userPreferences.Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
-            configValues["modsDirectory"] = txtModsDirectory.Text;
-            configValues["resourcePackDirectory"] = txtResourcePacksDirectory.Text;
-            configValues["configFilesDirectory"] = txtConfigDirectory.Text;
-            configValues["oResourcesDirectory"] = txtOResourcesDirectory.Text;
+
+            if(!overrideFoldersCheckBox.Checked)
+            {
+                configValues["minecraftDirectory"] = txtMinecraftFolder.Text;
+                configValues["modsDirectory"] = txtMinecraftFolder.Text + "\\mods";
+                configValues["resourcePackDirectory"] = txtMinecraftFolder.Text + "\\resourcepacks";
+                configValues["configFilesDirectory"] = txtMinecraftFolder.Text + "\\config";
+                configValues["oResourcesDirectory"] = txtMinecraftFolder.Text + "\\oresources";
+            }
+            else
+            {
+                configValues["minecraftDirectory"] = null;
+                configValues["modsDirectory"] = txtModsDirectory.Text;
+                configValues["resourcePackDirectory"] = txtResourcePacksDirectory.Text;
+                configValues["configFilesDirectory"] = txtConfigDirectory.Text;
+                configValues["oResourcesDirectory"] = txtOResourcesDirectory.Text;
+            }
 
             if (rbClient.Checked)
             {
@@ -82,6 +95,7 @@ namespace MCSync
         private void frmConfig_Load(object sender, EventArgs e)
         {
             Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", () => new Dictionary<string, object>());
+            txtMinecraftFolder.Text = configValues.GetOrSetDefault("minecraftDirectory", string.Empty).Cast<string>();
             txtModsDirectory.Text = configValues.GetOrSetDefault("modsDirectory", string.Empty).Cast<string>();
             txtResourcePacksDirectory.Text = configValues.GetOrSetDefault("resourcePackDirectory", "").Cast<string>();
             txtConfigDirectory.Text = configValues.GetOrSetDefault("configFilesDirectory", "").Cast<string>();
@@ -136,6 +150,35 @@ namespace MCSync
             }
 
             txtOResourcesDirectory.Text = browser.SelectedPath;
+        }
+
+        private void cmdMinecraftFolder_Click(object sender, EventArgs e)
+        {
+            BetterFolderBrowser browser = new BetterFolderBrowser();
+            browser.Title = "Select .minecraft folder";
+            browser.Multiselect = false;
+            browser.RootFolder = txtMinecraftFolder.Text;
+            if (browser.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            txtMinecraftFolder.Text = browser.SelectedPath;
+        }
+
+        private void overrideFoldersCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            txtModsDirectory.Enabled = overrideFoldersCheckBox.Checked;
+            txtResourcePacksDirectory.Enabled = overrideFoldersCheckBox.Checked;
+            txtConfigDirectory.Enabled = overrideFoldersCheckBox.Checked;
+            txtOResourcesDirectory.Enabled = overrideFoldersCheckBox.Checked;
+            cmdBrowseMods.Enabled = overrideFoldersCheckBox.Checked;
+            cmdBrowseResourcePacks.Enabled = overrideFoldersCheckBox.Checked;
+            cmdBrowseConfig.Enabled = overrideFoldersCheckBox.Checked;
+            cmdBrowseOResources.Enabled = overrideFoldersCheckBox.Checked;
+
+            txtMinecraftFolder.Enabled = !overrideFoldersCheckBox.Checked;
+            cmdMinecraftFolder.Enabled = !overrideFoldersCheckBox.Checked;
         }
     }
 }

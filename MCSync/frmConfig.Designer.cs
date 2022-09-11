@@ -30,27 +30,31 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConfig));
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.txtModsDirectory = new System.Windows.Forms.TextBox();
-            this.txtResourcePacksDirectory = new System.Windows.Forms.TextBox();
             this.cmdBrowseMods = new System.Windows.Forms.Button();
-            this.cmdBrowseResourcePacks = new System.Windows.Forms.Button();
             this.cmdSave = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.rbClient = new System.Windows.Forms.RadioButton();
             this.rbServer = new System.Windows.Forms.RadioButton();
-            this.cmdBrowseConfig = new System.Windows.Forms.Button();
-            this.txtConfigDirectory = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.cmdModsWhitelist = new System.Windows.Forms.Button();
             this.cmdResourcePacksWhitelist = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cmdMinecraftFolder = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtMinecraftFolder = new System.Windows.Forms.TextBox();
+            this.overrideFoldersCheckBox = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmdBrowseOResources = new System.Windows.Forms.Button();
+            this.cmdBrowseConfig = new System.Windows.Forms.Button();
+            this.txtOResourcesDirectory = new System.Windows.Forms.TextBox();
+            this.txtResourcePacksDirectory = new System.Windows.Forms.TextBox();
+            this.txtConfigDirectory = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cmdBrowseResourcePacks = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtOResourcesDirectory = new System.Windows.Forms.TextBox();
-            this.cmdBrowseOResources = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -58,40 +62,23 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(65, 38);
+            this.label1.Location = new System.Drawing.Point(45, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.Size = new System.Drawing.Size(101, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Mods Directory:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 64);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(134, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Resource Packs Directory:";
+            this.label1.Text = ".minecraft Directory:";
             // 
             // txtModsDirectory
             // 
-            this.txtModsDirectory.Location = new System.Drawing.Point(152, 35);
+            this.txtModsDirectory.Location = new System.Drawing.Point(152, 105);
             this.txtModsDirectory.Name = "txtModsDirectory";
             this.txtModsDirectory.ReadOnly = true;
             this.txtModsDirectory.Size = new System.Drawing.Size(241, 20);
             this.txtModsDirectory.TabIndex = 0;
             // 
-            // txtResourcePacksDirectory
-            // 
-            this.txtResourcePacksDirectory.Location = new System.Drawing.Point(152, 61);
-            this.txtResourcePacksDirectory.Name = "txtResourcePacksDirectory";
-            this.txtResourcePacksDirectory.ReadOnly = true;
-            this.txtResourcePacksDirectory.Size = new System.Drawing.Size(241, 20);
-            this.txtResourcePacksDirectory.TabIndex = 2;
-            // 
             // cmdBrowseMods
             // 
-            this.cmdBrowseMods.Location = new System.Drawing.Point(402, 33);
+            this.cmdBrowseMods.Location = new System.Drawing.Point(402, 99);
             this.cmdBrowseMods.Name = "cmdBrowseMods";
             this.cmdBrowseMods.Size = new System.Drawing.Size(75, 23);
             this.cmdBrowseMods.TabIndex = 1;
@@ -99,20 +86,10 @@
             this.cmdBrowseMods.UseVisualStyleBackColor = true;
             this.cmdBrowseMods.Click += new System.EventHandler(this.cmdBrowseMods_Click);
             // 
-            // cmdBrowseResourcePacks
-            // 
-            this.cmdBrowseResourcePacks.Location = new System.Drawing.Point(402, 59);
-            this.cmdBrowseResourcePacks.Name = "cmdBrowseResourcePacks";
-            this.cmdBrowseResourcePacks.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseResourcePacks.TabIndex = 3;
-            this.cmdBrowseResourcePacks.Text = "Browse...";
-            this.cmdBrowseResourcePacks.UseVisualStyleBackColor = true;
-            this.cmdBrowseResourcePacks.Click += new System.EventHandler(this.cmdBrowseResourcePacks_Click);
-            // 
             // cmdSave
             // 
             this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSave.Location = new System.Drawing.Point(420, 356);
+            this.cmdSave.Location = new System.Drawing.Point(420, 426);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 2;
@@ -124,7 +101,7 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(339, 356);
+            this.cmdCancel.Location = new System.Drawing.Point(339, 426);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 3;
@@ -135,7 +112,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(109, 145);
+            this.label3.Location = new System.Drawing.Point(109, 211);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(37, 13);
             this.label3.TabIndex = 6;
@@ -144,7 +121,7 @@
             // rbClient
             // 
             this.rbClient.AutoSize = true;
-            this.rbClient.Location = new System.Drawing.Point(152, 142);
+            this.rbClient.Location = new System.Drawing.Point(152, 208);
             this.rbClient.Name = "rbClient";
             this.rbClient.Size = new System.Drawing.Size(54, 17);
             this.rbClient.TabIndex = 8;
@@ -155,40 +132,13 @@
             // rbServer
             // 
             this.rbServer.AutoSize = true;
-            this.rbServer.Location = new System.Drawing.Point(211, 142);
+            this.rbServer.Location = new System.Drawing.Point(211, 208);
             this.rbServer.Name = "rbServer";
             this.rbServer.Size = new System.Drawing.Size(56, 17);
             this.rbServer.TabIndex = 9;
             this.rbServer.TabStop = true;
             this.rbServer.Text = "Server";
             this.rbServer.UseVisualStyleBackColor = true;
-            // 
-            // cmdBrowseConfig
-            // 
-            this.cmdBrowseConfig.Location = new System.Drawing.Point(402, 85);
-            this.cmdBrowseConfig.Name = "cmdBrowseConfig";
-            this.cmdBrowseConfig.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseConfig.TabIndex = 5;
-            this.cmdBrowseConfig.Text = "Browse...";
-            this.cmdBrowseConfig.UseVisualStyleBackColor = true;
-            this.cmdBrowseConfig.Click += new System.EventHandler(this.cmdBrowseConfig_Click);
-            // 
-            // txtConfigDirectory
-            // 
-            this.txtConfigDirectory.Location = new System.Drawing.Point(152, 87);
-            this.txtConfigDirectory.Name = "txtConfigDirectory";
-            this.txtConfigDirectory.ReadOnly = true;
-            this.txtConfigDirectory.Size = new System.Drawing.Size(241, 20);
-            this.txtConfigDirectory.TabIndex = 4;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(60, 90);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(85, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Config Directory:";
             // 
             // cmdModsWhitelist
             // 
@@ -212,6 +162,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cmdMinecraftFolder);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.txtMinecraftFolder);
+            this.groupBox1.Controls.Add(this.overrideFoldersCheckBox);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtModsDirectory);
@@ -229,17 +183,136 @@
             this.groupBox1.Controls.Add(this.rbClient);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(483, 174);
+            this.groupBox1.Size = new System.Drawing.Size(483, 251);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Folder Settings";
+            // 
+            // cmdMinecraftFolder
+            // 
+            this.cmdMinecraftFolder.Location = new System.Drawing.Point(402, 32);
+            this.cmdMinecraftFolder.Name = "cmdMinecraftFolder";
+            this.cmdMinecraftFolder.Size = new System.Drawing.Size(75, 23);
+            this.cmdMinecraftFolder.TabIndex = 13;
+            this.cmdMinecraftFolder.Text = "Browse...";
+            this.cmdMinecraftFolder.UseVisualStyleBackColor = true;
+            this.cmdMinecraftFolder.Click += new System.EventHandler(this.cmdMinecraftFolder_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(65, 108);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(81, 13);
+            this.label7.TabIndex = 11;
+            this.label7.Text = "Mods Directory:";
+            // 
+            // txtMinecraftFolder
+            // 
+            this.txtMinecraftFolder.Location = new System.Drawing.Point(155, 34);
+            this.txtMinecraftFolder.Name = "txtMinecraftFolder";
+            this.txtMinecraftFolder.ReadOnly = true;
+            this.txtMinecraftFolder.Size = new System.Drawing.Size(241, 20);
+            this.txtMinecraftFolder.TabIndex = 12;
+            // 
+            // overrideFoldersCheckBox
+            // 
+            this.overrideFoldersCheckBox.AutoSize = true;
+            this.overrideFoldersCheckBox.Location = new System.Drawing.Point(185, 70);
+            this.overrideFoldersCheckBox.Name = "overrideFoldersCheckBox";
+            this.overrideFoldersCheckBox.Size = new System.Drawing.Size(113, 17);
+            this.overrideFoldersCheckBox.TabIndex = 10;
+            this.overrideFoldersCheckBox.Text = "Use Custom Paths";
+            this.overrideFoldersCheckBox.UseVisualStyleBackColor = true;
+            this.overrideFoldersCheckBox.CheckedChanged += new System.EventHandler(this.overrideFoldersCheckBox_CheckedChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 130);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(134, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Resource Packs Directory:";
+            // 
+            // cmdBrowseOResources
+            // 
+            this.cmdBrowseOResources.Location = new System.Drawing.Point(402, 180);
+            this.cmdBrowseOResources.Name = "cmdBrowseOResources";
+            this.cmdBrowseOResources.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowseOResources.TabIndex = 7;
+            this.cmdBrowseOResources.Text = "Browse...";
+            this.cmdBrowseOResources.UseVisualStyleBackColor = true;
+            this.cmdBrowseOResources.Click += new System.EventHandler(this.cmdBrowseOResources_Click);
+            // 
+            // cmdBrowseConfig
+            // 
+            this.cmdBrowseConfig.Location = new System.Drawing.Point(402, 151);
+            this.cmdBrowseConfig.Name = "cmdBrowseConfig";
+            this.cmdBrowseConfig.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowseConfig.TabIndex = 5;
+            this.cmdBrowseConfig.Text = "Browse...";
+            this.cmdBrowseConfig.UseVisualStyleBackColor = true;
+            this.cmdBrowseConfig.Click += new System.EventHandler(this.cmdBrowseConfig_Click);
+            // 
+            // txtOResourcesDirectory
+            // 
+            this.txtOResourcesDirectory.Location = new System.Drawing.Point(152, 182);
+            this.txtOResourcesDirectory.Name = "txtOResourcesDirectory";
+            this.txtOResourcesDirectory.ReadOnly = true;
+            this.txtOResourcesDirectory.Size = new System.Drawing.Size(241, 20);
+            this.txtOResourcesDirectory.TabIndex = 6;
+            // 
+            // txtResourcePacksDirectory
+            // 
+            this.txtResourcePacksDirectory.Location = new System.Drawing.Point(152, 127);
+            this.txtResourcePacksDirectory.Name = "txtResourcePacksDirectory";
+            this.txtResourcePacksDirectory.ReadOnly = true;
+            this.txtResourcePacksDirectory.Size = new System.Drawing.Size(241, 20);
+            this.txtResourcePacksDirectory.TabIndex = 2;
+            // 
+            // txtConfigDirectory
+            // 
+            this.txtConfigDirectory.Location = new System.Drawing.Point(152, 153);
+            this.txtConfigDirectory.Name = "txtConfigDirectory";
+            this.txtConfigDirectory.ReadOnly = true;
+            this.txtConfigDirectory.Size = new System.Drawing.Size(241, 20);
+            this.txtConfigDirectory.TabIndex = 4;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(32, 185);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(114, 13);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "OResources Directory:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(60, 156);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(85, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Config Directory:";
+            // 
+            // cmdBrowseResourcePacks
+            // 
+            this.cmdBrowseResourcePacks.Location = new System.Drawing.Point(402, 125);
+            this.cmdBrowseResourcePacks.Name = "cmdBrowseResourcePacks";
+            this.cmdBrowseResourcePacks.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowseResourcePacks.TabIndex = 3;
+            this.cmdBrowseResourcePacks.Text = "Browse...";
+            this.cmdBrowseResourcePacks.UseVisualStyleBackColor = true;
+            this.cmdBrowseResourcePacks.Click += new System.EventHandler(this.cmdBrowseResourcePacks_Click);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.cmdResourcePacksWhitelist);
             this.groupBox2.Controls.Add(this.cmdModsWhitelist);
-            this.groupBox2.Location = new System.Drawing.Point(12, 192);
+            this.groupBox2.Location = new System.Drawing.Point(12, 269);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(483, 151);
             this.groupBox2.TabIndex = 1;
@@ -256,33 +329,6 @@
             this.label5.Text = "Mods and Resource Packs not whitelisted will be\r\ndeleted when you update. You can" +
     " white list them\r\nbelow.\r\n";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(32, 119);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(114, 13);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "OResources Directory:";
-            // 
-            // txtOResourcesDirectory
-            // 
-            this.txtOResourcesDirectory.Location = new System.Drawing.Point(152, 116);
-            this.txtOResourcesDirectory.Name = "txtOResourcesDirectory";
-            this.txtOResourcesDirectory.ReadOnly = true;
-            this.txtOResourcesDirectory.Size = new System.Drawing.Size(241, 20);
-            this.txtOResourcesDirectory.TabIndex = 6;
-            // 
-            // cmdBrowseOResources
-            // 
-            this.cmdBrowseOResources.Location = new System.Drawing.Point(402, 114);
-            this.cmdBrowseOResources.Name = "cmdBrowseOResources";
-            this.cmdBrowseOResources.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseOResources.TabIndex = 7;
-            this.cmdBrowseOResources.Text = "Browse...";
-            this.cmdBrowseOResources.UseVisualStyleBackColor = true;
-            this.cmdBrowseOResources.Click += new System.EventHandler(this.cmdBrowseOResources_Click);
-            // 
             // frmConfig
             // 
             this.AcceptButton = this.cmdSave;
@@ -290,7 +336,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(507, 391);
+            this.ClientSize = new System.Drawing.Size(507, 461);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cmdCancel);
@@ -316,26 +362,30 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtModsDirectory;
-        private System.Windows.Forms.TextBox txtResourcePacksDirectory;
         private System.Windows.Forms.Button cmdBrowseMods;
-        private System.Windows.Forms.Button cmdBrowseResourcePacks;
         private System.Windows.Forms.Button cmdSave;
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton rbClient;
         private System.Windows.Forms.RadioButton rbServer;
-        private System.Windows.Forms.Button cmdBrowseConfig;
-        private System.Windows.Forms.TextBox txtConfigDirectory;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button cmdModsWhitelist;
         private System.Windows.Forms.Button cmdResourcePacksWhitelist;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button cmdBrowseOResources;
+        private System.Windows.Forms.Button cmdBrowseConfig;
         private System.Windows.Forms.TextBox txtOResourcesDirectory;
+        private System.Windows.Forms.TextBox txtResourcePacksDirectory;
+        private System.Windows.Forms.TextBox txtConfigDirectory;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button cmdBrowseResourcePacks;
+        private System.Windows.Forms.CheckBox overrideFoldersCheckBox;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtMinecraftFolder;
+        private System.Windows.Forms.Button cmdMinecraftFolder;
     }
 }

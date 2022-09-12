@@ -14,10 +14,13 @@ namespace GovernmentPortal
     {
         private Government _government = null;
         private Dictionary<PermissionsManager.Permissions, ToolStripItem> _toolStripItemsByPermission = new Dictionary<PermissionsManager.Permissions, ToolStripItem>();
+        private FleetTracking.Interop.FleetTrackingApplication _fleetTrackingApplication;
+        private ToolStripMenuItem mnuFleetTracking;
 
         public frmPortal()
         {
             InitializeComponent();
+            InitializeFleetTracking();
         }
 
         private void SetupPermissions()
@@ -67,6 +70,7 @@ namespace GovernmentPortal
             }
 
             toolFinance.Visible = shouldShowFinanceToolstrip;
+            mnuFleetTracking.Visible = _government != null;
         }
 
         private void toolOfficials_Click(object sender, EventArgs e)
@@ -81,6 +85,88 @@ namespace GovernmentPortal
             SetupPermissions();
             PermissionsManager.OnPermissionChange += PermissionsManager_OnPermissionChange;
             PermissionsManager.StartCheckThread(action => Invoke(action));
+        }
+
+        private void InitializeFleetTracking()
+        {
+            _fleetTrackingApplication = new FleetTracking.Interop.FleetTrackingApplication();
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.OpenForm(FleetTracking_OpenForm));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<GetData>(FleetTracking_GetData));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<PutData>(FleetTracking_PutData));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<PostData>(FleetTracking_PostData));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<DeleteData>(FleetTracking_DeleteData));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<PatchData>(FleetTracking_PatchData));
+
+            mnuFleetTracking = new ToolStripMenuItem("Fleet Tracking");
+            foreach (FleetTracking.Interop.FleetTrackingApplication.MainNavigationItem mainNavigationItem in _fleetTrackingApplication.GetNavigationItems())
+            {
+                FleetTracking_AddNavigationItem(mnuFleetTracking.DropDownItems, mainNavigationItem);
+            }
+
+            mnuFleetTracking.Visible = false;
+            toolStrip1.Items.Add(mnuFleetTracking);
+        }
+
+        private void FleetTracking_AddNavigationItem(ToolStripItemCollection collection, FleetTracking.Interop.FleetTrackingApplication.MainNavigationItem item)
+        {
+            ToolStripMenuItem tsmi = new ToolStripMenuItem(item.Text);
+
+            if (item.SelectedAction != null)
+            {
+                tsmi.Click += (s, e) => item.SelectedAction.Invoke();
+            }
+
+            if (item.SubItems != null)
+            {
+                foreach(FleetTracking.Interop.FleetTrackingApplication.MainNavigationItem subItem in item.SubItems)
+                {
+                    FleetTracking_AddNavigationItem(tsmi.DropDownItems, subItem);
+                }
+            }
+
+            collection.Add(tsmi);
+        }
+
+        private Form FleetTracking_OpenForm(FleetTracking.IFleetTrackingControl fleetTrackingControl)
+        {
+            Fleet.frmFleetForm fleetForm = new Fleet.frmFleetForm()
+            {
+                MdiParent = this
+            };
+            fleetForm.FleetTrackingControl = fleetTrackingControl;
+            fleetForm.Show();
+            return fleetForm;
+        }
+
+        private TAccess FleetTracking_AppendHeaders<TAccess>(TAccess dataAccess) where TAccess : DataAccess
+        {
+            dataAccess.AddGovHeader(_government.GovernmentID.Value);
+            return dataAccess;
+        }
+
+        private GetData FleetTracking_GetData()
+        {
+            return FleetTracking_AppendHeaders(new GetData(DataAccess.APIs.FleetTracking, ""));
+        }
+
+        private PutData FleetTracking_PutData()
+        {
+            return FleetTracking_AppendHeaders(new PutData(DataAccess.APIs.FleetTracking, "", null));
+        }
+
+        private PostData FleetTracking_PostData()
+        {
+            return FleetTracking_AppendHeaders(new PostData(DataAccess.APIs.FleetTracking, ""));
+        }
+
+        private DeleteData FleetTracking_DeleteData()
+        {
+            return FleetTracking_AppendHeaders(new DeleteData(DataAccess.APIs.FleetTracking, ""));
+        }
+
+        private PatchData FleetTracking_PatchData()
+        {
+            return FleetTracking_AppendHeaders(new PatchData(DataAccess.APIs.FleetTracking, "", PatchData.PatchMethods.Replace, null, null));
         }
 
         private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)

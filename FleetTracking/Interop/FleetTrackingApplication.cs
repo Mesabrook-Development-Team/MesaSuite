@@ -35,7 +35,40 @@ namespace FleetTracking.Interop
         {
             Form parentForm = GetCallback<CallbackDelegates.OpenForm>().Invoke(new LocomotiveModel.BrowseLocomotiveModels() { Application = this });
             parentForm.Text = "Browse Locomotive Models";
+        }
 
+        public IEnumerable<MainNavigationItem> GetNavigationItems()
+        {
+            yield return new MainNavigationItem("Rail")
+            {
+                SubItems = new List<MainNavigationItem>()
+                {
+                    new MainNavigationItem("Setup")
+                    {
+                        SubItems = new List<MainNavigationItem>()
+                        {
+                            new MainNavigationItem("Locomotive Models", BrowseLocomotiveModels)
+                        }
+                    }
+                }
+            };
+        }
+
+        public class MainNavigationItem
+        {
+            public MainNavigationItem(string text, Action selectedAction)
+            {
+                Text = text;
+                SelectedAction = selectedAction;
+            }
+
+            public MainNavigationItem(string text) : this(text, null) { }
+
+            public MainNavigationItem() : this(null, null) { }
+
+            public string Text { get; set; }
+            public Action SelectedAction { get; set; }
+            public List<MainNavigationItem> SubItems { get; set; }
         }
     }
 }

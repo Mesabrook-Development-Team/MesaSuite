@@ -74,7 +74,6 @@
             this.tmrLocationUpdater = new System.Windows.Forms.Timer(this.components);
             this.loader = new CompanyStudio.Loader();
             this.studioFormExtender = new CompanyStudio.StudioFormExtender(this.components);
-            this.fleetTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuBanner.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -101,8 +100,7 @@
             this.emailToolStripMenuItem,
             this.employeesToolStripMenuItem,
             this.financeToolStripMenuItem,
-            this.wIndowToolStripMenuItem,
-            this.fleetTestToolStripMenuItem});
+            this.wIndowToolStripMenuItem});
             this.mnuBanner.Location = new System.Drawing.Point(0, 0);
             this.mnuBanner.Name = "mnuBanner";
             this.mnuBanner.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
@@ -124,7 +122,7 @@
             this.mnuCompanyExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mnuCompanyExplorer.Image = global::CompanyStudio.Properties.Resources.icn_com;
             this.mnuCompanyExplorer.Name = "mnuCompanyExplorer";
-            this.mnuCompanyExplorer.Size = new System.Drawing.Size(172, 22);
+            this.mnuCompanyExplorer.Size = new System.Drawing.Size(188, 30);
             this.mnuCompanyExplorer.Text = "Company Explorer";
             this.mnuCompanyExplorer.Click += new System.EventHandler(this.mnuCompanyExplorer_Click);
             // 
@@ -132,7 +130,7 @@
             // 
             this.mnuLocationExplorer.Image = global::CompanyStudio.Properties.Resources.icn_earth;
             this.mnuLocationExplorer.Name = "mnuLocationExplorer";
-            this.mnuLocationExplorer.Size = new System.Drawing.Size(172, 22);
+            this.mnuLocationExplorer.Size = new System.Drawing.Size(188, 30);
             this.mnuLocationExplorer.Text = "Location Explorer";
             this.mnuLocationExplorer.Click += new System.EventHandler(this.mnuLocationExplorer_Click);
             // 
@@ -168,7 +166,7 @@
             this.mnuEmployeeExplorer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mnuEmployeeExplorer.Image = global::CompanyStudio.Properties.Resources.icn_hire;
             this.mnuEmployeeExplorer.Name = "mnuEmployeeExplorer";
-            this.mnuEmployeeExplorer.Size = new System.Drawing.Size(172, 22);
+            this.mnuEmployeeExplorer.Size = new System.Drawing.Size(188, 30);
             this.mnuEmployeeExplorer.Text = "Employee Explorer";
             this.mnuEmployeeExplorer.Click += new System.EventHandler(this.mnuEmployeeExplorer_Click);
             // 
@@ -436,13 +434,6 @@
             this.loader.TabIndex = 7;
             this.loader.Visible = false;
             // 
-            // fleetTestToolStripMenuItem
-            // 
-            this.fleetTestToolStripMenuItem.Name = "fleetTestToolStripMenuItem";
-            this.fleetTestToolStripMenuItem.Size = new System.Drawing.Size(67, 22);
-            this.fleetTestToolStripMenuItem.Text = "Fleet Test";
-            this.fleetTestToolStripMenuItem.Click += new System.EventHandler(this.fleetTestToolStripMenuItem_Click);
-            // 
             // frmStudio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -515,7 +506,6 @@
         private System.Windows.Forms.ToolStripMenuItem mnuInvoicingEmailReceivableReady;
         private Loader loader;
         private StudioFormExtender studioFormExtender;
-        private System.Windows.Forms.ToolStripMenuItem fleetTestToolStripMenuItem;
     }
 }
 

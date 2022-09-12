@@ -23,6 +23,7 @@ namespace CompanyStudio
         Dictionary<string, ThemeBase> themes = new Dictionary<string, ThemeBase>();
         ThemeBase currentTheme = null;
         FleetTrackingApplication fleetTrackingApplication = null;
+        private ToolStripMenuItem fleetMenu;
 
         private void InitializeThemeLookup()
         {
@@ -51,6 +52,7 @@ namespace CompanyStudio
                 emailToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageEmails);
                 employeesToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageEmployees);
                 mnuLocationExplorer.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageLocations);
+                fleetMenu.Visible = _activeCompany != null;
 
                 toolLocationDropDown.SelectedItem = null;
                 toolLocationDropDown.Items.Clear();
@@ -105,6 +107,32 @@ namespace CompanyStudio
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<DeleteData>(FleetTracking_DeleteData));
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<PatchData>(FleetTracking_PatchData));
 
+            fleetMenu = new ToolStripMenuItem("Fleet Tracking");
+            foreach(FleetTrackingApplication.MainNavigationItem navItem in fleetTrackingApplication.GetNavigationItems())
+            {
+                FleetTracking_AddNavigationItem(fleetMenu.DropDownItems, navItem);
+            }
+            fleetMenu.Visible = false;
+            mnuBanner.Items.Add(fleetMenu);
+        }
+
+        private void FleetTracking_AddNavigationItem(ToolStripItemCollection collection, FleetTrackingApplication.MainNavigationItem item)
+        {
+            ToolStripMenuItem tsmi = new ToolStripMenuItem(item.Text);
+            if (item.SelectedAction != null)
+            {
+                tsmi.Click += (s, e) => item.SelectedAction.Invoke();
+            }
+
+            if (item.SubItems != null)
+            {
+                foreach(FleetTrackingApplication.MainNavigationItem subItem in item.SubItems)
+                {
+                    FleetTracking_AddNavigationItem(tsmi.DropDownItems, subItem);
+                }
+            }
+
+            collection.Add(tsmi);
         }
 
         private Form FleetTracking_OpenForm(IFleetTrackingControl fleetTrackingControl)
@@ -753,11 +781,6 @@ namespace CompanyStudio
         private async void mnuWireTransferEmailConfiguration_Click(object sender, EventArgs e)
         {
             await OpenCompanyBasedEmailEditor(nameof(Company.EmailImplementationIDWireTransferHistory), "Wire Transfer Received", "WireTransferHistory/SetWireTransferEmailImplementationID/{0}");
-        }
-
-        private void fleetTestToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            fleetTrackingApplication.BrowseLocomotiveModels();
         }
     }
 }

@@ -100,6 +100,12 @@
     </Compile>
     <Compile Include="ExplorerContext.cs" />
     <Compile Include="Extensions\DataAccessExtensions.cs" />
+    <Compile Include="Fleet\frmFleetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fleet\frmFleetForm.Designer.cs">
+      <DependentUpon>frmFleetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmEmailEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -224,6 +230,9 @@
     <EmbeddedResource Include="Email\DistributionListExplorerControl.resx">
       <DependentUpon>DistributionListExplorerControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Fleet\frmFleetForm.resx">
+      <DependentUpon>frmFleetForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmEmailEditor.resx">
       <DependentUpon>frmEmailEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -289,6 +298,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FleetTracking\FleetTracking.csproj">
+      <Project>{49efcd91-7541-4a0e-9f75-afc2152a6475}</Project>
+      <Name>FleetTracking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MesaSuite.Common\MesaSuite.Common.csproj">
       <Project>{5894467e-f5d9-4aea-91e3-07851fe3e722}</Project>
       <Name>MesaSuite.Common</Name>

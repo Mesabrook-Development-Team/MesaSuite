@@ -72,6 +72,19 @@ namespace MCSync
 
                 List<Task> tasks = new List<Task>();
 
+                // Create Required Subdirectories
+                try
+                {
+                    Directory.CreateDirectory(modsDirectory);
+                    Directory.CreateDirectory(resourcePackDirectory);
+                    Directory.CreateDirectory(configFilesDirectory);
+                    Directory.CreateDirectory(oResourcesDirectory);
+                }
+                catch(IOException iox)
+                {
+                    Task.Errors.Add($"An unexpected error occurred during Sync: {iox.Message}");
+                }
+
                 // Load database stuff
                 List<MCSyncFile> syncFiles = await MCSyncFile.GetMCSyncFiles();
 

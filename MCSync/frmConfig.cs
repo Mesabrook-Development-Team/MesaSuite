@@ -104,6 +104,8 @@ namespace MCSync
 
             rbClient.Checked = syncMode == SyncMode.Client;
             rbServer.Checked = syncMode == SyncMode.Server;
+
+            // TODO: Add logic for determining when to have overrideFoldersCheckBox checked or not.
         }
 
         private void cmdBrowseConfig_Click(object sender, EventArgs e)

@@ -56,6 +56,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -184,12 +185,6 @@
     <None Include="Resources\logo_MCSync.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\btnMCSync_Hover.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\btnMCSync.PNG" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\btnLoginBase.png" />
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +276,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ms.ico" />
+    <None Include="Resources\btnMCSync.png" />
+    <None Include="Resources\btnMCSync_Hover.png" />
     <None Include="Resources\icn_update_arrows.png" />
     <None Include="Resources\txt_tow.png" />
     <None Include="Resources\icn_tow_hover.png" />

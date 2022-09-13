@@ -36,7 +36,7 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\591f1575a360ea1.ico</ApplicationIcon>
+    <ApplicationIcon>btnMCSync.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BetterFolderBrowser, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null">
@@ -126,7 +126,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="btnMCSync.ico" />
     <Content Include="minecraft-hero-og.c5517b7973e1.jpg" />
+    <None Include="Resources\btnMCSync.png" />
     <None Include="Resources\main_logo.png" />
     <None Include="Resources\b6.png" />
     <None Include="Resources\b5.png" />

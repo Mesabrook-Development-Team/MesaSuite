@@ -139,6 +139,7 @@
             this.rbServer.TabStop = true;
             this.rbServer.Text = "Server";
             this.rbServer.UseVisualStyleBackColor = true;
+            this.rbServer.CheckedChanged += new System.EventHandler(this.rbServer_CheckedChanged);
             // 
             // cmdModsWhitelist
             // 
@@ -214,6 +215,7 @@
             this.txtMinecraftFolder.ReadOnly = true;
             this.txtMinecraftFolder.Size = new System.Drawing.Size(241, 20);
             this.txtMinecraftFolder.TabIndex = 12;
+            this.txtMinecraftFolder.TextChanged += new System.EventHandler(this.txtMinecraftFolder_TextChanged);
             // 
             // overrideFoldersCheckBox
             // 

@@ -60,22 +60,10 @@ namespace MCSync
             UserPreferences userPreferences = UserPreferences.Get();
             Dictionary<string, object> configValues = userPreferences.Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
 
-            if(!overrideFoldersCheckBox.Checked)
-            {
-                configValues["minecraftDirectory"] = txtMinecraftFolder.Text;
-                configValues["modsDirectory"] = txtMinecraftFolder.Text + "\\mods";
-                configValues["resourcePackDirectory"] = txtMinecraftFolder.Text + "\\resourcepacks";
-                configValues["configFilesDirectory"] = txtMinecraftFolder.Text + "\\config";
-                configValues["oResourcesDirectory"] = txtMinecraftFolder.Text + "\\oresources";
-            }
-            else
-            {
-                configValues["minecraftDirectory"] = null;
-                configValues["modsDirectory"] = txtModsDirectory.Text;
-                configValues["resourcePackDirectory"] = txtResourcePacksDirectory.Text;
-                configValues["configFilesDirectory"] = txtConfigDirectory.Text;
-                configValues["oResourcesDirectory"] = txtOResourcesDirectory.Text;
-            }
+            configValues["modsDirectory"] = txtModsDirectory.Text;
+            configValues["resourcePackDirectory"] = txtResourcePacksDirectory.Text;
+            configValues["configFilesDirectory"] = txtConfigDirectory.Text;
+            configValues["oResourcesDirectory"] = txtOResourcesDirectory.Text;
 
             if (rbClient.Checked)
             {
@@ -106,6 +94,8 @@ namespace MCSync
             rbServer.Checked = syncMode == SyncMode.Server;
 
             // TODO: Add logic for determining when to have overrideFoldersCheckBox checked or not.
+            overrideFoldersCheckBox.Checked = string.IsNullOrEmpty(configValues.GetOrDefault("minecraftDirectory").Cast<string>());
+            overrideFoldersCheckBox_CheckedChanged(this, EventArgs.Empty);
         }
 
         private void cmdBrowseConfig_Click(object sender, EventArgs e)
@@ -181,6 +171,55 @@ namespace MCSync
 
             txtMinecraftFolder.Enabled = !overrideFoldersCheckBox.Checked;
             cmdMinecraftFolder.Enabled = !overrideFoldersCheckBox.Checked;
+
+            if(!overrideFoldersCheckBox.Checked)
+            {
+                txtModsDirectory.Text = txtMinecraftFolder.Text + "\\mods";
+                
+                if(rbServer.Checked)
+                {
+                    txtResourcePacksDirectory.Text = txtMinecraftFolder.Text + "\\config\\immersiverailroading";
+                }
+                else
+                {
+                    txtResourcePacksDirectory.Text = txtMinecraftFolder.Text + "\\resourcepacks";
+                }
+
+                txtConfigDirectory.Text = txtMinecraftFolder.Text + "\\config";
+                txtOResourcesDirectory.Text = txtMinecraftFolder.Text + "\\oresources";
+            }
+        }
+
+        private void rbServer_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rbServer.Checked)
+            {
+                txtResourcePacksDirectory.Text = txtConfigDirectory.Text + "\\immersiverailroading";
+            }
+            else
+            {
+                txtResourcePacksDirectory.Text = txtMinecraftFolder.Text + "\\resourcepacks";
+            }
+        }
+
+        private void txtMinecraftFolder_TextChanged(object sender, EventArgs e)
+        {
+            if (!overrideFoldersCheckBox.Checked)
+            {
+                txtModsDirectory.Text = txtMinecraftFolder.Text + "\\mods";
+
+                if (rbServer.Checked)
+                {
+                    txtResourcePacksDirectory.Text = txtMinecraftFolder.Text + "\\config\\immersiverailroading";
+                }
+                else
+                {
+                    txtResourcePacksDirectory.Text = txtMinecraftFolder.Text + "\\resourcepacks";
+                }
+
+                txtConfigDirectory.Text = txtMinecraftFolder.Text + "\\config";
+                txtOResourcesDirectory.Text = txtMinecraftFolder.Text + "\\oresources";
+            }
         }
     }
 }

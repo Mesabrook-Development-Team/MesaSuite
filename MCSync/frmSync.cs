@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.WindowsAPICodePack.Taskbar;
 using System.Windows.Forms;
 
 namespace MCSync
@@ -7,6 +9,7 @@ namespace MCSync
     public partial class frmSync : Form
     {
         private Dictionary<Task, DataGridViewRow> rowsByTask = new Dictionary<Task, DataGridViewRow>();
+        
         public frmSync()
         {
             InitializeComponent();
@@ -27,15 +30,19 @@ namespace MCSync
             {
                 foreach(string error in Task.Errors)
                 {
-                    MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("An error occurred during sync: \n\n" + error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
                 }
 
                 foreach(string info in Task.Informations)
                 {
                     MessageBox.Show(info, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
                 }
 
                 MessageBox.Show("Sync complete!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                pbarOverall.Value = pbarOverall.Maximum;
+                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
                 Application.ExitThread();
             });
         }
@@ -53,6 +60,8 @@ namespace MCSync
                 rowsByTask[e] = row;
 
                 e.StatusUpdate += Task_StatusUpdate;
+                pbarOverall.Maximum = dgvTasks.Rows.Count;
+                TaskbarManager.Instance.SetProgressValue(dgvTasks.Rows.Count, pbarOverall.Maximum);
             });
         }
 
@@ -64,12 +73,30 @@ namespace MCSync
                 DataGridViewRow row = rowsByTask[task];
 
                 row.Cells[1].Value = task.Status;
+                richTextBox1.Text = "Current Task: \n" + task.TaskDescription;
+
+                pbarOverall.Value = dgvTasks.Rows.OfType<DataGridViewRow>().Where(dgvr => !string.Equals("Waiting", dgvr.Cells[1].Value as string, StringComparison.OrdinalIgnoreCase)).Count();
+                TaskbarManager.Instance.SetProgressValue(pbarOverall.Value, pbarOverall.Maximum);
             });
         }
 
         private void frmSync_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.ExitThread();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(btnDetails.Text.Contains("Show"))
+            {
+                Size = new System.Drawing.Size(644, 525);
+                btnDetails.Text = "Hide Details";
+            }
+            else
+            {
+                Size = new System.Drawing.Size(644, 162);
+                btnDetails.Text = "Show Details";
+            }
         }
     }
 }

@@ -135,6 +135,8 @@
   <ItemGroup>
     <Content Include="btnMCSync.ico" />
     <Content Include="minecraft-hero-og.c5517b7973e1.jpg" />
+    <None Include="Resources\icn_mcsync.ico" />
+    <None Include="Resources\mcsync.ico" />
     <None Include="Resources\btnMCSync.png" />
     <None Include="Resources\main_logo.png" />
     <None Include="Resources\b6.png" />

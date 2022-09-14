@@ -38,6 +38,7 @@
             this.pbarOverall = new System.Windows.Forms.ProgressBar();
             this.label3 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.btnHide = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTasks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -112,7 +113,7 @@
             this.pbarOverall.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pbarOverall.Location = new System.Drawing.Point(101, 100);
             this.pbarOverall.Name = "pbarOverall";
-            this.pbarOverall.Size = new System.Drawing.Size(390, 10);
+            this.pbarOverall.Size = new System.Drawing.Size(334, 10);
             this.pbarOverall.TabIndex = 6;
             // 
             // label3
@@ -139,11 +140,23 @@
             this.richTextBox1.TabIndex = 8;
             this.richTextBox1.Text = "Initializing...";
             // 
+            // btnHide
+            // 
+            this.btnHide.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHide.Location = new System.Drawing.Point(441, 93);
+            this.btnHide.Name = "btnHide";
+            this.btnHide.Size = new System.Drawing.Size(72, 23);
+            this.btnHide.TabIndex = 9;
+            this.btnHide.Text = "Hide";
+            this.btnHide.UseVisualStyleBackColor = true;
+            this.btnHide.Click += new System.EventHandler(this.btnHide_Click);
+            // 
             // frmSync
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(628, 123);
+            this.Controls.Add(this.btnHide);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pbarOverall);
@@ -177,5 +190,6 @@
         private System.Windows.Forms.ProgressBar pbarOverall;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button btnHide;
     }
 }

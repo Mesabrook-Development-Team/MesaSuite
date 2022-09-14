@@ -55,6 +55,7 @@
             this.cmdBrowseResourcePacks = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.cboxBalloonTips = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -331,6 +332,16 @@
             this.label5.Text = "Mods and Resource Packs not whitelisted will be\r\ndeleted when you update. You can" +
     " white list them\r\nbelow.\r\n";
             // 
+            // cboxBalloonTips
+            // 
+            this.cboxBalloonTips.AutoSize = true;
+            this.cboxBalloonTips.Location = new System.Drawing.Point(12, 432);
+            this.cboxBalloonTips.Name = "cboxBalloonTips";
+            this.cboxBalloonTips.Size = new System.Drawing.Size(176, 17);
+            this.cboxBalloonTips.TabIndex = 4;
+            this.cboxBalloonTips.Text = "Show Balloon Tips during Sync.";
+            this.cboxBalloonTips.UseVisualStyleBackColor = true;
+            // 
             // frmConfig
             // 
             this.AcceptButton = this.cmdSave;
@@ -339,6 +350,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(507, 461);
+            this.Controls.Add(this.cboxBalloonTips);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cmdCancel);
@@ -358,6 +370,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -389,5 +402,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtMinecraftFolder;
         private System.Windows.Forms.Button cmdMinecraftFolder;
+        private System.Windows.Forms.CheckBox cboxBalloonTips;
     }
 }

@@ -64,6 +64,7 @@ namespace MCSync
             configValues["resourcePackDirectory"] = txtResourcePacksDirectory.Text;
             configValues["configFilesDirectory"] = txtConfigDirectory.Text;
             configValues["oResourcesDirectory"] = txtOResourcesDirectory.Text;
+            configValues["showBalloonTips"] = cboxBalloonTips.Checked.ToString();
 
             if (rbClient.Checked)
             {
@@ -93,9 +94,9 @@ namespace MCSync
             rbClient.Checked = syncMode == SyncMode.Client;
             rbServer.Checked = syncMode == SyncMode.Server;
 
-            // TODO: Add logic for determining when to have overrideFoldersCheckBox checked or not.
             overrideFoldersCheckBox.Checked = string.IsNullOrEmpty(configValues.GetOrDefault("minecraftDirectory").Cast<string>());
             overrideFoldersCheckBox_CheckedChanged(this, EventArgs.Empty);
+            cboxBalloonTips.Checked = configValues.GetOrDefault("showBalloonTips", true).Cast<bool>();
         }
 
         private void cmdBrowseConfig_Click(object sender, EventArgs e)

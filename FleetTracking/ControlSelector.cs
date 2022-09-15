@@ -35,6 +35,7 @@ namespace FleetTracking
 
         private void ControlSelector_DropDown(object sender, EventArgs e)
         {
+            DropDownWidth = 1;
             foreach(ControlSelectorItem item in Items.OfType<ControlSelectorItem>())
             {
                 if (DropDownWidth < item.DropDownControl.Width)

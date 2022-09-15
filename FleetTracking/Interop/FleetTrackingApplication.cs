@@ -37,6 +37,12 @@ namespace FleetTracking.Interop
             parentForm.Text = "Browse Locomotive Models";
         }
 
+        public void BrowseEquipmentRoster()
+        {
+            Form parentForm = GetCallback<CallbackDelegates.OpenForm>().Invoke(new Roster.BrowseRoster() { Application = this });
+            parentForm.Text = "Browse Equipment Roster";
+        }
+
         public IEnumerable<MainNavigationItem> GetNavigationItems()
         {
             yield return new MainNavigationItem("Rail")
@@ -47,9 +53,14 @@ namespace FleetTracking.Interop
                     {
                         SubItems = new List<MainNavigationItem>()
                         {
-                            new MainNavigationItem("Locomotive Models", BrowseLocomotiveModels)
+                            new MainNavigationItem("Locomotive Models", BrowseLocomotiveModels),
+                            new MainNavigationItem("Railcar Models")
                         }
-                    }
+                    },
+                    new MainNavigationItem("Equipment Roster", BrowseEquipmentRoster),
+                    new MainNavigationItem("Train Builder"),
+                    new MainNavigationItem("Track Viewer"),
+                    new MainNavigationItem("Spot/Release")
                 }
             };
         }

@@ -60,12 +60,6 @@
     <Compile Include="Loader.Designer.cs">
       <DependentUpon>Loader.cs</DependentUpon>
     </Compile>
-    <Compile Include="LocomotiveDropDownItem.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="LocomotiveDropDownItem.Designer.cs">
-      <DependentUpon>LocomotiveDropDownItem.cs</DependentUpon>
-    </Compile>
     <Compile Include="LocomotiveModel\BrowseLocomotiveModels.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -78,6 +72,12 @@
     <Compile Include="LocomotiveModel\LocomotiveModelDetail.Designer.cs">
       <DependentUpon>LocomotiveModelDetail.cs</DependentUpon>
     </Compile>
+    <Compile Include="LocomotiveModel\LocomotiveModelDropDownItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LocomotiveModel\LocomotiveModelDropDownItem.Designer.cs">
+      <DependentUpon>LocomotiveModelDropDownItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="LocomotiveModel\LocomotiveModelList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -87,12 +87,44 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Government.cs" />
     <Compile Include="Models\Locomotive.cs" />
+    <Compile Include="Models\RailcarModel.cs" />
     <Compile Include="Models\LocomotiveModel.cs" />
+    <Compile Include="Models\Railcar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Roster\BrowseRoster.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Roster\BrowseRoster.Designer.cs">
+      <DependentUpon>BrowseRoster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Roster\LocomotiveDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Roster\LocomotiveDetail.Designer.cs">
+      <DependentUpon>LocomotiveDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Roster\LocomotiveList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Roster\LocomotiveList.Designer.cs">
+      <DependentUpon>LocomotiveList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Roster\RollingStockList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Roster\RollingStockList.Designer.cs">
+      <DependentUpon>RollingStockList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Roster\RosterList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Roster\RosterList.Designer.cs">
+      <DependentUpon>RosterList.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -105,14 +137,14 @@
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LocomotiveDropDownItem.resx">
-      <DependentUpon>LocomotiveDropDownItem.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="LocomotiveModel\BrowseLocomotiveModels.resx">
       <DependentUpon>BrowseLocomotiveModels.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LocomotiveModel\LocomotiveModelDetail.resx">
       <DependentUpon>LocomotiveModelDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LocomotiveModel\LocomotiveModelDropDownItem.resx">
+      <DependentUpon>LocomotiveModelDropDownItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LocomotiveModel\LocomotiveModelList.resx">
       <DependentUpon>LocomotiveModelList.cs</DependentUpon>
@@ -120,6 +152,21 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Roster\BrowseRoster.resx">
+      <DependentUpon>BrowseRoster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Roster\LocomotiveDetail.resx">
+      <DependentUpon>LocomotiveDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Roster\LocomotiveList.resx">
+      <DependentUpon>LocomotiveList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Roster\RollingStockList.resx">
+      <DependentUpon>RollingStockList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Roster\RosterList.resx">
+      <DependentUpon>RosterList.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

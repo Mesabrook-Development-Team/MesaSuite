@@ -1,6 +1,6 @@
-﻿namespace FleetTracking
+﻿namespace FleetTracking.LocomotiveModel
 {
-    partial class LocomotiveDropDownItem
+    partial class LocomotiveModelDropDownItem
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,49 +29,51 @@
         private void InitializeComponent()
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblName = new System.Windows.Forms.Label();
+            this.lblType = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::FleetTracking.Properties.Resources.btn_credits;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(133, 29);
+            this.pictureBox1.Size = new System.Drawing.Size(113, 42);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // label1
+            // lblName
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(139, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 16);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "SD40-2";
+            this.lblName.AutoSize = true;
+            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblName.Location = new System.Drawing.Point(119, 3);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(82, 20);
+            this.lblName.TabIndex = 1;
+            this.lblName.Text = "loading...";
             // 
-            // label2
+            // lblType
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(139, 16);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(132, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Diesel Electric Locomotive";
+            this.lblType.AutoSize = true;
+            this.lblType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblType.Location = new System.Drawing.Point(120, 23);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(84, 16);
+            this.lblType.TabIndex = 2;
+            this.lblType.Text = "please wait...";
             // 
-            // LocomotiveDropDownItem
+            // LocomotiveModelDropDownItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.lblType);
+            this.Controls.Add(this.lblName);
             this.Controls.Add(this.pictureBox1);
-            this.Name = "LocomotiveDropDownItem";
-            this.Size = new System.Drawing.Size(367, 30);
+            this.Name = "LocomotiveModelDropDownItem";
+            this.Size = new System.Drawing.Size(363, 42);
+            this.Load += new System.EventHandler(this.LocomotiveModelDropDownItem_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -81,7 +83,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.Label lblType;
     }
 }

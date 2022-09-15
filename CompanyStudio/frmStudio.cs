@@ -139,6 +139,7 @@ namespace CompanyStudio
         {
             FleetTracking.frmFleetForm fleetForm = new FleetTracking.frmFleetForm();
             fleetForm.FleetTrackingControl = fleetTrackingControl;
+            DecorateStudioContent(fleetForm);
             fleetForm.Show(dockPanel, DockState.Document);
             return fleetForm;
         }

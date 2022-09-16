@@ -10,16 +10,6 @@ namespace FleetTracking
 {
     public class ControlSelector : ComboBox
     {
-        public IEnumerable<ControlSelectorItem> ControlSelectorItems
-        {
-            get => Items.OfType<ControlSelectorItem>();
-            set
-            {
-                Items.Clear();
-                Items.AddRange(value?.ToArray());
-            }
-        }
-
         public ControlSelector()
         {
             DrawMode = DrawMode.OwnerDrawVariable;
@@ -36,7 +26,7 @@ namespace FleetTracking
         private void ControlSelector_DropDown(object sender, EventArgs e)
         {
             DropDownWidth = 1;
-            foreach(ControlSelectorItem item in Items.OfType<ControlSelectorItem>())
+            foreach (ControlSelectorItem item in Items.OfType<ControlSelectorItem>())
             {
                 if (DropDownWidth < item.DropDownControl.Width)
                 {
@@ -48,12 +38,27 @@ namespace FleetTracking
                     DropDownWidth = item.ClosedControl.Width;
                 }
             }
+
+            DropDownHeight = 1;
+            foreach (ControlSelectorItem item in Items.OfType<ControlSelectorItem>().Take(MaxDropDownItems))
+            {
+                if (DropDownHeight < item.DropDownControl.Height)
+                {
+                    DropDownHeight = item.DropDownControl.Height;
+                }
+
+                if (DropDownHeight < item.ClosedControl.Height)
+                {
+                    DropDownHeight = item.ClosedControl.Height;
+                }
+            }
+
+            DropDownHeight *= MaxDropDownItems;
         }
 
         protected override void OnDrawItem(DrawItemEventArgs e)
         {
             e.DrawBackground();
-            e.DrawFocusRectangle();
 
             if (e.Index < 0 || e.Index >= Items.Count)
             {
@@ -64,6 +69,7 @@ namespace FleetTracking
             if (!(item is ControlSelectorItem controlSelector))
             {
                 e.Graphics.DrawString("Invalid Item", e.Font, new SolidBrush(e.ForeColor), e.Bounds);
+                e.DrawFocusRectangle();
                 return;
             }
 
@@ -81,11 +87,27 @@ namespace FleetTracking
             Color background = control.BackColor;
             if (e.State.HasFlag(DrawItemState.Selected))
             {
-                control.BackColor = SystemColors.MenuHighlight;
+                control.BackColor = SystemColors.Highlight;
+            }
+            else
+            {
+                control.BackColor = BackColor;
             }
             control.DrawToBitmap(bitmap, control.Bounds);
             control.BackColor = background;
-            e.Graphics.DrawImage(bitmap, e.Bounds);
+
+            Rectangle boundingRectangle = e.Bounds;
+            decimal widthScaleFactor = e.Bounds.Width / (decimal)control.Bounds.Width;
+            decimal heightScaleFactor = e.Bounds.Height / (decimal)control.Bounds.Height;
+
+            decimal scaleFactor = widthScaleFactor < heightScaleFactor ? widthScaleFactor : heightScaleFactor;
+            decimal newWidth = control.Bounds.Width * scaleFactor;
+            decimal newHeight = control.Bounds.Height * scaleFactor;
+            boundingRectangle = new Rectangle((int)(e.Bounds.X + ((control.Bounds.Width - newWidth) / 2)), /*(int)(e.Bounds.Y + ((control.Bounds.Height - newHeight) / 2))*/e.Bounds.Y, (int)newWidth, (int)newHeight);
+
+            e.Graphics.DrawImage(bitmap, boundingRectangle);
+
+            e.DrawFocusRectangle();
         }
 
         protected override void OnMeasureItem(MeasureItemEventArgs e)

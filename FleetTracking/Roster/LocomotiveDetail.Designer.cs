@@ -30,16 +30,16 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
-            this.cmdUpdateImage = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtReportingMark = new System.Windows.Forms.TextBox();
-            this.txtReportingNumber = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtCurrentLocation = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cboOwner = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.cboModel = new FleetTracking.ControlSelector();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cboOwner = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtCurrentLocation = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtReportingNumber = new System.Windows.Forms.TextBox();
+            this.txtReportingMark = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmdUpdateImage = new System.Windows.Forms.Button();
             this.pboxImage = new System.Windows.Forms.PictureBox();
             this.loader = new FleetTracking.Loader();
             this.tabControl1.SuspendLayout();
@@ -78,72 +78,14 @@
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
             // 
-            // cmdUpdateImage
+            // cboModel
             // 
-            this.cmdUpdateImage.Location = new System.Drawing.Point(3, 270);
-            this.cmdUpdateImage.Name = "cmdUpdateImage";
-            this.cmdUpdateImage.Size = new System.Drawing.Size(325, 23);
-            this.cmdUpdateImage.TabIndex = 5;
-            this.cmdUpdateImage.Text = "Update Image";
-            this.cmdUpdateImage.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(335, 36);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Reporting Mark:";
-            // 
-            // txtReportingMark
-            // 
-            this.txtReportingMark.Location = new System.Drawing.Point(429, 33);
-            this.txtReportingMark.Name = "txtReportingMark";
-            this.txtReportingMark.Size = new System.Drawing.Size(57, 20);
-            this.txtReportingMark.TabIndex = 1;
-            // 
-            // txtReportingNumber
-            // 
-            this.txtReportingNumber.Location = new System.Drawing.Point(492, 33);
-            this.txtReportingNumber.Name = "txtReportingNumber";
-            this.txtReportingNumber.Size = new System.Drawing.Size(57, 20);
-            this.txtReportingNumber.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(334, 89);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Current Location:";
-            // 
-            // txtCurrentLocation
-            // 
-            this.txtCurrentLocation.Location = new System.Drawing.Point(428, 86);
-            this.txtCurrentLocation.Name = "txtCurrentLocation";
-            this.txtCurrentLocation.ReadOnly = true;
-            this.txtCurrentLocation.Size = new System.Drawing.Size(410, 20);
-            this.txtCurrentLocation.TabIndex = 4;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(335, 62);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Owner:";
-            // 
-            // cboOwner
-            // 
-            this.cboOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboOwner.FormattingEnabled = true;
-            this.cboOwner.Location = new System.Drawing.Point(428, 59);
-            this.cboOwner.Name = "cboOwner";
-            this.cboOwner.Size = new System.Drawing.Size(410, 21);
-            this.cboOwner.TabIndex = 3;
+            this.cboModel.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cboModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboModel.Location = new System.Drawing.Point(428, 6);
+            this.cboModel.Name = "cboModel";
+            this.cboModel.Size = new System.Drawing.Size(410, 21);
+            this.cboModel.TabIndex = 0;
             // 
             // label4
             // 
@@ -154,15 +96,72 @@
             this.label4.TabIndex = 6;
             this.label4.Text = "Model:";
             // 
-            // cboModel
+            // cboOwner
             // 
-            this.cboModel.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.cboModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboModel.FormattingEnabled = true;
-            this.cboModel.Location = new System.Drawing.Point(428, 6);
-            this.cboModel.Name = "cboModel";
-            this.cboModel.Size = new System.Drawing.Size(410, 21);
-            this.cboModel.TabIndex = 0;
+            this.cboOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboOwner.FormattingEnabled = true;
+            this.cboOwner.Location = new System.Drawing.Point(428, 59);
+            this.cboOwner.Name = "cboOwner";
+            this.cboOwner.Size = new System.Drawing.Size(410, 21);
+            this.cboOwner.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(335, 62);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Owner:";
+            // 
+            // txtCurrentLocation
+            // 
+            this.txtCurrentLocation.Location = new System.Drawing.Point(428, 86);
+            this.txtCurrentLocation.Name = "txtCurrentLocation";
+            this.txtCurrentLocation.ReadOnly = true;
+            this.txtCurrentLocation.Size = new System.Drawing.Size(410, 20);
+            this.txtCurrentLocation.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(334, 89);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(88, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Current Location:";
+            // 
+            // txtReportingNumber
+            // 
+            this.txtReportingNumber.Location = new System.Drawing.Point(492, 33);
+            this.txtReportingNumber.Name = "txtReportingNumber";
+            this.txtReportingNumber.Size = new System.Drawing.Size(57, 20);
+            this.txtReportingNumber.TabIndex = 2;
+            // 
+            // txtReportingMark
+            // 
+            this.txtReportingMark.Location = new System.Drawing.Point(429, 33);
+            this.txtReportingMark.Name = "txtReportingMark";
+            this.txtReportingMark.Size = new System.Drawing.Size(57, 20);
+            this.txtReportingMark.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(335, 36);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(83, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Reporting Mark:";
+            // 
+            // cmdUpdateImage
+            // 
+            this.cmdUpdateImage.Location = new System.Drawing.Point(3, 270);
+            this.cmdUpdateImage.Name = "cmdUpdateImage";
+            this.cmdUpdateImage.Size = new System.Drawing.Size(325, 23);
+            this.cmdUpdateImage.TabIndex = 5;
+            this.cmdUpdateImage.Text = "Update Image";
+            this.cmdUpdateImage.UseVisualStyleBackColor = true;
             // 
             // pboxImage
             // 

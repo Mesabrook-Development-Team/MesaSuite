@@ -38,6 +38,18 @@ namespace FleetTracking.Roster
 
                 GetData get = _application.GetAccess<GetData>();
                 get.API = DataAccess.APIs.FleetTracking;
+
+                Models.Locomotive locomotive = new Models.Locomotive();
+                if (LocomotiveID != null)
+                {
+                    get.Resource = $"Locomotive/Get/{LocomotiveID}";
+                    locomotive = await get.GetObject<Models.Locomotive>() ?? new Models.Locomotive();
+
+                    txtReportingMark.Text = locomotive.ReportingMark;
+                    txtReportingNumber.Text = locomotive.ReportingNumber?.ToString();
+                    txtCurrentLocation.Text = "Your mom's house";
+                }
+
                 get.Resource = "LocomotiveModel/GetAll";
                 List<Models.LocomotiveModel> locomotiveModels = await get.GetObject<List<Models.LocomotiveModel>>() ?? new List<Models.LocomotiveModel>();
 
@@ -48,10 +60,19 @@ namespace FleetTracking.Roster
                         Application = _application,
                         LocomotiveModelID = locomotiveModel.LocomotiveModelID
                     };
-                    cboModel.Items.Add(new ControlSelector.ControlSelectorItem(ddi, ddi));
-                }
+                    Label closedControl = new Label()
+                    {
+                        Text = locomotiveModel.Name
+                    };
+                    closedControl.Size = TextRenderer.MeasureText(closedControl.Text, closedControl.Font);
+                    ControlSelector.ControlSelectorItem dropDownItem = new ControlSelector.ControlSelectorItem(ddi, closedControl);
+                    cboModel.Items.Add(dropDownItem);
 
-                cboModel.Refresh();
+                    if (locomotiveModel.LocomotiveModelID == locomotive.LocomotiveModelID)
+                    {
+                        cboModel.SelectedItem = dropDownItem;
+                    }
+                }
             }
             finally
             {

@@ -49,38 +49,6 @@ namespace MCSync
             txtResourcePacksDirectory.Text = browser.SelectedPath;
         }
 
-        private void cmdCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
-
-        private void cmdSave_Click(object sender, EventArgs e)
-        {
-            UserPreferences userPreferences = UserPreferences.Get();
-            Dictionary<string, object> configValues = userPreferences.Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
-
-            configValues["modsDirectory"] = txtModsDirectory.Text;
-            configValues["resourcePackDirectory"] = txtResourcePacksDirectory.Text;
-            configValues["configFilesDirectory"] = txtConfigDirectory.Text;
-            configValues["oResourcesDirectory"] = txtOResourcesDirectory.Text;
-            configValues["showBalloonTips"] = cboxBalloonTips.Checked.ToString();
-
-            if (rbClient.Checked)
-            {
-                configValues["mode"] = SyncMode.Client.ToString();
-            }
-            else if (rbServer.Checked)
-            {
-                configValues["mode"] = SyncMode.Server.ToString();
-            }
-
-            userPreferences.Save();
-
-            DialogResult = DialogResult.OK;
-            Close();
-        }
-
         private void frmConfig_Load(object sender, EventArgs e)
         {
             Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", () => new Dictionary<string, object>());
@@ -220,6 +188,49 @@ namespace MCSync
 
                 txtConfigDirectory.Text = txtMinecraftFolder.Text + "\\config";
                 txtOResourcesDirectory.Text = txtMinecraftFolder.Text + "\\oresources";
+            }
+        }
+
+        private void fButtonSave_Click(object sender, EventArgs e)
+        {
+            UserPreferences userPreferences = UserPreferences.Get();
+            Dictionary<string, object> configValues = userPreferences.Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
+
+            configValues["modsDirectory"] = txtModsDirectory.Text;
+            configValues["resourcePackDirectory"] = txtResourcePacksDirectory.Text;
+            configValues["configFilesDirectory"] = txtConfigDirectory.Text;
+            configValues["oResourcesDirectory"] = txtOResourcesDirectory.Text;
+            configValues["showBalloonTips"] = cboxBalloonTips.Checked.ToString();
+
+            if (rbClient.Checked)
+            {
+                configValues["mode"] = SyncMode.Client.ToString();
+            }
+            else if (rbServer.Checked)
+            {
+                configValues["mode"] = SyncMode.Server.ToString();
+            }
+
+            userPreferences.Save();
+
+            DialogResult = DialogResult.OK;
+            Opacity = 0;
+            Close();
+        }
+
+        private void fButtonCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Opacity = 0;
+            Close();
+        }
+
+        private void fadeTimer_Tick(object sender, EventArgs e)
+        {
+            Opacity += 0.1;
+            if(Opacity > 0.8)
+            {
+                fadeTimer.Stop();
             }
         }
     }

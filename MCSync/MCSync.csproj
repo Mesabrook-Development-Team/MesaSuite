@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -66,6 +67,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FancyUX.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="frmConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +122,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="font_minecraft.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -135,6 +140,9 @@
   <ItemGroup>
     <Content Include="btnMCSync.ico" />
     <Content Include="minecraft-hero-og.c5517b7973e1.jpg" />
+    <None Include="Resources\font_minecraft.ttf" />
+    <None Include="Resources\tile_transparent1.png" />
+    <None Include="Resources\tile_transparent.png" />
     <None Include="Resources\icn_mcsync.ico" />
     <None Include="Resources\mcsync.ico" />
     <None Include="Resources\btnMCSync.png" />

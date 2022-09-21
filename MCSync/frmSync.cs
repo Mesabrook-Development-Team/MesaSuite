@@ -20,6 +20,8 @@ namespace MCSync
 
         private void frmSync_Load(object sender, EventArgs e)
         {
+            formFadeTimer.Start();
+            CenterToParent();
             Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", () => new Dictionary<string, object>());
             showBalloonTips = configValues.GetOrDefault("showBalloonTips", true).Cast<bool>();
 
@@ -130,37 +132,37 @@ namespace MCSync
         private void frmSync_FormClosing(object sender, FormClosingEventArgs e)
         {
             trayIcon.Dispose();
+            Opacity = 0;
             Application.ExitThread();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if(btnDetails.Text.Contains("Show"))
-            {
-                Size = new System.Drawing.Size(644, 525);
-                btnDetails.Text = "Hide Details";
-            }
-            else
-            {
-                Size = new System.Drawing.Size(644, 162);
-                btnDetails.Text = "Show Details";
-            }
-        }
-
-        private void btnHide_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
-
-            trayIcon.BalloonTipIcon = ToolTipIcon.Info;
-            trayIcon.BalloonTipTitle = "Sync In Progress";
-            trayIcon.BalloonTipText = "Click the tray icon to show the Sync window.";
-            trayIcon.ShowBalloonTip(3000);
         }
 
         private void trayIcon_Clicked(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Normal;
             BringToFront();
+        }
+
+        private void formFadeTimer_Tick(object sender, EventArgs e)
+        {
+            Opacity += 0.1;
+            if(Opacity > 0.85)
+            {
+                formFadeTimer.Stop();
+            }
+        }
+
+        private void fButtonDetailsToggle_Click(object sender, EventArgs e)
+        {
+            if (fButtonDetailsToggle.Text.Contains("Show"))
+            {
+                Size = new System.Drawing.Size(628, 300);
+                fButtonDetailsToggle.Text = "Hide Details";
+            }
+            else
+            {
+                Size = new System.Drawing.Size(628, 123);
+                fButtonDetailsToggle.Text = "Show Details";
+            }
         }
     }
 }

@@ -65,6 +65,7 @@ namespace MCSync
             overrideFoldersCheckBox.Checked = string.IsNullOrEmpty(configValues.GetOrDefault("minecraftDirectory").Cast<string>());
             overrideFoldersCheckBox_CheckedChanged(this, EventArgs.Empty);
             cboxBalloonTips.Checked = configValues.GetOrDefault("showBalloonTips", true).Cast<bool>();
+            fadeTimer.Start();
         }
 
         private void cmdBrowseConfig_Click(object sender, EventArgs e)
@@ -227,11 +228,21 @@ namespace MCSync
 
         private void fadeTimer_Tick(object sender, EventArgs e)
         {
-            Opacity += 0.1;
+            Opacity += 0.01;
             if(Opacity > 0.8)
             {
                 fadeTimer.Stop();
             }
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void frmConfig_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
         }
     }
 }

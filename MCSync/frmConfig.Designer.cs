@@ -129,6 +129,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.Controls.Add(this.cmdBrowseOResources);
             this.groupBox1.Controls.Add(this.cmdBrowseConfig);
@@ -157,6 +158,7 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Folder Settings";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // cmdBrowseOResources
             // 
@@ -386,6 +388,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.groupBox2.BackColor = System.Drawing.Color.Transparent;
             this.groupBox2.Controls.Add(this.cmdResourcePacksWhitelist);
             this.groupBox2.Controls.Add(this.cmdModsWhitelist);
@@ -460,6 +463,7 @@
             // 
             // cboxBalloonTips
             // 
+            this.cboxBalloonTips.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cboxBalloonTips.AutoSize = true;
             this.cboxBalloonTips.BackColor = System.Drawing.Color.Transparent;
             this.cboxBalloonTips.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -473,6 +477,7 @@
             // 
             // fButtonSave
             // 
+            this.fButtonSave.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.fButtonSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.fButtonSave.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.fButtonSave.BorderColor = System.Drawing.Color.PaleVioletRed;
@@ -496,6 +501,7 @@
             // 
             // fButtonCancel
             // 
+            this.fButtonCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.fButtonCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.fButtonCancel.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.fButtonCancel.BorderColor = System.Drawing.Color.PaleVioletRed;
@@ -529,6 +535,7 @@
             this.BackColor = System.Drawing.Color.DimGray;
             this.BackgroundImage = global::MCSync.Properties.Resources.tile_transparent1;
             this.ClientSize = new System.Drawing.Size(507, 461);
+            this.ControlBox = false;
             this.Controls.Add(this.fButtonCancel);
             this.Controls.Add(this.fButtonSave);
             this.Controls.Add(this.cboxBalloonTips);
@@ -543,8 +550,10 @@
             this.Opacity = 0D;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "MCSync Settings";
+            this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmConfig_FormClosing);
             this.Load += new System.EventHandler(this.frmConfig_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

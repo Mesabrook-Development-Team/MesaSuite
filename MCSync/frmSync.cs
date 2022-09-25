@@ -21,7 +21,6 @@ namespace MCSync
         private void frmSync_Load(object sender, EventArgs e)
         {
             formFadeTimer.Start();
-            CenterToParent();
             Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", () => new Dictionary<string, object>());
             showBalloonTips = configValues.GetOrDefault("showBalloonTips", true).Cast<bool>();
 
@@ -123,7 +122,7 @@ namespace MCSync
                 DataGridViewRow row = rowsByTask[task];
 
                 row.Cells[1].Value = task.Status;
-                richTextBox1.Text = "Current Task: \n" + task.TaskDescription;
+                lblItem.Text = "Current Task: \n" + task.TaskDescription;
 
                 pbarOverall.Value = dgvTasks.Rows.OfType<DataGridViewRow>().Where(dgvr => !string.Equals("Waiting", dgvr.Cells[1].Value as string, StringComparison.OrdinalIgnoreCase)).Count();
             });
@@ -148,20 +147,6 @@ namespace MCSync
             if(Opacity > 0.85)
             {
                 formFadeTimer.Stop();
-            }
-        }
-
-        private void fButtonDetailsToggle_Click(object sender, EventArgs e)
-        {
-            if (fButtonDetailsToggle.Text.Contains("Show"))
-            {
-                Size = new System.Drawing.Size(628, 300);
-                fButtonDetailsToggle.Text = "Hide Details";
-            }
-            else
-            {
-                Size = new System.Drawing.Size(628, 123);
-                fButtonDetailsToggle.Text = "Show Details";
             }
         }
     }

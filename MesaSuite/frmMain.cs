@@ -352,7 +352,7 @@ namespace MesaSuite
 
                 BackgroundImageLayout = imageLayout;
             }
-            catch (Exception AwFuckICantBelieveYouveDoneThis)
+            catch (Exception ex)
             {
                 BackgroundImage = Properties.Resources.bg;
                 BackgroundImageLayout = ImageLayout.Tile;

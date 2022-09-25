@@ -26,7 +26,7 @@ namespace MCSync
         private void frmMain_Load(object sender, EventArgs e)
         {
             backgroundChooser();
-            lblVersion.Text = Application.ProductVersion;
+            lblVersion.Text = "Version " + Application.ProductVersion;
             pnlMainTimer.Start();
         }
 

@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MesaSuite.Common;
 using MesaSuite.Common.Extensions;
@@ -34,7 +30,7 @@ namespace MCSync
             }
         }
 
-        private void cmdSave_Click(object sender, EventArgs e)
+        private void fButtonSave_Click(object sender, EventArgs e)
         {
             UserPreferences userPreferences = UserPreferences.Get();
             Dictionary<string, object> configValues = userPreferences.Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
@@ -42,6 +38,11 @@ namespace MCSync
             userPreferences.Save();
 
             DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void fButtonCancel_Click(object sender, EventArgs e)
+        {
             Close();
         }
     }

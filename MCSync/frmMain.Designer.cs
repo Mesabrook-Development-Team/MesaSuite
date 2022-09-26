@@ -34,9 +34,9 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlForm = new System.Windows.Forms.Panel();
+            this.pnlMainTimer = new System.Windows.Forms.Timer(this.components);
             this.fButtonSync = new MCSync.FancyButton();
             this.fButtonOptions = new MCSync.FancyButton();
-            this.pnlMainTimer = new System.Windows.Forms.Timer(this.components);
             this.pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -89,6 +89,10 @@
             this.pnlForm.Size = new System.Drawing.Size(902, 522);
             this.pnlForm.TabIndex = 13;
             // 
+            // pnlMainTimer
+            // 
+            this.pnlMainTimer.Tick += new System.EventHandler(this.pnlMainTimer_Tick);
+            // 
             // fButtonSync
             // 
             this.fButtonSync.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -138,10 +142,6 @@
             this.fButtonOptions.UseVisualStyleBackColor = false;
             this.fButtonOptions.Click += new System.EventHandler(this.fancyButton1_Click);
             // 
-            // pnlMainTimer
-            // 
-            this.pnlMainTimer.Tick += new System.EventHandler(this.pnlMainTimer_Tick);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -175,9 +175,9 @@
         private FancyButton fButtonOptions;
         private FancyButton fButtonSync;
         private System.Windows.Forms.Label lblVersion;
-        private System.Windows.Forms.Panel pnlForm;
         public System.Windows.Forms.Panel pnlMain;
         private System.Windows.Forms.Timer pnlMainTimer;
+        public System.Windows.Forms.Panel pnlForm;
     }
 }
 

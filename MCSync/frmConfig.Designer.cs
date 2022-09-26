@@ -58,6 +58,7 @@
             this.fButtonSave = new MCSync.FancyButton();
             this.fButtonCancel = new MCSync.FancyButton();
             this.fadeTimer = new System.Windows.Forms.Timer(this.components);
+            this.pnlWhitelist = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -152,7 +153,7 @@
             this.groupBox1.Controls.Add(this.rbClient);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(58, 17);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(483, 251);
             this.groupBox1.TabIndex = 0;
@@ -395,7 +396,7 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(12, 269);
+            this.groupBox2.Location = new System.Drawing.Point(58, 274);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(483, 151);
             this.groupBox2.TabIndex = 1;
@@ -468,7 +469,7 @@
             this.cboxBalloonTips.BackColor = System.Drawing.Color.Transparent;
             this.cboxBalloonTips.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboxBalloonTips.ForeColor = System.Drawing.Color.White;
-            this.cboxBalloonTips.Location = new System.Drawing.Point(12, 432);
+            this.cboxBalloonTips.Location = new System.Drawing.Point(58, 437);
             this.cboxBalloonTips.Name = "cboxBalloonTips";
             this.cboxBalloonTips.Size = new System.Drawing.Size(188, 17);
             this.cboxBalloonTips.TabIndex = 4;
@@ -490,7 +491,7 @@
             this.fButtonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.fButtonSave.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fButtonSave.ForeColor = System.Drawing.Color.White;
-            this.fButtonSave.Location = new System.Drawing.Point(420, 428);
+            this.fButtonSave.Location = new System.Drawing.Point(466, 433);
             this.fButtonSave.Name = "fButtonSave";
             this.fButtonSave.Size = new System.Drawing.Size(75, 23);
             this.fButtonSave.TabIndex = 13;
@@ -514,7 +515,7 @@
             this.fButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.fButtonCancel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fButtonCancel.ForeColor = System.Drawing.Color.White;
-            this.fButtonCancel.Location = new System.Drawing.Point(339, 428);
+            this.fButtonCancel.Location = new System.Drawing.Point(385, 433);
             this.fButtonCancel.Name = "fButtonCancel";
             this.fButtonCancel.Size = new System.Drawing.Size(75, 23);
             this.fButtonCancel.TabIndex = 14;
@@ -528,19 +529,30 @@
             this.fadeTimer.Interval = 30;
             this.fadeTimer.Tick += new System.EventHandler(this.fadeTimer_Tick);
             // 
+            // pnlWhitelist
+            // 
+            this.pnlWhitelist.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.pnlWhitelist.BackgroundImage = global::MCSync.Properties.Resources.tile_transparent1;
+            this.pnlWhitelist.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlWhitelist.Location = new System.Drawing.Point(0, 0);
+            this.pnlWhitelist.Name = "pnlWhitelist";
+            this.pnlWhitelist.Size = new System.Drawing.Size(598, 471);
+            this.pnlWhitelist.TabIndex = 15;
+            // 
             // frmConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.BackgroundImage = global::MCSync.Properties.Resources.tile_transparent1;
-            this.ClientSize = new System.Drawing.Size(507, 461);
+            this.ClientSize = new System.Drawing.Size(598, 471);
             this.ControlBox = false;
             this.Controls.Add(this.fButtonCancel);
             this.Controls.Add(this.fButtonSave);
             this.Controls.Add(this.cboxBalloonTips);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.pnlWhitelist);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -594,5 +606,6 @@
         private FancyButton cmdResourcePacksWhitelist;
         private FancyButton cmdModsWhitelist;
         private System.Windows.Forms.Timer fadeTimer;
+        private System.Windows.Forms.Panel pnlWhitelist;
     }
 }

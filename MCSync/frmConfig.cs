@@ -51,6 +51,7 @@ namespace MCSync
 
         private void frmConfig_Load(object sender, EventArgs e)
         {
+            pnlWhitelist.Visible = false;  
             Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", () => new Dictionary<string, object>());
             txtMinecraftFolder.Text = configValues.GetOrSetDefault("minecraftDirectory", string.Empty).Cast<string>();
             txtModsDirectory.Text = configValues.GetOrSetDefault("modsDirectory", string.Empty).Cast<string>();
@@ -88,7 +89,16 @@ namespace MCSync
             whitelist.Text = "Mods Whitelist";
             whitelist.WhitelistName = "mods_whitelist";
             whitelist.lblIntro.Text = "Edit your Mods whitelist.";
-            whitelist.ShowDialog();
+
+            whitelist.TopLevel = false;
+            whitelist.ControlBox = false;
+            whitelist.Dock = DockStyle.Fill;
+            whitelist.FormBorderStyle = FormBorderStyle.None;
+
+            pnlWhitelist.Controls.Add(whitelist);
+            pnlWhitelist.Show();
+            pnlWhitelist.BringToFront();
+            whitelist.Show();
         }
 
         private void cmdResourcePacksWhitelist_Click(object sender, EventArgs e)
@@ -97,7 +107,16 @@ namespace MCSync
             whitelist.Text = "Resource Packs Whitelist";
             whitelist.WhitelistName = "resourcepacks_whitelist";
             whitelist.lblIntro.Text = "Edit your Resource Packs whitelist.";
-            whitelist.ShowDialog();
+
+            whitelist.TopLevel = false;
+            whitelist.ControlBox = false;
+            whitelist.Dock = DockStyle.Fill;
+            whitelist.FormBorderStyle = FormBorderStyle.None;
+
+            pnlWhitelist.Controls.Add(whitelist);
+            pnlWhitelist.Show();
+            pnlWhitelist.BringToFront();
+            whitelist.Show();
         }
 
         private void cmdBrowseOResources_Click(object sender, EventArgs e)
@@ -228,10 +247,9 @@ namespace MCSync
 
         private void fadeTimer_Tick(object sender, EventArgs e)
         {
-            Opacity += 0.01;
-            if(Opacity > 0.8)
+            if(Application.OpenForms.OfType<frmWhitelist>().Count() == 0)
             {
-                fadeTimer.Stop();
+                pnlWhitelist.Visible = false;
             }
         }
 

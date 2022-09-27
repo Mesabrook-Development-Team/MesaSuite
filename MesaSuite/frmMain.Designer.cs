@@ -317,7 +317,8 @@
             this.aboutMesaSuiteToolStripMenuItem});
             this.aboutToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aboutToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
-            this.aboutToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.icn_information;
+            this.aboutToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.information;
+            this.aboutToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.aboutToolStripMenuItem.Text = "About";
@@ -325,7 +326,7 @@
             // aboutMesaSuiteToolStripMenuItem
             // 
             this.aboutMesaSuiteToolStripMenuItem.Name = "aboutMesaSuiteToolStripMenuItem";
-            this.aboutMesaSuiteToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.aboutMesaSuiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutMesaSuiteToolStripMenuItem.Text = "About MesaSuite";
             this.aboutMesaSuiteToolStripMenuItem.Click += new System.EventHandler(this.aboutMesaSuiteToolStripMenuItem_Click);
             // 
@@ -335,7 +336,7 @@
             this.backgroundToolStripMenuItem,
             this.soundEffectToolStripMenuItem});
             this.personalizeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.personalizeToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.icn_theme;
+            this.personalizeToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.paintbrush;
             this.personalizeToolStripMenuItem.Name = "personalizeToolStripMenuItem";
             this.personalizeToolStripMenuItem.Size = new System.Drawing.Size(98, 20);
             this.personalizeToolStripMenuItem.Text = "Personalize";

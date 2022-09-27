@@ -51,16 +51,17 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(1125, 31);
+            this.toolStrip1.Size = new System.Drawing.Size(1125, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // toolSendWireTransfer
             // 
-            this.toolSendWireTransfer.Image = global::CompanyStudio.Properties.Resources.icn_dollar_out;
+            this.toolSendWireTransfer.Image = global::CompanyStudio.Properties.Resources.money;
+            this.toolSendWireTransfer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolSendWireTransfer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSendWireTransfer.Name = "toolSendWireTransfer";
-            this.toolSendWireTransfer.Size = new System.Drawing.Size(132, 28);
+            this.toolSendWireTransfer.Size = new System.Drawing.Size(124, 22);
             this.toolSendWireTransfer.Text = "Send Wire Transfer";
             this.toolSendWireTransfer.Click += new System.EventHandler(this.toolSendWireTransfer_Click);
             // 
@@ -77,9 +78,9 @@
             this.lstWireTransfers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstWireTransfers.FullRowSelect = true;
             this.lstWireTransfers.HideSelection = false;
-            this.lstWireTransfers.Location = new System.Drawing.Point(0, 31);
+            this.lstWireTransfers.Location = new System.Drawing.Point(0, 25);
             this.lstWireTransfers.Name = "lstWireTransfers";
-            this.lstWireTransfers.Size = new System.Drawing.Size(1125, 537);
+            this.lstWireTransfers.Size = new System.Drawing.Size(1125, 543);
             this.lstWireTransfers.TabIndex = 1;
             this.lstWireTransfers.UseCompatibleStateImageBehavior = false;
             this.lstWireTransfers.View = System.Windows.Forms.View.Details;

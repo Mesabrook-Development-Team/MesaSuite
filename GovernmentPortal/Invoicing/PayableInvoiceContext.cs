@@ -20,7 +20,7 @@ namespace GovernmentPortal.Invoicing
             _governmentId = governmentID;
         }
 
-        internal override Icon ExplorerIcon => Properties.Resources.icn_govt;
+        internal override Icon ExplorerIcon => Properties.Resources.icn_money_delete;
 
         internal override IExplorerControl<Invoice> GetControlForModel(Invoice model)
         {

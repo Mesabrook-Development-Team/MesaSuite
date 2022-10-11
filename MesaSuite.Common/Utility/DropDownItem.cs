@@ -21,6 +21,15 @@ namespace MesaSuite.Common.Utility
             return Text;
         }
 
+        public DropDownItem<T> CreateCopy()
+        {
+            return new DropDownItem<T>(Object, Text)
+            {
+                BackgroundColor = BackgroundColor,
+                FontColor = FontColor,
+                FontStyle = FontStyle
+            };
+        }
     }
 
     public class DropDownItem

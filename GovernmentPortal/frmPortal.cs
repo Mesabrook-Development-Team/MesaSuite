@@ -96,6 +96,7 @@ namespace GovernmentPortal
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<PostData>(FleetTracking_PostData));
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<DeleteData>(FleetTracking_DeleteData));
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<PatchData>(FleetTracking_PatchData));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.IsCurrentEntity(FleetTracking_IsCurrentEntity));
 
             mnuFleetTracking = new ToolStripMenuItem("Fleet Tracking");
             foreach (FleetTracking.Interop.FleetTrackingApplication.MainNavigationItem mainNavigationItem in _fleetTrackingApplication.GetNavigationItems())
@@ -167,6 +168,11 @@ namespace GovernmentPortal
         private PatchData FleetTracking_PatchData()
         {
             return FleetTracking_AppendHeaders(new PatchData(DataAccess.APIs.FleetTracking, "", PatchData.PatchMethods.Replace, null, null));
+        }
+
+        private bool FleetTracking_IsCurrentEntity(long? companyID, long? governmentID)
+        {
+            return _government.GovernmentID == governmentID;
         }
 
         private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)

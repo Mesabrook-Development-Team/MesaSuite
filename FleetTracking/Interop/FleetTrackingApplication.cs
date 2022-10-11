@@ -12,6 +12,7 @@ namespace FleetTracking.Interop
         {
             public delegate Form OpenForm(IFleetTrackingControl primaryControl);
             public delegate TAccess GetAccess<out TAccess>() where TAccess : DataAccess;
+            public delegate bool IsCurrentEntity(long? companyID, long? governmentID);
         }
 
         private Dictionary<Type, Delegate> callbacks = new Dictionary<Type, Delegate>();
@@ -37,10 +38,22 @@ namespace FleetTracking.Interop
             parentForm.Text = "Browse Locomotive Models";
         }
 
+        public void BrowseRailcarModels()
+        {
+            Form parentForm = GetCallback<CallbackDelegates.OpenForm>().Invoke(new RailcarModel.BrowseRailcarModels() { Application = this });
+            parentForm.Text = "Browse Railcar Models";
+        }
+
         public void BrowseEquipmentRoster()
         {
             Form parentForm = GetCallback<CallbackDelegates.OpenForm>().Invoke(new Roster.BrowseRoster() { Application = this });
             parentForm.Text = "Browse Equipment Roster";
+        }
+
+        public void ManageLeasing()
+        {
+            Form parentForm = GetCallback<CallbackDelegates.OpenForm>().Invoke(new Leasing.LeaseManagement() { Application = this });
+            parentForm.Text = "Manage Leasing";
         }
 
         public IEnumerable<MainNavigationItem> GetNavigationItems()
@@ -54,15 +67,21 @@ namespace FleetTracking.Interop
                         SubItems = new List<MainNavigationItem>()
                         {
                             new MainNavigationItem("Locomotive Models", BrowseLocomotiveModels),
-                            new MainNavigationItem("Railcar Models")
+                            new MainNavigationItem("Railcar Models", BrowseRailcarModels)
                         }
                     },
+                    new MainNavigationItem("Leasing", ManageLeasing),
                     new MainNavigationItem("Equipment Roster", BrowseEquipmentRoster),
                     new MainNavigationItem("Train Builder"),
                     new MainNavigationItem("Track Viewer"),
                     new MainNavigationItem("Spot/Release")
                 }
             };
+        }
+
+        internal bool IsCurrentEntity(long? companyID, long? governmentID)
+        {
+            return GetCallback<CallbackDelegates.IsCurrentEntity>()?.Invoke(companyID, governmentID) ?? false;
         }
 
         public class MainNavigationItem

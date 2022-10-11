@@ -197,18 +197,46 @@ namespace WebModels.gov
         }
         #endregion
         #region fleet
-        private List<fleet.Locomotive> _locomotives = new List<fleet.Locomotive>();
+        private List<fleet.Locomotive> _locomotivesOwned = new List<fleet.Locomotive>();
         [RelationshipList("0237C142-DD8E-49FC-93F3-0A57211F589C", nameof(fleet.Locomotive.GovernmentIDOwner))]
-        public IReadOnlyCollection<fleet.Locomotive> Locomotives
+        public IReadOnlyCollection<fleet.Locomotive> LocomotivesOwned
         {
-            get { CheckGet(); return _locomotives; }
+            get { CheckGet(); return _locomotivesOwned; }
         }
 
-        private List<fleet.Railcar> _railcars = new List<fleet.Railcar>();
+        private List<fleet.Railcar> _railcarsOwned = new List<fleet.Railcar>();
         [RelationshipList("8CAD76EA-2D7C-48DC-B1A5-4A0073650BB6", nameof(fleet.Railcar.GovernmentIDOwner))]
-        public IReadOnlyCollection<fleet.Railcar> Railcars
+        public IReadOnlyCollection<fleet.Railcar> RailcarsOwned
         {
-            get { CheckGet(); return _railcars; }
+            get { CheckGet(); return _railcarsOwned; }
+        }
+
+        private List<fleet.Locomotive> _locomotivesPossessed = new List<fleet.Locomotive>();
+        [RelationshipList("A4BAF3DF-92DB-403C-B95A-671DBC1349C9", nameof(fleet.Locomotive.GovernmentIDPossessor))]
+        public IReadOnlyCollection<fleet.Locomotive> LocomotivesPossessed
+        {
+            get { CheckGet(); return _locomotivesPossessed; }
+        }
+
+        private List<fleet.Railcar> _railcarsPossessed = new List<fleet.Railcar>();
+        [RelationshipList("F271C9D0-A890-4705-B8B9-AAF68099041A", nameof(fleet.Railcar.GovernmentIDPossessor))]
+        public IReadOnlyCollection<fleet.Railcar> RailcarsPossessed
+        {
+            get { CheckGet(); return _railcarsPossessed; }
+        }
+
+        private List<fleet.LeaseRequest> _leaseRequests = new List<fleet.LeaseRequest>();
+        [RelationshipList("48742154-B856-402A-8D11-07582D7D7320", nameof(fleet.LeaseRequest.GovernmentIDRequester))]
+        public IReadOnlyCollection<fleet.LeaseRequest> LeaseRequests
+        {
+            get { CheckGet(); return _leaseRequests; }
+        }
+
+        private List<fleet.LeaseContract> _leaseContracts = new List<fleet.LeaseContract>();
+        [RelationshipList("32B13E3E-4D9B-4324-8AA5-77FDACF310F9", nameof(fleet.LeaseContract.GovernmentIDLessee))]
+        public IReadOnlyCollection<fleet.LeaseContract> LeaseContracts
+        {
+            get { CheckGet(); return _leaseContracts; }
         }
         #endregion
         #region gov

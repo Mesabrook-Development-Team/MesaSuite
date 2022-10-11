@@ -68,7 +68,7 @@
             this.rdoLocomotives.TabIndex = 0;
             this.rdoLocomotives.Text = "Locomotives";
             this.rdoLocomotives.UseVisualStyleBackColor = true;
-            this.rdoLocomotives.AppearanceChanged += new System.EventHandler(this.FilterCheckedChanged);
+            this.rdoLocomotives.CheckedChanged += new System.EventHandler(this.FilterCheckedChanged);
             // 
             // rdoRailcars
             // 
@@ -80,7 +80,7 @@
             this.rdoRailcars.TabIndex = 0;
             this.rdoRailcars.Text = "Railcars";
             this.rdoRailcars.UseVisualStyleBackColor = true;
-            this.rdoRailcars.AppearanceChanged += new System.EventHandler(this.FilterCheckedChanged);
+            this.rdoRailcars.CheckedChanged += new System.EventHandler(this.FilterCheckedChanged);
             // 
             // RosterList
             // 

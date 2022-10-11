@@ -4,6 +4,7 @@ using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using WebModels.fleet;
 using WebModels.invoicing;
 using WebModels.mesasys;
 
@@ -148,6 +149,28 @@ namespace WebModels.company
         public IReadOnlyCollection<LocationGovernment> LocationGovernments
         {
             get { CheckGet(); return _locationGovernments; }
+        }
+        #endregion
+        #region fleet
+        private List<LeaseBid> _leaseBidRecurringDestinations = new List<LeaseBid>();
+        [RelationshipList("F084805B-8F14-45EA-940B-646F97AF9268", nameof(LeaseBid.LocationIDRecurringAmountDestination))]
+        public IReadOnlyCollection<LeaseBid> LeaseBidRecurringDestinations
+        {
+            get { CheckGet(); return _leaseBidRecurringDestinations; }
+        }
+
+        private List<LeaseContract> _leaseContractRecurringSources = new List<LeaseContract>();
+        [RelationshipList("1B601D65-BFF5-40D0-8E11-A1624D12E3A3", nameof(LeaseContract.LocationIDRecurringAmountSource))]
+        public IReadOnlyCollection<LeaseContract> LeaseContractRecurringSources
+        {
+            get { CheckGet(); return _leaseContractRecurringSources; }
+        }
+
+        private List<LeaseContract> _leaseContractRecurringDestinations = new List<LeaseContract>();
+        [RelationshipList("DF30485C-668A-4686-B512-F7B15EC6B3E9", nameof(LeaseContract.LocationIDRecurringAmountDestination))]
+        public IReadOnlyCollection<LeaseContract> LeaseContractRecurringDestinations
+        {
+            get { CheckGet(); return _leaseContractRecurringDestinations; }
         }
         #endregion
         #region invoicing

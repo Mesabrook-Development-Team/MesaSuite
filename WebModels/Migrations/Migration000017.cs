@@ -52,14 +52,18 @@ namespace WebModels.Migrations
                 { "LocomotiveModelID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "GovernmentIDOwner", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "CompanyIDOwner", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDPossessor", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyIDPossessor", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "ReportingMark", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 4) },
                 { "ReportingNumber", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
                 { "ImageOverride", new FieldSpecification(FieldSpecification.FieldTypes.Binary) }
             };
             createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "fleet", "LocomotiveModel");
-            CreateForeignKey(transaction, createTable, "gov", "Government");
-            CreateForeignKey(transaction, createTable, "company", "Company");
+            CreateForeignKey(transaction, createTable, "gov", "Government", "GovernmentIDOwner");
+            CreateForeignKey(transaction, createTable, "company", "Company", "CompanyIDOwner");
+            CreateForeignKey(transaction, createTable, "gov", "Government", "GovernmentIDPossessor");
+            CreateForeignKey(transaction, createTable, "company", "Company", "CompanyIDPossessor");
 
             createTable.TableName = "Railcar";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
@@ -68,25 +72,91 @@ namespace WebModels.Migrations
                 { "RailcarModelID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "GovernmentIDOwner", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "CompanyIDOwner", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDPossessor", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyIDPossessor", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "ReportingMark", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 4) },
                 { "ReportingNumber", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
                 { "ImageOverride", new FieldSpecification(FieldSpecification.FieldTypes.Binary) }
             };
             createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "fleet", "RailcarModel");
+            CreateForeignKey(transaction, createTable, "gov", "Government", "GovernmentIDOwner");
+            CreateForeignKey(transaction, createTable, "company", "Company", "CompanyIDOwner");
+            CreateForeignKey(transaction, createTable, "gov", "Government", "GovernmentIDPossessor");
+            CreateForeignKey(transaction, createTable, "company", "Company", "CompanyIDPossessor");
+
+            createTable.TableName = "LeaseRequest";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "LeaseRequestID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "CompanyIDRequester", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDRequester", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LeaseType", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "RailcarType", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "DeliveryLocation", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) },
+                { "Purpose", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, -1) },
+                { "BidEndTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "company", "Company");
+            CreateForeignKey(transaction, createTable, "gov", "Government");
+
+            createTable.TableName = "LeaseBid";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "LeaseBidID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "LeaseRequestID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocomotiveID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "RailcarID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LeaseAmount", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 8, 2) },
+                { "RecurringAmountType", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "RecurringAmount", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 8, 2) },
+                { "LocationIDRecurringAmountDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Terms", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, -1) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "fleet", "LeaseRequest");
+            CreateForeignKey(transaction, createTable, "fleet", "Locomotive");
+            CreateForeignKey(transaction, createTable, "fleet", "Railcar");
+            CreateForeignKey(transaction, createTable, "company", "Location");
+
+            createTable.TableName = "LeaseContract";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "LeaseContractID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "RailcarID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocomotiveID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDLessee", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyIDLessee", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Amount", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 8, 2) },
+                { "RecurringAmountType", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "RecurringAmount", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 8, 2) },
+                { "LocationIDRecurringAmountSource", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocationIDRecurringAmountDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Terms", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, -1) },
+                { "LeaseTimeStart", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
+                { "LeaseTimeEnd", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "fleet", "Railcar");
+            CreateForeignKey(transaction, createTable, "fleet", "Locomotive");
             CreateForeignKey(transaction, createTable, "gov", "Government");
             CreateForeignKey(transaction, createTable, "company", "Company");
+            CreateForeignKey(transaction, createTable, "company", "Location", "LocationIDRecurringAmountSource");
+            CreateForeignKey(transaction, createTable, "company", "Location", "LocationIDRecurringAmountDestination");
         }
 
-        private void CreateForeignKey(ITransaction transaction, ICreateTable createTableQuery, string parentSchema, string parentTable)
+        private void CreateForeignKey(ITransaction transaction, ICreateTable createTableQuery, string parentSchema, string parentTable, string foreignKey = "")
         {
-            string foreignKey = "";
-            foreach(KeyValuePair<string, FieldSpecification> kvp in createTableQuery.Columns)
+            if (string.IsNullOrEmpty(foreignKey))
             {
-                if (kvp.Key.StartsWith(parentTable + "ID"))
+                foreach (KeyValuePair<string, FieldSpecification> kvp in createTableQuery.Columns)
                 {
-                    foreignKey = kvp.Key;
-                    break;
+                    if (kvp.Key.StartsWith(parentTable + "ID"))
+                    {
+                        foreignKey = kvp.Key;
+                        break;
+                    }
                 }
             }
 
@@ -99,7 +169,7 @@ namespace WebModels.Migrations
             alterTable.Schema = createTableQuery.SchemaName;
             alterTable.Table = createTableQuery.TableName;
             alterTable.AddForeignKey(
-                string.Format("FK{0}_{1}_{2}", createTableQuery.TableName, parentSchema, parentTable),
+                string.Format("FK{0}_{1}_{2}", createTableQuery.TableName, parentTable, foreignKey),
                 foreignKey,
                 parentSchema,
                 parentTable,

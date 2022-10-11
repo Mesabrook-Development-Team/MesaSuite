@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using FleetTracking.Interop;
 
@@ -12,6 +13,55 @@ namespace FleetTracking.Roster
         public event EventHandler<Models.Locomotive> LocomotiveSelected;
         public event EventHandler<Models.Railcar> RailcarSelected;
 
+        public Func<Models.Locomotive, bool> LocomotiveFilter { private get; set; }
+        public Func<Models.Railcar, bool> RailcarFilter { private get; set; }
+
+        public IReadOnlyCollection<Models.Locomotive> SelectedLocomotives
+        {
+            get
+            {
+                if (panelList.Controls.Count <= 0)
+                {
+                    return new List<Models.Locomotive>();
+                }
+
+                if (panelList.Controls[0] is RollingStockList rollingStockList)
+                {
+                    return rollingStockList.SelectedLocomotives;
+                }
+
+                if (panelList.Controls[0] is LocomotiveList locomotiveList)
+                {
+                    return locomotiveList.SelectedLocomotives;
+                }
+
+                return new List<Models.Locomotive>();
+            }
+        }
+
+        public IReadOnlyCollection<Models.Railcar> SelectedRailcars
+        {
+            get
+            {
+                if (panelList.Controls.Count <= 0)
+                {
+                    return new List<Models.Railcar>();
+                }
+
+                if (panelList.Controls[0] is RollingStockList rollingStockList)
+                {
+                    return rollingStockList.SelectedRailcars;
+                }
+
+                if (panelList.Controls[0] is RailcarList railcarList)
+                {
+                    return railcarList.SelectedRailcars;
+                }
+
+                return new List<Models.Railcar>();
+            }
+        }
+
         public RosterList()
         {
             InitializeComponent();
@@ -19,30 +69,55 @@ namespace FleetTracking.Roster
 
         private void FilterCheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton radioButton && !radioButton.Checked)
+            {
+                return;
+            }
+
             AddListByFilter();
         }
 
         private void AddListByFilter()
         {
             panelList.Controls.Clear();
+            LocomotiveSelected?.Invoke(this, null);
+            RailcarSelected?.Invoke(this, null);
 
             Control controlToAdd = null;
             if (rdoAll.Checked)
             {
-                controlToAdd = new RollingStockList()
+                RollingStockList rollingStockList = new RollingStockList()
                 {
                     Application = _application
                 };
-                ((RollingStockList)controlToAdd).LocomotiveSelected += RosterList_LocomotiveSelected;
-                ((RollingStockList)controlToAdd).RailcarSelected += RosterList_RailcarSelected;
+                rollingStockList.LocomotiveSelected += RosterList_LocomotiveSelected;
+                rollingStockList.RailcarSelected += RosterList_RailcarSelected;
+                rollingStockList.RailcarFilter = RailcarFilter;
+                rollingStockList.LocomotiveFilter = LocomotiveFilter;
+
+                controlToAdd = rollingStockList;
             }
             else if (rdoLocomotives.Checked)
             {
-                controlToAdd = new LocomotiveList()
+                LocomotiveList locomotiveList = new LocomotiveList()
                 {
                     Application = _application
                 };
-                ((LocomotiveList)controlToAdd).LocomotiveSelected += RosterList_LocomotiveSelected;
+                locomotiveList.LocomotiveSelected += RosterList_LocomotiveSelected;
+                locomotiveList.Filter = LocomotiveFilter;
+
+                controlToAdd = locomotiveList;
+            }
+            else if (rdoRailcars.Checked)
+            {
+                RailcarList railcarList = new RailcarList()
+                {
+                    Application = _application
+                };
+                railcarList.RailcarSelected += RosterList_RailcarSelected;
+                railcarList.Filter = RailcarFilter;
+
+                controlToAdd = railcarList;
             }
 
             if (controlToAdd == null)
@@ -67,6 +142,30 @@ namespace FleetTracking.Roster
         private void RosterList_Load(object sender, EventArgs e)
         {
             AddListByFilter();
+        }
+
+        public void LoadData(string selectedReportingMark = null)
+        {
+            if (panelList.Controls.Count == 0)
+            {
+                return;
+            }
+
+            Control listControl = panelList.Controls[0];
+            if (listControl is RollingStockList rollingStockList)
+            {
+                rollingStockList.LoadData(selectedReportingMark);
+            }
+
+            if (listControl is LocomotiveList locomotiveList)
+            {
+                locomotiveList.LoadData(selectedReportingMark);
+            }
+
+            if (listControl is RailcarList railcarList)
+            {
+                railcarList.LoadData(selectedReportingMark);
+            }
         }
     }
 }

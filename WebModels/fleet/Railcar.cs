@@ -1,4 +1,9 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using System.Collections.Generic;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using WebModels.company;
 using WebModels.gov;
@@ -63,6 +68,36 @@ namespace WebModels.fleet
             get { CheckGet(); return _companyOwner; }
         }
 
+        private long? _governmentIDPossessor;
+        [Field("810AB8B1-BA64-4784-9C47-5D58156AB5D8")]
+        public long? GovernmentIDPossessor
+        {
+            get { CheckGet(); return _governmentIDPossessor; }
+            set { CheckSet(); _governmentIDPossessor = value; }
+        }
+
+        private Government _governmentPossessor;
+        [Relationship("EA834C1C-DF05-45CB-A533-EDA8BE11AD5B", ForeignKeyField = nameof(GovernmentIDPossessor))]
+        public Government GovernmentPossessor
+        {
+            get { CheckGet(); return _governmentPossessor; }
+        }
+
+        private long? _companyIDPossessor;
+        [Field("2D08D958-14CD-465E-9DA4-ED4279972481")]
+        public long? CompanyIDPossessor
+        {
+            get { CheckGet(); return _companyIDPossessor; }
+            set { CheckSet(); _companyIDPossessor = value; }
+        }
+
+        private Company _companyPossessor;
+        [Relationship("2D102BF4-4C55-432A-B634-F9632612A2BE", ForeignKeyField = nameof(CompanyIDPossessor))]
+        public Company CompanyPossessor
+        {
+            get { CheckGet(); return _companyPossessor; }
+        }
+
         private string _reportingMark;
         [Field("DF38F559-C558-476E-B3D0-15828D80DAB0")]
         public string ReportingMark
@@ -86,5 +121,114 @@ namespace WebModels.fleet
             get { CheckGet(); return _imageOverride; }
             set { CheckSet(); _imageOverride = value; }
         }
+
+        #region Custom Relationships
+        public override ICondition GetRelationshipCondition(Relationship relationship, string myAlias, string otherAlias)
+        {
+            switch (relationship.RelationshipName)
+            {
+                case nameof(CompanyLeasedTo):
+                    return CompanyLeasedToCondition(myAlias);
+                case nameof(GovernmentLeasedTo):
+                    return GovernmentLeasedToCondition(myAlias);
+            }
+
+            return base.GetRelationshipCondition(relationship, myAlias, otherAlias);
+        }
+
+        private Company _companyLeasedTo;
+        [Relationship("46ECFAC8-D234-4A5A-84DD-4B491D23FF7C", HasForeignKey = false)]
+        public Company CompanyLeasedTo
+        {
+            get { CheckGet(); return _companyLeasedTo; }
+        }
+
+        private ICondition CompanyLeasedToCondition(string myAlias)
+        {
+            ISelectQuery select = SQLProviderFactory.GetSelectQuery();
+            select.SelectList = new List<Select>()
+            {
+                new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)"LC.CompanyIDLessee" }
+            };
+            select.Table = new Table("fleet", "LeaseContract", "LC");
+            select.PageSize = 1;
+            select.WhereCondition = new ConditionGroup()
+            {
+                ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                Conditions = new List<ICondition>()
+                {
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)"LC.RailcarID",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.RailcarID"
+                    },
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)"LC.LeaseTimeEnd",
+                        ConditionType = Condition.ConditionTypes.Null
+                    }
+                }
+            };
+
+            return new Exists() { ExistType = Exists.ExistTypes.Exists, SelectQuery = select };
+        }
+
+        private Government _governmentLeasedTo;
+        [Relationship("32BFE4A3-8E92-4CE7-9A7C-028EAB85E2DE", HasForeignKey = false)]
+        public Government GovernmentLeasedTo
+        {
+            get { CheckGet(); return _governmentLeasedTo; }
+        }
+
+        private ICondition GovernmentLeasedToCondition(string myAlias)
+        {
+            ISelectQuery select = SQLProviderFactory.GetSelectQuery();
+            select.SelectList = new List<Select>()
+            {
+                new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)"LC.GovernmentIDLessee" }
+            };
+            select.Table = new Table("fleet", "LeaseContract", "LC");
+            select.PageSize = 1;
+            select.WhereCondition = new ConditionGroup()
+            {
+                ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                Conditions = new List<ICondition>()
+                {
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)"LC.RailcarID",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.RailcarID"
+                    },
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)"LC.LeaseTimeEnd",
+                        ConditionType = Condition.ConditionTypes.Null
+                    }
+                }
+            };
+
+            return new Exists() { ExistType = Exists.ExistTypes.Exists, SelectQuery = select };
+        }
+        #endregion
+
+        #region Relationships
+        #region fleet
+        private List<LeaseBid> _leaseBids = new List<LeaseBid>();
+        [RelationshipList("0F70EFD5-AF06-4301-A5AD-48B7F7282AB0", nameof(LeaseBid.RailcarID))]
+        public IReadOnlyCollection<LeaseBid> LeaseBids
+        {
+            get { CheckGet(); return _leaseBids; }
+        }
+
+        private List<LeaseContract> _leaseContracts = new List<LeaseContract>();
+        [RelationshipList("DAF79BB5-BDD8-473B-B1E9-2DCEA47946D0", nameof(LeaseContract.RailcarID))]
+        public IReadOnlyCollection<LeaseContract> LeaseContracts
+        {
+            get { CheckGet(); return _leaseContracts; }
+        }
+        #endregion
+        #endregion
     }
 }

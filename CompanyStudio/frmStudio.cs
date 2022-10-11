@@ -22,7 +22,7 @@ namespace CompanyStudio
     {
         Dictionary<string, ThemeBase> themes = new Dictionary<string, ThemeBase>();
         ThemeBase currentTheme = null;
-        FleetTrackingApplication fleetTrackingApplication = null;
+        Dictionary<long, FleetTrackingApplication> fleetTrackingApplicationsByCompany = new Dictionary<long, FleetTrackingApplication>();
         private ToolStripMenuItem fleetMenu;
 
         private void InitializeThemeLookup()
@@ -94,18 +94,17 @@ namespace CompanyStudio
         {
             InitializeComponent();
             InitializeThemeLookup();
-            InitializeFleetTracking();
         }
 
-        private void InitializeFleetTracking()
+        private void InitializeFleetTracking(FleetTrackingApplication fleetTrackingApplication)
         {
-            fleetTrackingApplication = new FleetTrackingApplication();
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.OpenForm(FleetTracking_OpenForm));
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<GetData>(FleetTracking_GetData));
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<PutData>(FleetTracking_PutData));
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<PostData>(FleetTracking_PostData));
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<DeleteData>(FleetTracking_DeleteData));
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<PatchData>(FleetTracking_PatchData));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.IsCurrentEntity((companyID, governmentID) => FleetTracking_IsCurrentEntity(fleetTrackingApplication, companyID, governmentID)));
 
             fleetMenu = new ToolStripMenuItem("Fleet Tracking");
             foreach(FleetTrackingApplication.MainNavigationItem navItem in fleetTrackingApplication.GetNavigationItems())
@@ -173,6 +172,11 @@ namespace CompanyStudio
         private PatchData FleetTracking_PatchData()
         {
             return FleetTracking_AppendHeaders(new PatchData(DataAccess.APIs.FleetTracking, "", PatchData.PatchMethods.Replace, null, null));
+        }
+
+        private bool FleetTracking_IsCurrentEntity(FleetTrackingApplication application, long? companyID, long? governmentID)
+        {
+            return companyID != null && fleetTrackingApplicationsByCompany.GetOrDefault(companyID.Value) == application;
         }
 
         private void frmStudio_Load(object sender, EventArgs e)
@@ -395,6 +399,8 @@ namespace CompanyStudio
         {
             _companies.Add(company);
             toolCompanyDropDown.Items.Add(company.Name);
+            fleetTrackingApplicationsByCompany[company.CompanyID.Value] = new FleetTrackingApplication();
+            InitializeFleetTracking(fleetTrackingApplicationsByCompany[company.CompanyID.Value]);
             OnCompanyAdded?.Invoke(this, company);
         }
 
@@ -407,6 +413,8 @@ namespace CompanyStudio
             {
                 ActiveCompany = null;
             }
+
+            fleetTrackingApplicationsByCompany.Remove(company.CompanyID.Value);
 
             OnCompanyRemoved?.Invoke(this, company);
         }

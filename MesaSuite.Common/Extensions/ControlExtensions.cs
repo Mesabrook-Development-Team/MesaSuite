@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace MesaSuite.Common.Extensions
 {
@@ -17,6 +18,21 @@ namespace MesaSuite.Common.Extensions
         public static bool Confirm(this Control form, string confirmString, string title = "Warning")
         {
             return MessageBox.Show(form, confirmString, title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
+        }
+
+        public static bool AreFieldsPresent(this Control control, List<(string, Control)> displayNameControls)
+        {
+            foreach((string, Control) displayNameControl in displayNameControls)
+            {
+                if ((displayNameControl.Item2 is TextBox textBox && string.IsNullOrEmpty(textBox.Text)) ||
+                    (displayNameControl.Item2 is ComboBox comboBox && comboBox.SelectedItem == null))
+                {
+                    control.ShowError($"{displayNameControl.Item1} is a required field");
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

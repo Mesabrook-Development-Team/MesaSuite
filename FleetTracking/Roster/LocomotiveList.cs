@@ -20,16 +20,19 @@ namespace FleetTracking.Roster
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; }
 
+        public IReadOnlyCollection<Models.Locomotive> SelectedLocomotives => dgvLocomotives.SelectedRows.OfType<DataGridViewRow>().Select(row => row.Tag).OfType<Models.Locomotive>().ToList();
+
         public LocomotiveList()
         {
             InitializeComponent();
         }
 
-        private void LocomotiveList_Load(object sender, EventArgs e)
+        private async void LocomotiveList_Load(object sender, EventArgs e)
         {
             dataGridViewStylizer.ApplyStyle(dgvLocomotives);
+            dgvLocomotives.MultiSelect = true;
 
-            LoadData();
+            await LoadData();
         }
 
         public async Task LoadData(string selectedReportingMark = null)
@@ -64,6 +67,26 @@ namespace FleetTracking.Roster
                     row.Tag = locomotive;
 
                     if (!string.IsNullOrEmpty(reportingMark) && string.Equals(reportingMark, selectedReportingMark, StringComparison.OrdinalIgnoreCase))
+                    {
+                        row.Selected = true;
+                    }
+                }
+
+                dgvLocomotives.Sort(colReportingMark, System.ComponentModel.ListSortDirection.Ascending);
+                dgvLocomotives.ClearSelection();
+                if (string.IsNullOrEmpty(selectedReportingMark) && dgvLocomotives.Rows.Count > 0)
+                {
+                    dgvLocomotives.Rows[0].Selected = true;
+                    Locomotive locomotive = dgvLocomotives.Rows[0].Tag as Locomotive;
+                    if (locomotive != null)
+                    {
+                        LocomotiveSelected?.Invoke(this, locomotive);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(selectedReportingMark))
+                {
+                    DataGridViewRow row = dgvLocomotives.Rows.Cast<DataGridViewRow>().FirstOrDefault(fodRow => fodRow.Tag is Models.Locomotive locomotive && string.Equals(selectedReportingMark, $"{locomotive.ReportingMark}{locomotive.ReportingNumber}"));
+                    if (row != null)
                     {
                         row.Selected = true;
                     }

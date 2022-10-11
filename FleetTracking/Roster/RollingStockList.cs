@@ -22,16 +22,20 @@ namespace FleetTracking.Roster
         public Func<Locomotive, bool> LocomotiveFilter { get; set; }
         public Func<Railcar, bool> RailcarFilter { get; set; }
 
+        public IReadOnlyCollection<Locomotive> SelectedLocomotives => dgvRollingStock.SelectedRows.OfType<DataGridViewRow>().Select(row => row.Tag).OfType<Locomotive>().ToList();
+        public IReadOnlyCollection<Railcar> SelectedRailcars => dgvRollingStock.SelectedRows.OfType<DataGridViewRow>().Select(row => row.Tag).OfType<Railcar>().ToList();
+
         public RollingStockList()
         {
             InitializeComponent();
         }
 
-        private void RollingStockList_Load(object sender, EventArgs e)
+        private async void RollingStockList_Load(object sender, EventArgs e)
         {
             dataGridViewStylizer.ApplyStyle(dgvRollingStock);
+            dgvRollingStock.MultiSelect = true;
 
-            LoadData();
+            await LoadData();
         }
 
         public async Task LoadData(string selectedReportingMark = null)
@@ -46,6 +50,42 @@ namespace FleetTracking.Roster
                 await LoadRailcars(selectedReportingMark);
 
                 dgvRollingStock.Sort(colReportingMark, System.ComponentModel.ListSortDirection.Ascending);
+
+                dgvRollingStock.ClearSelection();
+                if (string.IsNullOrEmpty(selectedReportingMark) && dgvRollingStock.Rows.Count > 0)
+                {
+                    dgvRollingStock.Rows[0].Selected = true;
+                    if (dgvRollingStock.SelectedRows[0].Tag is Locomotive locomotive)
+                    {
+                        LocomotiveSelected?.Invoke(this, locomotive);
+                    }
+
+                    if (dgvRollingStock.SelectedRows[0].Tag is Railcar railcar)
+                    {
+                        RailcarSelected?.Invoke(this, railcar);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(selectedReportingMark))
+                {
+                    foreach(DataGridViewRow row in dgvRollingStock.Rows)
+                    {
+                        string reportingMark = "";
+                        if (row.Tag is Locomotive locomotive)
+                        {
+                            reportingMark = $"{locomotive.ReportingMark}{locomotive.ReportingNumber}";
+                        }
+
+                        if (row.Tag is Railcar railcar)
+                        {
+                            reportingMark = $"{railcar.ReportingMark}{railcar.ReportingNumber}";
+                        }
+
+                        if (string.Equals(reportingMark, selectedReportingMark, StringComparison.OrdinalIgnoreCase))
+                        {
+                            row.Selected = true;
+                        }
+                    }
+                }
             }
             finally
             {
@@ -110,11 +150,6 @@ namespace FleetTracking.Roster
                 row.Cells[colCurrentLocation.Name].Value = "Your mom's house";
                 row.Cells[colType.Name].Value = "Locomotive";
                 row.Tag = locomotive;
-
-                if (!string.IsNullOrEmpty(reportingMark) && string.Equals(reportingMark, selectedReportingMark, StringComparison.OrdinalIgnoreCase))
-                {
-                    row.Selected = true;
-                }
             }
         }
 

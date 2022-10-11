@@ -306,8 +306,8 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
                             continue;
                         }
 
-                        string newAlias = $"table{tableAliasCounter.ToString("D3")}";
                         tableAliasCounter++;
+                        string newAlias = $"table{tableAliasCounter.ToString("D3")}";
 
                         Join join = new Join();
                         join.JoinType = Join.JoinTypes.Left;

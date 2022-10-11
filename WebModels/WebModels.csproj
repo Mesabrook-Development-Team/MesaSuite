@@ -57,6 +57,9 @@
     <Compile Include="company\LocationGovernment.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
+    <Compile Include="fleet\LeaseBid.cs" />
+    <Compile Include="fleet\LeaseContract.cs" />
+    <Compile Include="fleet\LeaseRequest.cs" />
     <Compile Include="fleet\Locomotive.cs" />
     <Compile Include="fleet\LocomotiveModel.cs" />
     <Compile Include="fleet\Railcar.cs" />

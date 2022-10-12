@@ -128,7 +128,7 @@ namespace GovernmentPortal
             collection.Add(tsmi);
         }
 
-        private Form FleetTracking_OpenForm(FleetTracking.IFleetTrackingControl fleetTrackingControl)
+        private Form FleetTracking_OpenForm(FleetTracking.IFleetTrackingControl fleetTrackingControl, FleetTracking.Interop.FleetTrackingApplication.OpenFormOptions openFormOptions)
         {
             Fleet.frmFleetForm fleetForm = new Fleet.frmFleetForm()
             {

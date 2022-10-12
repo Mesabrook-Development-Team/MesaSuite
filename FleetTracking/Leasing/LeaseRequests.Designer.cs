@@ -44,32 +44,32 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.mnuAddRequest = new System.Windows.Forms.ToolStripButton();
             this.mnuDeleteRequests = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuSubmitBids = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.loader = new FleetTracking.Loader();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSentBids = new System.Windows.Forms.TabPage();
             this.dgvSent = new System.Windows.Forms.DataGridView();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.mnuDeleteBids = new System.Windows.Forms.ToolStripButton();
-            this.tabReceivedBids = new System.Windows.Forms.TabPage();
-            this.dgvReceivedBids = new System.Windows.Forms.DataGridView();
-            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.colReceivedRequestID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colReceivedImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colReceivedReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colReceivedAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colReceivedRecurringType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colReceivedTerms = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSentRequestID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSentImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.colSentReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSentAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSentRecurringType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSentTerms = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.loader = new FleetTracking.Loader();
-            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuSubmitBids = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.mnuDeleteBids = new System.Windows.Forms.ToolStripButton();
+            this.tabReceivedBids = new System.Windows.Forms.TabPage();
+            this.dgvReceivedBids = new System.Windows.Forms.DataGridView();
+            this.colReceivedRequestID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colReceivedImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colReceivedReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colReceivedAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colReceivedRecurringType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colReceivedTerms = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.mnuAcceptBids = new System.Windows.Forms.ToolStripButton();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRequests)).BeginInit();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -209,6 +209,7 @@
             this.mnuAddRequest.Size = new System.Drawing.Size(110, 35);
             this.mnuAddRequest.Text = "Add Lease Request";
             this.mnuAddRequest.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.mnuAddRequest.Click += new System.EventHandler(this.mnuAddRequest_Click);
             // 
             // mnuDeleteRequests
             // 
@@ -218,6 +219,20 @@
             this.mnuDeleteRequests.Size = new System.Drawing.Size(126, 35);
             this.mnuDeleteRequests.Text = "Delete Lease Requests";
             this.mnuDeleteRequests.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
+            // 
+            // mnuSubmitBids
+            // 
+            this.mnuSubmitBids.Image = ((System.Drawing.Image)(resources.GetObject("mnuSubmitBids.Image")));
+            this.mnuSubmitBids.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuSubmitBids.Name = "mnuSubmitBids";
+            this.mnuSubmitBids.Size = new System.Drawing.Size(74, 35);
+            this.mnuSubmitBids.Text = "Submit Bids";
+            this.mnuSubmitBids.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // splitContainer1
             // 
@@ -242,6 +257,18 @@
             this.splitContainer1.Size = new System.Drawing.Size(1029, 689);
             this.splitContainer1.SplitterDistance = 336;
             this.splitContainer1.TabIndex = 11;
+            // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(1026, 336);
+            this.loader.TabIndex = 10;
+            this.loader.Visible = false;
             // 
             // tabControl1
             // 
@@ -282,6 +309,39 @@
             this.dgvSent.Size = new System.Drawing.Size(1015, 279);
             this.dgvSent.TabIndex = 1;
             this.dgvSent.SelectionChanged += new System.EventHandler(this.dgvSent_SelectionChanged);
+            // 
+            // colSentRequestID
+            // 
+            this.colSentRequestID.HeaderText = "Request Number";
+            this.colSentRequestID.Name = "colSentRequestID";
+            this.colSentRequestID.Width = 50;
+            // 
+            // colSentImage
+            // 
+            this.colSentImage.HeaderText = "Image";
+            this.colSentImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colSentImage.Name = "colSentImage";
+            // 
+            // colSentReportingMark
+            // 
+            this.colSentReportingMark.HeaderText = "Reporting Mark";
+            this.colSentReportingMark.Name = "colSentReportingMark";
+            // 
+            // colSentAmount
+            // 
+            this.colSentAmount.HeaderText = "Amount";
+            this.colSentAmount.Name = "colSentAmount";
+            // 
+            // colSentRecurringType
+            // 
+            this.colSentRecurringType.HeaderText = "Recurring?";
+            this.colSentRecurringType.Name = "colSentRecurringType";
+            // 
+            // colSentTerms
+            // 
+            this.colSentTerms.HeaderText = "Terms";
+            this.colSentTerms.Name = "colSentTerms";
+            this.colSentTerms.Width = 400;
             // 
             // toolStrip2
             // 
@@ -329,16 +389,8 @@
             this.dgvReceivedBids.Name = "dgvReceivedBids";
             this.dgvReceivedBids.Size = new System.Drawing.Size(1015, 279);
             this.dgvReceivedBids.TabIndex = 3;
-            // 
-            // toolStrip3
-            // 
-            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuAcceptBids});
-            this.toolStrip3.Location = new System.Drawing.Point(3, 3);
-            this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(1015, 38);
-            this.toolStrip3.TabIndex = 2;
-            this.toolStrip3.Text = "toolStrip3";
+            this.dgvReceivedBids.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvReceivedBids_RowCountChanged);
+            this.dgvReceivedBids.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvReceivedBids_RowCountChanged);
             // 
             // colReceivedRequestID
             // 
@@ -373,64 +425,15 @@
             this.colReceivedTerms.Name = "colReceivedTerms";
             this.colReceivedTerms.Width = 400;
             // 
-            // colSentRequestID
+            // toolStrip3
             // 
-            this.colSentRequestID.HeaderText = "Request Number";
-            this.colSentRequestID.Name = "colSentRequestID";
-            this.colSentRequestID.Width = 50;
-            // 
-            // colSentImage
-            // 
-            this.colSentImage.HeaderText = "Image";
-            this.colSentImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colSentImage.Name = "colSentImage";
-            // 
-            // colSentReportingMark
-            // 
-            this.colSentReportingMark.HeaderText = "Reporting Mark";
-            this.colSentReportingMark.Name = "colSentReportingMark";
-            // 
-            // colSentAmount
-            // 
-            this.colSentAmount.HeaderText = "Amount";
-            this.colSentAmount.Name = "colSentAmount";
-            // 
-            // colSentRecurringType
-            // 
-            this.colSentRecurringType.HeaderText = "Recurring?";
-            this.colSentRecurringType.Name = "colSentRecurringType";
-            // 
-            // colSentTerms
-            // 
-            this.colSentTerms.HeaderText = "Terms";
-            this.colSentTerms.Name = "colSentTerms";
-            this.colSentTerms.Width = 400;
-            // 
-            // loader
-            // 
-            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(0, 0);
-            this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(1026, 336);
-            this.loader.TabIndex = 10;
-            this.loader.Visible = false;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
-            // 
-            // mnuSubmitBids
-            // 
-            this.mnuSubmitBids.Image = ((System.Drawing.Image)(resources.GetObject("mnuSubmitBids.Image")));
-            this.mnuSubmitBids.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuSubmitBids.Name = "mnuSubmitBids";
-            this.mnuSubmitBids.Size = new System.Drawing.Size(74, 35);
-            this.mnuSubmitBids.Text = "Submit Bids";
-            this.mnuSubmitBids.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAcceptBids});
+            this.toolStrip3.Location = new System.Drawing.Point(3, 3);
+            this.toolStrip3.Name = "toolStrip3";
+            this.toolStrip3.Size = new System.Drawing.Size(1015, 38);
+            this.toolStrip3.TabIndex = 2;
+            this.toolStrip3.Text = "toolStrip3";
             // 
             // mnuAcceptBids
             // 

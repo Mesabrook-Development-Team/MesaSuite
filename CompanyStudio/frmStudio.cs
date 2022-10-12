@@ -134,12 +134,20 @@ namespace CompanyStudio
             collection.Add(tsmi);
         }
 
-        private Form FleetTracking_OpenForm(IFleetTrackingControl fleetTrackingControl)
+        private Form FleetTracking_OpenForm(IFleetTrackingControl fleetTrackingControl, FleetTrackingApplication.OpenFormOptions formOptions)
         {
             FleetTracking.frmFleetForm fleetForm = new FleetTracking.frmFleetForm();
             fleetForm.FleetTrackingControl = fleetTrackingControl;
             DecorateStudioContent(fleetForm);
-            fleetForm.Show(dockPanel, DockState.Document);
+
+            if (formOptions.HasFlag(FleetTrackingApplication.OpenFormOptions.Popout))
+            {
+                fleetForm.Show();
+            }
+            else
+            {
+                fleetForm.Show(dockPanel, DockState.Document);
+            }
             return fleetForm;
         }
 

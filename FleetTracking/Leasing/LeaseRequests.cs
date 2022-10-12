@@ -26,7 +26,9 @@ namespace FleetTracking.Leasing
             dataGridViewStylizer.ApplyStyle(dgvRequests);
             dgvRequests.MultiSelect = true;
             dataGridViewStylizer.ApplyStyle(dgvSent);
+            dgvSent.MultiSelect = true;
             dataGridViewStylizer.ApplyStyle(dgvReceivedBids);
+            dgvReceivedBids.MultiSelect = true;
         }
 
         private List<LeaseBid> LeaseBids { get; set; }
@@ -92,10 +94,7 @@ namespace FleetTracking.Leasing
                     row.Tag = leaseRequest;
                 }
 
-                if (dgvRequests.SelectedRows.Count > 0)
-                {
-                    dgvRequests_SelectionChanged(dgvRequests, EventArgs.Empty);
-                }
+                dgvRequests_SelectionChanged(dgvRequests, EventArgs.Empty);
             }
             finally
             {
@@ -147,6 +146,9 @@ namespace FleetTracking.Leasing
             mnuDeleteRequests.Enabled = SelectedLeaseRequests.Any(lr => _application.IsCurrentEntity(lr.CompanyIDRequester, lr.GovernmentIDRequester));
             mnuSubmitBids.Enabled = SelectedLeaseRequests.Any(lr => !_application.IsCurrentEntity(lr.CompanyIDRequester, lr.GovernmentIDRequester) && !LeaseBids.Any(lb => lb.LeaseRequestID == lr.LeaseRequestID));
 
+            dgvSent_SelectionChanged(this, EventArgs.Empty);
+            dgvReceivedBids_RowCountChanged(this, EventArgs.Empty);
+
             try
             {
                 GetData getImage = _application.GetAccess<GetData>();
@@ -194,7 +196,18 @@ namespace FleetTracking.Leasing
 
         private void dgvSent_SelectionChanged(object sender, EventArgs e)
         {
+            mnuDeleteBids.Enabled = dgvSent.SelectedRows.Count > 0;
+        }
 
+        private void dgvReceivedBids_RowCountChanged(object sender, EventArgs e)
+        {
+            mnuAcceptBids.Enabled = dgvReceivedBids.Rows.Count > 0;
+        }
+
+        private void mnuAddRequest_Click(object sender, EventArgs e)
+        {
+            Form newRequestForm = _application.OpenForm(new LeaseRequestDetail(), FleetTrackingApplication.OpenFormOptions.Popout);
+            newRequestForm.Text = "New Lease Request";
         }
     }
 }

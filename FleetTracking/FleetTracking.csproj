@@ -61,6 +61,12 @@
     <Compile Include="Leasing\LeaseManagement.Designer.cs">
       <DependentUpon>LeaseManagement.cs</DependentUpon>
     </Compile>
+    <Compile Include="Leasing\LeaseRequestDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Leasing\LeaseRequestDetail.Designer.cs">
+      <DependentUpon>LeaseRequestDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Leasing\LeaseRequests.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -194,6 +200,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Leasing\LeaseManagement.resx">
       <DependentUpon>LeaseManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Leasing\LeaseRequestDetail.resx">
+      <DependentUpon>LeaseRequestDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Leasing\LeaseRequests.resx">
       <DependentUpon>LeaseRequests.cs</DependentUpon>

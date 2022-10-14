@@ -97,6 +97,7 @@ namespace GovernmentPortal
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<DeleteData>(FleetTracking_DeleteData));
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<PatchData>(FleetTracking_PatchData));
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.IsCurrentEntity(FleetTracking_IsCurrentEntity));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetCurrentCompanyIDGovernmentID(() => (null, _government.GovernmentID)));
 
             mnuFleetTracking = new ToolStripMenuItem("Fleet Tracking");
             foreach (FleetTracking.Interop.FleetTrackingApplication.MainNavigationItem mainNavigationItem in _fleetTrackingApplication.GetNavigationItems())

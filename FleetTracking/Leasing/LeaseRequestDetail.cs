@@ -16,15 +16,21 @@ namespace FleetTracking.Leasing
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; }
 
+        public long? LeaseRequestID { get; set; }
+
         public LeaseRequestDetail()
         {
             InitializeComponent();
         }
 
-
-        private void LeaseRequestDetail_Paint(object sender, PaintEventArgs e)
+        private void LeaseRequestDetail_Load(object sender, EventArgs e)
         {
-            e.Graphics.DrawLine(new Pen(label1.ForeColor, 2), new Point(label1.Location.X + label1.Width + 2, label1.Location.Y + (label1.Height / 2)), new Point(Width - 6, label1.Location.Y + (label1.Height / 2)));
+            LoadData();
+        }
+
+        private async Task LoadData()
+        {
+
         }
     }
 }

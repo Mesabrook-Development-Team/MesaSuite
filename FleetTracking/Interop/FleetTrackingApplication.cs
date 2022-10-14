@@ -13,6 +13,7 @@ namespace FleetTracking.Interop
             public delegate Form OpenForm(IFleetTrackingControl primaryControl, OpenFormOptions formOptions);
             public delegate TAccess GetAccess<out TAccess>() where TAccess : DataAccess;
             public delegate bool IsCurrentEntity(long? companyID, long? governmentID);
+            public delegate (long?, long?) GetCurrentCompanyIDGovernmentID();
         }
 
         private Dictionary<Type, Delegate> callbacks = new Dictionary<Type, Delegate>();
@@ -87,6 +88,11 @@ namespace FleetTracking.Interop
         internal bool IsCurrentEntity(long? companyID, long? governmentID)
         {
             return GetCallback<CallbackDelegates.IsCurrentEntity>()?.Invoke(companyID, governmentID) ?? false;
+        }
+
+        internal (long?, long?) GetCurrentCompanyIDGovernmentID()
+        {
+            return GetCallback<CallbackDelegates.GetCurrentCompanyIDGovernmentID>()?.Invoke() ?? (null, null);
         }
 
         public enum OpenFormOptions

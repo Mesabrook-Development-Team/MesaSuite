@@ -114,6 +114,7 @@
             this.dgvRequests.Name = "dgvRequests";
             this.dgvRequests.Size = new System.Drawing.Size(1029, 269);
             this.dgvRequests.TabIndex = 4;
+            this.dgvRequests.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRequests_CellDoubleClick);
             this.dgvRequests.SelectionChanged += new System.EventHandler(this.dgvRequests_SelectionChanged);
             // 
             // colLeaseID

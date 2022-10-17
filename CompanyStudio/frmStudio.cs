@@ -105,7 +105,7 @@ namespace CompanyStudio
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<DeleteData>(FleetTracking_DeleteData));
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<PatchData>(FleetTracking_PatchData));
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.IsCurrentEntity((companyID, governmentID) => FleetTracking_IsCurrentEntity(fleetTrackingApplication, companyID, governmentID)));
-            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetCurrentCompanyIDGovernmentID(() => ((long?)fleetTrackingApplicationsByCompany.FirstOrDefault(kvp => kvp.Value == fleetTrackingApplication).Key ?? null, null));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetCurrentCompanyIDGovernmentID(() => ((long?)fleetTrackingApplicationsByCompany.FirstOrDefault(kvp => kvp.Value == fleetTrackingApplication).Key ?? null, null)));
 
             fleetMenu = new ToolStripMenuItem("Fleet Tracking");
             foreach(FleetTrackingApplication.MainNavigationItem navItem in fleetTrackingApplication.GetNavigationItems())

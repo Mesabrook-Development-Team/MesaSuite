@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeaseRequestDetail));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grpLeaseRequest = new System.Windows.Forms.GroupBox();
             this.dtpEndTime = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -39,11 +39,11 @@
             this.lblRailcarType = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtPurpose = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtDeliveryLocation = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtRequester = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.grpBids = new System.Windows.Forms.GroupBox();
             this.dgvBids = new System.Windows.Forms.DataGridView();
             this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,37 +51,41 @@
             this.colRecurring = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsmiAccept = new System.Windows.Forms.ToolStripButton();
-            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.cmdReset = new System.Windows.Forms.Button();
+            this.cmdSave = new System.Windows.Forms.Button();
             this.loader = new FleetTracking.Loader();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.tsmiDeleteBid = new System.Windows.Forms.ToolStripButton();
+            this.tsmiSubmitBid = new System.Windows.Forms.ToolStripButton();
+            this.grpLeaseRequest.SuspendLayout();
+            this.grpBids.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBids)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // grpLeaseRequest
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.grpLeaseRequest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.dtpEndTime);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.cboRailcarType);
-            this.groupBox1.Controls.Add(this.cboLeaseType);
-            this.groupBox1.Controls.Add(this.lblRailcarType);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.txtPurpose);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.txtRequester);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(628, 265);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Lease Request";
+            this.grpLeaseRequest.Controls.Add(this.dtpEndTime);
+            this.grpLeaseRequest.Controls.Add(this.label6);
+            this.grpLeaseRequest.Controls.Add(this.label5);
+            this.grpLeaseRequest.Controls.Add(this.cboRailcarType);
+            this.grpLeaseRequest.Controls.Add(this.cboLeaseType);
+            this.grpLeaseRequest.Controls.Add(this.lblRailcarType);
+            this.grpLeaseRequest.Controls.Add(this.label2);
+            this.grpLeaseRequest.Controls.Add(this.txtPurpose);
+            this.grpLeaseRequest.Controls.Add(this.txtDeliveryLocation);
+            this.grpLeaseRequest.Controls.Add(this.label4);
+            this.grpLeaseRequest.Controls.Add(this.txtRequester);
+            this.grpLeaseRequest.Controls.Add(this.label1);
+            this.grpLeaseRequest.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpLeaseRequest.Location = new System.Drawing.Point(3, 3);
+            this.grpLeaseRequest.Name = "grpLeaseRequest";
+            this.grpLeaseRequest.Size = new System.Drawing.Size(628, 265);
+            this.grpLeaseRequest.TabIndex = 0;
+            this.grpLeaseRequest.TabStop = false;
+            this.grpLeaseRequest.Text = "Lease Request";
             // 
             // dtpEndTime
             // 
@@ -162,14 +166,14 @@
             this.txtPurpose.Size = new System.Drawing.Size(613, 97);
             this.txtPurpose.TabIndex = 4;
             // 
-            // textBox2
+            // txtDeliveryLocation
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtDeliveryLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(78, 79);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(544, 20);
-            this.textBox2.TabIndex = 3;
+            this.txtDeliveryLocation.Location = new System.Drawing.Point(78, 79);
+            this.txtDeliveryLocation.Name = "txtDeliveryLocation";
+            this.txtDeliveryLocation.Size = new System.Drawing.Size(544, 20);
+            this.txtDeliveryLocation.TabIndex = 3;
             // 
             // label4
             // 
@@ -199,19 +203,19 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Requester:";
             // 
-            // groupBox2
+            // grpBids
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.grpBids.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.dgvBids);
-            this.groupBox2.Controls.Add(this.toolStrip1);
-            this.groupBox2.Location = new System.Drawing.Point(3, 274);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(628, 241);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Bids";
+            this.grpBids.Controls.Add(this.dgvBids);
+            this.grpBids.Controls.Add(this.toolStrip1);
+            this.grpBids.Location = new System.Drawing.Point(3, 274);
+            this.grpBids.Name = "grpBids";
+            this.grpBids.Size = new System.Drawing.Size(628, 255);
+            this.grpBids.TabIndex = 1;
+            this.grpBids.TabStop = false;
+            this.grpBids.Text = "Bids";
             // 
             // dgvBids
             // 
@@ -224,7 +228,7 @@
             this.dgvBids.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvBids.Location = new System.Drawing.Point(3, 54);
             this.dgvBids.Name = "dgvBids";
-            this.dgvBids.Size = new System.Drawing.Size(622, 184);
+            this.dgvBids.Size = new System.Drawing.Size(622, 198);
             this.dgvBids.TabIndex = 0;
             // 
             // colImage
@@ -252,7 +256,9 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiAccept});
+            this.tsmiAccept,
+            this.tsmiSubmitBid,
+            this.tsmiDeleteBid});
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(622, 38);
@@ -268,6 +274,26 @@
             this.tsmiAccept.Text = "Accept Bid";
             this.tsmiAccept.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
+            // cmdReset
+            // 
+            this.cmdReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdReset.Location = new System.Drawing.Point(466, 271);
+            this.cmdReset.Name = "cmdReset";
+            this.cmdReset.Size = new System.Drawing.Size(75, 23);
+            this.cmdReset.TabIndex = 3;
+            this.cmdReset.Text = "Reset";
+            this.cmdReset.UseVisualStyleBackColor = true;
+            // 
+            // cmdSave
+            // 
+            this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdSave.Location = new System.Drawing.Point(547, 271);
+            this.cmdSave.Name = "cmdSave";
+            this.cmdSave.Size = new System.Drawing.Size(75, 23);
+            this.cmdSave.TabIndex = 3;
+            this.cmdSave.Text = "Save";
+            this.cmdSave.UseVisualStyleBackColor = true;
+            // 
             // loader
             // 
             this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -276,24 +302,44 @@
             this.loader.BackColor = System.Drawing.Color.Transparent;
             this.loader.Location = new System.Drawing.Point(0, 0);
             this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(634, 516);
+            this.loader.Size = new System.Drawing.Size(634, 530);
             this.loader.TabIndex = 2;
             this.loader.Visible = false;
+            // 
+            // tsmiDeleteBid
+            // 
+            this.tsmiDeleteBid.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteBid.Image")));
+            this.tsmiDeleteBid.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsmiDeleteBid.Name = "tsmiDeleteBid";
+            this.tsmiDeleteBid.Size = new System.Drawing.Size(64, 35);
+            this.tsmiDeleteBid.Text = "Delete Bid";
+            this.tsmiDeleteBid.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // tsmiSubmitBid
+            // 
+            this.tsmiSubmitBid.Image = ((System.Drawing.Image)(resources.GetObject("tsmiSubmitBid.Image")));
+            this.tsmiSubmitBid.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsmiSubmitBid.Name = "tsmiSubmitBid";
+            this.tsmiSubmitBid.Size = new System.Drawing.Size(69, 35);
+            this.tsmiSubmitBid.Text = "Submit Bid";
+            this.tsmiSubmitBid.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // LeaseRequestDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.grpBids);
+            this.Controls.Add(this.grpLeaseRequest);
             this.Controls.Add(this.loader);
+            this.Controls.Add(this.cmdReset);
+            this.Controls.Add(this.cmdSave);
             this.Name = "LeaseRequestDetail";
-            this.Size = new System.Drawing.Size(634, 516);
+            this.Size = new System.Drawing.Size(634, 530);
             this.Load += new System.EventHandler(this.LeaseRequestDetail_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.grpLeaseRequest.ResumeLayout(false);
+            this.grpLeaseRequest.PerformLayout();
+            this.grpBids.ResumeLayout(false);
+            this.grpBids.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBids)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -303,7 +349,7 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grpLeaseRequest;
         private System.Windows.Forms.TextBox txtRequester;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboLeaseType;
@@ -311,12 +357,12 @@
         private System.Windows.Forms.ComboBox cboRailcarType;
         private System.Windows.Forms.Label lblRailcarType;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtDeliveryLocation;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtPurpose;
         private System.Windows.Forms.DateTimePicker dtpEndTime;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox grpBids;
         private System.Windows.Forms.DataGridView dgvBids;
         private System.Windows.Forms.DataGridViewImageColumn colImage;
         private System.Windows.Forms.DataGridViewTextBoxColumn colReportingMark;
@@ -326,5 +372,9 @@
         private System.Windows.Forms.ToolStripButton tsmiAccept;
         private DataGridViewStylizer dataGridViewStylizer;
         private Loader loader;
+        private System.Windows.Forms.Button cmdReset;
+        private System.Windows.Forms.Button cmdSave;
+        private System.Windows.Forms.ToolStripButton tsmiDeleteBid;
+        private System.Windows.Forms.ToolStripButton tsmiSubmitBid;
     }
 }

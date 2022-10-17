@@ -18,6 +18,7 @@ namespace FleetTracking.Leasing
 {
     public partial class LeaseRequestDetail : UserControl, IFleetTrackingControl
     {
+        public event EventHandler OnSave;
         private bool _allowSave;
 
         private FleetTrackingApplication _application;
@@ -136,19 +137,29 @@ namespace FleetTracking.Leasing
                 {
                     int rowIndex = dgvBids.Rows.Add();
                     DataGridViewRow row = dgvBids.Rows[rowIndex];
-                    row.Cells[colReportingMark.Name].Value = leaseBid.Locomotive?.FormattedReportingMark ?? leaseBid.Railcar?.FormattedReportingMark;
+                    row.Cells[colReportingMark.Name].Value = string.IsNullOrEmpty(leaseBid.Railcar?.FormattedReportingMark) ? leaseBid.Locomotive?.FormattedReportingMark : leaseBid.Railcar.FormattedReportingMark;
                     row.Cells[colAmount.Name].Value = leaseBid.LeaseAmount?.ToString("N2");
                     row.Cells[colRecurring.Name].Value = leaseBid.RecurringAmountType.ToString().ToDisplayName();
                     row.Tag = leaseBid;
+
+                    row.Selected = rowIndex == 0;
                 }
 
                 // Setup form stuff
                 _allowSave = leaseRequest == null || _application.IsCurrentEntity(leaseRequest.CompanyIDRequester, leaseRequest.GovernmentIDRequester);
                 SetPositionsForSave();
 
+                cboLeaseType.Enabled = _allowSave;
+                cboRailcarType.Enabled = _allowSave;
+                txtDeliveryLocation.Enabled = _allowSave;
+                txtPurpose.Enabled = _allowSave;
+                dtpEndTime.Enabled = _allowSave;
                 tsmiAccept.Visible = _allowSave;
                 tsmiSubmitBid.Visible = !_allowSave;
+                tsmiSubmitBid.Enabled = !leaseBids.Where(lb => lb.LeaseRequestID == LeaseRequestID).Any();
                 tsmiDeleteBid.Visible = !_allowSave;
+
+                dgvBids_SelectionChanged(this, EventArgs.Empty);
             }
             finally
             {
@@ -190,6 +201,21 @@ namespace FleetTracking.Leasing
                 }
             }
             catch { }
+        }
+
+        private void dgvBids_SelectionChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cboLeaseType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void cmdSave_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

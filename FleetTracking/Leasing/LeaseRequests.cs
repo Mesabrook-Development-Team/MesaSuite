@@ -206,8 +206,15 @@ namespace FleetTracking.Leasing
 
         private void mnuAddRequest_Click(object sender, EventArgs e)
         {
-            Form newRequestForm = _application.OpenForm(new LeaseRequestDetail() { Application = _application }, FleetTrackingApplication.OpenFormOptions.Popout);
+            LeaseRequestDetail leaseRequestDetail = new LeaseRequestDetail() { Application = _application };
+            leaseRequestDetail.OnSave += LeaseRequestDetail_OnSave;
+            Form newRequestForm = _application.OpenForm(leaseRequestDetail, FleetTrackingApplication.OpenFormOptions.Popout);
             newRequestForm.Text = "New Lease Request";
+        }
+
+        private void LeaseRequestDetail_OnSave(object sender, EventArgs e)
+        {
+            LoadData();
         }
 
         private void dgvRequests_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -219,12 +226,13 @@ namespace FleetTracking.Leasing
                 return;
             }
 
-            Form leaseRequestForm = _application.OpenForm(new LeaseRequestDetail()
+            LeaseRequestDetail leaseRequestDetail = new LeaseRequestDetail()
             {
                 Application = _application,
                 LeaseRequestID = leaseRequest.LeaseRequestID,
-            }, FleetTrackingApplication.OpenFormOptions.Popout);
-
+            };
+            leaseRequestDetail.OnSave += LeaseRequestDetail_OnSave;
+            Form leaseRequestForm = _application.OpenForm(leaseRequestDetail, FleetTrackingApplication.OpenFormOptions.Popout);
             leaseRequestForm.Text = "Lease Request";
         }
     }

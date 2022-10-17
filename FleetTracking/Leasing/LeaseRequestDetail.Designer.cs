@@ -45,18 +45,18 @@
             this.label1 = new System.Windows.Forms.Label();
             this.grpBids = new System.Windows.Forms.GroupBox();
             this.dgvBids = new System.Windows.Forms.DataGridView();
-            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colRecurring = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsmiAccept = new System.Windows.Forms.ToolStripButton();
+            this.tsmiSubmitBid = new System.Windows.Forms.ToolStripButton();
+            this.tsmiDeleteBid = new System.Windows.Forms.ToolStripButton();
             this.cmdReset = new System.Windows.Forms.Button();
             this.cmdSave = new System.Windows.Forms.Button();
             this.loader = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.tsmiDeleteBid = new System.Windows.Forms.ToolStripButton();
-            this.tsmiSubmitBid = new System.Windows.Forms.ToolStripButton();
+            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colRecurring = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grpLeaseRequest.SuspendLayout();
             this.grpBids.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBids)).BeginInit();
@@ -134,6 +134,7 @@
             this.cboLeaseType.Name = "cboLeaseType";
             this.cboLeaseType.Size = new System.Drawing.Size(121, 21);
             this.cboLeaseType.TabIndex = 1;
+            this.cboLeaseType.SelectedIndexChanged += new System.EventHandler(this.cboLeaseType_SelectedIndexChanged);
             // 
             // lblRailcarType
             // 
@@ -230,28 +231,7 @@
             this.dgvBids.Name = "dgvBids";
             this.dgvBids.Size = new System.Drawing.Size(622, 198);
             this.dgvBids.TabIndex = 0;
-            // 
-            // colImage
-            // 
-            this.colImage.HeaderText = "Image";
-            this.colImage.Name = "colImage";
-            // 
-            // colReportingMark
-            // 
-            this.colReportingMark.HeaderText = "Reporting Mark";
-            this.colReportingMark.Name = "colReportingMark";
-            this.colReportingMark.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colReportingMark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colAmount
-            // 
-            this.colAmount.HeaderText = "Amount";
-            this.colAmount.Name = "colAmount";
-            // 
-            // colRecurring
-            // 
-            this.colRecurring.HeaderText = "Recurring?";
-            this.colRecurring.Name = "colRecurring";
+            this.dgvBids.SelectionChanged += new System.EventHandler(this.dgvBids_SelectionChanged);
             // 
             // toolStrip1
             // 
@@ -274,6 +254,24 @@
             this.tsmiAccept.Text = "Accept Bid";
             this.tsmiAccept.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
+            // tsmiSubmitBid
+            // 
+            this.tsmiSubmitBid.Image = ((System.Drawing.Image)(resources.GetObject("tsmiSubmitBid.Image")));
+            this.tsmiSubmitBid.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsmiSubmitBid.Name = "tsmiSubmitBid";
+            this.tsmiSubmitBid.Size = new System.Drawing.Size(69, 35);
+            this.tsmiSubmitBid.Text = "Submit Bid";
+            this.tsmiSubmitBid.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // tsmiDeleteBid
+            // 
+            this.tsmiDeleteBid.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteBid.Image")));
+            this.tsmiDeleteBid.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsmiDeleteBid.Name = "tsmiDeleteBid";
+            this.tsmiDeleteBid.Size = new System.Drawing.Size(64, 35);
+            this.tsmiDeleteBid.Text = "Delete Bid";
+            this.tsmiDeleteBid.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
             // cmdReset
             // 
             this.cmdReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -293,6 +291,7 @@
             this.cmdSave.TabIndex = 3;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
+            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
             // loader
             // 
@@ -306,33 +305,38 @@
             this.loader.TabIndex = 2;
             this.loader.Visible = false;
             // 
-            // tsmiDeleteBid
+            // colImage
             // 
-            this.tsmiDeleteBid.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteBid.Image")));
-            this.tsmiDeleteBid.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsmiDeleteBid.Name = "tsmiDeleteBid";
-            this.tsmiDeleteBid.Size = new System.Drawing.Size(64, 35);
-            this.tsmiDeleteBid.Text = "Delete Bid";
-            this.tsmiDeleteBid.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.colImage.HeaderText = "Image";
+            this.colImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colImage.Name = "colImage";
             // 
-            // tsmiSubmitBid
+            // colReportingMark
             // 
-            this.tsmiSubmitBid.Image = ((System.Drawing.Image)(resources.GetObject("tsmiSubmitBid.Image")));
-            this.tsmiSubmitBid.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsmiSubmitBid.Name = "tsmiSubmitBid";
-            this.tsmiSubmitBid.Size = new System.Drawing.Size(69, 35);
-            this.tsmiSubmitBid.Text = "Submit Bid";
-            this.tsmiSubmitBid.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.colReportingMark.HeaderText = "Reporting Mark";
+            this.colReportingMark.Name = "colReportingMark";
+            this.colReportingMark.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colReportingMark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colAmount
+            // 
+            this.colAmount.HeaderText = "Amount";
+            this.colAmount.Name = "colAmount";
+            // 
+            // colRecurring
+            // 
+            this.colRecurring.HeaderText = "Recurring?";
+            this.colRecurring.Name = "colRecurring";
             // 
             // LeaseRequestDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.grpBids);
             this.Controls.Add(this.grpLeaseRequest);
-            this.Controls.Add(this.loader);
             this.Controls.Add(this.cmdReset);
             this.Controls.Add(this.cmdSave);
+            this.Controls.Add(this.grpBids);
+            this.Controls.Add(this.loader);
             this.Name = "LeaseRequestDetail";
             this.Size = new System.Drawing.Size(634, 530);
             this.Load += new System.EventHandler(this.LeaseRequestDetail_Load);
@@ -364,10 +368,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox grpBids;
         private System.Windows.Forms.DataGridView dgvBids;
-        private System.Windows.Forms.DataGridViewImageColumn colImage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colReportingMark;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colAmount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colRecurring;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton tsmiAccept;
         private DataGridViewStylizer dataGridViewStylizer;
@@ -376,5 +376,9 @@
         private System.Windows.Forms.Button cmdSave;
         private System.Windows.Forms.ToolStripButton tsmiDeleteBid;
         private System.Windows.Forms.ToolStripButton tsmiSubmitBid;
+        private System.Windows.Forms.DataGridViewImageColumn colImage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colReportingMark;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colRecurring;
     }
 }

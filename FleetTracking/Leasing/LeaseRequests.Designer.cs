@@ -220,6 +220,7 @@
             this.mnuDeleteRequests.Size = new System.Drawing.Size(126, 35);
             this.mnuDeleteRequests.Text = "Delete Lease Requests";
             this.mnuDeleteRequests.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.mnuDeleteRequests.Click += new System.EventHandler(this.mnuDeleteRequests_Click);
             // 
             // toolStripSeparator1
             // 

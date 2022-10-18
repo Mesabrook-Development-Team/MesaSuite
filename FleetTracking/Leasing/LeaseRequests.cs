@@ -235,5 +235,43 @@ namespace FleetTracking.Leasing
             Form leaseRequestForm = _application.OpenForm(leaseRequestDetail, FleetTrackingApplication.OpenFormOptions.Popout);
             leaseRequestForm.Text = "Lease Request";
         }
+
+        private async void mnuDeleteRequests_Click(object sender, EventArgs e)
+        {
+            IEnumerable<LeaseRequest> myLeaseRequests = dgvRequests.SelectedRows.Cast<DataGridViewRow>().Where(dgvr => dgvr.Tag is LeaseRequest leaseRequest && _application.IsCurrentEntity(leaseRequest.CompanyIDRequester, leaseRequest.GovernmentIDRequester)).Select(dgvr => dgvr.Tag as LeaseRequest);
+            if (!myLeaseRequests.Any())
+            {
+                return;
+            }
+
+            if (!this.Confirm("Are you sure you want to delete these Lease Requests?"))
+            {
+                return;
+            }
+
+            loader.BringToFront();
+            loader.Visible = true;
+
+            try
+            {
+                foreach (LeaseRequest leaseRequest in myLeaseRequests)
+                {
+                    DeleteData delete = _application.GetAccess<DeleteData>();
+                    delete.API = DataAccess.APIs.FleetTracking;
+                    delete.Resource = $"LeaseRequest/Delete/{leaseRequest.LeaseRequestID}";
+                    await delete.Execute();
+                    if (!delete.RequestSuccessful)
+                    {
+                        return;
+                    }
+                }
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
+
+            LoadData();
+        }
     }
 }

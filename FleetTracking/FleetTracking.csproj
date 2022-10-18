@@ -55,6 +55,12 @@
     </Compile>
     <Compile Include="IFleetTrackingControl.cs" />
     <Compile Include="Interop\FleetTrackingApplication.cs" />
+    <Compile Include="Leasing\LeaseBidDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Leasing\LeaseBidDetail.Designer.cs">
+      <DependentUpon>LeaseBidDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Leasing\LeaseManagement.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -198,6 +204,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Leasing\LeaseBidDetail.resx">
+      <DependentUpon>LeaseBidDetail.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Leasing\LeaseManagement.resx">
       <DependentUpon>LeaseManagement.cs</DependentUpon>
     </EmbeddedResource>

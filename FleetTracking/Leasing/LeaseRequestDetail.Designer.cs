@@ -45,6 +45,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.grpBids = new System.Windows.Forms.GroupBox();
             this.dgvBids = new System.Windows.Forms.DataGridView();
+            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colRecurring = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsmiAccept = new System.Windows.Forms.ToolStripButton();
             this.tsmiSubmitBid = new System.Windows.Forms.ToolStripButton();
@@ -53,10 +57,7 @@
             this.cmdSave = new System.Windows.Forms.Button();
             this.loader = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colRecurring = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmdClone = new System.Windows.Forms.Button();
             this.grpLeaseRequest.SuspendLayout();
             this.grpBids.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBids)).BeginInit();
@@ -211,6 +212,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBids.Controls.Add(this.dgvBids);
             this.grpBids.Controls.Add(this.toolStrip1);
+            this.grpBids.Controls.Add(this.cmdClone);
             this.grpBids.Location = new System.Drawing.Point(3, 274);
             this.grpBids.Name = "grpBids";
             this.grpBids.Size = new System.Drawing.Size(628, 255);
@@ -232,6 +234,29 @@
             this.dgvBids.Size = new System.Drawing.Size(622, 198);
             this.dgvBids.TabIndex = 0;
             this.dgvBids.SelectionChanged += new System.EventHandler(this.dgvBids_SelectionChanged);
+            // 
+            // colImage
+            // 
+            this.colImage.HeaderText = "Image";
+            this.colImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colImage.Name = "colImage";
+            // 
+            // colReportingMark
+            // 
+            this.colReportingMark.HeaderText = "Reporting Mark";
+            this.colReportingMark.Name = "colReportingMark";
+            this.colReportingMark.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colReportingMark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colAmount
+            // 
+            this.colAmount.HeaderText = "Amount";
+            this.colAmount.Name = "colAmount";
+            // 
+            // colRecurring
+            // 
+            this.colRecurring.HeaderText = "Recurring?";
+            this.colRecurring.Name = "colRecurring";
             // 
             // toolStrip1
             // 
@@ -305,28 +330,16 @@
             this.loader.TabIndex = 2;
             this.loader.Visible = false;
             // 
-            // colImage
+            // cmdClone
             // 
-            this.colImage.HeaderText = "Image";
-            this.colImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colImage.Name = "colImage";
-            // 
-            // colReportingMark
-            // 
-            this.colReportingMark.HeaderText = "Reporting Mark";
-            this.colReportingMark.Name = "colReportingMark";
-            this.colReportingMark.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colReportingMark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colAmount
-            // 
-            this.colAmount.HeaderText = "Amount";
-            this.colAmount.Name = "colAmount";
-            // 
-            // colRecurring
-            // 
-            this.colRecurring.HeaderText = "Recurring?";
-            this.colRecurring.Name = "colRecurring";
+            this.cmdClone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdClone.Location = new System.Drawing.Point(0, -3);
+            this.cmdClone.Name = "cmdClone";
+            this.cmdClone.Size = new System.Drawing.Size(75, 23);
+            this.cmdClone.TabIndex = 3;
+            this.cmdClone.Text = "Save";
+            this.cmdClone.UseVisualStyleBackColor = true;
+            this.cmdClone.Click += new System.EventHandler(this.cmdSave_Click);
             // 
             // LeaseRequestDetail
             // 
@@ -380,5 +393,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colReportingMark;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRecurring;
+        private System.Windows.Forms.Button cmdClone;
     }
 }

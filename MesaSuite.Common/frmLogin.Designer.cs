@@ -54,6 +54,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Log Into Mesabrook";
             this.Load += new System.EventHandler(this.frmLogin_Load);
+            this.Shown += new System.EventHandler(this.frmLogin_Shown);
             this.ResumeLayout(false);
 
         }

@@ -205,17 +205,75 @@ namespace FleetTracking.Leasing
 
         private void dgvBids_SelectionChanged(object sender, EventArgs e)
         {
-
+            tsmiAccept.Enabled = dgvBids.SelectedRows.Count > 0;
+            tsmiDeleteBid.Enabled = dgvBids.SelectedRows.Count > 0;
         }
 
         private void cboLeaseType_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            DropDownItem<LeaseRequest.LeaseTypes> leaseType = cboLeaseType.SelectedItem as DropDownItem<LeaseRequest.LeaseTypes>;
+            lblRailcarType.Visible = leaseType.Object == LeaseRequest.LeaseTypes.Railcar;
+            cboRailcarType.Visible = leaseType.Object == LeaseRequest.LeaseTypes.Railcar;
         }
 
         private async void cmdSave_Click(object sender, EventArgs e)
         {
+            if (!this.AreFieldsPresent(new List<(string, Control)>()
+            {
+                ("Lease Type", cboLeaseType),
+                ("Delivery Location", txtDeliveryLocation),
+                ("Purpose", txtPurpose)
+            }))
+            {
+                return;
+            }
 
+            LeaseRequest.LeaseTypes leaseType = (cboLeaseType.SelectedItem as DropDownItem<LeaseRequest.LeaseTypes>).Object;
+            if (leaseType == LeaseRequest.LeaseTypes.Railcar && cboRailcarType.SelectedItem == null)
+            {
+                this.ShowError("Railcar Type is a required field when Lease Type is Railcar");
+                return;
+            }
+
+            LeaseRequest leaseRequest = new LeaseRequest()
+            {
+                LeaseRequestID = LeaseRequestID,
+                CompanyIDRequester = _application.GetCurrentCompanyIDGovernmentID().Item1,
+                GovernmentIDRequester = _application.GetCurrentCompanyIDGovernmentID().Item2,
+                LeaseType = leaseType,
+                RailcarType = (cboRailcarType.SelectedItem as DropDownItem<Models.RailcarModel.Types>).Object,
+                DeliveryLocation = txtDeliveryLocation.Text,
+                Purpose = txtPurpose.Text,
+                BidEndTime = dtpEndTime.Value
+            };
+
+            if (LeaseRequestID == null)
+            {
+                PostData post = _application.GetAccess<PostData>();
+                post.API = DataAccess.APIs.FleetTracking;
+                post.Resource = "LeaseRequest/Post";
+                post.ObjectToPost = leaseRequest;
+                LeaseRequest postedLR = await post.Execute<LeaseRequest>();
+                if (post.RequestSuccessful)
+                {
+                    LeaseRequestID = postedLR.LeaseRequestID;
+                    OnSave?.Invoke(this, EventArgs.Empty);
+                    LoadData();
+                }
+            }
+            else
+            {
+                PutData put = _application.GetAccess<PutData>();
+                put.API = DataAccess.APIs.FleetTracking;
+                put.Resource = "LeaseRequest/Put";
+                put.ObjectToPut = leaseRequest;
+                await put.ExecuteNoResult();
+                if (put.RequestSuccessful)
+                {
+                    OnSave?.Invoke(this, EventArgs.Empty);
+                    LoadData();
+                }
+            }
         }
     }
 }

@@ -145,6 +145,10 @@ namespace CompanyStudio
             {
                 fleetForm.Show();
             }
+            else if (formOptions.HasFlag(FleetTrackingApplication.OpenFormOptions.Dialog))
+            {
+                fleetForm.ShowDialog();
+            }
             else
             {
                 fleetForm.Show(dockPanel, DockState.Document);

@@ -131,12 +131,19 @@ namespace GovernmentPortal
 
         private Form FleetTracking_OpenForm(FleetTracking.IFleetTrackingControl fleetTrackingControl, FleetTracking.Interop.FleetTrackingApplication.OpenFormOptions openFormOptions)
         {
-            Fleet.frmFleetForm fleetForm = new Fleet.frmFleetForm()
-            {
-                MdiParent = this
-            };
+            Fleet.frmFleetForm fleetForm = new Fleet.frmFleetForm();
             fleetForm.FleetTrackingControl = fleetTrackingControl;
-            fleetForm.Show();
+
+            if (!openFormOptions.HasFlag(FleetTracking.Interop.FleetTrackingApplication.OpenFormOptions.Dialog))
+            {
+                fleetForm.MdiParent = this;
+                fleetForm.Show();
+            }
+            else
+            {
+                fleetForm.ShowDialog();
+            }
+
             return fleetForm;
         }
 

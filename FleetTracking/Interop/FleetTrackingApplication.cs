@@ -98,7 +98,8 @@ namespace FleetTracking.Interop
         public enum OpenFormOptions
         {
             None = 0,
-            Popout = 1
+            Popout = 1,
+            Dialog = 2
         }
 
         public class MainNavigationItem

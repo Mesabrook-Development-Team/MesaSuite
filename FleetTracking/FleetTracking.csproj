@@ -54,6 +54,12 @@
       <DependentUpon>DataGridViewStylizer.cs</DependentUpon>
     </Compile>
     <Compile Include="IFleetTrackingControl.cs" />
+    <Compile Include="InputBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InputBox.Designer.cs">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interop\FleetTrackingApplication.cs" />
     <Compile Include="Leasing\LeaseBidDetail.cs">
       <SubType>UserControl</SubType>
@@ -204,6 +210,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="InputBox.resx">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Leasing\LeaseBidDetail.resx">
       <DependentUpon>LeaseBidDetail.cs</DependentUpon>
     </EmbeddedResource>

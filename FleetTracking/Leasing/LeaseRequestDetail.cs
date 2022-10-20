@@ -281,7 +281,22 @@ namespace FleetTracking.Leasing
 
         private void cmdClone_Click(object sender, EventArgs e)
         {
-            int cloneCount = InputBox.GetInput<int>("Number of times to clone:", "Clone Count", "Clone");
+            InputBox inputBox = new InputBox()
+            {
+                Application = _application,
+                InputValueType = typeof(int)
+            };
+            inputBox.lblPrompt.Text = "How many times would you like to clone this Lease Request?";
+            inputBox.Text = "Enter Clone Count";
+            inputBox.cmdOK.Text = "Clone";
+
+            Form frmInput = _application.OpenForm(inputBox, FleetTrackingApplication.OpenFormOptions.Dialog);
+            if (frmInput.DialogResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            int cloneCount = (int)Convert.ChangeType(inputBox.InputValue, typeof(int));
         }
     }
 }

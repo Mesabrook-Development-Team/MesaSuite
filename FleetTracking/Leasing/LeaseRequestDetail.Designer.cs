@@ -55,9 +55,9 @@
             this.tsmiDeleteBid = new System.Windows.Forms.ToolStripButton();
             this.cmdReset = new System.Windows.Forms.Button();
             this.cmdSave = new System.Windows.Forms.Button();
+            this.cmdClone = new System.Windows.Forms.Button();
             this.loader = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.cmdClone = new System.Windows.Forms.Button();
             this.grpLeaseRequest.SuspendLayout();
             this.grpBids.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBids)).BeginInit();
@@ -212,7 +212,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBids.Controls.Add(this.dgvBids);
             this.grpBids.Controls.Add(this.toolStrip1);
-            this.grpBids.Controls.Add(this.cmdClone);
             this.grpBids.Location = new System.Drawing.Point(3, 274);
             this.grpBids.Name = "grpBids";
             this.grpBids.Size = new System.Drawing.Size(628, 255);
@@ -318,6 +317,16 @@
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
+            // cmdClone
+            // 
+            this.cmdClone.Location = new System.Drawing.Point(6, 271);
+            this.cmdClone.Name = "cmdClone";
+            this.cmdClone.Size = new System.Drawing.Size(75, 23);
+            this.cmdClone.TabIndex = 3;
+            this.cmdClone.Text = "Clone";
+            this.cmdClone.UseVisualStyleBackColor = true;
+            this.cmdClone.Click += new System.EventHandler(this.cmdClone_Click);
+            // 
             // loader
             // 
             this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -330,21 +339,11 @@
             this.loader.TabIndex = 2;
             this.loader.Visible = false;
             // 
-            // cmdClone
-            // 
-            this.cmdClone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdClone.Location = new System.Drawing.Point(0, -3);
-            this.cmdClone.Name = "cmdClone";
-            this.cmdClone.Size = new System.Drawing.Size(75, 23);
-            this.cmdClone.TabIndex = 3;
-            this.cmdClone.Text = "Save";
-            this.cmdClone.UseVisualStyleBackColor = true;
-            this.cmdClone.Click += new System.EventHandler(this.cmdSave_Click);
-            // 
             // LeaseRequestDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.cmdClone);
             this.Controls.Add(this.grpLeaseRequest);
             this.Controls.Add(this.cmdReset);
             this.Controls.Add(this.cmdSave);

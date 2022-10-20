@@ -1,5 +1,6 @@
 ﻿using FleetTracking.Interop;
 using FleetTracking.Models;
+using MesaSuite.Common;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -47,6 +48,7 @@ namespace FleetTracking.Leasing
 
             cmdSave.Visible = _allowSave;
             cmdReset.Visible = _allowSave;
+            cmdClone.Visible = _allowSave;
         }
 
         private void LeaseRequestDetail_Load(object sender, EventArgs e)
@@ -158,6 +160,7 @@ namespace FleetTracking.Leasing
                 tsmiSubmitBid.Visible = !_allowSave;
                 tsmiSubmitBid.Enabled = !leaseBids.Where(lb => lb.LeaseRequestID == LeaseRequestID).Any();
                 tsmiDeleteBid.Visible = !_allowSave;
+                cmdClone.Enabled = LeaseRequestID != null;
 
                 dgvBids_SelectionChanged(this, EventArgs.Empty);
             }
@@ -274,6 +277,11 @@ namespace FleetTracking.Leasing
                     LoadData();
                 }
             }
+        }
+
+        private void cmdClone_Click(object sender, EventArgs e)
+        {
+            int cloneCount = InputBox.GetInput<int>("Number of times to clone:", "Clone Count", "Clone");
         }
     }
 }

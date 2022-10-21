@@ -53,6 +53,7 @@
     <Compile Include="DataGridViewStylizer.Designer.cs">
       <DependentUpon>DataGridViewStylizer.cs</DependentUpon>
     </Compile>
+    <Compile Include="IRefreshable.cs" />
     <Compile Include="IFleetTrackingControl.cs" />
     <Compile Include="InputBox.cs">
       <SubType>UserControl</SubType>

@@ -8,9 +8,12 @@ using MesaSuite.Common.Extensions;
 
 namespace FleetTracking.RailcarModel
 {
-    public partial class RailcarModelDropDownItem : UserControl, IFleetTrackingControl
+    public partial class RailcarModelDropDownItem : UserControl, IFleetTrackingControl, IRefreshable
     {
         private FleetTrackingApplication _application;
+
+        public event EventHandler ContentLoaded;
+
         public FleetTrackingApplication Application { set => _application = value; }
 
         public long? RailcarModelID { get; set; }
@@ -53,6 +56,8 @@ namespace FleetTracking.RailcarModel
                     pictureBox1.Image = image;
                 }
             }
+
+            ContentLoaded?.Invoke(this, EventArgs.Empty);
         }
     }
 }

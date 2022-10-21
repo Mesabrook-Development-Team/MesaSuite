@@ -41,19 +41,20 @@ namespace FleetTracking.Leasing
 
                 GetData get = _application.GetAccess<GetData>();
                 get.API = DataAccess.APIs.FleetTracking;
-                get.Resource = $"LeaseBid/Get/{LeaseBidID}";
-                LeaseBid leaseBid = await get.GetObject<LeaseBid>() ?? new LeaseBid();
-                if (leaseBid == null)
+                get.Resource = $"LeaseRequest/Get/{LeaseRequestID}";
+                LeaseRequest leaseRequest = await get.GetObject<LeaseRequest>();
+                if (leaseRequest == null)
                 {
+                    ParentForm.Close();
                     return;
                 }
 
-                if (leaseBid != null)
+                if (leaseRequest.LeaseType == LeaseRequest.LeaseTypes.Locomotive)
                 {
-                    if (leaseBid.LeaseRequest.LeaseType == LeaseRequest.LeaseTypes.Locomotive)
-                    {
+                    get.Resource = "Locomotive/GetAll";
+                    List<Locomotive> locomotives = await get.GetObject<List<Locomotive>>() ?? new List<Locomotive>();
+                    locomotives = locomotives.Where(l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner) && l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null).ToList();
 
-                    }
                 }
             }
             finally

@@ -37,6 +37,8 @@ namespace FleetTracking
                 {
                     DropDownWidth = item.ClosedControl.Width;
                 }
+
+                item.Refresh += ItemTriggeredRefresh;
             }
 
             DropDownHeight = 1;
@@ -51,9 +53,19 @@ namespace FleetTracking
                 {
                     DropDownHeight = item.ClosedControl.Height;
                 }
+
+                item.Refresh += ItemTriggeredRefresh;
             }
 
             DropDownHeight *= MaxDropDownItems;
+        }
+
+        private void ItemTriggeredRefresh(object sender, EventArgs e)
+        {
+            if (IsHandleCreated)
+            {
+                RefreshItems();
+            }
         }
 
         protected override void OnDrawItem(DrawItemEventArgs e)
@@ -125,6 +137,8 @@ namespace FleetTracking
 
         public class ControlSelectorItem
         {
+            public event EventHandler Refresh;
+
             public Control DropDownControl;
             public Control ClosedControl;
 
@@ -134,6 +148,16 @@ namespace FleetTracking
             {
                 DropDownControl = dropDownControl;
                 ClosedControl = closedControl;
+                
+                if (dropDownControl is IRefreshable selectorControl)
+                {
+                    selectorControl.ContentLoaded += ItemTriggeredRefresh;
+                }
+            }
+
+            private void ItemTriggeredRefresh(object sender, EventArgs e)
+            {
+                Refresh?.Invoke(this, EventArgs.Empty);
             }
         }
     }

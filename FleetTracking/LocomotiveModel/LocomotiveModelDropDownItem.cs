@@ -7,9 +7,12 @@ using MesaSuite.Common.Data;
 
 namespace FleetTracking.LocomotiveModel
 {
-    public partial class LocomotiveModelDropDownItem : UserControl, IFleetTrackingControl
-    {
+    public partial class LocomotiveModelDropDownItem : UserControl, IFleetTrackingControl, IRefreshable
+    {        
+        public event EventHandler ContentLoaded;
+
         private FleetTrackingApplication _application;
+
         public FleetTrackingApplication Application { set => _application = value; }
 
         public long? LocomotiveModelID { get; set; }
@@ -18,6 +21,7 @@ namespace FleetTracking.LocomotiveModel
         {
             InitializeComponent();
         }
+
 
         private void LocomotiveModelDropDownItem_Load(object sender, EventArgs e)
         {
@@ -52,6 +56,8 @@ namespace FleetTracking.LocomotiveModel
                     pictureBox1.Image = image;
                 }
             }
+
+            ContentLoaded?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -42,6 +42,7 @@
             this.txtTerms = new System.Windows.Forms.TextBox();
             this.cmdSave = new System.Windows.Forms.Button();
             this.cmdReset = new System.Windows.Forms.Button();
+            this.loader = new FleetTracking.Loader();
             this.SuspendLayout();
             // 
             // lblRollingStock
@@ -178,6 +179,18 @@
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
             // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(537, 291);
+            this.loader.TabIndex = 9;
+            this.loader.Visible = false;
+            // 
             // LeaseBidDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -196,8 +209,10 @@
             this.Controls.Add(this.txtLeaseAmount);
             this.Controls.Add(this.cboRollingStock);
             this.Controls.Add(this.lblRollingStock);
+            this.Controls.Add(this.loader);
             this.Name = "LeaseBidDetail";
             this.Size = new System.Drawing.Size(537, 291);
+            this.Load += new System.EventHandler(this.LeaseBidDetail_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -219,5 +234,6 @@
         private System.Windows.Forms.TextBox txtTerms;
         private System.Windows.Forms.Button cmdSave;
         private System.Windows.Forms.Button cmdReset;
+        private Loader loader;
     }
 }

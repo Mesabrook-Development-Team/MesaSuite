@@ -279,7 +279,7 @@ namespace FleetTracking.Leasing
             }
         }
 
-        private void cmdClone_Click(object sender, EventArgs e)
+        private async void cmdClone_Click(object sender, EventArgs e)
         {
             InputBox inputBox = new InputBox()
             {
@@ -295,8 +295,62 @@ namespace FleetTracking.Leasing
             {
                 return;
             }
-
             int cloneCount = (int)Convert.ChangeType(inputBox.InputValue, typeof(int));
+
+            if (!this.AreFieldsPresent(new List<(string, Control)>()
+            {
+                ("Lease Type", cboLeaseType),
+                ("Delivery Location", txtDeliveryLocation),
+                ("Purpose", txtPurpose)
+            }))
+            {
+                return;
+            }
+
+            LeaseRequest.LeaseTypes leaseType = (cboLeaseType.SelectedItem as DropDownItem<LeaseRequest.LeaseTypes>).Object;
+            if (leaseType == LeaseRequest.LeaseTypes.Railcar && cboRailcarType.SelectedItem == null)
+            {
+                this.ShowError("Railcar Type is a required field when Lease Type is Railcar");
+                return;
+            }
+
+            LeaseRequest leaseRequest = new LeaseRequest()
+            {
+                CompanyIDRequester = _application.GetCurrentCompanyIDGovernmentID().Item1,
+                GovernmentIDRequester = _application.GetCurrentCompanyIDGovernmentID().Item2,
+                LeaseType = leaseType,
+                RailcarType = (cboRailcarType.SelectedItem as DropDownItem<Models.RailcarModel.Types>).Object,
+                DeliveryLocation = txtDeliveryLocation.Text,
+                Purpose = txtPurpose.Text,
+                BidEndTime = dtpEndTime.Value
+            };
+
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
+
+                for (int i = 0; i < cloneCount; i++)
+                {
+                    PostData post = _application.GetAccess<PostData>();
+                    post.API = DataAccess.APIs.FleetTracking;
+                    post.Resource = "LeaseRequest/Post";
+                    post.ObjectToPost = leaseRequest;
+                    await post.ExecuteNoResult();
+                    if (!post.RequestSuccessful)
+                    {
+                        return;
+                    }
+                }
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
+
+            this.ShowInformation($"Lease Request succesfully cloned {cloneCount} times!");
+            OnSave?.Invoke(this, EventArgs.Empty);
+            LoadData();
         }
     }
 }

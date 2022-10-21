@@ -4,6 +4,7 @@
     {
         public long? LeaseBidID { get; set; }
         public long? LeaseRequestID { get; set; }
+        public LeaseRequest LeaseRequest { get; set; }
         public long? LocomotiveID { get; set; }
         public Locomotive Locomotive { get; set; }
         public long? RailcarID { get; set; }

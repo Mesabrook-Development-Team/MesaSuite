@@ -4,6 +4,7 @@ using System.Web.Http;
 using API.Common.Attributes;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
+using ClussPro.ObjectBasedFramework.Utility;
 using WebModels.company;
 
 namespace API_Fleet.Controllers
@@ -12,11 +13,14 @@ namespace API_Fleet.Controllers
     [ProgramAccess(new[] { "gov", "company" })]
     public class CompanyController : ApiController
     {
-        private static readonly List<string> CompanyFields = new List<string>()
+        private static readonly List<string> CompanyFields = FieldPathUtility.CreateFieldPathsAsList<Company>(c => new List<object>()
         {
-            nameof(Company.CompanyID),
-            nameof(Company.Name)
-        };
+            c.CompanyID,
+            c.Name,
+            c.Locations.First().LocationID,
+            c.Locations.First().CompanyID,
+            c.Locations.First().Name
+        });
 
         [HttpGet]
         public List<Company> GetAll()

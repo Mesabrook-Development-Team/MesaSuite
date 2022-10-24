@@ -173,6 +173,18 @@
     <Compile Include="Roster\LocomotiveDetail.Designer.cs">
       <DependentUpon>LocomotiveDetail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Roster\RailcarDropDownItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Roster\RailcarDropDownItem.Designer.cs">
+      <DependentUpon>RailcarDropDownItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Roster\LocomotiveDropDownItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Roster\LocomotiveDropDownItem.Designer.cs">
+      <DependentUpon>LocomotiveDropDownItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Roster\LocomotiveList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -265,6 +277,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Roster\LocomotiveDetail.resx">
       <DependentUpon>LocomotiveDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Roster\RailcarDropDownItem.resx">
+      <DependentUpon>RailcarDropDownItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Roster\LocomotiveDropDownItem.resx">
+      <DependentUpon>LocomotiveDropDownItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Roster\LocomotiveList.resx">
       <DependentUpon>LocomotiveList.cs</DependentUpon>

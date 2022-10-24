@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.lblRollingStock = new System.Windows.Forms.Label();
-            this.cboRollingStock = new FleetTracking.ControlSelector();
             this.txtLeaseAmount = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lblReceivedTo = new System.Windows.Forms.Label();
@@ -42,6 +41,7 @@
             this.txtTerms = new System.Windows.Forms.TextBox();
             this.cmdSave = new System.Windows.Forms.Button();
             this.cmdReset = new System.Windows.Forms.Button();
+            this.cboRollingStock = new FleetTracking.ControlSelector();
             this.loader = new FleetTracking.Loader();
             this.SuspendLayout();
             // 
@@ -52,18 +52,6 @@
             this.lblRollingStock.Name = "lblRollingStock";
             this.lblRollingStock.Size = new System.Drawing.Size(0, 13);
             this.lblRollingStock.TabIndex = 0;
-            // 
-            // cboRollingStock
-            // 
-            this.cboRollingStock.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboRollingStock.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.cboRollingStock.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboRollingStock.FormattingEnabled = true;
-            this.cboRollingStock.Location = new System.Drawing.Point(104, 6);
-            this.cboRollingStock.Name = "cboRollingStock";
-            this.cboRollingStock.Size = new System.Drawing.Size(430, 21);
-            this.cboRollingStock.TabIndex = 0;
             // 
             // txtLeaseAmount
             // 
@@ -95,6 +83,8 @@
             // 
             this.cboReceivedTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboReceivedTo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboReceivedTo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboReceivedTo.FormattingEnabled = true;
             this.cboReceivedTo.Location = new System.Drawing.Point(264, 33);
             this.cboReceivedTo.Name = "cboReceivedTo";
@@ -115,12 +105,13 @@
             // 
             this.cboRecurringBilling.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboRecurringBilling.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboRecurringBilling.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboRecurringBilling.FormattingEnabled = true;
             this.cboRecurringBilling.Location = new System.Drawing.Point(104, 60);
             this.cboRecurringBilling.Name = "cboRecurringBilling";
             this.cboRecurringBilling.Size = new System.Drawing.Size(430, 21);
             this.cboRecurringBilling.TabIndex = 3;
-            this.cboRecurringBilling.Visible = false;
             // 
             // label3
             // 
@@ -179,6 +170,18 @@
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
             // 
+            // cboRollingStock
+            // 
+            this.cboRollingStock.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboRollingStock.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cboRollingStock.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboRollingStock.FormattingEnabled = true;
+            this.cboRollingStock.Location = new System.Drawing.Point(104, 6);
+            this.cboRollingStock.Name = "cboRollingStock";
+            this.cboRollingStock.Size = new System.Drawing.Size(430, 21);
+            this.cboRollingStock.TabIndex = 0;
+            // 
             // loader
             // 
             this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -186,6 +189,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.loader.BackColor = System.Drawing.Color.Transparent;
             this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.loader.Name = "loader";
             this.loader.Size = new System.Drawing.Size(537, 291);
             this.loader.TabIndex = 9;

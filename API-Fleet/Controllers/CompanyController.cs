@@ -13,7 +13,7 @@ namespace API_Fleet.Controllers
     [ProgramAccess(new[] { "gov", "company" })]
     public class CompanyController : ApiController
     {
-        private static readonly List<string> CompanyFields = FieldPathUtility.CreateFieldPathsAsList<Company>(c => new List<object>()
+        private readonly List<string> CompanyFields = FieldPathUtility.CreateFieldPathsAsList<Company>(c => new List<object>()
         {
             c.CompanyID,
             c.Name,

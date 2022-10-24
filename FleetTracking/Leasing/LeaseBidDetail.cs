@@ -54,7 +54,7 @@ namespace FleetTracking.Leasing
                 cboRollingStock.Items.Clear();
                 if (leaseRequest.LeaseType == LeaseRequest.LeaseTypes.Locomotive)
                 {
-                    lblRollingStock.Text = "Locomotives:";
+                    lblRollingStock.Text = "Locomotive:";
                     get.Resource = "Locomotive/GetAll";
                     List<Locomotive> locomotives = await get.GetObject<List<Locomotive>>() ?? new List<Locomotive>();
                     locomotives = locomotives.Where(l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner) && l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null).ToList();
@@ -83,7 +83,7 @@ namespace FleetTracking.Leasing
                 }
                 else if (leaseRequest.LeaseType == LeaseRequest.LeaseTypes.Railcar)
                 {
-                    lblRollingStock.Text = "Railcars:";
+                    lblRollingStock.Text = "Railcar:";
                     get.Resource = "Railcar/GetAll";
                     List<Railcar> railcars = await get.GetObject<List<Railcar>>() ?? new List<Railcar>();
                     railcars = railcars.Where(l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner) && l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null).ToList();
@@ -115,15 +115,21 @@ namespace FleetTracking.Leasing
                 lblReceivedTo.Visible = companyID != null;
                 cboReceivedTo.Visible = companyID != null;
 
-                if (companyID == null)
+                if (companyID != null)
                 {
                     get.Resource = $"Company/Get/{companyID}";
-                    Company company = await get.GetObject<Company>();
+                    Company company = await get.GetObject<Company>() ?? new Company();
                     foreach(Location location in company.Locations)
                     {
                         DropDownItem<Location> locationDDI = new DropDownItem<Location>(location, location.Name);
                         cboReceivedTo.Items.Add(locationDDI);
                     }
+                }
+
+                foreach(LeaseBid.RecurringAmountTypes recurringType in Enum.GetValues(typeof(LeaseBid.RecurringAmountTypes)))
+                {
+                    DropDownItem<LeaseBid.RecurringAmountTypes> recurringDDI = new DropDownItem<LeaseBid.RecurringAmountTypes>(recurringType, recurringType.ToString().ToDisplayName());
+                    cboRecurringBilling.Items.Add(recurringDDI);
                 }
 
                 if (LeaseBidID != null)
@@ -137,20 +143,59 @@ namespace FleetTracking.Leasing
 
                     if (leaseRequest.LeaseType == LeaseRequest.LeaseTypes.Locomotive)
                     {
-                        cboRollingStock.SelectedItem = cboRollingStock.Items.OfType<DropDownItem<Locomotive>>().FirstOrDefault(ddi => ddi.Object.LocomotiveID == bid.LocomotiveID);
+                        cboRollingStock.SelectedItem = cboRollingStock.Items.OfType<ControlSelector.ControlSelectorItem>().FirstOrDefault(csi => csi.DropDownControl is LocomotiveDropDownItem lddi && lddi.LocomotiveID == bid.LocomotiveID);
                     }
                     else if (leaseRequest.LeaseType == LeaseRequest.LeaseTypes.Railcar)
                     {
-                        cboRollingStock.SelectedItem = cboRollingStock.Items.OfType<DropDownItem<Railcar>>().FirstOrDefault(ddi => ddi.Object.RailcarID == bid.RailcarID);
+                        cboRollingStock.SelectedItem = cboRollingStock.Items.OfType<ControlSelector.ControlSelectorItem>().FirstOrDefault(csi => csi.DropDownControl is RailcarDropDownItem rddi && rddi.RailcarID == bid.RailcarID);
                     }
 
                     txtLeaseAmount.Text = bid.LeaseAmount?.ToString("N2");
                     
+                    if (cboReceivedTo.Visible && bid.LocationIDRecurringAmountDestination != null)
+                    {
+                        DropDownItem<Location> locationDDI = cboReceivedTo.Items.OfType<DropDownItem<Location>>().FirstOrDefault(ddi => ddi.Object.LocationID == bid.LocationIDRecurringAmountDestination);
+                        cboReceivedTo.SelectedItem = locationDDI;
+                    }
+
+                    DropDownItem<LeaseBid.RecurringAmountTypes> recurringAmountDDI = cboRecurringBilling.Items.OfType<DropDownItem<LeaseBid.RecurringAmountTypes>>().FirstOrDefault(ddi => ddi.Object == bid.RecurringAmountType);
+                    cboRecurringBilling.SelectedItem = recurringAmountDDI;
+
+                    txtRecurringAmount.Text = bid.RecurringAmount?.ToString("N2");
+                    txtTerms.Text = bid.Terms;
+
+                    SetupFormForCurrentEntity(_application.IsCurrentEntity(bid.Locomotive?.CompanyIDOwner ?? bid.Railcar?.CompanyIDOwner,
+                                                                           bid.Locomotive?.GovernmentIDOwner ?? bid.Railcar?.GovernmentIDOwner));
+                }
+                else
+                {
+                    SetupFormForCurrentEntity(true);
                 }
             }
             finally
             {
                 loader.Visible = false;
+            }
+        }
+
+        private void SetupFormForCurrentEntity(bool isForCurrentEntity)
+        {
+            cboRollingStock.Enabled = isForCurrentEntity;
+            txtLeaseAmount.Enabled = isForCurrentEntity;
+            cboReceivedTo.Enabled = isForCurrentEntity;
+            cboRecurringBilling.Enabled = isForCurrentEntity;
+            txtRecurringAmount.Enabled = isForCurrentEntity;
+            txtTerms.Enabled = isForCurrentEntity;
+            cmdSave.Visible = isForCurrentEntity;
+            cmdReset.Visible = isForCurrentEntity;
+
+            if (isForCurrentEntity)
+            {
+                txtTerms.Size = new Size(txtTerms.Width, Height - txtTerms.Top - (Height - cmdSave.Top - 3));
+            }
+            else
+            {
+                txtTerms.Size = new Size(txtTerms.Width, Height - txtTerms.Top - 3);
             }
         }
     }

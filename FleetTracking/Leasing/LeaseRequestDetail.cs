@@ -352,5 +352,40 @@ namespace FleetTracking.Leasing
             OnSave?.Invoke(this, EventArgs.Empty);
             LoadData();
         }
+
+        private void tsmiSubmitBid_Click(object sender, EventArgs e)
+        {
+            LeaseBidDetail detail = new LeaseBidDetail()
+            {
+                Application = _application,
+                LeaseRequestID = LeaseRequestID
+            };
+
+            Form detailForm = _application.OpenForm(detail, FleetTrackingApplication.OpenFormOptions.Popout);
+        }
+
+        private void dgvBids_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvBids.Rows.Count)
+            {
+                return;
+            }
+
+            DataGridViewRow row = dgvBids.Rows[e.RowIndex];
+            LeaseBid bid = row.Tag as LeaseBid;
+            if (bid == null)
+            {
+                return;
+            }
+
+            LeaseBidDetail detail = new LeaseBidDetail()
+            {
+                Application = _application,
+                LeaseRequestID = LeaseRequestID,
+                LeaseBidID = bid.LeaseBidID
+            };
+
+            Form detailForm = _application.OpenForm(detail, FleetTrackingApplication.OpenFormOptions.Popout);
+        }
     }
 }

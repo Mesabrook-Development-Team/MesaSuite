@@ -191,7 +191,7 @@ namespace FleetTracking.Leasing
 
             if (isForCurrentEntity)
             {
-                txtTerms.Size = new Size(txtTerms.Width, Height - txtTerms.Top - (Height - cmdSave.Top - 3));
+                txtTerms.Size = new Size(txtTerms.Width, Height - txtTerms.Top - (Height - cmdSave.Top + 3));
             }
             else
             {

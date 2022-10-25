@@ -28,21 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pboxImage = new System.Windows.Forms.PictureBox();
             this.lblReportingMark = new System.Windows.Forms.Label();
             this.lblLocation = new System.Windows.Forms.Label();
             this.lblModel = new System.Windows.Forms.Label();
+            this.pboxImage = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pboxImage)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pboxImage
-            // 
-            this.pboxImage.Location = new System.Drawing.Point(0, 0);
-            this.pboxImage.Name = "pboxImage";
-            this.pboxImage.Size = new System.Drawing.Size(105, 42);
-            this.pboxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pboxImage.TabIndex = 0;
-            this.pboxImage.TabStop = false;
             // 
             // lblReportingMark
             // 
@@ -66,12 +57,22 @@
             // 
             // lblModel
             // 
+            this.lblModel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblModel.AutoSize = true;
             this.lblModel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblModel.Location = new System.Drawing.Point(375, 5);
             this.lblModel.Name = "lblModel";
             this.lblModel.Size = new System.Drawing.Size(0, 13);
             this.lblModel.TabIndex = 4;
+            // 
+            // pboxImage
+            // 
+            this.pboxImage.Location = new System.Drawing.Point(0, 0);
+            this.pboxImage.Name = "pboxImage";
+            this.pboxImage.Size = new System.Drawing.Size(105, 42);
+            this.pboxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pboxImage.TabIndex = 0;
+            this.pboxImage.TabStop = false;
             // 
             // LocomotiveDropDownItem
             // 

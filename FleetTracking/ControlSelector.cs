@@ -139,8 +139,34 @@ namespace FleetTracking
         {
             public event EventHandler Refresh;
 
-            public Control DropDownControl;
-            public Control ClosedControl;
+
+            private Control _dropDownControl;
+            public Control DropDownControl
+            {
+                get => _dropDownControl;
+                set
+                {
+                    _dropDownControl = value;
+                    if (_dropDownControl is IRefreshable refreshable)
+                    {
+                        refreshable.ContentLoaded += ItemTriggeredRefresh;
+                    }
+                }
+            }
+
+            private Control _closedControl;
+            public Control ClosedControl
+            {
+                get => _closedControl;
+                set
+                {
+                    _closedControl = value;
+                    if (_closedControl is IRefreshable refreshable)
+                    {
+                        refreshable.ContentLoaded += ItemTriggeredRefresh;
+                    }
+                }
+            }
 
             public ControlSelectorItem() { }
 
@@ -148,11 +174,6 @@ namespace FleetTracking
             {
                 DropDownControl = dropDownControl;
                 ClosedControl = closedControl;
-                
-                if (dropDownControl is IRefreshable selectorControl)
-                {
-                    selectorControl.ContentLoaded += ItemTriggeredRefresh;
-                }
             }
 
             private void ItemTriggeredRefresh(object sender, EventArgs e)

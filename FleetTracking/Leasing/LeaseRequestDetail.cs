@@ -361,7 +361,9 @@ namespace FleetTracking.Leasing
                 LeaseRequestID = LeaseRequestID
             };
 
+            Size bidDetailSize = detail.Size;
             Form detailForm = _application.OpenForm(detail, FleetTrackingApplication.OpenFormOptions.Popout);
+            detailForm.Size = bidDetailSize;
         }
 
         private void dgvBids_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

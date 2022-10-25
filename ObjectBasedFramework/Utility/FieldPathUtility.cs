@@ -52,6 +52,11 @@ namespace ClussPro.ObjectBasedFramework.Utility
                 memberExpression = (MemberExpression)unaryExpression.Operand;
             }
 
+            if (expression is MethodCallExpression methodCallExpression && methodCallExpression.Method.Name.Equals("First", StringComparison.OrdinalIgnoreCase))
+            {
+                memberExpression = (MemberExpression)methodCallExpression.Arguments[0];
+            }
+
             if (expression is MemberExpression)
             {
                 memberExpression = (MemberExpression)expression;

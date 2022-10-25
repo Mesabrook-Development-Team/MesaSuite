@@ -232,7 +232,7 @@ namespace FleetTracking.Leasing
                 LeaseRequestID = leaseRequest.LeaseRequestID,
             };
             leaseRequestDetail.OnSave += LeaseRequestDetail_OnSave;
-            Form leaseRequestForm = _application.OpenForm(leaseRequestDetail, FleetTrackingApplication.OpenFormOptions.Popout);
+            Form leaseRequestForm = _application.OpenForm(leaseRequestDetail);
             leaseRequestForm.Text = "Lease Request";
         }
 

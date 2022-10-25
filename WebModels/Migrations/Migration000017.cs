@@ -111,7 +111,7 @@ namespace WebModels.Migrations
                 { "LeaseAmount", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 8, 2) },
                 { "RecurringAmountType", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
                 { "RecurringAmount", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 8, 2) },
-                { "LocationIDRecurringAmountDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocationIDInvoiceDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "Terms", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, -1) }
             };
             createTable.Execute(transaction);

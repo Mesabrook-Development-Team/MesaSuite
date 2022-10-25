@@ -21,8 +21,8 @@
         }
         public RecurringAmountTypes RecurringAmountType { get; set; }
         public decimal? RecurringAmount { get; set; }
-        public long? LocationIDRecurringAmountDestination { get; set; }
-        public Location LocationRecurringAmountDestination { get; set; }
+        public long? LocationIDInvoiceDestination { get; set; }
+        public Location LocationInvoiceDestination { get; set; }
         public string Terms { get; set; }
     }
 }

@@ -153,7 +153,7 @@ namespace WebModels.company
         #endregion
         #region fleet
         private List<LeaseBid> _leaseBidRecurringDestinations = new List<LeaseBid>();
-        [RelationshipList("F084805B-8F14-45EA-940B-646F97AF9268", nameof(LeaseBid.LocationIDRecurringAmountDestination))]
+        [RelationshipList("F084805B-8F14-45EA-940B-646F97AF9268", nameof(LeaseBid.LocationIDInvoiceDestination))]
         public IReadOnlyCollection<LeaseBid> LeaseBidRecurringDestinations
         {
             get { CheckGet(); return _leaseBidRecurringDestinations; }

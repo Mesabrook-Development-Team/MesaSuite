@@ -33,6 +33,11 @@ namespace FleetTracking.Interop
             return GetCallback<CallbackDelegates.OpenForm>().Invoke(control, formOptions);
         }
 
+        internal Form OpenForm(IFleetTrackingControl control)
+        {
+            return OpenForm(control, OpenFormOptions.None);
+        }
+
         internal TAccess GetAccess<TAccess>() where TAccess : DataAccess
         {
             return GetCallback<CallbackDelegates.GetAccess<TAccess>>().Invoke();

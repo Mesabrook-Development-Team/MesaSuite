@@ -101,19 +101,19 @@ namespace WebModels.fleet
             set { CheckSet(); _recurringAmount = value; }
         }
 
-        private long? _locationIDRecurringAmountDestination;
+        private long? _locationIDInvoiceDestination;
         [Field("E3733AEB-1EF4-4C32-8B91-4B30D2E0AD31")]
-        public long? LocationIDRecurringAmountDestination
+        public long? LocationIDInvoiceDestination
         {
-            get { CheckGet(); return _locationIDRecurringAmountDestination; }
-            set { CheckSet(); _locationIDRecurringAmountDestination = value; }
+            get { CheckGet(); return _locationIDInvoiceDestination; }
+            set { CheckSet(); _locationIDInvoiceDestination = value; }
         }
 
-        private Location _locationRecurringAmountDestination = null;
-        [Relationship("94458C3F-F110-495C-8272-9F69468F1561", ForeignKeyField = nameof(LocationIDRecurringAmountDestination))]
-        public Location LocationRecurringAmountDestination
+        private Location _locationInvoiceDestination = null;
+        [Relationship("94458C3F-F110-495C-8272-9F69468F1561", ForeignKeyField = nameof(LocationIDInvoiceDestination))]
+        public Location LocationInvoiceDestination
         {
-            get { CheckGet(); return _locationRecurringAmountDestination; }
+            get { CheckGet(); return _locationInvoiceDestination; }
         }
 
         private string _terms;

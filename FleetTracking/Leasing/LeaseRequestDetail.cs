@@ -360,10 +360,12 @@ namespace FleetTracking.Leasing
                 Application = _application,
                 LeaseRequestID = LeaseRequestID
             };
+            detail.Saved += LeaseBidDetail_Saved;
 
             Size bidDetailSize = detail.Size;
             Form detailForm = _application.OpenForm(detail, FleetTrackingApplication.OpenFormOptions.Popout);
             detailForm.Size = bidDetailSize;
+            detailForm.Text = "Lease Bid";
         }
 
         private void dgvBids_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -386,8 +388,23 @@ namespace FleetTracking.Leasing
                 LeaseRequestID = LeaseRequestID,
                 LeaseBidID = bid.LeaseBidID
             };
+            detail.Saved += LeaseBidDetail_Saved;
 
-            Form detailForm = _application.OpenForm(detail, FleetTrackingApplication.OpenFormOptions.Popout);
+            Size bidDetailSize = detail.Size;
+            Form detailForm = _application.OpenForm(detail, FleetTrackingApplication.OpenFormOptions.None);
+            detailForm.Size = bidDetailSize;
+            detailForm.Text = "Lease Bid";
+        }
+
+        private void LeaseBidDetail_Saved(object sender, EventArgs e)
+        {
+            OnSave?.Invoke(this, EventArgs.Empty);
+            LoadData();
+
+            if (sender is LeaseBidDetail detail)
+            {
+                detail.ParentForm.Close();
+            }
         }
     }
 }

@@ -74,9 +74,9 @@
             this.lblReceivedTo.AutoSize = true;
             this.lblReceivedTo.Location = new System.Drawing.Point(186, 36);
             this.lblReceivedTo.Name = "lblReceivedTo";
-            this.lblReceivedTo.Size = new System.Drawing.Size(72, 13);
+            this.lblReceivedTo.Size = new System.Drawing.Size(104, 13);
             this.lblReceivedTo.TabIndex = 4;
-            this.lblReceivedTo.Text = "Received To:";
+            this.lblReceivedTo.Text = "Receive Invoice To:";
             this.lblReceivedTo.Visible = false;
             // 
             // cboReceivedTo
@@ -86,9 +86,9 @@
             this.cboReceivedTo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboReceivedTo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboReceivedTo.FormattingEnabled = true;
-            this.cboReceivedTo.Location = new System.Drawing.Point(264, 33);
+            this.cboReceivedTo.Location = new System.Drawing.Point(296, 33);
             this.cboReceivedTo.Name = "cboReceivedTo";
-            this.cboReceivedTo.Size = new System.Drawing.Size(270, 21);
+            this.cboReceivedTo.Size = new System.Drawing.Size(238, 21);
             this.cboReceivedTo.TabIndex = 2;
             this.cboReceivedTo.Visible = false;
             // 
@@ -159,6 +159,7 @@
             this.cmdSave.TabIndex = 6;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
+            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
             // cmdReset
             // 

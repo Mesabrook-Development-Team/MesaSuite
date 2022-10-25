@@ -18,6 +18,8 @@ namespace FleetTracking.Leasing
 {
     public partial class LeaseBidDetail : UserControl, IFleetTrackingControl
     {
+        public event EventHandler Saved;
+
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; }
         public long? LeaseRequestID { get; set; }
@@ -36,6 +38,11 @@ namespace FleetTracking.Leasing
                 ParentForm.Close();
             }
 
+            await LoadData();
+        }
+
+        private async Task LoadData()
+        {
             try
             {
                 loader.BringToFront();
@@ -59,7 +66,7 @@ namespace FleetTracking.Leasing
                     List<Locomotive> locomotives = await get.GetObject<List<Locomotive>>() ?? new List<Locomotive>();
                     locomotives = locomotives.Where(l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner) && l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null).ToList();
 
-                    foreach(Locomotive locomotive in locomotives)
+                    foreach (Locomotive locomotive in locomotives)
                     {
                         Label closedLabel = new Label()
                         {
@@ -119,14 +126,14 @@ namespace FleetTracking.Leasing
                 {
                     get.Resource = $"Company/Get/{companyID}";
                     Company company = await get.GetObject<Company>() ?? new Company();
-                    foreach(Location location in company.Locations)
+                    foreach (Location location in company.Locations)
                     {
                         DropDownItem<Location> locationDDI = new DropDownItem<Location>(location, location.Name);
                         cboReceivedTo.Items.Add(locationDDI);
                     }
                 }
 
-                foreach(LeaseBid.RecurringAmountTypes recurringType in Enum.GetValues(typeof(LeaseBid.RecurringAmountTypes)))
+                foreach (LeaseBid.RecurringAmountTypes recurringType in Enum.GetValues(typeof(LeaseBid.RecurringAmountTypes)))
                 {
                     DropDownItem<LeaseBid.RecurringAmountTypes> recurringDDI = new DropDownItem<LeaseBid.RecurringAmountTypes>(recurringType, recurringType.ToString().ToDisplayName());
                     cboRecurringBilling.Items.Add(recurringDDI);
@@ -151,10 +158,10 @@ namespace FleetTracking.Leasing
                     }
 
                     txtLeaseAmount.Text = bid.LeaseAmount?.ToString("N2");
-                    
-                    if (cboReceivedTo.Visible && bid.LocationIDRecurringAmountDestination != null)
+
+                    if (cboReceivedTo.Visible && bid.LocationIDInvoiceDestination != null)
                     {
-                        DropDownItem<Location> locationDDI = cboReceivedTo.Items.OfType<DropDownItem<Location>>().FirstOrDefault(ddi => ddi.Object.LocationID == bid.LocationIDRecurringAmountDestination);
+                        DropDownItem<Location> locationDDI = cboReceivedTo.Items.OfType<DropDownItem<Location>>().FirstOrDefault(ddi => ddi.Object.LocationID == bid.LocationIDInvoiceDestination);
                         cboReceivedTo.SelectedItem = locationDDI;
                     }
 
@@ -196,6 +203,99 @@ namespace FleetTracking.Leasing
             else
             {
                 txtTerms.Size = new Size(txtTerms.Width, Height - txtTerms.Top - 3);
+            }
+        }
+
+        private async void cmdSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
+
+                if (!this.AreFieldsPresent(new List<(string, Control)>()
+                {
+                    ("Rolling Stock", cboRollingStock),
+                    ("Lease Amount", txtLeaseAmount),
+                    ("Recurring Billing", cboRecurringBilling)
+                }))
+                {
+                    return;
+                }
+
+                if (!decimal.TryParse(txtLeaseAmount.Text, out decimal leaseAmount))
+                {
+                    this.ShowError("Lease Amount must be a valid number");
+                    return;
+                }
+
+                long? locationIDReceivedTo = null;
+                if (_application.GetCurrentCompanyIDGovernmentID().Item1 != null && (cboReceivedTo.SelectedItem == null || !(cboReceivedTo.SelectedItem is DropDownItem<Location>)))
+                {
+                    this.ShowError("Received To is a required field");
+                    return;
+                }
+                else if (_application.GetCurrentCompanyIDGovernmentID().Item1 != null)
+                {
+                    locationIDReceivedTo = cboReceivedTo.SelectedItem.Cast<DropDownItem<Location>>().Object.LocationID;
+                }
+
+                DropDownItem<LeaseBid.RecurringAmountTypes> recurringAmountDDI = cboRecurringBilling.SelectedItem.Cast<DropDownItem<LeaseBid.RecurringAmountTypes>>();
+                decimal recurringAmount = 0M;
+                if (recurringAmountDDI.Object != LeaseBid.RecurringAmountTypes.None)
+                {
+                    if (string.IsNullOrEmpty(txtRecurringAmount.Text) || !decimal.TryParse(txtRecurringAmount.Text, out recurringAmount))
+                    {
+                        this.ShowError("Recurring Amount is a required field when Recurring Billing is not None");
+                        return;
+                    }
+                }
+
+                LeaseBid leaseBid = new LeaseBid()
+                {
+                    LeaseBidID = LeaseBidID,
+                    LeaseRequestID = LeaseRequestID,
+                    LocomotiveID = cboRollingStock.SelectedItem.Cast<ControlSelector.ControlSelectorItem>()?.DropDownControl.Cast<LocomotiveDropDownItem>()?.LocomotiveID,
+                    RailcarID = cboRollingStock.SelectedItem.Cast<ControlSelector.ControlSelectorItem>()?.DropDownControl.Cast<RailcarDropDownItem>()?.RailcarID,
+                    LocationIDInvoiceDestination = locationIDReceivedTo,
+                    LeaseAmount = leaseAmount,
+                    RecurringAmountType = recurringAmountDDI.Object,
+                    RecurringAmount = recurringAmountDDI.Object == LeaseBid.RecurringAmountTypes.None ? (decimal?)null : recurringAmount,
+                    Terms = txtTerms.Text
+                };
+
+                if (LeaseBidID == null)
+                {
+                    PostData post = _application.GetAccess<PostData>();
+                    post.API = DataAccess.APIs.FleetTracking;
+                    post.Resource = "LeaseBid/Post";
+                    post.ObjectToPost = leaseBid;
+                    LeaseBid savedLeaseBid = await post.Execute<LeaseBid>();
+
+                    if (post.RequestSuccessful)
+                    {
+                        LeaseBidID = savedLeaseBid.LeaseBidID;
+                        Saved?.Invoke(this, EventArgs.Empty);
+                        await LoadData();
+                    }
+                }
+                else
+                {
+                    PutData put = _application.GetAccess<PutData>();
+                    put.API = DataAccess.APIs.FleetTracking;
+                    put.Resource = "LeaseBid/Put";
+                    put.ObjectToPut = leaseBid;
+                    await put.ExecuteNoResult();
+                    if (put.RequestSuccessful)
+                    {
+                        Saved?.Invoke(this, EventArgs.Empty);
+                        await LoadData();
+                    }
+                }
+            }
+            finally
+            {
+                loader.Visible = false;
             }
         }
     }

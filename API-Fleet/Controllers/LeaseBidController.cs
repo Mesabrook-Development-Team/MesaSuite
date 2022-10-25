@@ -73,9 +73,9 @@ namespace API_Fleet.Controllers
             lb.LeaseAmount,
             lb.RecurringAmountType,
             lb.RecurringAmount,
-            lb.LocationIDRecurringAmountDestination,
-            lb.LocationRecurringAmountDestination.LocationID,
-            lb.LocationRecurringAmountDestination.Name,
+            lb.LocationIDInvoiceDestination,
+            lb.LocationInvoiceDestination.LocationID,
+            lb.LocationInvoiceDestination.Name,
             lb.Terms
         });
 

@@ -406,5 +406,44 @@ namespace FleetTracking.Leasing
                 detail.ParentForm.Close();
             }
         }
+
+        private async void tsmiDeleteBid_Click(object sender, EventArgs e)
+        {
+            if (dgvBids.SelectedRows.Count <= 0)
+            {
+                return;
+            }
+
+            LeaseBid bid = dgvBids.SelectedRows[0].Tag as LeaseBid;
+            if (bid == null)
+            {
+                return;
+            }
+
+            if (!this.Confirm("Are you sure you want to delete this Bid?"))
+            {
+                return;
+            }
+
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
+
+                DeleteData delete = _application.GetAccess<DeleteData>();
+                delete.API = DataAccess.APIs.FleetTracking;
+                delete.Resource = $"LeaseBid/Delete/{bid.LeaseBidID}";
+                await delete.Execute();
+                if (delete.RequestSuccessful)
+                {
+                    OnSave?.Invoke(this, EventArgs.Empty);
+                    LoadData();
+                }
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
+        }
     }
 }

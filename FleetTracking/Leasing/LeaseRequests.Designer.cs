@@ -310,6 +310,7 @@
             this.dgvSent.Name = "dgvSent";
             this.dgvSent.Size = new System.Drawing.Size(1015, 279);
             this.dgvSent.TabIndex = 1;
+            this.dgvSent.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.LeaseBid_CellDoubleClick);
             this.dgvSent.SelectionChanged += new System.EventHandler(this.dgvSent_SelectionChanged);
             // 
             // colSentRequestID
@@ -363,6 +364,7 @@
             this.mnuDeleteBids.Size = new System.Drawing.Size(69, 35);
             this.mnuDeleteBids.Text = "Delete Bids";
             this.mnuDeleteBids.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.mnuDeleteBids.Click += new System.EventHandler(this.mnuDeleteBids_Click);
             // 
             // tabReceivedBids
             // 
@@ -391,6 +393,7 @@
             this.dgvReceivedBids.Name = "dgvReceivedBids";
             this.dgvReceivedBids.Size = new System.Drawing.Size(1015, 279);
             this.dgvReceivedBids.TabIndex = 3;
+            this.dgvReceivedBids.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.LeaseBid_CellDoubleClick);
             this.dgvReceivedBids.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvReceivedBids_RowCountChanged);
             this.dgvReceivedBids.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvReceivedBids_RowCountChanged);
             // 

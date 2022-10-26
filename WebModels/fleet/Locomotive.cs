@@ -122,6 +122,21 @@ namespace WebModels.fleet
             set { CheckSet(); _imageOverride = value; }
         }
 
+        private bool _hasOpenBid;
+        [Field("D83BAE12-2E19-4A57-A652-D123A3AC5183", HasOperation = true)]
+        public bool HasOpenBid
+        {
+            get { CheckGet(); return _hasOpenBid; }
+        }
+
+        public static OperationDelegate HasOpenBidOperation
+        {
+            get
+            {
+
+            }
+        }
+
         #region Custom Relationships
         public override ICondition GetRelationshipCondition(Relationship relationship, string myAlias, string otherAlias)
         {

@@ -81,11 +81,9 @@
             this.grpLeaseRequest.Controls.Add(this.txtRequester);
             this.grpLeaseRequest.Controls.Add(this.label1);
             this.grpLeaseRequest.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpLeaseRequest.Location = new System.Drawing.Point(4, 5);
-            this.grpLeaseRequest.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpLeaseRequest.Location = new System.Drawing.Point(3, 3);
             this.grpLeaseRequest.Name = "grpLeaseRequest";
-            this.grpLeaseRequest.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.grpLeaseRequest.Size = new System.Drawing.Size(942, 408);
+            this.grpLeaseRequest.Size = new System.Drawing.Size(628, 265);
             this.grpLeaseRequest.TabIndex = 0;
             this.grpLeaseRequest.TabStop = false;
             this.grpLeaseRequest.Text = "Lease Request";
@@ -96,29 +94,26 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpEndTime.CustomFormat = "dddd MM/dd/yyyy HH:mm";
             this.dtpEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpEndTime.Location = new System.Drawing.Point(130, 357);
-            this.dtpEndTime.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dtpEndTime.Location = new System.Drawing.Point(87, 232);
             this.dtpEndTime.Name = "dtpEndTime";
-            this.dtpEndTime.Size = new System.Drawing.Size(800, 26);
+            this.dtpEndTime.Size = new System.Drawing.Size(535, 20);
             this.dtpEndTime.TabIndex = 5;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 363);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(6, 236);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(115, 20);
+            this.label6.Size = new System.Drawing.Size(73, 13);
             this.label6.TabIndex = 4;
             this.label6.Text = "Bid End Time:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 174);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(6, 113);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(76, 20);
+            this.label5.Size = new System.Drawing.Size(49, 13);
             this.label5.TabIndex = 4;
             this.label5.Text = "Purpose:";
             // 
@@ -126,10 +121,9 @@
             // 
             this.cboRailcarType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRailcarType.FormattingEnabled = true;
-            this.cboRailcarType.Location = new System.Drawing.Point(422, 69);
-            this.cboRailcarType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cboRailcarType.Location = new System.Drawing.Point(281, 45);
             this.cboRailcarType.Name = "cboRailcarType";
-            this.cboRailcarType.Size = new System.Drawing.Size(180, 28);
+            this.cboRailcarType.Size = new System.Drawing.Size(121, 21);
             this.cboRailcarType.TabIndex = 2;
             this.cboRailcarType.Visible = false;
             // 
@@ -137,20 +131,18 @@
             // 
             this.cboLeaseType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboLeaseType.FormattingEnabled = true;
-            this.cboLeaseType.Location = new System.Drawing.Point(117, 69);
-            this.cboLeaseType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cboLeaseType.Location = new System.Drawing.Point(78, 45);
             this.cboLeaseType.Name = "cboLeaseType";
-            this.cboLeaseType.Size = new System.Drawing.Size(180, 28);
+            this.cboLeaseType.Size = new System.Drawing.Size(121, 21);
             this.cboLeaseType.TabIndex = 1;
             this.cboLeaseType.SelectedIndexChanged += new System.EventHandler(this.cboLeaseType_SelectedIndexChanged);
             // 
             // lblRailcarType
             // 
             this.lblRailcarType.AutoSize = true;
-            this.lblRailcarType.Location = new System.Drawing.Point(308, 74);
-            this.lblRailcarType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblRailcarType.Location = new System.Drawing.Point(205, 48);
             this.lblRailcarType.Name = "lblRailcarType";
-            this.lblRailcarType.Size = new System.Drawing.Size(108, 20);
+            this.lblRailcarType.Size = new System.Drawing.Size(70, 13);
             this.lblRailcarType.TabIndex = 2;
             this.lblRailcarType.Text = "Railcar Type:";
             this.lblRailcarType.Visible = false;
@@ -158,10 +150,9 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 74);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(6, 48);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(101, 20);
+            this.label2.Size = new System.Drawing.Size(66, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Lease Type:";
             // 
@@ -170,31 +161,28 @@
             this.txtPurpose.AcceptsReturn = true;
             this.txtPurpose.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPurpose.Location = new System.Drawing.Point(14, 198);
-            this.txtPurpose.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtPurpose.Location = new System.Drawing.Point(9, 129);
             this.txtPurpose.Multiline = true;
             this.txtPurpose.Name = "txtPurpose";
             this.txtPurpose.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtPurpose.Size = new System.Drawing.Size(918, 147);
+            this.txtPurpose.Size = new System.Drawing.Size(613, 97);
             this.txtPurpose.TabIndex = 4;
             // 
             // txtDeliveryLocation
             // 
             this.txtDeliveryLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDeliveryLocation.Location = new System.Drawing.Point(117, 122);
-            this.txtDeliveryLocation.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtDeliveryLocation.Location = new System.Drawing.Point(78, 79);
             this.txtDeliveryLocation.Name = "txtDeliveryLocation";
-            this.txtDeliveryLocation.Size = new System.Drawing.Size(814, 26);
+            this.txtDeliveryLocation.Size = new System.Drawing.Size(544, 20);
             this.txtDeliveryLocation.TabIndex = 3;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 115);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(6, 75);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(78, 40);
+            this.label4.Size = new System.Drawing.Size(51, 26);
             this.label4.TabIndex = 0;
             this.label4.Text = "Delivery \r\nLocation:";
             // 
@@ -202,20 +190,18 @@
             // 
             this.txtRequester.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRequester.Location = new System.Drawing.Point(117, 29);
-            this.txtRequester.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtRequester.Location = new System.Drawing.Point(78, 19);
             this.txtRequester.Name = "txtRequester";
             this.txtRequester.ReadOnly = true;
-            this.txtRequester.Size = new System.Drawing.Size(814, 26);
+            this.txtRequester.Size = new System.Drawing.Size(544, 20);
             this.txtRequester.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 34);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(6, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 20);
+            this.label1.Size = new System.Drawing.Size(59, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Requester:";
             // 
@@ -226,11 +212,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBids.Controls.Add(this.dgvBids);
             this.grpBids.Controls.Add(this.toolStrip1);
-            this.grpBids.Location = new System.Drawing.Point(4, 422);
-            this.grpBids.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.grpBids.Location = new System.Drawing.Point(3, 274);
             this.grpBids.Name = "grpBids";
-            this.grpBids.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.grpBids.Size = new System.Drawing.Size(942, 392);
+            this.grpBids.Size = new System.Drawing.Size(628, 255);
             this.grpBids.TabIndex = 1;
             this.grpBids.TabStop = false;
             this.grpBids.Text = "Bids";
@@ -244,11 +228,10 @@
             this.colAmount,
             this.colRecurring});
             this.dgvBids.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvBids.Location = new System.Drawing.Point(4, 82);
-            this.dgvBids.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dgvBids.Location = new System.Drawing.Point(3, 62);
             this.dgvBids.Name = "dgvBids";
             this.dgvBids.RowHeadersWidth = 62;
-            this.dgvBids.Size = new System.Drawing.Size(934, 305);
+            this.dgvBids.Size = new System.Drawing.Size(622, 190);
             this.dgvBids.TabIndex = 0;
             this.dgvBids.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBids_CellDoubleClick);
             this.dgvBids.SelectionChanged += new System.EventHandler(this.dgvBids_SelectionChanged);
@@ -291,10 +274,10 @@
             this.tsmiAccept,
             this.tsmiSubmitBid,
             this.tsmiDeleteBid});
-            this.toolStrip1.Location = new System.Drawing.Point(4, 24);
+            this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(934, 58);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this.toolStrip1.Size = new System.Drawing.Size(622, 46);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -303,7 +286,7 @@
             this.tsmiAccept.Image = ((System.Drawing.Image)(resources.GetObject("tsmiAccept.Image")));
             this.tsmiAccept.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiAccept.Name = "tsmiAccept";
-            this.tsmiAccept.Size = new System.Drawing.Size(100, 53);
+            this.tsmiAccept.Size = new System.Drawing.Size(68, 43);
             this.tsmiAccept.Text = "Accept Bid";
             this.tsmiAccept.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -312,7 +295,7 @@
             this.tsmiSubmitBid.Image = ((System.Drawing.Image)(resources.GetObject("tsmiSubmitBid.Image")));
             this.tsmiSubmitBid.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiSubmitBid.Name = "tsmiSubmitBid";
-            this.tsmiSubmitBid.Size = new System.Drawing.Size(103, 53);
+            this.tsmiSubmitBid.Size = new System.Drawing.Size(69, 43);
             this.tsmiSubmitBid.Text = "Submit Bid";
             this.tsmiSubmitBid.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.tsmiSubmitBid.Click += new System.EventHandler(this.tsmiSubmitBid_Click);
@@ -322,17 +305,17 @@
             this.tsmiDeleteBid.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteBid.Image")));
             this.tsmiDeleteBid.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiDeleteBid.Name = "tsmiDeleteBid";
-            this.tsmiDeleteBid.Size = new System.Drawing.Size(96, 53);
+            this.tsmiDeleteBid.Size = new System.Drawing.Size(64, 43);
             this.tsmiDeleteBid.Text = "Delete Bid";
             this.tsmiDeleteBid.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsmiDeleteBid.Click += new System.EventHandler(this.tsmiDeleteBid_Click);
             // 
             // cmdReset
             // 
             this.cmdReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdReset.Location = new System.Drawing.Point(699, 417);
-            this.cmdReset.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmdReset.Location = new System.Drawing.Point(466, 271);
             this.cmdReset.Name = "cmdReset";
-            this.cmdReset.Size = new System.Drawing.Size(112, 35);
+            this.cmdReset.Size = new System.Drawing.Size(75, 23);
             this.cmdReset.TabIndex = 3;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
@@ -340,10 +323,9 @@
             // cmdSave
             // 
             this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSave.Location = new System.Drawing.Point(820, 417);
-            this.cmdSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmdSave.Location = new System.Drawing.Point(547, 271);
             this.cmdSave.Name = "cmdSave";
-            this.cmdSave.Size = new System.Drawing.Size(112, 35);
+            this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 3;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
@@ -351,10 +333,9 @@
             // 
             // cmdClone
             // 
-            this.cmdClone.Location = new System.Drawing.Point(9, 417);
-            this.cmdClone.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmdClone.Location = new System.Drawing.Point(6, 271);
             this.cmdClone.Name = "cmdClone";
-            this.cmdClone.Size = new System.Drawing.Size(112, 35);
+            this.cmdClone.Size = new System.Drawing.Size(75, 23);
             this.cmdClone.TabIndex = 3;
             this.cmdClone.Text = "Clone";
             this.cmdClone.UseVisualStyleBackColor = true;
@@ -367,15 +348,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.loader.BackColor = System.Drawing.Color.Transparent;
             this.loader.Location = new System.Drawing.Point(0, 0);
-            this.loader.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.loader.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(951, 815);
+            this.loader.Size = new System.Drawing.Size(634, 530);
             this.loader.TabIndex = 2;
             this.loader.Visible = false;
             // 
             // LeaseRequestDetail
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.cmdClone);
             this.Controls.Add(this.grpLeaseRequest);
@@ -383,9 +364,8 @@
             this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.grpBids);
             this.Controls.Add(this.loader);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "LeaseRequestDetail";
-            this.Size = new System.Drawing.Size(951, 815);
+            this.Size = new System.Drawing.Size(634, 530);
             this.Load += new System.EventHandler(this.LeaseRequestDetail_Load);
             this.grpLeaseRequest.ResumeLayout(false);
             this.grpLeaseRequest.PerformLayout();

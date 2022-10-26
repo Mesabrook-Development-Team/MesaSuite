@@ -233,7 +233,7 @@ namespace FleetTracking.Leasing
             };
             leaseRequestDetail.OnSave += LeaseRequestDetail_OnSave;
             Form leaseRequestForm = _application.OpenForm(leaseRequestDetail);
-            leaseRequestForm.Text = "Lease Request";
+            leaseRequestForm.Text = $"Lease Request ({leaseRequest.LeaseRequestID})";
         }
 
         private async void mnuDeleteRequests_Click(object sender, EventArgs e)
@@ -272,6 +272,78 @@ namespace FleetTracking.Leasing
             }
 
             LoadData();
+        }
+
+        private void LeaseBid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = sender as DataGridView;
+            if (dataGridView == null)
+            {
+                return;
+            }
+
+            DataGridViewRow row = dataGridView.Rows[e.RowIndex];
+            LeaseBid leaseBid = row.Tag as LeaseBid;
+            if (leaseBid == null)
+            {
+                return;
+            }
+
+            LeaseBidDetail leaseBidDetail = new LeaseBidDetail()
+            {
+                Application = _application,
+                LeaseRequestID = leaseBid.LeaseRequestID,
+                LeaseBidID = leaseBid.LeaseBidID
+            };
+            leaseBidDetail.Saved += LeaseBidDetail_Saved;
+
+            Size detailSize = leaseBidDetail.Size;
+            Form detailForm = _application.OpenForm(leaseBidDetail, FleetTrackingApplication.OpenFormOptions.Popout);
+            detailForm.Size = detailSize;
+            detailForm.Text = "Lease Bid";
+        }
+
+        private void LeaseBidDetail_Saved(object sender, EventArgs e)
+        {
+            // TODO: Try to preserve the selected rows
+            LoadData();
+        }
+
+        private async void mnuDeleteBids_Click(object sender, EventArgs e)
+        {
+            if (!this.Confirm("Are you sure you want to delete these Bids?"))
+            {
+                return;
+            }
+
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
+
+                foreach (DataGridViewRow row in dgvSent.Rows)
+                {
+                    LeaseBid bid = row.Tag as LeaseBid;
+                    if (bid == null)
+                    {
+                        continue;
+                    }
+
+                    DeleteData delete = _application.GetAccess<DeleteData>();
+                    delete.API = DataAccess.APIs.FleetTracking;
+                    delete.Resource = $"LeaseBid/Delete/{bid.LeaseBidID}";
+                    await delete.Execute();
+
+                    if (delete.RequestSuccessful)
+                    {
+                        LoadData();
+                    }
+                }
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
         }
     }
 }

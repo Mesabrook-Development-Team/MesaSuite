@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema;
@@ -120,6 +121,53 @@ namespace WebModels.fleet
         {
             get { CheckGet(); return _imageOverride; }
             set { CheckSet(); _imageOverride = value; }
+        }
+
+        private bool _hasOpenBid;
+        [Field("E1ACECA1-C305-4AAF-A4AE-DEBEE8DCEDCD", HasOperation = true)]
+        public bool HasOpenBid
+        {
+            get { CheckGet(); return _hasOpenBid; }
+        }
+
+        public static OperationDelegate HasOpenBidOperation
+        {
+            get => (alias) =>
+            {
+                ISelectQuery selectQuery = SQLProviderFactory.GetSelectQuery();
+                selectQuery.SelectList = new List<Select>()
+                {
+                    new Select()
+                    {
+                        SelectOperand = new Case()
+                        {
+                            Whens = new List<Case.When>()
+                            {
+                                new Case.When()
+                                {
+                                    Condition = new Condition()
+                                    {
+                                        Left = new Count((ClussPro.Base.Data.Operand.Field)$"RailcarID"),
+                                        ConditionType = Condition.ConditionTypes.Greater,
+                                        Right = new Literal(0)
+                                    },
+                                    Result = new Literal(true)
+                                }
+                            },
+                            Else = new Literal(false)
+                        }
+                    }
+                };
+                selectQuery.Table = new Table("fleet", "LeaseBid");
+                selectQuery.WhereCondition = new Condition()
+                {
+                    Left = (ClussPro.Base.Data.Operand.Field)"RailcarID",
+                    ConditionType = Condition.ConditionTypes.Equal,
+                    Right = (ClussPro.Base.Data.Operand.Field)$"{alias}.RailcarID"
+                };
+
+                return new SubQuery(selectQuery);
+            };
         }
 
         #region Custom Relationships

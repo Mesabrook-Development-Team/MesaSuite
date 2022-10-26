@@ -92,6 +92,12 @@
     <Compile Include="Leasing\Overview.Designer.cs">
       <DependentUpon>Overview.cs</DependentUpon>
     </Compile>
+    <Compile Include="Leasing\SubmitBids.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Leasing\SubmitBids.Designer.cs">
+      <DependentUpon>SubmitBids.cs</DependentUpon>
+    </Compile>
     <Compile Include="Loader.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -240,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Leasing\Overview.resx">
       <DependentUpon>Overview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Leasing\SubmitBids.resx">
+      <DependentUpon>SubmitBids.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>

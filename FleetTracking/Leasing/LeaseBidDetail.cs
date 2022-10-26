@@ -36,6 +36,7 @@ namespace FleetTracking.Leasing
             {
                 this.ShowError("Not enough data was supplied to open this pane.");
                 ParentForm.Close();
+                return;
             }
 
             await LoadData();
@@ -58,13 +59,20 @@ namespace FleetTracking.Leasing
                     return;
                 }
 
+                LeaseBid bid = null;
+                if (LeaseBidID != null)
+                {
+                    get.Resource = $"LeaseBid/Get/{LeaseBidID}";
+                    bid = await get.GetObject<LeaseBid>();
+                }
+
                 cboRollingStock.Items.Clear();
                 if (leaseRequest.LeaseType == LeaseRequest.LeaseTypes.Locomotive)
                 {
                     lblRollingStock.Text = "Locomotive:";
                     get.Resource = "Locomotive/GetAll";
                     List<Locomotive> locomotives = await get.GetObject<List<Locomotive>>() ?? new List<Locomotive>();
-                    locomotives = locomotives.Where(l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner) && l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null).ToList();
+                    locomotives = locomotives.Where(l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner) && l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null && (l.LocomotiveID == bid?.LocomotiveID || !l.HasOpenBid)).ToList();
 
                     foreach (Locomotive locomotive in locomotives)
                     {
@@ -93,7 +101,7 @@ namespace FleetTracking.Leasing
                     lblRollingStock.Text = "Railcar:";
                     get.Resource = "Railcar/GetAll";
                     List<Railcar> railcars = await get.GetObject<List<Railcar>>() ?? new List<Railcar>();
-                    railcars = railcars.Where(l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner) && l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null).ToList();
+                    railcars = railcars.Where(l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner) && l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null && (l.RailcarID == bid?.RailcarID || !l.HasOpenBid)).ToList();
 
                     foreach (Railcar railcar in railcars)
                     {
@@ -141,8 +149,6 @@ namespace FleetTracking.Leasing
 
                 if (LeaseBidID != null)
                 {
-                    get.Resource = $"LeaseBid/Get/{LeaseBidID}";
-                    LeaseBid bid = await get.GetObject<LeaseBid>();
                     if (bid == null)
                     {
                         return;

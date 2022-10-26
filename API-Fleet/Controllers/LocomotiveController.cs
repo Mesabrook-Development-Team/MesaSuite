@@ -39,7 +39,8 @@ namespace API_Fleet.Controllers
             $"{nameof(Locomotive.GovernmentLeasedTo)}.{nameof(Government.GovernmentID)}",
             $"{nameof(Locomotive.GovernmentLeasedTo)}.{nameof(Government.Name)}",
             nameof(Locomotive.ReportingMark),
-            nameof(Locomotive.ReportingNumber)
+            nameof(Locomotive.ReportingNumber),
+            nameof(Locomotive.HasOpenBid)
         };
 
         public override bool AllowGetAll => true;

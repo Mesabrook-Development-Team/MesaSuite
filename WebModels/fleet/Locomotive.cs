@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema;
@@ -131,10 +132,42 @@ namespace WebModels.fleet
 
         public static OperationDelegate HasOpenBidOperation
         {
-            get
+            get => (alias) =>
             {
+                ISelectQuery selectQuery = SQLProviderFactory.GetSelectQuery();
+                selectQuery.SelectList = new List<Select>()
+                { 
+                    new Select()
+                    { 
+                        SelectOperand = new Case()
+                        {
+                            Whens = new List<Case.When>()
+                            {
+                                new Case.When()
+                                {
+                                    Condition = new Condition()
+                                    {
+                                        Left = new Count((ClussPro.Base.Data.Operand.Field)$"LocomotiveID"),
+                                        ConditionType = Condition.ConditionTypes.Greater,
+                                        Right = new Literal(0)
+                                    },
+                                    Result = new Literal(true)
+                                }
+                            },
+                            Else = new Literal(false)
+                        }
+                    } 
+                };
+                selectQuery.Table = new Table("fleet", "LeaseBid");
+                selectQuery.WhereCondition = new Condition()
+                {
+                    Left = (ClussPro.Base.Data.Operand.Field)"LocomotiveID",
+                    ConditionType = Condition.ConditionTypes.Equal,
+                    Right = (ClussPro.Base.Data.Operand.Field)$"{alias}.LocomotiveID"
+                };
 
-            }
+                return new SubQuery(selectQuery);
+            };
         }
 
         #region Custom Relationships

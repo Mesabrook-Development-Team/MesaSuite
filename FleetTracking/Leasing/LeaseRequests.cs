@@ -321,7 +321,7 @@ namespace FleetTracking.Leasing
                 loader.BringToFront();
                 loader.Visible = true;
 
-                foreach (DataGridViewRow row in dgvSent.Rows)
+                foreach (DataGridViewRow row in dgvSent.SelectedRows)
                 {
                     LeaseBid bid = row.Tag as LeaseBid;
                     if (bid == null)
@@ -333,12 +333,9 @@ namespace FleetTracking.Leasing
                     delete.API = DataAccess.APIs.FleetTracking;
                     delete.Resource = $"LeaseBid/Delete/{bid.LeaseBidID}";
                     await delete.Execute();
-
-                    if (delete.RequestSuccessful)
-                    {
-                        LoadData();
-                    }
                 }
+
+                LoadData();
             }
             finally
             {

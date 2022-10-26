@@ -18,5 +18,6 @@
         public string ReportingMark { get; set; }
         public int? ReportingNumber { get; set; }
         public string FormattedReportingMark => $"{ReportingMark}{ReportingNumber}";
+        public bool HasOpenBid { get; set; }
     }
 }

@@ -17,6 +17,7 @@
         public Government GovernmentLeasedTo { get; set; }
         public string ReportingMark { get; set; }
         public int? ReportingNumber { get; set; }
+        public bool HasOpenBid { get; set; }
         public string FormattedReportingMark => $"{ReportingMark}{ReportingNumber}";
     }
 }

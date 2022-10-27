@@ -28,7 +28,6 @@ namespace MCSync
             Syncer syncer = new Syncer();
             syncer.TaskAdded += Syncer_TaskAdded;
             syncer.SyncComplete += Syncer_SyncComplete;
-            ControlBox = false;
 
             trayIcon.Icon = Properties.Resources.icn_mcsync;
             trayIcon.Text = "MCSync";
@@ -111,7 +110,6 @@ namespace MCSync
 
                 e.StatusUpdate += Task_StatusUpdate;
                 pbarOverall.Maximum = dgvTasks.Rows.Count;
-                ControlBox = false;
             });
         }
 
@@ -138,7 +136,7 @@ namespace MCSync
 
         private void trayIcon_Clicked(object sender, EventArgs e)
         {
-            WindowState = FormWindowState.Normal;
+            WindowState = FormWindowState.Maximized;
             BringToFront();
         }
 

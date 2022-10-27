@@ -67,7 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FancyUX.cs">
+    <Compile Include="FancyButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="frmConfig.cs">

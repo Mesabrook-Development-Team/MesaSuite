@@ -65,7 +65,7 @@ namespace MCSync
             rbServer.Checked = syncMode == SyncMode.Server;
 
             overrideFoldersCheckBox.Checked = string.IsNullOrEmpty(configValues.GetOrDefault("minecraftDirectory").Cast<string>());
-            overrideFoldersCheckBox_CheckedChanged(this, EventArgs.Empty);
+            overrideFoldersCheckBox_CheckedChanged(overrideFoldersCheckBox, EventArgs.Empty);
             cboxBalloonTips.Checked = configValues.GetOrDefault("showBalloonTips", true).Cast<bool>();
             fadeTimer.Start();
         }

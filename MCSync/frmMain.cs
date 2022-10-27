@@ -57,9 +57,6 @@ namespace MCSync
             frmConfig config = new frmConfig();
 
             config.TopLevel = false;
-            config.ControlBox = false;
-            config.Dock = DockStyle.Fill;
-            config.FormBorderStyle = FormBorderStyle.None;
 
             pnlForm.Controls.Add(config);
             config.Show();
@@ -74,9 +71,6 @@ namespace MCSync
         {
             frmSync sync = new frmSync();
             sync.TopLevel = false;
-            sync.ControlBox = false;
-            sync.Dock = DockStyle.Fill;
-            sync.FormBorderStyle = FormBorderStyle.None;
 
             pnlForm.Controls.Add(sync);
             sync.Show();

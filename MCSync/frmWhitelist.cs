@@ -19,6 +19,7 @@ namespace MCSync
 
         private void frmWhitelist_Load(object sender, EventArgs e)
         {
+            Dock = DockStyle.Fill;
             Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>());
             if (configValues.ContainsKey(WhitelistName))
             {

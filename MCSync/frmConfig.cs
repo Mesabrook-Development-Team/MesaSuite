@@ -51,6 +51,7 @@ namespace MCSync
 
         private void frmConfig_Load(object sender, EventArgs e)
         {
+            Dock = DockStyle.Fill;
             pnlWhitelist.Visible = false;  
             Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", () => new Dictionary<string, object>());
             txtMinecraftFolder.Text = configValues.GetOrSetDefault("minecraftDirectory", string.Empty).Cast<string>();
@@ -91,9 +92,6 @@ namespace MCSync
             whitelist.lblIntro.Text = "Edit your Mods whitelist.";
 
             whitelist.TopLevel = false;
-            whitelist.ControlBox = false;
-            whitelist.Dock = DockStyle.Fill;
-            whitelist.FormBorderStyle = FormBorderStyle.None;
 
             pnlWhitelist.Controls.Add(whitelist);
             pnlWhitelist.Show();
@@ -109,9 +107,6 @@ namespace MCSync
             whitelist.lblIntro.Text = "Edit your Resource Packs whitelist.";
 
             whitelist.TopLevel = false;
-            whitelist.ControlBox = false;
-            whitelist.Dock = DockStyle.Fill;
-            whitelist.FormBorderStyle = FormBorderStyle.None;
 
             pnlWhitelist.Controls.Add(whitelist);
             pnlWhitelist.Show();
@@ -251,16 +246,6 @@ namespace MCSync
             {
                 pnlWhitelist.Visible = false;
             }
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void frmConfig_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
         }
     }
 }

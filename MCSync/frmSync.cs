@@ -21,6 +21,7 @@ namespace MCSync
         private void frmSync_Load(object sender, EventArgs e)
         {
             formFadeTimer.Start();
+            Dock = DockStyle.Fill;
             Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", () => new Dictionary<string, object>());
             showBalloonTips = configValues.GetOrDefault("showBalloonTips", true).Cast<bool>();
 

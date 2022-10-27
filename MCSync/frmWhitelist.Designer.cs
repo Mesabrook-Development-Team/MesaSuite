@@ -119,6 +119,7 @@ namespace MCSync
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.BackgroundImage = global::MCSync.Properties.Resources.tile_transparent1;
             this.ClientSize = new System.Drawing.Size(598, 365);
+            this.ControlBox = false;
             this.Controls.Add(this.fButtonCancel);
             this.Controls.Add(this.fButtonSave);
             this.Controls.Add(this.lblIntro);
@@ -130,6 +131,7 @@ namespace MCSync
             this.MinimizeBox = false;
             this.Name = "frmWhitelist";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmWhitelist_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

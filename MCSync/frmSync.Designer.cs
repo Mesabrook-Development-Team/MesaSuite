@@ -152,6 +152,7 @@
             this.BackColor = System.Drawing.Color.DimGray;
             this.BackgroundImage = global::MCSync.Properties.Resources.tile_transparent1;
             this.ClientSize = new System.Drawing.Size(628, 446);
+            this.ControlBox = false;
             this.Controls.Add(this.lblItem);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pbarOverall);
@@ -162,10 +163,14 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmSync";
             this.Opacity = 0D;
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Syncing Modpack...";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSync_FormClosing);
             this.Load += new System.EventHandler(this.frmSync_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTasks)).EndInit();

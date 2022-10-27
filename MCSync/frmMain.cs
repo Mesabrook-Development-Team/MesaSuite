@@ -78,8 +78,8 @@ namespace MCSync
 
         private void pnlMainTimer_Tick(object sender, EventArgs e)
         {
-            var frmConfig = Application.OpenForms["frmConfig"];
-            var frmSync = Application.OpenForms["frmSync"];
+            Form frmConfig = Application.OpenForms["frmConfig"];
+            Form frmSync = Application.OpenForms["frmSync"];
 
             if(frmSync != null || frmConfig != null)
             {

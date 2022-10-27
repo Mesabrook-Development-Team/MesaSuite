@@ -104,7 +104,8 @@ namespace FleetTracking.Interop
         {
             None = 0,
             Popout = 1,
-            Dialog = 2
+            Dialog = 2,
+            ResizeToControl = 4
         }
 
         public class MainNavigationItem

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txtTerms = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -39,17 +40,18 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtRecurringAmount = new System.Windows.Forms.TextBox();
             this.txtLeaseAmount = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvRequests = new System.Windows.Forms.DataGridView();
             this.colLeaseRequest = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPurpose = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colRollingStock = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colRollingStock = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRequests)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -74,7 +76,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
+            this.splitContainer1.Panel2.Controls.Add(this.dgvRequests);
             this.splitContainer1.Size = new System.Drawing.Size(753, 317);
             this.splitContainer1.SplitterDistance = 216;
             this.splitContainer1.TabIndex = 0;
@@ -82,7 +84,8 @@
             // txtTerms
             // 
             this.txtTerms.AcceptsReturn = true;
-            this.txtTerms.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtTerms.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTerms.Location = new System.Drawing.Point(5, 103);
             this.txtTerms.Multiline = true;
@@ -176,20 +179,22 @@
             this.txtLeaseAmount.Size = new System.Drawing.Size(76, 20);
             this.txtLeaseAmount.TabIndex = 9;
             // 
-            // dataGridView1
+            // dgvRequests
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvRequests.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRequests.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colLeaseRequest,
             this.colType,
             this.colEndTime,
             this.colPurpose,
             this.colRollingStock});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(753, 97);
-            this.dataGridView1.TabIndex = 0;
+            this.dgvRequests.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvRequests.Location = new System.Drawing.Point(0, 0);
+            this.dgvRequests.Name = "dgvRequests";
+            this.dgvRequests.Size = new System.Drawing.Size(753, 97);
+            this.dgvRequests.TabIndex = 0;
+            this.dgvRequests.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRequests_CellContentClick);
+            this.dgvRequests.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRequests_CellDoubleClick);
             // 
             // colLeaseRequest
             // 
@@ -221,6 +226,8 @@
             this.colRollingStock.HeaderText = "Bidded Reporting Mark";
             this.colRollingStock.Name = "colRollingStock";
             this.colRollingStock.ReadOnly = true;
+            this.colRollingStock.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colRollingStock.Text = "";
             this.colRollingStock.Width = 200;
             // 
             // SubmitBidsDetail
@@ -235,7 +242,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRequests)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -253,11 +260,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtRecurringAmount;
         private System.Windows.Forms.TextBox txtLeaseAmount;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvRequests;
         private System.Windows.Forms.DataGridViewTextBoxColumn colLeaseRequest;
         private System.Windows.Forms.DataGridViewTextBoxColumn colType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEndTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPurpose;
-        private System.Windows.Forms.DataGridViewComboBoxColumn colRollingStock;
+        private System.Windows.Forms.DataGridViewButtonColumn colRollingStock;
+        private DataGridViewStylizer dataGridViewStylizer;
     }
 }

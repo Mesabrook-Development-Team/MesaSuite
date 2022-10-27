@@ -55,7 +55,7 @@ namespace CompanyStudio
 
             foreach(TabControl tabControl in control.Controls.OfType<TabControl>())
             {
-                foreach(TabPage page in tabControl.TabPages)
+                foreach (TabPage page in tabControl.TabPages)
                 {
                     ApplyStyle(page, theme);
                 }
@@ -90,6 +90,8 @@ namespace CompanyStudio
 
                 ApplyStyle(groupBox, theme);
             }
+
+            control.ControlAdded += (sender, e) => ApplyStyle(e.Control, theme);
         }
     }
 }

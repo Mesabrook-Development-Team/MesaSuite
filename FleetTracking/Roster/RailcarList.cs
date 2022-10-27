@@ -22,6 +22,16 @@ namespace FleetTracking.Roster
         public IReadOnlyCollection<Models.Railcar> SelectedRailcars => dgvRailcars.SelectedRows.OfType<DataGridViewRow>().Select(row => row.Tag).OfType<Models.Railcar>().ToList();
 
         public Func<Models.Railcar, bool> Filter { private get; set; }
+        private string _reportingMarkFilter;
+        public string ReportingMarkFilter
+        {
+            get => _reportingMarkFilter;
+            set
+            {
+                _reportingMarkFilter = value;
+                ReportingMarkFilterChanged();
+            }
+        }
 
         public RailcarList()
         {
@@ -135,6 +145,15 @@ namespace FleetTracking.Roster
             }
 
             RailcarSelected?.Invoke(this, railcar);
+        }
+
+        private void ReportingMarkFilterChanged()
+        {
+            foreach (DataGridViewRow row in dgvRailcars.Rows)
+            {
+                string reportingMark = row.Cells[colReportingMark.Name].Value as string;
+                row.Visible = string.IsNullOrEmpty(reportingMark) || string.IsNullOrEmpty(ReportingMarkFilter) || reportingMark.Contains(ReportingMarkFilter);
+            }
         }
     }
 }

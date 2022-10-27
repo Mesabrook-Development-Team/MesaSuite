@@ -342,5 +342,11 @@ namespace FleetTracking.Leasing
                 loader.Visible = false;
             }
         }
+
+        private void mnuSubmitBids_Click(object sender, EventArgs e)
+        {
+            Form submitBidsForm = _application.OpenForm(new SubmitBids() { Application = _application }, FleetTrackingApplication.OpenFormOptions.Popout);
+            submitBidsForm.Text = "Submit Bids";
+        }
     }
 }

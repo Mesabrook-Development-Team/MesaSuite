@@ -235,6 +235,7 @@
             this.mnuSubmitBids.Size = new System.Drawing.Size(74, 35);
             this.mnuSubmitBids.Text = "Submit Bids";
             this.mnuSubmitBids.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.mnuSubmitBids.Click += new System.EventHandler(this.mnuSubmitBids_Click);
             // 
             // splitContainer1
             // 

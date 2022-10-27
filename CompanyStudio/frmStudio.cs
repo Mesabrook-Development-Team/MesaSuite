@@ -138,6 +138,10 @@ namespace CompanyStudio
         private Form FleetTracking_OpenForm(IFleetTrackingControl fleetTrackingControl, FleetTrackingApplication.OpenFormOptions formOptions)
         {
             FleetTracking.frmFleetForm fleetForm = new FleetTracking.frmFleetForm();
+            if (formOptions.HasFlag(FleetTrackingApplication.OpenFormOptions.ResizeToControl))
+            {
+                fleetForm.Size = ((Control)fleetTrackingControl).Size;
+            }
             fleetForm.FleetTrackingControl = fleetTrackingControl;
             DecorateStudioContent(fleetForm);
 

@@ -16,11 +16,23 @@ namespace FleetTracking.Roster
     {
         public event EventHandler<Locomotive> LocomotiveSelected;
         public Func<Locomotive, bool> Filter { get; set; }
+        private string _reportingMarkFilter;
+        public string ReportingMarkFilter 
+        {
+            get => _reportingMarkFilter; 
+            set
+            {
+                _reportingMarkFilter = value;
+                ReportingMarkFilterChanged();
+            }
+        }
 
         private FleetTrackingApplication _application;
+
         public FleetTrackingApplication Application { set => _application = value; }
 
         public IReadOnlyCollection<Models.Locomotive> SelectedLocomotives => dgvLocomotives.SelectedRows.OfType<DataGridViewRow>().Select(row => row.Tag).OfType<Models.Locomotive>().ToList();
+
 
         public LocomotiveList()
         {
@@ -102,7 +114,7 @@ namespace FleetTracking.Roster
                 GetData getImage = _application.GetAccess<GetData>();
                 getImage.API = DataAccess.APIs.FleetTracking;
 
-                foreach(DataGridViewRow row in dgvLocomotives.Rows)
+                foreach (DataGridViewRow row in dgvLocomotives.Rows)
                 {
                     Locomotive locomotive = row.Tag as Locomotive;
                     if (locomotive == null)
@@ -131,6 +143,15 @@ namespace FleetTracking.Roster
             if (dgvLocomotives.SelectedRows.Count > 0 && dgvLocomotives.SelectedRows[0].Tag is Locomotive locomotive)
             {
                 LocomotiveSelected?.Invoke(this, locomotive);
+            }
+        }
+
+        private void ReportingMarkFilterChanged()
+        {
+            foreach(DataGridViewRow row in dgvLocomotives.Rows)
+            {
+                string reportingMark = row.Cells[colReportingMark.Name].Value as string;
+                row.Visible = string.IsNullOrEmpty(reportingMark) || string.IsNullOrEmpty(ReportingMarkFilter) || reportingMark.Contains(ReportingMarkFilter);
             }
         }
     }

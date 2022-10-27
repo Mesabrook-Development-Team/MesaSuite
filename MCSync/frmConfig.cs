@@ -176,13 +176,19 @@ namespace MCSync
 
         private void rbServer_CheckedChanged(object sender, EventArgs e)
         {
-            if(rbServer.Checked)
+            if (!overrideFoldersCheckBox.Checked)
             {
-                txtResourcePacksDirectory.Text = txtConfigDirectory.Text + "\\immersiverailroading";
-            }
-            else
-            {
-                txtResourcePacksDirectory.Text = txtMinecraftFolder.Text + "\\resourcepacks";
+                txtModsDirectory.Text = txtMinecraftFolder.Text + "\\mods";
+                txtConfigDirectory.Text = txtMinecraftFolder.Text + "\\config"; 
+
+                if (rbServer.Checked)
+                {
+                    txtResourcePacksDirectory.Text = txtConfigDirectory.Text + "\\immersiverailroading";
+                }
+                else
+                {
+                    txtResourcePacksDirectory.Text = txtMinecraftFolder.Text + "\\resourcepacks";
+                }
             }
         }
 

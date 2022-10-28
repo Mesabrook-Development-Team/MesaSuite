@@ -55,6 +55,8 @@ namespace CompanyStudio
 
             foreach(TabControl tabControl in control.Controls.OfType<TabControl>())
             {
+                ApplyStyle(tabControl, theme);
+                tabControl.ControlAdded += (tabCtrl, e) => ApplyStyle(e.Control, theme);
                 foreach (TabPage page in tabControl.TabPages)
                 {
                     ApplyStyle(page, theme);
@@ -91,7 +93,10 @@ namespace CompanyStudio
                 ApplyStyle(groupBox, theme);
             }
 
-            control.ControlAdded += (sender, e) => ApplyStyle(e.Control, theme);
+            foreach(SplitContainer splitContainer in control.Controls.OfType<SplitContainer>())
+            {
+                ApplyStyle(splitContainer, theme);
+            }
         }
     }
 }

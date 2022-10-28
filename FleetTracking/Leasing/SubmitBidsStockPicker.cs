@@ -25,45 +25,10 @@ namespace FleetTracking.Leasing
         public SubmitBidsStockPicker()
         {
             InitializeComponent();
-
-            switch(LeaseType)
-            {
-                case LeaseRequest.LeaseTypes.Locomotive:
-                    locomotiveList = new LocomotiveList()
-                    {
-                        Dock = DockStyle.Fill,
-                        Filter = l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner) && l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null && !l.HasOpenBid
-                    };
-                    pnlList.Controls.Add(locomotiveList);
-                    break;
-                case LeaseRequest.LeaseTypes.Railcar:
-                    railcarList = new RailcarList()
-                    {
-                        Dock = DockStyle.Fill,
-                        Filter = r => _application.IsCurrentEntity(r.CompanyIDOwner, r.GovernmentIDOwner) && r.CompanyLeasedTo?.CompanyID == null && r.GovernmentLeasedTo?.GovernmentID == null && !r.HasOpenBid
-                    };
-                    pnlList.Controls.Add(railcarList);
-                    break;
-            }
         }
 
         private FleetTrackingApplication _application;
-        public FleetTrackingApplication Application
-        {
-            set
-            {
-                _application = value;
-                if (locomotiveList != null)
-                {
-                    locomotiveList.Application = value;
-                }
-
-                if (railcarList != null)
-                {
-                    railcarList.Application = value;
-                }
-            }
-        }
+        public FleetTrackingApplication Application { set => _application = value; }
 
         private void cmdSave_Click(object sender, EventArgs e)
         {
@@ -97,6 +62,31 @@ namespace FleetTracking.Leasing
             if (railcarList != null)
             {
                 railcarList.ReportingMarkFilter = txtFilter.Text;
+            }
+        }
+
+        private void SubmitBidsStockPicker_Load(object sender, EventArgs e)
+        {
+            switch (LeaseType)
+            {
+                case LeaseRequest.LeaseTypes.Locomotive:
+                    locomotiveList = new LocomotiveList()
+                    {
+                        Dock = DockStyle.Fill,
+                        Filter = l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner) && l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null && !l.HasOpenBid,
+                        Application = _application
+                    };
+                    pnlList.Controls.Add(locomotiveList);
+                    break;
+                case LeaseRequest.LeaseTypes.Railcar:
+                    railcarList = new RailcarList()
+                    {
+                        Dock = DockStyle.Fill,
+                        Filter = r => _application.IsCurrentEntity(r.CompanyIDOwner, r.GovernmentIDOwner) && r.CompanyLeasedTo?.CompanyID == null && r.GovernmentLeasedTo?.GovernmentID == null && !r.HasOpenBid,
+                        Application = _application
+                    };
+                    pnlList.Controls.Add(railcarList);
+                    break;
             }
         }
     }

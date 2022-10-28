@@ -69,6 +69,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(3, 279);
@@ -79,6 +80,7 @@
             // 
             // txtFilter
             // 
+            this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtFilter.Location = new System.Drawing.Point(48, 276);
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(163, 20);
@@ -96,6 +98,7 @@
             this.Controls.Add(this.pnlList);
             this.Name = "SubmitBidsStockPicker";
             this.Size = new System.Drawing.Size(698, 300);
+            this.Load += new System.EventHandler(this.SubmitBidsStockPicker_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

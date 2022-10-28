@@ -21,10 +21,33 @@ namespace FleetTracking.Leasing
             InitializeComponent();
 
             dataGridViewStylizer.ApplyStyle(dgvRequests);
+            dgvRequests.MultiSelect = true;
         }
 
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; }
+
+        public IEnumerable<LeaseRequest> SelectedLeaseRequests
+        {
+            get
+            {
+                foreach(DataGridViewRow row in dgvRequests.SelectedRows)
+                {
+                    yield return row.Tag as LeaseRequest;
+                }
+            }
+        }
+
+        public IEnumerable<LeaseRequest> AllLeaseRequests
+        {
+            get
+            {
+                foreach (DataGridViewRow row in dgvRequests.Rows)
+                {
+                    yield return row.Tag as LeaseRequest;
+                }
+            }
+        }
 
         private async void dgvRequests_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -105,9 +128,10 @@ namespace FleetTracking.Leasing
             row.Cells[colEndTime.Name].Value = leaseRequest.BidEndTime?.ToString("MM/dd/yyyy HH:mm");
             row.Cells[colPurpose.Name].Value = leaseRequest.Purpose;
             row.Cells[colRollingStock.Name].Value = "[click to select]";
+            row.Tag = leaseRequest;
         }
 
-        public void RemoveSelectedRequest()
+        public void RemoveSelectedRequests()
         {
             foreach(DataGridViewRow row in dgvRequests.SelectedRows.OfType<DataGridViewRow>().ToList())
             {

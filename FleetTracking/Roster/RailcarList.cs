@@ -91,7 +91,7 @@ namespace FleetTracking.Roster
 
                     if (dgvRailcars.SelectedRows[0].Tag is Models.Railcar selectedRailcar)
                     {
-                        RailcarSelected(this, selectedRailcar);
+                        RailcarSelected?.Invoke(this, selectedRailcar);
                     }
                 }
                 else if (!string.IsNullOrEmpty(selectedReportingMark))

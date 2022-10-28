@@ -28,27 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Type: Railcar");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("End Time: 10/28/2022 17:00");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Purpose: Complete PO blah blah blah");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("(1) Iron River Power", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3});
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Type: Railcar");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("End Time: 10/28/2022 17:00");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Purpose: Complete PO blah blah blah");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("(3) Iron River Power", new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6,
-            treeNode7});
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.treLeaseRequests = new System.Windows.Forms.TreeView();
-            this.tabControl = new System.Windows.Forms.TabControl();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.treLeaseRequests = new System.Windows.Forms.TreeView();
             this.label2 = new System.Windows.Forms.Label();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.cmdAddLeaseRequest = new System.Windows.Forms.Button();
+            this.cmdRemoveLeaseRequest = new System.Windows.Forms.Button();
             this.loader = new FleetTracking.Loader();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -71,11 +57,21 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.tabControl);
-            this.splitContainer1.Panel2.Controls.Add(this.button2);
-            this.splitContainer1.Panel2.Controls.Add(this.button1);
+            this.splitContainer1.Panel2.Controls.Add(this.cmdAddLeaseRequest);
+            this.splitContainer1.Panel2.Controls.Add(this.cmdRemoveLeaseRequest);
             this.splitContainer1.Size = new System.Drawing.Size(824, 343);
             this.splitContainer1.SplitterDistance = 162;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(120, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Available Requests:";
             // 
             // treLeaseRequests
             // 
@@ -84,27 +80,18 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treLeaseRequests.Location = new System.Drawing.Point(0, 16);
             this.treLeaseRequests.Name = "treLeaseRequests";
-            treeNode1.Name = "Node1";
-            treeNode1.Text = "Type: Railcar";
-            treeNode2.Name = "Node3";
-            treeNode2.Text = "End Time: 10/28/2022 17:00";
-            treeNode3.Name = "Node4";
-            treeNode3.Text = "Purpose: Complete PO blah blah blah";
-            treeNode4.Name = "Node0";
-            treeNode4.Text = "(1) Iron River Power";
-            treeNode5.Name = "Node6";
-            treeNode5.Text = "Type: Railcar";
-            treeNode6.Name = "Node7";
-            treeNode6.Text = "End Time: 10/28/2022 17:00";
-            treeNode7.Name = "Node8";
-            treeNode7.Text = "Purpose: Complete PO blah blah blah";
-            treeNode8.Name = "Node5";
-            treeNode8.Text = "(3) Iron River Power";
-            this.treLeaseRequests.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode8});
             this.treLeaseRequests.Size = new System.Drawing.Size(162, 327);
             this.treLeaseRequests.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(47, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Your Bids:";
             // 
             // tabControl
             // 
@@ -117,45 +104,27 @@
             this.tabControl.Size = new System.Drawing.Size(605, 324);
             this.tabControl.TabIndex = 1;
             // 
-            // button2
+            // cmdAddLeaseRequest
             // 
-            this.button2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.button2.Location = new System.Drawing.Point(2, 174);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(41, 34);
-            this.button2.TabIndex = 0;
-            this.button2.Text = ">";
-            this.button2.UseVisualStyleBackColor = true;
+            this.cmdAddLeaseRequest.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cmdAddLeaseRequest.Location = new System.Drawing.Point(2, 174);
+            this.cmdAddLeaseRequest.Name = "cmdAddLeaseRequest";
+            this.cmdAddLeaseRequest.Size = new System.Drawing.Size(41, 34);
+            this.cmdAddLeaseRequest.TabIndex = 0;
+            this.cmdAddLeaseRequest.Text = ">";
+            this.cmdAddLeaseRequest.UseVisualStyleBackColor = true;
+            this.cmdAddLeaseRequest.Click += new System.EventHandler(this.cmdAddLeaseRequest_Click);
             // 
-            // button1
+            // cmdRemoveLeaseRequest
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.button1.Location = new System.Drawing.Point(3, 134);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(41, 34);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "<";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Available Requests:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(47, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Your Bids:";
+            this.cmdRemoveLeaseRequest.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cmdRemoveLeaseRequest.Location = new System.Drawing.Point(3, 134);
+            this.cmdRemoveLeaseRequest.Name = "cmdRemoveLeaseRequest";
+            this.cmdRemoveLeaseRequest.Size = new System.Drawing.Size(41, 34);
+            this.cmdRemoveLeaseRequest.TabIndex = 0;
+            this.cmdRemoveLeaseRequest.Text = "<";
+            this.cmdRemoveLeaseRequest.UseVisualStyleBackColor = true;
+            this.cmdRemoveLeaseRequest.Click += new System.EventHandler(this.cmdRemoveLeaseRequest_Click);
             // 
             // loader
             // 
@@ -192,8 +161,8 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView treLeaseRequests;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button cmdRemoveLeaseRequest;
+        private System.Windows.Forms.Button cmdAddLeaseRequest;
         private System.Windows.Forms.TabControl tabControl;
         private Loader loader;
         private System.Windows.Forms.Label label1;

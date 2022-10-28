@@ -18,6 +18,7 @@ namespace FleetTracking.Leasing
     {
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; }
+
         private LeaseRequest SelectedTreeNodeLeaseRequest
         {
             get
@@ -87,6 +88,8 @@ namespace FleetTracking.Leasing
                 Application = _application,
                 Dock = DockStyle.Fill
             };
+            detail.GetSelectedLocomotivesCallback = GetSelectedLocomotives;
+            detail.GetSelectedRailcarsCallback = GetSelectedRailcars;
             TabPage bidPage = new TabPage("Bid");
             bidPage.Controls.Add(detail);
             tabControl.TabPages.Add(bidPage);
@@ -115,9 +118,22 @@ namespace FleetTracking.Leasing
                 return;
             }
 
+            int currentIndex = treLeaseRequests.SelectedNode.Index;
             SubmitBidsDetail submitBidsDetail = tabControl.SelectedTab.Controls.OfType<SubmitBidsDetail>().First();
             submitBidsDetail.AddLeaseRequest(SelectedTreeNodeLeaseRequest);
             RemoveSelectedNode();
+
+            if (treLeaseRequests.Nodes.Count > 0)
+            {
+                if (treLeaseRequests.Nodes.Count == currentIndex)
+                {
+                    treLeaseRequests.SelectedNode = treLeaseRequests.Nodes[treLeaseRequests.Nodes.Count - 1];
+                }
+                else
+                {
+                    treLeaseRequests.SelectedNode = treLeaseRequests.Nodes[currentIndex];
+                }
+            }
         }
 
         private void cmdRemoveLeaseRequest_Click(object sender, EventArgs e)
@@ -134,6 +150,40 @@ namespace FleetTracking.Leasing
             }
 
             submitBidsDetail.RemoveSelectedRequests();
+        }
+
+        private List<long> GetSelectedLocomotives()
+        {
+            List<long> locoSelections = new List<long>();
+            foreach(TabPage tab in tabControl.TabPages)
+            {
+                SubmitBidsDetail submitBidsDetailCtrl = tab.Controls.OfType<SubmitBidsDetail>().FirstOrDefault();
+                if (submitBidsDetailCtrl == null)
+                {
+                    continue;
+                }
+
+                locoSelections.AddRange(submitBidsDetailCtrl.GetSelectedLocomotiveIDs());
+            }
+
+            return locoSelections;
+        }
+
+        private List<long> GetSelectedRailcars()
+        {
+            List<long> railcarSelections = new List<long>();
+            foreach (TabPage tab in tabControl.TabPages)
+            {
+                SubmitBidsDetail submitBidsDetailCtrl = tab.Controls.OfType<SubmitBidsDetail>().FirstOrDefault();
+                if (submitBidsDetailCtrl == null)
+                {
+                    continue;
+                }
+
+                railcarSelections.AddRange(submitBidsDetailCtrl.GetSelectedRailcarIDs());
+            }
+
+            return railcarSelections;
         }
     }
 }

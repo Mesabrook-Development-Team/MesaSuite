@@ -33,6 +33,7 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtFilter = new System.Windows.Forms.TextBox();
+            this.cmdNone = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // pnlList
@@ -51,7 +52,7 @@
             this.cmdSave.Location = new System.Drawing.Point(620, 274);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 1;
+            this.cmdSave.TabIndex = 2;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -59,10 +60,10 @@
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.Location = new System.Drawing.Point(539, 274);
+            this.cmdCancel.Location = new System.Drawing.Point(458, 274);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 2;
+            this.cmdCancel.TabIndex = 4;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -84,8 +85,19 @@
             this.txtFilter.Location = new System.Drawing.Point(48, 276);
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(163, 20);
-            this.txtFilter.TabIndex = 4;
+            this.txtFilter.TabIndex = 1;
             this.txtFilter.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFilter_KeyUp);
+            // 
+            // cmdNone
+            // 
+            this.cmdNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdNone.Location = new System.Drawing.Point(539, 274);
+            this.cmdNone.Name = "cmdNone";
+            this.cmdNone.Size = new System.Drawing.Size(75, 23);
+            this.cmdNone.TabIndex = 3;
+            this.cmdNone.Text = "Select None";
+            this.cmdNone.UseVisualStyleBackColor = true;
+            this.cmdNone.Click += new System.EventHandler(this.cmdNone_Click);
             // 
             // SubmitBidsStockPicker
             // 
@@ -93,6 +105,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.txtFilter);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.cmdNone);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.pnlList);
@@ -111,5 +124,6 @@
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtFilter;
+        private System.Windows.Forms.Button cmdNone;
     }
 }

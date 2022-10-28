@@ -20,6 +20,8 @@ namespace FleetTracking.Leasing
 
         public long? SelectedRollingStockID { get; set; }
 
+        public IEnumerable<long> ExcludedRollingStockIDs { get; set; }
+
         private RailcarList railcarList = null;
         private LocomotiveList locomotiveList = null;
         public SubmitBidsStockPicker()
@@ -73,7 +75,11 @@ namespace FleetTracking.Leasing
                     locomotiveList = new LocomotiveList()
                     {
                         Dock = DockStyle.Fill,
-                        Filter = l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner) && l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null && !l.HasOpenBid,
+                        Filter = l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner) && 
+                                        l.CompanyLeasedTo?.CompanyID == null && 
+                                        l.GovernmentLeasedTo?.GovernmentID == null && 
+                                        !l.HasOpenBid &&
+                                        (l.LocomotiveID != SelectedRollingStockID || !ExcludedRollingStockIDs.Contains(l.LocomotiveID ?? 0)),
                         Application = _application
                     };
                     pnlList.Controls.Add(locomotiveList);
@@ -82,12 +88,25 @@ namespace FleetTracking.Leasing
                     railcarList = new RailcarList()
                     {
                         Dock = DockStyle.Fill,
-                        Filter = r => _application.IsCurrentEntity(r.CompanyIDOwner, r.GovernmentIDOwner) && r.CompanyLeasedTo?.CompanyID == null && r.GovernmentLeasedTo?.GovernmentID == null && !r.HasOpenBid,
+                        Filter = r => _application.IsCurrentEntity(r.CompanyIDOwner, r.GovernmentIDOwner) &&
+                                        r.CompanyLeasedTo?.CompanyID == null && 
+                                        r.GovernmentLeasedTo?.GovernmentID == null && 
+                                        !r.HasOpenBid && 
+                                        (r.RailcarID == SelectedRollingStockID || !ExcludedRollingStockIDs.Contains(r.RailcarID ?? 0)),
                         Application = _application
                     };
                     pnlList.Controls.Add(railcarList);
                     break;
             }
+
+            ParentForm.Text = "Select Rolling Stock";
+        }
+
+        private void cmdNone_Click(object sender, EventArgs e)
+        {
+            SelectedRollingStockID = null;
+            ParentForm.DialogResult = DialogResult.OK;
+            ParentForm.Close();
         }
     }
 }

@@ -27,6 +27,11 @@ namespace FleetTracking.Leasing
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; }
 
+        public delegate List<long> SelectedStockIDsDelegate();
+        public delegate List<long> SelectedRailcarsDelegate();
+        public SelectedStockIDsDelegate GetSelectedLocomotivesCallback { get; set; }
+        public SelectedStockIDsDelegate GetSelectedRailcarsCallback { get; set; }
+
         public IEnumerable<LeaseRequest> SelectedLeaseRequests
         {
             get
@@ -62,10 +67,14 @@ namespace FleetTracking.Leasing
                 return;
             }
 
+            long? currentRollingStockID = dgvRequests[e.ColumnIndex, e.RowIndex].Tag as long?;
+
             SubmitBidsStockPicker stockPicker = new SubmitBidsStockPicker()
             {
                 Application = _application,
-                LeaseType = request.LeaseType
+                LeaseType = request.LeaseType,
+                ExcludedRollingStockIDs = request.LeaseType == LeaseRequest.LeaseTypes.Locomotive ? GetSelectedLocomotiveIDs() : GetSelectedRailcarIDs(),
+                SelectedRollingStockID = currentRollingStockID
             };
             Form pickerForm = _application.OpenForm(stockPicker, FleetTrackingApplication.OpenFormOptions.Dialog | FleetTrackingApplication.OpenFormOptions.ResizeToControl);
             if (pickerForm.DialogResult != DialogResult.OK)
@@ -115,7 +124,8 @@ namespace FleetTracking.Leasing
                 Application = _application,
                 LeaseRequestID = request.LeaseRequestID
             };
-            _application.OpenForm(detail);
+            Form detailForm = _application.OpenForm(detail);
+            detailForm.Text = $"({request.LeaseRequestID}) Lease Request";
         }
 
         public void AddLeaseRequest(LeaseRequest leaseRequest)
@@ -136,6 +146,34 @@ namespace FleetTracking.Leasing
             foreach(DataGridViewRow row in dgvRequests.SelectedRows.OfType<DataGridViewRow>().ToList())
             {
                 dgvRequests.Rows.Remove(row);
+            }
+        }
+
+        public IEnumerable<long> GetSelectedLocomotiveIDs()
+        {
+            foreach(DataGridViewRow row in dgvRequests.Rows)
+            {
+                LeaseRequest request = row.Tag as LeaseRequest;
+                if (request == null || request.LeaseType != LeaseRequest.LeaseTypes.Locomotive || !(row.Cells[colRollingStock.Name].Tag is long locomotiveID))
+                {
+                    continue;
+                }
+
+                yield return locomotiveID;
+            }
+        }
+
+        public IEnumerable<long> GetSelectedRailcarIDs()
+        {
+            foreach (DataGridViewRow row in dgvRequests.Rows)
+            {
+                LeaseRequest request = row.Tag as LeaseRequest;
+                if (request == null || request.LeaseType != LeaseRequest.LeaseTypes.Railcar || !(row.Cells[colRollingStock.Name].Tag is long railcarID))
+                {
+                    continue;
+                }
+
+                yield return railcarID;
             }
         }
     }

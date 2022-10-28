@@ -134,7 +134,7 @@ namespace GovernmentPortal
             Fleet.frmFleetForm fleetForm = new Fleet.frmFleetForm();
             if (openFormOptions.HasFlag(FleetTracking.Interop.FleetTrackingApplication.OpenFormOptions.ResizeToControl))
             {
-                fleetForm.Size = ((Control)fleetTrackingControl).Size;
+                fleetForm.ClientSize = ((Control)fleetTrackingControl).Size;
             }
 
             fleetForm.FleetTrackingControl = fleetTrackingControl;

@@ -47,6 +47,7 @@
             this.colPurpose = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRollingStock = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.loader = new FleetTracking.Loader();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -230,13 +231,27 @@
             this.colRollingStock.Text = "";
             this.colRollingStock.Width = 200;
             // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(753, 317);
+            this.loader.TabIndex = 1;
+            this.loader.Visible = false;
+            // 
             // SubmitBidsDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.loader);
             this.Name = "SubmitBidsDetail";
             this.Size = new System.Drawing.Size(753, 317);
+            this.Load += new System.EventHandler(this.SubmitBidsDetail_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -267,5 +282,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colPurpose;
         private System.Windows.Forms.DataGridViewButtonColumn colRollingStock;
         private DataGridViewStylizer dataGridViewStylizer;
+        private Loader loader;
     }
 }

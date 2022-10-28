@@ -134,6 +134,8 @@ namespace FleetTracking.Leasing
                     treLeaseRequests.SelectedNode = treLeaseRequests.Nodes[currentIndex];
                 }
             }
+
+            treLeaseRequests.Focus();
         }
 
         private void cmdRemoveLeaseRequest_Click(object sender, EventArgs e)

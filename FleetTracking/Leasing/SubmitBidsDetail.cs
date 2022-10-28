@@ -176,5 +176,20 @@ namespace FleetTracking.Leasing
                 yield return railcarID;
             }
         }
+
+        private void SubmitBidsDetail_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
+
+
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace GovernmentPortal.Accounts
             this._governmentID = governmentID;
         }
 
-        internal override Icon ExplorerIcon => Properties.Resources.icn_govt;
+        internal override Icon ExplorerIcon => Properties.Resources.icn_book;
 
         internal override IExplorerControl<Category> GetControlForModel(Category model)
         {

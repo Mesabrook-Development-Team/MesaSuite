@@ -122,7 +122,7 @@
             this.pnlUserBtn.BackgroundImage = global::MesaSuite.Properties.Resources.btnLoginBase;
             this.pnlUserBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pnlUserBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pnlUserBtn.Location = new System.Drawing.Point(731, 487);
+            this.pnlUserBtn.Location = new System.Drawing.Point(587, 393);
             this.pnlUserBtn.Name = "pnlUserBtn";
             this.pnlUserBtn.Size = new System.Drawing.Size(136, 40);
             this.pnlUserBtn.TabIndex = 4;
@@ -133,6 +133,9 @@
             // 
             // flow
             // 
+            this.flow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flow.AutoScroll = true;
             this.flow.BackColor = System.Drawing.Color.Transparent;
             this.flow.Controls.Add(this.pnlMCSync);
@@ -140,9 +143,9 @@
             this.flow.Controls.Add(this.pnlCompanyStudio);
             this.flow.Controls.Add(this.pnlGovernmentPortal);
             this.flow.Controls.Add(this.pnlTowing);
-            this.flow.Location = new System.Drawing.Point(31, 44);
+            this.flow.Location = new System.Drawing.Point(21, 44);
             this.flow.Name = "flow";
-            this.flow.Size = new System.Drawing.Size(836, 429);
+            this.flow.Size = new System.Drawing.Size(692, 335);
             this.flow.TabIndex = 6;
             // 
             // pnlSystemManagement
@@ -302,7 +305,7 @@
             this.personalizeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(879, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(735, 24);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -314,7 +317,8 @@
             this.aboutMesaSuiteToolStripMenuItem});
             this.aboutToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aboutToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
-            this.aboutToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.icn_information;
+            this.aboutToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.information;
+            this.aboutToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.aboutToolStripMenuItem.Text = "About";
@@ -322,7 +326,7 @@
             // aboutMesaSuiteToolStripMenuItem
             // 
             this.aboutMesaSuiteToolStripMenuItem.Name = "aboutMesaSuiteToolStripMenuItem";
-            this.aboutMesaSuiteToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.aboutMesaSuiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutMesaSuiteToolStripMenuItem.Text = "About MesaSuite";
             this.aboutMesaSuiteToolStripMenuItem.Click += new System.EventHandler(this.aboutMesaSuiteToolStripMenuItem_Click);
             // 
@@ -332,7 +336,7 @@
             this.backgroundToolStripMenuItem,
             this.soundEffectToolStripMenuItem});
             this.personalizeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.personalizeToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.icn_theme;
+            this.personalizeToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.paintbrush;
             this.personalizeToolStripMenuItem.Name = "personalizeToolStripMenuItem";
             this.personalizeToolStripMenuItem.Size = new System.Drawing.Size(98, 20);
             this.personalizeToolStripMenuItem.Text = "Personalize";
@@ -370,10 +374,10 @@
             // 
             // pboxLoginStatus
             // 
-            this.pboxLoginStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pboxLoginStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pboxLoginStatus.BackColor = System.Drawing.Color.Transparent;
             this.pboxLoginStatus.Image = global::MesaSuite.Properties.Resources.icn_x;
-            this.pboxLoginStatus.Location = new System.Drawing.Point(20, 497);
+            this.pboxLoginStatus.Location = new System.Drawing.Point(20, 403);
             this.pboxLoginStatus.Name = "pboxLoginStatus";
             this.pboxLoginStatus.Size = new System.Drawing.Size(20, 20);
             this.pboxLoginStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -382,11 +386,12 @@
             // 
             // lblLoginStatus
             // 
+            this.lblLoginStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLoginStatus.AutoSize = true;
             this.lblLoginStatus.BackColor = System.Drawing.Color.Transparent;
             this.lblLoginStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoginStatus.ForeColor = System.Drawing.Color.White;
-            this.lblLoginStatus.Location = new System.Drawing.Point(42, 500);
+            this.lblLoginStatus.Location = new System.Drawing.Point(42, 406);
             this.lblLoginStatus.Name = "lblLoginStatus";
             this.lblLoginStatus.Size = new System.Drawing.Size(84, 15);
             this.lblLoginStatus.TabIndex = 9;
@@ -397,17 +402,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::MesaSuite.Properties.Resources.bg;
-            this.ClientSize = new System.Drawing.Size(879, 539);
+            this.ClientSize = new System.Drawing.Size(735, 445);
             this.Controls.Add(this.lblLoginStatus);
             this.Controls.Add(this.pboxLoginStatus);
             this.Controls.Add(this.flow);
             this.Controls.Add(this.pnlUserBtn);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dashboard";

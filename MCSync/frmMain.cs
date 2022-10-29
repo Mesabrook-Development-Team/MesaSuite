@@ -1,9 +1,18 @@
-﻿using System;
+﻿using MesaSuite.Common;
+using MesaSuite.Common.Extensions;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Text;
+using System.IO;
+using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WK.Libraries.BetterFolderBrowserNS;
+using static MCSync.Syncer;
 
 namespace MCSync
 {
@@ -14,95 +23,71 @@ namespace MCSync
             InitializeComponent();
         }
 
-        private void cmdConfig_Click(object sender, EventArgs e)
-        {
-            frmConfig config = new frmConfig();
-            config.ShowDialog();
-        }
-
-        private void cmdSync_Click(object sender, EventArgs e)
-        {
-            frmSync sync = new frmSync();
-            sync.Show();
-            Hide();
-        }
         private void frmMain_Load(object sender, EventArgs e)
         {
-            lblDocumentation.Visible = false;
             backgroundChooser();
-        }
-
-        private void newBtnConf_MouseEnter(object sender, EventArgs e)
-        {
-            btnConf.BackgroundImage = Properties.Resources.btnOptOver;
-        }
-
-        private void newBtnConf_MouseLeave(object sender, EventArgs e)
-        {
-            btnConf.BackgroundImage = Properties.Resources.btnOptBase;
-        }
-
-        private void newBtnSync_MouseEnter(object sender, EventArgs e)
-        {
-            btnSync.BackgroundImage = Properties.Resources.btnSyncOver;
-        }
-
-        private void newBtnSync_MouseLeave(object sender, EventArgs e)
-        {
-            btnSync.BackgroundImage = Properties.Resources.btnSyncBase;
-        }
-
-        private void newBtnConf_MouseClick(object sender, MouseEventArgs e)
-        {
-            frmConfig config = new frmConfig();
-            config.ShowDialog();
-        }
-
-        private void newBtnSync_MouseClick(object sender, MouseEventArgs e)
-        {
-            frmSync sync = new frmSync();
-            sync.Show();
-            Hide();
-        }
-
-        private void btnHelp_MouseClick(object sender, MouseEventArgs e)
-        {
-            Process.Start("https://mesabrook.com/mcsync/index.html");
-        }
-
-        private void btnHelp_MouseEnter(object sender, EventArgs e)
-        {
-            lblDocumentation.Visible = true;
-        }
-
-        private void btnHelp_MouseLeave(object sender, EventArgs e)
-        {
-            lblDocumentation.Visible = false;
+            lblVersion.Text = "Version " + Application.ProductVersion;
+            pnlMainTimer.Start();
         }
 
         public void backgroundChooser()
         {
-            int bg = new Random().Next(0, 6);
-            switch(bg)
+            try
             {
-                case 1:
-                    BackgroundImage = Properties.Resources.b1;
-                    break;
-                case 2:
-                    BackgroundImage = Properties.Resources.b2;
-                    break;
-                case 3:
-                    BackgroundImage = Properties.Resources.b3;
-                    break;
-                case 4:
-                    BackgroundImage = Properties.Resources.b4;
-                    break;
-                case 5:
-                    BackgroundImage = Properties.Resources.b5;
-                    break;
-                case 6:
-                    BackgroundImage = Properties.Resources.b6;
-                    break;
+                int rand = new Random().Next(1, 105);
+
+                var request = WebRequest.Create("https://mesabrook.com/backgrounds/background" + rand + ".png");
+
+                using (var response = request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                {
+                    BackgroundImage = Bitmap.FromStream(stream);
+                    BackgroundImageLayout = ImageLayout.Stretch;
+                }
+            }
+            catch (Exception ex)
+            {
+                BackgroundImage = Properties.Resources.b1;
+            }
+        }
+
+        private void fancyButton1_Click(object sender, EventArgs e)
+        {
+            pnlMain.Hide();
+            frmConfig config = new frmConfig();
+
+            config.TopLevel = false;
+
+            pnlForm.Controls.Add(config);
+            config.Show();
+        }
+
+        private void frmMain_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Process.Start("https://mesabrook.com/mcsync/index.html");
+        }
+
+        private void fButtonSync_Click(object sender, EventArgs e)
+        {
+            frmSync sync = new frmSync();
+            sync.TopLevel = false;
+
+            pnlForm.Controls.Add(sync);
+            sync.Show();
+        }
+
+        private void pnlMainTimer_Tick(object sender, EventArgs e)
+        {
+            Form frmConfig = Application.OpenForms["frmConfig"];
+            Form frmSync = Application.OpenForms["frmSync"];
+
+            if(frmSync != null || frmConfig != null)
+            {
+                pnlMain.Visible = false;
+            }
+            else
+            {
+                pnlMain.Visible = true;
             }
         }
     }

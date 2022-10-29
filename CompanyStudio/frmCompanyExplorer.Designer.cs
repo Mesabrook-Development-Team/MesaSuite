@@ -127,7 +127,7 @@ namespace CompanyStudio
             // 
             // mnuConnect
             // 
-            this.mnuConnect.Image = global::CompanyStudio.Properties.Resources.company_connect;
+            this.mnuConnect.Image = global::CompanyStudio.Properties.Resources.connect;
             this.mnuConnect.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuConnect.Name = "mnuConnect";
             this.mnuConnect.Size = new System.Drawing.Size(72, 22);
@@ -137,7 +137,7 @@ namespace CompanyStudio
             // mnuDisconnect
             // 
             this.mnuDisconnect.Enabled = false;
-            this.mnuDisconnect.Image = global::CompanyStudio.Properties.Resources.company_disconnect;
+            this.mnuDisconnect.Image = global::CompanyStudio.Properties.Resources.disconnect;
             this.mnuDisconnect.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuDisconnect.Name = "mnuDisconnect";
             this.mnuDisconnect.Size = new System.Drawing.Size(86, 22);

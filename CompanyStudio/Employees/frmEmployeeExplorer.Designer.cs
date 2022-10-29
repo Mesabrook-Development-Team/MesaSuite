@@ -59,7 +59,8 @@
             // 
             // mnuAddEmployee
             // 
-            this.mnuAddEmployee.Image = global::CompanyStudio.Properties.Resources.icn_hire;
+            this.mnuAddEmployee.Image = global::CompanyStudio.Properties.Resources.user_add;
+            this.mnuAddEmployee.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuAddEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuAddEmployee.Name = "mnuAddEmployee";
             this.mnuAddEmployee.Size = new System.Drawing.Size(104, 22);
@@ -69,7 +70,8 @@
             // mnuRemoveEmployee
             // 
             this.mnuRemoveEmployee.Enabled = false;
-            this.mnuRemoveEmployee.Image = global::CompanyStudio.Properties.Resources.icn_fired;
+            this.mnuRemoveEmployee.Image = global::CompanyStudio.Properties.Resources.user_delete;
+            this.mnuRemoveEmployee.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuRemoveEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuRemoveEmployee.Name = "mnuRemoveEmployee";
             this.mnuRemoveEmployee.Size = new System.Drawing.Size(125, 22);

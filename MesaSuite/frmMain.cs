@@ -83,6 +83,7 @@ namespace MesaSuite
             // Load Personalization Settings
             UserPreferences preferences = UserPreferences.Get();
             buttonClickSfx = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("buttonClickSfx", true).Cast<bool>(true);
+
             UpdateLook();
 
             Authentication_OnProgramUpdate(sender, e);
@@ -310,9 +311,7 @@ namespace MesaSuite
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
+        {}
 
         private void soundEffectToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -353,7 +352,7 @@ namespace MesaSuite
 
                 BackgroundImageLayout = imageLayout;
             }
-            catch (Exception AwFuckICantBelieveYouveDoneThis)
+            catch (Exception ex)
             {
                 BackgroundImage = Properties.Resources.bg;
                 BackgroundImageLayout = ImageLayout.Tile;

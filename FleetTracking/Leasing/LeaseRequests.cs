@@ -144,7 +144,6 @@ namespace FleetTracking.Leasing
             }
 
             mnuDeleteRequests.Enabled = SelectedLeaseRequests.Any(lr => _application.IsCurrentEntity(lr.CompanyIDRequester, lr.GovernmentIDRequester));
-            mnuSubmitBids.Enabled = SelectedLeaseRequests.Any(lr => !_application.IsCurrentEntity(lr.CompanyIDRequester, lr.GovernmentIDRequester) && !LeaseBids.Any(lb => lb.LeaseRequestID == lr.LeaseRequestID));
 
             dgvSent_SelectionChanged(this, EventArgs.Empty);
             dgvReceivedBids_RowCountChanged(this, EventArgs.Empty);
@@ -345,8 +344,10 @@ namespace FleetTracking.Leasing
 
         private void mnuSubmitBids_Click(object sender, EventArgs e)
         {
-            Form submitBidsForm = _application.OpenForm(new SubmitBids() { Application = _application }, FleetTrackingApplication.OpenFormOptions.Popout);
+            IEnumerable<long> selectedLeaseRequestIDs = SelectedLeaseRequests.Select(lr => lr.LeaseRequestID.Value);
+            Form submitBidsForm = _application.OpenForm(new SubmitBids() { Application = _application, SelectedLeaseRequests = selectedLeaseRequestIDs }, FleetTrackingApplication.OpenFormOptions.Popout);
             submitBidsForm.Text = "Submit Bids";
+            submitBidsForm.FormClosed += (s, ea) => LoadData();
         }
     }
 }

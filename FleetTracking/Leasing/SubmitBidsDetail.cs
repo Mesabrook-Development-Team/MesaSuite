@@ -11,6 +11,7 @@ using FleetTracking.Interop;
 using FleetTracking.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
+using MesaSuite.Common.Utility;
 
 namespace FleetTracking.Leasing
 {
@@ -73,7 +74,8 @@ namespace FleetTracking.Leasing
             {
                 Application = _application,
                 LeaseType = request.LeaseType,
-                ExcludedRollingStockIDs = request.LeaseType == LeaseRequest.LeaseTypes.Locomotive ? GetSelectedLocomotiveIDs() : GetSelectedRailcarIDs(),
+                RailcarType = request.RailcarType,
+                ExcludedRollingStockIDs = request.LeaseType == LeaseRequest.LeaseTypes.Locomotive ? GetSelectedLocomotiveIDs().Concat(GetSelectedLocomotivesCallback?.Invoke()) : GetSelectedRailcarIDs().Concat(GetSelectedRailcarsCallback?.Invoke()),
                 SelectedRollingStockID = currentRollingStockID
             };
             Form pickerForm = _application.OpenForm(stockPicker, FleetTrackingApplication.OpenFormOptions.Dialog | FleetTrackingApplication.OpenFormOptions.ResizeToControl);
@@ -177,18 +179,128 @@ namespace FleetTracking.Leasing
             }
         }
 
-        private void SubmitBidsDetail_Load(object sender, EventArgs e)
+        private async void SubmitBidsDetail_Load(object sender, EventArgs e)
         {
             try
             {
                 loader.BringToFront();
                 loader.Visible = true;
 
+                long? companyID = _application.GetCurrentCompanyIDGovernmentID().Item1;
 
+                if (companyID != null)
+                {
+                    lblReceivedTo.Visible = true;
+                    cboReceivedTo.Visible = true;
+
+                    GetData get = _application.GetAccess<GetData>();
+                    get.API = DataAccess.APIs.FleetTracking;
+                    get.Resource = $"Company/Get/{companyID}";
+
+                    Company company = await get.GetObject<Company>();
+                    if (company != null && company.Locations != null)
+                    {
+                        foreach(Location location in company.Locations)
+                        {
+                            DropDownItem<Location> locationDDI = new DropDownItem<Location>(location, location.Name);
+                            cboReceivedTo.Items.Add(locationDDI);
+                        }
+                    }
+                }
+
+                foreach(LeaseBid.RecurringAmountTypes recurringType in Enum.GetValues(typeof(LeaseBid.RecurringAmountTypes)))
+                {
+                    DropDownItem<LeaseBid.RecurringAmountTypes> recurringTypeDDI = new DropDownItem<LeaseBid.RecurringAmountTypes>(recurringType, recurringType.ToString().ToDisplayName());
+                    cboRecurringBilling.Items.Add(recurringTypeDDI);
+                }
             }
             finally
             {
                 loader.Visible = false;
+            }
+        }
+
+        public bool ValidateScreen()
+        {
+            if (!this.AreFieldsPresent(new List<(string, Control)>()
+            {
+                ("Lease Amount", txtLeaseAmount),
+                ("Recurring Billing", cboRecurringBilling)
+            }))
+            {
+                return false;
+            }
+
+            if (!decimal.TryParse(txtLeaseAmount.Text, out _))
+            {
+                this.ShowError("Lease Amount must be a valid number");
+                return false;
+            }
+
+            if (_application.GetCurrentCompanyIDGovernmentID().Item1 != null && cboReceivedTo.SelectedItem == null)
+            {
+                this.ShowError("Receive Invoice To is a required field");
+                return false;
+            }
+
+            DropDownItem<LeaseBid.RecurringAmountTypes> recurringTypeDDI = cboRecurringBilling.SelectedItem as DropDownItem<LeaseBid.RecurringAmountTypes>;
+            if (recurringTypeDDI.Object != LeaseBid.RecurringAmountTypes.None)
+            {
+                if (string.IsNullOrEmpty(txtRecurringAmount.Text))
+                {
+                    this.ShowError("Recurring Amount is a required field when Recurring Billing is not set to None");
+                    return false;
+                }
+
+                if (!decimal.TryParse(txtRecurringAmount.Text, out decimal nonNullableRecurringAmount))
+                {
+                    this.ShowError("Recurring Amount must be a valid number");
+                    return false;
+                }
+            }
+
+            foreach(DataGridViewRow row in dgvRequests.Rows)
+            {
+                if (row.Cells[colRollingStock.Name].Tag == null)
+                {
+                    this.ShowError("All selected Lease Requests must have an assigned Rolling Stock");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public IEnumerable<LeaseBid> GetLeaseBids()
+        {
+            decimal leaseAmount = decimal.Parse(txtLeaseAmount.Text);
+            long? receivedToID = null;
+            if (cboReceivedTo.Visible)
+            {
+                receivedToID = (cboReceivedTo.SelectedItem as DropDownItem<Location>).Object.LocationID;
+            }
+            LeaseBid.RecurringAmountTypes recurringType = (cboRecurringBilling.SelectedItem as DropDownItem<LeaseBid.RecurringAmountTypes>).Object;
+            decimal? recurringAmount = null;
+            if (recurringType != LeaseBid.RecurringAmountTypes.None)
+            {
+                recurringAmount = decimal.Parse(txtRecurringAmount.Text);
+            }
+
+            foreach(DataGridViewRow row in dgvRequests.Rows)
+            {
+                LeaseRequest request = row.Tag as LeaseRequest;
+
+                yield return new LeaseBid()
+                {
+                    LeaseRequestID = request.LeaseRequestID,
+                    LeaseAmount = leaseAmount,
+                    LocationIDInvoiceDestination = receivedToID,
+                    RecurringAmountType = recurringType,
+                    RecurringAmount = recurringAmount,
+                    Terms = txtTerms.Text,
+                    LocomotiveID = request.LeaseType == LeaseRequest.LeaseTypes.Locomotive ? row.Cells[colRollingStock.Name].Tag as long? : (long?)null,
+                    RailcarID = request.LeaseType == LeaseRequest.LeaseTypes.Railcar ? row.Cells[colRollingStock.Name].Tag as long? : (long?)null
+                };
             }
         }
     }

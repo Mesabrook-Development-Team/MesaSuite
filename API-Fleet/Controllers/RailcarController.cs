@@ -22,6 +22,7 @@ namespace API_Fleet.Controllers
             nameof(Railcar.RailcarModelID),
             $"{nameof(Railcar.RailcarModel)}.{nameof(RailcarModel.RailcarModelID)}",
             $"{nameof(Railcar.RailcarModel)}.{nameof(RailcarModel.Name)}",
+            $"{nameof(Railcar.RailcarModel)}.{nameof(RailcarModel.Type)}",
             nameof(Railcar.CompanyIDOwner),
             $"{nameof(Railcar.CompanyOwner)}.{nameof(Company.CompanyID)}",
             $"{nameof(Railcar.CompanyOwner)}.{nameof(Company.Name)}",

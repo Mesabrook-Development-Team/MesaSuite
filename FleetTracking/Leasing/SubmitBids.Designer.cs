@@ -33,9 +33,13 @@
             this.treLeaseRequests = new System.Windows.Forms.TreeView();
             this.label2 = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
+            this.cmdDeleteTab = new System.Windows.Forms.Button();
+            this.cmdAddTab = new System.Windows.Forms.Button();
             this.cmdAddLeaseRequest = new System.Windows.Forms.Button();
             this.cmdRemoveLeaseRequest = new System.Windows.Forms.Button();
             this.loader = new FleetTracking.Loader();
+            this.cmdSave = new System.Windows.Forms.Button();
+            this.cmdCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -44,7 +48,9 @@
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -57,9 +63,11 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.tabControl);
+            this.splitContainer1.Panel2.Controls.Add(this.cmdDeleteTab);
+            this.splitContainer1.Panel2.Controls.Add(this.cmdAddTab);
             this.splitContainer1.Panel2.Controls.Add(this.cmdAddLeaseRequest);
             this.splitContainer1.Panel2.Controls.Add(this.cmdRemoveLeaseRequest);
-            this.splitContainer1.Size = new System.Drawing.Size(824, 343);
+            this.splitContainer1.Size = new System.Drawing.Size(824, 311);
             this.splitContainer1.SplitterDistance = 162;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -80,7 +88,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treLeaseRequests.Location = new System.Drawing.Point(0, 16);
             this.treLeaseRequests.Name = "treLeaseRequests";
-            this.treLeaseRequests.Size = new System.Drawing.Size(162, 327);
+            this.treLeaseRequests.Size = new System.Drawing.Size(162, 295);
             this.treLeaseRequests.TabIndex = 0;
             // 
             // label2
@@ -101,13 +109,33 @@
             this.tabControl.Location = new System.Drawing.Point(50, 16);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(605, 324);
+            this.tabControl.Size = new System.Drawing.Size(605, 292);
             this.tabControl.TabIndex = 1;
+            // 
+            // cmdDeleteTab
+            // 
+            this.cmdDeleteTab.Location = new System.Drawing.Point(3, 56);
+            this.cmdDeleteTab.Name = "cmdDeleteTab";
+            this.cmdDeleteTab.Size = new System.Drawing.Size(41, 34);
+            this.cmdDeleteTab.TabIndex = 0;
+            this.cmdDeleteTab.Text = "-\r\nTab";
+            this.cmdDeleteTab.UseVisualStyleBackColor = true;
+            this.cmdDeleteTab.Click += new System.EventHandler(this.cmdDeleteTab_Click);
+            // 
+            // cmdAddTab
+            // 
+            this.cmdAddTab.Location = new System.Drawing.Point(3, 16);
+            this.cmdAddTab.Name = "cmdAddTab";
+            this.cmdAddTab.Size = new System.Drawing.Size(41, 34);
+            this.cmdAddTab.TabIndex = 0;
+            this.cmdAddTab.Text = "+\r\nTab";
+            this.cmdAddTab.UseVisualStyleBackColor = true;
+            this.cmdAddTab.Click += new System.EventHandler(this.cmdAddTab_Click);
             // 
             // cmdAddLeaseRequest
             // 
             this.cmdAddLeaseRequest.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.cmdAddLeaseRequest.Location = new System.Drawing.Point(2, 174);
+            this.cmdAddLeaseRequest.Location = new System.Drawing.Point(2, 158);
             this.cmdAddLeaseRequest.Name = "cmdAddLeaseRequest";
             this.cmdAddLeaseRequest.Size = new System.Drawing.Size(41, 34);
             this.cmdAddLeaseRequest.TabIndex = 0;
@@ -118,7 +146,7 @@
             // cmdRemoveLeaseRequest
             // 
             this.cmdRemoveLeaseRequest.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.cmdRemoveLeaseRequest.Location = new System.Drawing.Point(3, 134);
+            this.cmdRemoveLeaseRequest.Location = new System.Drawing.Point(3, 118);
             this.cmdRemoveLeaseRequest.Name = "cmdRemoveLeaseRequest";
             this.cmdRemoveLeaseRequest.Size = new System.Drawing.Size(41, 34);
             this.cmdRemoveLeaseRequest.TabIndex = 0;
@@ -132,16 +160,39 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Location = new System.Drawing.Point(-3, -3);
             this.loader.Name = "loader";
             this.loader.Size = new System.Drawing.Size(824, 343);
             this.loader.TabIndex = 1;
             this.loader.Visible = false;
             // 
+            // cmdSave
+            // 
+            this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdSave.Location = new System.Drawing.Point(746, 317);
+            this.cmdSave.Name = "cmdSave";
+            this.cmdSave.Size = new System.Drawing.Size(75, 23);
+            this.cmdSave.TabIndex = 2;
+            this.cmdSave.Text = "Save";
+            this.cmdSave.UseVisualStyleBackColor = true;
+            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
+            // 
+            // cmdCancel
+            // 
+            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdCancel.Location = new System.Drawing.Point(665, 317);
+            this.cmdCancel.Name = "cmdCancel";
+            this.cmdCancel.Size = new System.Drawing.Size(75, 23);
+            this.cmdCancel.TabIndex = 2;
+            this.cmdCancel.Text = "Cancel";
+            this.cmdCancel.UseVisualStyleBackColor = true;
+            // 
             // SubmitBids
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.cmdCancel);
+            this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.loader);
             this.Name = "SubmitBids";
@@ -167,5 +218,9 @@
         private Loader loader;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button cmdDeleteTab;
+        private System.Windows.Forms.Button cmdAddTab;
+        private System.Windows.Forms.Button cmdSave;
+        private System.Windows.Forms.Button cmdCancel;
     }
 }

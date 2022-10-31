@@ -19,6 +19,8 @@ namespace FleetTracking.Leasing
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; }
 
+        public IEnumerable<long> SelectedLeaseRequests { get; set; }
+
         private LeaseRequest SelectedTreeNodeLeaseRequest
         {
             get
@@ -47,6 +49,7 @@ namespace FleetTracking.Leasing
         {
             tabControl.TabPages.Clear();
             AddLeaseBidTab();
+            SubmitBidsDetail submitBidsDetail = tabControl.TabPages[0].Controls.OfType<SubmitBidsDetail>().First();
 
             try
             {
@@ -62,8 +65,17 @@ namespace FleetTracking.Leasing
                 List<LeaseRequest> leaseRequests = await get.GetObject<List<LeaseRequest>>() ?? new List<LeaseRequest>();
                 foreach (LeaseRequest leaseRequest in leaseRequests.Where(lr => !_application.IsCurrentEntity(lr.CompanyIDRequester, lr.GovernmentIDRequester) && !leaseBids.Any(lb => lb.LeaseRequestID == lr.LeaseRequestID)))
                 {
-                    AddLeaseRequestToTree(leaseRequest);
+                    if (SelectedLeaseRequests.Contains(leaseRequest.LeaseRequestID.Value))
+                    {
+                        submitBidsDetail.AddLeaseRequest(leaseRequest);
+                    }
+                    else
+                    {
+                        AddLeaseRequestToTree(leaseRequest);
+                    }
                 }
+
+                cmdDeleteTab.Enabled = tabControl.TabPages.Count > 0;
             }
             finally
             {
@@ -93,6 +105,8 @@ namespace FleetTracking.Leasing
             TabPage bidPage = new TabPage("Bid");
             bidPage.Controls.Add(detail);
             tabControl.TabPages.Add(bidPage);
+            tabControl.SelectedTab = bidPage;
+            cmdDeleteTab.Enabled = tabControl.TabPages.Count > 0;
         }
 
         private void RemoveSelectedNode()
@@ -186,6 +200,70 @@ namespace FleetTracking.Leasing
             }
 
             return railcarSelections;
+        }
+
+        private void cmdAddTab_Click(object sender, EventArgs e)
+        {
+            AddLeaseBidTab();
+        }
+
+        private void cmdDeleteTab_Click(object sender, EventArgs e)
+        {
+            if (!this.Confirm("Deleting this tab will move all Lease Requests back to the Available pane.\r\n\r\nContinue?"))
+            {
+                return;
+            }
+
+            TabPage page = tabControl.SelectedTab;
+            if (page == null)
+            {
+                return;
+            }
+
+            SubmitBidsDetail details = page.Controls.OfType<SubmitBidsDetail>().FirstOrDefault();
+            if (details == null)
+            {
+                return;
+            }
+
+            foreach(LeaseRequest request in details.AllLeaseRequests)
+            {
+                AddLeaseRequestToTree(request);
+            }
+
+            tabControl.TabPages.Remove(page);
+
+            cmdDeleteTab.Enabled = tabControl.TabPages.Count > 0;
+        }
+
+        private async void cmdSave_Click(object sender, EventArgs e)
+        {
+            IEnumerable<SubmitBidsDetail> detailControls = tabControl.TabPages.OfType<TabPage>().SelectMany(tp => tp.Controls.OfType<SubmitBidsDetail>());
+            if (!detailControls.All(dc => dc.ValidateScreen()))
+            {
+                return;
+            }
+
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
+
+                PostData post = _application.GetAccess<PostData>();
+                post.API = DataAccess.APIs.FleetTracking;
+                post.Resource = "LeaseBid/Post";
+                foreach (LeaseBid bid in detailControls.SelectMany(dc => dc.GetLeaseBids()))
+                {
+                    post.ObjectToPost = bid;
+                    await post.ExecuteNoResult();
+                }
+
+                ParentForm.Close();
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
         }
     }
 }

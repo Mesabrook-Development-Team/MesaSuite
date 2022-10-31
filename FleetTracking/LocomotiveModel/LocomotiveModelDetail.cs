@@ -198,23 +198,31 @@ namespace FleetTracking.LocomotiveModel
                     _locomotiveDetailID = newModel.LocomotiveModelID;
                 }
 
-                byte[] imageData;
-                using(MemoryStream stream = new MemoryStream())
+                if (pboxImage.Image != null)
                 {
-                    pboxImage.Image.Save(stream, ImageFormat.Png);
+                    byte[] imageData;
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        pboxImage.Image.Save(stream, ImageFormat.Png);
 
-                    stream.Position = 0;
-                    imageData = new byte[stream.Length];
-                    stream.Read(imageData, 0, imageData.Length);
+                        stream.Position = 0;
+                        imageData = new byte[stream.Length];
+                        stream.Read(imageData, 0, imageData.Length);
+                    }
+
+                    PutData put = _application.GetAccess<PutData>();
+                    put.API = DataAccess.APIs.FleetTracking;
+                    put.Resource = "LocomotiveModel/UpdateImage";
+
+                    put.ObjectToPut = new { locomotiveModelID = _locomotiveDetailID, image = imageData };
+                    await put.ExecuteNoResult();
+                    if (put.RequestSuccessful)
+                    {
+                        LoadData();
+                        Save?.Invoke(this, EventArgs.Empty);
+                    }
                 }
-
-                PutData put = _application.GetAccess<PutData>();
-                put.API = DataAccess.APIs.FleetTracking;
-                put.Resource = "LocomotiveModel/UpdateImage";
-
-                put.ObjectToPut = new { locomotiveModelID = _locomotiveDetailID, image = imageData };
-                await put.ExecuteNoResult();
-                if (put.RequestSuccessful)
+                else
                 {
                     LoadData();
                     Save?.Invoke(this, EventArgs.Empty);

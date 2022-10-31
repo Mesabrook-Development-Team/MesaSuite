@@ -244,7 +244,7 @@ namespace FleetTracking.Leasing
                 CompanyIDRequester = _application.GetCurrentCompanyIDGovernmentID().Item1,
                 GovernmentIDRequester = _application.GetCurrentCompanyIDGovernmentID().Item2,
                 LeaseType = leaseType,
-                RailcarType = (cboRailcarType.SelectedItem as DropDownItem<Models.RailcarModel.Types>).Object,
+                RailcarType = (cboRailcarType.SelectedItem as DropDownItem<Models.RailcarModel.Types>)?.Object ?? 0,
                 DeliveryLocation = txtDeliveryLocation.Text,
                 Purpose = txtPurpose.Text,
                 BidEndTime = dtpEndTime.Value

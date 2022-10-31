@@ -18,6 +18,8 @@ namespace FleetTracking.Leasing
     {
         public LeaseRequest.LeaseTypes LeaseType { get; set; }
 
+        public Models.RailcarModel.Types RailcarType { get; set; }
+
         public long? SelectedRollingStockID { get; set; }
 
         public IEnumerable<long> ExcludedRollingStockIDs { get; set; }
@@ -92,7 +94,8 @@ namespace FleetTracking.Leasing
                                         r.CompanyLeasedTo?.CompanyID == null && 
                                         r.GovernmentLeasedTo?.GovernmentID == null && 
                                         !r.HasOpenBid && 
-                                        (r.RailcarID == SelectedRollingStockID || !ExcludedRollingStockIDs.Contains(r.RailcarID ?? 0)),
+                                        (r.RailcarID == SelectedRollingStockID || !ExcludedRollingStockIDs.Contains(r.RailcarID ?? 0)) &&
+                                        r.RailcarModel.Type == RailcarType,
                         Application = _application
                     };
                     pnlList.Controls.Add(railcarList);

@@ -21,6 +21,8 @@ namespace FleetTracking.Roster
 
         public IReadOnlyCollection<Models.Railcar> SelectedRailcars => dgvRailcars.SelectedRows.OfType<DataGridViewRow>().Select(row => row.Tag).OfType<Models.Railcar>().ToList();
 
+        public bool AllowMultiSelect { get; set; } = true;
+
         public Func<Models.Railcar, bool> Filter { private get; set; }
         private string _reportingMarkFilter;
         public string ReportingMarkFilter
@@ -38,7 +40,7 @@ namespace FleetTracking.Roster
             InitializeComponent();
             dataGridViewStylizer.ApplyStyle(dgvRailcars);
 
-            dgvRailcars.MultiSelect = true;
+            dgvRailcars.MultiSelect = AllowMultiSelect;
         }
 
         private async void RailcarList_Load(object sender, EventArgs e)

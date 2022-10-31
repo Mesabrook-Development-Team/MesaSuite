@@ -33,10 +33,15 @@ namespace FleetTracking.Roster
 
         public IReadOnlyCollection<Models.Locomotive> SelectedLocomotives => dgvLocomotives.SelectedRows.OfType<DataGridViewRow>().Select(row => row.Tag).OfType<Models.Locomotive>().ToList();
 
+        public bool AllowMultiSelect { get; set; } = true;
+
 
         public LocomotiveList()
         {
             InitializeComponent();
+            dataGridViewStylizer.ApplyStyle(dgvLocomotives);
+
+            dgvLocomotives.MultiSelect = AllowMultiSelect;
         }
 
         private async void LocomotiveList_Load(object sender, EventArgs e)

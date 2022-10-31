@@ -21,7 +21,7 @@ namespace GovernmentPortal.Officials
             _govCanMintCurrency = govCanMintCurrency;
         }
 
-        internal override Icon ExplorerIcon => Properties.Resources.icn_govt;
+        internal override Icon ExplorerIcon => Properties.Resources.icn_user;
 
         internal override IExplorerControl<Official> GetControlForModel(Official model)
         {

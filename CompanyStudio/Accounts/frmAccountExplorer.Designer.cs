@@ -107,7 +107,8 @@ namespace CompanyStudio.Accounts
             // 
             // cmdClear
             // 
-            this.cmdClear.Image = global::CompanyStudio.Properties.Resources.icn_clear;
+            this.cmdClear.Image = global::CompanyStudio.Properties.Resources.arrow_in;
+            this.cmdClear.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.cmdClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cmdClear.Name = "cmdClear";
             this.cmdClear.Size = new System.Drawing.Size(54, 20);
@@ -121,7 +122,7 @@ namespace CompanyStudio.Accounts
             // 
             // mnuCreateAccount
             // 
-            this.mnuCreateAccount.Image = global::CompanyStudio.Properties.Resources.icn_plus_green;
+            this.mnuCreateAccount.Image = global::CompanyStudio.Properties.Resources.chart_bar_add;
             this.mnuCreateAccount.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuCreateAccount.Name = "mnuCreateAccount";
             this.mnuCreateAccount.Size = new System.Drawing.Size(61, 20);
@@ -131,7 +132,7 @@ namespace CompanyStudio.Accounts
             // mnuCloseAccount
             // 
             this.mnuCloseAccount.Enabled = false;
-            this.mnuCloseAccount.Image = global::CompanyStudio.Properties.Resources.icn_cross_red;
+            this.mnuCloseAccount.Image = global::CompanyStudio.Properties.Resources.chart_bar_delete;
             this.mnuCloseAccount.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuCloseAccount.Name = "mnuCloseAccount";
             this.mnuCloseAccount.Size = new System.Drawing.Size(56, 20);
@@ -150,7 +151,9 @@ namespace CompanyStudio.Accounts
             this.mnuViewDescription,
             this.mnuViewCategory,
             this.mnuViewBalance});
-            this.mnuView.Image = global::CompanyStudio.Properties.Resources.icn_eye1;
+            this.mnuView.Image = global::CompanyStudio.Properties.Resources.eye;
+            this.mnuView.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mnuView.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuView.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuView.Name = "mnuView";
             this.mnuView.Size = new System.Drawing.Size(61, 20);
@@ -161,25 +164,25 @@ namespace CompanyStudio.Accounts
             // mnuViewAccountNumber
             // 
             this.mnuViewAccountNumber.Name = "mnuViewAccountNumber";
-            this.mnuViewAccountNumber.Size = new System.Drawing.Size(166, 22);
+            this.mnuViewAccountNumber.Size = new System.Drawing.Size(180, 22);
             this.mnuViewAccountNumber.Text = "Account Number";
             // 
             // mnuViewDescription
             // 
             this.mnuViewDescription.Name = "mnuViewDescription";
-            this.mnuViewDescription.Size = new System.Drawing.Size(166, 22);
+            this.mnuViewDescription.Size = new System.Drawing.Size(180, 22);
             this.mnuViewDescription.Text = "Description";
             // 
             // mnuViewCategory
             // 
             this.mnuViewCategory.Name = "mnuViewCategory";
-            this.mnuViewCategory.Size = new System.Drawing.Size(166, 22);
+            this.mnuViewCategory.Size = new System.Drawing.Size(180, 22);
             this.mnuViewCategory.Text = "Category";
             // 
             // mnuViewBalance
             // 
             this.mnuViewBalance.Name = "mnuViewBalance";
-            this.mnuViewBalance.Size = new System.Drawing.Size(166, 22);
+            this.mnuViewBalance.Size = new System.Drawing.Size(180, 22);
             this.mnuViewBalance.Text = "Balance";
             // 
             // mnuSort
@@ -188,7 +191,8 @@ namespace CompanyStudio.Accounts
             this.mnuSortDescription,
             this.mnuSortCategory,
             this.mnuSortBalance});
-            this.mnuSort.Image = global::CompanyStudio.Properties.Resources.icn_view;
+            this.mnuSort.Image = global::CompanyStudio.Properties.Resources.table_sort;
+            this.mnuSort.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuSort.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuSort.Name = "mnuSort";
             this.mnuSort.Size = new System.Drawing.Size(57, 20);
@@ -199,19 +203,19 @@ namespace CompanyStudio.Accounts
             // mnuSortDescription
             // 
             this.mnuSortDescription.Name = "mnuSortDescription";
-            this.mnuSortDescription.Size = new System.Drawing.Size(134, 22);
+            this.mnuSortDescription.Size = new System.Drawing.Size(180, 22);
             this.mnuSortDescription.Text = "Description";
             // 
             // mnuSortCategory
             // 
             this.mnuSortCategory.Name = "mnuSortCategory";
-            this.mnuSortCategory.Size = new System.Drawing.Size(134, 22);
+            this.mnuSortCategory.Size = new System.Drawing.Size(180, 22);
             this.mnuSortCategory.Text = "Category";
             // 
             // mnuSortBalance
             // 
             this.mnuSortBalance.Name = "mnuSortBalance";
-            this.mnuSortBalance.Size = new System.Drawing.Size(134, 22);
+            this.mnuSortBalance.Size = new System.Drawing.Size(180, 22);
             this.mnuSortBalance.Text = "Balance";
             // 
             // mnuGrouping
@@ -220,7 +224,8 @@ namespace CompanyStudio.Accounts
             this.mnuGroupNone,
             this.toolStripSeparator2,
             this.mnuGroupCategory});
-            this.mnuGrouping.Image = global::CompanyStudio.Properties.Resources.icn_group;
+            this.mnuGrouping.Image = global::CompanyStudio.Properties.Resources.group;
+            this.mnuGrouping.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuGrouping.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuGrouping.Name = "mnuGrouping";
             this.mnuGrouping.Size = new System.Drawing.Size(69, 20);
@@ -231,18 +236,18 @@ namespace CompanyStudio.Accounts
             // mnuGroupNone
             // 
             this.mnuGroupNone.Name = "mnuGroupNone";
-            this.mnuGroupNone.Size = new System.Drawing.Size(143, 22);
+            this.mnuGroupNone.Size = new System.Drawing.Size(180, 22);
             this.mnuGroupNone.Text = "No Grouping";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(140, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // mnuGroupCategory
             // 
             this.mnuGroupCategory.Name = "mnuGroupCategory";
-            this.mnuGroupCategory.Size = new System.Drawing.Size(143, 22);
+            this.mnuGroupCategory.Size = new System.Drawing.Size(180, 22);
             this.mnuGroupCategory.Text = "By Category";
             // 
             // toolStripExtender

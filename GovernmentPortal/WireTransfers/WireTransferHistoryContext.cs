@@ -19,7 +19,7 @@ namespace GovernmentPortal.WireTransfers
             GovernmentID = governmentID;
         }
 
-        internal override Icon ExplorerIcon => Properties.Resources.icn_govt;
+        internal override Icon ExplorerIcon => Properties.Resources.icn_money;
 
         internal override IExplorerControl<WireTransferHistory> GetControlForModel(WireTransferHistory model)
         {

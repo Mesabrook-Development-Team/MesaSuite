@@ -18,7 +18,7 @@ namespace GovernmentPortal.Taxes
             _governmentID = governmentID;
         }
 
-        internal override Icon ExplorerIcon => Properties.Resources.icn_govt;
+        internal override Icon ExplorerIcon => Properties.Resources.icn_basket;
 
         internal override IExplorerControl<SalesTax> GetControlForModel(SalesTax model)
         {

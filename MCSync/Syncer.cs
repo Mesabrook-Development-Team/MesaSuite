@@ -72,6 +72,12 @@ namespace MCSync
 
                 List<Task> tasks = new List<Task>();
 
+                // Create Required Subdirectories
+                Directory.CreateDirectory(modsDirectory);
+                Directory.CreateDirectory(resourcePackDirectory);
+                Directory.CreateDirectory(configFilesDirectory);
+                Directory.CreateDirectory(oResourcesDirectory);
+
                 // Load database stuff
                 List<MCSyncFile> syncFiles = await MCSyncFile.GetMCSyncFiles();
 

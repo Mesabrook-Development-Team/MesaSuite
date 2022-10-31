@@ -60,7 +60,8 @@
             // 
             // toolAddLocation
             // 
-            this.toolAddLocation.Image = global::CompanyStudio.Properties.Resources.icn_plus_green;
+            this.toolAddLocation.Image = global::CompanyStudio.Properties.Resources.world_add;
+            this.toolAddLocation.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolAddLocation.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAddLocation.Name = "toolAddLocation";
             this.toolAddLocation.Size = new System.Drawing.Size(98, 20);
@@ -70,7 +71,8 @@
             // toolDeleteLocation
             // 
             this.toolDeleteLocation.Enabled = false;
-            this.toolDeleteLocation.Image = global::CompanyStudio.Properties.Resources.icn_cross_red;
+            this.toolDeleteLocation.Image = global::CompanyStudio.Properties.Resources.world_delete;
+            this.toolDeleteLocation.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolDeleteLocation.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolDeleteLocation.Name = "toolDeleteLocation";
             this.toolDeleteLocation.Size = new System.Drawing.Size(109, 20);
@@ -85,7 +87,8 @@
             // toolUpdateEmployee
             // 
             this.toolUpdateEmployee.Enabled = false;
-            this.toolUpdateEmployee.Image = global::CompanyStudio.Properties.Resources.icn_hire;
+            this.toolUpdateEmployee.Image = global::CompanyStudio.Properties.Resources.user_edit;
+            this.toolUpdateEmployee.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolUpdateEmployee.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolUpdateEmployee.Name = "toolUpdateEmployee";
             this.toolUpdateEmployee.Size = new System.Drawing.Size(125, 20);
@@ -100,7 +103,8 @@
             // toolUpdateGovernment
             // 
             this.toolUpdateGovernment.Enabled = false;
-            this.toolUpdateGovernment.Image = global::CompanyStudio.Properties.Resources.icn_update;
+            this.toolUpdateGovernment.Image = global::CompanyStudio.Properties.Resources.house;
+            this.toolUpdateGovernment.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolUpdateGovernment.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolUpdateGovernment.Name = "toolUpdateGovernment";
             this.toolUpdateGovernment.Size = new System.Drawing.Size(133, 20);

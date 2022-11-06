@@ -96,6 +96,34 @@ namespace FleetTracking.Leasing
                 else
                 {
                     txtRequester.Text = leaseRequest.CompanyRequester?.Name ?? leaseRequest.GovernmentRequester?.Name;
+                    cboChargeTo.Text = leaseRequest.LocationChargeTo?.Name;
+                }
+
+                if (_application.GetCurrentCompanyIDGovernmentID().Item1 != null)
+                {
+                    get.Resource = $"Company/Get/{_application.GetCurrentCompanyIDGovernmentID().Item1}";
+                    Company company = await get.GetObject<Company>() ?? new Company();
+                    txtRequester.Text = company?.Name;
+
+                    lblChargeTo.Visible = true;
+                    cboChargeTo.Visible = true;
+                    cboChargeTo.Items.Clear();
+
+                    foreach (Location location in company.Locations)
+                    {
+                        DropDownItem<Location> locationDDI = new DropDownItem<Location>(location, location.Name);
+                        cboChargeTo.Items.Add(locationDDI);
+
+                        if (leaseRequest?.LocationIDChargeTo == location.LocationID)
+                        {
+                            cboChargeTo.SelectedItem = locationDDI;
+                        }
+                    }
+                }
+                else
+                {
+                    lblChargeTo.Visible = false;
+                    cboChargeTo.Visible = false;
                 }
 
                 cboLeaseType.Items.Clear();
@@ -151,6 +179,7 @@ namespace FleetTracking.Leasing
                 _allowSave = leaseRequest == null || _application.IsCurrentEntity(leaseRequest.CompanyIDRequester, leaseRequest.GovernmentIDRequester);
                 SetPositionsForSave();
 
+                cboChargeTo.Enabled = _allowSave;
                 cboLeaseType.Enabled = _allowSave;
                 cboRailcarType.Enabled = _allowSave;
                 txtDeliveryLocation.Enabled = _allowSave;
@@ -215,8 +244,12 @@ namespace FleetTracking.Leasing
         private void cboLeaseType_SelectedIndexChanged(object sender, EventArgs e)
         {
             DropDownItem<LeaseRequest.LeaseTypes> leaseType = cboLeaseType.SelectedItem as DropDownItem<LeaseRequest.LeaseTypes>;
-            lblRailcarType.Visible = leaseType.Object == LeaseRequest.LeaseTypes.Railcar;
-            cboRailcarType.Visible = leaseType.Object == LeaseRequest.LeaseTypes.Railcar;
+
+            if (leaseType != null)
+            {
+                lblRailcarType.Visible = leaseType.Object == LeaseRequest.LeaseTypes.Railcar;
+                cboRailcarType.Visible = leaseType.Object == LeaseRequest.LeaseTypes.Railcar;
+            }
         }
 
         private async void cmdSave_Click(object sender, EventArgs e)
@@ -238,10 +271,17 @@ namespace FleetTracking.Leasing
                 return;
             }
 
+            if (cboChargeTo.Visible && cboChargeTo.SelectedItem == null)
+            {
+                this.ShowError("Charge Invoice To is a required field");
+                return;
+            }
+
             LeaseRequest leaseRequest = new LeaseRequest()
             {
                 LeaseRequestID = LeaseRequestID,
                 CompanyIDRequester = _application.GetCurrentCompanyIDGovernmentID().Item1,
+                LocationIDChargeTo = cboChargeTo.Visible ? (cboChargeTo.SelectedItem as DropDownItem<Location>).Object.LocationID : null,
                 GovernmentIDRequester = _application.GetCurrentCompanyIDGovernmentID().Item2,
                 LeaseType = leaseType,
                 RailcarType = (cboRailcarType.SelectedItem as DropDownItem<Models.RailcarModel.Types>)?.Object ?? 0,
@@ -317,6 +357,7 @@ namespace FleetTracking.Leasing
             LeaseRequest leaseRequest = new LeaseRequest()
             {
                 CompanyIDRequester = _application.GetCurrentCompanyIDGovernmentID().Item1,
+                LocationIDChargeTo = cboChargeTo.Visible ? (cboChargeTo.SelectedItem as DropDownItem<Location>).Object.LocationID : null,
                 GovernmentIDRequester = _application.GetCurrentCompanyIDGovernmentID().Item2,
                 LeaseType = leaseType,
                 RailcarType = (cboRailcarType.SelectedItem as DropDownItem<Models.RailcarModel.Types>).Object,
@@ -438,6 +479,41 @@ namespace FleetTracking.Leasing
                 {
                     OnSave?.Invoke(this, EventArgs.Empty);
                     LoadData();
+                }
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
+        }
+
+        private async void tsmiAccept_Click(object sender, EventArgs e)
+        {
+            if (dgvBids.SelectedRows.Count <= 0)
+            {
+                return;
+            }
+
+            LeaseBid leaseBid = dgvBids.SelectedRows[0].Tag as LeaseBid;
+            if (leaseBid == null)
+            {
+                return;
+            }
+
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
+
+                PutData put = _application.GetAccess<PutData>();
+                put.API = DataAccess.APIs.FleetTracking;
+                put.Resource = "LeaseContract/CreateFromLeaseBid";
+                put.ObjectToPut = new { leaseBidID = leaseBid.LeaseBidID };
+                await put.ExecuteNoResult();
+                if (put.RequestSuccessful)
+                {
+                    OnSave?.Invoke(this, EventArgs.Empty);
+                    ParentForm.Close();
                 }
             }
             finally

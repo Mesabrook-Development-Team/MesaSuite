@@ -1,8 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
+using ClussPro.ObjectBasedFramework.Validation;
 using WebModels.company;
 using WebModels.gov;
+using WebModels.invoicing;
 
 namespace WebModels.fleet
 {
@@ -155,6 +162,127 @@ namespace WebModels.fleet
         {
             get { CheckGet(); return _leaseTimeEnd; }
             set { CheckSet(); _leaseTimeEnd = value; }
+        }
+
+        public static LeaseContract CreateContractFromBid(long? leaseBidID, ITransaction transaction = null)
+        {
+            ITransaction localTransaction = transaction;
+            LeaseContract contract = null;
+
+            try
+            {
+                if (localTransaction == null)
+                {
+                    localTransaction = SQLProviderFactory.GenerateTransaction();
+                }
+
+                LeaseBid bid = DataObject.GetReadOnlyByPrimaryKey<LeaseBid>(leaseBidID, localTransaction, FieldPathUtility.CreateFieldPathsAsList<LeaseBid>(lb => new List<object>()
+                {
+                    lb.LeaseRequestID,
+                    lb.LeaseRequest.CompanyIDRequester,
+                    lb.LeaseRequest.GovernmentIDRequester,
+                    lb.LeaseRequest.LocationIDChargeTo,
+                    lb.RailcarID,
+                    lb.Railcar.GovernmentIDOwner,
+                    lb.Railcar.ReportingMark,
+                    lb.Railcar.ReportingNumber,
+                    lb.LocomotiveID,
+                    lb.Locomotive.GovernmentIDOwner,
+                    lb.Locomotive.ReportingMark,
+                    lb.Locomotive.ReportingNumber,
+                    lb.LeaseAmount,
+                    lb.RecurringAmountType,
+                    lb.RecurringAmount,
+                    lb.LocationIDInvoiceDestination,
+                    lb.Terms
+                }));
+
+                contract = DataObjectFactory.Create<LeaseContract>();
+                contract.RailcarID = bid.RailcarID;
+                contract.LocomotiveID = bid.LocomotiveID;
+                contract.GovernmentIDLessee = bid.LeaseRequest.GovernmentIDRequester;
+                contract.CompanyIDLessee = bid.LeaseRequest.CompanyIDRequester;
+                contract.Amount = bid.LeaseAmount;
+                contract.RecurringAmountType = bid.RecurringAmountType;
+                contract.RecurringAmount = bid.RecurringAmount;
+                contract.LocationIDRecurringAmountSource = bid.LeaseRequest.LocationIDChargeTo;
+                contract.LocationIDRecurringAmountDestination = bid.LocationIDInvoiceDestination;
+                contract.Terms = bid.Terms;
+                contract.LeaseTimeStart = DateTime.Now;
+                if (!contract.Save(localTransaction))
+                {
+                    return contract;
+                }
+
+                Invoice invoice = DataObjectFactory.Create<Invoice>();
+                invoice.GovernmentIDFrom = bid.Railcar?.GovernmentIDOwner ?? bid.Locomotive?.GovernmentIDOwner;
+                invoice.LocationIDFrom = bid.LocationIDInvoiceDestination;
+                invoice.GovernmentIDTo = contract.GovernmentIDLessee;
+                invoice.LocationIDTo = contract.LocationIDRecurringAmountSource;
+
+                string invoiceNumber = null;
+                if (invoice.GovernmentIDFrom != null)
+                {
+                    Government government = DataObject.GetReadOnlyByPrimaryKey<Government>(invoice.GovernmentIDFrom, localTransaction, FieldPathUtility.CreateFieldPathsAsList<Government>(g => new List<object>() { g.InvoiceNumberPrefix, g.NextInvoiceNumber }));
+                    invoiceNumber = string.Format("{0}{1}", government.InvoiceNumberPrefix, government.NextInvoiceNumber);
+                }
+                else if (invoice.LocationIDFrom != null)
+                {
+                    Location location = DataObject.GetReadOnlyByPrimaryKey<Location>(invoice.LocationIDFrom, localTransaction, FieldPathUtility.CreateFieldPathsAsList<Location>(l => new List<object>() { l.InvoiceNumberPrefix, l.NextInvoiceNumber }));
+                    invoiceNumber = string.Format("{0}{1}", location.InvoiceNumberPrefix, location.NextInvoiceNumber);
+                }
+
+                invoice.InvoiceNumber = invoiceNumber;
+                invoice.InvoiceDate = DateTime.Now;
+                invoice.DueDate = DateTime.Now.AddDays(7);
+                invoice.Description = "Initial leasing contract invoice";
+                if (!invoice.Save(localTransaction))
+                {
+                    contract.Errors.AddRange(invoice.Errors.ToArray());
+                    return contract;
+                }
+
+                InvoiceLine invoiceLine = DataObjectFactory.Create<InvoiceLine>();
+                invoiceLine.InvoiceID = invoice.InvoiceID;
+                invoiceLine.Description = "Lease for " + bid.Railcar?.ReportingMark + bid.Railcar?.ReportingNumber + bid.Locomotive?.ReportingMark + bid.Locomotive.ReportingNumber;
+                invoiceLine.Quantity = 1;
+                invoiceLine.UnitCost = bid.LeaseAmount;
+                invoiceLine.Total = bid.LeaseAmount;
+                if (!invoiceLine.Save(localTransaction))
+                {
+                    contract.Errors.AddRange(invoiceLine.Errors.ToArray());
+                    return contract;
+                }
+
+                invoice = DataObject.GetEditableByPrimaryKey<Invoice>(invoice.InvoiceID, localTransaction, null);
+                invoice.Status = Invoice.Statuses.Sent;
+                if (!invoice.Save(localTransaction, new List<Guid>() { Invoice.ValidationIDs.V_SentStatusValid }))
+                {
+                    contract.Errors.AddRange(invoice.Errors.ToArray());
+                    return contract;
+                }
+
+                LeaseRequest leaseRequest = DataObject.GetEditableByPrimaryKey<LeaseRequest>(bid.LeaseRequestID, localTransaction, null);
+                if (!leaseRequest.Delete(localTransaction))
+                {
+                    contract.Errors.AddRange(leaseRequest.Errors.ToArray());
+                    return contract;
+                }
+
+                if (transaction == null)
+                {
+                    localTransaction.Commit();
+                }
+            }
+            finally
+            {
+                if (transaction == null && localTransaction != null && localTransaction.IsActive)
+                {
+                    localTransaction.Rollback();
+                }
+            }
+
+            return contract;
         }
     }
 }

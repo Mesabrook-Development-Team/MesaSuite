@@ -35,6 +35,21 @@ namespace WebModels.fleet
             get { CheckGet(); return _companyRequester; }
         }
 
+        private long? _locationIDChargeTo;
+        [Field("EE279BCF-DED0-461C-8058-074623081880")]
+        public long? LocationIDChargeTo
+        {
+            get { CheckGet(); return _locationIDChargeTo; }
+            set { CheckSet(); _locationIDChargeTo = value; }
+        }
+
+        private Location _locationChargeTo;
+        [Relationship("B22FCC41-7920-461B-9758-68A2CAD1F2F4", ForeignKeyField = nameof(LocationIDChargeTo))]
+        public Location LocationChargeTo
+        {
+            get { CheckGet(); return _locationChargeTo; }
+        }
+
         private long? _governmentIDRequester;
         [Field("30FEB2B8-777A-43F4-8340-CD84EE673E72")]
         public long? GovernmentIDRequester
@@ -99,7 +114,7 @@ namespace WebModels.fleet
         #region Relationships
         #region fleet
         private List<LeaseBid> _leaseBids = new List<LeaseBid>();
-        [RelationshipList("8E8DF7AB-5CA7-4B14-86E9-45342E08466E", nameof(LeaseBid.LeaseRequestID))]
+        [RelationshipList("8E8DF7AB-5CA7-4B14-86E9-45342E08466E", nameof(LeaseBid.LeaseRequestID), AutoDeleteReferences = true)]
         public IReadOnlyCollection<LeaseBid> LeaseBids
         {
             get { CheckGet(); return _leaseBids; }

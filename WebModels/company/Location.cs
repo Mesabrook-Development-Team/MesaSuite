@@ -152,6 +152,13 @@ namespace WebModels.company
         }
         #endregion
         #region fleet
+        private List<LeaseRequest> _leaseRequests = new List<LeaseRequest>();
+        [RelationshipList("CC3820D7-F975-44D3-B22C-69FC070A7704", nameof(LeaseRequest.LocationIDChargeTo))]
+        public IReadOnlyCollection<LeaseRequest> LeaseRequests
+        {
+            get { CheckGet(); return _leaseRequests; }
+        }
+
         private List<LeaseBid> _leaseBidRecurringDestinations = new List<LeaseBid>();
         [RelationshipList("F084805B-8F14-45EA-940B-646F97AF9268", nameof(LeaseBid.LocationIDInvoiceDestination))]
         public IReadOnlyCollection<LeaseBid> LeaseBidRecurringDestinations

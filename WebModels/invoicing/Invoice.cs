@@ -599,6 +599,7 @@ namespace WebModels.invoicing
         public static class ValidationIDs
         {
             public static readonly Guid V_HistoryStatusChanges = new Guid("DE904CC5-FF28-4250-BCEA-D31D749FEF51");
+            public static readonly Guid V_SentStatusValid = new Guid("DE904CC5-FF28-4250-BCEA-D31D749FEF51");
         }
     }
 }

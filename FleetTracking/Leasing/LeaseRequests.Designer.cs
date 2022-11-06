@@ -449,6 +449,7 @@
             this.mnuAcceptBids.Size = new System.Drawing.Size(73, 35);
             this.mnuAcceptBids.Text = "Accept Bids";
             this.mnuAcceptBids.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.mnuAcceptBids.Click += new System.EventHandler(this.mnuAcceptBids_Click);
             // 
             // LeaseRequests
             // 

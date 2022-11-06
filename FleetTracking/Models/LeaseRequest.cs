@@ -7,6 +7,8 @@ namespace FleetTracking.Models
         public long? LeaseRequestID { get; set; }
         public long? CompanyIDRequester { get; set; }
         public Company CompanyRequester { get; set; }
+        public long? LocationIDChargeTo { get; set; }
+        public Location LocationChargeTo { get; set; }
         public long? GovernmentIDRequester { get; set; }
         public Government GovernmentRequester { get; set; }
         public enum LeaseTypes

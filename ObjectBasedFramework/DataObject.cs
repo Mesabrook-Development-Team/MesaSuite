@@ -57,7 +57,7 @@ namespace ClussPro.ObjectBasedFramework
             }
 
             PreValidate();
-            Validate(isInsert ? Validator.SaveModes.Insert : Validator.SaveModes.Update, saveFlags);
+            Validate(isInsert ? Validator.SaveModes.Insert : Validator.SaveModes.Update, saveFlags, transaction);
 
             if (Errors.Any())
             {
@@ -118,7 +118,7 @@ namespace ClussPro.ObjectBasedFramework
                 }
 
                 PreValidate();
-                Validate(Validator.SaveModes.Delete, saveFlags);
+                Validate(Validator.SaveModes.Delete, saveFlags, transaction);
 
                 if (Errors.Any())
                 {
@@ -303,9 +303,9 @@ namespace ClussPro.ObjectBasedFramework
             conflicts.RemoveAll(fk => handled.Contains(fk));
         }
 
-        public bool Validate(Validator.SaveModes saveMode, List<Guid> saveFlags = null)
+        public bool Validate(Validator.SaveModes saveMode, List<Guid> saveFlags = null, ITransaction transaction = null)
         {
-            return Validator.Validate(this, saveMode, saveFlags);
+            return Validator.Validate(this, saveMode, saveFlags, transaction);
         }
 
         private bool SaveInsert(ITransaction transaction)

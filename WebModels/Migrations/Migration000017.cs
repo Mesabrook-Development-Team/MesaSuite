@@ -90,6 +90,7 @@ namespace WebModels.Migrations
             {
                 { "LeaseRequestID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "CompanyIDRequester", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocationIDChargeTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "GovernmentIDRequester", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "LeaseType", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
                 { "RailcarType", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
@@ -99,6 +100,7 @@ namespace WebModels.Migrations
             };
             createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "company", "Company");
+            CreateForeignKey(transaction, createTable, "company", "Location");
             CreateForeignKey(transaction, createTable, "gov", "Government");
 
             createTable.TableName = "LeaseBid";

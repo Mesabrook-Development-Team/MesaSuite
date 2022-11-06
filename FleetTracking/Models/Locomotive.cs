@@ -18,6 +18,17 @@
         public string ReportingMark { get; set; }
         public int? ReportingNumber { get; set; }
         public bool HasOpenBid { get; set; }
-        public string FormattedReportingMark => $"{ReportingMark}{ReportingNumber}";
+        public string FormattedReportingMark
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ReportingMark) && ReportingNumber == null)
+                {
+                    return null;
+                }
+
+                return $"{ReportingMark}{ReportingNumber}";
+            }
+        }
     }
 }

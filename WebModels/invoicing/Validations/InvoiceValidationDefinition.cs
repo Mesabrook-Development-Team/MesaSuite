@@ -85,7 +85,7 @@ namespace WebModels.invoicing.Validations
 
                 yield return new ValidationRule()
                 {
-                    ID = new Guid("DE904CC5-FF28-4250-BCEA-D31D749FEF51"),
+                    ID = Invoice.ValidationIDs.V_SentStatusValid,
                     Message = "Invoice must be entirely filled out before issuing",
                     Condition = new ConditionGroup(ConditionGroup.ConditionGroupTypes.Or,
                                     new NotCondition(new IsFieldDirtyCondition(nameof(Invoice.Status))),

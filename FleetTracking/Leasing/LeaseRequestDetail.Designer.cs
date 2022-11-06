@@ -34,8 +34,10 @@
             this.dtpEndTime = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.cboChargeTo = new System.Windows.Forms.ComboBox();
             this.cboRailcarType = new System.Windows.Forms.ComboBox();
             this.cboLeaseType = new System.Windows.Forms.ComboBox();
+            this.lblChargeTo = new System.Windows.Forms.Label();
             this.lblRailcarType = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtPurpose = new System.Windows.Forms.TextBox();
@@ -71,8 +73,10 @@
             this.grpLeaseRequest.Controls.Add(this.dtpEndTime);
             this.grpLeaseRequest.Controls.Add(this.label6);
             this.grpLeaseRequest.Controls.Add(this.label5);
+            this.grpLeaseRequest.Controls.Add(this.cboChargeTo);
             this.grpLeaseRequest.Controls.Add(this.cboRailcarType);
             this.grpLeaseRequest.Controls.Add(this.cboLeaseType);
+            this.grpLeaseRequest.Controls.Add(this.lblChargeTo);
             this.grpLeaseRequest.Controls.Add(this.lblRailcarType);
             this.grpLeaseRequest.Controls.Add(this.label2);
             this.grpLeaseRequest.Controls.Add(this.txtPurpose);
@@ -117,6 +121,19 @@
             this.label5.TabIndex = 4;
             this.label5.Text = "Purpose:";
             // 
+            // cboChargeTo
+            // 
+            this.cboChargeTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboChargeTo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboChargeTo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboChargeTo.FormattingEnabled = true;
+            this.cboChargeTo.Location = new System.Drawing.Point(385, 19);
+            this.cboChargeTo.Name = "cboChargeTo";
+            this.cboChargeTo.Size = new System.Drawing.Size(237, 21);
+            this.cboChargeTo.TabIndex = 2;
+            this.cboChargeTo.Visible = false;
+            // 
             // cboRailcarType
             // 
             this.cboRailcarType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -136,6 +153,16 @@
             this.cboLeaseType.Size = new System.Drawing.Size(121, 21);
             this.cboLeaseType.TabIndex = 1;
             this.cboLeaseType.SelectedIndexChanged += new System.EventHandler(this.cboLeaseType_SelectedIndexChanged);
+            // 
+            // lblChargeTo
+            // 
+            this.lblChargeTo.AutoSize = true;
+            this.lblChargeTo.Location = new System.Drawing.Point(281, 22);
+            this.lblChargeTo.Name = "lblChargeTo";
+            this.lblChargeTo.Size = new System.Drawing.Size(98, 13);
+            this.lblChargeTo.TabIndex = 2;
+            this.lblChargeTo.Text = "Charge Invoice To:";
+            this.lblChargeTo.Visible = false;
             // 
             // lblRailcarType
             // 
@@ -188,12 +215,10 @@
             // 
             // txtRequester
             // 
-            this.txtRequester.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtRequester.Location = new System.Drawing.Point(78, 19);
             this.txtRequester.Name = "txtRequester";
             this.txtRequester.ReadOnly = true;
-            this.txtRequester.Size = new System.Drawing.Size(544, 20);
+            this.txtRequester.Size = new System.Drawing.Size(197, 20);
             this.txtRequester.TabIndex = 0;
             // 
             // label1
@@ -289,6 +314,7 @@
             this.tsmiAccept.Size = new System.Drawing.Size(68, 43);
             this.tsmiAccept.Text = "Accept Bid";
             this.tsmiAccept.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.tsmiAccept.Click += new System.EventHandler(this.tsmiAccept_Click);
             // 
             // tsmiSubmitBid
             // 
@@ -408,5 +434,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRecurring;
         private System.Windows.Forms.Button cmdClone;
+        private System.Windows.Forms.ComboBox cboChargeTo;
+        private System.Windows.Forms.Label lblChargeTo;
     }
 }

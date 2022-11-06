@@ -349,5 +349,40 @@ namespace FleetTracking.Leasing
             submitBidsForm.Text = "Submit Bids";
             submitBidsForm.FormClosed += (s, ea) => LoadData();
         }
+
+        private async void mnuAcceptBids_Click(object sender, EventArgs e)
+        {
+            if (!this.Confirm("Are you sure you want to accept these bids?"))
+            {
+                return;
+            }
+
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
+
+                foreach(DataGridViewRow row in dgvReceivedBids.SelectedRows)
+                {
+                    LeaseBid bid = row.Tag as LeaseBid;
+                    if (bid == null)
+                    {
+                        continue;
+                    }
+
+                    PutData put = _application.GetAccess<PutData>();
+                    put.API = DataAccess.APIs.FleetTracking;
+                    put.Resource = "LeaseContract/CreateFromLeaseBid";
+                    put.ObjectToPut = new { leaseBidID = bid.LeaseBidID };
+                    await put.ExecuteNoResult();
+                }
+
+                await LoadData();
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
+        }
     }
 }

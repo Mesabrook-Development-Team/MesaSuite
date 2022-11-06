@@ -81,6 +81,15 @@ namespace FleetTracking.Leasing
                 leaseRequests.Dock = DockStyle.Fill;
                 splitContainer1.Panel2.Controls.Add(leaseRequests);
             }
+            else if (_currentTab == lblContracts)
+            {
+                LeaseContracts leaseContracts = new LeaseContracts()
+                {
+                    Application = _application
+                };
+                leaseContracts.Dock = DockStyle.Fill;
+                splitContainer1.Panel2.Controls.Add(leaseContracts);
+            }
         }
 
         private void LeaseManagement_Load(object sender, EventArgs e)

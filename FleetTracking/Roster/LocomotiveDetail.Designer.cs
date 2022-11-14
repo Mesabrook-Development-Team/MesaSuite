@@ -39,14 +39,16 @@
             this.cboModel = new FleetTracking.ControlSelector();
             this.label1 = new System.Windows.Forms.Label();
             this.txtReportingMark = new System.Windows.Forms.TextBox();
+            this.cboPossessor = new System.Windows.Forms.ComboBox();
             this.cboOwner = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.txtReportingNumber = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.txtLessee = new System.Windows.Forms.TextBox();
             this.txtCurrentLocation = new System.Windows.Forms.TextBox();
             this.loader = new FleetTracking.Loader();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cboPossessor = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -101,7 +103,9 @@
             this.splitContainer1.Panel2.Controls.Add(this.label5);
             this.splitContainer1.Panel2.Controls.Add(this.txtReportingNumber);
             this.splitContainer1.Panel2.Controls.Add(this.label3);
+            this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
+            this.splitContainer1.Panel2.Controls.Add(this.txtLessee);
             this.splitContainer1.Panel2.Controls.Add(this.txtCurrentLocation);
             this.splitContainer1.Size = new System.Drawing.Size(838, 293);
             this.splitContainer1.SplitterDistance = 325;
@@ -137,7 +141,7 @@
             this.cmdReset.Location = new System.Drawing.Point(350, 267);
             this.cmdReset.Name = "cmdReset";
             this.cmdReset.Size = new System.Drawing.Size(75, 23);
-            this.cmdReset.TabIndex = 7;
+            this.cmdReset.TabIndex = 8;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
             // 
@@ -147,7 +151,7 @@
             this.cmdSave.Location = new System.Drawing.Point(431, 267);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 6;
+            this.cmdSave.TabIndex = 7;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -188,6 +192,18 @@
             this.txtReportingMark.Size = new System.Drawing.Size(57, 20);
             this.txtReportingMark.TabIndex = 1;
             // 
+            // cboPossessor
+            // 
+            this.cboPossessor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboPossessor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboPossessor.FormattingEnabled = true;
+            this.cboPossessor.Location = new System.Drawing.Point(96, 83);
+            this.cboPossessor.Name = "cboPossessor";
+            this.cboPossessor.Size = new System.Drawing.Size(410, 21);
+            this.cboPossessor.Sorted = true;
+            this.cboPossessor.TabIndex = 4;
+            // 
             // cboOwner
             // 
             this.cboOwner.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -199,6 +215,15 @@
             this.cboOwner.Size = new System.Drawing.Size(410, 21);
             this.cboOwner.Sorted = true;
             this.cboOwner.TabIndex = 3;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 86);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(58, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Possessor:";
             // 
             // txtReportingNumber
             // 
@@ -216,24 +241,43 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "Owner:";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(2, 113);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(44, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "Lessee:";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(2, 113);
+            this.label2.Location = new System.Drawing.Point(2, 139);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(88, 13);
             this.label2.TabIndex = 4;
             this.label2.Text = "Current Location:";
             // 
+            // txtLessee
+            // 
+            this.txtLessee.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLessee.Location = new System.Drawing.Point(96, 110);
+            this.txtLessee.Name = "txtLessee";
+            this.txtLessee.ReadOnly = true;
+            this.txtLessee.Size = new System.Drawing.Size(410, 20);
+            this.txtLessee.TabIndex = 5;
+            // 
             // txtCurrentLocation
             // 
             this.txtCurrentLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCurrentLocation.Location = new System.Drawing.Point(96, 110);
+            this.txtCurrentLocation.Location = new System.Drawing.Point(96, 136);
             this.txtCurrentLocation.Name = "txtCurrentLocation";
             this.txtCurrentLocation.ReadOnly = true;
             this.txtCurrentLocation.Size = new System.Drawing.Size(410, 20);
-            this.txtCurrentLocation.TabIndex = 5;
+            this.txtCurrentLocation.TabIndex = 6;
             // 
             // loader
             // 
@@ -247,27 +291,6 @@
             this.loader.Size = new System.Drawing.Size(852, 325);
             this.loader.TabIndex = 1;
             this.loader.Visible = false;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 86);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(58, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Possessor:";
-            // 
-            // cboPossessor
-            // 
-            this.cboPossessor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboPossessor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboPossessor.FormattingEnabled = true;
-            this.cboPossessor.Location = new System.Drawing.Point(96, 83);
-            this.cboPossessor.Name = "cboPossessor";
-            this.cboPossessor.Size = new System.Drawing.Size(410, 21);
-            this.cboPossessor.Sorted = true;
-            this.cboPossessor.TabIndex = 4;
             // 
             // LocomotiveDetail
             // 
@@ -311,5 +334,7 @@
         private System.Windows.Forms.Button cmdSave;
         private System.Windows.Forms.ComboBox cboPossessor;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtLessee;
     }
 }

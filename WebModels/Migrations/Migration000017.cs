@@ -146,6 +146,19 @@ namespace WebModels.Migrations
             CreateForeignKey(transaction, createTable, "company", "Company");
             CreateForeignKey(transaction, createTable, "company", "Location", "LocationIDRecurringAmountSource");
             CreateForeignKey(transaction, createTable, "company", "Location", "LocationIDRecurringAmountDestination");
+
+            createTable.TableName = "LeaseContractInvoice";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "LeaseContractInvoiceID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "LeaseContractID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "InvoiceID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Type", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "IssueTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "fleet", "LeaseContract");
+            CreateForeignKey(transaction, createTable, "invoicing", "Invoice");
         }
 
         private void CreateForeignKey(ITransaction transaction, ICreateTable createTableQuery, string parentSchema, string parentTable, string foreignKey = "")

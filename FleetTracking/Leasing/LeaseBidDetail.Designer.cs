@@ -141,7 +141,8 @@
             // txtTerms
             // 
             this.txtTerms.AcceptsReturn = true;
-            this.txtTerms.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtTerms.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTerms.Location = new System.Drawing.Point(3, 133);
             this.txtTerms.Multiline = true;

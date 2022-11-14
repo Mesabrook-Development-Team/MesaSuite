@@ -38,15 +38,17 @@
             this.cmdUpdateImage = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtReportingMark = new System.Windows.Forms.TextBox();
+            this.cboPossessor = new System.Windows.Forms.ComboBox();
             this.cboOwner = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.txtReportingNumber = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtCurrentLocation = new System.Windows.Forms.TextBox();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cboPossessor = new System.Windows.Forms.ComboBox();
+            this.txtLessee = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pboxImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -75,7 +77,7 @@
             this.cmdReset.Location = new System.Drawing.Point(287, 257);
             this.cmdReset.Name = "cmdReset";
             this.cmdReset.Size = new System.Drawing.Size(75, 23);
-            this.cmdReset.TabIndex = 7;
+            this.cmdReset.TabIndex = 8;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
             // 
@@ -85,7 +87,7 @@
             this.cmdSave.Location = new System.Drawing.Point(368, 257);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 6;
+            this.cmdSave.TabIndex = 7;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -146,7 +148,9 @@
             this.splitContainer1.Panel2.Controls.Add(this.label5);
             this.splitContainer1.Panel2.Controls.Add(this.txtReportingNumber);
             this.splitContainer1.Panel2.Controls.Add(this.label3);
+            this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
+            this.splitContainer1.Panel2.Controls.Add(this.txtLessee);
             this.splitContainer1.Panel2.Controls.Add(this.txtCurrentLocation);
             this.splitContainer1.Size = new System.Drawing.Size(735, 283);
             this.splitContainer1.SplitterDistance = 285;
@@ -180,6 +184,18 @@
             this.txtReportingMark.Size = new System.Drawing.Size(57, 20);
             this.txtReportingMark.TabIndex = 1;
             // 
+            // cboPossessor
+            // 
+            this.cboPossessor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboPossessor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboPossessor.FormattingEnabled = true;
+            this.cboPossessor.Location = new System.Drawing.Point(96, 83);
+            this.cboPossessor.Name = "cboPossessor";
+            this.cboPossessor.Size = new System.Drawing.Size(347, 21);
+            this.cboPossessor.Sorted = true;
+            this.cboPossessor.TabIndex = 4;
+            // 
             // cboOwner
             // 
             this.cboOwner.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -191,6 +207,15 @@
             this.cboOwner.Size = new System.Drawing.Size(347, 21);
             this.cboOwner.Sorted = true;
             this.cboOwner.TabIndex = 3;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 86);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(58, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Possessor:";
             // 
             // txtReportingNumber
             // 
@@ -211,7 +236,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(2, 113);
+            this.label2.Location = new System.Drawing.Point(2, 139);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(88, 13);
             this.label2.TabIndex = 4;
@@ -221,11 +246,11 @@
             // 
             this.txtCurrentLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCurrentLocation.Location = new System.Drawing.Point(96, 110);
+            this.txtCurrentLocation.Location = new System.Drawing.Point(96, 136);
             this.txtCurrentLocation.Name = "txtCurrentLocation";
             this.txtCurrentLocation.ReadOnly = true;
             this.txtCurrentLocation.Size = new System.Drawing.Size(347, 20);
-            this.txtCurrentLocation.TabIndex = 5;
+            this.txtCurrentLocation.TabIndex = 6;
             // 
             // tabGeneral
             // 
@@ -248,26 +273,24 @@
             this.tabControl1.Size = new System.Drawing.Size(749, 315);
             this.tabControl1.TabIndex = 2;
             // 
-            // label5
+            // txtLessee
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 86);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(58, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Possessor:";
-            // 
-            // cboPossessor
-            // 
-            this.cboPossessor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtLessee.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboPossessor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboPossessor.FormattingEnabled = true;
-            this.cboPossessor.Location = new System.Drawing.Point(96, 83);
-            this.cboPossessor.Name = "cboPossessor";
-            this.cboPossessor.Size = new System.Drawing.Size(347, 21);
-            this.cboPossessor.Sorted = true;
-            this.cboPossessor.TabIndex = 4;
+            this.txtLessee.Location = new System.Drawing.Point(96, 110);
+            this.txtLessee.Name = "txtLessee";
+            this.txtLessee.ReadOnly = true;
+            this.txtLessee.Size = new System.Drawing.Size(347, 20);
+            this.txtLessee.TabIndex = 5;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(2, 113);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(44, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "Lessee:";
             // 
             // RailcarDetail
             // 
@@ -311,5 +334,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.ComboBox cboPossessor;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtLessee;
     }
 }

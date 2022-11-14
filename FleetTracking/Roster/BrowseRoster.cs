@@ -76,6 +76,22 @@ namespace FleetTracking.Roster
                 tabPossessed.Controls.Add(shownRosterList);
                 shownRosterList.Dock = DockStyle.Fill;
             }
+            else if (tabControl.SelectedTab == tabLeased)
+            {
+                tabLeased.Controls.Clear();
+
+                shownRosterList = new RosterList()
+                {
+                    Application = _application,
+                    RailcarFilter = railcar => _application.IsCurrentEntity(railcar.CompanyLeasedTo?.CompanyID, railcar.GovernmentLeasedTo?.GovernmentID),
+                    LocomotiveFilter = loco => _application.IsCurrentEntity(loco.CompanyLeasedTo?.CompanyID, loco.GovernmentLeasedTo?.GovernmentID)
+                };
+                shownRosterList.LocomotiveSelected += RosterList_LocomotiveSelected;
+                shownRosterList.RailcarSelected += RosterList_RailcarSelected;
+                shownRosterList.Name = "leasedRosterList";
+                tabLeased.Controls.Add(shownRosterList);
+                shownRosterList.Dock = DockStyle.Fill;
+            }
         }
 
         private void RosterList_RailcarSelected(object sender, Models.Railcar e)

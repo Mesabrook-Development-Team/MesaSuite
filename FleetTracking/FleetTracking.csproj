@@ -68,6 +68,12 @@
     <Compile Include="Leasing\LeaseBidDetail.Designer.cs">
       <DependentUpon>LeaseBidDetail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Leasing\LeaseContractDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Leasing\LeaseContractDetails.Designer.cs">
+      <DependentUpon>LeaseContractDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Leasing\LeaseContracts.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -148,8 +154,10 @@
     </Compile>
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Government.cs" />
+    <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\LeaseBid.cs" />
     <Compile Include="Models\LeaseContract.cs" />
+    <Compile Include="Models\LeaseContractInvoice.cs" />
     <Compile Include="Models\LeaseRequest.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Locomotive.cs" />
@@ -253,6 +261,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Leasing\LeaseBidDetail.resx">
       <DependentUpon>LeaseBidDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Leasing\LeaseContractDetails.resx">
+      <DependentUpon>LeaseContractDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Leasing\LeaseContracts.resx">
       <DependentUpon>LeaseContracts.cs</DependentUpon>

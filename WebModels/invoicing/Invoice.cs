@@ -230,6 +230,14 @@ namespace WebModels.invoicing
         };
 
         #region Relationships
+        #region fleet
+        private List<fleet.LeaseContractInvoice> _leaseContractInvoices = new List<fleet.LeaseContractInvoice>();
+        [RelationshipList("BC306004-B909-4E56-9BE4-C5153904350B", nameof(fleet.LeaseContractInvoice.InvoiceID))]
+        public IReadOnlyCollection<fleet.LeaseContractInvoice> LeaseContractInvoices
+        {
+            get { CheckGet(); return _leaseContractInvoices; }
+        }
+        #endregion
         #region invoicing
         private List<InvoiceLine> _invoiceLines = new List<InvoiceLine>();
         [RelationshipList("151E4019-12B6-47B3-9F62-3F5B9B5F7A4D", "InvoiceID", AutoDeleteReferences = true)]

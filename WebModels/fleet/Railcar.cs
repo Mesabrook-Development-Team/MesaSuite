@@ -176,9 +176,9 @@ namespace WebModels.fleet
             switch (relationship.RelationshipName)
             {
                 case nameof(CompanyLeasedTo):
-                    return CompanyLeasedToCondition(myAlias);
+                    return CompanyLeasedToCondition(myAlias, otherAlias);
                 case nameof(GovernmentLeasedTo):
-                    return GovernmentLeasedToCondition(myAlias);
+                    return GovernmentLeasedToCondition(myAlias, otherAlias);
             }
 
             return base.GetRelationshipCondition(relationship, myAlias, otherAlias);
@@ -191,7 +191,7 @@ namespace WebModels.fleet
             get { CheckGet(); return _companyLeasedTo; }
         }
 
-        private ICondition CompanyLeasedToCondition(string myAlias)
+        private ICondition CompanyLeasedToCondition(string myAlias, string otherAlias)
         {
             ISelectQuery select = SQLProviderFactory.GetSelectQuery();
             select.SelectList = new List<Select>()
@@ -219,7 +219,12 @@ namespace WebModels.fleet
                 }
             };
 
-            return new Exists() { ExistType = Exists.ExistTypes.Exists, SelectQuery = select };
+            return new Condition()
+            {
+                Left = new SubQuery(select),
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.CompanyID"
+            };
         }
 
         private Government _governmentLeasedTo;
@@ -229,7 +234,7 @@ namespace WebModels.fleet
             get { CheckGet(); return _governmentLeasedTo; }
         }
 
-        private ICondition GovernmentLeasedToCondition(string myAlias)
+        private ICondition GovernmentLeasedToCondition(string myAlias, string otherAlias)
         {
             ISelectQuery select = SQLProviderFactory.GetSelectQuery();
             select.SelectList = new List<Select>()
@@ -257,7 +262,12 @@ namespace WebModels.fleet
                 }
             };
 
-            return new Exists() { ExistType = Exists.ExistTypes.Exists, SelectQuery = select };
+            return new Condition()
+            {
+                Left = new SubQuery(select),
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.GovernmentID"
+            };
         }
         #endregion
 

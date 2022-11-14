@@ -36,6 +36,8 @@ namespace FleetTracking.Leasing
                 loader.BringToFront();
                 loader.Visible = true;
 
+                dgvContracts.Rows.Clear();
+
                 GetData get = _application.GetAccess<GetData>();
                 get.API = DataAccess.APIs.FleetTracking;
                 get.Resource = "LeaseContract/GetAll";
@@ -127,5 +129,34 @@ namespace FleetTracking.Leasing
             }
         }
 
+        private void dgvContracts_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvContracts.Rows.Count)
+            {
+                return;
+            }
+
+            DataGridViewRow row = dgvContracts.Rows[e.RowIndex];
+            LeaseContract contract = row.Tag as LeaseContract;
+            if (contract == null)
+            {
+                return;
+            }
+
+            LeaseContractDetails detailsScreen = new LeaseContractDetails()
+            {
+                Application = _application,
+                LeaseContractID = contract.LeaseContractID,
+            };
+            detailsScreen.OnSave += DetailsScreen_OnSave;
+            Form form = _application.OpenForm(detailsScreen);
+            form.Text = "Lease Contract";
+            form.FormClosed += (s, ea) => LoadData();
+        }
+
+        private void DetailsScreen_OnSave(object sender, EventArgs e)
+        {
+            LoadData();
+        }
     }
 }

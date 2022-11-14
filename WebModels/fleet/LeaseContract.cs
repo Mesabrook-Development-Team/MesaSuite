@@ -262,6 +262,17 @@ namespace WebModels.fleet
                     return contract;
                 }
 
+                LeaseContractInvoice leaseContractInvoice = DataObjectFactory.Create<LeaseContractInvoice>();
+                leaseContractInvoice.LeaseContractID = contract.LeaseContractID;
+                leaseContractInvoice.InvoiceID = invoice.InvoiceID;
+                leaseContractInvoice.Type = LeaseContractInvoice.Types.Initial;
+                leaseContractInvoice.IssueTime = DateTime.Now;
+                if (!leaseContractInvoice.Save(localTransaction))
+                {
+                    contract.Errors.AddRange(leaseContractInvoice.Errors.ToArray());
+                    return contract;
+                }
+
                 LeaseRequest leaseRequest = DataObject.GetEditableByPrimaryKey<LeaseRequest>(bid.LeaseRequestID, localTransaction, null);
                 if (!leaseRequest.Delete(localTransaction))
                 {
@@ -284,5 +295,16 @@ namespace WebModels.fleet
 
             return contract;
         }
+
+        #region Relationships
+        #region fleet
+        private List<LeaseContractInvoice> _leaseContractInvoices = new List<LeaseContractInvoice>();
+        [RelationshipList("CB60865F-973B-4FB8-952F-83BD525E7DCA", nameof(LeaseContractInvoice.LeaseContractID))]
+        public IReadOnlyCollection<LeaseContractInvoice> LeaseContractInvoices
+        {
+            get { CheckGet(); return _leaseContractInvoices; }
+        }
+        #endregion
+        #endregion
     }
 }

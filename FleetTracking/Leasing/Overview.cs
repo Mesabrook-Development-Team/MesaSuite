@@ -49,12 +49,12 @@ namespace FleetTracking.Leasing
             locomotives = locomotives.Where(l => _application.IsCurrentEntity(l.CompanyIDOwner, l.GovernmentIDOwner)).ToList();
             DataPoint availableLocomotivesPoint = new DataPoint()
             {
-                YValues = new double[] { locomotives.Select(l => l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null).Count() },
+                YValues = new double[] { locomotives.Where(l => l.CompanyLeasedTo?.CompanyID == null && l.GovernmentLeasedTo?.GovernmentID == null).Count() },
                 LabelFormat = "Available ({0})"
             };
             DataPoint leasedLocomotivesPoint = new DataPoint()
             {
-                YValues = new double[] { locomotives.Select(l => l.CompanyLeasedTo?.CompanyID != null || l.GovernmentLeasedTo?.GovernmentID != null).Count() },
+                YValues = new double[] { locomotives.Where(l => l.CompanyLeasedTo?.CompanyID != null || l.GovernmentLeasedTo?.GovernmentID != null).Count() },
                 LabelFormat = "Leased ({0})"
             };
             chrtLocomotivesAvailable.Series[0].Points.Add(availableLocomotivesPoint);

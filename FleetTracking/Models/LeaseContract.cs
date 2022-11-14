@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FleetTracking.Models
 {
@@ -17,11 +18,13 @@ namespace FleetTracking.Models
         public LeaseBid.RecurringAmountTypes RecurringAmountType { get; set; }
         public decimal? RecurringAmount { get; set; }
         public long? LocationIDRecurringAmountSource { get; set; }
-        public Location LocationrecurringAmountSource { get; set; }
-        public long? LocatoinIDRecurringAmountDestination { get; set; }
+        public Location LocationRecurringAmountSource { get; set; }
+        public long? LocationIDRecurringAmountDestination { get; set; }
         public Location LocationRecurringAmountDestination { get; set; }
         public string Terms { get; set; }
         public DateTime? LeaseTimeStart { get; set; }
         public DateTime? LeaseTimeEnd { get; set; }
+
+        public List<LeaseContractInvoice> LeaseContractInvoices { get; set; }
     }
 }

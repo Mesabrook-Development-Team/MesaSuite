@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgvContracts = new System.Windows.Forms.DataGridView();
+            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLeasedTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLeaseStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLeaseEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.rdoCurrent = new System.Windows.Forms.RadioButton();
             this.rdoHistoric = new System.Windows.Forms.RadioButton();
             this.rdoAll = new System.Windows.Forms.RadioButton();
             this.loader = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLeasedTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLeaseStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLeaseEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContracts)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,6 +60,37 @@
             this.dgvContracts.Name = "dgvContracts";
             this.dgvContracts.Size = new System.Drawing.Size(862, 396);
             this.dgvContracts.TabIndex = 0;
+            this.dgvContracts.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvContracts_CellDoubleClick);
+            // 
+            // colImage
+            // 
+            this.colImage.HeaderText = "Image";
+            this.colImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colImage.Name = "colImage";
+            // 
+            // colReportingMark
+            // 
+            this.colReportingMark.HeaderText = "Reporting Mark";
+            this.colReportingMark.Name = "colReportingMark";
+            this.colReportingMark.Width = 120;
+            // 
+            // colLeasedTo
+            // 
+            this.colLeasedTo.HeaderText = "Leased To";
+            this.colLeasedTo.Name = "colLeasedTo";
+            this.colLeasedTo.Width = 140;
+            // 
+            // colLeaseStart
+            // 
+            this.colLeaseStart.HeaderText = "Lease Start Date";
+            this.colLeaseStart.Name = "colLeaseStart";
+            this.colLeaseStart.Width = 120;
+            // 
+            // colLeaseEnd
+            // 
+            this.colLeaseEnd.HeaderText = "Lease End Date";
+            this.colLeaseEnd.Name = "colLeaseEnd";
+            this.colLeaseEnd.Width = 120;
             // 
             // label1
             // 
@@ -121,36 +152,6 @@
             this.loader.Size = new System.Drawing.Size(862, 422);
             this.loader.TabIndex = 3;
             this.loader.Visible = false;
-            // 
-            // colImage
-            // 
-            this.colImage.HeaderText = "Image";
-            this.colImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colImage.Name = "colImage";
-            // 
-            // colReportingMark
-            // 
-            this.colReportingMark.HeaderText = "Reporting Mark";
-            this.colReportingMark.Name = "colReportingMark";
-            this.colReportingMark.Width = 120;
-            // 
-            // colLeasedTo
-            // 
-            this.colLeasedTo.HeaderText = "Leased To";
-            this.colLeasedTo.Name = "colLeasedTo";
-            this.colLeasedTo.Width = 140;
-            // 
-            // colLeaseStart
-            // 
-            this.colLeaseStart.HeaderText = "Lease Start Date";
-            this.colLeaseStart.Name = "colLeaseStart";
-            this.colLeaseStart.Width = 120;
-            // 
-            // colLeaseEnd
-            // 
-            this.colLeaseEnd.HeaderText = "Lease End Date";
-            this.colLeaseEnd.Name = "colLeaseEnd";
-            this.colLeaseEnd.Width = 120;
             // 
             // LeaseContracts
             // 

@@ -99,6 +99,13 @@ namespace WebModels.fleet
             get { CheckGet(); return _companyPossessor; }
         }
 
+        private RailLocation _railLocation;
+        [Relationship("527AEB8C-896E-4D8A-B8E2-95729BA611C4", OneToOneByForeignKey = true)]
+        public RailLocation RailLocation
+        {
+            get { CheckGet(); return _railLocation; }
+        }
+
         private string _reportingMark;
         [Field("DF38F559-C558-476E-B3D0-15828D80DAB0")]
         public string ReportingMark
@@ -285,6 +292,13 @@ namespace WebModels.fleet
         public IReadOnlyCollection<LeaseContract> LeaseContracts
         {
             get { CheckGet(); return _leaseContracts; }
+        }
+
+        private List<RailcarLocationTransaction> _railcarLocationTransactions = new List<RailcarLocationTransaction>();
+        [RelationshipList("FCF6E1FE-F852-4D1D-B6C9-1816E07CD304", nameof(RailcarLocationTransaction.RailcarID))]
+        public IReadOnlyCollection<RailcarLocationTransaction> RailcarLocationTransactions
+        {
+            get { CheckGet(); return _railcarLocationTransactions; }
         }
         #endregion
         #endregion

@@ -197,7 +197,7 @@ namespace WebModels.company
         }
 
         private List<fleet.Railcar> _railcarsPossessed = new List<fleet.Railcar>();
-        [RelationshipList("BEC24E2F-9F4C-4372-AD71-877331321DEE", nameof(fleet.Railcar.GovernmentIDPossessor))]
+        [RelationshipList("BEC24E2F-9F4C-4372-AD71-877331321DEE", nameof(fleet.Railcar.CompanyIDPossessor))]
         public IReadOnlyCollection<fleet.Railcar> RailcarsPossessed
         {
             get { CheckGet(); return _railcarsPossessed; }
@@ -215,6 +215,20 @@ namespace WebModels.company
         public IReadOnlyCollection<fleet.LeaseContract> LeaseContracts
         {
             get { CheckGet(); return _leaseContracts; }
+        }
+
+        private List<fleet.Track> _tracksOwned = new List<fleet.Track>();
+        [RelationshipList("616A35B8-366A-404F-8701-EF609B771622", nameof(fleet.Track.CompanyIDOwner))]
+        public IReadOnlyCollection<fleet.Track> TracksOwned
+        {
+            get { CheckGet(); return _tracksOwned; }
+        }
+
+        private List<fleet.TrainSymbol> _trainSymbols = new List<fleet.TrainSymbol>();
+        [RelationshipList("A4D050C4-3338-44CC-84E5-B7A98AC7658F", nameof(fleet.TrainSymbol.CompanyIDOperator))]
+        public IReadOnlyCollection<fleet.TrainSymbol> TrainSymbols
+        {
+            get { CheckGet(); return _trainSymbols; }
         }
         #endregion
         #region gov

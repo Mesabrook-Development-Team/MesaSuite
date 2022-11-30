@@ -99,6 +99,13 @@ namespace WebModels.fleet
             get { CheckGet(); return _companyPossessor; }
         }
 
+        private RailLocation _railLocation = null;
+        [Relationship("9A8FE9AD-5333-4CBB-BC12-5A8DE6FE8010", OneToOneByForeignKey = true)]
+        public RailLocation RailLocation
+        {
+            get { CheckSet(); return _railLocation; }
+        }
+
         private string _reportingMark;
         [Field("5F2C40A0-5BB6-4B9A-BF69-C70F207653BF", DataSize = 4)]
         public string ReportingMark

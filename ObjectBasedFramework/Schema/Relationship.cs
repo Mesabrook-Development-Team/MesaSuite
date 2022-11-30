@@ -15,6 +15,8 @@ namespace ClussPro.ObjectBasedFramework.Schema
         public Field ForeignKeyField { get; internal set; }
         public Field ParentKeyField { get; internal set; }
         public bool HasForeignKey => RelationshipAttribute?.HasForeignKey ?? true;
+        public bool OneToOneByForeignKey => RelationshipAttribute?.OneToOneByForeignKey ?? false;
+        public string OneToOneForeignKey => RelationshipAttribute?.OneToOneForeignKey;
 
         internal Func<object, object> GetPrivateDataCallback { get; set; }
         internal Action<DataObject, object> SetPrivateDataCallback { get; set; }

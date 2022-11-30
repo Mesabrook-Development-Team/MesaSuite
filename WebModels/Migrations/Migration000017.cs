@@ -159,6 +159,96 @@ namespace WebModels.Migrations
             createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "fleet", "LeaseContract");
             CreateForeignKey(transaction, createTable, "invoicing", "Invoice");
+
+            createTable.TableName = "TrainSymbol";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "TrainSymbolID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "CompanyIDOperator", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDOperator", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 15) },
+                { "Description", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 200) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "gov", "Government");
+            CreateForeignKey(transaction, createTable, "company", "Company");
+
+            createTable.TableName = "TrainSymbolRate";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "TrainSymbolRateID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "TrainSymbolID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "EffectiveTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
+                { "RatePerCar", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
+                { "RatePerPartialTrip", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) }
+            };
+            CreateForeignKey(transaction, createTable, "fleet", "TrainSymbol");
+
+            createTable.TableName = "Train";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "TrainID", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { IsPrimary = true } },
+                { "TrainSymbolID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "TimeOnDuty", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
+                { "TimeOffDuty", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
+            };
+            CreateForeignKey(transaction, createTable, "fleet", "TrainSymbol");
+
+            createTable.TableName = "RailDistrict";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "RailDistrictID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "CompanyIDOperator", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovenrmentIDOperator", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) }
+            };
+            CreateForeignKey(transaction, createTable, "gov", "Government");
+            CreateForeignKey(transaction, createTable, "company", "Company");
+
+            createTable.TableName = "Track";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "TrackID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "RailDistrictID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyIDOwner", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDOwner", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 30) },
+                { "Length", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 6, 2) }
+            };
+            CreateForeignKey(transaction, createTable, "fleet", "RailDistrict");
+            CreateForeignKey(transaction, createTable, "gov", "Government");
+            CreateForeignKey(transaction, createTable, "company", "Company");
+
+            createTable.TableName = "RailLocation";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "RailLocationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "RailcarID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocomotiveID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Position", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "TrackID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "TrainID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+            };
+            CreateForeignKey(transaction, createTable, "fleet", "Railcar");
+            CreateForeignKey(transaction, createTable, "fleet", "Locomotive");
+            CreateForeignKey(transaction, createTable, "fleet", "Track");
+            CreateForeignKey(transaction, createTable, "fleet", "Train");
+
+            createTable.TableName = "RailcarLocationTransaction";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "RailcarLocationTransactionID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "RailcarID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "TrackIDNew", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "TrainIDNew", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "IsPartialTrainTrip", new FieldSpecification(FieldSpecification.FieldTypes.Bit) },
+                { "TransactionTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
+                { "InvoiceID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+            };
+            CreateForeignKey(transaction, createTable, "fleet", "Railcar");
+            CreateForeignKey(transaction, createTable, "fleet", "Track");
+            CreateForeignKey(transaction, createTable, "fleet", "Train");
+            CreateForeignKey(transaction, createTable, "invoicing", "Invoice");
         }
 
         private void CreateForeignKey(ITransaction transaction, ICreateTable createTableQuery, string parentSchema, string parentTable, string foreignKey = "")

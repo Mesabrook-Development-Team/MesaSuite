@@ -57,6 +57,7 @@
     <Compile Include="company\LocationGovernment.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
+    <Compile Include="fleet\RailDistrict.cs" />
     <Compile Include="fleet\LeaseBid.cs" />
     <Compile Include="fleet\LeaseContract.cs" />
     <Compile Include="fleet\LeaseContractInvoice.cs" />
@@ -65,6 +66,12 @@
     <Compile Include="fleet\LocomotiveModel.cs" />
     <Compile Include="fleet\Railcar.cs" />
     <Compile Include="fleet\RailcarModel.cs" />
+    <Compile Include="fleet\RailLocation.cs" />
+    <Compile Include="fleet\RailcarLocationTransaction.cs" />
+    <Compile Include="fleet\Track.cs" />
+    <Compile Include="fleet\Train.cs" />
+    <Compile Include="fleet\TrainSymbol.cs" />
+    <Compile Include="fleet\TrainSymbolRate.cs" />
     <Compile Include="gov\Government.cs" />
     <Compile Include="gov\Official.cs" />
     <Compile Include="gov\SalesTax.cs" />

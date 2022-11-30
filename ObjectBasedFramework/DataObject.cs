@@ -431,12 +431,25 @@ namespace ClussPro.ObjectBasedFramework
 
         public virtual ICondition GetRelationshipCondition(Relationship relationship, string myAlias, string otherAlias)
         {
-            return new Condition()
+            if (!relationship.OneToOneByForeignKey)
             {
-                Left = (Base.Data.Operand.Field)$"{myAlias}.{relationship.ForeignKeyField.FieldName}",
-                ConditionType = Condition.ConditionTypes.Equal,
-                Right = (Base.Data.Operand.Field)$"{otherAlias}.{relationship.RelatedSchemaObject.PrimaryKeyField.FieldName}"
-            };
+                return new Condition()
+                {
+                    Left = (Base.Data.Operand.Field)$"{myAlias}.{relationship.ForeignKeyField.FieldName}",
+                    ConditionType = Condition.ConditionTypes.Equal,
+                    Right = (Base.Data.Operand.Field)$"{otherAlias}.{relationship.RelatedSchemaObject.PrimaryKeyField.FieldName}"
+                };
+            }
+            else
+            {
+                string otherObjectForeignKey = string.IsNullOrEmpty(relationship.OneToOneForeignKey) ? PrimaryKeyField.FieldName : relationship.OneToOneForeignKey;
+                return new Condition()
+                {
+                    Left = (Base.Data.Operand.Field)$"{otherAlias}.{otherObjectForeignKey}",
+                    ConditionType = Condition.ConditionTypes.Equal,
+                    Right = (Base.Data.Operand.Field)$"{myAlias}.{PrimaryKeyField.FieldName}"
+                };
+            }
         }
 
         //public void SetData(IEnumerable<string> fieldsToSet, Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> queries, DataRow row)

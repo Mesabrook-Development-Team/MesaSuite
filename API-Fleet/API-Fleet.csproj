@@ -96,6 +96,9 @@
     <Compile Include="Controllers\LocomotiveModelController.cs" />
     <Compile Include="Controllers\RailcarModelController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\TrainController.cs" />
+    <Compile Include="Controllers\TrainSymbolController.cs" />
+    <Compile Include="Controllers\TrainSymbolRateController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

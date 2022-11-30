@@ -238,6 +238,20 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _leaseContracts; }
         }
+
+        private List<fleet.Track> _tracksOwned = new List<fleet.Track>();
+        [RelationshipList("7B5ACBD2-1030-41CE-AABD-D2806BF97FC2", nameof(fleet.Track.GovernmentIDOwner))]
+        public IReadOnlyCollection<fleet.Track> TracksOwned
+        {
+            get { CheckGet(); return _tracksOwned; }
+        }
+
+        private List<fleet.TrainSymbol> _trainSymbols = new List<fleet.TrainSymbol>();
+        [RelationshipList("65F56AF7-B293-4AD8-AD3A-342EEBFF3C72", nameof(fleet.TrainSymbol.GovernmentIDOperator))]
+        public IReadOnlyCollection<fleet.TrainSymbol> TrainSymbols
+        {
+            get { CheckGet(); return _trainSymbols; }
+        }
         #endregion
         #region gov
         private List<Official> _officials = new List<Official>();

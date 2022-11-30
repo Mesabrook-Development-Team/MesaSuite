@@ -38,20 +38,19 @@ namespace WebModels.fleet
             get { CheckGet(); return _trainSymbol; }
         }
 
-        private DateTime? _timeOnDuty;
-        [Field("997AFB49-F679-4360-B4AE-95C037512661", DataSize = 7)]
-        public DateTime? TimeOnDuty
+        public enum Statuses
         {
-            get { CheckGet(); return _timeOnDuty; }
-            set { CheckSet(); _timeOnDuty = value; }
+            NotStarted,
+            EnRoute,
+            Complete
         }
 
-        private DateTime? _timeOffDuty;
-        [Field("805A0509-F96C-4686-B348-A00E245A65C1", DataSize = 7)]
-        public DateTime? TimeOffDuty
+        private Statuses _status;
+        [Field("3B35E70A-EB20-4C53-B597-3755341D63AD")]
+        public Statuses Status
         {
-            get { CheckGet(); return _timeOffDuty; }
-            set { CheckSet(); _timeOffDuty = value; }
+            get { CheckGet(); return _status; }
+            set { CheckSet(); _status = value; }
         }
 
         #region Relationships
@@ -68,6 +67,13 @@ namespace WebModels.fleet
         public IReadOnlyCollection<RailcarLocationTransaction> RailcarLocationTransactions
         {
             get { CheckGet(); return _railcarLocationTransactions; }
+        }
+
+        private List<TrainDutyTransaction> _trainDutyTransactions = new List<TrainDutyTransaction>();
+        [RelationshipList("F9EEFB24-0788-4FEC-A9E8-8512C2D8180B", nameof(TrainDutyTransaction.TrainID))]
+        public IReadOnlyCollection<TrainDutyTransaction> TrainDutyTransactions
+        {
+            get { CheckGet(); return _trainDutyTransactions; }
         }
         #endregion
         #endregion

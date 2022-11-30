@@ -182,6 +182,7 @@ namespace WebModels.Migrations
                 { "RatePerCar", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
                 { "RatePerPartialTrip", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) }
             };
+            createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "fleet", "TrainSymbol");
 
             createTable.TableName = "Train";
@@ -189,10 +190,21 @@ namespace WebModels.Migrations
             {
                 { "TrainID", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { IsPrimary = true } },
                 { "TrainSymbolID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Status", new FieldSpecification(FieldSpecification.FieldTypes.Int) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "fleet", "TrainSymbol");
+
+            createTable.TableName = "TrainDutyTransaction";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "TrainDutyTransactionID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "TrainID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "TimeOnDuty", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
                 { "TimeOffDuty", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
             };
-            CreateForeignKey(transaction, createTable, "fleet", "TrainSymbol");
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "fleet", "Train");
 
             createTable.TableName = "RailDistrict";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
@@ -202,6 +214,7 @@ namespace WebModels.Migrations
                 { "GovenrmentIDOperator", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) }
             };
+            createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "gov", "Government");
             CreateForeignKey(transaction, createTable, "company", "Company");
 
@@ -215,6 +228,7 @@ namespace WebModels.Migrations
                 { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 30) },
                 { "Length", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 6, 2) }
             };
+            createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "fleet", "RailDistrict");
             CreateForeignKey(transaction, createTable, "gov", "Government");
             CreateForeignKey(transaction, createTable, "company", "Company");
@@ -229,6 +243,7 @@ namespace WebModels.Migrations
                 { "TrackID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "TrainID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
             };
+            createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "fleet", "Railcar");
             CreateForeignKey(transaction, createTable, "fleet", "Locomotive");
             CreateForeignKey(transaction, createTable, "fleet", "Track");
@@ -245,6 +260,7 @@ namespace WebModels.Migrations
                 { "TransactionTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
                 { "InvoiceID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
             };
+            createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "fleet", "Railcar");
             CreateForeignKey(transaction, createTable, "fleet", "Track");
             CreateForeignKey(transaction, createTable, "fleet", "Train");

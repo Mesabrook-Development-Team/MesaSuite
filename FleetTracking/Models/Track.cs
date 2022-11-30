@@ -18,5 +18,6 @@ namespace FleetTracking.Models
         public string Name { get; set; }
         public decimal? Length { get; set; }
 
+        public List<RailLocation> RailLocations { get; set; }
     }
 }

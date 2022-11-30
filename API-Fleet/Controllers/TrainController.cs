@@ -17,15 +17,30 @@ namespace API_Fleet.Controllers
         {
             t.TrainID,
             t.TrainSymbolID,
+            t.Status,
             t.TrainSymbol.TrainSymbolID,
             t.TrainSymbol.Name,
+            t.TrainSymbol.CompanyIDOperator,
+            t.TrainSymbol.GovernmentIDOperator,
+            t.TrainDutyTransactions.First().TrainDutyTransactionID,
+            t.TrainDutyTransactions.First().TimeOnDuty,
+            t.TrainDutyTransactions.First().TimeOffDuty,
             t.RailLocations.First().RailLocationID,
             t.RailLocations.First().TrainID,
             t.RailLocations.First().LocomotiveID,
             t.RailLocations.First().Locomotive.LocomotiveID,
             t.RailLocations.First().Locomotive.ReportingMark,
             t.RailLocations.First().Locomotive.ReportingNumber,
-            t.RailLocations.First().Locomotive.
-        })
+            t.RailLocations.First().Locomotive.LocomotiveModelID,
+            t.RailLocations.First().Locomotive.LocomotiveModel.LocomotiveModelID
+            t.RailLocations.First().Locomotive.LocomotiveModel.Length,
+            t.RailLocations.First().RailcarID,
+            t.RailLocations.First().Railcar.RailcarID,
+            t.RailLocations.First().Railcar.ReportingMark,
+            t.RailLocations.First().Railcar.ReportingNumber,
+            t.RailLocations.First().Railcar.RailcarModelID,
+            t.RailLocations.First().Railcar.RailcarModel.RailcarModelID,
+            t.RailLocations.First().Railcar.RailcarModel.Length
+        });
     }
 }

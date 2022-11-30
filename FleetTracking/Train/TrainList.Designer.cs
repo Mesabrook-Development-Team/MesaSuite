@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrainList));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.dgvTrains = new System.Windows.Forms.DataGridView();
             this.colSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colLocomotive = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,6 +47,11 @@
             this.rdoInProgress = new System.Windows.Forms.RadioButton();
             this.rdoAll = new System.Windows.Forms.RadioButton();
             this.chkOperableTrainsOnly = new System.Windows.Forms.CheckBox();
+            this.loader = new FleetTracking.Loader();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTrains)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -54,6 +62,10 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.button4);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.dgvTrains);
             this.groupBox1.Location = new System.Drawing.Point(0, 41);
             this.groupBox1.Name = "groupBox1";
@@ -62,26 +74,43 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Trains";
             // 
+            // button1
+            // 
+            this.button1.Image = global::FleetTracking.Properties.Resources.resultset_last;
+            this.button1.Location = new System.Drawing.Point(576, 244);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(28, 23);
+            this.button1.TabIndex = 1;
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // dgvTrains
             // 
+            this.dgvTrains.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvTrains.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTrains.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSymbol,
+            this.colStatus,
             this.colStartTime,
             this.colEndTime,
             this.colLocomotive,
             this.colStockTotal,
             this.colLength});
-            this.dgvTrains.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTrains.Location = new System.Drawing.Point(3, 16);
             this.dgvTrains.Name = "dgvTrains";
-            this.dgvTrains.Size = new System.Drawing.Size(604, 254);
+            this.dgvTrains.Size = new System.Drawing.Size(604, 222);
             this.dgvTrains.TabIndex = 0;
             // 
             // colSymbol
             // 
             this.colSymbol.HeaderText = "Symbol";
             this.colSymbol.Name = "colSymbol";
+            // 
+            // colStatus
+            // 
+            this.colStatus.HeaderText = "Status";
+            this.colStatus.Name = "colStatus";
             // 
             // colStartTime
             // 
@@ -186,6 +215,45 @@
             this.chkOperableTrainsOnly.Text = "Operable Trains Only";
             this.chkOperableTrainsOnly.UseVisualStyleBackColor = true;
             // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(610, 343);
+            this.loader.TabIndex = 5;
+            this.loader.Visible = false;
+            // 
+            // button2
+            // 
+            this.button2.Image = global::FleetTracking.Properties.Resources.resultset_next;
+            this.button2.Location = new System.Drawing.Point(542, 244);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(28, 23);
+            this.button2.TabIndex = 1;
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Image = global::FleetTracking.Properties.Resources.resultset_previous;
+            this.button3.Location = new System.Drawing.Point(40, 244);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(28, 23);
+            this.button3.TabIndex = 1;
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Image = global::FleetTracking.Properties.Resources.resultset_first;
+            this.button4.Location = new System.Drawing.Point(6, 244);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(28, 23);
+            this.button4.TabIndex = 1;
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // TrainList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -196,8 +264,10 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.loader);
             this.Name = "TrainList";
             this.Size = new System.Drawing.Size(610, 343);
+            this.Load += new System.EventHandler(this.TrainList_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTrains)).EndInit();
             this.toolStrip1.ResumeLayout(false);
@@ -211,12 +281,6 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dgvTrains;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSymbol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStartTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colEndTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colLocomotive;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStockTotal;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colLength;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolAddTrain;
         private System.Windows.Forms.ToolStripButton toolDeleteTrain;
@@ -224,5 +288,18 @@
         private System.Windows.Forms.RadioButton rdoInProgress;
         private System.Windows.Forms.RadioButton rdoAll;
         private System.Windows.Forms.CheckBox chkOperableTrainsOnly;
+        private Loader loader;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSymbol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStartTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colEndTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLocomotive;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStockTotal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLength;
+        private DataGridViewStylizer dataGridViewStylizer;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
     }
 }

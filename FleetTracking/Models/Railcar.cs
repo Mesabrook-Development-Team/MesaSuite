@@ -1,4 +1,6 @@
-﻿namespace FleetTracking.Models
+﻿using System.Collections.Generic;
+
+namespace FleetTracking.Models
 {
     public class Railcar
     {

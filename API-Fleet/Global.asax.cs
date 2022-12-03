@@ -15,6 +15,7 @@ namespace API_Fleet
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new ObjectBasedFrameworkJsonContractResolver();
+            
         }
     }
 }

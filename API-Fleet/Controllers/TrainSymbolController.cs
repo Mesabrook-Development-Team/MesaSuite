@@ -44,6 +44,7 @@ namespace API_Fleet.Controllers
             ts.GovernmentOperator.Name,
             ts.Name,
             ts.Description,
+            ts.HasTrainInProgress,
             ts.TrainSymbolRates.First().TrainSymbolRateID,
             ts.TrainSymbolRates.First().TrainSymbolID,
             ts.TrainSymbolRates.First().EffectiveTime,

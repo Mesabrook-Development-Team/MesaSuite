@@ -1,4 +1,8 @@
 ﻿using System.Collections.Generic;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using WebModels.company;
@@ -63,6 +67,55 @@ namespace WebModels.fleet
         {
             get { CheckGet(); return _description; }
             set { CheckSet(); _description = value; }
+        }
+
+        private bool _hasTrainInProgress;
+        [Field("5146998D-2EB9-4FA1-9E52-2AF02FD436AF", HasOperation = true)]
+        public bool HasTrainInProgress
+        {
+            get { CheckGet(); return _hasTrainInProgress; }
+        }
+
+        public static OperationDelegate HasTrainInProgressOperation
+        {
+            get => (alias) =>
+            {
+                ISelectQuery selectQuery = SQLProviderFactory.GetSelectQuery();
+                selectQuery.Table = new Table("fleet", "Train", "trainexists");
+                selectQuery.SelectList = new List<Select>() { new Select() { SelectOperand = (Field)"trainexists.TrainID" } };
+                selectQuery.WhereCondition = new ConditionGroup()
+                {
+                    ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                    Conditions = new List<ICondition>()
+                    {
+                        new Condition()
+                        {
+                            Left = (Field)$"{alias}.TrainSymbolID",
+                            ConditionType = Condition.ConditionTypes.Equal,
+                            Right = (Field)"trainexists.TrainSymbolID"
+                        },
+                        new Condition()
+                        {
+                            Left = (Field)"trainexists.Status",
+                            ConditionType = Condition.ConditionTypes.List,
+                            Right = (CSV<int>)new List<int>() { (int)Train.Statuses.NotStarted, (int)Train.Statuses.EnRoute }
+                        }
+                    }
+                };
+
+                return new Case()
+                {
+                    Whens = new List<Case.When>()
+                    {
+                        new Case.When()
+                        {
+                            Condition = new Exists() { ExistType = Exists.ExistTypes.Exists, SelectQuery = selectQuery },
+                            Result = new Literal(true)
+                        }
+                    },
+                    Else = new Literal(false)
+                };
+            };
         }
 
         #region Relationships

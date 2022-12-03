@@ -76,6 +76,16 @@ namespace FleetTracking.Interop
             parentForm.Text = "Train Symbols";
         }
 
+        public void BrowseTrains()
+        {
+            Train.TrainList trainList = new Train.TrainList()
+            {
+                Application = this
+            };
+            Form form = OpenForm(trainList);
+            form.Text = "Train List";
+        }
+
         public IEnumerable<MainNavigationItem> GetNavigationItems()
         {
             yield return new MainNavigationItem("Rail")
@@ -93,7 +103,7 @@ namespace FleetTracking.Interop
                     },
                     new MainNavigationItem("Leasing", ManageLeasing),
                     new MainNavigationItem("Equipment Roster", BrowseEquipmentRoster),
-                    new MainNavigationItem("Train Manager"),
+                    new MainNavigationItem("Train Manager", BrowseTrains),
                     new MainNavigationItem("Track Viewer"),
                     new MainNavigationItem("Spot/Release")
                 }

@@ -18,6 +18,21 @@ namespace FleetTracking.TrainSymbols
     {
         private FleetTrackingApplication _application = null;
         public FleetTrackingApplication Application { set => _application = value; }
+        public bool SelectionMode { get; set; }
+        public Func<TrainSymbol, bool> Filter { get; set; }
+
+        public TrainSymbol SelectedSymbol
+        {
+            get
+            {
+                if (dgvList.SelectedRows.Count <= 0)
+                {
+                    return null;
+                }
+
+                return dgvList.SelectedRows[0].Tag as TrainSymbol;
+            }
+        }
 
         public TrainSymbolList()
         {
@@ -27,6 +42,13 @@ namespace FleetTracking.TrainSymbols
 
         private async void TrainSymbolList_Load(object sender, EventArgs e)
         {
+            if (SelectionMode)
+            {
+                toolStrip1.Visible = false;
+                dgvList.Location = new Point(0, 0);
+                dgvList.Size = new Size(dgvList.Width, rdoMySymbols.Top - 3);
+            }
+
             await LoadData();
         }
 
@@ -43,6 +65,15 @@ namespace FleetTracking.TrainSymbols
                 get.API = DataAccess.APIs.FleetTracking;
                 get.Resource = "TrainSymbol/GetAll";
                 List<TrainSymbol> trainSymbols = await get.GetObject<List<TrainSymbol>>() ?? new List<TrainSymbol>();
+                if (Filter != null)
+                {
+                    label1.Visible = false;
+                    rdoAllSymbols.Visible = false;
+                    rdoMySymbols.Visible = false;
+                    dgvList.Size = new Size(dgvList.Width, Height - dgvList.Top);
+
+                    trainSymbols = trainSymbols.Where(Filter).ToList();
+                }
 
                 foreach(TrainSymbol trainSymbol in trainSymbols)
                 {

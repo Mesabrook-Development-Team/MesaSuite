@@ -31,7 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrainList));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cmdFirst = new System.Windows.Forms.Button();
+            this.cmdNext = new System.Windows.Forms.Button();
+            this.cmdPrev = new System.Windows.Forms.Button();
+            this.cmdLast = new System.Windows.Forms.Button();
             this.dgvTrains = new System.Windows.Forms.DataGridView();
             this.colSymbol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,9 +52,6 @@
             this.chkOperableTrainsOnly = new System.Windows.Forms.CheckBox();
             this.loader = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTrains)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -62,10 +62,10 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.button4);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.cmdFirst);
+            this.groupBox1.Controls.Add(this.cmdNext);
+            this.groupBox1.Controls.Add(this.cmdPrev);
+            this.groupBox1.Controls.Add(this.cmdLast);
             this.groupBox1.Controls.Add(this.dgvTrains);
             this.groupBox1.Location = new System.Drawing.Point(0, 41);
             this.groupBox1.Name = "groupBox1";
@@ -74,14 +74,45 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Trains";
             // 
-            // button1
+            // cmdFirst
             // 
-            this.button1.Image = global::FleetTracking.Properties.Resources.resultset_last;
-            this.button1.Location = new System.Drawing.Point(576, 244);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(28, 23);
-            this.button1.TabIndex = 1;
-            this.button1.UseVisualStyleBackColor = true;
+            this.cmdFirst.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmdFirst.Image = global::FleetTracking.Properties.Resources.resultset_first;
+            this.cmdFirst.Location = new System.Drawing.Point(6, 244);
+            this.cmdFirst.Name = "cmdFirst";
+            this.cmdFirst.Size = new System.Drawing.Size(28, 23);
+            this.cmdFirst.TabIndex = 1;
+            this.cmdFirst.UseVisualStyleBackColor = true;
+            // 
+            // cmdNext
+            // 
+            this.cmdNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdNext.Image = global::FleetTracking.Properties.Resources.resultset_next;
+            this.cmdNext.Location = new System.Drawing.Point(542, 244);
+            this.cmdNext.Name = "cmdNext";
+            this.cmdNext.Size = new System.Drawing.Size(28, 23);
+            this.cmdNext.TabIndex = 1;
+            this.cmdNext.UseVisualStyleBackColor = true;
+            // 
+            // cmdPrev
+            // 
+            this.cmdPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmdPrev.Image = global::FleetTracking.Properties.Resources.resultset_previous;
+            this.cmdPrev.Location = new System.Drawing.Point(40, 244);
+            this.cmdPrev.Name = "cmdPrev";
+            this.cmdPrev.Size = new System.Drawing.Size(28, 23);
+            this.cmdPrev.TabIndex = 1;
+            this.cmdPrev.UseVisualStyleBackColor = true;
+            // 
+            // cmdLast
+            // 
+            this.cmdLast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdLast.Image = global::FleetTracking.Properties.Resources.resultset_last;
+            this.cmdLast.Location = new System.Drawing.Point(576, 244);
+            this.cmdLast.Name = "cmdLast";
+            this.cmdLast.Size = new System.Drawing.Size(28, 23);
+            this.cmdLast.TabIndex = 1;
+            this.cmdLast.UseVisualStyleBackColor = true;
             // 
             // dgvTrains
             // 
@@ -101,6 +132,7 @@
             this.dgvTrains.Name = "dgvTrains";
             this.dgvTrains.Size = new System.Drawing.Size(604, 222);
             this.dgvTrains.TabIndex = 0;
+            this.dgvTrains.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrains_CellDoubleClick);
             // 
             // colSymbol
             // 
@@ -156,6 +188,7 @@
             this.toolAddTrain.Size = new System.Drawing.Size(61, 35);
             this.toolAddTrain.Text = "Add Train";
             this.toolAddTrain.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolAddTrain.Click += new System.EventHandler(this.toolAddTrain_Click);
             // 
             // toolDeleteTrain
             // 
@@ -227,33 +260,6 @@
             this.loader.TabIndex = 5;
             this.loader.Visible = false;
             // 
-            // button2
-            // 
-            this.button2.Image = global::FleetTracking.Properties.Resources.resultset_next;
-            this.button2.Location = new System.Drawing.Point(542, 244);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(28, 23);
-            this.button2.TabIndex = 1;
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Image = global::FleetTracking.Properties.Resources.resultset_previous;
-            this.button3.Location = new System.Drawing.Point(40, 244);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(28, 23);
-            this.button3.TabIndex = 1;
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Image = global::FleetTracking.Properties.Resources.resultset_first;
-            this.button4.Location = new System.Drawing.Point(6, 244);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(28, 23);
-            this.button4.TabIndex = 1;
-            this.button4.UseVisualStyleBackColor = true;
-            // 
             // TrainList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -297,9 +303,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colStockTotal;
         private System.Windows.Forms.DataGridViewTextBoxColumn colLength;
         private DataGridViewStylizer dataGridViewStylizer;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button cmdLast;
+        private System.Windows.Forms.Button cmdFirst;
+        private System.Windows.Forms.Button cmdNext;
+        private System.Windows.Forms.Button cmdPrev;
     }
 }

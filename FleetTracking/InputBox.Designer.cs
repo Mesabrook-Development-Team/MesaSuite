@@ -44,17 +44,18 @@
             // 
             // txtInput
             // 
-            this.txtInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtInput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInput.Location = new System.Drawing.Point(12, 25);
             this.txtInput.Name = "txtInput";
-            this.txtInput.Size = new System.Drawing.Size(267, 20);
+            this.txtInput.Size = new System.Drawing.Size(319, 20);
             this.txtInput.TabIndex = 0;
             // 
             // cmdOK
             // 
-            this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdOK.Location = new System.Drawing.Point(204, 51);
+            this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdOK.Location = new System.Drawing.Point(256, 55);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 1;
@@ -64,9 +65,9 @@
             // 
             // cmdCancel
             // 
-            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(123, 51);
+            this.cmdCancel.Location = new System.Drawing.Point(175, 55);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 2;
@@ -83,7 +84,7 @@
             this.Controls.Add(this.txtInput);
             this.Controls.Add(this.lblPrompt);
             this.Name = "InputBox";
-            this.Size = new System.Drawing.Size(298, 87);
+            this.Size = new System.Drawing.Size(350, 81);
             this.Load += new System.EventHandler(this.InputBox_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

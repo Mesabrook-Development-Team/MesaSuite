@@ -293,6 +293,13 @@ namespace WebModels.fleet
         {
             get { CheckGet(); return _leaseContracts; }
         }
+
+        private List<TrainFuelRecord> _trainFuelRecords = new List<TrainFuelRecord>();
+        [RelationshipList("E84B521D-9AC4-458A-8F81-088F0C3F4A8B", nameof(TrainFuelRecord.LocomotiveID))]
+        public IReadOnlyCollection<TrainFuelRecord> TrainFuelRecords
+        {
+            get { CheckGet(); return _trainFuelRecords; }
+        }
         #endregion
         #endregion
     }

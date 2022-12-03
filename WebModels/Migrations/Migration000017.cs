@@ -190,6 +190,7 @@ namespace WebModels.Migrations
             {
                 { "TrainID", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { IsPrimary = true } },
                 { "TrainSymbolID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "TrainInstructions", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 300) },
                 { "Status", new FieldSpecification(FieldSpecification.FieldTypes.Int) }
             };
             createTable.Execute(transaction);
@@ -200,11 +201,26 @@ namespace WebModels.Migrations
             {
                 { "TrainDutyTransactionID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "TrainID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "UserIDOperator", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "TimeOnDuty", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
                 { "TimeOffDuty", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
             };
             createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "fleet", "Train");
+            CreateForeignKey(transaction, createTable, "security", "User");
+
+            createTable.TableName = "TrainFuelRecord";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "TrainFuelRecordID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "TrainID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocomotiveID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "FuelStart", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 4, 1) },
+                { "FuelEnd", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 4, 1) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "fleet", "Train");
+            CreateForeignKey(transaction, createTable, "fleet", "Locomotive");
 
             createTable.TableName = "RailDistrict";
             createTable.Columns = new Dictionary<string, FieldSpecification>()

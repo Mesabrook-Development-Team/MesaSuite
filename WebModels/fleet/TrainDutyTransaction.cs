@@ -1,6 +1,7 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using System;
+using WebModels.security;
 
 namespace WebModels.fleet
 {
@@ -30,6 +31,21 @@ namespace WebModels.fleet
         public Train Train
         {
             get { CheckGet(); return _train; }
+        }
+
+        private long? _userIDOperator;
+        [Field("ED86E9F2-8A20-40A8-863D-771F7DE393ED")]
+        public long? UserIDOperator
+        {
+            get { CheckGet(); return _userIDOperator; }
+            set { CheckSet(); _userIDOperator = value; }
+        }
+
+        private User _userOperator;
+        [Relationship("830A7A8A-56C9-4A98-B2B0-336AECDC547C", ForeignKeyField = nameof(UserIDOperator))]
+        public User UserOperator
+        {
+            get { CheckGet(); return _userOperator; }
         }
 
         private DateTime? _timeOnDuty;

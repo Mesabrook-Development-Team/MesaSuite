@@ -71,6 +71,7 @@
     <Compile Include="fleet\Track.cs" />
     <Compile Include="fleet\Train.cs" />
     <Compile Include="fleet\TrainDutyTransaction.cs" />
+    <Compile Include="fleet\TrainFuelRecord.cs" />
     <Compile Include="fleet\TrainSymbol.cs" />
     <Compile Include="fleet\TrainSymbolRate.cs" />
     <Compile Include="gov\Government.cs" />

@@ -38,6 +38,14 @@ namespace WebModels.fleet
             get { CheckGet(); return _trainSymbol; }
         }
 
+        private string _trainInstructions;
+        [Field("B84D274C-ED8C-4F7D-8533-319A52FEC005", DataSize = 300)]
+        public string TrainInstructions
+        {
+            get { CheckGet(); return _trainInstructions; }
+            set { CheckSet(); _trainInstructions = value; }
+        }
+
         public enum Statuses
         {
             NotStarted,
@@ -74,6 +82,13 @@ namespace WebModels.fleet
         public IReadOnlyCollection<TrainDutyTransaction> TrainDutyTransactions
         {
             get { CheckGet(); return _trainDutyTransactions; }
+        }
+
+        private List<TrainFuelRecord> _trainFuelRecords = new List<TrainFuelRecord>();
+        [RelationshipList("A6ADE06B-BA77-4E30-85DE-3B074CC52E89", nameof(TrainFuelRecord.TrainID))]
+        public IReadOnlyCollection<TrainFuelRecord> TrainFuelRecords
+        {
+            get { CheckGet(); return _trainFuelRecords; }
         }
         #endregion
         #endregion

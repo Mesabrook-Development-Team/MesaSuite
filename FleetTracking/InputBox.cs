@@ -8,8 +8,9 @@ namespace FleetTracking
 {
     public partial class InputBox : UserControl, IFleetTrackingControl
     {
-        private static readonly Size InitialSize = new Size(350, 87);
+        private Size InitialSize = new Size(350, 81);
         public string InputValue { get; set; }
+        public bool MultiLine { get; set; }
 
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; } // We shouldn't really need this but the interface requires it
@@ -46,6 +47,14 @@ namespace FleetTracking
 
         private void InputBox_Load(object sender, EventArgs e)
         {
+            if (MultiLine)
+            {
+                InitialSize = new Size(350, 121);
+                txtInput.Multiline = true;
+                txtInput.AcceptsReturn = true;
+                txtInput.ScrollBars = ScrollBars.Vertical;
+            }
+
             ParentForm.Text = this.Text;
             ParentForm.FormBorderStyle = FormBorderStyle.FixedDialog;
             ParentForm.MaximizeBox = false;

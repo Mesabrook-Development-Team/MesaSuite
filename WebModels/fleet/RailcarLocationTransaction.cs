@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using WebModels.invoicing;
 
@@ -96,6 +101,114 @@ namespace WebModels.fleet
         public Invoice Invoice
         {
             get { CheckGet(); return _invoice; }
+        }
+
+        private RailcarLocationTransaction _previousTransaction = null;
+        [Relationship("0FC674F9-886C-40D4-9D2E-B9E351076C0A", HasForeignKey = false)]
+        public RailcarLocationTransaction PreviousTransaction
+        {
+            get { CheckGet(); return _previousTransaction; }
+        }
+
+        private RailcarLocationTransaction _nextTransaction = null;
+        [Relationship("9CDB9A09-ABEC-4CB0-9775-913696D3D607", HasForeignKey = false)]
+        public RailcarLocationTransaction NextTransaction
+        {
+            get { CheckGet(); return _nextTransaction; }
+        }
+
+        public override ICondition GetRelationshipCondition(Relationship relationship, string myAlias, string otherAlias)
+        {
+            switch(relationship.RelationshipName)
+            {
+                case nameof(PreviousTransaction):
+                    return GetPreviousTransactionCondition(myAlias, otherAlias);
+                case nameof(NextTransaction):
+                    return GetNextTransactionCondition(myAlias, otherAlias);
+                default:
+                    return base.GetRelationshipCondition(relationship, myAlias, otherAlias);
+
+            }
+        }
+
+        private ICondition GetPreviousTransactionCondition(string myAlias, string otherAlias)
+        {
+            ISelectQuery subQuery = SQLProviderFactory.GetSelectQuery();
+            subQuery.Table = new Table("fleet", "RailcarLocationTransaction", "nextTransSubQuery");
+            subQuery.SelectList = new List<Select>() { new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)"nextTransSubQuery.RailcarLocationTransactionID" } };
+            subQuery.PageSize = 1;
+            subQuery.WhereCondition = new ConditionGroup()
+            {
+                ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                Conditions = new List<ICondition>()
+                {
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.RailcarID",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.RailcarID"
+                    },
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.TransactionTime",
+                        ConditionType = Condition.ConditionTypes.Less,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.TransactionTime"
+                    }
+                }
+            };
+            subQuery.OrderByList = new List<Order>()
+            {
+                new Order()
+                {
+                    OrderDirection = Order.OrderDirections.Descending,
+                    Field = "TransactionTime"
+                }
+            };
+
+            return new Condition()
+            {
+                Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.RailcarLocationTransactionID",
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = new SubQuery(subQuery)
+            };
+        }
+
+        private ICondition GetNextTransactionCondition(string myAlias, string otherAlias)
+        {
+            ISelectQuery subQuery = SQLProviderFactory.GetSelectQuery();
+            subQuery.Table = new Table("fleet", "RailcarLocationTransaction", "nextTransSubQuery");
+            subQuery.SelectList = new List<Select>() { new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)"nextTransSubQuery.RailcarLocationTransactionID" } };
+            subQuery.PageSize = 1;
+            subQuery.WhereCondition = new ConditionGroup()
+            {
+                ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                Conditions = new List<ICondition>()
+                {
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.RailcarID",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.RailcarID"
+                    },
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.TransactionTime",
+                        ConditionType = Condition.ConditionTypes.Greater,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.TransactionTime"
+                    }
+                }
+            };
+            subQuery.OrderByList = new List<Order>()
+            {
+                new Order() { Field = "TransactionTime" }
+            };
+
+            return new Condition()
+            {
+                Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.RailcarLocationTransactionID",
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = new SubQuery(subQuery)
+            };
         }
     }
 }

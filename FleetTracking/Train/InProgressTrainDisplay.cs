@@ -28,6 +28,7 @@ namespace FleetTracking.Train
             dataGridViewStylizer.ApplyStyle(dgvConsist);
             dataGridViewStylizer.ApplyStyle(dgvDutyTrans);
             dataGridViewStylizer.ApplyStyle(dgvLocoFuel);
+            dataGridViewStylizer.ApplyStyle(dgvHandledCars);
         }
 
         private void InProgressTrainDisplay_Load(object sender, EventArgs e)
@@ -41,6 +42,7 @@ namespace FleetTracking.Train
             LoadConsist();
             LoadDutyTransactions();
             LoadLocoFuel();
+            LoadHandledCars();
         }
 
         private async void LoadTrainInfo()
@@ -202,7 +204,87 @@ namespace FleetTracking.Train
 
             try
             {
-                GetData get = _
+                GetData get = _application.GetAccess<GetData>();
+                get.API = DataAccess.APIs.FleetTracking;
+
+                foreach(DataGridViewRow row in dgvLocoFuel.Rows)
+                {
+                    TrainFuelRecord fuelRecord = row.Tag as TrainFuelRecord;
+                    if (fuelRecord == null)
+                    {
+                        continue;
+                    }
+
+                    get.Resource = $"Locomotive/GetImage/{fuelRecord.LocomotiveID}";
+                    byte[] imageData = await get.GetObject<byte[]>();
+
+                    if (imageData != null)
+                    {
+                        using (MemoryStream stream = new MemoryStream(imageData))
+                        {
+                            Image image = Image.FromStream(stream);
+                            row.Cells[colFuelImage.Name].Value = image;
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private async void LoadHandledCars()
+        {
+            try
+            {
+                loaderHandledCars.BringToFront();
+                loaderHandledCars.Visible = true;
+
+                GetData get = _application.GetAccess<GetData>();
+                get.API = DataAccess.APIs.FleetTracking;
+                get.Resource = $"RailcarLocationTransaction/GetByTrain/{TrainID}";
+
+                List<RailcarLocationTransaction> locationTransactions = await get.GetObject<List<RailcarLocationTransaction>>() ?? new List<RailcarLocationTransaction>();
+
+                foreach(RailcarLocationTransaction locationTransaction in locationTransactions)
+                {
+                    int rowIndex = dgvHandledCars.Rows.Add();
+                    DataGridViewRow row = dgvHandledCars.Rows[rowIndex];
+
+                    row.Cells[colHandledReportingMark.Name].Value = locationTransaction.Railcar?.FormattedReportingMark;
+                    row.Cells[colPickedUp.Name].Value = locationTransaction.PreviousTransaction?.TrackNew?.Name ?? locationTransaction.PreviousTransaction?.TrainNew?.TrainSymbol?.Name;
+                    row.Cells[colSetOut.Name].Value = locationTransaction.NextTransaction?.TrackNew?.Name ?? locationTransaction.NextTransaction?.TrainNew?.TrainSymbol?.Name;
+                    row.Cells[colPartialTrip.Name].Value = locationTransaction.IsPartialTrainTrip;
+                    row.Tag = locationTransaction;
+                }
+            }
+            finally
+            {
+                loaderHandledCars.Visible = false;
+            }
+
+            try
+            {
+                GetData get = _application.GetAccess<GetData>();
+                get.API = DataAccess.APIs.CompanyStudio;
+                
+                foreach(DataGridViewRow row in dgvHandledCars.Rows)
+                {
+                    RailcarLocationTransaction locationTransaction = row.Tag as RailcarLocationTransaction;
+                    if (locationTransaction == null)
+                    {
+                        continue;
+                    }
+
+                    get.Resource = $"Railcar/GetImage/{locationTransaction.RailcarID}";
+                    byte[] imageData = await get.GetObject<byte[]>();
+                    if (imageData != null)
+                    {
+                        using (MemoryStream stream = new MemoryStream(imageData))
+                        {
+                            Image image = Image.FromStream(stream);
+                            row.Cells[colHandledImage.Name].Value = image;
+                        }
+                    }
+                }
             }
             catch { }
         }

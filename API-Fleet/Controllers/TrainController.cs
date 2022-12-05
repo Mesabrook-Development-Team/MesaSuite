@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Http;
 using API.Common;
 using API.Common.Attributes;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
 using WebModels.fleet;
@@ -18,6 +19,25 @@ namespace API_Fleet.Controllers
     {
         private long? CompanyID => Request.Headers.Contains("CompanyID") ? long.Parse(Request.Headers.GetValues("CompanyID").First()) : (long?)null;
         private long? GovernmentID => Request.Headers.Contains("GovernmentID") ? long.Parse(Request.Headers.GetValues("GovernmentID").First()) : (long?)null;
+
+        public TrainController() : base()
+        {
+            PostSecurityCheck += TrainController_EditSecurityCheck;
+            PutSecurityCheck += TrainController_EditSecurityCheck;
+            DeleteSecurityCheck += TrainController_EditSecurityCheck;
+            PatchSecurityCheck += TrainController_EditSecurityCheck;
+        }
+
+        private void TrainController_EditSecurityCheck(object sender, SecurityCheckEventArgs e)
+        {
+            TrainSymbol symbol = DataObject.GetReadOnlyByPrimaryKey<Train>(e.ObjectID, e.Transaction, FieldPathUtility.CreateFieldPathsAsList<Train>(t => new List<object>()
+            {
+                t.TrainSymbol.CompanyIDOperator,
+                t.TrainSymbol.GovernmentIDOperator
+            })).TrainSymbol;
+
+            e.IsValid &= CompanyID == symbol.CompanyIDOperator && GovernmentID == symbol.GovernmentIDOperator;
+        }
 
         public override IEnumerable<string> DefaultRetrievedFields => FieldPathUtility.CreateFieldPathsAsList<Train>(t => new List<object>()
         {

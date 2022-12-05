@@ -40,6 +40,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txtInstructions = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.loaderTrainInfo = new FleetTracking.Loader();
             this.lblTotalLength = new System.Windows.Forms.Label();
             this.lblStockTotal = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -47,44 +48,44 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabConsist = new System.Windows.Forms.TabPage();
             this.dgvConsist = new System.Windows.Forms.DataGridView();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.tabDutyTrans = new System.Windows.Forms.TabPage();
-            this.dgvDutyTrans = new System.Windows.Forms.DataGridView();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.tabLocoFuel = new System.Windows.Forms.TabPage();
-            this.dgvLocoFuel = new System.Windows.Forms.DataGridView();
-            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
-            this.tabHandledCars = new System.Windows.Forms.TabPage();
-            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.colOperator = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTimeStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTimeEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colConsistImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPosition = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colConsistType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.loaderConsist = new FleetTracking.Loader();
+            this.tabDutyTrans = new System.Windows.Forms.TabPage();
+            this.dgvDutyTrans = new System.Windows.Forms.DataGridView();
+            this.colOperator = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTimeStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTimeEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.loaderDutyTrans = new FleetTracking.Loader();
+            this.tabLocoFuel = new System.Windows.Forms.TabPage();
+            this.dgvLocoFuel = new System.Windows.Forms.DataGridView();
             this.colFuelImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.colFuelReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStartingFuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEndingFuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStrip4 = new System.Windows.Forms.ToolStrip();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.loaderLocoFuel = new FleetTracking.Loader();
+            this.tabHandledCars = new System.Windows.Forms.TabPage();
+            this.dgvHandledCars = new System.Windows.Forms.DataGridView();
             this.colHandledImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.colHandledReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPickedUp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSetOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPartialTrip = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.loaderTrainInfo = new FleetTracking.Loader();
-            this.loaderConsist = new FleetTracking.Loader();
-            this.loaderDutyTrans = new FleetTracking.Loader();
-            this.loaderLocoFuel = new FleetTracking.Loader();
+            this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.loaderHandledCars = new FleetTracking.Loader();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -101,8 +102,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvLocoFuel)).BeginInit();
             this.toolStrip3.SuspendLayout();
             this.tabHandledCars.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHandledCars)).BeginInit();
             this.toolStrip4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -230,6 +231,18 @@
             this.label10.TabIndex = 0;
             this.label10.Text = "Train Instructions:";
             // 
+            // loaderTrainInfo
+            // 
+            this.loaderTrainInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loaderTrainInfo.BackColor = System.Drawing.Color.Transparent;
+            this.loaderTrainInfo.Location = new System.Drawing.Point(3, 16);
+            this.loaderTrainInfo.Name = "loaderTrainInfo";
+            this.loaderTrainInfo.Size = new System.Drawing.Size(538, 99);
+            this.loaderTrainInfo.TabIndex = 1;
+            this.loaderTrainInfo.Visible = false;
+            // 
             // lblTotalLength
             // 
             this.lblTotalLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -322,6 +335,28 @@
             this.dgvConsist.Size = new System.Drawing.Size(512, 310);
             this.dgvConsist.TabIndex = 2;
             // 
+            // colConsistImage
+            // 
+            this.colConsistImage.HeaderText = "Image";
+            this.colConsistImage.Name = "colConsistImage";
+            // 
+            // colReportingMark
+            // 
+            this.colReportingMark.HeaderText = "Reporting Mark";
+            this.colReportingMark.Name = "colReportingMark";
+            this.colReportingMark.Width = 120;
+            // 
+            // colPosition
+            // 
+            this.colPosition.HeaderText = "Pos";
+            this.colPosition.Name = "colPosition";
+            this.colPosition.Width = 40;
+            // 
+            // colConsistType
+            // 
+            this.colConsistType.HeaderText = "Type";
+            this.colConsistType.Name = "colConsistType";
+            // 
             // toolStrip2
             // 
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -348,6 +383,18 @@
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(77, 22);
             this.toolStripButton3.Text = "Live Load";
+            // 
+            // loaderConsist
+            // 
+            this.loaderConsist.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loaderConsist.BackColor = System.Drawing.Color.Transparent;
+            this.loaderConsist.Location = new System.Drawing.Point(0, 0);
+            this.loaderConsist.Name = "loaderConsist";
+            this.loaderConsist.Size = new System.Drawing.Size(518, 357);
+            this.loaderConsist.TabIndex = 3;
+            this.loaderConsist.Visible = false;
             // 
             // tabDutyTrans
             // 
@@ -376,6 +423,21 @@
             this.dgvDutyTrans.Size = new System.Drawing.Size(512, 326);
             this.dgvDutyTrans.TabIndex = 2;
             // 
+            // colOperator
+            // 
+            this.colOperator.HeaderText = "Operator";
+            this.colOperator.Name = "colOperator";
+            // 
+            // colTimeStart
+            // 
+            this.colTimeStart.HeaderText = "Start Time";
+            this.colTimeStart.Name = "colTimeStart";
+            // 
+            // colTimeEnd
+            // 
+            this.colTimeEnd.HeaderText = "End Time";
+            this.colTimeEnd.Name = "colTimeEnd";
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -393,6 +455,18 @@
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(111, 22);
             this.toolStripButton1.Text = "Go On/Off Duty";
+            // 
+            // loaderDutyTrans
+            // 
+            this.loaderDutyTrans.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loaderDutyTrans.BackColor = System.Drawing.Color.Transparent;
+            this.loaderDutyTrans.Location = new System.Drawing.Point(0, 0);
+            this.loaderDutyTrans.Name = "loaderDutyTrans";
+            this.loaderDutyTrans.Size = new System.Drawing.Size(518, 358);
+            this.loaderDutyTrans.TabIndex = 3;
+            this.loaderDutyTrans.Visible = false;
             // 
             // tabLocoFuel
             // 
@@ -420,6 +494,27 @@
             this.dgvLocoFuel.RowHeadersVisible = false;
             this.dgvLocoFuel.Size = new System.Drawing.Size(518, 332);
             this.dgvLocoFuel.TabIndex = 2;
+            // 
+            // colFuelImage
+            // 
+            this.colFuelImage.HeaderText = "Image";
+            this.colFuelImage.Name = "colFuelImage";
+            // 
+            // colFuelReportingMark
+            // 
+            this.colFuelReportingMark.HeaderText = "Reporting Mark";
+            this.colFuelReportingMark.Name = "colFuelReportingMark";
+            this.colFuelReportingMark.Width = 120;
+            // 
+            // colStartingFuel
+            // 
+            this.colStartingFuel.HeaderText = "Start Amount";
+            this.colStartingFuel.Name = "colStartingFuel";
+            // 
+            // colEndingFuel
+            // 
+            this.colEndingFuel.HeaderText = "End Amount";
+            this.colEndingFuel.Name = "colEndingFuel";
             // 
             // toolStrip3
             // 
@@ -457,10 +552,23 @@
             this.toolStripButton6.Size = new System.Drawing.Size(66, 22);
             this.toolStripButton6.Text = "Set End";
             // 
+            // loaderLocoFuel
+            // 
+            this.loaderLocoFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loaderLocoFuel.BackColor = System.Drawing.Color.Transparent;
+            this.loaderLocoFuel.Location = new System.Drawing.Point(0, 0);
+            this.loaderLocoFuel.Name = "loaderLocoFuel";
+            this.loaderLocoFuel.Size = new System.Drawing.Size(518, 358);
+            this.loaderLocoFuel.TabIndex = 3;
+            this.loaderLocoFuel.Visible = false;
+            // 
             // tabHandledCars
             // 
-            this.tabHandledCars.Controls.Add(this.dataGridView1);
+            this.tabHandledCars.Controls.Add(this.dgvHandledCars);
             this.tabHandledCars.Controls.Add(this.toolStrip4);
+            this.tabHandledCars.Controls.Add(this.loaderHandledCars);
             this.tabHandledCars.Location = new System.Drawing.Point(23, 4);
             this.tabHandledCars.Name = "tabHandledCars";
             this.tabHandledCars.Size = new System.Drawing.Size(518, 357);
@@ -468,96 +576,20 @@
             this.tabHandledCars.Text = "Handled Cars";
             this.tabHandledCars.UseVisualStyleBackColor = true;
             // 
-            // colOperator
+            // dgvHandledCars
             // 
-            this.colOperator.HeaderText = "Operator";
-            this.colOperator.Name = "colOperator";
-            // 
-            // colTimeStart
-            // 
-            this.colTimeStart.HeaderText = "Start Time";
-            this.colTimeStart.Name = "colTimeStart";
-            // 
-            // colTimeEnd
-            // 
-            this.colTimeEnd.HeaderText = "End Time";
-            this.colTimeEnd.Name = "colTimeEnd";
-            // 
-            // colConsistImage
-            // 
-            this.colConsistImage.HeaderText = "Image";
-            this.colConsistImage.Name = "colConsistImage";
-            // 
-            // colReportingMark
-            // 
-            this.colReportingMark.HeaderText = "Reporting Mark";
-            this.colReportingMark.Name = "colReportingMark";
-            this.colReportingMark.Width = 120;
-            // 
-            // colPosition
-            // 
-            this.colPosition.HeaderText = "Pos";
-            this.colPosition.Name = "colPosition";
-            this.colPosition.Width = 40;
-            // 
-            // colConsistType
-            // 
-            this.colConsistType.HeaderText = "Type";
-            this.colConsistType.Name = "colConsistType";
-            // 
-            // colFuelImage
-            // 
-            this.colFuelImage.HeaderText = "Image";
-            this.colFuelImage.Name = "colFuelImage";
-            // 
-            // colFuelReportingMark
-            // 
-            this.colFuelReportingMark.HeaderText = "Reporting Mark";
-            this.colFuelReportingMark.Name = "colFuelReportingMark";
-            this.colFuelReportingMark.Width = 120;
-            // 
-            // colStartingFuel
-            // 
-            this.colStartingFuel.HeaderText = "Start Amount";
-            this.colStartingFuel.Name = "colStartingFuel";
-            // 
-            // colEndingFuel
-            // 
-            this.colEndingFuel.HeaderText = "End Amount";
-            this.colEndingFuel.Name = "colEndingFuel";
-            // 
-            // toolStrip4
-            // 
-            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton7});
-            this.toolStrip4.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(518, 25);
-            this.toolStrip4.TabIndex = 0;
-            this.toolStrip4.Text = "toolStrip4";
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvHandledCars.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvHandledCars.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colHandledImage,
             this.colHandledReportingMark,
             this.colPickedUp,
             this.colSetOut,
             this.colPartialTrip});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 25);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(518, 332);
-            this.dataGridView1.TabIndex = 1;
-            // 
-            // toolStripButton7
-            // 
-            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(120, 22);
-            this.toolStripButton7.Text = "Toggle Partial Trip";
+            this.dgvHandledCars.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvHandledCars.Location = new System.Drawing.Point(0, 25);
+            this.dgvHandledCars.Name = "dgvHandledCars";
+            this.dgvHandledCars.Size = new System.Drawing.Size(518, 332);
+            this.dgvHandledCars.TabIndex = 1;
             // 
             // colHandledImage
             // 
@@ -587,53 +619,35 @@
             this.colPartialTrip.HeaderText = "Partial Trip";
             this.colPartialTrip.Name = "colPartialTrip";
             // 
-            // loaderTrainInfo
+            // toolStrip4
             // 
-            this.loaderTrainInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton7});
+            this.toolStrip4.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip4.Name = "toolStrip4";
+            this.toolStrip4.Size = new System.Drawing.Size(518, 25);
+            this.toolStrip4.TabIndex = 0;
+            this.toolStrip4.Text = "toolStrip4";
+            // 
+            // toolStripButton7
+            // 
+            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
+            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton7.Name = "toolStripButton7";
+            this.toolStripButton7.Size = new System.Drawing.Size(120, 22);
+            this.toolStripButton7.Text = "Toggle Partial Trip";
+            // 
+            // loaderHandledCars
+            // 
+            this.loaderHandledCars.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.loaderTrainInfo.BackColor = System.Drawing.Color.Transparent;
-            this.loaderTrainInfo.Location = new System.Drawing.Point(3, 16);
-            this.loaderTrainInfo.Name = "loaderTrainInfo";
-            this.loaderTrainInfo.Size = new System.Drawing.Size(538, 99);
-            this.loaderTrainInfo.TabIndex = 1;
-            this.loaderTrainInfo.Visible = false;
-            // 
-            // loaderConsist
-            // 
-            this.loaderConsist.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loaderConsist.BackColor = System.Drawing.Color.Transparent;
-            this.loaderConsist.Location = new System.Drawing.Point(0, 0);
-            this.loaderConsist.Name = "loaderConsist";
-            this.loaderConsist.Size = new System.Drawing.Size(518, 357);
-            this.loaderConsist.TabIndex = 3;
-            this.loaderConsist.Visible = false;
-            // 
-            // loaderDutyTrans
-            // 
-            this.loaderDutyTrans.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loaderDutyTrans.BackColor = System.Drawing.Color.Transparent;
-            this.loaderDutyTrans.Location = new System.Drawing.Point(0, 0);
-            this.loaderDutyTrans.Name = "loaderDutyTrans";
-            this.loaderDutyTrans.Size = new System.Drawing.Size(518, 358);
-            this.loaderDutyTrans.TabIndex = 3;
-            this.loaderDutyTrans.Visible = false;
-            // 
-            // loaderLocoFuel
-            // 
-            this.loaderLocoFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loaderLocoFuel.BackColor = System.Drawing.Color.Transparent;
-            this.loaderLocoFuel.Location = new System.Drawing.Point(0, 0);
-            this.loaderLocoFuel.Name = "loaderLocoFuel";
-            this.loaderLocoFuel.Size = new System.Drawing.Size(518, 358);
-            this.loaderLocoFuel.TabIndex = 3;
-            this.loaderLocoFuel.Visible = false;
+            this.loaderHandledCars.BackColor = System.Drawing.Color.Transparent;
+            this.loaderHandledCars.Location = new System.Drawing.Point(0, 0);
+            this.loaderHandledCars.Name = "loaderHandledCars";
+            this.loaderHandledCars.Size = new System.Drawing.Size(518, 357);
+            this.loaderHandledCars.TabIndex = 2;
+            this.loaderHandledCars.Visible = false;
             // 
             // InProgressTrainDisplay
             // 
@@ -669,9 +683,9 @@
             this.toolStrip3.PerformLayout();
             this.tabHandledCars.ResumeLayout(false);
             this.tabHandledCars.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHandledCars)).EndInit();
             this.toolStrip4.ResumeLayout(false);
             this.toolStrip4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -721,7 +735,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colFuelReportingMark;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStartingFuel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEndingFuel;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvHandledCars;
         private System.Windows.Forms.DataGridViewImageColumn colHandledImage;
         private System.Windows.Forms.DataGridViewTextBoxColumn colHandledReportingMark;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPickedUp;
@@ -733,5 +747,6 @@
         private Loader loaderConsist;
         private Loader loaderDutyTrans;
         private Loader loaderLocoFuel;
+        private Loader loaderHandledCars;
     }
 }

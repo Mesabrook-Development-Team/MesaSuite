@@ -95,6 +95,7 @@
     <Compile Include="Controllers\LocomotiveController.cs" />
     <Compile Include="Controllers\LocomotiveModelController.cs" />
     <Compile Include="Controllers\RailcarModelController.cs" />
+    <Compile Include="Controllers\RailLocationController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\TrainController.cs" />
     <Compile Include="Controllers\TrainSymbolController.cs" />

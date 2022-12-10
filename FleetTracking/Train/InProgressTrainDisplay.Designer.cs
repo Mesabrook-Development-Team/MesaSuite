@@ -53,7 +53,7 @@
             this.colPosition = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colConsistType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolModifyConsist = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.loaderConsist = new FleetTracking.Loader();
             this.tabDutyTrans = new System.Windows.Forms.TabPage();
@@ -84,8 +84,8 @@
             this.colPartialTrip = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.toolStrip4 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
-            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             this.loaderHandledCars = new FleetTracking.Loader();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -219,7 +219,6 @@
             this.txtInstructions.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtInstructions.Size = new System.Drawing.Size(267, 77);
             this.txtInstructions.TabIndex = 1;
-            this.txtInstructions.Text = "Spring Valley can be skipped - no pickups/setouts required.";
             // 
             // label10
             // 
@@ -338,6 +337,7 @@
             // colConsistImage
             // 
             this.colConsistImage.HeaderText = "Image";
+            this.colConsistImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
             this.colConsistImage.Name = "colConsistImage";
             // 
             // colReportingMark
@@ -360,7 +360,7 @@
             // toolStrip2
             // 
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton2,
+            this.toolModifyConsist,
             this.toolStripButton3});
             this.toolStrip2.Location = new System.Drawing.Point(3, 3);
             this.toolStrip2.Name = "toolStrip2";
@@ -368,13 +368,14 @@
             this.toolStrip2.TabIndex = 1;
             this.toolStrip2.Text = "toolStrip2";
             // 
-            // toolStripButton2
+            // toolModifyConsist
             // 
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(65, 22);
-            this.toolStripButton2.Text = "Modify";
+            this.toolModifyConsist.Image = ((System.Drawing.Image)(resources.GetObject("toolModifyConsist.Image")));
+            this.toolModifyConsist.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolModifyConsist.Name = "toolModifyConsist";
+            this.toolModifyConsist.Size = new System.Drawing.Size(65, 22);
+            this.toolModifyConsist.Text = "Modify";
+            this.toolModifyConsist.Click += new System.EventHandler(this.toolModifyConsist_Click);
             // 
             // toolStripButton3
             // 
@@ -711,7 +712,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.DataGridView dgvConsist;
         private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton toolModifyConsist;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
@@ -724,10 +725,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButton6;
         private DataGridViewStylizer dataGridViewStylizer;
         private System.Windows.Forms.DataGridView dgvDutyTrans;
-        private System.Windows.Forms.DataGridViewImageColumn colConsistImage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colReportingMark;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPosition;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colConsistType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colOperator;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTimeStart;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTimeEnd;
@@ -748,5 +745,9 @@
         private Loader loaderDutyTrans;
         private Loader loaderLocoFuel;
         private Loader loaderHandledCars;
+        private System.Windows.Forms.DataGridViewImageColumn colConsistImage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colReportingMark;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPosition;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colConsistType;
     }
 }

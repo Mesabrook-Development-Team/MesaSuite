@@ -94,12 +94,18 @@
     <Compile Include="Controllers\RailcarController.cs" />
     <Compile Include="Controllers\LocomotiveController.cs" />
     <Compile Include="Controllers\LocomotiveModelController.cs" />
+    <Compile Include="Controllers\RailcarLocationTransactionController.cs" />
     <Compile Include="Controllers\RailcarModelController.cs" />
+    <Compile Include="Controllers\RailDistrictController.cs" />
     <Compile Include="Controllers\RailLocationController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\TrackController.cs" />
     <Compile Include="Controllers\TrainController.cs" />
+    <Compile Include="Controllers\TrainDutyTransactionController.cs" />
+    <Compile Include="Controllers\TrainFuelRecordController.cs" />
     <Compile Include="Controllers\TrainSymbolController.cs" />
     <Compile Include="Controllers\TrainSymbolRateController.cs" />
+    <Compile Include="Extensions\ApiControllerExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -116,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Helpers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

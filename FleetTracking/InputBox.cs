@@ -14,8 +14,8 @@ namespace FleetTracking
 
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; } // We shouldn't really need this but the interface requires it
-        
-        public Type InputValueType { get; set; }
+
+        public Type InputValueType { get; set; } = typeof(string);
 
         public InputBox()
         {

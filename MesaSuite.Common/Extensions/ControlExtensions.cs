@@ -10,6 +10,11 @@ namespace MesaSuite.Common.Extensions
             MessageBox.Show(form, error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        public static void ShowWarning(this Control form, string error)
+        {
+            MessageBox.Show(form, error, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
         public static void ShowInformation(this Control form, string info)
         {
             MessageBox.Show(form, info, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);

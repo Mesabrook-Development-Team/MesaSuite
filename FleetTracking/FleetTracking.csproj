@@ -258,6 +258,30 @@
     <Compile Include="Roster\RosterList.Designer.cs">
       <DependentUpon>RosterList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tracks\RailDistrictDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tracks\RailDistrictDetails.Designer.cs">
+      <DependentUpon>RailDistrictDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tracks\RailDistrictList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tracks\RailDistrictList.Designer.cs">
+      <DependentUpon>RailDistrictList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tracks\TrackSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tracks\TrackSelector.Designer.cs">
+      <DependentUpon>TrackSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tracks\TrackViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tracks\TrackViewer.Designer.cs">
+      <DependentUpon>TrackViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="TrainSymbols\TrainSymbolDetail.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -287,6 +311,12 @@
     </Compile>
     <Compile Include="Train\NewTrainSelectSymbol.Designer.cs">
       <DependentUpon>NewTrainSelectSymbol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Train\RailLocationModifier.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Train\RailLocationModifier.Designer.cs">
+      <DependentUpon>RailLocationModifier.cs</DependentUpon>
     </Compile>
     <Compile Include="Train\TrainList.cs">
       <SubType>UserControl</SubType>
@@ -393,6 +423,18 @@
     <EmbeddedResource Include="Roster\RosterList.resx">
       <DependentUpon>RosterList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tracks\RailDistrictDetails.resx">
+      <DependentUpon>RailDistrictDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tracks\RailDistrictList.resx">
+      <DependentUpon>RailDistrictList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tracks\TrackSelector.resx">
+      <DependentUpon>TrackSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tracks\TrackViewer.resx">
+      <DependentUpon>TrackViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TrainSymbols\TrainSymbolDetail.resx">
       <DependentUpon>TrainSymbolDetail.cs</DependentUpon>
     </EmbeddedResource>
@@ -407,6 +449,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Train\NewTrainSelectSymbol.resx">
       <DependentUpon>NewTrainSelectSymbol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Train\RailLocationModifier.resx">
+      <DependentUpon>RailLocationModifier.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Train\TrainList.resx">
       <DependentUpon>TrainList.cs</DependentUpon>

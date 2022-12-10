@@ -104,6 +104,9 @@ namespace FleetTracking.Train
                     row.Cells[colConsistType.Name].Value = railLocation.LocomotiveID == null ? "Railcar" : "Locomotive";
                     row.Tag = railLocation;
                 }
+
+                lblStockTotal.Text = railLocations.Count.ToString();
+                lblTotalLength.Text = railLocations.Where(rl => rl.Railcar?.RailcarModel?.Length != null || rl.Locomotive?.LocomotiveModel?.Length != null).Sum(rl => rl?.Railcar?.RailcarModel?.Length != null ? rl.Railcar.RailcarModel.Length.Value : rl.Locomotive.LocomotiveModel.Length.Value).ToString();
             }
             finally
             {
@@ -287,6 +290,11 @@ namespace FleetTracking.Train
                 }
             }
             catch { }
+        }
+
+        private void toolModifyConsist_Click(object sender, EventArgs e)
+        {
+            _application.OpenForm(new RailLocationModifier() { Application = _application }, FleetTrackingApplication.OpenFormOptions.Dialog);
         }
     }
 }

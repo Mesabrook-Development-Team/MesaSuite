@@ -70,6 +70,8 @@ namespace API_Fleet.Controllers
             t.RailLocations.First().Railcar.RailcarModel.Length
         });
 
+        public override bool AllowGetAll => true;
+
         [HttpGet]
         public async Task<IHttpActionResult> GetFiltered([FromUri]string status = "inprogress", [FromUri]bool operableonly = true, [FromUri]int skip = 0, [FromUri]int take = 50)
         {

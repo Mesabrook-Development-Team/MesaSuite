@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Conditions;
 using ClussPro.Base.Data.Operand;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using WebModels.company;
@@ -175,6 +177,41 @@ namespace WebModels.fleet
 
                 return new SubQuery(selectQuery);
             };
+        }
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (IsInsert)
+            {
+                RailLocation newRailLocation = DataObjectFactory.Create<RailLocation>();
+                newRailLocation.LocomotiveID = LocomotiveID;
+                if (!newRailLocation.Save(transaction))
+                {
+                    Errors.AddRange(newRailLocation.Errors.ToArray());
+                    return false;
+                }
+            }
+            return base.PostSave(transaction);
+        }
+
+        protected override bool PreDelete(ITransaction transaction)
+        {
+            RailLocation railLocation = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
+            {
+                Field = "LocomotiveID",
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = LocomotiveID
+            }).GetEditable(transaction, null);
+
+            if (railLocation != null)
+            {
+                if (!railLocation.Delete(transaction))
+                {
+                    Errors.AddRange(railLocation.Errors.ToArray());
+                    return false;
+                }
+            }
+            return base.PreDelete(transaction);
         }
 
         #region Custom Relationships

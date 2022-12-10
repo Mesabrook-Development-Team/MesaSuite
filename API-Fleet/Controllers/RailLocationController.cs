@@ -7,18 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http;
 using WebModels.fleet;
 
 namespace API_Fleet.Controllers
 {
     [MesabrookAuthorization]
     [ProgramAccess(new[] { "gov", "company" })]
-    public class RailLocationController : DataObjectController<RailLocation>
+    public class RailLocationController : ApiController
     {
-        public override IEnumerable<string> DefaultRetrievedFields => FieldPathUtility.CreateFieldPathsAsList<RailLocation>(rl => new List<object>()
+        private static List<string> DefaultRetrievedFields => FieldPathUtility.CreateFieldPathsAsList<RailLocation>(rl => new List<object>()
         {
             rl.RailLocationID,
             rl.RailcarID,
+            rl.LocomotiveID,
             rl.Position,
             rl.Railcar.RailcarID,
             rl.Railcar.ReportingMark,
@@ -28,16 +30,52 @@ namespace API_Fleet.Controllers
             rl.Locomotive.ReportingNumber
         });
 
-        public async Task<List<RailLocation>> GetByTrain(long? id)
+        public List<RailLocation> GetByTrain(long? id)
         {
-            Search<RailLocation> railLocationSearch = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
+            Search<RailLocation> railLocationSearch = new Search<RailLocation>();
+            if (id != null)
             {
-                Field = nameof(RailLocation.TrainID),
-                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = id
-            });
+                railLocationSearch.SearchCondition = new LongSearchCondition<RailLocation>()
+                {
+                    Field = nameof(RailLocation.TrainID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                };
+            }
+            else
+            {
+                railLocationSearch.SearchCondition = new LongSearchCondition<RailLocation>()
+                {
+                    Field = nameof(RailLocation.TrainID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
+                };
+            }
 
-            return railLocationSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
+            return railLocationSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
+        }
+
+        public List<RailLocation> GetByTrack(long? id)
+        {
+            Search<RailLocation> railLocationSearch = new Search<RailLocation>();
+            if (id != null)
+            {
+                railLocationSearch.SearchCondition = new LongSearchCondition<RailLocation>()
+                {
+                    Field = nameof(RailLocation.TrackID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                };
+            }
+            else
+            {
+                railLocationSearch.SearchCondition = new LongSearchCondition<RailLocation>()
+                {
+                    Field = nameof(RailLocation.TrackID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
+                };
+            }
+
+            return railLocationSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
     }
 }

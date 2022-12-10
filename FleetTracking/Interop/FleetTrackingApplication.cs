@@ -86,6 +86,26 @@ namespace FleetTracking.Interop
             form.Text = "Train List";
         }
 
+        public void OpenTrackViewer()
+        {
+            Tracks.TrackViewer viewer = new Tracks.TrackViewer()
+            {
+                Application = this
+            };
+            Form form = OpenForm(viewer);
+            form.Text = "Track Viewer";
+        }
+
+        public void BrowseRailDistricts()
+        {
+            Tracks.RailDistrictList districtList = new Tracks.RailDistrictList()
+            {
+                Application = this
+            };
+            Form form = OpenForm(districtList);
+            form.Text = "Rail Districts";
+        }
+
         public IEnumerable<MainNavigationItem> GetNavigationItems()
         {
             yield return new MainNavigationItem("Rail")
@@ -98,13 +118,14 @@ namespace FleetTracking.Interop
                         {
                             new MainNavigationItem("Locomotive Models", BrowseLocomotiveModels),
                             new MainNavigationItem("Railcar Models", BrowseRailcarModels),
-                            new MainNavigationItem("Train Symbols", BrowseTrainSymbols)
+                            new MainNavigationItem("Train Symbols", BrowseTrainSymbols),
+                            new MainNavigationItem("Track Districts", BrowseRailDistricts)
                         }
                     },
                     new MainNavigationItem("Leasing", ManageLeasing),
                     new MainNavigationItem("Equipment Roster", BrowseEquipmentRoster),
                     new MainNavigationItem("Train Manager", BrowseTrains),
-                    new MainNavigationItem("Track Viewer"),
+                    new MainNavigationItem("Track Viewer", OpenTrackViewer),
                     new MainNavigationItem("Spot/Release")
                 }
             };

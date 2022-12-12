@@ -82,6 +82,12 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPaths.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPaths.Designer.cs">
+      <DependentUpon>frmPaths.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSync.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +111,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPaths.resx">
+      <DependentUpon>frmPaths.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSync.resx">
       <DependentUpon>frmSync.cs</DependentUpon>
@@ -140,6 +149,8 @@
   <ItemGroup>
     <Content Include="btnMCSync.ico" />
     <Content Include="minecraft-hero-og.c5517b7973e1.jpg" />
+    <None Include="Resources\icn_folder.png" />
+    <None Include="Resources\icn_clipboard.png" />
     <None Include="Resources\font_minecraft.ttf" />
     <None Include="Resources\tile_transparent1.png" />
     <None Include="Resources\tile_transparent.png" />

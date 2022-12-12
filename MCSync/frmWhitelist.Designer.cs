@@ -34,6 +34,10 @@ namespace MCSync
             this.lblIntro = new System.Windows.Forms.Label();
             this.fButtonSave = new MCSync.FancyButton();
             this.fButtonCancel = new MCSync.FancyButton();
+            this.txtResourcePacks = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtItems
@@ -44,11 +48,11 @@ namespace MCSync
             this.txtItems.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtItems.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtItems.ForeColor = System.Drawing.Color.White;
-            this.txtItems.Location = new System.Drawing.Point(12, 36);
+            this.txtItems.Location = new System.Drawing.Point(32, 143);
             this.txtItems.Multiline = true;
             this.txtItems.Name = "txtItems";
             this.txtItems.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtItems.Size = new System.Drawing.Size(574, 280);
+            this.txtItems.Size = new System.Drawing.Size(297, 257);
             this.txtItems.TabIndex = 0;
             // 
             // lblIntro
@@ -58,11 +62,11 @@ namespace MCSync
             this.lblIntro.BackColor = System.Drawing.Color.Transparent;
             this.lblIntro.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblIntro.ForeColor = System.Drawing.Color.White;
-            this.lblIntro.Location = new System.Drawing.Point(12, 12);
+            this.lblIntro.Location = new System.Drawing.Point(29, 124);
             this.lblIntro.Name = "lblIntro";
-            this.lblIntro.Size = new System.Drawing.Size(36, 13);
+            this.lblIntro.Size = new System.Drawing.Size(87, 13);
             this.lblIntro.TabIndex = 3;
-            this.lblIntro.Text = "label1";
+            this.lblIntro.Text = "Mods Whitelist:";
             // 
             // fButtonSave
             // 
@@ -79,7 +83,7 @@ namespace MCSync
             this.fButtonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.fButtonSave.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fButtonSave.ForeColor = System.Drawing.Color.White;
-            this.fButtonSave.Location = new System.Drawing.Point(511, 330);
+            this.fButtonSave.Location = new System.Drawing.Point(335, 429);
             this.fButtonSave.Name = "fButtonSave";
             this.fButtonSave.Size = new System.Drawing.Size(75, 23);
             this.fButtonSave.TabIndex = 14;
@@ -103,7 +107,7 @@ namespace MCSync
             this.fButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.fButtonCancel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fButtonCancel.ForeColor = System.Drawing.Color.White;
-            this.fButtonCancel.Location = new System.Drawing.Point(430, 330);
+            this.fButtonCancel.Location = new System.Drawing.Point(254, 429);
             this.fButtonCancel.Name = "fButtonCancel";
             this.fButtonCancel.Size = new System.Drawing.Size(75, 23);
             this.fButtonCancel.TabIndex = 15;
@@ -112,14 +116,73 @@ namespace MCSync
             this.fButtonCancel.UseVisualStyleBackColor = false;
             this.fButtonCancel.Click += new System.EventHandler(this.fButtonCancel_Click);
             // 
+            // txtResourcePacks
+            // 
+            this.txtResourcePacks.AcceptsReturn = true;
+            this.txtResourcePacks.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtResourcePacks.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.txtResourcePacks.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtResourcePacks.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtResourcePacks.ForeColor = System.Drawing.Color.White;
+            this.txtResourcePacks.Location = new System.Drawing.Point(335, 143);
+            this.txtResourcePacks.Multiline = true;
+            this.txtResourcePacks.Name = "txtResourcePacks";
+            this.txtResourcePacks.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtResourcePacks.Size = new System.Drawing.Size(297, 257);
+            this.txtResourcePacks.TabIndex = 16;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(332, 124);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(130, 13);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Resource Pack Whitelist:";
+            // 
+            // label9
+            // 
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(172, 54);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(321, 34);
+            this.label9.TabIndex = 47;
+            this.label9.Text = "Specify which mods or resource packs you don\'t want\r\nMCSync to delete during Sync" +
+    "ing.";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(265, 23);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(135, 17);
+            this.label2.TabIndex = 46;
+            this.label2.Text = "Configure Whitelists\r\n";
+            // 
             // frmWhitelist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.BackgroundImage = global::MCSync.Properties.Resources.tile_transparent1;
-            this.ClientSize = new System.Drawing.Size(598, 365);
+            this.ClientSize = new System.Drawing.Size(665, 478);
             this.ControlBox = false;
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtResourcePacks);
             this.Controls.Add(this.fButtonCancel);
             this.Controls.Add(this.fButtonSave);
             this.Controls.Add(this.lblIntro);
@@ -144,5 +207,9 @@ namespace MCSync
         public System.Windows.Forms.Label lblIntro;
         private FancyButton fButtonSave;
         private FancyButton fButtonCancel;
+        private System.Windows.Forms.TextBox txtResourcePacks;
+        public System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label2;
     }
 }

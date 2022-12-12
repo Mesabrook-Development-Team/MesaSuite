@@ -221,7 +221,9 @@ namespace MCSync
             configValues["resourcePackDirectory"] = txtResourcePacksDirectory.Text;
             configValues["configFilesDirectory"] = txtConfigDirectory.Text;
             configValues["oResourcesDirectory"] = txtOResourcesDirectory.Text;
+            configValues["animationDirectory"] = txtMinecraftFolder.Text + "\\animation";
             configValues["showBalloonTips"] = cboxBalloonTips.Checked.ToString();
+            
 
             if (rbClient.Checked)
             {

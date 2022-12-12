@@ -19,7 +19,8 @@ namespace MCSync
             mods,
             resourcepacks,
             config,
-            oresources
+            oresources,
+            animation
         }
 
         public enum DownloadTypes

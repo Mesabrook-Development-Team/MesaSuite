@@ -66,6 +66,7 @@ namespace MCSync
                 string resourcePackDirectory = configValues["resourcePackDirectory"].Cast<string>();
                 string configFilesDirectory = configValues["configFilesDirectory"].Cast<string>();
                 string oResourcesDirectory = configValues["oResourcesDirectory"].Cast<string>();
+                string animationDirectory = configValues["animationDirectory"].Cast<string>();
 
                 string[] clientSideWhiteListMods = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("mods_whitelist")?.Cast<string[]>() ?? new string[0];
                 string[] clientSideWhiteListResourcePacks = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("resourcepacks_whitelist")?.Cast<string[]>() ?? new string[0];
@@ -73,6 +74,7 @@ namespace MCSync
                 List<Task> tasks = new List<Task>();
 
                 // Create Required Subdirectories
+                Directory.CreateDirectory(animationDirectory);
                 Directory.CreateDirectory(modsDirectory);
                 Directory.CreateDirectory(resourcePackDirectory);
                 Directory.CreateDirectory(configFilesDirectory);
@@ -167,6 +169,34 @@ namespace MCSync
                     }
                 }
 
+                // Splash Animation PNG Files
+                IEnumerable<MCSyncFile> animationSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.animation && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                foreach (string file in Directory.EnumerateFiles(animationDirectory, "*", SearchOption.AllDirectories))
+                {
+                    string strippedFile = StripDirectory(file, MCSyncFile.FileTypes.oresources);
+                    byte[] fileHash = CalculateHash(file);
+                    MCSyncFile syncFile = animationSyncFiles.FirstOrDefault(f => f.Filename == strippedFile);
+                    if (syncFile == null)
+                    {
+                        // Extrinsic, delete
+                        Task deleteTask = new Task($"Delete animation file {strippedFile}", () =>
+                        {
+                            File.Delete(file);
+                            return true;
+                        });
+                        tasks.Add(deleteTask);
+                        TaskAdded?.Invoke(this, deleteTask);
+                    }
+                    else if (!syncFile.Checksum.SequenceEqual(fileHash))
+                    {
+                        Task updateTask = new Task($"Update animation file {strippedFile}", () => DownloadFile(syncFile.FileType, animationDirectory, strippedFile, syncFile.DownloadType));
+                        tasks.Add(updateTask);
+                        TaskAdded?.Invoke(this, updateTask);
+                    }
+
+                    handledFiles.Add(strippedFile);
+                }
+
                 // OResources Files
                 IEnumerable<MCSyncFile> oResourcesSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.oresources && IsDownloadTypeValid(configSyncMode, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(oResourcesDirectory, "*", SearchOption.AllDirectories))
@@ -219,6 +249,9 @@ namespace MCSync
                             break;
                         case MCSyncFile.FileTypes.oresources:
                             directory = oResourcesDirectory;
+                            break;
+                        case MCSyncFile.FileTypes.animation:
+                            directory = animationDirectory;
                             break;
                     }
 

@@ -39,7 +39,6 @@ namespace FleetTracking.Tracks
             {
                 cboTrack.SelectedItem = null;
                 cboTrack.Items.Clear();
-                dgvStock.Rows.Clear();
 
                 loaderMain.BringToFront();
                 loaderMain.Visible = true;
@@ -66,7 +65,6 @@ namespace FleetTracking.Tracks
             }
 
             cboTrack_SelectedIndexChanged(cboTrack, EventArgs.Empty);
-            PopulateStock();
         }
 
         private async void PopulateStock()
@@ -81,6 +79,7 @@ namespace FleetTracking.Tracks
             {
                 loaderStock.BringToFront();
                 loaderStock.Visible = true;
+                dgvStock.Rows.Clear();
 
                 GetData get = _application.GetAccess<GetData>();
                 get.API = DataAccess.APIs.FleetTracking;

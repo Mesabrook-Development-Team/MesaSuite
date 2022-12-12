@@ -12,6 +12,7 @@ using FleetTracking.Interop;
 using FleetTracking.Models;
 using MesaSuite.Common.Collections;
 using MesaSuite.Common.Data;
+using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
 
 namespace FleetTracking.Train
@@ -181,20 +182,22 @@ namespace FleetTracking.Train
             }
         }
 
-        private async void LoadTrackFrom()
+        private async void LoadTrackFrom(bool skipReloadTo = false)
         {
+            dgvFromList.Rows.Clear();
+
+            DropDownItem<Track> trackDDI = cboFromTrack.SelectedItem as DropDownItem<Track>;
+            if (trackDDI == null)
+            {
+                return;
+            }
+
             try
             {
                 loaderFrom.BringToFront();
                 loaderFrom.Visible = true;
 
-                dgvFromList.Rows.Clear();
-
-                DropDownItem<Track> trackDDI = cboFromTrack.SelectedItem as DropDownItem<Track>;
-                if (trackDDI == null)
-                {
-                    return;
-                }
+                List<long?> selectedRailLocationIDs = dgvFromList.SelectedRows.Cast<DataGridViewRow>().Select(r => r.Tag).OfType<RailLocation>().Select(rl => rl.RailLocationID).ToList();
 
                 if (!_modifiedTracksByID.ContainsKey(trackDDI.Object.TrackID))
                 {
@@ -208,7 +211,7 @@ namespace FleetTracking.Train
                     _currentFromRailLocations = _modifiedTracksByID[trackDDI.Object.TrackID];
                 }
 
-                PopulateView(true);
+                PopulateView(true, selectedRailLocationIDs);
             }
             finally
             {
@@ -216,18 +219,32 @@ namespace FleetTracking.Train
             }
 
             PopulateViewImages(true);
+
+            if (!skipReloadTo &&
+                tabControlTo.SelectedTab == tabTrackTo &&
+                cboToTrack.SelectedItem is DropDownItem<Track> toTrack &&
+                toTrack.Object.TrackID == trackDDI.Object.TrackID)
+            {
+                LoadTrackTo(true);
+            }
         }
 
         /// <summary>
         /// DO NOT CALL DIRECTLY
         /// </summary>
         /// <param name="isFromView"></param>
-        private void PopulateView(bool isFromView)
+        private void PopulateView(bool isFromView, List<long?> selectedRailLocationIDs = null)
         {
+            if (selectedRailLocationIDs == null)
+            {
+                selectedRailLocationIDs = new List<long?>();
+            }
+
             DataGridView dgv = isFromView ? dgvFromList : dgvToList;
             DataGridViewColumn colImage = isFromView ? colFromImage : colToImage;
             DataGridViewColumn colReportingMark = isFromView ? colFromReportingMark : colToReportingMark;
             DataGridViewColumn colType = isFromView ? colFromType : colToType;
+            DataGridViewColumn colPossesedBy = isFromView ? colFromPossession : colToPossession;
             DataGridViewColumn colPos = isFromView ? colFromPos : colToPos;
             List<RailLocation> railLocations = isFromView ? _currentFromRailLocations : _currentToRailLocations;
             railLocations = railLocations.OrderBy(rl => rl.Position).ToList();
@@ -239,8 +256,15 @@ namespace FleetTracking.Train
 
                 row.Cells[colReportingMark.Name].Value = railLocation.LocomotiveID != null ? railLocation.Locomotive?.FormattedReportingMark : railLocation.Railcar?.FormattedReportingMark;
                 row.Cells[colType.Name].Value = railLocation.LocomotiveID != null ? railLocation.Locomotive?.LocomotiveModel?.Name : railLocation.Railcar?.RailcarModel?.Name;
+                row.Cells[colPossesedBy.Name].Value = railLocation.LocomotiveID != null ? (railLocation.Locomotive?.CompanyPossessor?.Name ?? railLocation.Locomotive?.GovernmentPossessor?.Name) : (railLocation.Railcar?.CompanyPossessor?.Name ?? railLocation.Railcar?.GovernmentPossessor?.Name);
                 row.Cells[colPos.Name].Value = railLocation.Position.ToString();
                 row.Tag = railLocation;
+            }
+
+            foreach(DataGridViewRow row in dgv.Rows)
+            {
+                RailLocation railLocation = row.Tag as RailLocation;
+                row.Selected = railLocation != null && selectedRailLocationIDs.Contains(railLocation.RailLocationID);
             }
         }
 
@@ -293,23 +317,23 @@ namespace FleetTracking.Train
             catch { }
         }
 
-        private async void LoadTrainFrom()
+        private async void LoadTrainFrom(bool skipReloadTo = false)
         {
+            dgvFromList.Rows.Clear();
+
+            DropDownItem<Models.Train> trainDDI = cboFromTrain.SelectedItem as DropDownItem<Models.Train>;
+            if (trainDDI == null)
+            {
+                return;
+            }
+
             try
             {
                 loaderFrom.BringToFront();
                 loaderFrom.Visible = true;
 
-                dgvFromList.Rows.Clear();
+                List<long?> selectedRailLocationIDs = dgvFromList.SelectedRows.Cast<DataGridViewRow>().Select(r => r.Tag).OfType<RailLocation>().Select(rl => rl.RailLocationID).ToList();
 
-                DropDownItem<Models.Train> trainDDI = cboFromTrain.SelectedItem as DropDownItem<Models.Train>;
-                if (trainDDI == null)
-                {
-                    return;
-                }
-
-                // TODO: We're going to need to keep a cached version if we modify/add/remove any Rail Location on this train
-                // If we have a cached version, display that. Otherwise fetch from API
                 if (!_modifiedTrainsByID.ContainsKey(trainDDI.Object.TrainID))
                 {
                     GetData get = _application.GetAccess<GetData>();
@@ -322,7 +346,7 @@ namespace FleetTracking.Train
                     _currentFromRailLocations = _modifiedTrainsByID[trainDDI.Object.TrainID];
                 }
 
-                PopulateView(true);
+                PopulateView(true, selectedRailLocationIDs);
             }
             finally
             {
@@ -330,6 +354,14 @@ namespace FleetTracking.Train
             }
 
             PopulateViewImages(true);
+
+            if (!skipReloadTo &&
+                tabControlTo.SelectedTab == tabTrainTo &&
+                cboToTrain.SelectedItem is DropDownItem<Models.Train> toTrain &&
+                toTrain.Object.TrainID == trainDDI.Object.TrainID)
+            {
+                LoadTrainTo(true);
+            }
         }
 
         private void cboDistrict_SelectedIndexChanged(object sender, EventArgs e)
@@ -441,20 +473,22 @@ namespace FleetTracking.Train
             }
         }
 
-        private async void LoadTrackTo()
+        private async void LoadTrackTo(bool skipReloadFrom = false)
         {
+            dgvToList.Rows.Clear();
+
+            DropDownItem<Track> trackDDI = cboToTrack.SelectedItem as DropDownItem<Track>;
+            if (trackDDI == null)
+            {
+                return;
+            }
+
             try
             {
                 loaderTo.BringToFront();
                 loaderTo.Visible = true;
 
-                dgvToList.Rows.Clear();
-
-                DropDownItem<Track> trackDDI = cboToTrack.SelectedItem as DropDownItem<Track>;
-                if (trackDDI == null)
-                {
-                    return;
-                }
+                List<long?> selectedRailLocationIDs = dgvToList.SelectedRows.Cast<DataGridViewRow>().Select(r => r.Tag).OfType<RailLocation>().Select(rl => rl.RailLocationID).ToList();
 
                 if (!_modifiedTracksByID.ContainsKey(trackDDI.Object.TrackID))
                 {
@@ -468,7 +502,7 @@ namespace FleetTracking.Train
                     _currentToRailLocations = _modifiedTracksByID[trackDDI.Object.TrackID];
                 }
 
-                PopulateView(false);
+                PopulateView(false, selectedRailLocationIDs);
             }
             finally
             {
@@ -476,25 +510,33 @@ namespace FleetTracking.Train
             }
 
             PopulateViewImages(false);
+
+            if (!skipReloadFrom &&
+                tabControlFrom.SelectedTab == tabTrackFrom && 
+                cboFromTrack.SelectedItem is DropDownItem<Track> fromTrack && 
+                fromTrack.Object.TrackID == trackDDI.Object.TrackID)
+            {
+                LoadTrackFrom(true);
+            }
         }
 
-        private async void LoadTrainTo()
+        private async void LoadTrainTo(bool skipReloadFrom = false)
         {
+            dgvToList.Rows.Clear();
+
+            DropDownItem<Models.Train> trainDDI = cboToTrain.SelectedItem as DropDownItem<Models.Train>;
+            if (trainDDI == null)
+            {
+                return;
+            }
+
             try
             {
                 loaderTo.BringToFront();
                 loaderTo.Visible = true;
 
-                dgvFromList.Rows.Clear();
+                List<long?> selectedRailLocationIDs = dgvToList.SelectedRows.Cast<DataGridViewRow>().Select(r => r.Tag).OfType<RailLocation>().Select(rl => rl.RailLocationID).ToList();
 
-                DropDownItem<Models.Train> trainDDI = cboToTrain.SelectedItem as DropDownItem<Models.Train>;
-                if (trainDDI == null)
-                {
-                    return;
-                }
-
-                // TODO: We're going to need to keep a cached version if we modify/add/remove any Rail Location on this train
-                // If we have a cached version, display that. Otherwise fetch from API
                 if (!_modifiedTrainsByID.ContainsKey(trainDDI.Object.TrainID))
                 {
                     GetData get = _application.GetAccess<GetData>();
@@ -507,7 +549,7 @@ namespace FleetTracking.Train
                     _currentToRailLocations = _modifiedTrainsByID[trainDDI.Object.TrainID];
                 }
 
-                PopulateView(false);
+                PopulateView(false, selectedRailLocationIDs);
             }
             finally
             {
@@ -515,6 +557,14 @@ namespace FleetTracking.Train
             }
 
             PopulateViewImages(false);
+
+            if (!skipReloadFrom &&
+                tabControlFrom.SelectedTab == tabTrainFrom &&
+                cboFromTrain.SelectedItem is DropDownItem<Models.Train> fromTrain &&
+                fromTrain.Object.TrainID == trainDDI.Object.TrainID)
+            {
+                LoadTrainFrom(true);
+            }
         }
 
         private void ToCombo_SelectedIndexChanged(object sender, EventArgs e)
@@ -557,6 +607,11 @@ namespace FleetTracking.Train
                 return;
             }
 
+            if (!CheckForUnreleasedCars(selectedRailLocations))
+            {
+                return;
+            }
+
             foreach (RailLocation railLocationToMove in selectedRailLocations.OrderBy(rl => rl.Position))
             {
                 if (railLocationToMove.Position == 1)
@@ -570,6 +625,25 @@ namespace FleetTracking.Train
             }
 
             refresh?.Invoke();
+        }
+
+        private bool CheckForUnreleasedCars(List<RailLocation> railLocations)
+        {
+
+
+            StringBuilder unpossessedRailcars = new StringBuilder();
+            foreach (RailLocation unpossessed in railLocations.Where(rl => rl.RailcarID != null && !_application.IsCurrentEntity(rl.Railcar.CompanyIDPossessor, rl.Railcar.GovernmentIDPossessor)))
+            {
+                unpossessedRailcars.AppendLine(string.Format("{0} is currently released to {1}", unpossessed.Railcar.FormattedReportingMark, unpossessed.Railcar.CompanyPossessor?.Name ?? unpossessed.Railcar.GovernmentPossessor?.Name));
+            }
+
+            if (unpossessedRailcars.Length > 0)
+            {
+                this.ShowError("The action cannot be completed. The following railcars are not released to your company:\r\n\r\n" + unpossessedRailcars.ToString() + "\r\n\r\nTo move these railcars, you will need to first have them released to your company.");
+                return false;
+            }
+
+            return true;
         }
 
         private void PrepFromMovement(out List<RailLocation> allRailLocations, out List<RailLocation> selectedRailLocations, out Action refreshAction)
@@ -719,7 +793,12 @@ namespace FleetTracking.Train
                 return;
             }
 
-            foreach(RailLocation selectedLocation in selectedRailLocations.OrderByDescending(rl => rl.Position))
+            if (!CheckForUnreleasedCars(selectedRailLocations))
+            {
+                return;
+            }
+
+            foreach (RailLocation selectedLocation in selectedRailLocations.OrderByDescending(rl => rl.Position))
             {
                 RailLocation swap = allRailLocations.FirstOrDefault(rl => rl.Position == selectedLocation.Position + 1);
                 if (swap == null)
@@ -732,6 +811,94 @@ namespace FleetTracking.Train
             }
 
             refresh?.Invoke();
+            
+
+        }
+
+        private void cmdAdd_Click(object sender, EventArgs e)
+        {
+            if ((tabControlFrom.SelectedTab == tabTrackFrom && cboFromTrack.SelectedItem == null) || (tabControlFrom.SelectedTab == tabTrainFrom && cboFromTrain.SelectedItem == null) ||
+                (tabControlTo.SelectedTab == tabTrackTo && cboToTrack.SelectedItem == null) || (tabControlTo.SelectedTab == tabTrainTo && cboToTrain.SelectedItem == null))
+            {
+                return;
+            }
+
+            long? trackID = tabControlTo.SelectedTab == tabTrackTo ? (cboToTrack.SelectedItem as DropDownItem<Track>).Object.TrackID : (long?)null;
+            long? trainID = tabControlTo.SelectedTab == tabTrainTo ? (cboToTrain.SelectedItem as DropDownItem<Models.Train>).Object.TrainID : (long?)null;
+
+            PrepFromMovement(out List<RailLocation> allFromLocations, out List<RailLocation> selectedFromLocations, out Action refreshFrom);
+            PrepToMovement(out List<RailLocation> allToLocations, out List<RailLocation> selectedToLocations, out Action refreshTo);
+
+            if (!CheckForUnreleasedCars(selectedFromLocations))
+            {
+                return;
+            }
+
+            foreach (RailLocation selectedFromLocation in selectedFromLocations.OrderBy(rl => rl.Position))
+            {
+                int fromPosition = selectedFromLocation.Position;
+
+                int maxPositionOnToSide = allToLocations.Count == 0 ? 0 : allToLocations.Max(rl => rl.Position);
+                selectedFromLocation.Position = ++maxPositionOnToSide;
+                allFromLocations.Remove(selectedFromLocation);
+                allToLocations.Add(selectedFromLocation);
+
+                foreach(RailLocation lowerPosition in allFromLocations.Where(rl => rl.Position > fromPosition))
+                {
+                    lowerPosition.Position--;
+                }
+            }
+
+            refreshFrom?.Invoke();
+            refreshTo?.Invoke();
+        }
+
+        private void cmdRemove_Click(object sender, EventArgs e)
+        {
+            if ((tabControlFrom.SelectedTab == tabTrackFrom && cboFromTrack.SelectedItem == null) || (tabControlFrom.SelectedTab == tabTrainFrom && cboFromTrain.SelectedItem == null) ||
+                (tabControlTo.SelectedTab == tabTrackTo && cboToTrack.SelectedItem == null) || (tabControlTo.SelectedTab == tabTrainTo && cboToTrain.SelectedItem == null))
+            {
+                return;
+            }
+
+            long? trackID = tabControlFrom.SelectedTab == tabTrackFrom ? (cboFromTrack.SelectedItem as DropDownItem<Track>).Object.TrackID : (long?)null;
+            long? trainID = tabControlFrom.SelectedTab == tabTrainFrom ? (cboFromTrain.SelectedItem as DropDownItem<Models.Train>).Object.TrainID : (long?)null;
+
+            PrepFromMovement(out List<RailLocation> allFromLocations, out List<RailLocation> selectedFromLocations, out Action refreshFrom);
+            PrepToMovement(out List<RailLocation> allToLocations, out List<RailLocation> selectedToLocations, out Action refreshTo);
+
+            if (!CheckForUnreleasedCars(selectedToLocations))
+            {
+                return;
+            }
+
+            foreach (RailLocation selectedToLocation in selectedToLocations.OrderBy(rl => rl.Position))
+            {
+                int currentPosition = selectedToLocation.Position;
+
+                int nextPosition = allFromLocations.Count == 0 ? 0 : allFromLocations.Max(rl => rl.Position);
+                selectedToLocation.Position = ++nextPosition;
+                allFromLocations.Add(selectedToLocation);
+                allToLocations.Remove(selectedToLocation);
+
+                foreach(RailLocation lowerPosition in allToLocations.Where(rl => rl.Position < currentPosition))
+                {
+                    lowerPosition.Position--;
+                }
+            }
+
+            refreshTo?.Invoke();
+            refreshFrom?.Invoke();
+        }
+
+        private void tabControlFrom_Selected(object sender, TabControlEventArgs e)
+        {
+            FromCombo_SelectedValueChanged(e.TabPage == tabTrackFrom ? cboFromTrack : cboFromTrain, EventArgs.Empty);
+        }
+
+        private void tabControlTo_Selected(object sender, TabControlEventArgs e)
+        {
+            ToCombo_SelectedIndexChanged(e.TabPage == tabTrackTo ? cboToTrack : cboToTrain, EventArgs.Empty);
         }
     }
 }

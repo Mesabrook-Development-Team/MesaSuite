@@ -25,9 +25,27 @@ namespace API_Fleet.Controllers
             rl.Railcar.RailcarID,
             rl.Railcar.ReportingMark,
             rl.Railcar.ReportingNumber,
+            rl.Railcar.RailcarModelID,
+            rl.Railcar.RailcarModel.RailcarModelID,
+            rl.Railcar.RailcarModel.Name,
+            rl.Railcar.CompanyIDPossessor,
+            rl.Railcar.CompanyPossessor.CompanyID,
+            rl.Railcar.CompanyPossessor.Name,
+            rl.Railcar.GovernmentIDPossessor,
+            rl.Railcar.GovernmentPossessor.GovernmentID,
+            rl.Railcar.GovernmentPossessor.Name,
             rl.Locomotive.LocomotiveID,
             rl.Locomotive.ReportingMark,
-            rl.Locomotive.ReportingNumber
+            rl.Locomotive.ReportingNumber,
+            rl.Locomotive.LocomotiveModelID,
+            rl.Locomotive.LocomotiveModel.LocomotiveModelID,
+            rl.Locomotive.LocomotiveModel.Name,
+            rl.Locomotive.CompanyIDPossessor,
+            rl.Locomotive.CompanyPossessor.CompanyID,
+            rl.Locomotive.CompanyPossessor.Name,
+            rl.Locomotive.GovernmentIDPossessor,
+            rl.Locomotive.GovernmentPossessor.GovernmentID,
+            rl.Locomotive.GovernmentPossessor.Name
         });
 
         public List<RailLocation> GetByTrain(long? id)

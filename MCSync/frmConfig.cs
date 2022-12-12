@@ -16,9 +16,18 @@ namespace MCSync
 {
     public partial class frmConfig : Form
     {
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams handleParam = base.CreateParams;
+                handleParam.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED       
+                return handleParam;
+            }
+        }
+
         public frmConfig()
         {
-            DoubleBuffered = true;
             InitializeComponent();
         }
 
@@ -27,28 +36,6 @@ namespace MCSync
             Dock = DockStyle.Fill;
             pnlWhitelist.Visible = true;
             fadeTimer.Start();
-        }
-
-        private void cmdModsWhitelist_Click(object sender, EventArgs e)
-        {
-            frmWhitelist whitelist = new frmWhitelist();
-            whitelist.TopLevel = false;
-
-            pnlWhitelist.Controls.Add(whitelist);
-            pnlWhitelist.Show();
-            pnlWhitelist.BringToFront();
-            whitelist.Show();
-        }
-
-        private void cmdResourcePacksWhitelist_Click(object sender, EventArgs e)
-        {
-            frmWhitelist whitelist = new frmWhitelist();
-            whitelist.TopLevel = false;
-
-            pnlWhitelist.Controls.Add(whitelist);
-            pnlWhitelist.Show();
-            pnlWhitelist.BringToFront();
-            whitelist.Show();
         }
 
         private void fButtonCancel_Click(object sender, EventArgs e)
@@ -60,18 +47,24 @@ namespace MCSync
 
         private void fadeTimer_Tick(object sender, EventArgs e)
         {
-        }
+            if (Application.OpenForms["frmWhitelist"] != null || Application.OpenForms["frmPaths"] != null)
+            {
+                label1.Visible = false;
+                label9.Visible = false;
+                fButtonCancel.Visible = false;
 
-        private void fButtonPaths_Click(object sender, EventArgs e)
-        {
-            frmPaths frmPaths = new frmPaths();
+                pnlPaths.Visible = false;
+                pnlWhitelists.Visible = false;
+            }
+            else
+            {
+                label1.Visible = true;
+                label9.Visible = true;
+                fButtonCancel.Visible = true;
 
-            frmPaths.TopLevel = false;
-
-            pnlWhitelist.Controls.Add(frmPaths);
-            pnlWhitelist.Show();
-            pnlWhitelist.BringToFront();
-            frmPaths.Show();
+                pnlPaths.Visible = true;
+                pnlWhitelists.Visible = true;
+            }
         }
 
         private void pnlWhitelist_Paint(object sender, PaintEventArgs e)
@@ -88,7 +81,16 @@ namespace MCSync
             pnlWhitelist.Controls.Add(frmPaths);
             pnlWhitelist.Show();
             pnlWhitelist.BringToFront();
+
+            label1.Visible = false;
+            label9.Visible = false;
+
+            pnlPaths.Visible = false;
+            pnlWhitelists.Visible = false;
+            fButtonCancel.Visible = false;
+
             frmPaths.Show();
+            frmPaths.BringToFront();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -100,7 +102,16 @@ namespace MCSync
             pnlWhitelist.Controls.Add(frmPaths);
             pnlWhitelist.Show();
             pnlWhitelist.BringToFront();
+
+            label1.Visible = false;
+            label9.Visible = false;
+            fButtonCancel.Visible = false;
+
+            pnlPaths.Visible = false;
+            pnlWhitelists.Visible = false;
+
             frmPaths.Show();
+            frmPaths.BringToFront();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -112,7 +123,16 @@ namespace MCSync
             pnlWhitelist.Controls.Add(frmPaths);
             pnlWhitelist.Show();
             pnlWhitelist.BringToFront();
+
+            label1.Visible = false;
+            label9.Visible = false;
+            fButtonCancel.Visible = false;
+
+            pnlPaths.Visible = false;
+            pnlWhitelists.Visible = false;
+
             frmPaths.Show();
+            frmPaths.BringToFront();
         }
 
         private void pnlWhitelists_Click(object sender, EventArgs e)
@@ -124,7 +144,16 @@ namespace MCSync
             pnlWhitelist.Controls.Add(frmWhitelist);
             pnlWhitelist.Show();
             pnlWhitelist.BringToFront();
+
+            label1.Visible = false;
+            label9.Visible = false;
+            fButtonCancel.Visible = false;
+
+            pnlPaths.Visible = false;
+            pnlWhitelists.Visible = false;
+
             frmWhitelist.Show();
+            frmWhitelist.BringToFront();
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
@@ -136,7 +165,16 @@ namespace MCSync
             pnlWhitelist.Controls.Add(frmWhitelist);
             pnlWhitelist.Show();
             pnlWhitelist.BringToFront();
+
+            label1.Visible = false;
+            label9.Visible = false;
+            fButtonCancel.Visible = false;
+
+            pnlPaths.Visible = false;
+            pnlWhitelists.Visible = false;
+
             frmWhitelist.Show();
+            frmWhitelist.BringToFront();
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -148,7 +186,16 @@ namespace MCSync
             pnlWhitelist.Controls.Add(frmWhitelist);
             pnlWhitelist.Show();
             pnlWhitelist.BringToFront();
+
+            label1.Visible = false;
+            label9.Visible = false;
+            fButtonCancel.Visible = false;
+
+            pnlPaths.Visible = false;
+            pnlWhitelists.Visible = false;
+
             frmWhitelist.Show();
+            frmWhitelist.BringToFront();
         }
     }
 }

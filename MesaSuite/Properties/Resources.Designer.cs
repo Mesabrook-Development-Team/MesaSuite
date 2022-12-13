@@ -5203,6 +5203,26 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icn_dynmap {
+            get {
+                object obj = ResourceManager.GetObject("icn_dynmap", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_github {
+            get {
+                object obj = ResourceManager.GetObject("icn_github", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icn_govt_portal {
             get {
                 object obj = ResourceManager.GetObject("icn_govt_portal", resourceCulture);
@@ -5366,6 +5386,16 @@ namespace MesaSuite.Properties {
         internal static System.Drawing.Bitmap image_link {
             get {
                 object obj = ResourceManager.GetObject("image_link", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap image2 {
+            get {
+                object obj = ResourceManager.GetObject("image2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -10085,6 +10115,16 @@ namespace MesaSuite.Properties {
         internal static System.Drawing.Bitmap tile_sb {
             get {
                 object obj = ResourceManager.GetObject("tile_sb", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tile_transparent {
+            get {
+                object obj = ResourceManager.GetObject("tile_transparent", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

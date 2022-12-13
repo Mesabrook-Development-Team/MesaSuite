@@ -285,6 +285,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ms.ico" />
+    <None Include="Resources\icn_dynmap.png" />
+    <None Include="Resources\image2.png" />
+    <None Include="Resources\icn_github.png" />
+    <None Include="Resources\tile_transparent.png" />
     <None Include="Resources\zoom_out.png" />
     <None Include="Resources\zoom_in.png" />
     <None Include="Resources\zoom.png" />

@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation;
 using WebModels.company;
 using WebModels.gov;
 
@@ -82,6 +86,62 @@ namespace WebModels.fleet
         {
             get { CheckGet(); return _length; }
             set { CheckSet(); _length = value; }
+        }
+
+        public static Errors Reorder(long? trackID, ITransaction transaction = null)
+        {
+            Errors errors = new Errors();
+            ITransaction localTransaction = transaction;
+            try
+            {
+                if (localTransaction == null)
+                {
+                    localTransaction = SQLProviderFactory.GenerateTransaction();
+                }
+
+                Search<RailLocation> railLocationsForTrack = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
+                {
+                    Field = nameof(RailLocation.TrackID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = trackID
+                });
+
+                int position = 1;
+                foreach(RailLocation railLocation in railLocationsForTrack.GetEditableReader(localTransaction))
+                {
+                    if (railLocation.Position != position)
+                    {
+                        railLocation.Position = position;
+                        if (!railLocation.Save(localTransaction))
+                        {
+                            errors.AddRange(railLocation.Errors.ToArray());
+                        }
+                    }
+
+                    position++;
+                }
+
+                if (transaction == null)
+                {
+                    if (errors.Any())
+                    {
+                        localTransaction.Rollback();
+                    }
+                    else
+                    {
+                        localTransaction.Commit();
+                    }
+                }
+            }
+            finally
+            {
+                if (transaction == null && localTransaction != null && localTransaction.IsActive)
+                {
+                    localTransaction.Rollback();
+                }
+            }
+
+            return errors;
         }
 
         #region Relationships

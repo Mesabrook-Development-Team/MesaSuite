@@ -318,6 +318,12 @@
     <Compile Include="Train\RailLocationModifier.Designer.cs">
       <DependentUpon>RailLocationModifier.cs</DependentUpon>
     </Compile>
+    <Compile Include="Train\TrainDutyTransactionDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Train\TrainDutyTransactionDetail.Designer.cs">
+      <DependentUpon>TrainDutyTransactionDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Train\TrainList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -452,6 +458,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Train\RailLocationModifier.resx">
       <DependentUpon>RailLocationModifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Train\TrainDutyTransactionDetail.resx">
+      <DependentUpon>TrainDutyTransactionDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Train\TrainList.resx">
       <DependentUpon>TrainList.cs</DependentUpon>

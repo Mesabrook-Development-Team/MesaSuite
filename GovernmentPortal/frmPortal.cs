@@ -98,6 +98,7 @@ namespace GovernmentPortal
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<PatchData>(FleetTracking_PatchData));
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.IsCurrentEntity(FleetTracking_IsCurrentEntity));
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetCurrentCompanyIDGovernmentID(() => (null, _government.GovernmentID)));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetUsersForEntity(FleetTracking_GetCurrentUsers));
 
             mnuFleetTracking = new ToolStripMenuItem("Fleet Tracking");
             foreach (FleetTracking.Interop.FleetTrackingApplication.MainNavigationItem mainNavigationItem in _fleetTrackingApplication.GetNavigationItems())
@@ -186,6 +187,14 @@ namespace GovernmentPortal
         private bool FleetTracking_IsCurrentEntity(long? companyID, long? governmentID)
         {
             return _government.GovernmentID == governmentID;
+        }
+
+        private async Task<List<FleetTracking.Models.User>> FleetTracking_GetCurrentUsers()
+        {
+            GetData get = new GetData(DataAccess.APIs.GovernmentPortal, "Official/GetAllForGovernment");
+            get.AddGovHeader(_government.GovernmentID.Value);
+            List<Official> officials = await get.GetObject<List<Official>>() ?? new List<Official>();
+            return officials.Select(o => new FleetTracking.Models.User() { UserID = o.UserID, Username = o.OfficialName }).ToList();
         }
 
         private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)

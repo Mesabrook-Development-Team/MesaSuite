@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 
@@ -14,6 +16,7 @@ namespace FleetTracking.Interop
             public delegate TAccess GetAccess<out TAccess>() where TAccess : DataAccess;
             public delegate bool IsCurrentEntity(long? companyID, long? governmentID);
             public delegate (long?, long?) GetCurrentCompanyIDGovernmentID();
+            public delegate Task<List<User>> GetUsersForEntity();
         }
 
         private Dictionary<Type, Delegate> callbacks = new Dictionary<Type, Delegate>();
@@ -139,6 +142,11 @@ namespace FleetTracking.Interop
         internal (long?, long?) GetCurrentCompanyIDGovernmentID()
         {
             return GetCallback<CallbackDelegates.GetCurrentCompanyIDGovernmentID>()?.Invoke() ?? (null, null);
+        }
+
+        internal async Task<List<User>> GetUsersForCurrentEntity()
+        {
+            return (await GetCallback<CallbackDelegates.GetUsersForEntity>()?.Invoke()) ?? new List<User>();
         }
 
         public enum OpenFormOptions

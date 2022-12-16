@@ -1,4 +1,4 @@
-﻿namespace CompanyStudio.FleetTracking
+﻿namespace CompanyStudio.FleetTrackingForms
 {
     partial class frmFleetForm
     {

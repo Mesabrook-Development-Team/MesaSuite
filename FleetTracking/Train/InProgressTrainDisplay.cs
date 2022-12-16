@@ -31,9 +31,24 @@ namespace FleetTracking.Train
             dataGridViewStylizer.ApplyStyle(dgvHandledCars);
         }
 
-        private void InProgressTrainDisplay_Load(object sender, EventArgs e)
+        private async void InProgressTrainDisplay_Load(object sender, EventArgs e)
         {
             LoadEverything();
+
+            GetData get = _application.GetAccess<GetData>();
+            get.API = DataAccess.APIs.FleetTracking;
+            get.Resource = $"Train/Get/{TrainID}";
+            Models.Train train = await get.GetObject<Models.Train>();
+            if (train != null)
+            {
+                toolModifyConsist.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
+                toolLiveLoad.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
+                toolGoOnOffDuty.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
+                toolFuelAddLoco.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
+                toolFuelSetEnd.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
+                toolFuelSetStart.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
+                toolTogglePartialTrip.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
+            }
         }
 
         private void LoadEverything()
@@ -267,7 +282,7 @@ namespace FleetTracking.Train
             try
             {
                 GetData get = _application.GetAccess<GetData>();
-                get.API = DataAccess.APIs.CompanyStudio;
+                get.API = DataAccess.APIs.FleetTracking;
                 
                 foreach(DataGridViewRow row in dgvHandledCars.Rows)
                 {
@@ -295,6 +310,43 @@ namespace FleetTracking.Train
         private void toolModifyConsist_Click(object sender, EventArgs e)
         {
             _application.OpenForm(new RailLocationModifier() { Application = _application }, FleetTrackingApplication.OpenFormOptions.Dialog);
+
+            LoadConsist();
+            LoadHandledCars();
+        }
+
+        private async void toolGoOnOffDuty_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                loaderDutyTrans.BringToFront();
+                loaderDutyTrans.Visible = true;
+
+                GetData get = _application.GetAccess<GetData>();
+                get.API = DataAccess.APIs.FleetTracking;
+                get.Resource = $"TrainDutyTransaction/GetExistingForUserByTrain/{TrainID}";
+                TrainDutyTransaction trainDutyTransaction = await get.GetObject<TrainDutyTransaction>();
+
+                TrainDutyTransactionDetail detail = new TrainDutyTransactionDetail()
+                {
+                    Application = _application,
+                    TrainID = TrainID,
+                    TrainDutyTransactionID = trainDutyTransaction?.TrainDutyTransactionID
+                };
+
+                Form detailForm = _application.OpenForm(detail, FleetTrackingApplication.OpenFormOptions.Popout);
+                detailForm.Text = "Duty Transaction";
+
+                detailForm.FormClosed += (s, ea) =>
+                {
+                    LoadTrainInfo();
+                    LoadDutyTransactions();
+                };
+            }
+            finally
+            {
+                loaderDutyTrans.Visible = false;
+            }
         }
     }
 }

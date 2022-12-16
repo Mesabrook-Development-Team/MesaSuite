@@ -37,6 +37,11 @@
             this.cmdAdd = new System.Windows.Forms.Button();
             this.cmdMoveUp = new System.Windows.Forms.Button();
             this.dgvFromList = new System.Windows.Forms.DataGridView();
+            this.colFromImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colFromReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFromType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFromPossession = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFromPos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControlFrom = new System.Windows.Forms.TabControl();
             this.tabTrackFrom = new System.Windows.Forms.TabPage();
             this.cboFromTrack = new System.Windows.Forms.ComboBox();
@@ -48,7 +53,13 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cboFromSymbol = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.loaderFrom = new FleetTracking.Loader();
             this.dgvToList = new System.Windows.Forms.DataGridView();
+            this.colToImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colToReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colToType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colToPossession = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colToPos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControlTo = new System.Windows.Forms.TabControl();
             this.tabTrackTo = new System.Windows.Forms.TabPage();
             this.cboToTrack = new System.Windows.Forms.ComboBox();
@@ -60,17 +71,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.cboToSymbol = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.colToImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colToReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colToType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colToPossession = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colToPos = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFromImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colFromReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFromType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFromPossession = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFromPos = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.loaderFrom = new FleetTracking.Loader();
             this.loaderTo = new FleetTracking.Loader();
             this.loaderFull = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
@@ -205,6 +205,33 @@
             this.dgvFromList.TabIndex = 1;
             this.dgvFromList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_CellClick);
             // 
+            // colFromImage
+            // 
+            this.colFromImage.HeaderText = "Image";
+            this.colFromImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colFromImage.Name = "colFromImage";
+            // 
+            // colFromReportingMark
+            // 
+            this.colFromReportingMark.HeaderText = "Reporting Mark";
+            this.colFromReportingMark.Name = "colFromReportingMark";
+            // 
+            // colFromType
+            // 
+            this.colFromType.HeaderText = "Type";
+            this.colFromType.Name = "colFromType";
+            // 
+            // colFromPossession
+            // 
+            this.colFromPossession.HeaderText = "Possesed By";
+            this.colFromPossession.Name = "colFromPossession";
+            // 
+            // colFromPos
+            // 
+            this.colFromPos.HeaderText = "Pos";
+            this.colFromPos.Name = "colFromPos";
+            this.colFromPos.Width = 40;
+            // 
             // tabControlFrom
             // 
             this.tabControlFrom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -328,6 +355,19 @@
             this.label5.TabIndex = 3;
             this.label5.Text = "Symbol:";
             // 
+            // loaderFrom
+            // 
+            this.loaderFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loaderFrom.BackColor = System.Drawing.Color.Transparent;
+            this.loaderFrom.Location = new System.Drawing.Point(0, 89);
+            this.loaderFrom.Name = "loaderFrom";
+            this.loaderFrom.Size = new System.Drawing.Size(360, 463);
+            this.loaderFrom.TabIndex = 3;
+            this.loaderFrom.Visible = false;
+            this.loaderFrom.VisibleChanged += new System.EventHandler(this.loader_VisibleChanged);
+            // 
             // dgvToList
             // 
             this.dgvToList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -345,6 +385,33 @@
             this.dgvToList.Size = new System.Drawing.Size(455, 463);
             this.dgvToList.TabIndex = 1;
             this.dgvToList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_CellClick);
+            // 
+            // colToImage
+            // 
+            this.colToImage.HeaderText = "Image";
+            this.colToImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colToImage.Name = "colToImage";
+            // 
+            // colToReportingMark
+            // 
+            this.colToReportingMark.HeaderText = "Reporting Mark";
+            this.colToReportingMark.Name = "colToReportingMark";
+            // 
+            // colToType
+            // 
+            this.colToType.HeaderText = "Type";
+            this.colToType.Name = "colToType";
+            // 
+            // colToPossession
+            // 
+            this.colToPossession.HeaderText = "Possesed By";
+            this.colToPossession.Name = "colToPossession";
+            // 
+            // colToPos
+            // 
+            this.colToPos.HeaderText = "Pos";
+            this.colToPos.Name = "colToPos";
+            this.colToPos.Width = 40;
             // 
             // tabControlTo
             // 
@@ -469,73 +536,6 @@
             this.label9.TabIndex = 3;
             this.label9.Text = "Symbol:";
             // 
-            // colToImage
-            // 
-            this.colToImage.HeaderText = "Image";
-            this.colToImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colToImage.Name = "colToImage";
-            // 
-            // colToReportingMark
-            // 
-            this.colToReportingMark.HeaderText = "Reporting Mark";
-            this.colToReportingMark.Name = "colToReportingMark";
-            // 
-            // colToType
-            // 
-            this.colToType.HeaderText = "Type";
-            this.colToType.Name = "colToType";
-            // 
-            // colToPossession
-            // 
-            this.colToPossession.HeaderText = "Possesed By";
-            this.colToPossession.Name = "colToPossession";
-            // 
-            // colToPos
-            // 
-            this.colToPos.HeaderText = "Pos";
-            this.colToPos.Name = "colToPos";
-            this.colToPos.Width = 40;
-            // 
-            // colFromImage
-            // 
-            this.colFromImage.HeaderText = "Image";
-            this.colFromImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colFromImage.Name = "colFromImage";
-            // 
-            // colFromReportingMark
-            // 
-            this.colFromReportingMark.HeaderText = "Reporting Mark";
-            this.colFromReportingMark.Name = "colFromReportingMark";
-            // 
-            // colFromType
-            // 
-            this.colFromType.HeaderText = "Type";
-            this.colFromType.Name = "colFromType";
-            // 
-            // colFromPossession
-            // 
-            this.colFromPossession.HeaderText = "Possesed By";
-            this.colFromPossession.Name = "colFromPossession";
-            // 
-            // colFromPos
-            // 
-            this.colFromPos.HeaderText = "Pos";
-            this.colFromPos.Name = "colFromPos";
-            this.colFromPos.Width = 40;
-            // 
-            // loaderFrom
-            // 
-            this.loaderFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loaderFrom.BackColor = System.Drawing.Color.Transparent;
-            this.loaderFrom.Location = new System.Drawing.Point(0, 89);
-            this.loaderFrom.Name = "loaderFrom";
-            this.loaderFrom.Size = new System.Drawing.Size(360, 463);
-            this.loaderFrom.TabIndex = 3;
-            this.loaderFrom.Visible = false;
-            this.loaderFrom.VisibleChanged += new System.EventHandler(this.loader_VisibleChanged);
-            // 
             // loaderTo
             // 
             this.loaderTo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -571,6 +571,7 @@
             this.cmdSave.TabIndex = 4;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
+            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
             // cmdClose
             // 

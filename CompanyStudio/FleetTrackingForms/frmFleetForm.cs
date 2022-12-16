@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using FleetTracking;
 
-namespace CompanyStudio.FleetTracking
+namespace CompanyStudio.FleetTrackingForms
 {
     public partial class frmFleetForm : BaseCompanyStudioContent
     {

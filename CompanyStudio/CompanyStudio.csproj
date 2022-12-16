@@ -162,10 +162,10 @@
     </Compile>
     <Compile Include="Extensions\DataAccessExt.cs" />
     <Compile Include="Extensions\ICompanyStudioContentExt.cs" />
-    <Compile Include="FleetTracking\frmFleetForm.cs">
+    <Compile Include="FleetTrackingForms\frmFleetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FleetTracking\frmFleetForm.Designer.cs">
+    <Compile Include="FleetTrackingForms\frmFleetForm.Designer.cs">
       <DependentUpon>frmFleetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="frmCompanyConnect.cs">
@@ -325,7 +325,7 @@
     <EmbeddedResource Include="Employees\frmEmployeeExplorer.resx">
       <DependentUpon>frmEmployeeExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FleetTracking\frmFleetForm.resx">
+    <EmbeddedResource Include="FleetTrackingForms\frmFleetForm.resx">
       <DependentUpon>frmFleetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCompanyConnect.resx">

@@ -106,6 +106,7 @@ namespace CompanyStudio
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<PatchData>(FleetTracking_PatchData));
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.IsCurrentEntity((companyID, governmentID) => FleetTracking_IsCurrentEntity(fleetTrackingApplication, companyID, governmentID)));
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetCurrentCompanyIDGovernmentID(() => ((long?)fleetTrackingApplicationsByCompany.FirstOrDefault(kvp => kvp.Value == fleetTrackingApplication).Key ?? null, null)));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetUsersForEntity(() => FleetTracking_GetUsersForEntity(fleetTrackingApplication)));
 
             fleetMenu = new ToolStripMenuItem("Fleet Tracking");
             foreach(FleetTrackingApplication.MainNavigationItem navItem in fleetTrackingApplication.GetNavigationItems())
@@ -137,7 +138,7 @@ namespace CompanyStudio
 
         private Form FleetTracking_OpenForm(IFleetTrackingControl fleetTrackingControl, FleetTrackingApplication.OpenFormOptions formOptions)
         {
-            FleetTracking.frmFleetForm fleetForm = new FleetTracking.frmFleetForm();
+            FleetTrackingForms.frmFleetForm fleetForm = new FleetTrackingForms.frmFleetForm();
             if (formOptions.HasFlag(FleetTrackingApplication.OpenFormOptions.ResizeToControl))
             {
                 fleetForm.ClientSize = ((Control)fleetTrackingControl).Size;
@@ -194,6 +195,16 @@ namespace CompanyStudio
         private bool FleetTracking_IsCurrentEntity(FleetTrackingApplication application, long? companyID, long? governmentID)
         {
             return companyID != null && fleetTrackingApplicationsByCompany.GetOrDefault(companyID.Value) == application;
+        }
+
+        private async Task<List<FleetTracking.Models.User>> FleetTracking_GetUsersForEntity(FleetTrackingApplication fleetTrackingApplication)
+        {
+            long companyID = fleetTrackingApplicationsByCompany.First(kvp => kvp.Value == fleetTrackingApplication).Key;
+
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, $"Employee/GetAllForCompany/{companyID}");
+            FleetTracking_AppendHeaders(get);
+            List<Employee> employees = await get.GetObject<List<Employee>>() ?? new List<Employee>();
+            return employees.Select(e => new FleetTracking.Models.User() { UserID = e.UserID, Username = e.EmployeeName }).ToList();
         }
 
         private void frmStudio_Load(object sender, EventArgs e)

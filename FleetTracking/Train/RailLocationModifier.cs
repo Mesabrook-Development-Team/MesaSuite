@@ -45,6 +45,8 @@ namespace FleetTracking.Train
 
         private DataGridView lastClickedGrid = null;
 
+        private int _formLoadingRequests = 0;
+
         private void loader_VisibleChanged(object sender, EventArgs e)
         {
             cmdMoveUp.Enabled = !loaderFull.Visible && !loaderFrom.Visible && !loaderTo.Visible;
@@ -65,10 +67,12 @@ namespace FleetTracking.Train
                 get.Resource = "RailDistrict/GetAll";
                 List<RailDistrict> railDistricts = await get.GetObject<List<RailDistrict>>() ?? new List<RailDistrict>();
 
+                _formLoadingRequests++;
                 DropDownItem<RailDistrict> allItem = new DropDownItem<RailDistrict>(null, "All Districts");
                 cboFromDistrict.Items.Add(allItem);
                 cboFromDistrict.SelectedItem = allItem;
 
+                _formLoadingRequests++;
                 allItem = allItem.CreateCopy();
                 cboToDistrict.Items.Add(allItem);
                 cboToDistrict.SelectedItem = allItem;
@@ -94,18 +98,20 @@ namespace FleetTracking.Train
 
                     if (SelectedTrackID == track.TrackID)
                     {
-                        cboToTrack.SelectedItem = ddiTrack;
                         tabControlTo.SelectedTab = tabTrackTo;
+                        cboToTrack.SelectedItem = ddiTrack;
                     }
                 }
 
                 get.Resource = "TrainSymbol/GetAll";
                 List<TrainSymbol> symbols = await get.GetObject<List<TrainSymbol>>() ?? new List<TrainSymbol>();
 
+                _formLoadingRequests++;
                 DropDownItem<TrainSymbol> allSymbols = new DropDownItem<TrainSymbol>(null, "All Symbols");
                 cboFromSymbol.Items.Add(allSymbols);
                 cboFromSymbol.SelectedItem = allSymbols;
 
+                _formLoadingRequests++;
                 allSymbols = allSymbols.CreateCopy();
                 cboToSymbol.Items.Add(allSymbols);
                 cboToSymbol.SelectedItem = allSymbols;
@@ -184,7 +190,10 @@ namespace FleetTracking.Train
 
         private async void LoadTrackFrom(bool skipReloadTo = false)
         {
-            dgvFromList.Rows.Clear();
+            if (_formLoadingRequests <= 0 || _formLoadingRequests-- <= 0)
+            {
+                dgvFromList.Rows.Clear();
+            }
 
             DropDownItem<Track> trackDDI = cboFromTrack.SelectedItem as DropDownItem<Track>;
             if (trackDDI == null)
@@ -319,7 +328,10 @@ namespace FleetTracking.Train
 
         private async void LoadTrainFrom(bool skipReloadTo = false)
         {
-            dgvFromList.Rows.Clear();
+            if (_formLoadingRequests <= 0 || _formLoadingRequests-- <= 0)
+            {
+                dgvFromList.Rows.Clear();
+            }
 
             DropDownItem<Models.Train> trainDDI = cboFromTrain.SelectedItem as DropDownItem<Models.Train>;
             if (trainDDI == null)
@@ -377,7 +389,7 @@ namespace FleetTracking.Train
             else if (sender == cboToDistrict)
             {
                 districtBox = cboToDistrict;
-                trackBox = cboToTrain;
+                trackBox = cboToTrack;
             }
             else
             {
@@ -392,6 +404,7 @@ namespace FleetTracking.Train
 
             DropDownItem<Track> currentTrack = trackBox.SelectedItem as DropDownItem<Track>;
             trackBox.Items.Clear();
+            trackBox.Text = null;
 
             bool doViewRefresh = true;
             foreach(Track track in _allTracks.Where(t => selectedDistrict.Object == null || t.RailDistrictID == selectedDistrict.Object.RailDistrictID))
@@ -446,6 +459,7 @@ namespace FleetTracking.Train
 
             DropDownItem<Models.Train> currentTrain = trainBox.SelectedItem as DropDownItem<Models.Train>;
             trainBox.Items.Clear();
+            trainBox.Text = null;
 
             bool doViewRefresh = true;
             foreach(Models.Train train in _allTrains.Where(t => selectedSymbol.Object == null || t.TrainSymbolID == selectedSymbol.Object.TrainSymbolID))
@@ -475,7 +489,10 @@ namespace FleetTracking.Train
 
         private async void LoadTrackTo(bool skipReloadFrom = false)
         {
-            dgvToList.Rows.Clear();
+            if (_formLoadingRequests <= 0 || _formLoadingRequests-- <= 0)
+            {
+                dgvToList.Rows.Clear();
+            }
 
             DropDownItem<Track> trackDDI = cboToTrack.SelectedItem as DropDownItem<Track>;
             if (trackDDI == null)
@@ -522,7 +539,10 @@ namespace FleetTracking.Train
 
         private async void LoadTrainTo(bool skipReloadFrom = false)
         {
-            dgvToList.Rows.Clear();
+            if (_formLoadingRequests <= 0 || _formLoadingRequests-- <= 0)
+            {
+                dgvToList.Rows.Clear();
+            }
 
             DropDownItem<Models.Train> trainDDI = cboToTrain.SelectedItem as DropDownItem<Models.Train>;
             if (trainDDI == null)
@@ -839,6 +859,8 @@ namespace FleetTracking.Train
                 int fromPosition = selectedFromLocation.Position;
 
                 int maxPositionOnToSide = allToLocations.Count == 0 ? 0 : allToLocations.Max(rl => rl.Position);
+                selectedFromLocation.TrackID = trackID;
+                selectedFromLocation.TrainID = trainID;
                 selectedFromLocation.Position = ++maxPositionOnToSide;
                 allFromLocations.Remove(selectedFromLocation);
                 allToLocations.Add(selectedFromLocation);
@@ -851,6 +873,16 @@ namespace FleetTracking.Train
 
             refreshFrom?.Invoke();
             refreshTo?.Invoke();
+
+            if (trackID != null)
+            {
+                Track track = _allTracks.First(t => t.TrackID == trackID);
+                decimal currentTrackLength = allToLocations.Sum(rl => rl.Railcar?.RailcarModel?.Length ?? rl.Locomotive?.LocomotiveModel?.Length ?? 0);
+                if (currentTrackLength > track.Length)
+                {
+                    this.ShowWarning(string.Format("Total stock length on track {0} ({1} meters) exceeds track length ({2} meters)", track.Name, track.Length, currentTrackLength));
+                }
+            }
         }
 
         private void cmdRemove_Click(object sender, EventArgs e)
@@ -877,11 +909,13 @@ namespace FleetTracking.Train
                 int currentPosition = selectedToLocation.Position;
 
                 int nextPosition = allFromLocations.Count == 0 ? 0 : allFromLocations.Max(rl => rl.Position);
+                selectedToLocation.TrackID = trackID;
+                selectedToLocation.TrainID = trainID;
                 selectedToLocation.Position = ++nextPosition;
                 allFromLocations.Add(selectedToLocation);
                 allToLocations.Remove(selectedToLocation);
 
-                foreach(RailLocation lowerPosition in allToLocations.Where(rl => rl.Position < currentPosition))
+                foreach(RailLocation lowerPosition in allToLocations.Where(rl => rl.Position > currentPosition))
                 {
                     lowerPosition.Position--;
                 }
@@ -889,6 +923,16 @@ namespace FleetTracking.Train
 
             refreshTo?.Invoke();
             refreshFrom?.Invoke();
+
+            if (trackID != null)
+            {
+                Track track = _allTracks.First(t => t.TrackID == trackID);
+                decimal currentTrackLength = allFromLocations.Sum(rl => rl.Railcar?.RailcarModel?.Length ?? rl.Locomotive?.LocomotiveModel?.Length ?? 0);
+                if (currentTrackLength > track.Length)
+                {
+                    this.ShowWarning(string.Format("Total stock length on track {0} ({1} meters) exceeds track length ({2} meters)", track.Name, track.Length, currentTrackLength));
+                }
+            }
         }
 
         private void tabControlFrom_Selected(object sender, TabControlEventArgs e)
@@ -899,6 +943,36 @@ namespace FleetTracking.Train
         private void tabControlTo_Selected(object sender, TabControlEventArgs e)
         {
             ToCombo_SelectedIndexChanged(e.TabPage == tabTrackTo ? cboToTrack : cboToTrain, EventArgs.Empty);
+        }
+
+        private async void cmdSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                loaderFull.BringToFront();
+                loaderFull.Visible = true;
+
+                PutData put = _application.GetAccess<PutData>();
+                put.API = DataAccess.APIs.FleetTracking;
+                put.Resource = "RailLocation/Modify";
+                put.ObjectToPut = new
+                {
+                    ModifiedTracksByID = _modifiedTracksByID,
+                    ModifiedTrainsByID = _modifiedTrainsByID,
+                    TimeMoved = dateTimePicker1.Value
+                };
+                await put.ExecuteNoResult();
+
+                if (put.RequestSuccessful)
+                {
+                    ParentForm.Close();
+                    Dispose();
+                }
+            }
+            finally
+            {
+                loaderFull.Visible = false;
+            }
         }
     }
 }

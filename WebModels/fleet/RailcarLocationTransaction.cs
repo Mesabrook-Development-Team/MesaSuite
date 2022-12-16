@@ -146,11 +146,11 @@ namespace WebModels.fleet
                     {
                         Left = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.RailcarID",
                         ConditionType = Condition.ConditionTypes.Equal,
-                        Right = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.RailcarID"
+                        Right = (ClussPro.Base.Data.Operand.Field)$"nextTransSubQuery.RailcarID"
                     },
                     new Condition()
                     {
-                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.TransactionTime",
+                        Left = (ClussPro.Base.Data.Operand.Field)$"nextTransSubQuery.TransactionTime",
                         ConditionType = Condition.ConditionTypes.Less,
                         Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.TransactionTime"
                     }
@@ -188,11 +188,11 @@ namespace WebModels.fleet
                     {
                         Left = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.RailcarID",
                         ConditionType = Condition.ConditionTypes.Equal,
-                        Right = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.RailcarID"
+                        Right = (ClussPro.Base.Data.Operand.Field)$"nextTransSubQuery.RailcarID"
                     },
                     new Condition()
                     {
-                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.TransactionTime",
+                        Left = (ClussPro.Base.Data.Operand.Field)$"nextTransSubQuery.TransactionTime",
                         ConditionType = Condition.ConditionTypes.Greater,
                         Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.TransactionTime"
                     }

@@ -102,6 +102,7 @@
             this.chkOffDuty.TabIndex = 2;
             this.chkOffDuty.Text = "Off Duty";
             this.chkOffDuty.UseVisualStyleBackColor = true;
+            this.chkOffDuty.CheckedChanged += new System.EventHandler(this.chkOffDuty_CheckedChanged);
             // 
             // cmdSave
             // 

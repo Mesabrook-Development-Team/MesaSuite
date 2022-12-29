@@ -156,7 +156,8 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
 
         }
 
-        private Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> GetBaseQueries(SchemaObject thisSchemaObject, HashSet<string> fields, string upperFieldPath = null)
+        private Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> 
+            GetBaseQueries(SchemaObject thisSchemaObject, HashSet<string> fields, string upperFieldPath = null)
         {
             Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> queriesByFieldPath = new Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>>();
 

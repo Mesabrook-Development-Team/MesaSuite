@@ -239,7 +239,7 @@ namespace WebModels.invoicing
         }
 
         private List<fleet.RailcarLocationTransaction> _railcarLocationTransactions = new List<fleet.RailcarLocationTransaction>();
-        [RelationshipList("5D15D10B-9744-415A-8060-0FF591FAB760", nameof(fleet.RailcarLocationTransaction.InvoiceID))]
+        [RelationshipList("5D15D10B-9744-415A-8060-0FF591FAB760", nameof(fleet.RailcarLocationTransaction.InvoiceID), AutoRemoveReferences = true)]
         public IReadOnlyCollection<fleet.RailcarLocationTransaction> RailcarLocationTransactions
         {
             get { CheckGet(); return _railcarLocationTransactions; }

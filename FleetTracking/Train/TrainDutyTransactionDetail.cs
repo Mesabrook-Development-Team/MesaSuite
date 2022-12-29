@@ -98,7 +98,7 @@ namespace FleetTracking.Train
                 return;
             }
 
-            if (!chkOffDuty.Checked && dtpOffDuty.Value < dtpOnDuty.Value)
+            if (chkOffDuty.Checked && dtpOffDuty.Value < dtpOnDuty.Value)
             {
                 this.ShowError("Time On Duty must be before Time Off Duty");
                 return;
@@ -147,6 +147,11 @@ namespace FleetTracking.Train
             {
                 loader.Visible = false; 
             }
+        }
+
+        private void chkOffDuty_CheckedChanged(object sender, EventArgs e)
+        {
+            dtpOffDuty.Enabled = chkOffDuty.Checked;
         }
     }
 }

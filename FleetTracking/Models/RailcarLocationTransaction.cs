@@ -15,6 +15,7 @@ namespace FleetTracking.Models
         public DateTime? TransactionTime { get; set; }
         public long? InvoiceID { get; set; }
         public Invoice Invoice { get; set; }
+        public bool WillNotCharge { get; set; }
         public RailcarLocationTransaction PreviousTransaction { get; set; }
         public RailcarLocationTransaction NextTransaction { get; set; }
     }

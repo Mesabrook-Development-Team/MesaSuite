@@ -152,6 +152,14 @@
     <Compile Include="LocomotiveModel\LocomotiveModelList.Designer.cs">
       <DependentUpon>LocomotiveModelList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Misc\MiscellaneousSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Misc\MiscellaneousSettings.Designer.cs">
+      <DependentUpon>MiscellaneousSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarHandlingRate.cs" />
+    <Compile Include="Models\MiscellaneousSettings.cs" />
     <Compile Include="Models\RailcarLocationTransaction.cs" />
     <Compile Include="Models\RailLocation.cs" />
     <Compile Include="Models\Company.cs" />
@@ -203,6 +211,24 @@
     </Compile>
     <Compile Include="RailcarModel\RailcarModelList.Designer.cs">
       <DependentUpon>RailcarModelList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Rates\CarHandlingRateDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Rates\CarHandlingRateDetail.Designer.cs">
+      <DependentUpon>CarHandlingRateDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Rates\CarHandlingRateList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Rates\CarHandlingRateList.Designer.cs">
+      <DependentUpon>CarHandlingRateList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Release\MassRelease.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Release\MassRelease.Designer.cs">
+      <DependentUpon>MassRelease.cs</DependentUpon>
     </Compile>
     <Compile Include="Roster\BrowseRoster.cs">
       <SubType>UserControl</SubType>
@@ -318,6 +344,12 @@
     <Compile Include="Train\RailLocationModifier.Designer.cs">
       <DependentUpon>RailLocationModifier.cs</DependentUpon>
     </Compile>
+    <Compile Include="Train\SelectLocoForFuel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Train\SelectLocoForFuel.Designer.cs">
+      <DependentUpon>SelectLocoForFuel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Train\TrainDutyTransactionDetail.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -386,6 +418,9 @@
     <EmbeddedResource Include="LocomotiveModel\LocomotiveModelList.resx">
       <DependentUpon>LocomotiveModelList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Misc\MiscellaneousSettings.resx">
+      <DependentUpon>MiscellaneousSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -401,6 +436,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RailcarModel\RailcarModelList.resx">
       <DependentUpon>RailcarModelList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rates\CarHandlingRateDetail.resx">
+      <DependentUpon>CarHandlingRateDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rates\CarHandlingRateList.resx">
+      <DependentUpon>CarHandlingRateList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Release\MassRelease.resx">
+      <DependentUpon>MassRelease.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Roster\BrowseRoster.resx">
       <DependentUpon>BrowseRoster.cs</DependentUpon>
@@ -458,6 +502,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Train\RailLocationModifier.resx">
       <DependentUpon>RailLocationModifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Train\SelectLocoForFuel.resx">
+      <DependentUpon>SelectLocoForFuel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Train\TrainDutyTransactionDetail.resx">
       <DependentUpon>TrainDutyTransactionDetail.cs</DependentUpon>

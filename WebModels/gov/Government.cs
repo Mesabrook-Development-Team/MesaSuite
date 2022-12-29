@@ -173,6 +173,13 @@ namespace WebModels.gov
             get { CheckGet(); return _emailImplementationReadyForReceipt; }
         }
 
+        private fleet.MiscellaneousSettings _fleetMiscSettings = null;
+        [Relationship("F1224CCC-BF07-4835-AA1A-00BF2E623F41", OneToOneByForeignKey = true)]
+        public fleet.MiscellaneousSettings FleetMiscSettings
+        {
+            get { CheckGet(); return _fleetMiscSettings; }
+        }
+
         #region Relationships
         #region account
         private List<Account> _accounts = new List<Account>();
@@ -251,6 +258,13 @@ namespace WebModels.gov
         public IReadOnlyCollection<fleet.TrainSymbol> TrainSymbols
         {
             get { CheckGet(); return _trainSymbols; }
+        }
+
+        private List<fleet.CarHandlingRate> _carHandlingRates = new List<fleet.CarHandlingRate>();
+        [RelationshipList("F363B668-6CEC-450C-A4B6-8CF9C5B6CD8C", nameof(fleet.CarHandlingRate.GovernmentID))]
+        public IReadOnlyCollection<fleet.CarHandlingRate> CarHandlingRates
+        {
+            get { CheckGet(); return _carHandlingRates; }
         }
         #endregion
         #region gov

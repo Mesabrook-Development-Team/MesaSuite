@@ -58,6 +58,13 @@ namespace WebModels.company
             get { CheckGet(); return _emailImplementationWireTransferHistory; }
         }
 
+        private fleet.MiscellaneousSettings _fleetMiscSettings = null;
+        [Relationship("0307C719-B4CD-4F99-9704-E1C20A5950BF", OneToOneByForeignKey = true)]
+        public fleet.MiscellaneousSettings FleetMiscSettings
+        {
+            get { CheckGet(); return _fleetMiscSettings; }
+        }
+
         protected override bool PostSave(ITransaction transaction)
         {
             if (!IsInsert)
@@ -229,6 +236,13 @@ namespace WebModels.company
         public IReadOnlyCollection<fleet.TrainSymbol> TrainSymbols
         {
             get { CheckGet(); return _trainSymbols; }
+        }
+
+        private List<fleet.CarHandlingRate> _carHandlingRates = new List<fleet.CarHandlingRate>();
+        [RelationshipList("59786644-5035-4688-8DFC-DB80A59DF37A", nameof(fleet.CarHandlingRate.CompanyID))]
+        public IReadOnlyCollection<fleet.CarHandlingRate> CarHandlingRates
+        {
+            get { CheckGet(); return _carHandlingRates; }
         }
         #endregion
         #region gov

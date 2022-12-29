@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FleetTracking.Interop;
+using FleetTracking.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -27,17 +28,18 @@ namespace FleetTracking.Roster
         public RailcarDetail()
         {
             InitializeComponent();
+            dataGridViewStylizer.ApplyStyle(dgvHistory);
         }
 
         private void RailcarDetail_Load(object sender, EventArgs e)
         {
-            LoadData();
+            LoadGeneralData();
         }
 
-        public async Task LoadData()
+        public async Task LoadGeneralData()
         {
-            loader.BringToFront();
-            loader.Visible = true;
+            loaderGeneral.BringToFront();
+            loaderGeneral.Visible = true;
 
             try
             {
@@ -133,7 +135,7 @@ namespace FleetTracking.Roster
             }
             finally
             {
-                loader.Visible = false;
+                loaderGeneral.Visible = false;
             }
 
             if (RailcarID != null)
@@ -285,6 +287,130 @@ namespace FleetTracking.Roster
             }
 
             pboxImage.Image = image;
+        }
+
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl.SelectedTab == tabGeneral)
+            {
+                LoadGeneralData();
+            }
+            else if (tabControl.SelectedTab == tabHistory)
+            {
+                LoadHistory();
+            }
+        }
+
+        private int historySkip = 0;
+        private int historyRemaining = 0;
+        private const int historyTake = 50;
+
+        private async Task LoadHistory()
+        {
+            try
+            {
+                loaderHistory.BringToFront();
+                loaderHistory.Visible = true;
+
+                dgvHistory.Rows.Clear();
+
+                if (RailcarID == null)
+                {
+                    return;
+                }
+
+                GetData get = _application.GetAccess<GetData>();
+                get.API = DataAccess.APIs.FleetTracking;
+                get.Resource = "RailcarLocationTransaction/GetByRailcar";
+                get.QueryString.Add("railcarID", RailcarID.Value.ToString());
+                get.QueryString.Add("skip", historySkip.ToString());
+                get.QueryString.Add("take", historyTake.ToString());
+
+                var response = new
+                {
+                    remaining = 0L,
+                    railcarLocationTransactions = new List<RailcarLocationTransaction>()
+                };
+
+                response = await get.GetAnonymousObject(response);
+
+                if (response != null)
+                {
+                    cmdFirst.Enabled = historySkip != 0;
+                    cmdPrevious.Enabled = historySkip != 0;
+                    cmdNext.Enabled = response.remaining > 0;
+                    cmdLast.Enabled = response.remaining > 0;
+
+                    historyRemaining = (int)response.remaining;
+
+                    foreach(RailcarLocationTransaction railcarLocationTransaction in response.railcarLocationTransactions)
+                    {
+                        int rowIndex = dgvHistory.Rows.Add();
+                        DataGridViewRow row = dgvHistory.Rows[rowIndex];
+
+                        row.Cells[colTime.Name].Value = railcarLocationTransaction.TransactionTime?.ToString("MM/dd/yyyy HH:mm");
+                        row.Cells[colTrain.Name].Value = railcarLocationTransaction.TrainNew?.TrainSymbol?.Name;
+                        row.Cells[colTrack.Name].Value = railcarLocationTransaction.TrackNew?.Name;
+                        row.Cells[colInvoiced.Name].Value = railcarLocationTransaction.InvoiceID != null;
+                        row.Cells[colNoCharge.Name].Value = railcarLocationTransaction.WillNotCharge;
+                        row.Tag = railcarLocationTransaction;
+                    }
+                }
+                else
+                {
+                    cmdFirst.Enabled = false;
+                    cmdPrevious.Enabled = false;
+                    cmdNext.Enabled = false;
+                    cmdLast.Enabled = false;
+                    historyRemaining = 0;
+                }
+            }
+            finally
+            {
+                loaderHistory.Visible = false;
+            }
+        }
+
+        private void cmdFirst_Click(object sender, EventArgs e)
+        {
+            historySkip = 0;
+            LoadHistory();
+        }
+
+        private void cmdPrevious_Click(object sender, EventArgs e)
+        {
+            historySkip -= historyTake;
+            if (historySkip < 0)
+            {
+                historySkip = 0;
+            }
+
+            LoadHistory();
+        }
+
+        private void cmdNext_Click(object sender, EventArgs e)
+        {
+            if (historyRemaining < historyTake)
+            {
+                historySkip += historyRemaining;
+            }
+            else
+            {
+                historySkip += historyTake;
+            }
+
+            LoadHistory();
+        }
+
+        private void cmdLast_Click(object sender, EventArgs e)
+        {
+            historySkip = historyRemaining - historyTake;
+            if (historySkip < 0)
+            {
+                historySkip = 0;
+            }
+
+            LoadHistory();
         }
     }
 }

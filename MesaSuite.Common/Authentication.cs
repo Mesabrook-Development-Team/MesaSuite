@@ -411,12 +411,6 @@ namespace MesaSuite.Common
 
             programThread = new Thread(new ThreadStart(ProgramThreadLogic));
             programThread.Start();
-
-            frmLogin login = new frmLogin();
-            login.ShowInTaskbar = false;
-            login.WindowState = FormWindowState.Minimized;
-            login.Show();
-            login.Close();
         }
 
         public static void Shutdown()

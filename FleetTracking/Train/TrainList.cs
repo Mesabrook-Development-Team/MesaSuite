@@ -70,7 +70,7 @@ namespace FleetTracking.Train
                     row.Cells[colSymbol.Name].Value = train.TrainSymbol?.Name;
                     row.Cells[colStatus.Name].Value = train.Status.ToString().ToDisplayName();
                     row.Cells[colStartTime.Name].Value = train.TrainDutyTransactions?.OrderBy(tdt => tdt.TimeOnDuty).FirstOrDefault()?.TimeOnDuty?.ToString("MM/dd/yyyy HH:mm");
-                    row.Cells[colEndTime.Name].Value = train.TrainDutyTransactions?.OrderByDescending(tdt => tdt.TimeOffDuty).FirstOrDefault()?.TimeOffDuty?.ToString("MM/dd/yyyy HH:mm");
+                    row.Cells[colEndTime.Name].Value = (train.TrainDutyTransactions?.Any(tdt => tdt.TimeOffDuty == null) ?? true) ? null : train.TrainDutyTransactions?.OrderByDescending(tdt => tdt.TimeOffDuty).FirstOrDefault()?.TimeOffDuty?.ToString("MM/dd/yyyy HH:mm");
                     row.Cells[colLocomotive.Name].Value = train.RailLocations?.OrderBy(rl => rl.Position).FirstOrDefault(rl => rl.Locomotive?.LocomotiveID != null)?.Locomotive.FormattedReportingMark;
                     row.Cells[colStockTotal.Name].Value = train.RailLocations?.Count;
                     row.Cells[colLength.Name].Value = train.RailLocations?.Sum(rl => rl.Locomotive?.LocomotiveModel?.Length ?? rl.Railcar?.RailcarModel?.Length ?? 0);
@@ -112,6 +112,7 @@ namespace FleetTracking.Train
                 Application = _application,
                 TrainID = train.TrainID
             };
+            display.OnSave += (s, ea) => LoadData();
             Form trainDisplay = _application.OpenForm(display, FleetTrackingApplication.OpenFormOptions.Popout);
             trainDisplay.Text = train.TrainSymbol.Name;
         }

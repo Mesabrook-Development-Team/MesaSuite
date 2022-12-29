@@ -121,6 +121,36 @@ namespace WebModels.fleet
             return errors;
         }
 
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (IsFieldDirty(nameof(Status)) && Status == Statuses.Complete)
+            {
+                Search<TrainDutyTransaction> trainDutyTransaction = new Search<TrainDutyTransaction>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<TrainDutyTransaction>()
+                    {
+                        Field = nameof(TrainDutyTransaction.TrainID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = TrainID
+                    },
+                    new DateTimeSearchCondition<TrainDutyTransaction>()
+                    {
+                        Field = nameof(TrainDutyTransaction.TimeOffDuty),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                    }));
+
+                foreach(TrainDutyTransaction trainTransaction in trainDutyTransaction.GetEditableReader(transaction))
+                {
+                    trainTransaction.TimeOffDuty = DateTime.Now;
+                    if (!trainTransaction.Save(transaction))
+                    {
+                        Errors.AddRange(trainTransaction.Errors.ToArray());
+                    }
+                }
+            }
+
+            return Errors.Count() == 0 && base.PostSave(transaction);
+        }
+
         #region Relationships
         #region fleet
         private List<RailLocation> _railLocations = new List<RailLocation>();

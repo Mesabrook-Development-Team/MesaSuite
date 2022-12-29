@@ -57,6 +57,8 @@
     <Compile Include="company\LocationGovernment.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
+    <Compile Include="fleet\CarHandlingRate.cs" />
+    <Compile Include="fleet\MiscellaneousSettings.cs" />
     <Compile Include="fleet\RailDistrict.cs" />
     <Compile Include="fleet\LeaseBid.cs" />
     <Compile Include="fleet\LeaseContract.cs" />
@@ -95,6 +97,8 @@
     <Compile Include="Loaders\mesasys\EmailTemplateLoader.cs" />
     <Compile Include="Loaders\security\ProgramLoader.cs" />
     <Compile Include="mesasys\CrashReport.cs" />
+    <Compile Include="mesasys\Item.cs" />
+    <Compile Include="mesasys\ItemNamespace.cs" />
     <Compile Include="mesasys\OutboundEmail.cs" />
     <Compile Include="mesasys\EmailImplementation.cs" />
     <Compile Include="mesasys\EmailTemplate.cs" />

@@ -109,6 +109,35 @@ namespace FleetTracking.Interop
             form.Text = "Rail Districts";
         }
 
+        public void MassReleaseStock()
+        {
+            Release.MassRelease massRelease = new Release.MassRelease()
+            {
+                Application = this
+            };
+            Form releaseForm = OpenForm(massRelease);
+        }
+
+        public void ManageCarHandlingRates()
+        {
+            Rates.CarHandlingRateList list = new Rates.CarHandlingRateList()
+            {
+                Application = this
+            };
+            Form rates = OpenForm(list);
+            rates.Text = "Car Handling Rates";
+        }
+
+        public void ManageMiscSetup()
+        {
+            Misc.MiscellaneousSettings settings = new Misc.MiscellaneousSettings()
+            {
+                Application = this
+            };
+            Form settingsForm = OpenForm(settings);
+            settingsForm.Text = "Miscellaneous Setup";
+        }
+
         public IEnumerable<MainNavigationItem> GetNavigationItems()
         {
             yield return new MainNavigationItem("Rail")
@@ -122,14 +151,16 @@ namespace FleetTracking.Interop
                             new MainNavigationItem("Locomotive Models", BrowseLocomotiveModels),
                             new MainNavigationItem("Railcar Models", BrowseRailcarModels),
                             new MainNavigationItem("Train Symbols", BrowseTrainSymbols),
-                            new MainNavigationItem("Track Districts", BrowseRailDistricts)
+                            new MainNavigationItem("Track Districts", BrowseRailDistricts),
+                            new MainNavigationItem("Car Handling Rates", ManageCarHandlingRates),
+                            new MainNavigationItem("Misc Setup", ManageMiscSetup)
                         }
                     },
                     new MainNavigationItem("Leasing", ManageLeasing),
                     new MainNavigationItem("Equipment Roster", BrowseEquipmentRoster),
                     new MainNavigationItem("Train Manager", BrowseTrains),
                     new MainNavigationItem("Track Viewer", OpenTrackViewer),
-                    new MainNavigationItem("Spot/Release")
+                    new MainNavigationItem("Spot/Release", () => OpenForm(new Release.MassRelease() { Application = this }))
                 }
             };
         }

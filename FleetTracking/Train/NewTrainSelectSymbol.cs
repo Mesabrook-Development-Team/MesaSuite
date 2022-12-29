@@ -46,8 +46,8 @@ namespace FleetTracking.Train
 
         private void cmdCancel_Click(object sender, EventArgs e)
         {
-            Dispose();
             ParentForm?.Close();
+            Dispose();
         }
 
         private async void cmdCreate_Click(object sender, EventArgs e)
@@ -100,8 +100,8 @@ namespace FleetTracking.Train
                     Form form = _application.OpenForm(trainDisplay, FleetTrackingApplication.OpenFormOptions.Popout);
                     form.Text = symbolList.SelectedSymbol.Name;
 
-                    Dispose();
                     ParentForm?.Close();
+                    Dispose();
                 }
             }
             finally

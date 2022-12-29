@@ -1,6 +1,9 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using System;
+using System.Linq;
 using WebModels.security;
 
 namespace WebModels.fleet
@@ -62,6 +65,39 @@ namespace WebModels.fleet
         {
             get { CheckGet(); return _timeOffDuty; }
             set { CheckSet(); _timeOffDuty = value; }
+        }
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (IsInsert)
+            {
+                Search<TrainDutyTransaction> existingDutyTransactionsSearch = new Search<TrainDutyTransaction>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<TrainDutyTransaction>()
+                {
+                    Field = nameof(TrainDutyTransactionID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.NotEquals,
+                    Value = TrainDutyTransactionID
+                },
+                new LongSearchCondition<TrainDutyTransaction>()
+                {
+                    Field = nameof(TrainID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = TrainID
+                }));
+
+                if (!existingDutyTransactionsSearch.ExecuteExists(transaction)) // Not using Transaction because we want to exclude this one
+                {
+                    Train train = DataObject.GetEditableByPrimaryKey<Train>(TrainID, transaction, null);
+                    train.Status = Train.Statuses.EnRoute;
+                    if (!train.Save(transaction))
+                    {
+                        Errors.AddRange(train.Errors.ToArray());
+                        return false;
+                    }
+                }
+            }
+
+            return base.PostSave(transaction);
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FleetTracking.Interop;
 using FleetTracking.Models;
+using FleetTracking.Release;
 using MesaSuite.Common.Collections;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
@@ -59,6 +60,8 @@ namespace FleetTracking.Train
         {
             try
             {
+                ParentForm.Text = string.IsNullOrEmpty(Text) ? "Modify Rail Locations" : Text;
+
                 loaderFull.BringToFront();
                 loaderFull.Visible = true;
 
@@ -149,8 +152,8 @@ namespace FleetTracking.Train
 
                     if (train.TrainID == SelectedTrainID)
                     {
-                        cboToTrain.SelectedItem = trainItem;
                         tabControlTo.SelectedTab = tabTrainTo;
+                        cboToTrain.SelectedItem = trainItem;
                     }
                 }
             }
@@ -649,17 +652,15 @@ namespace FleetTracking.Train
 
         private bool CheckForUnreleasedCars(List<RailLocation> railLocations)
         {
-
-
-            StringBuilder unpossessedRailcars = new StringBuilder();
-            foreach (RailLocation unpossessed in railLocations.Where(rl => rl.RailcarID != null && !_application.IsCurrentEntity(rl.Railcar.CompanyIDPossessor, rl.Railcar.GovernmentIDPossessor)))
+            StringBuilder unpossessedStock = new StringBuilder();
+            foreach (RailLocation unpossessed in railLocations.Where(rl => (rl.RailcarID != null && !_application.IsCurrentEntity(rl.Railcar.CompanyIDPossessor, rl.Railcar.GovernmentIDPossessor)) || (rl.LocomotiveID != null && !_application.IsCurrentEntity(rl.Locomotive.CompanyIDPossessor, rl.Locomotive.GovernmentIDPossessor))))
             {
-                unpossessedRailcars.AppendLine(string.Format("{0} is currently released to {1}", unpossessed.Railcar.FormattedReportingMark, unpossessed.Railcar.CompanyPossessor?.Name ?? unpossessed.Railcar.GovernmentPossessor?.Name));
+                unpossessedStock.AppendLine(string.Format("{0} is currently released to {1}", unpossessed.Railcar?.FormattedReportingMark ?? unpossessed.Locomotive?.FormattedReportingMark, unpossessed.Railcar?.CompanyPossessor?.Name ?? unpossessed.Railcar?.GovernmentPossessor?.Name ?? unpossessed.Locomotive?.CompanyPossessor?.Name ?? unpossessed.Locomotive?.GovernmentPossessor?.Name));
             }
 
-            if (unpossessedRailcars.Length > 0)
+            if (unpossessedStock.Length > 0)
             {
-                this.ShowError("The action cannot be completed. The following railcars are not released to your company:\r\n\r\n" + unpossessedRailcars.ToString() + "\r\n\r\nTo move these railcars, you will need to first have them released to your company.");
+                this.ShowError("The action cannot be completed. The following stock are not released to your company:\r\n\r\n" + unpossessedStock.ToString() + "\r\n\r\nTo move this stock, you will need to first have them released to your company.");
                 return false;
             }
 
@@ -965,6 +966,17 @@ namespace FleetTracking.Train
 
                 if (put.RequestSuccessful)
                 {
+                    if (this.Ask("Do you want to release any stock?", "Release Stock"))
+                    {
+                        ParentForm.Hide();
+
+                        MassRelease release = new MassRelease()
+                        {
+                            Application = _application
+                        };
+
+                        Form releaseForm = _application.OpenForm(release, FleetTrackingApplication.OpenFormOptions.Dialog);
+                    }
                     ParentForm.Close();
                     Dispose();
                 }

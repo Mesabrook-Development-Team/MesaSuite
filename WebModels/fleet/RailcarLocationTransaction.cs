@@ -103,6 +103,14 @@ namespace WebModels.fleet
             get { CheckGet(); return _invoice; }
         }
 
+        private bool _willNotCharge = false;
+        [Field("7109E0D9-5B9D-4C54-B5C3-99014DA88FB4")]
+        public bool WillNotCharge
+        {
+            get { CheckGet(); return _willNotCharge; }
+            set { CheckSet(); _willNotCharge = value; }
+        }
+
         private RailcarLocationTransaction _previousTransaction = null;
         [Relationship("0FC674F9-886C-40D4-9D2E-B9E351076C0A", HasForeignKey = false)]
         public RailcarLocationTransaction PreviousTransaction

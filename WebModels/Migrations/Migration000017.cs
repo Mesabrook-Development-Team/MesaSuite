@@ -274,13 +274,66 @@ namespace WebModels.Migrations
                 { "TrainIDNew", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "IsPartialTrainTrip", new FieldSpecification(FieldSpecification.FieldTypes.Bit) },
                 { "TransactionTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
-                { "InvoiceID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+                { "InvoiceID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "WillNotCharge", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } }
             };
             createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "fleet", "Railcar");
             CreateForeignKey(transaction, createTable, "fleet", "Track");
             CreateForeignKey(transaction, createTable, "fleet", "Train");
             CreateForeignKey(transaction, createTable, "invoicing", "Invoice");
+
+            createTable.TableName = "CarHandlingRate";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "CarHandlingRateID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) {IsPrimary = true } },
+                { "CompanyID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "IntraDistrictRate", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
+                { "InterDistrictRate", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
+                { "PlacementRate", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
+                { "EffectiveTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "company", "CompanyID");
+            CreateForeignKey(transaction, createTable, "gov", "GovernmentID");
+
+            createTable.TableName = "MiscellaneousSettings";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "MiscellaneousSettingsID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "CompanyID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocationIDInvoicePayee", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocationIDInvoicePayor", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "company", "Company");
+            CreateForeignKey(transaction, createTable, "gov", "Government");
+            CreateForeignKey(transaction, createTable, "company", "Location", "LocatoinIDInvoicePayee");
+            CreateForeignKey(transaction, createTable, "company", "Location", "LocatoinIDInvoicePayor");
+
+            createTable.SchemaName = "mesasys";
+            createTable.TableName = "ItemNamespace";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "ItemNamespaceID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "Namespace", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 100) },
+                { "FriendlyName", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 100) }
+            };
+            createTable.Execute(transaction);
+
+            createTable.TableName = "Item";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "ItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "ItemNamespaceID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 100) },
+                { "Image", new FieldSpecification(FieldSpecification.FieldTypes.Binary) },
+                { "Hash", new FieldSpecification(FieldSpecification.FieldTypes.Binary) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "mesasys", "ItemNamespace");
         }
 
         private void CreateForeignKey(ITransaction transaction, ICreateTable createTableQuery, string parentSchema, string parentTable, string foreignKey = "")

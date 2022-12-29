@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
 
 namespace MesaSuite.Common.Extensions
@@ -23,6 +24,11 @@ namespace MesaSuite.Common.Extensions
         public static bool Confirm(this Control form, string confirmString, string title = "Warning")
         {
             return MessageBox.Show(form, confirmString, title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
+        }
+
+        public static bool Ask(this Control form, string question, string title = "Question")
+        {
+            return MessageBox.Show(form, question, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
         }
 
         public static bool AreFieldsPresent(this Control control, List<(string, Control)> displayNameControls)

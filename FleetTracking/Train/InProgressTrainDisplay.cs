@@ -20,6 +20,7 @@ namespace FleetTracking.Train
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; }
 
+        public event EventHandler OnSave;
         public long? TrainID { get; set; }
 
         public InProgressTrainDisplay()
@@ -29,6 +30,7 @@ namespace FleetTracking.Train
             dataGridViewStylizer.ApplyStyle(dgvDutyTrans);
             dataGridViewStylizer.ApplyStyle(dgvLocoFuel);
             dataGridViewStylizer.ApplyStyle(dgvHandledCars);
+            dgvHandledCars.MultiSelect = true;
         }
 
         private async void InProgressTrainDisplay_Load(object sender, EventArgs e)
@@ -43,7 +45,7 @@ namespace FleetTracking.Train
             {
                 toolModifyConsist.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
                 toolLiveLoad.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
-                toolGoOnOffDuty.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
+                toolAddTransaction.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
                 toolFuelAddLoco.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
                 toolFuelSetEnd.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
                 toolFuelSetStart.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
@@ -89,6 +91,8 @@ namespace FleetTracking.Train
                     lblOnDutySince.Text = lastetOnDutyTransaction.TimeOnDuty?.ToString("MM/dd/yyyy HH:mm");
                 }
                 txtInstructions.Text = train.TrainInstructions;
+
+                cmdEndTrain.Enabled = train.Status == Models.Train.Statuses.EnRoute && _application.IsCurrentEntity(train.TrainSymbol?.CompanyIDOperator, train.TrainSymbol?.GovernmentIDOperator); ;
             }
             finally
             {
@@ -109,7 +113,8 @@ namespace FleetTracking.Train
                 List<RailLocation> railLocations = await get.GetObject<List<RailLocation>>() ?? new List<RailLocation>();
                 railLocations = railLocations.OrderBy(rl => rl.Position).ToList();
 
-                foreach(RailLocation railLocation in railLocations)
+                dgvConsist.Rows.Clear();
+                foreach (RailLocation railLocation in railLocations)
                 {
                     int rowIndex = dgvConsist.Rows.Add();
                     DataGridViewRow row = dgvConsist.Rows[rowIndex];
@@ -133,7 +138,7 @@ namespace FleetTracking.Train
                 GetData get = _application.GetAccess<GetData>();
                 get.API = DataAccess.APIs.FleetTracking;
 
-                foreach(DataGridViewRow row in dgvConsist.Rows)
+                foreach (DataGridViewRow row in dgvConsist.Rows)
                 {
                     RailLocation railLocation = row.Tag as RailLocation;
                     if (railLocation == null)
@@ -177,7 +182,9 @@ namespace FleetTracking.Train
                 get.API = DataAccess.APIs.FleetTracking;
                 get.Resource = $"TrainDutyTransaction/GetByTrain/{TrainID}";
                 List<TrainDutyTransaction> dutyTransactions = await get.GetObject<List<TrainDutyTransaction>>() ?? new List<TrainDutyTransaction>();
-                foreach(TrainDutyTransaction trainDutyTransaction in dutyTransactions)
+
+                dgvDutyTrans.Rows.Clear();
+                foreach (TrainDutyTransaction trainDutyTransaction in dutyTransactions)
                 {
                     int rowIndex = dgvDutyTrans.Rows.Add();
                     DataGridViewRow row = dgvDutyTrans.Rows[rowIndex];
@@ -205,7 +212,8 @@ namespace FleetTracking.Train
                 get.Resource = $"TrainFuelRecord/GetByTrain/{TrainID}";
                 List<TrainFuelRecord> fuelRecords = await get.GetObject<List<TrainFuelRecord>>() ?? new List<TrainFuelRecord>();
 
-                foreach(TrainFuelRecord fuelRecord in fuelRecords)
+                dgvLocoFuel.Rows.Clear();
+                foreach (TrainFuelRecord fuelRecord in fuelRecords)
                 {
                     int rowIndex = dgvLocoFuel.Rows.Add();
                     DataGridViewRow row = dgvLocoFuel.Rows[rowIndex];
@@ -225,7 +233,7 @@ namespace FleetTracking.Train
                 GetData get = _application.GetAccess<GetData>();
                 get.API = DataAccess.APIs.FleetTracking;
 
-                foreach(DataGridViewRow row in dgvLocoFuel.Rows)
+                foreach (DataGridViewRow row in dgvLocoFuel.Rows)
                 {
                     TrainFuelRecord fuelRecord = row.Tag as TrainFuelRecord;
                     if (fuelRecord == null)
@@ -262,7 +270,8 @@ namespace FleetTracking.Train
 
                 List<RailcarLocationTransaction> locationTransactions = await get.GetObject<List<RailcarLocationTransaction>>() ?? new List<RailcarLocationTransaction>();
 
-                foreach(RailcarLocationTransaction locationTransaction in locationTransactions)
+                dgvHandledCars.Rows.Clear();
+                foreach (RailcarLocationTransaction locationTransaction in locationTransactions)
                 {
                     int rowIndex = dgvHandledCars.Rows.Add();
                     DataGridViewRow row = dgvHandledCars.Rows[rowIndex];
@@ -283,8 +292,8 @@ namespace FleetTracking.Train
             {
                 GetData get = _application.GetAccess<GetData>();
                 get.API = DataAccess.APIs.FleetTracking;
-                
-                foreach(DataGridViewRow row in dgvHandledCars.Rows)
+
+                foreach (DataGridViewRow row in dgvHandledCars.Rows)
                 {
                     RailcarLocationTransaction locationTransaction = row.Tag as RailcarLocationTransaction;
                     if (locationTransaction == null)
@@ -309,13 +318,13 @@ namespace FleetTracking.Train
 
         private void toolModifyConsist_Click(object sender, EventArgs e)
         {
-            _application.OpenForm(new RailLocationModifier() { Application = _application }, FleetTrackingApplication.OpenFormOptions.Dialog);
+            _application.OpenForm(new RailLocationModifier() { Application = _application, SelectedTrainID = TrainID }, FleetTrackingApplication.OpenFormOptions.Dialog);
 
             LoadConsist();
             LoadHandledCars();
         }
 
-        private async void toolGoOnOffDuty_Click(object sender, EventArgs e)
+        private async void toolAddTransaction_Click(object sender, EventArgs e)
         {
             try
             {
@@ -324,14 +333,19 @@ namespace FleetTracking.Train
 
                 GetData get = _application.GetAccess<GetData>();
                 get.API = DataAccess.APIs.FleetTracking;
-                get.Resource = $"TrainDutyTransaction/GetExistingForUserByTrain/{TrainID}";
-                TrainDutyTransaction trainDutyTransaction = await get.GetObject<TrainDutyTransaction>();
+
+                get.Resource = $"Train/Get/{TrainID}";
+                Models.Train train = await get.GetObject<Models.Train>();
+
+                if (train.Status == Models.Train.Statuses.NotStarted && !this.Confirm("Going on duty will put this train into 'En Route' status. Are you sure you want to go on duty?"))
+                {
+                    return;
+                }
 
                 TrainDutyTransactionDetail detail = new TrainDutyTransactionDetail()
                 {
                     Application = _application,
-                    TrainID = TrainID,
-                    TrainDutyTransactionID = trainDutyTransaction?.TrainDutyTransactionID
+                    TrainID = TrainID
                 };
 
                 Form detailForm = _application.OpenForm(detail, FleetTrackingApplication.OpenFormOptions.Popout);
@@ -339,6 +353,8 @@ namespace FleetTracking.Train
 
                 detailForm.FormClosed += (s, ea) =>
                 {
+                    OnSave?.Invoke(this, EventArgs.Empty);
+
                     LoadTrainInfo();
                     LoadDutyTransactions();
                 };
@@ -346,6 +362,271 @@ namespace FleetTracking.Train
             finally
             {
                 loaderDutyTrans.Visible = false;
+            }
+        }
+
+        private void dgvDutyTrans_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            TrainDutyTransaction transaction = dgvDutyTrans.Rows[e.RowIndex].Tag as TrainDutyTransaction;
+            if (transaction == null)
+            {
+                return;
+            }
+
+            TrainDutyTransactionDetail detail = new TrainDutyTransactionDetail()
+            {
+                Application = _application,
+                TrainID = TrainID,
+                TrainDutyTransactionID = transaction.TrainDutyTransactionID
+            };
+
+            Form detailForm = _application.OpenForm(detail, FleetTrackingApplication.OpenFormOptions.Popout);
+            detailForm.Text = "Duty Transaction";
+
+            detailForm.FormClosed += (s, ea) =>
+            {
+                LoadTrainInfo();
+                LoadDutyTransactions();
+                OnSave?.Invoke(this, EventArgs.Empty);
+            };
+        }
+
+        private async void toolFuelAddLoco_Click(object sender, EventArgs e)
+        {
+            List<TrainFuelRecord> trainFuelRecords;
+            try
+            {
+                loaderLocoFuel.BringToFront();
+                loaderLocoFuel.Visible = true;
+
+                GetData get = _application.GetAccess<GetData>();
+                get.API = DataAccess.APIs.FleetTracking;
+                get.Resource = $"TrainFuelRecord/GetByTrain/{TrainID}";
+                trainFuelRecords = await get.GetObject<List<TrainFuelRecord>>() ?? new List<TrainFuelRecord>();
+            }
+            finally
+            {
+                loaderLocoFuel.Visible = false;
+            }
+            SelectLocoForFuel select = new SelectLocoForFuel()
+            {
+                Application = _application,
+                LocomotiveFilter = (l) => !trainFuelRecords.Any(tfr => tfr.FuelEnd == null && tfr.LocomotiveID == l.LocomotiveID)
+            };
+            Form selectForm = _application.OpenForm(select, FleetTrackingApplication.OpenFormOptions.Dialog);
+            if (selectForm.DialogResult == DialogResult.OK)
+            {
+                try
+                {
+                    loaderLocoFuel.BringToFront();
+                    loaderLocoFuel.Visible = true;
+
+                    PostData post = _application.GetAccess<PostData>();
+                    post.API = DataAccess.APIs.FleetTracking;
+                    post.Resource = "TrainFuelRecord/Post";
+
+                    foreach (Locomotive selectedLocomotive in select.SelectedLocomotives)
+                    {
+                        TrainFuelRecord fuelRecord = new TrainFuelRecord()
+                        {
+                            TrainID = TrainID,
+                            LocomotiveID = selectedLocomotive.LocomotiveID
+                        };
+
+                        post.ObjectToPost = fuelRecord;
+                        await post.ExecuteNoResult();
+                    }
+                }
+                finally
+                {
+                    loaderLocoFuel.Visible = false;
+                }
+            }
+
+            LoadLocoFuel();
+        }
+
+        private async void toolFuelSetStart_Click(object sender, EventArgs e)
+        {
+            TrainFuelRecord currentFuelRecord = dgvLocoFuel.SelectedRows.OfType<DataGridViewRow>().FirstOrDefault().Tag as TrainFuelRecord;
+            if (currentFuelRecord == null)
+            {
+                return;
+            }
+
+            InputBox input = new InputBox()
+            {
+                Application = _application,
+                Text = "Set Start Fuel",
+                InputValueType = typeof(decimal)
+            };
+            input.cmdOK.Text = "Save";
+            input.lblPrompt.Text = "Enter starting fuel for this locomotive:";
+
+            Form inputForm = _application.OpenForm(input, FleetTrackingApplication.OpenFormOptions.Dialog);
+            if (inputForm.DialogResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
+            {
+                loaderLocoFuel.BringToFront();
+                loaderLocoFuel.Visible = true;
+
+                PatchData setFuel = _application.GetAccess<PatchData>();
+                setFuel.API = DataAccess.APIs.FleetTracking;
+                setFuel.PatchMethod = PatchData.PatchMethods.Replace;
+                setFuel.PrimaryKey = currentFuelRecord.TrainFuelRecordID;
+                setFuel.Resource = "TrainFuelRecord/Patch";
+                setFuel.Values = new Dictionary<string, object>() { { nameof(TrainFuelRecord.FuelStart), input.InputValue } };
+                await setFuel.Execute();
+
+                if (setFuel.RequestSuccessful)
+                {
+                    LoadLocoFuel();
+                }
+            }
+            finally
+            {
+                loaderLocoFuel.Visible = false;
+            }
+        }
+
+        private async void toolFuelSetEnd_Click(object sender, EventArgs e)
+        {
+            TrainFuelRecord currentFuelRecord = dgvLocoFuel.SelectedRows.OfType<DataGridViewRow>().FirstOrDefault().Tag as TrainFuelRecord;
+            if (currentFuelRecord == null)
+            {
+                return;
+            }
+
+            InputBox input = new InputBox()
+            {
+                Application = _application,
+                Text = "Set End Fuel",
+                InputValueType = typeof(decimal)
+            };
+            input.cmdOK.Text = "Save";
+            input.lblPrompt.Text = "Enter ending fuel for this locomotive:";
+
+            Form inputForm = _application.OpenForm(input, FleetTrackingApplication.OpenFormOptions.Dialog);
+            if (inputForm.DialogResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
+            {
+                loaderLocoFuel.BringToFront();
+                loaderLocoFuel.Visible = true;
+
+                PatchData setFuel = _application.GetAccess<PatchData>();
+                setFuel.API = DataAccess.APIs.FleetTracking;
+                setFuel.PatchMethod = PatchData.PatchMethods.Replace;
+                setFuel.PrimaryKey = currentFuelRecord.TrainFuelRecordID;
+                setFuel.Resource = "TrainFuelRecord/Patch";
+                setFuel.Values = new Dictionary<string, object>() { { nameof(TrainFuelRecord.FuelEnd), input.InputValue } };
+                await setFuel.Execute();
+
+                if (setFuel.RequestSuccessful)
+                {
+                    LoadLocoFuel();
+                }
+            }
+            finally
+            {
+                loaderLocoFuel.Visible = false;
+            }
+        }
+
+        private async void toolTogglePartialTrip_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                loaderHandledCars.BringToFront();
+                loaderHandledCars.Visible = true;
+
+                PatchData patch = _application.GetAccess<PatchData>();
+                patch.Resource = "RailcarLocationTransaction/Patch";
+                patch.API = DataAccess.APIs.FleetTracking;
+
+                foreach (DataGridViewRow row in dgvHandledCars.SelectedRows)
+                {
+                    RailcarLocationTransaction transaction = row.Tag as RailcarLocationTransaction;
+                    if (transaction == null)
+                    {
+                        continue;
+                    }
+
+                    patch.Values = new Dictionary<string, object>()
+                    {
+                        { nameof(RailcarLocationTransaction.IsPartialTrainTrip), !transaction.IsPartialTrainTrip }
+                    };
+                    patch.PrimaryKey = transaction.RailcarLocationTransactionID;
+                    await patch.Execute();
+                }
+            }
+            finally
+            {
+                loaderHandledCars.Visible = false;
+            }
+
+            LoadHandledCars();
+        }
+
+        private async void cmdEndTrain_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                loaderTrainInfo.BringToFront();
+                loaderConsist.BringToFront();
+                loaderDutyTrans.BringToFront();
+                loaderLocoFuel.BringToFront();
+                loaderHandledCars.BringToFront();
+                loaderTrainInfo.Visible = true;
+                loaderConsist.Visible = true;
+                loaderDutyTrans.Visible = true;
+                loaderLocoFuel.Visible = true;
+                loaderHandledCars.Visible = true;
+
+                PatchData patch = _application.GetAccess<PatchData>();
+                patch.API = DataAccess.APIs.FleetTracking;
+                patch.Resource = "Train/Patch";
+                patch.PatchMethod = PatchData.PatchMethods.Replace;
+                patch.PrimaryKey = TrainID;
+                patch.Values = new Dictionary<string, object>()
+                {
+                    { nameof(Models.Train.Status), Models.Train.Statuses.Complete.ToString() }
+                };
+                await patch.Execute();
+
+                if (!patch.RequestSuccessful)
+                {
+                    return;
+                }
+
+                GetData get = _application.GetAccess<GetData>();
+                get.API = DataAccess.APIs.FleetTracking;
+                get.Resource = $"Train/Get/{TrainID}";
+                Models.Train train = await get.GetObject<Models.Train>();
+                if (train.RailLocations.Any() && this.Confirm("Do you want to move this train's stock to a different location?"))
+                {
+                    RailLocationModifier modifier = new RailLocationModifier() { Application = _application, SelectedTrainID = TrainID };
+                    Form modifierForm = _application.OpenForm(modifier, FleetTrackingApplication.OpenFormOptions.Dialog);
+                    if (modifierForm.DialogResult != DialogResult.OK)
+                    {
+                        return;
+                    }
+                }
+            }
+            finally
+            {
+                loaderTrainInfo.Visible = false;
+                loaderConsist.Visible = false;
+                loaderDutyTrans.Visible = false;
+                loaderLocoFuel.Visible = false;
+                loaderHandledCars.Visible = false;
             }
         }
     }

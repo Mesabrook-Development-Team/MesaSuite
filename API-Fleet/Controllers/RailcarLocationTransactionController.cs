@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 using System.Web.Http;
 using API.Common;
@@ -49,7 +50,8 @@ namespace API_Fleet.Controllers
             rlt.NextTransaction.TrainNew.TrainSymbol.Name,
             rlt.IsPartialTrainTrip,
             rlt.TransactionTime,
-            rlt.InvoiceID
+            rlt.InvoiceID,
+            rlt.WillNotCharge
         });
 
         public RailcarLocationTransactionController() : base()
@@ -110,6 +112,46 @@ namespace API_Fleet.Controllers
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                 Value = id
             }).GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
+        }
+
+        [HttpGet]
+        public async Task<IHttpActionResult> GetByRailcar([FromUri]long? railcarID, [FromUri]int skip = 0, [FromUri]int take = 50)
+        {
+            if (skip < 0)
+            {
+                skip = 0;
+            }
+
+            if (take < 0)
+            {
+                take = 50;
+            }
+
+            Search<RailcarLocationTransaction> transactionSearch = new Search<RailcarLocationTransaction>(new LongSearchCondition<RailcarLocationTransaction>()
+            {
+                Field = nameof(RailcarLocationTransaction.RailcarID),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = railcarID
+            });
+            transactionSearch.SearchOrders.Add(new SearchOrder()
+            {
+                OrderField = nameof(RailcarLocationTransaction.TransactionTime),
+                OrderDirection = SearchOrder.OrderDirections.Descending
+            });
+            transactionSearch.Skip = skip;
+            int remaining = (int)transactionSearch.GetRecordCount() - take;
+            if (remaining < 0)
+            {
+                remaining = 0;
+            }
+
+            transactionSearch.Take = take;
+
+            return Ok(new
+            {
+                remaining,
+                railcarLocationTransactions = transactionSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList()
+            });
         }
     }
 }

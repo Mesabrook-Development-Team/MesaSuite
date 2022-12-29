@@ -18,6 +18,7 @@ namespace API_Fleet.Controllers
         public override IEnumerable<string> DefaultRetrievedFields => FieldPathUtility.CreateFieldPathsAsList<TrainFuelRecord>(tfr => new List<object>()
         {
             tfr.TrainFuelRecordID,
+            tfr.TrainID,
             tfr.LocomotiveID,
             tfr.Locomotive.LocomotiveID,
             tfr.Locomotive.ReportingMark,
@@ -38,7 +39,7 @@ namespace API_Fleet.Controllers
         {
             TrainSymbol symbol = new Search<TrainFuelRecord>(new LongSearchCondition<TrainFuelRecord>()
             {
-                Field = "TrainID",
+                Field = "TrainFuelRecordID",
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                 Value = e.ObjectID
             }).GetReadOnly(e.Transaction, FieldPathUtility.CreateFieldPathsAsList<TrainFuelRecord>(tfr => new List<object>() { tfr.Train.TrainSymbol.CompanyIDOperator, tfr.Train.TrainSymbol.GovernmentIDOperator }))?.Train?.TrainSymbol;

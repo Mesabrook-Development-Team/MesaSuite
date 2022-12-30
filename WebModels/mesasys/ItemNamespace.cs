@@ -1,10 +1,12 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System.Collections.Generic;
 
 namespace WebModels.mesasys
 {
     [Table("F9F1A245-7C93-4837-B790-5530B6EC2AD3")]
+    [Unique(new[] { nameof(Namespace) })]
     public class ItemNamespace : DataObject
     {
         protected ItemNamespace() : base() { }

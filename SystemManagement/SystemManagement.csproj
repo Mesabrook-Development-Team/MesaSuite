@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BetterFolderBrowser, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BetterFolderBrowser.1.2.0\lib\BetterFolderBrowser.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -43,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmEditItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditItem.Designer.cs">
+      <DependentUpon>frmEditItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCrashReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +75,24 @@
     </Compile>
     <Compile Include="frmEditGovernment.Designer.cs">
       <DependentUpon>frmEditGovernment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditItemNamespace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditItemNamespace.Designer.cs">
+      <DependentUpon>frmEditItemNamespace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmItemImporter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmItemImporter.Designer.cs">
+      <DependentUpon>frmItemImporter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmItemManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmItemManager.Designer.cs">
+      <DependentUpon>frmItemManager.cs</DependentUpon>
     </Compile>
     <Compile Include="frmManage.cs">
       <SubType>Form</SubType>
@@ -130,6 +157,8 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CrashReport.cs" />
     <Compile Include="Models\Domain.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\ItemNamespace.cs" />
     <Compile Include="Models\Official.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Government.cs" />
@@ -145,6 +174,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmEditItem.resx">
+      <DependentUpon>frmEditItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmCrashReport.resx">
       <DependentUpon>frmCrashReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -156,6 +188,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmEditGovernment.resx">
       <DependentUpon>frmEditGovernment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditItemNamespace.resx">
+      <DependentUpon>frmEditItemNamespace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmItemImporter.resx">
+      <DependentUpon>frmItemImporter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmItemManager.resx">
+      <DependentUpon>frmItemManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmManage.resx">
       <DependentUpon>frmManage.cs</DependentUpon>
@@ -199,6 +240,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\domain_large.png" />
   </ItemGroup>
   <ItemGroup>

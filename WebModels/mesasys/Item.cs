@@ -1,9 +1,15 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace WebModels.mesasys
 {
     [Table("3A24E2E4-EC2B-4F02-98EA-777B60BDE5C2")]
+    [Unique(new[] { nameof(Hash) })]
     public class Item : DataObject
     {
         protected Item() : base() { }
@@ -53,6 +59,26 @@ namespace WebModels.mesasys
         {
             get { CheckGet(); return _hash; }
             set { CheckSet(); _hash = value; }
+        }
+
+        protected override bool PreSave(ITransaction transaction)
+        {
+            if (IsFieldDirty(nameof(ItemNamespaceID)) || IsFieldDirty(nameof(Image)))
+            {
+                string hashString = string.Format("{0}", ItemNamespaceID);
+                byte[] utf8Bytes = Encoding.UTF8.GetBytes(hashString);
+
+                byte[] prehashBytes = new byte[utf8Bytes.Length + Image.Length];
+                Array.Copy(utf8Bytes, prehashBytes, utf8Bytes.Length);
+                Array.Copy(Image, 0, prehashBytes, utf8Bytes.Length, Image.Length);
+
+                using (MD5 md5 = MD5.Create())
+                {
+                    Hash = md5.ComputeHash(prehashBytes);
+                }
+            }
+
+            return base.PreSave(transaction);
         }
     }
 }

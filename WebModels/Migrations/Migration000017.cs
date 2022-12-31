@@ -334,6 +334,12 @@ namespace WebModels.Migrations
             };
             createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "mesasys", "ItemNamespace");
+
+            IAlterTable alterTable = SQLProviderFactory.GetAlterTableQuery();
+            alterTable.Schema = "invoicing";
+            alterTable.Table = "InvoiceLine";
+            alterTable.AddColumn("ItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
+            alterTable.AddForeignKey("FKInvoiceLine_Item_ItemID", "ItemID", "mesasys", "Item", "ItemID", transaction);
         }
 
         private void CreateForeignKey(ITransaction transaction, ICreateTable createTableQuery, string parentSchema, string parentTable, string foreignKey = "")

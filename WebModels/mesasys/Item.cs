@@ -3,8 +3,10 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using WebModels.invoicing;
 
 namespace WebModels.mesasys
 {
@@ -80,5 +82,16 @@ namespace WebModels.mesasys
 
             return base.PreSave(transaction);
         }
+
+        #region Relationships
+        #region invoicing
+        private List<InvoiceLine> _invoiceLines = new List<InvoiceLine>();
+        [RelationshipList("AC6E6BF0-5481-4C13-844C-223161B4A750", nameof(InvoiceLine.ItemID))]
+        public IReadOnlyCollection<InvoiceLine> InvoiceLines
+        {
+            get { CheckGet(); return _invoiceLines; }
+        }
+        #endregion
+        #endregion
     }
 }

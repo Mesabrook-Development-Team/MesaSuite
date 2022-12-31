@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,7 +13,7 @@ using MesaSuite.Common.Utility;
 
 namespace CompanyStudio.Invoicing
 {
-    public partial class frmReceivableInvoice : BaseCompanyStudioContent, ILocationScoped, ISaveable
+    public partial class frmReceivableInvoice : /*Form*/ BaseCompanyStudioContent, ILocationScoped, ISaveable
     {
         private List<Company> companyList;
         private ActionButtonActions actionButtonAction;
@@ -127,6 +128,8 @@ namespace CompanyStudio.Invoicing
                         DataGridViewRow row = dgvLines.Rows[rowIndex];
 
                         row.Cells["colInvoiceLineID"].Value = line.InvoiceLineID?.ToString();
+                        row.Cells[colItem.Name].Value = line.Item?.Name;
+                        row.Cells[colItem.Name].Tag = line.Item?.ItemID;
                         row.Cells["colDescription"].Value = line.Description;
                         row.Cells["colQuantity"].Value = line.Quantity.ToString();
                         row.Cells["colUnitCost"].Value = line.UnitCost.ToString();
@@ -359,6 +362,7 @@ namespace CompanyStudio.Invoicing
                 foreach (DataGridViewRow row in dgvLines.Rows.Cast<DataGridViewRow>().Where(dgv => !dgv.IsNewRow))
                 {
                     string strLineID = row.Cells["colInvoiceLineID"].Value as string ?? "";
+                    long? itemID = row.Cells[colItem.Name].Tag as long?;
                     string description = row.Cells["colDescription"].Value as string;
                     string strQuantity = row.Cells["colQuantity"].Value as string;
                     string strUnitCost = row.Cells["colUnitCost"].Value as string;
@@ -371,6 +375,7 @@ namespace CompanyStudio.Invoicing
                     invoiceLine.Description = description;
                     invoiceLine.Quantity = quantity;
                     invoiceLine.UnitCost = unitCost;
+                    invoiceLine.ItemID = itemID;
 
                     if (!string.IsNullOrEmpty(strLineID) && long.TryParse(strLineID, out long lineID))
                     {
@@ -453,6 +458,41 @@ namespace CompanyStudio.Invoicing
         {
             ReceivePayment,
             IssueInvoice
+        }
+
+        private void dgvLines_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvLines.Rows.Count || e.ColumnIndex != colItem.Index || (dgvLines.Rows[e.RowIndex].IsNewRow && Invoice?.Status == Invoice.Statuses.Complete))
+            {
+                return;
+            }
+
+            if (dgvLines.Rows[e.RowIndex].IsNewRow)
+            {
+                int rowIndex = dgvLines.Rows.Add();
+                dgvLines_CellClick(sender, new DataGridViewCellEventArgs(e.ColumnIndex, rowIndex));
+            }
+
+            long? itemID = dgvLines[e.ColumnIndex, e.RowIndex].Tag as long?;
+
+            Rectangle cellRect = dgvLines.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+
+            void HandleSelectorClosed(object s, EventArgs ea) {
+                ItemSelector se = (ItemSelector)s;
+                dgvLines[e.ColumnIndex, e.RowIndex].Value = se.SelectedItemText;
+                dgvLines[e.ColumnIndex, e.RowIndex].Tag = se.SelectedItemID;
+                Controls.Remove(se);
+            };
+
+            ItemSelector selector = new ItemSelector();
+            selector.SelectedItemID = itemID;
+            selector.Leave += HandleSelectorClosed;
+            selector.ItemSelected += HandleSelectorClosed;
+            selector.Location = PointToClient(dgvLines.PointToScreen(cellRect.Location));
+            selector.ReadOnlyMode = Invoice != null && Invoice.Status == Invoice.Statuses.Complete;
+            Controls.Add(selector);
+            selector.BringToFront();
+            selector.Focus();
         }
     }
 }

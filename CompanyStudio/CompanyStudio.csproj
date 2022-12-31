@@ -218,6 +218,12 @@
       <DependentUpon>frmReceivableInvoice.cs</DependentUpon>
     </Compile>
     <Compile Include="ISaveable.cs" />
+    <Compile Include="ItemSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ItemSelector.Designer.cs">
+      <DependentUpon>ItemSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Loader.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -239,6 +245,8 @@
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceLine.cs" />
     <Compile Include="Models\InvoiceSalesTax.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\ItemNamespace.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LocationEmployee.cs" />
     <Compile Include="Models\LocationGovernment.cs" />
@@ -351,6 +359,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\frmReceivableInvoice.resx">
       <DependentUpon>frmReceivableInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemSelector.resx">
+      <DependentUpon>ItemSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>

@@ -202,6 +202,7 @@ namespace GovernmentPortal.Invoicing
                 }
 
                 line.InvoiceID = invoiceID;
+                line.ItemID = row.Cells[colItem.Name].Tag as long?;
                 line.Description = row.Cells[colDescription.Name].Value as string;
                 line.Quantity = row.Cells[colQuantity.Name].Value as decimal? ?? 0M;
                 line.UnitCost = row.Cells[colUnitCost.Name].Value as decimal? ?? 0M;
@@ -339,6 +340,8 @@ namespace GovernmentPortal.Invoicing
                         int rowIndex = dgvLines.Rows.Add();
                         DataGridViewRow row = dgvLines.Rows[rowIndex];
                         row.Cells[colInvoiceLineID.Name].Value = invoiceLine.InvoiceLineID.ToString();
+                        row.Cells[colItem.Name].Value = invoiceLine.Item?.Name;
+                        row.Cells[colItem.Name].Tag = invoiceLine.Item?.ItemID;
                         row.Cells[colDescription.Name].Value = invoiceLine.Description;
                         row.Cells[colQuantity.Name].Value = invoiceLine.Quantity;
                         row.Cells[colUnitCost.Name].Value = invoiceLine.UnitCost;
@@ -480,6 +483,42 @@ namespace GovernmentPortal.Invoicing
             _explorer.LoadAllItems(true, ReceivableInvoiceContext.GetItemDisplayText(Model.InvoiceNumber, Model.Status.Value));
 
             loader.Visible = false;
+        }
+
+        private void dgvLines_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvLines.Rows.Count || e.ColumnIndex != colItem.Index || (dgvLines.Rows[e.RowIndex].IsNewRow && Model?.Status == Invoice.Statuses.Complete))
+            {
+                return;
+            }
+
+            if (dgvLines.Rows[e.RowIndex].IsNewRow)
+            {
+                int rowIndex = dgvLines.Rows.Add();
+                dgvLines_CellClick(sender, new DataGridViewCellEventArgs(e.ColumnIndex, rowIndex));
+            }
+
+            long? itemID = dgvLines[e.ColumnIndex, e.RowIndex].Tag as long?;
+
+            Rectangle cellRect = dgvLines.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+
+            void HandleSelectorClosed(object s, EventArgs ea)
+            {
+                ItemSelector se = (ItemSelector)s;
+                dgvLines[e.ColumnIndex, e.RowIndex].Value = se.SelectedItemText;
+                dgvLines[e.ColumnIndex, e.RowIndex].Tag = se.SelectedItemID;
+                Controls.Remove(se);
+            };
+
+            ItemSelector selector = new ItemSelector();
+            selector.SelectedItemID = itemID;
+            selector.Leave += HandleSelectorClosed;
+            selector.ItemSelected += HandleSelectorClosed;
+            selector.Location = PointToClient(dgvLines.PointToScreen(cellRect.Location));
+            selector.ReadOnlyMode = Model != null && Model.Status == Invoice.Statuses.Complete;
+            Controls.Add(selector);
+            selector.BringToFront();
+            selector.Focus();
         }
     }
 }

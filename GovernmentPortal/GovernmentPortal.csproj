@@ -151,6 +151,12 @@
       <DependentUpon>PayableInvoiceControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Invoicing\ReceivableInvoiceContext.cs" />
+    <Compile Include="ItemSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ItemSelector.Designer.cs">
+      <DependentUpon>ItemSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\EmailImplementation.cs" />
     <Compile Include="Models\EmailTemplate.cs" />
@@ -176,6 +182,8 @@
     <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\FiscalQuarter.cs" />
     <Compile Include="Models\Government.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\ItemNamespace.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Official.cs" />
     <Compile Include="Models\SalesTax.cs" />
@@ -257,6 +265,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\ReceivableInvoiceControl.resx">
       <DependentUpon>ReceivableInvoiceControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemSelector.resx">
+      <DependentUpon>ItemSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>

@@ -80,7 +80,7 @@ namespace FleetTracking.Roster
                     row.Cells[colReportingMark.Name].Value = reportingMark;
                     row.Cells[colModel.Name].Value = locomotive.LocomotiveModel?.Name;
                     row.Cells[colOwner.Name].Value = locomotive.CompanyOwner?.Name ?? locomotive.GovernmentOwner?.Name;
-                    row.Cells[colCurrentLocation.Name].Value = "Your mom's house";
+                    row.Cells[colCurrentLocation.Name].Value = locomotive.Location;
                     row.Tag = locomotive;
 
                     if (!string.IsNullOrEmpty(reportingMark) && string.Equals(reportingMark, selectedReportingMark, StringComparison.OrdinalIgnoreCase))

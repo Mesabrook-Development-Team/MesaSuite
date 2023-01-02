@@ -213,9 +213,14 @@ namespace WebModels.mesasys
 
         public static class EmailTemplates
         {
+            // INVOICING
             public static readonly Guid WireTransferReceived = new Guid("E80AB286-A196-4D19-A3D4-90DCC3EE3CE1");
             public static readonly Guid AccountsPayableInvoiceReceived = new Guid("17CAC754-4ACD-489E-9945-CA970AA2F18E");
             public static readonly Guid AccountsReceivableInvoiceReadyForReceipt = new Guid("74A6C54A-EA00-43F5-8612-0BC76224149B");
+
+            // FLEET TRACKING
+            public static readonly Guid RailcarReleasedReceived = new Guid("80F22108-A726-447F-9BCC-5790F4C45748");
+            public static readonly Guid LocomotiveReleasedReceived = new Guid("B4F7CBDA-AA69-42B2-A683-A305D59E7A3D");
         }
     }
 }

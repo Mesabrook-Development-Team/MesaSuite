@@ -44,7 +44,7 @@ namespace FleetTracking.Roster
                 }
 
                 lblReportingMark.Text = locomotive.FormattedReportingMark;
-                lblLocation.Text = "Your mom's house";
+                lblLocation.Text = locomotive.Location;
                 lblModel.Text = locomotive.LocomotiveModel?.Name;
                 lblModel.Location = new Point(Width - lblModel.Width - 6, lblModel.Top);
 

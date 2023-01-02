@@ -105,6 +105,10 @@ namespace WebModels.fleet
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = trackID
                 });
+                railLocationsForTrack.SearchOrders.Add(new SearchOrder()
+                {
+                    OrderField = nameof(RailLocation.Position)
+                });
 
                 int position = 1;
                 foreach(RailLocation railLocation in railLocationsForTrack.GetEditableReader(localTransaction))

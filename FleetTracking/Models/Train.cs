@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FleetTracking.Models
 {
@@ -22,5 +19,7 @@ namespace FleetTracking.Models
 
         public List<RailLocation> RailLocations { get; set; }
         public List<TrainDutyTransaction> TrainDutyTransactions { get; set; }
+
+        public DateTime? TimeOnDuty { get; set; }
     }
 }

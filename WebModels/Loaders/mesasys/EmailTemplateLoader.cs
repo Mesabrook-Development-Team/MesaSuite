@@ -17,6 +17,15 @@ namespace WebModels.Loaders.mesasys
     {
         public IEnumerable<LoaderObject> GetLoaderObjects()
         {
+            List<LoaderObject> loaderObjects = new List<LoaderObject>();
+            loaderObjects.AddRange(GetInvoicingEmails());
+            loaderObjects.AddRange(GetFleetTrackingEmails());
+
+            return loaderObjects;
+        }
+
+        private IEnumerable<LoaderObject> GetInvoicingEmails()
+        {
             yield return new EmailTemplateLoaderObject<WireTransferHistory>(EmailTemplate.EmailTemplates.WireTransferReceived,
                                                                             "Wire Transfer Received",
                                                                             "A Wire Transfer has been sent to you from {GovernmentFrom.Name}{CompanyFrom.Name} at {TransferTime}. The amount of MBD${Amount:N2} has been deposited into your account of {AccountToHistorical}.\r\n\r\nMemo:\r\n{Memo}",
@@ -79,6 +88,11 @@ namespace WebModels.Loaders.mesasys
                                                                               invoice.AccountTo.Description,
                                                                               invoice.Amount
                                                                           });
+        }
+
+        private IEnumerable<LoaderObject> GetFleetTrackingEmails()
+        {
+            yield break; 
         }
 
         private class EmailTemplateLoaderObject<TTemplateObject> : LoaderObject where TTemplateObject : DataObject

@@ -19,6 +19,31 @@ namespace FleetTracking.Models
         public Government GovernmentLeasedTo { get; set; }
         public string ReportingMark { get; set; }
         public int? ReportingNumber { get; set; }
+        public RailLocation RailLocation { get; set; }
+        public string Location
+        {
+            get
+            {
+                string location = "";
+                if (RailLocation?.TrackID != null)
+                {
+                    location = RailLocation.Track?.Name + " (" + RailLocation.Track?.RailDistrict?.Name + ")";
+                }
+                else if (RailLocation?.TrainID != null)
+                {
+                    if (RailLocation.Train?.TimeOnDuty == null)
+                    {
+                        location = "--/--/---- --:-- - " + RailLocation.Train?.TrainSymbol?.Name;
+                    }
+                    else
+                    {
+                        location = RailLocation.Train.TimeOnDuty.Value.ToString("MM/dd/yyyy HH:mm") + " - " + RailLocation.Train.TrainSymbol?.Name;
+                    }
+                }
+
+                return location;
+            }
+        }
         public string FormattedReportingMark
         {
             get

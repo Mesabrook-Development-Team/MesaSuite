@@ -54,7 +54,7 @@ namespace FleetTracking.Roster
                     txtReportingMark.Text = locomotive.ReportingMark;
                     txtReportingNumber.Text = locomotive.ReportingNumber?.ToString();
                     txtLessee.Text = locomotive.CompanyLeasedTo?.CompanyID != null ? locomotive.CompanyLeasedTo.Name : locomotive.GovernmentLeasedTo.Name;
-                    txtCurrentLocation.Text = "Your mom's house";
+                    txtCurrentLocation.Text = locomotive.Location;
 
                     bool isOwner = _application.IsCurrentEntity(locomotive.CompanyIDOwner, locomotive.GovernmentIDOwner);
                     bool isPossessor = _application.IsCurrentEntity(locomotive.CompanyIDPossessor, locomotive.GovernmentIDPossessor);

@@ -335,6 +335,19 @@ namespace WebModels.Migrations
             createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "mesasys", "ItemNamespace");
 
+            createTable.SchemaName = "fleet";
+            createTable.TableName = "RailcarLoad";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "RailcarLoadID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "RailcarID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "ItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Quantity", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "fleet", "Railcar");
+            CreateForeignKey(transaction, createTable, "mesasys", "Item");
+
             IAlterTable alterTable = SQLProviderFactory.GetAlterTableQuery();
             alterTable.Schema = "invoicing";
             alterTable.Table = "InvoiceLine";

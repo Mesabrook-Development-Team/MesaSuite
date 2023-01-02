@@ -105,7 +105,7 @@ namespace WebModels.fleet
         [Relationship("9A8FE9AD-5333-4CBB-BC12-5A8DE6FE8010", OneToOneByForeignKey = true)]
         public RailLocation RailLocation
         {
-            get { CheckSet(); return _railLocation; }
+            get { CheckGet(); return _railLocation; }
         }
 
         private string _reportingMark;

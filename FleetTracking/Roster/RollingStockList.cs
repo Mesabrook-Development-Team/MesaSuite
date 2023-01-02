@@ -147,7 +147,7 @@ namespace FleetTracking.Roster
                 row.Cells[colReportingMark.Name].Value = reportingMark;
                 row.Cells[colModel.Name].Value = locomotive.LocomotiveModel?.Name;
                 row.Cells[colOwner.Name].Value = locomotive.CompanyOwner?.Name ?? locomotive.GovernmentOwner?.Name;
-                row.Cells[colCurrentLocation.Name].Value = "Your mom's house";
+                row.Cells[colCurrentLocation.Name].Value = locomotive.Location;
                 row.Cells[colType.Name].Value = "Locomotive";
                 row.Tag = locomotive;
             }
@@ -174,7 +174,7 @@ namespace FleetTracking.Roster
                 row.Cells[colReportingMark.Name].Value = reportingMark;
                 row.Cells[colModel.Name].Value = railcar.RailcarModel?.Name;
                 row.Cells[colOwner.Name].Value = railcar.CompanyOwner?.Name ?? railcar.GovernmentOwner?.Name;
-                row.Cells[colCurrentLocation.Name].Value = "Your mom's house";
+                row.Cells[colCurrentLocation.Name].Value = railcar.Location;
                 row.Cells[colType.Name].Value = "Railcar";
                 row.Tag = railcar;
 

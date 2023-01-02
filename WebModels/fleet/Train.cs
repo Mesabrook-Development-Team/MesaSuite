@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
@@ -65,6 +67,43 @@ namespace WebModels.fleet
             set { CheckSet(); _status = value; }
         }
 
+        private DateTime? _timeOnDuty = null;
+        [Field("8A47991B-D1FE-4FB6-A143-722DC4626D3A", HasOperation = true)]
+        public DateTime? TimeOnDuty
+        {
+            get { CheckGet(); return _timeOnDuty; }
+        }
+
+        public static OperationDelegate TimeOnDutyOperation => (alias) =>
+        {
+            ISelectQuery select = SQLProviderFactory.GetSelectQuery();
+            select.SelectList = new List<Select>()
+            {
+                new Select() { SelectOperand = (Field)"TimeOnDuty"}
+            };
+            select.Table = new Table("fleet", "TrainDutyTransaction", "tdt");
+            select.WhereCondition = new ConditionGroup()
+            {
+                ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                Conditions = new List<ICondition>()
+                {
+                    new Condition()
+                    {
+                        Left = (Field)"tdt.TrainID",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (Field)$"{alias}.TrainID"
+                    },
+                    new Condition()
+                    {
+                        Left = (Field)"tdt.TimeOffDuty",
+                        ConditionType = Condition.ConditionTypes.Null
+                    }
+                }
+            };
+
+            return new SubQuery(select);
+        };
+
         public static Errors Reorder(long? trainID, ITransaction transaction = null)
         {
             Errors errors = new Errors();
@@ -76,15 +115,19 @@ namespace WebModels.fleet
                     localTransaction = SQLProviderFactory.GenerateTransaction();
                 }
 
-                Search<RailLocation> railLocationsForTrack = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
+                Search<RailLocation> railLocationsForTrain = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
                 {
                     Field = nameof(RailLocation.TrainID),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = trainID
                 });
+                railLocationsForTrain.SearchOrders.Add(new SearchOrder()
+                {
+                    OrderField = nameof(RailLocation.Position)
+                });
 
                 int position = 1;
-                foreach (RailLocation railLocation in railLocationsForTrack.GetEditableReader(localTransaction))
+                foreach (RailLocation railLocation in railLocationsForTrain.GetEditableReader(localTransaction))
                 {
                     if (railLocation.Position != position)
                     {

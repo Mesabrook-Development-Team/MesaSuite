@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using WebModels.fleet;
 using WebModels.invoicing;
 
 namespace WebModels.mesasys
@@ -84,6 +85,14 @@ namespace WebModels.mesasys
         }
 
         #region Relationships
+        #region fleet
+        private List<RailcarLoad> _railcarLoads = new List<RailcarLoad>();
+        [RelationshipList("7B69B73F-36B2-4C22-B9DF-8A992415AF26", nameof(RailcarLoad.ItemID))]
+        public IReadOnlyCollection<RailcarLoad> RailcarLoads
+        {
+            get { CheckGet(); return _railcarLoads; }
+        }
+        #endregion
         #region invoicing
         private List<InvoiceLine> _invoiceLines = new List<InvoiceLine>();
         [RelationshipList("AC6E6BF0-5481-4C13-844C-223161B4A750", nameof(InvoiceLine.ItemID))]

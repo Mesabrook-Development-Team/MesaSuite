@@ -55,6 +55,7 @@ namespace FleetTracking.Roster
                     txtReportingNumber.Text = railcar.ReportingNumber?.ToString();
                     txtLessee.Text = railcar.CompanyLeasedTo?.CompanyID != null ? railcar.CompanyLeasedTo.Name : railcar.GovernmentLeasedTo?.Name;
                     txtCurrentLocation.Text = railcar.Location;
+                    txtContents.Text = railcar.FormattedRailcarLoads;
 
                     bool isOwner = _application.IsCurrentEntity(railcar.CompanyIDOwner, railcar.GovernmentIDOwner);
                     bool isPossessor = _application.IsCurrentEntity(railcar.CompanyIDPossessor, railcar.GovernmentIDPossessor);

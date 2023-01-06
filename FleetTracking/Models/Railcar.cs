@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace FleetTracking.Models
 {
@@ -57,5 +59,25 @@ namespace FleetTracking.Models
             }
         }
         public bool HasOpenBid { get; set; }
+        public List<RailcarLoad> RailcarLoads { get; set; }
+        public string FormattedRailcarLoads
+        {
+            get
+            {
+                if (RailcarLoads == null || !RailcarLoads.Any())
+                {
+                    return "Empty";
+                }
+
+                StringBuilder loadsBuilder = new StringBuilder();
+                foreach(RailcarLoad load in RailcarLoads)
+                {
+                    loadsBuilder.Append(", ");
+                    loadsBuilder.Append(load.Item?.Name + " x " + load.Quantity);
+                }
+
+                return loadsBuilder.ToString().Substring(2);
+            }
+        }
     }
 }

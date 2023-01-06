@@ -38,8 +38,10 @@
             this.lblOnDutySince = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.cmdEndTrain = new System.Windows.Forms.Button();
             this.txtInstructions = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.loaderTrainInfo = new FleetTracking.Loader();
             this.lblTotalLength = new System.Windows.Forms.Label();
             this.lblStockTotal = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -52,12 +54,17 @@
             this.colPosition = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colConsistType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolModifyConsist = new System.Windows.Forms.ToolStripButton();
+            this.toolLiveLoad = new System.Windows.Forms.ToolStripButton();
+            this.loaderConsist = new FleetTracking.Loader();
             this.tabDutyTrans = new System.Windows.Forms.TabPage();
             this.dgvDutyTrans = new System.Windows.Forms.DataGridView();
             this.colOperator = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTimeStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTimeEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolAddTransaction = new System.Windows.Forms.ToolStripButton();
+            this.loaderDutyTrans = new FleetTracking.Loader();
             this.tabLocoFuel = new System.Windows.Forms.TabPage();
             this.dgvLocoFuel = new System.Windows.Forms.DataGridView();
             this.colFuelImage = new System.Windows.Forms.DataGridViewImageColumn();
@@ -65,6 +72,10 @@
             this.colStartingFuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEndingFuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.toolFuelAddLoco = new System.Windows.Forms.ToolStripButton();
+            this.toolFuelSetStart = new System.Windows.Forms.ToolStripButton();
+            this.toolFuelSetEnd = new System.Windows.Forms.ToolStripButton();
+            this.loaderLocoFuel = new FleetTracking.Loader();
             this.tabHandledCars = new System.Windows.Forms.TabPage();
             this.dgvHandledCars = new System.Windows.Forms.DataGridView();
             this.colHandledImage = new System.Windows.Forms.DataGridViewImageColumn();
@@ -73,19 +84,8 @@
             this.colSetOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPartialTrip = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.toolStrip4 = new System.Windows.Forms.ToolStrip();
-            this.cmdEndTrain = new System.Windows.Forms.Button();
-            this.toolModifyConsist = new System.Windows.Forms.ToolStripButton();
-            this.toolLiveLoad = new System.Windows.Forms.ToolStripButton();
-            this.toolAddTransaction = new System.Windows.Forms.ToolStripButton();
-            this.toolFuelAddLoco = new System.Windows.Forms.ToolStripButton();
-            this.toolFuelSetStart = new System.Windows.Forms.ToolStripButton();
-            this.toolFuelSetEnd = new System.Windows.Forms.ToolStripButton();
             this.toolTogglePartialTrip = new System.Windows.Forms.ToolStripButton();
-            this.loaderConsist = new FleetTracking.Loader();
-            this.loaderDutyTrans = new FleetTracking.Loader();
-            this.loaderLocoFuel = new FleetTracking.Loader();
             this.loaderHandledCars = new FleetTracking.Loader();
-            this.loaderTrainInfo = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -208,6 +208,17 @@
             this.splitContainer1.SplitterDistance = 261;
             this.splitContainer1.TabIndex = 0;
             // 
+            // cmdEndTrain
+            // 
+            this.cmdEndTrain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdEndTrain.Location = new System.Drawing.Point(3, 70);
+            this.cmdEndTrain.Name = "cmdEndTrain";
+            this.cmdEndTrain.Size = new System.Drawing.Size(255, 23);
+            this.cmdEndTrain.TabIndex = 4;
+            this.cmdEndTrain.Text = "End Train";
+            this.cmdEndTrain.UseVisualStyleBackColor = true;
+            this.cmdEndTrain.Click += new System.EventHandler(this.cmdEndTrain_Click);
+            // 
             // txtInstructions
             // 
             this.txtInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -230,6 +241,18 @@
             this.label10.Size = new System.Drawing.Size(110, 13);
             this.label10.TabIndex = 0;
             this.label10.Text = "Train Instructions:";
+            // 
+            // loaderTrainInfo
+            // 
+            this.loaderTrainInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loaderTrainInfo.BackColor = System.Drawing.Color.Transparent;
+            this.loaderTrainInfo.Location = new System.Drawing.Point(3, 16);
+            this.loaderTrainInfo.Name = "loaderTrainInfo";
+            this.loaderTrainInfo.Size = new System.Drawing.Size(538, 99);
+            this.loaderTrainInfo.TabIndex = 1;
+            this.loaderTrainInfo.Visible = false;
             // 
             // lblTotalLength
             // 
@@ -357,6 +380,36 @@
             this.toolStrip2.TabIndex = 1;
             this.toolStrip2.Text = "toolStrip2";
             // 
+            // toolModifyConsist
+            // 
+            this.toolModifyConsist.Image = ((System.Drawing.Image)(resources.GetObject("toolModifyConsist.Image")));
+            this.toolModifyConsist.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolModifyConsist.Name = "toolModifyConsist";
+            this.toolModifyConsist.Size = new System.Drawing.Size(65, 22);
+            this.toolModifyConsist.Text = "Modify";
+            this.toolModifyConsist.Click += new System.EventHandler(this.toolModifyConsist_Click);
+            // 
+            // toolLiveLoad
+            // 
+            this.toolLiveLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolLiveLoad.Image")));
+            this.toolLiveLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolLiveLoad.Name = "toolLiveLoad";
+            this.toolLiveLoad.Size = new System.Drawing.Size(77, 22);
+            this.toolLiveLoad.Text = "Live Load";
+            this.toolLiveLoad.Click += new System.EventHandler(this.toolLiveLoad_Click);
+            // 
+            // loaderConsist
+            // 
+            this.loaderConsist.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loaderConsist.BackColor = System.Drawing.Color.Transparent;
+            this.loaderConsist.Location = new System.Drawing.Point(0, 0);
+            this.loaderConsist.Name = "loaderConsist";
+            this.loaderConsist.Size = new System.Drawing.Size(518, 357);
+            this.loaderConsist.TabIndex = 3;
+            this.loaderConsist.Visible = false;
+            // 
             // tabDutyTrans
             // 
             this.tabDutyTrans.Controls.Add(this.dgvDutyTrans);
@@ -409,6 +462,27 @@
             this.toolStrip1.Size = new System.Drawing.Size(512, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolAddTransaction
+            // 
+            this.toolAddTransaction.Image = ((System.Drawing.Image)(resources.GetObject("toolAddTransaction.Image")));
+            this.toolAddTransaction.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolAddTransaction.Name = "toolAddTransaction";
+            this.toolAddTransaction.Size = new System.Drawing.Size(140, 22);
+            this.toolAddTransaction.Text = "Add Duty Transaction";
+            this.toolAddTransaction.Click += new System.EventHandler(this.toolAddTransaction_Click);
+            // 
+            // loaderDutyTrans
+            // 
+            this.loaderDutyTrans.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loaderDutyTrans.BackColor = System.Drawing.Color.Transparent;
+            this.loaderDutyTrans.Location = new System.Drawing.Point(0, 0);
+            this.loaderDutyTrans.Name = "loaderDutyTrans";
+            this.loaderDutyTrans.Size = new System.Drawing.Size(518, 358);
+            this.loaderDutyTrans.TabIndex = 3;
+            this.loaderDutyTrans.Visible = false;
             // 
             // tabLocoFuel
             // 
@@ -470,6 +544,45 @@
             this.toolStrip3.Size = new System.Drawing.Size(518, 25);
             this.toolStrip3.TabIndex = 1;
             this.toolStrip3.Text = "toolStrip1";
+            // 
+            // toolFuelAddLoco
+            // 
+            this.toolFuelAddLoco.Image = ((System.Drawing.Image)(resources.GetObject("toolFuelAddLoco.Image")));
+            this.toolFuelAddLoco.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolFuelAddLoco.Name = "toolFuelAddLoco";
+            this.toolFuelAddLoco.Size = new System.Drawing.Size(115, 22);
+            this.toolFuelAddLoco.Text = "Add Locomotive";
+            this.toolFuelAddLoco.Click += new System.EventHandler(this.toolFuelAddLoco_Click);
+            // 
+            // toolFuelSetStart
+            // 
+            this.toolFuelSetStart.Image = ((System.Drawing.Image)(resources.GetObject("toolFuelSetStart.Image")));
+            this.toolFuelSetStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolFuelSetStart.Name = "toolFuelSetStart";
+            this.toolFuelSetStart.Size = new System.Drawing.Size(70, 22);
+            this.toolFuelSetStart.Text = "Set Start";
+            this.toolFuelSetStart.Click += new System.EventHandler(this.toolFuelSetStart_Click);
+            // 
+            // toolFuelSetEnd
+            // 
+            this.toolFuelSetEnd.Image = ((System.Drawing.Image)(resources.GetObject("toolFuelSetEnd.Image")));
+            this.toolFuelSetEnd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolFuelSetEnd.Name = "toolFuelSetEnd";
+            this.toolFuelSetEnd.Size = new System.Drawing.Size(66, 22);
+            this.toolFuelSetEnd.Text = "Set End";
+            this.toolFuelSetEnd.Click += new System.EventHandler(this.toolFuelSetEnd_Click);
+            // 
+            // loaderLocoFuel
+            // 
+            this.loaderLocoFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loaderLocoFuel.BackColor = System.Drawing.Color.Transparent;
+            this.loaderLocoFuel.Location = new System.Drawing.Point(0, 0);
+            this.loaderLocoFuel.Name = "loaderLocoFuel";
+            this.loaderLocoFuel.Size = new System.Drawing.Size(518, 358);
+            this.loaderLocoFuel.TabIndex = 3;
+            this.loaderLocoFuel.Visible = false;
             // 
             // tabHandledCars
             // 
@@ -537,70 +650,6 @@
             this.toolStrip4.TabIndex = 0;
             this.toolStrip4.Text = "toolStrip4";
             // 
-            // cmdEndTrain
-            // 
-            this.cmdEndTrain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdEndTrain.Location = new System.Drawing.Point(3, 70);
-            this.cmdEndTrain.Name = "cmdEndTrain";
-            this.cmdEndTrain.Size = new System.Drawing.Size(255, 23);
-            this.cmdEndTrain.TabIndex = 4;
-            this.cmdEndTrain.Text = "End Train";
-            this.cmdEndTrain.UseVisualStyleBackColor = true;
-            this.cmdEndTrain.Click += new System.EventHandler(this.cmdEndTrain_Click);
-            // 
-            // toolModifyConsist
-            // 
-            this.toolModifyConsist.Image = ((System.Drawing.Image)(resources.GetObject("toolModifyConsist.Image")));
-            this.toolModifyConsist.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolModifyConsist.Name = "toolModifyConsist";
-            this.toolModifyConsist.Size = new System.Drawing.Size(65, 22);
-            this.toolModifyConsist.Text = "Modify";
-            this.toolModifyConsist.Click += new System.EventHandler(this.toolModifyConsist_Click);
-            // 
-            // toolLiveLoad
-            // 
-            this.toolLiveLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolLiveLoad.Image")));
-            this.toolLiveLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolLiveLoad.Name = "toolLiveLoad";
-            this.toolLiveLoad.Size = new System.Drawing.Size(77, 22);
-            this.toolLiveLoad.Text = "Live Load";
-            // 
-            // toolAddTransaction
-            // 
-            this.toolAddTransaction.Image = ((System.Drawing.Image)(resources.GetObject("toolAddTransaction.Image")));
-            this.toolAddTransaction.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolAddTransaction.Name = "toolAddTransaction";
-            this.toolAddTransaction.Size = new System.Drawing.Size(140, 22);
-            this.toolAddTransaction.Text = "Add Duty Transaction";
-            this.toolAddTransaction.Click += new System.EventHandler(this.toolAddTransaction_Click);
-            // 
-            // toolFuelAddLoco
-            // 
-            this.toolFuelAddLoco.Image = ((System.Drawing.Image)(resources.GetObject("toolFuelAddLoco.Image")));
-            this.toolFuelAddLoco.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolFuelAddLoco.Name = "toolFuelAddLoco";
-            this.toolFuelAddLoco.Size = new System.Drawing.Size(115, 22);
-            this.toolFuelAddLoco.Text = "Add Locomotive";
-            this.toolFuelAddLoco.Click += new System.EventHandler(this.toolFuelAddLoco_Click);
-            // 
-            // toolFuelSetStart
-            // 
-            this.toolFuelSetStart.Image = ((System.Drawing.Image)(resources.GetObject("toolFuelSetStart.Image")));
-            this.toolFuelSetStart.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolFuelSetStart.Name = "toolFuelSetStart";
-            this.toolFuelSetStart.Size = new System.Drawing.Size(70, 22);
-            this.toolFuelSetStart.Text = "Set Start";
-            this.toolFuelSetStart.Click += new System.EventHandler(this.toolFuelSetStart_Click);
-            // 
-            // toolFuelSetEnd
-            // 
-            this.toolFuelSetEnd.Image = ((System.Drawing.Image)(resources.GetObject("toolFuelSetEnd.Image")));
-            this.toolFuelSetEnd.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolFuelSetEnd.Name = "toolFuelSetEnd";
-            this.toolFuelSetEnd.Size = new System.Drawing.Size(66, 22);
-            this.toolFuelSetEnd.Text = "Set End";
-            this.toolFuelSetEnd.Click += new System.EventHandler(this.toolFuelSetEnd_Click);
-            // 
             // toolTogglePartialTrip
             // 
             this.toolTogglePartialTrip.Image = ((System.Drawing.Image)(resources.GetObject("toolTogglePartialTrip.Image")));
@@ -609,42 +658,6 @@
             this.toolTogglePartialTrip.Size = new System.Drawing.Size(120, 22);
             this.toolTogglePartialTrip.Text = "Toggle Partial Trip";
             this.toolTogglePartialTrip.Click += new System.EventHandler(this.toolTogglePartialTrip_Click);
-            // 
-            // loaderConsist
-            // 
-            this.loaderConsist.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loaderConsist.BackColor = System.Drawing.Color.Transparent;
-            this.loaderConsist.Location = new System.Drawing.Point(0, 0);
-            this.loaderConsist.Name = "loaderConsist";
-            this.loaderConsist.Size = new System.Drawing.Size(518, 357);
-            this.loaderConsist.TabIndex = 3;
-            this.loaderConsist.Visible = false;
-            // 
-            // loaderDutyTrans
-            // 
-            this.loaderDutyTrans.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loaderDutyTrans.BackColor = System.Drawing.Color.Transparent;
-            this.loaderDutyTrans.Location = new System.Drawing.Point(0, 0);
-            this.loaderDutyTrans.Name = "loaderDutyTrans";
-            this.loaderDutyTrans.Size = new System.Drawing.Size(518, 358);
-            this.loaderDutyTrans.TabIndex = 3;
-            this.loaderDutyTrans.Visible = false;
-            // 
-            // loaderLocoFuel
-            // 
-            this.loaderLocoFuel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loaderLocoFuel.BackColor = System.Drawing.Color.Transparent;
-            this.loaderLocoFuel.Location = new System.Drawing.Point(0, 0);
-            this.loaderLocoFuel.Name = "loaderLocoFuel";
-            this.loaderLocoFuel.Size = new System.Drawing.Size(518, 358);
-            this.loaderLocoFuel.TabIndex = 3;
-            this.loaderLocoFuel.Visible = false;
             // 
             // loaderHandledCars
             // 
@@ -657,18 +670,6 @@
             this.loaderHandledCars.Size = new System.Drawing.Size(518, 357);
             this.loaderHandledCars.TabIndex = 2;
             this.loaderHandledCars.Visible = false;
-            // 
-            // loaderTrainInfo
-            // 
-            this.loaderTrainInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loaderTrainInfo.BackColor = System.Drawing.Color.Transparent;
-            this.loaderTrainInfo.Location = new System.Drawing.Point(3, 16);
-            this.loaderTrainInfo.Name = "loaderTrainInfo";
-            this.loaderTrainInfo.Size = new System.Drawing.Size(538, 99);
-            this.loaderTrainInfo.TabIndex = 1;
-            this.loaderTrainInfo.Visible = false;
             // 
             // InProgressTrainDisplay
             // 

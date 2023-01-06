@@ -136,7 +136,7 @@ namespace CompanyStudio
             collection.Add(tsmi);
         }
 
-        private Form FleetTracking_OpenForm(IFleetTrackingControl fleetTrackingControl, FleetTrackingApplication.OpenFormOptions formOptions)
+        private Form FleetTracking_OpenForm(IFleetTrackingControl fleetTrackingControl, FleetTrackingApplication.OpenFormOptions formOptions, IWin32Window parent)
         {
             FleetTrackingForms.frmFleetForm fleetForm = new FleetTrackingForms.frmFleetForm();
             if (formOptions.HasFlag(FleetTrackingApplication.OpenFormOptions.ResizeToControl))
@@ -148,11 +148,11 @@ namespace CompanyStudio
 
             if (formOptions.HasFlag(FleetTrackingApplication.OpenFormOptions.Popout))
             {
-                fleetForm.Show();
+                fleetForm.Show(parent);
             }
             else if (formOptions.HasFlag(FleetTrackingApplication.OpenFormOptions.Dialog))
             {
-                fleetForm.ShowDialog();
+                fleetForm.ShowDialog(parent);
             }
             else
             {

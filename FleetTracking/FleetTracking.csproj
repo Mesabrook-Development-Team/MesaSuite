@@ -44,6 +44,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CarLoading\LiveLoadClient.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CarLoading\LiveLoadClient.Designer.cs">
+      <DependentUpon>LiveLoadClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CarLoading\LoadOnTrack.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CarLoading\LoadOnTrack.Designer.cs">
+      <DependentUpon>LoadOnTrack.cs</DependentUpon>
+    </Compile>
     <Compile Include="ControlSelector.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -62,6 +74,18 @@
       <DependentUpon>InputBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Interop\FleetTrackingApplication.cs" />
+    <Compile Include="ItemSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ItemSelector.Designer.cs">
+      <DependentUpon>ItemSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ItemSelectorInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ItemSelectorInput.Designer.cs">
+      <DependentUpon>ItemSelectorInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="Leasing\LeaseBidDetail.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -159,7 +183,12 @@
       <DependentUpon>MiscellaneousSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\CarHandlingRate.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\ItemNamespace.cs" />
+    <Compile Include="Models\LiveLoad.cs" />
+    <Compile Include="Models\LiveLoadSession.cs" />
     <Compile Include="Models\MiscellaneousSettings.cs" />
+    <Compile Include="Models\RailcarLoad.cs" />
     <Compile Include="Models\RailcarLocationTransaction.cs" />
     <Compile Include="Models\RailLocation.cs" />
     <Compile Include="Models\Company.cs" />
@@ -332,6 +361,12 @@
     <Compile Include="Train\InProgressTrainDisplay.Designer.cs">
       <DependentUpon>InProgressTrainDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="Train\LiveLoadServer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Train\LiveLoadServer.Designer.cs">
+      <DependentUpon>LiveLoadServer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Train\NewTrainSelectSymbol.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -370,8 +405,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CarLoading\LiveLoadClient.resx">
+      <DependentUpon>LiveLoadClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CarLoading\LoadOnTrack.resx">
+      <DependentUpon>LoadOnTrack.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemSelector.resx">
+      <DependentUpon>ItemSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemSelectorInput.resx">
+      <DependentUpon>ItemSelectorInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Leasing\LeaseBidDetail.resx">
       <DependentUpon>LeaseBidDetail.cs</DependentUpon>
@@ -496,6 +543,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Train\InProgressTrainDisplay.resx">
       <DependentUpon>InProgressTrainDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Train\LiveLoadServer.resx">
+      <DependentUpon>LiveLoadServer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Train\NewTrainSelectSymbol.resx">
       <DependentUpon>NewTrainSelectSymbol.cs</DependentUpon>
@@ -3521,6 +3571,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\zoom_out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\checkall.png" />
+    <Content Include="Resources\uncheckall.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

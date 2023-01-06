@@ -2343,6 +2343,16 @@ namespace FleetTracking.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap checkall {
+            get {
+                object obj = ResourceManager.GetObject("checkall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap clock {
             get {
                 object obj = ResourceManager.GetObject("clock", resourceCulture);
@@ -9626,6 +9636,16 @@ namespace FleetTracking.Properties {
         internal static System.Drawing.Bitmap tux {
             get {
                 object obj = ResourceManager.GetObject("tux", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap uncheckall {
+            get {
+                object obj = ResourceManager.GetObject("uncheckall", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

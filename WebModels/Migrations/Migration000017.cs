@@ -348,6 +348,31 @@ namespace WebModels.Migrations
             CreateForeignKey(transaction, createTable, "fleet", "Railcar");
             CreateForeignKey(transaction, createTable, "mesasys", "Item");
 
+            createTable.TableName = "LiveLoad";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "LiveLoadID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "TrainID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Code", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 4) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "fleet", "Train");
+
+            createTable.TableName = "LiveLoadSession";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "LiveLoadSessionID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LiveLoadID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "UserID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LastHeartbeat", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "security", "User");
+            CreateForeignKey(transaction, createTable, "company", "Company");
+            CreateForeignKey(transaction, createTable, "gov", "Government");
+
             IAlterTable alterTable = SQLProviderFactory.GetAlterTableQuery();
             alterTable.Schema = "invoicing";
             alterTable.Table = "InvoiceLine";

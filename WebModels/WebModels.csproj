@@ -58,6 +58,8 @@
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
     <Compile Include="fleet\CarHandlingRate.cs" />
+    <Compile Include="fleet\LiveLoad.cs" />
+    <Compile Include="fleet\LiveLoadSession.cs" />
     <Compile Include="fleet\MiscellaneousSettings.cs" />
     <Compile Include="fleet\RailcarLoad.cs" />
     <Compile Include="fleet\RailDistrict.cs" />

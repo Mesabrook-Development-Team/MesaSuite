@@ -130,7 +130,7 @@ namespace GovernmentPortal
             collection.Add(tsmi);
         }
 
-        private Form FleetTracking_OpenForm(FleetTracking.IFleetTrackingControl fleetTrackingControl, FleetTracking.Interop.FleetTrackingApplication.OpenFormOptions openFormOptions)
+        private Form FleetTracking_OpenForm(FleetTracking.IFleetTrackingControl fleetTrackingControl, FleetTracking.Interop.FleetTrackingApplication.OpenFormOptions openFormOptions, IWin32Window parent)
         {
             Fleet.frmFleetForm fleetForm = new Fleet.frmFleetForm();
             if (openFormOptions.HasFlag(FleetTracking.Interop.FleetTrackingApplication.OpenFormOptions.ResizeToControl))
@@ -143,11 +143,11 @@ namespace GovernmentPortal
             if (!openFormOptions.HasFlag(FleetTracking.Interop.FleetTrackingApplication.OpenFormOptions.Dialog))
             {
                 fleetForm.MdiParent = this;
-                fleetForm.Show();
+                fleetForm.Show(parent);
             }
             else
             {
-                fleetForm.ShowDialog();
+                fleetForm.ShowDialog(parent);
             }
 
             return fleetForm;

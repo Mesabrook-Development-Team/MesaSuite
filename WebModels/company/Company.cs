@@ -244,6 +244,13 @@ namespace WebModels.company
         {
             get { CheckGet(); return _carHandlingRates; }
         }
+
+        private List<fleet.LiveLoadSession> _liveLoadSessions = new List<fleet.LiveLoadSession>();
+        [RelationshipList("9DDB3DE6-FEB4-42C7-8AB7-19E44636C0D3", nameof(fleet.LiveLoadSession.CompanyID))]
+        public IReadOnlyCollection<fleet.LiveLoadSession> LiveLoadSessions
+        {
+            get { CheckGet(); return _liveLoadSessions; }
+        }
         #endregion
         #region gov
         private List<Location> _locations = new List<Location>();

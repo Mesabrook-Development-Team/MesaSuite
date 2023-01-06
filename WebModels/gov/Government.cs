@@ -266,6 +266,13 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _carHandlingRates; }
         }
+
+        private List<fleet.LiveLoadSession> _liveLoadSessions = new List<fleet.LiveLoadSession>();
+        [RelationshipList("9FD6DE08-617E-49F9-886A-4836B382F425", nameof(fleet.LiveLoadSession.GovernmentID))]
+        public IReadOnlyCollection<fleet.LiveLoadSession> LiveLoadSessions
+        {
+            get { CheckGet(); return _liveLoadSessions; }
+        }
         #endregion
         #region gov
         private List<Official> _officials = new List<Official>();

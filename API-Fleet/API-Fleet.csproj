@@ -89,13 +89,17 @@
     <Compile Include="Controllers\CarHandlingRateController.cs" />
     <Compile Include="Controllers\GovernmentController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LeaseBidController.cs" />
     <Compile Include="Controllers\LeaseContractController.cs" />
     <Compile Include="Controllers\LeaseRequestController.cs" />
+    <Compile Include="Controllers\LiveLoadController.cs" />
+    <Compile Include="Controllers\LiveLoadSessionController.cs" />
     <Compile Include="Controllers\MiscellaneousSettingsController.cs" />
     <Compile Include="Controllers\RailcarController.cs" />
     <Compile Include="Controllers\LocomotiveController.cs" />
     <Compile Include="Controllers\LocomotiveModelController.cs" />
+    <Compile Include="Controllers\RailcarLoadController.cs" />
     <Compile Include="Controllers\RailcarLocationTransactionController.cs" />
     <Compile Include="Controllers\RailcarModelController.cs" />
     <Compile Include="Controllers\RailDistrictController.cs" />

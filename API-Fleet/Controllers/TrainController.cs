@@ -67,7 +67,8 @@ namespace API_Fleet.Controllers
             t.RailLocations.First().Railcar.ReportingNumber,
             t.RailLocations.First().Railcar.RailcarModelID,
             t.RailLocations.First().Railcar.RailcarModel.RailcarModelID,
-            t.RailLocations.First().Railcar.RailcarModel.Length
+            t.RailLocations.First().Railcar.RailcarModel.Length,
+            t.LiveLoad.LiveLoadID
         });
 
         public override bool AllowGetAll => true;

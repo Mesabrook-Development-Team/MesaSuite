@@ -50,6 +50,33 @@ namespace FleetTracking.Train
                 toolFuelSetEnd.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
                 toolFuelSetStart.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
                 toolTogglePartialTrip.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
+
+                if (train.LiveLoad?.LiveLoadID != null)
+                {
+                    LiveLoadServer server = new LiveLoadServer()
+                    {
+                        Application = _application,
+                        LiveLoadID = train.LiveLoad.LiveLoadID,
+                        TrainID = train.TrainID
+                    };
+
+                    Form serverForm = _application.OpenForm(server, FleetTrackingApplication.OpenFormOptions.Popout, ParentForm);
+                    serverForm.FormClosed += async (s, ea) => 
+                    {
+                        Models.Train liveLoadCheckTrain = await get.GetObject<Models.Train>();
+                        if (liveLoadCheckTrain.LiveLoad?.LiveLoadID != null)
+                        {
+                            ParentForm?.Close();
+                            Dispose();
+                            return;
+                        }
+                        else
+                        {
+                            ParentForm.Enabled = true;
+                        }
+                    };
+                    ParentForm.Enabled = false;
+                }
             }
         }
 
@@ -628,6 +655,46 @@ namespace FleetTracking.Train
                 loaderLocoFuel.Visible = false;
                 loaderHandledCars.Visible = false;
             }
+        }
+
+        private void toolLiveLoad_Click(object sender, EventArgs e)
+        {
+            LiveLoadServer liveLoadServer = new LiveLoadServer()
+            {
+                Application = _application,
+                TrainID = TrainID
+            };
+
+            Form serverForm = _application.OpenForm(liveLoadServer, FleetTrackingApplication.OpenFormOptions.Popout, ParentForm);
+            serverForm.FormClosed += async (s, ea) =>
+            {
+                try
+                {
+                    loaderConsist.BringToFront();
+                    loaderConsist.Visible = true;
+
+                    GetData get = _application.GetAccess<GetData>();
+                    get.API = DataAccess.APIs.FleetTracking;
+                    get.Resource = $"Train/Get/{TrainID}";
+                    Models.Train trainForLoadCheck = await get.GetObject<Models.Train>();
+
+                    if (trainForLoadCheck?.LiveLoad?.LiveLoadID != null)
+                    {
+                        ParentForm?.Close();
+                        Dispose();
+                        return;
+                    }
+                    else
+                    {
+                        ParentForm.Enabled = true;
+                    }
+                }
+                finally
+                {
+                    loaderConsist.Visible = false;
+                }
+            };
+            ParentForm.Enabled = false;
         }
     }
 }

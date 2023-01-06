@@ -8,6 +8,7 @@ using API.Common;
 using API.Common.Attributes;
 using API_Fleet.Extensions;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
 using WebModels.fleet;
 
@@ -91,6 +92,32 @@ namespace API_Fleet.Controllers
             }
 
             return await base.Patch(patchData);
+        }
+
+        [HttpGet]
+        public async Task<List<Track>> GetByCompany(long? id)
+        {
+            Search<Track> trackSearch = new Search<Track>(new LongSearchCondition<Track>()
+            {
+                Field = nameof(Track.CompanyIDOwner),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = id
+            });
+
+            return trackSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
+        }
+
+        [HttpGet]
+        public async Task<List<Track>> GetByGovernment(long? id)
+        {
+            Search<Track> trackSearch = new Search<Track>(new LongSearchCondition<Track>()
+            {
+                Field = nameof(Track.GovernmentIDOwner),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = id
+            });
+
+            return trackSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
         }
     }
 }

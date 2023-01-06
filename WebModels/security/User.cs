@@ -64,6 +64,13 @@ namespace WebModels.security
         {
             get { CheckGet(); return _trainDutyTransactions; }
         }
+
+        private List<fleet.LiveLoadSession> _liveLoadSessions = new List<fleet.LiveLoadSession>();
+        [RelationshipList("9A3F3912-820E-480C-A488-762ECD624D93", nameof(fleet.LiveLoadSession.UserID))]
+        public IReadOnlyCollection<fleet.LiveLoadSession> LiveLoadSessions
+        {
+            get { CheckGet(); return _liveLoadSessions; }
+        }
         #endregion
         #region gov
         private List<Official> _officials = new List<Official>();

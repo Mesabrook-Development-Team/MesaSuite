@@ -67,6 +67,13 @@ namespace WebModels.fleet
             set { CheckSet(); _status = value; }
         }
 
+        private LiveLoad _liveLoad = null;
+        [Relationship("833E1C4D-F43F-4231-8B10-5E94F65A9458", OneToOneByForeignKey = true)]
+        public LiveLoad LiveLoad
+        {
+            get { CheckGet(); return _liveLoad; }
+        }
+
         private DateTime? _timeOnDuty = null;
         [Field("8A47991B-D1FE-4FB6-A143-722DC4626D3A", HasOperation = true)]
         public DateTime? TimeOnDuty

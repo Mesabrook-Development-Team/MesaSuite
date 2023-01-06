@@ -12,7 +12,7 @@ namespace FleetTracking.Interop
     {
         public static class CallbackDelegates
         {
-            public delegate Form OpenForm(IFleetTrackingControl primaryControl, OpenFormOptions formOptions);
+            public delegate Form OpenForm(IFleetTrackingControl primaryControl, OpenFormOptions formOptions, IWin32Window parentWindow);
             public delegate TAccess GetAccess<out TAccess>() where TAccess : DataAccess;
             public delegate bool IsCurrentEntity(long? companyID, long? governmentID);
             public delegate (long?, long?) GetCurrentCompanyIDGovernmentID();
@@ -31,9 +31,14 @@ namespace FleetTracking.Interop
             return (TDelegate)callbacks.GetOrDefault(typeof(TDelegate));
         }
 
+        internal Form OpenForm(IFleetTrackingControl control, OpenFormOptions formOptions, IWin32Window parent)
+        {
+            return GetCallback<CallbackDelegates.OpenForm>().Invoke(control, formOptions, parent);
+        }
+
         internal Form OpenForm(IFleetTrackingControl control, OpenFormOptions formOptions)
         {
-            return GetCallback<CallbackDelegates.OpenForm>().Invoke(control, formOptions);
+            return OpenForm(control, formOptions, null);
         }
 
         internal Form OpenForm(IFleetTrackingControl control)
@@ -48,25 +53,25 @@ namespace FleetTracking.Interop
 
         public void BrowseLocomotiveModels()
         {
-            Form parentForm = GetCallback<CallbackDelegates.OpenForm>().Invoke(new LocomotiveModel.BrowseLocomotiveModels() { Application = this }, OpenFormOptions.None);
+            Form parentForm = OpenForm(new LocomotiveModel.BrowseLocomotiveModels() { Application = this });
             parentForm.Text = "Browse Locomotive Models";
         }
 
         public void BrowseRailcarModels()
         {
-            Form parentForm = GetCallback<CallbackDelegates.OpenForm>().Invoke(new RailcarModel.BrowseRailcarModels() { Application = this }, OpenFormOptions.None);
+            Form parentForm = OpenForm(new RailcarModel.BrowseRailcarModels() { Application = this });
             parentForm.Text = "Browse Railcar Models";
         }
 
         public void BrowseEquipmentRoster()
         {
-            Form parentForm = GetCallback<CallbackDelegates.OpenForm>().Invoke(new Roster.BrowseRoster() { Application = this }, OpenFormOptions.None);
+            Form parentForm = OpenForm(new Roster.BrowseRoster() { Application = this });
             parentForm.Text = "Browse Equipment Roster";
         }
 
         public void ManageLeasing()
         {
-            Form parentForm = GetCallback<CallbackDelegates.OpenForm>().Invoke(new Leasing.LeaseManagement() { Application = this }, OpenFormOptions.None);
+            Form parentForm = OpenForm(new Leasing.LeaseManagement() { Application = this });
             parentForm.Text = "Manage Leasing";
         }
 
@@ -138,6 +143,29 @@ namespace FleetTracking.Interop
             settingsForm.Text = "Miscellaneous Setup";
         }
 
+        public void StartLiveLoading()
+        {
+            InputBox input = new InputBox()
+            {
+                Application = this
+            };
+            input.Text = "Live Load Code";
+            input.lblPrompt.Text = "Enter the Live Load Code provided by the train crew";
+
+            Form inputForm = OpenForm(input, OpenFormOptions.Dialog);
+            if (inputForm.DialogResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            CarLoading.LiveLoadClient liveLoadClient = new CarLoading.LiveLoadClient()
+            {
+                Application = this,
+                LiveLoadCode = input.InputValue
+            };
+            OpenForm(liveLoadClient, OpenFormOptions.Popout);
+        }
+
         public IEnumerable<MainNavigationItem> GetNavigationItems()
         {
             yield return new MainNavigationItem("Rail")
@@ -160,7 +188,15 @@ namespace FleetTracking.Interop
                     new MainNavigationItem("Equipment Roster", BrowseEquipmentRoster),
                     new MainNavigationItem("Train Manager", BrowseTrains),
                     new MainNavigationItem("Track Viewer", OpenTrackViewer),
-                    new MainNavigationItem("Spot/Release", () => OpenForm(new Release.MassRelease() { Application = this }))
+                    new MainNavigationItem("Release Equipment", () => OpenForm(new Release.MassRelease() { Application = this })),
+                    new MainNavigationItem("Load/Unload Cars")
+                    {
+                        SubItems = new List<MainNavigationItem>()
+                        {
+                            new MainNavigationItem("Live Load", StartLiveLoading),
+                            new MainNavigationItem("Load On Track", () => OpenForm(new CarLoading.LoadOnTrack() { Application = this, Text = "Load On Track" }))
+                        }
+                    }
                 }
             };
         }

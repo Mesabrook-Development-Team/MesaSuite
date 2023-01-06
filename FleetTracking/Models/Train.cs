@@ -21,5 +21,6 @@ namespace FleetTracking.Models
         public List<TrainDutyTransaction> TrainDutyTransactions { get; set; }
 
         public DateTime? TimeOnDuty { get; set; }
+        public LiveLoad LiveLoad { get; set; }
     }
 }

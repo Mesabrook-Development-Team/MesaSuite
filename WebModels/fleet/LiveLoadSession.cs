@@ -134,9 +134,9 @@ namespace WebModels.fleet
                 query.Table = new Table("fleet", "LiveLoadSession", "lls");
                 query.WhereCondition = new Condition()
                 {
-                    Left = (Field)"lls.LiveLoadSession",
+                    Left = (Field)"lls.LiveLoadSessionID",
                     ConditionType = Condition.ConditionTypes.Equal,
-                    Right = (Field)$"{alias}.LiveLoadSession"
+                    Right = (Field)$"{alias}.LiveLoadSessionID"
                 };
 
                 return new SubQuery(query);

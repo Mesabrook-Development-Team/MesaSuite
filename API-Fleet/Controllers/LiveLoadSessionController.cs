@@ -41,7 +41,7 @@ namespace API_Fleet.Controllers
                 ll.LiveLoadSessions.First().UserID
             });
 
-            LiveLoad liveLoad = liveLoadSearch.GetReadOnly(null, new[] { nameof(LiveLoad.LiveLoadID) });
+            LiveLoad liveLoad = liveLoadSearch.GetReadOnly(null, fields);
             if (liveLoad == null)
             {
                 return NotFound();
@@ -70,17 +70,23 @@ namespace API_Fleet.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult Heartbeat(long? id)
+        public IHttpActionResult Heartbeat(HeartbeatParam param)
         {
-            LiveLoadSession session = DataObject.GetEditableByPrimaryKey<LiveLoadSession>(id, null, null);
+            LiveLoadSession session = DataObject.GetEditableByPrimaryKey<LiveLoadSession>(param.SessionID, null, new[] { nameof(LiveLoadSession.IsSessionValid) });
             if (session == null || !session.IsSessionValid)
             {
-                if (!session.IsSessionValid)
+                if (session != null && !session.IsSessionValid)
                 {
                     session.Delete();
                 }
 
                 return BadRequest("Your session is missing or has expired. Please start your session again.");
+            }
+
+            SecurityProfile securityProfile = (SecurityProfile)Request.Properties["SecurityProfile"];
+            if (securityProfile.UserID != session.UserID)
+            {
+                return Unauthorized();
             }
 
             session.LastHeartbeat = DateTime.Now;
@@ -92,9 +98,38 @@ namespace API_Fleet.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+        public IHttpActionResult Delete(long? id)
+        {
+            SecurityProfile securityProfile = (SecurityProfile)Request.Properties["SecurityProfile"];
+
+            LiveLoadSession session = DataObject.GetEditableByPrimaryKey<LiveLoadSession>(id, null, null);
+            if (session == null)
+            {
+                return NotFound();
+            }
+
+            if (session.UserID != securityProfile.UserID)
+            {
+                return Unauthorized();
+            }
+
+            if (!session.Delete())
+            {
+                return session.HandleFailedValidation(this);
+            }
+
+            return Ok();
+        }
+
         public struct GenerateSessionParam
         {
             public string Code { get; set; }
+        }
+
+        public struct HeartbeatParam
+        {
+            public long? SessionID { get; set; }
         }
     }
 }

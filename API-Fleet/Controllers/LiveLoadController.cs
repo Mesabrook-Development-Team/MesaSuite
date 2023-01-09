@@ -9,6 +9,8 @@ using API.Common;
 using API.Common.Attributes;
 using API.Common.Extensions;
 using API_Fleet.Extensions;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
@@ -120,17 +122,73 @@ namespace API_Fleet.Controllers
             }
 
             liveLoad.Code = codeBuilder.ToString();
-            if (!liveLoad.Save())
+
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
-                return liveLoad.HandleFailedValidation(this);
+                if (!liveLoad.Save(transaction))
+                {
+                    return liveLoad.HandleFailedValidation(this);
+                }
+
+                Search<LiveLoad> permissionsSearch = new Search<LiveLoad>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<LiveLoad>()
+                    {
+                        Field = nameof(LiveLoad.LiveLoadID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = liveLoad.LiveLoadID
+                    },
+                    GetBaseSearchCondition()));
+
+                if (!permissionsSearch.ExecuteExists(transaction))
+                {
+                    return Unauthorized();
+                }
+
+                transaction.Commit();
             }
 
             return Ok(DataObject.GetReadOnlyByPrimaryKey<LiveLoad>(liveLoad.LiveLoadID, null, await FieldsToRetrieve()));
         }
 
+        [HttpPut]
+        public async Task<IHttpActionResult> Heartbeat(HearbeatParam param)
+        {
+            Search<LiveLoad> liveLoadSearch = new Search<LiveLoad>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<LiveLoad>()
+                {
+                    Field = nameof(LiveLoad.LiveLoadID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = param.LiveLoadID
+                },
+                GetBaseSearchCondition()));
+
+            if (!liveLoadSearch.ExecuteExists(null))
+            {
+                return Unauthorized();
+            }
+
+            Search<LiveLoadSession> expiredSessionSearch = new Search<LiveLoadSession>(new BooleanSearchCondition<LiveLoadSession>()
+            {
+                Field = nameof(LiveLoadSession.IsSessionValid),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = false
+            });
+            foreach(LiveLoadSession session in expiredSessionSearch.GetEditableReader())
+            {
+                session.Delete();
+            }
+
+            return Ok(liveLoadSearch.GetReadOnly(null, await FieldsToRetrieve()));
+        }
+
         public struct LiveLoadParam
         {
             public long? TrainID { get; set; }
+        }
+
+        public struct HearbeatParam
+        {
+            public long? LiveLoadID { get; set; }
         }
     }
 }

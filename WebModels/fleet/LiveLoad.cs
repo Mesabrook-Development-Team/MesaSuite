@@ -47,7 +47,7 @@ namespace WebModels.fleet
         #region Relationships
         #region fleet
         private List<LiveLoadSession> _liveLoadSessions = new List<LiveLoadSession>();
-        [RelationshipList("D7CD0F01-C09C-4013-9F95-90F36012087C", nameof(LiveLoadSession.LiveLoadID))]
+        [RelationshipList("D7CD0F01-C09C-4013-9F95-90F36012087C", nameof(LiveLoadSession.LiveLoadID), AutoDeleteReferences = true)]
         public IReadOnlyCollection<LiveLoadSession> LiveLoadSessions
         {
             get { CheckGet(); return _liveLoadSessions; }

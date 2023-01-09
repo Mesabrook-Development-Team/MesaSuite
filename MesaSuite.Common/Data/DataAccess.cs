@@ -1,4 +1,5 @@
-﻿using MesaSuite.Common.Attributes;
+﻿using CefSharp.DevTools.CSS;
+using MesaSuite.Common.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace MesaSuite.Common.Data
         public bool RequireAuthentication { internal get; set; } = true;
         public Dictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
         public List<string> RequestFields { get; set; } = new List<string>();
+        public bool SuppressErrors { get; set; }
 
         public DataAccess(APIs api, string resource)
         {
@@ -64,7 +66,10 @@ namespace MesaSuite.Common.Data
                     }
                     else
                     {
-                        MessageBox.Show("You must sign in to view this content", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (!SuppressErrors)
+                        {
+                            MessageBox.Show("You must sign in to view this content", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                         RequestSuccessful = false;
                         return Task.FromResult<string>(null);
                     }
@@ -72,7 +77,10 @@ namespace MesaSuite.Common.Data
 
                 if (response.StatusCode == HttpStatusCode.Forbidden)
                 {
-                    MessageBox.Show("You do not have sufficient permissions to view this content", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!SuppressErrors)
+                    {
+                        MessageBox.Show("You do not have sufficient permissions to view this content", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                     RequestSuccessful = false;
                     return Task.FromResult<string>(null);
                 }
@@ -104,14 +112,20 @@ namespace MesaSuite.Common.Data
                         }
                     }
 
-                    MessageBox.Show(errorText.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!SuppressErrors)
+                    {
+                        MessageBox.Show(errorText.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                     RequestSuccessful = false;
                     return Task.FromResult<string>(null);
                 }
 
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {
-                    MessageBox.Show("The resource you requested was not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!SuppressErrors)
+                    {
+                        MessageBox.Show("The resource you requested was not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                     RequestSuccessful = false;
                     return Task.FromResult<string>(null);
                 }

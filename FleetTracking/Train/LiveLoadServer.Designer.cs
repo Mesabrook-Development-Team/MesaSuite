@@ -34,10 +34,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblCode = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cmdEndServer = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lstClients = new System.Windows.Forms.ListView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.tmrServer = new System.Windows.Forms.Timer(this.components);
+            this.loader = new FleetTracking.Loader();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -88,15 +90,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Live Load Code";
             // 
-            // button1
+            // cmdEndServer
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(271, 290);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "End Live Loading";
-            this.button1.UseVisualStyleBackColor = true;
+            this.cmdEndServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdEndServer.Location = new System.Drawing.Point(271, 290);
+            this.cmdEndServer.Name = "cmdEndServer";
+            this.cmdEndServer.Size = new System.Drawing.Size(108, 23);
+            this.cmdEndServer.TabIndex = 4;
+            this.cmdEndServer.Text = "End Live Loading";
+            this.cmdEndServer.UseVisualStyleBackColor = true;
+            this.cmdEndServer.Click += new System.EventHandler(this.cmdEndServer_Click);
             // 
             // groupBox2
             // 
@@ -129,15 +132,33 @@
             this.imageList.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList.Images.SetKeyName(0, "user");
             // 
+            // tmrServer
+            // 
+            this.tmrServer.Interval = 5000;
+            this.tmrServer.Tick += new System.EventHandler(this.tmrServer_Tick);
+            // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(382, 316);
+            this.loader.TabIndex = 6;
+            this.loader.Visible = false;
+            // 
             // LiveLoadServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.cmdEndServer);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.loader);
             this.Name = "LiveLoadServer";
             this.Size = new System.Drawing.Size(382, 316);
             this.Load += new System.EventHandler(this.LiveLoadServer_Load);
@@ -155,9 +176,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblCode;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button cmdEndServer;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ListView lstClients;
         private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.Timer tmrServer;
+        private Loader loader;
     }
 }

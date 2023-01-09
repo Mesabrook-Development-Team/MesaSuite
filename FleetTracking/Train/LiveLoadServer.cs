@@ -38,6 +38,7 @@ namespace FleetTracking.Train
                 generateLiveLoad.Resource = "LiveLoad/Generate";
                 generateLiveLoad.ObjectToPost = new { TrainID };
                 liveLoad = await generateLiveLoad.Execute<LiveLoad>();
+                LiveLoadID = liveLoad.LiveLoadID;
             }
             else
             {
@@ -63,6 +64,61 @@ namespace FleetTracking.Train
                 {
                     lstClients.Items.Add($"{session.User?.Username} ({session.Company?.Name}{session.Government?.Name})", "user");
                 }
+            }
+
+            tmrServer.Enabled = true;
+        }
+
+        private async void tmrServer_Tick(object sender, EventArgs e)
+        {
+            tmrServer.Enabled = false;
+
+            PutData put = _application.GetAccess<PutData>();
+            put.API = DataAccess.APIs.FleetTracking;
+            put.Resource = "LiveLoad/Heartbeat";
+            put.ObjectToPut = new { LiveLoadID };
+            LiveLoad liveLoad = await put.Execute<LiveLoad>();
+
+            if (liveLoad == null)
+            {
+                ParentForm?.Close();
+                Dispose();
+                return;
+            }
+
+            lstClients.Items.Clear();
+
+            if (liveLoad.LiveLoadSessions != null)
+            {
+                foreach (LiveLoadSession session in liveLoad.LiveLoadSessions)
+                {
+                    lstClients.Items.Add($"{session.User?.Username} ({session.Company?.Name}{session.Government?.Name})", "user");
+                }
+            }
+
+            tmrServer.Enabled = true;
+        }
+
+        private async void cmdEndServer_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
+
+                DeleteData delete = _application.GetAccess<DeleteData>();
+                delete.API = DataAccess.APIs.FleetTracking;
+                delete.Resource = $"LiveLoad/Delete/{LiveLoadID}";
+                await delete.Execute();
+                if (delete.RequestSuccessful)
+                {
+                    ParentForm?.Close();
+                    Dispose();
+                }
+            }
+            finally
+            {
+                loader.Visible = false;
             }
         }
     }

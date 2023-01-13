@@ -253,11 +253,11 @@
     <Compile Include="Rates\CarHandlingRateList.Designer.cs">
       <DependentUpon>CarHandlingRateList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Release\MassRelease.cs">
+    <Compile Include="Utilities\MassUpdateRailcars.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Release\MassRelease.Designer.cs">
-      <DependentUpon>MassRelease.cs</DependentUpon>
+    <Compile Include="Utilities\MassUpdateRailcars.Designer.cs">
+      <DependentUpon>MassUpdateRailcars.cs</DependentUpon>
     </Compile>
     <Compile Include="Roster\BrowseRoster.cs">
       <SubType>UserControl</SubType>
@@ -490,8 +490,8 @@
     <EmbeddedResource Include="Rates\CarHandlingRateList.resx">
       <DependentUpon>CarHandlingRateList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Release\MassRelease.resx">
-      <DependentUpon>MassRelease.cs</DependentUpon>
+    <EmbeddedResource Include="Utilities\MassUpdateRailcars.resx">
+      <DependentUpon>MassUpdateRailcars.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Roster\BrowseRoster.resx">
       <DependentUpon>BrowseRoster.cs</DependentUpon>

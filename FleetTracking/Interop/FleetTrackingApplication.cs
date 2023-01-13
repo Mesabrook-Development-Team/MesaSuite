@@ -116,11 +116,7 @@ namespace FleetTracking.Interop
 
         public void MassReleaseStock()
         {
-            Release.MassRelease massRelease = new Release.MassRelease()
-            {
-                Application = this
-            };
-            Form releaseForm = OpenForm(massRelease);
+            MassUpdateRailcars(true);
         }
 
         public void ManageCarHandlingRates()
@@ -163,7 +159,8 @@ namespace FleetTracking.Interop
                 Application = this,
                 LiveLoadCode = input.InputValue
             };
-            OpenForm(liveLoadClient, OpenFormOptions.Popout);
+            Form clientForm = OpenForm(liveLoadClient, OpenFormOptions.Popout);
+            clientForm.Text = "Live Load";
         }
 
         public IEnumerable<MainNavigationItem> GetNavigationItems()
@@ -188,7 +185,7 @@ namespace FleetTracking.Interop
                     new MainNavigationItem("Equipment Roster", BrowseEquipmentRoster),
                     new MainNavigationItem("Train Manager", BrowseTrains),
                     new MainNavigationItem("Track Viewer", OpenTrackViewer),
-                    new MainNavigationItem("Release Equipment", () => OpenForm(new Release.MassRelease() { Application = this })),
+                    new MainNavigationItem("Release Equipment", MassReleaseStock),
                     new MainNavigationItem("Load/Unload Cars")
                     {
                         SubItems = new List<MainNavigationItem>()
@@ -196,9 +193,22 @@ namespace FleetTracking.Interop
                             new MainNavigationItem("Live Load", StartLiveLoading),
                             new MainNavigationItem("Load On Track", () => OpenForm(new CarLoading.LoadOnTrack() { Application = this, Text = "Load On Track" }))
                         }
+                    },
+                    new MainNavigationItem("Utilities")
+                    {
+                        SubItems = new List<MainNavigationItem>()
+                        {
+                            new MainNavigationItem("Mass Update Railcars", () => MassUpdateRailcars())
+                        }
                     }
                 }
             };
+        }
+
+        private void MassUpdateRailcars(bool defaultSetRelease = false)
+        {
+            Form form = OpenForm(new Utilities.MassUpdateRailcars() { Application = this, DefaultSetRelease = defaultSetRelease }, OpenFormOptions.Popout);
+            form.Text = "Mass Update Railcars";
         }
 
         internal bool IsCurrentEntity(long? companyID, long? governmentID)

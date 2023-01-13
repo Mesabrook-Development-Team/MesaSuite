@@ -49,10 +49,6 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabConsist = new System.Windows.Forms.TabPage();
             this.dgvConsist = new System.Windows.Forms.DataGridView();
-            this.colConsistImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPosition = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colConsistType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolModifyConsist = new System.Windows.Forms.ToolStripButton();
             this.toolLiveLoad = new System.Windows.Forms.ToolStripButton();
@@ -87,6 +83,13 @@
             this.toolTogglePartialTrip = new System.Windows.Forms.ToolStripButton();
             this.loaderHandledCars = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.colConsistImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPosition = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLoad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDestination = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStrategic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colConsistType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -340,34 +343,14 @@
             this.colConsistImage,
             this.colReportingMark,
             this.colPosition,
+            this.colLoad,
+            this.colDestination,
+            this.colStrategic,
             this.colConsistType});
             this.dgvConsist.Location = new System.Drawing.Point(3, 28);
             this.dgvConsist.Name = "dgvConsist";
             this.dgvConsist.Size = new System.Drawing.Size(512, 310);
             this.dgvConsist.TabIndex = 2;
-            // 
-            // colConsistImage
-            // 
-            this.colConsistImage.HeaderText = "Image";
-            this.colConsistImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colConsistImage.Name = "colConsistImage";
-            // 
-            // colReportingMark
-            // 
-            this.colReportingMark.HeaderText = "Reporting Mark";
-            this.colReportingMark.Name = "colReportingMark";
-            this.colReportingMark.Width = 120;
-            // 
-            // colPosition
-            // 
-            this.colPosition.HeaderText = "Pos";
-            this.colPosition.Name = "colPosition";
-            this.colPosition.Width = 40;
-            // 
-            // colConsistType
-            // 
-            this.colConsistType.HeaderText = "Type";
-            this.colConsistType.Name = "colConsistType";
             // 
             // toolStrip2
             // 
@@ -671,6 +654,47 @@
             this.loaderHandledCars.TabIndex = 2;
             this.loaderHandledCars.Visible = false;
             // 
+            // colConsistImage
+            // 
+            this.colConsistImage.HeaderText = "Image";
+            this.colConsistImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colConsistImage.Name = "colConsistImage";
+            // 
+            // colReportingMark
+            // 
+            this.colReportingMark.HeaderText = "Reporting Mark";
+            this.colReportingMark.Name = "colReportingMark";
+            this.colReportingMark.Width = 120;
+            // 
+            // colPosition
+            // 
+            this.colPosition.HeaderText = "Pos";
+            this.colPosition.Name = "colPosition";
+            this.colPosition.Width = 40;
+            // 
+            // colLoad
+            // 
+            this.colLoad.HeaderText = "Current Load";
+            this.colLoad.Name = "colLoad";
+            this.colLoad.Width = 200;
+            // 
+            // colDestination
+            // 
+            this.colDestination.HeaderText = "Destination";
+            this.colDestination.Name = "colDestination";
+            this.colDestination.Width = 200;
+            // 
+            // colStrategic
+            // 
+            this.colStrategic.HeaderText = "Strategic Dest";
+            this.colStrategic.Name = "colStrategic";
+            this.colStrategic.Width = 200;
+            // 
+            // colConsistType
+            // 
+            this.colConsistType.HeaderText = "Type";
+            this.colConsistType.Name = "colConsistType";
+            // 
             // InProgressTrainDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -761,15 +785,18 @@
         private Loader loaderDutyTrans;
         private Loader loaderLocoFuel;
         private Loader loaderHandledCars;
-        private System.Windows.Forms.DataGridViewImageColumn colConsistImage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colReportingMark;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPosition;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colConsistType;
         private System.Windows.Forms.DataGridViewImageColumn colHandledImage;
         private System.Windows.Forms.DataGridViewTextBoxColumn colHandledReportingMark;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPickedUp;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSetOut;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colPartialTrip;
         private System.Windows.Forms.Button cmdEndTrain;
+        private System.Windows.Forms.DataGridViewImageColumn colConsistImage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colReportingMark;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPosition;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLoad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDestination;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStrategic;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colConsistType;
     }
 }

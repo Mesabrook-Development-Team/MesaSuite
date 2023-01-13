@@ -45,6 +45,7 @@ namespace API_Fleet.Controllers
             t.TrainSymbolID,
             t.TrainInstructions,
             t.Status,
+            t.TimeOnDuty,
             t.TrainSymbol.TrainSymbolID,
             t.TrainSymbol.Name,
             t.TrainSymbol.CompanyIDOperator,

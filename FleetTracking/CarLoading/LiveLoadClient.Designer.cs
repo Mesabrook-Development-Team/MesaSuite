@@ -32,8 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LiveLoadClient));
             this.tmrSession = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.itemSelect = new FleetTracking.ItemSelectorInput();
+            this.txtTrain = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dgvRailcars = new System.Windows.Forms.DataGridView();
@@ -56,7 +55,9 @@
             this.txtQuantity = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.itemSelect = new FleetTracking.ItemSelectorInput();
             this.loader = new FleetTracking.Loader();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -82,25 +83,15 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Train:";
             // 
-            // textBox1
+            // txtTrain
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtTrain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(58, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(674, 20);
-            this.textBox1.TabIndex = 1;
-            // 
-            // itemSelect
-            // 
-            this.itemSelect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.itemSelect.Location = new System.Drawing.Point(58, 42);
-            this.itemSelect.Name = "itemSelect";
-            this.itemSelect.SelectedID = null;
-            this.itemSelect.Size = new System.Drawing.Size(674, 20);
-            this.itemSelect.TabIndex = 6;
+            this.txtTrain.Location = new System.Drawing.Point(58, 3);
+            this.txtTrain.Name = "txtTrain";
+            this.txtTrain.ReadOnly = true;
+            this.txtTrain.Size = new System.Drawing.Size(674, 20);
+            this.txtTrain.TabIndex = 1;
             // 
             // groupBox1
             // 
@@ -146,6 +137,8 @@
             this.dgvRailcars.RowHeadersVisible = false;
             this.dgvRailcars.Size = new System.Drawing.Size(537, 236);
             this.dgvRailcars.TabIndex = 1;
+            this.dgvRailcars.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRailcars_CellClick);
+            this.dgvRailcars.SelectionChanged += new System.EventHandler(this.dgvRailcars_SelectionChanged);
             // 
             // colCheck
             // 
@@ -191,6 +184,8 @@
             this.dgvLoads.RowHeadersVisible = false;
             this.dgvLoads.Size = new System.Drawing.Size(182, 236);
             this.dgvLoads.TabIndex = 0;
+            this.dgvLoads.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLoads_CellClick);
+            this.dgvLoads.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLoads_CellEndEdit);
             // 
             // colImage
             // 
@@ -242,6 +237,7 @@
             this.toolCheckAll.Name = "toolCheckAll";
             this.toolCheckAll.Size = new System.Drawing.Size(77, 22);
             this.toolCheckAll.Text = "Check All";
+            this.toolCheckAll.Click += new System.EventHandler(this.toolCheckAll_Click);
             // 
             // toolUncheckAll
             // 
@@ -250,6 +246,7 @@
             this.toolUncheckAll.Name = "toolUncheckAll";
             this.toolUncheckAll.Size = new System.Drawing.Size(90, 22);
             this.toolUncheckAll.Text = "Uncheck All";
+            this.toolUncheckAll.Click += new System.EventHandler(this.toolUncheckAll_Click);
             // 
             // toolStripSeparator1
             // 
@@ -263,6 +260,7 @@
             this.toolClearLoads.Name = "toolClearLoads";
             this.toolClearLoads.Size = new System.Drawing.Size(88, 22);
             this.toolClearLoads.Text = "Clear Loads";
+            this.toolClearLoads.Click += new System.EventHandler(this.toolClearLoads_Click);
             // 
             // toolApplyLoad
             // 
@@ -271,6 +269,7 @@
             this.toolApplyLoad.Name = "toolApplyLoad";
             this.toolApplyLoad.Size = new System.Drawing.Size(87, 22);
             this.toolApplyLoad.Text = "Apply Load";
+            this.toolApplyLoad.Click += new System.EventHandler(this.toolApplyLoad_Click);
             // 
             // lblMassLoadDetails
             // 
@@ -307,6 +306,16 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Item:";
             // 
+            // itemSelect
+            // 
+            this.itemSelect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.itemSelect.Location = new System.Drawing.Point(58, 42);
+            this.itemSelect.Name = "itemSelect";
+            this.itemSelect.SelectedID = null;
+            this.itemSelect.Size = new System.Drawing.Size(674, 20);
+            this.itemSelect.TabIndex = 6;
+            // 
             // loader
             // 
             this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -329,7 +338,7 @@
             this.Controls.Add(this.txtQuantity);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtTrain);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.loader);
             this.Name = "LiveLoadClient";
@@ -354,7 +363,7 @@
 
         private System.Windows.Forms.Timer tmrSession;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtTrain;
         private ItemSelectorInput itemSelect;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.SplitContainer splitContainer1;
@@ -379,5 +388,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private Loader loader;
+        private DataGridViewStylizer dataGridViewStylizer;
     }
 }

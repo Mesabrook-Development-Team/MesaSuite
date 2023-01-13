@@ -30,14 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgvRollingStock = new System.Windows.Forms.DataGridView();
+            this.loader = new FleetTracking.Loader();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCurrentLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDestination = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colOwner = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.loader = new FleetTracking.Loader();
-            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRollingStock)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,6 +50,7 @@
             this.colReportingMark,
             this.colModel,
             this.colCurrentLocation,
+            this.colDestination,
             this.colOwner,
             this.colType});
             this.dgvRollingStock.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -57,6 +59,18 @@
             this.dgvRollingStock.Size = new System.Drawing.Size(869, 332);
             this.dgvRollingStock.TabIndex = 2;
             this.dgvRollingStock.SelectionChanged += new System.EventHandler(this.dgvRollingStock_SelectionChanged);
+            // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(869, 332);
+            this.loader.TabIndex = 3;
+            this.loader.Visible = false;
             // 
             // colImage
             // 
@@ -80,6 +94,12 @@
             this.colCurrentLocation.Name = "colCurrentLocation";
             this.colCurrentLocation.Width = 300;
             // 
+            // colDestination
+            // 
+            this.colDestination.HeaderText = "Destination";
+            this.colDestination.Name = "colDestination";
+            this.colDestination.Width = 200;
+            // 
             // colOwner
             // 
             this.colOwner.HeaderText = "Owner";
@@ -90,18 +110,6 @@
             // 
             this.colType.HeaderText = "Type";
             this.colType.Name = "colType";
-            // 
-            // loader
-            // 
-            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(0, 0);
-            this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(869, 332);
-            this.loader.TabIndex = 3;
-            this.loader.Visible = false;
             // 
             // RollingStockList
             // 
@@ -126,6 +134,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colReportingMark;
         private System.Windows.Forms.DataGridViewTextBoxColumn colModel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCurrentLocation;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDestination;
         private System.Windows.Forms.DataGridViewTextBoxColumn colOwner;
         private System.Windows.Forms.DataGridViewTextBoxColumn colType;
     }

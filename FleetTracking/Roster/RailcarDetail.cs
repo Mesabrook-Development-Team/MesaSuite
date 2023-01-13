@@ -25,6 +25,10 @@ namespace FleetTracking.Roster
         public FleetTrackingApplication Application { set => _application = value; }
         public long? RailcarID { get; set; }
 
+        // These properties are conditionally readonly, so in the event they no longer read only, we need to grab the original value
+        private long? OriginalTrackIDDestination { get; set; }
+        private long? OriginalTrackIDStrategic { get; set; }
+
         public RailcarDetail()
         {
             InitializeComponent();
@@ -54,24 +58,37 @@ namespace FleetTracking.Roster
                     txtReportingMark.Text = railcar.ReportingMark;
                     txtReportingNumber.Text = railcar.ReportingNumber?.ToString();
                     txtLessee.Text = railcar.CompanyLeasedTo?.CompanyID != null ? railcar.CompanyLeasedTo.Name : railcar.GovernmentLeasedTo?.Name;
+                    txtLessee.Tag = railcar.CompanyLeasedTo?.CompanyID != null ? (object)railcar.CompanyLeasedTo : railcar.GovernmentLeasedTo?.GovernmentID != null ? railcar.GovernmentLeasedTo : null;
                     txtCurrentLocation.Text = railcar.Location;
                     txtContents.Text = railcar.FormattedRailcarLoads;
+                    OriginalTrackIDDestination = railcar.TrackIDDestination;
+                    OriginalTrackIDStrategic = railcar.TrackIDStrategic;
 
                     bool isOwner = _application.IsCurrentEntity(railcar.CompanyIDOwner, railcar.GovernmentIDOwner);
+                    bool? isLessee = railcar.CompanyLeasedTo?.CompanyID == null && railcar.GovernmentLeasedTo?.GovernmentID == null ? (bool?)null : _application.IsCurrentEntity(railcar.CompanyLeasedTo?.CompanyID, railcar.GovernmentLeasedTo?.GovernmentID);
                     bool isPossessor = _application.IsCurrentEntity(railcar.CompanyIDPossessor, railcar.GovernmentIDPossessor);
+                    bool isOnManagedEntity = _application.IsCurrentEntity(railcar.RailLocation.Track?.RailDistrict?.CompanyIDOperator ?? railcar.RailLocation.Train?.TrainSymbol.CompanyIDOperator, railcar.RailLocation.Track?.RailDistrict?.GovernmentIDOperator ?? railcar.RailLocation.Train?.TrainSymbol.GovernmentIDOperator);
 
                     cboModel.Enabled = isOwner;
                     txtReportingMark.Enabled = isOwner;
                     txtReportingNumber.Enabled = isOwner;
                     cboOwner.Enabled = isOwner;
                     cboPossessor.Enabled = isPossessor;
+                    cboDestination.Enabled = isLessee ?? isOwner;
+                    cboStrategicTrack.Enabled = isOnManagedEntity;
 
                     cmdUpdateImage.Enabled = isOwner;
+                }
+                else
+                {
+                    txtCurrentLocation.Visible = false;
+                    cboCurrentLocation.Visible = true;
                 }
 
                 get.Resource = "RailcarModel/GetAll";
                 List<Models.RailcarModel> railcarModels = await get.GetObject<List<Models.RailcarModel>>() ?? new List<Models.RailcarModel>();
 
+                cboModel.Items.Clear();
                 foreach (Models.RailcarModel railcarModel in railcarModels)
                 {
                     RailcarModel.RailcarModelDropDownItem ddi = new RailcarModel.RailcarModelDropDownItem()
@@ -95,6 +112,8 @@ namespace FleetTracking.Roster
 
                 get.Resource = $"Company/GetAll";
                 List<Models.Company> companies = await get.GetObject<List<Models.Company>>() ?? new List<Models.Company>();
+                cboOwner.Items.Clear();
+                cboPossessor.Items.Clear();
                 foreach (Models.Company company in companies)
                 {
                     DropDownItem<Models.Company> dropDownItem = new DropDownItem<Models.Company>(company, company.Name);
@@ -133,6 +152,35 @@ namespace FleetTracking.Roster
                     }
                 }
 
+                get.Resource = "Track/GetAll";
+                List<Models.Track> tracks = await get.GetObject<List<Models.Track>>() ?? new List<Track>();
+                cboDestination.Items.Clear();
+                cboStrategicTrack.Items.Clear();
+                cboCurrentLocation.Items.Clear();
+                foreach(Models.Track track in tracks)
+                {
+                    DropDownItem<Models.Track> trackItem = new DropDownItem<Track>(track, track.Name);
+                    cboDestination.Items.Add(trackItem);
+
+                    if (railcar.TrackIDDestination == track.TrackID)
+                    {
+                        cboDestination.SelectedItem = trackItem;
+                    }
+
+                    trackItem = trackItem.CreateCopy();
+                    cboStrategicTrack.Items.Add(trackItem);
+
+                    if (railcar.TrackIDStrategic == track.TrackID)
+                    {
+                        cboStrategicTrack.SelectedItem = trackItem;
+                    }
+
+                    if (cboCurrentLocation.Visible)
+                    {
+                        trackItem = trackItem.CreateCopy();
+                        cboCurrentLocation.Items.Add(trackItem);
+                    }
+                }
             }
             finally
             {
@@ -185,6 +233,8 @@ namespace FleetTracking.Roster
             long? companyIDOwner = null;
             long? governmentIDPossessor = null;
             long? companyIDPossessor = null;
+            long? trackIDDestination = OriginalTrackIDDestination;
+            long? trackIDStrategic = OriginalTrackIDStrategic; 
             if (cboOwner.SelectedItem is DropDownItem<Models.Government> government)
             {
                 governmentIDOwner = government.Object.GovernmentID;
@@ -203,6 +253,16 @@ namespace FleetTracking.Roster
                 companyIDPossessor = company.Object.CompanyID;
             }
 
+            if (cboDestination.Enabled)
+            {
+                trackIDDestination = cboDestination.SelectedItem.Cast<DropDownItem<Track>>()?.Object.TrackID;
+            }
+
+            if (cboStrategicTrack.Enabled)
+            {
+                trackIDStrategic = cboStrategicTrack.SelectedItem.Cast<DropDownItem<Track>>()?.Object.TrackID;
+            }
+
             Models.Railcar railcar = new Models.Railcar()
             {
                 RailcarID = this.RailcarID,
@@ -212,7 +272,9 @@ namespace FleetTracking.Roster
                 CompanyIDPossessor = companyIDPossessor,
                 RailcarModelID = modelID,
                 ReportingMark = txtReportingMark.Text,
-                ReportingNumber = reportingNumber
+                ReportingNumber = reportingNumber,
+                TrackIDDestination = trackIDDestination,
+                TrackIDStrategic = trackIDStrategic
             };
 
             bool saveSuccessful;
@@ -252,14 +314,39 @@ namespace FleetTracking.Roster
                 updateImage.Resource = "Railcar/UpdateImage";
                 updateImage.ObjectToPut = new { railcarID = railcar.RailcarID, image = imageData };
                 await updateImage.ExecuteNoResult();
-                if (updateImage.RequestSuccessful)
-                {
-                    RailcarSaved?.Invoke(this, railcar);
-                }
+                saveSuccessful = updateImage.RequestSuccessful;
             }
-            else if (saveSuccessful)
+            
+            if (saveSuccessful && RailcarID == null && cboCurrentLocation.SelectedItem is DropDownItem<Track> currentLocation)
+            {
+                GetData get = _application.GetAccess<GetData>();
+                get.API = DataAccess.APIs.FleetTracking;
+                get.Resource = $"RailLocation/GetForRailcar/{railcar.RailcarID}";
+                RailLocation location = await get.GetObject<RailLocation>();
+                location.TrackID = currentLocation.Object.TrackID;
+                location.Position = int.MaxValue;
+
+                PutData modify = _application.GetAccess<PutData>();
+                modify.API = DataAccess.APIs.FleetTracking;
+                modify.Resource = "RailLocation/Modify";
+                modify.ObjectToPut = new
+                {
+                    ModifiedTracksByID = new Dictionary<long?, List<RailLocation>>()
+                    {
+                        { currentLocation.Object.TrackID, new List<RailLocation>() { location } }
+                    },
+                    TimeMoved = DateTime.Now
+                };
+                await modify.ExecuteNoResult();
+                saveSuccessful = modify.RequestSuccessful;
+            }
+
+            if (saveSuccessful)
             {
                 RailcarSaved?.Invoke(this, railcar);
+                RailcarID = railcar.RailcarID;
+
+                await LoadGeneralData();
             }
         }
 
@@ -412,6 +499,45 @@ namespace FleetTracking.Roster
             }
 
             LoadHistory();
+        }
+
+        private void cboCurrentLocation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropDownItem<Track> selectedTrack = cboCurrentLocation.SelectedItem as DropDownItem<Track>;
+            if (selectedTrack == null)
+            {
+                cboStrategicTrack.Enabled = false;
+                return;
+            }
+
+            Track track = selectedTrack.Object;
+            cboStrategicTrack.Enabled = _application.IsCurrentEntity(track.RailDistrict.CompanyIDOperator, track.RailDistrict.GovernmentIDOperator);
+        }
+
+        private void cboOwner_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (txtLessee.Tag != null)
+            {
+                if (txtLessee.Tag is Company lesseeCompany)
+                {
+                    cboDestination.Enabled = _application.IsCurrentEntity(lesseeCompany.CompanyID, null);
+                }
+                else if (txtLessee.Tag is Government lesseeGov)
+                {
+                    cboDestination.Enabled = _application.IsCurrentEntity(null, lesseeGov.GovernmentID);
+                }
+
+                return;
+            }
+
+            if (cboOwner.SelectedItem is DropDownItem<Company> selectedCompany)
+            {
+                cboDestination.Enabled = _application.IsCurrentEntity(selectedCompany.Object.CompanyID, null);
+            }
+            else if (cboOwner.SelectedItem is DropDownItem<Government> selectedGovernment)
+            {
+                cboDestination.Enabled = _application.IsCurrentEntity(null, selectedGovernment.Object.GovernmentID);
+            }
         }
     }
 }

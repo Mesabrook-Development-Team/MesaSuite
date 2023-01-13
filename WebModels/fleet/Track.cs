@@ -163,6 +163,20 @@ namespace WebModels.fleet
         {
             get { CheckGet(); return _railcarLocationTransactions; }
         }
+
+        private List<Railcar> _railcarDestinations = new List<Railcar>();
+        [RelationshipList("6815DC26-5E6B-4716-BB66-D86D3BFC7EDE", nameof(Railcar.TrackIDDestination))]
+        public IReadOnlyCollection<Railcar> RailcarDestinations
+        {
+            get { CheckGet(); return _railcarDestinations; }
+        }
+
+        private List<Railcar> _railcarStrategics = new List<Railcar>();
+        [RelationshipList("2A76EAAA-1EB4-492C-815E-F97F7C32E098", nameof(Railcar.TrackIDStrategic))]
+        public IReadOnlyCollection<Railcar> RailcarStrategics
+        {
+            get { CheckGet(); return _railcarStrategics; }
+        }
         #endregion
         #endregion
     }

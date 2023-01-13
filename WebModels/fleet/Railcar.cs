@@ -79,7 +79,7 @@ namespace WebModels.fleet
             set { CheckSet(); _governmentIDPossessor = value; }
         }
 
-        private Government _governmentPossessor;
+        private Government _governmentPossessor = null;
         [Relationship("EA834C1C-DF05-45CB-A533-EDA8BE11AD5B", ForeignKeyField = nameof(GovernmentIDPossessor))]
         public Government GovernmentPossessor
         {
@@ -94,14 +94,14 @@ namespace WebModels.fleet
             set { CheckSet(); _companyIDPossessor = value; }
         }
 
-        private Company _companyPossessor;
+        private Company _companyPossessor = null;
         [Relationship("2D102BF4-4C55-432A-B634-F9632612A2BE", ForeignKeyField = nameof(CompanyIDPossessor))]
         public Company CompanyPossessor
         {
             get { CheckGet(); return _companyPossessor; }
         }
 
-        private RailLocation _railLocation;
+        private RailLocation _railLocation = null;
         [Relationship("527AEB8C-896E-4D8A-B8E2-95729BA611C4", OneToOneByForeignKey = true)]
         public RailLocation RailLocation
         {
@@ -132,7 +132,37 @@ namespace WebModels.fleet
             set { CheckSet(); _imageOverride = value; }
         }
 
-        private bool _hasOpenBid;
+        private long? _trackIDDestination;
+        [Field("F6BB5870-968F-4926-A4B9-094ED05799DA")]
+        public long? TrackIDDestination
+        {
+            get { CheckGet(); return _trackIDDestination; }
+            set { CheckSet(); _trackIDDestination = value; }
+        }
+
+        private Track _trackDestination = null;
+        [Relationship("3CBB617B-928D-4168-98FA-393342F8E46F", ForeignKeyField = nameof(TrackIDDestination))]
+        public Track TrackDestination
+        {
+            get { CheckGet(); return _trackDestination; }
+        }
+
+        private long? _trackIDStrategic;
+        [Field("C4E7C207-CC21-4FC6-B36D-B7E1B403CFFC")]
+        public long? TrackIDStrategic
+        {
+            get { CheckGet(); return _trackIDStrategic; }
+            set { CheckSet(); _trackIDStrategic = value; }
+        }
+
+        private Track _trackStrategic = null;
+        [Relationship("71BC0DA0-46AC-4EFD-9CAF-62A8B338DCA3", ForeignKeyField = nameof(TrackIDStrategic))]
+        public Track TrackStrategic
+        {
+            get { CheckGet(); return _trackStrategic; }
+        }
+
+        private bool _hasOpenBid = false;
         [Field("E1ACECA1-C305-4AAF-A4AE-DEBEE8DCEDCD", HasOperation = true)]
         public bool HasOpenBid
         {

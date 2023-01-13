@@ -143,13 +143,26 @@ namespace GovernmentPortal
             if (!openFormOptions.HasFlag(FleetTracking.Interop.FleetTrackingApplication.OpenFormOptions.Dialog))
             {
                 fleetForm.MdiParent = this;
-                fleetForm.Show(parent);
+                if (parent == null)
+                {
+                    fleetForm.Show();
+                }
+                else
+                {
+                    fleetForm.Show(parent);
+                }
             }
             else
             {
-                fleetForm.ShowDialog(parent);
+                if (parent == null)
+                {
+                    fleetForm.ShowDialog();
+                }
+                else
+                {
+                    fleetForm.ShowDialog(parent);
+                }
             }
-
             return fleetForm;
         }
 

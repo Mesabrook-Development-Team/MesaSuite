@@ -148,11 +148,25 @@ namespace CompanyStudio
 
             if (formOptions.HasFlag(FleetTrackingApplication.OpenFormOptions.Popout))
             {
-                fleetForm.Show(parent);
+                if (parent == null)
+                {
+                    fleetForm.Show();
+                }
+                else
+                {
+                    fleetForm.Show(parent);
+                }
             }
             else if (formOptions.HasFlag(FleetTrackingApplication.OpenFormOptions.Dialog))
             {
-                fleetForm.ShowDialog(parent);
+                if (parent == null)
+                {
+                    fleetForm.ShowDialog();
+                }
+                else
+                {
+                    fleetForm.ShowDialog(parent);
+                }
             }
             else
             {

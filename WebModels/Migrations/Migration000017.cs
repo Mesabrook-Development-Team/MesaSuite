@@ -76,7 +76,9 @@ namespace WebModels.Migrations
                 { "CompanyIDPossessor", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "ReportingMark", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 4) },
                 { "ReportingNumber", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
-                { "ImageOverride", new FieldSpecification(FieldSpecification.FieldTypes.Binary) }
+                { "ImageOverride", new FieldSpecification(FieldSpecification.FieldTypes.Binary) },
+                { "TrackIDDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "TrackIDStrategic", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
             };
             createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "fleet", "RailcarModel");
@@ -249,6 +251,12 @@ namespace WebModels.Migrations
             CreateForeignKey(transaction, createTable, "gov", "Government");
             CreateForeignKey(transaction, createTable, "company", "Company");
 
+            IAlterTable alterTable = SQLProviderFactory.GetAlterTableQuery();
+            alterTable.Schema = "fleet";
+            alterTable.Table = "Railcar";
+            alterTable.AddForeignKey("FKRailcar_Track_TrackIDDestination", "TrackIDDestination", "fleet", "Track", "TrackID", transaction);
+            alterTable.AddForeignKey("FKRailcar_Track_TrackIDStrategic", "TrackIDStrategic", "fleet", "Track", "TrackID", transaction);
+
             createTable.TableName = "RailLocation";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
             {
@@ -310,8 +318,8 @@ namespace WebModels.Migrations
             createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "company", "Company");
             CreateForeignKey(transaction, createTable, "gov", "Government");
-            CreateForeignKey(transaction, createTable, "company", "Location", "LocatoinIDInvoicePayee");
-            CreateForeignKey(transaction, createTable, "company", "Location", "LocatoinIDInvoicePayor");
+            CreateForeignKey(transaction, createTable, "company", "Location", "LocationIDInvoicePayee");
+            CreateForeignKey(transaction, createTable, "company", "Location", "LocationIDInvoicePayor");
 
             createTable.SchemaName = "mesasys";
             createTable.TableName = "ItemNamespace";
@@ -373,7 +381,6 @@ namespace WebModels.Migrations
             CreateForeignKey(transaction, createTable, "company", "Company");
             CreateForeignKey(transaction, createTable, "gov", "Government");
 
-            IAlterTable alterTable = SQLProviderFactory.GetAlterTableQuery();
             alterTable.Schema = "invoicing";
             alterTable.Table = "InvoiceLine";
             alterTable.AddColumn("ItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);

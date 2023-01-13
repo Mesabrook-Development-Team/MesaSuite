@@ -73,6 +73,8 @@ namespace FleetTracking.Train
                         else
                         {
                             ParentForm.Enabled = true;
+                            ParentForm.BringToFront();
+                            LoadConsist();
                         }
                     };
                     ParentForm.Enabled = false;
@@ -149,6 +151,12 @@ namespace FleetTracking.Train
                     row.Cells[colReportingMark.Name].Value = railLocation.Locomotive?.FormattedReportingMark ?? railLocation.Railcar?.FormattedReportingMark;
                     row.Cells[colPosition.Name].Value = railLocation.Position.ToString();
                     row.Cells[colConsistType.Name].Value = railLocation.LocomotiveID == null ? "Railcar" : "Locomotive";
+                    if (railLocation.RailcarID != null)
+                    {
+                        row.Cells[colLoad.Name].Value = railLocation.Railcar?.FormattedRailcarLoads;
+                        row.Cells[colDestination.Name].Value = railLocation.Railcar?.TrackDestination?.Name;
+                        row.Cells[colStrategic.Name].Value = railLocation.Railcar?.TrackStrategic?.Name;
+                    }
                     row.Tag = railLocation;
                 }
 
@@ -687,6 +695,8 @@ namespace FleetTracking.Train
                     else
                     {
                         ParentForm.Enabled = true;
+                        ParentForm.BringToFront();
+                        LoadConsist();
                     }
                 }
                 finally

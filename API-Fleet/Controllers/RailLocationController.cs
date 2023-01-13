@@ -42,6 +42,29 @@ namespace API_Fleet.Controllers
             rl.Railcar.GovernmentIDPossessor,
             rl.Railcar.GovernmentPossessor.GovernmentID,
             rl.Railcar.GovernmentPossessor.Name,
+            rl.Railcar.CompanyLeasedTo.CompanyID,
+            rl.Railcar.CompanyLeasedTo.Name,
+            rl.Railcar.GovernmentLeasedTo.GovernmentID,
+            rl.Railcar.GovernmentLeasedTo.Name,
+            rl.Railcar.CompanyIDOwner,
+            rl.Railcar.CompanyOwner.CompanyID,
+            rl.Railcar.CompanyOwner.Name,
+            rl.Railcar.GovernmentIDOwner,
+            rl.Railcar.GovernmentOwner.GovernmentID,
+            rl.Railcar.GovernmentOwner.Name,
+            rl.Railcar.TrackIDDestination,
+            rl.Railcar.TrackDestination.TrackID,
+            rl.Railcar.TrackDestination.Name,
+            rl.Railcar.TrackIDStrategic,
+            rl.Railcar.TrackStrategic.TrackID,
+            rl.Railcar.TrackStrategic.Name,
+            rl.Railcar.RailcarLoads.First().RailcarLoadID,
+            rl.Railcar.RailcarLoads.First().RailcarID,
+            rl.Railcar.RailcarLoads.First().ItemID,
+            rl.Railcar.RailcarLoads.First().Quantity,
+            rl.Railcar.RailcarLoads.First().Item.ItemID,
+            rl.Railcar.RailcarLoads.First().Item.Name,
+            rl.Railcar.RailcarLoads.First().Item.Image,
             rl.Locomotive.LocomotiveID,
             rl.Locomotive.ReportingMark,
             rl.Locomotive.ReportingNumber,
@@ -54,7 +77,17 @@ namespace API_Fleet.Controllers
             rl.Locomotive.CompanyPossessor.Name,
             rl.Locomotive.GovernmentIDPossessor,
             rl.Locomotive.GovernmentPossessor.GovernmentID,
-            rl.Locomotive.GovernmentPossessor.Name
+            rl.Locomotive.GovernmentPossessor.Name,
+            rl.Locomotive.CompanyLeasedTo.CompanyID,
+            rl.Locomotive.CompanyLeasedTo.Name,
+            rl.Locomotive.GovernmentLeasedTo.GovernmentID,
+            rl.Locomotive.GovernmentLeasedTo.Name,
+            rl.Locomotive.CompanyIDOwner,
+            rl.Locomotive.CompanyOwner.CompanyID,
+            rl.Locomotive.CompanyOwner.Name,
+            rl.Locomotive.GovernmentIDOwner,
+            rl.Locomotive.GovernmentOwner.GovernmentID,
+            rl.Locomotive.GovernmentOwner.Name,
         });
 
         public List<RailLocation> GetByTrain(long? id)
@@ -105,6 +138,18 @@ namespace API_Fleet.Controllers
             return railLocationSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList();
         }
 
+        public RailLocation GetForRailcar(long? id)
+        {
+            Search<RailLocation> search = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
+            {
+                Field = nameof(RailLocation.RailcarID),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = id
+            });
+
+            return search.GetReadOnly(null, DefaultRetrievedFields);
+        }
+
         private static readonly List<string> _modifyFields = Schema.GetSchemaObject<RailLocation>().GetFields().Select(f => f.FieldName).ToList();
         [HttpPut]
         public IHttpActionResult Modify(ModifyParameter data)
@@ -115,108 +160,114 @@ namespace API_Fleet.Controllers
             {
                 HashSet<long?> railLocationIDsOrphaned = new HashSet<long?>();
                 HashSet<long?> railLocationIDsAccountedFor = new HashSet<long?>();
-                foreach(KeyValuePair<long?, List<RailLocation>> modifiedLocationsByTrack in data.ModifiedTracksByID)
+                if (data.ModifiedTracksByID != null)
                 {
-                    Dictionary<long?, RailLocation> modifiedLocationsByID = modifiedLocationsByTrack.Value.ToDictionary(rl => rl.RailLocationID);
-
-                    Search<RailLocation> currentSituationSearch = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
+                    foreach (KeyValuePair<long?, List<RailLocation>> modifiedLocationsByTrack in data.ModifiedTracksByID)
                     {
-                        Field = nameof(RailLocation.TrackID),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = modifiedLocationsByTrack.Key
-                    });
-                    List<RailLocation> currentLocations = currentSituationSearch.GetReadOnlyReader(transaction, _modifyFields).ToList();
+                        Dictionary<long?, RailLocation> modifiedLocationsByID = modifiedLocationsByTrack.Value.ToDictionary(rl => rl.RailLocationID);
 
-                    if (modifiedLocationsByTrack.Value.Any())
-                    {
-                        Search<RailLocation> modifiedLocationsSearch = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
+                        Search<RailLocation> currentSituationSearch = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
                         {
-                            Field = nameof(RailLocation.RailLocationID),
-                            SearchConditionType = SearchCondition.SearchConditionTypes.List,
-                            List = modifiedLocationsByTrack.Value.Select(rl => rl.RailLocationID.Value).ToList()
+                            Field = nameof(RailLocation.TrackID),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = modifiedLocationsByTrack.Key
                         });
-                        foreach (RailLocation modifiedLocation in modifiedLocationsSearch.GetEditableReader(transaction))
+                        List<RailLocation> currentLocations = currentSituationSearch.GetReadOnlyReader(transaction, _modifyFields).ToList();
+
+                        if (modifiedLocationsByTrack.Value.Any())
                         {
-                            RailLocation modifiedLocationFromData = modifiedLocationsByID[modifiedLocation.RailLocationID];
-                            modifiedLocation.TrainID = modifiedLocationFromData.TrainID;
-                            modifiedLocation.TrackID = modifiedLocationFromData.TrackID;
-                            modifiedLocation.Position = modifiedLocationFromData.Position;
-
-                            CreateRailLocationTransaction(modifiedLocation, data.TimeMoved, transaction);
-
-                            if (!modifiedLocation.Save(transaction))
+                            Search<RailLocation> modifiedLocationsSearch = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
                             {
-                                errors.AddRange(modifiedLocation.Errors.ToArray());
-                            }
-
-                            if (currentLocations.Any(rl => rl.RailLocationID == modifiedLocation.RailLocationID))
+                                Field = nameof(RailLocation.RailLocationID),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.List,
+                                List = modifiedLocationsByTrack.Value.Select(rl => rl.RailLocationID.Value).ToList()
+                            });
+                            foreach (RailLocation modifiedLocation in modifiedLocationsSearch.GetEditableReader(transaction))
                             {
-                                currentLocations.RemoveAll(rl => rl.RailLocationID == modifiedLocation.RailLocationID);
-                            }
+                                RailLocation modifiedLocationFromData = modifiedLocationsByID[modifiedLocation.RailLocationID];
+                                modifiedLocation.TrainID = modifiedLocationFromData.TrainID;
+                                modifiedLocation.TrackID = modifiedLocationFromData.TrackID;
+                                modifiedLocation.Position = modifiedLocationFromData.Position;
 
-                            railLocationIDsAccountedFor.Add(modifiedLocation.RailLocationID);
-                            railLocationIDsOrphaned.Remove(modifiedLocation.RailLocationID);
+                                CreateRailLocationTransaction(modifiedLocation, data.TimeMoved, transaction);
+
+                                if (!modifiedLocation.Save(transaction))
+                                {
+                                    errors.AddRange(modifiedLocation.Errors.ToArray());
+                                }
+
+                                if (currentLocations.Any(rl => rl.RailLocationID == modifiedLocation.RailLocationID))
+                                {
+                                    currentLocations.RemoveAll(rl => rl.RailLocationID == modifiedLocation.RailLocationID);
+                                }
+
+                                railLocationIDsAccountedFor.Add(modifiedLocation.RailLocationID);
+                                railLocationIDsOrphaned.Remove(modifiedLocation.RailLocationID);
+                            }
                         }
-                    }
 
-                    foreach(RailLocation orphanedLocation in currentLocations.Where(rl => !railLocationIDsAccountedFor.Contains(rl.RailLocationID)))
-                    {
-                        railLocationIDsOrphaned.Add(orphanedLocation.RailLocationID);
-                    }
+                        foreach (RailLocation orphanedLocation in currentLocations.Where(rl => !railLocationIDsAccountedFor.Contains(rl.RailLocationID)))
+                        {
+                            railLocationIDsOrphaned.Add(orphanedLocation.RailLocationID);
+                        }
 
-                    errors.AddRange(Track.Reorder(modifiedLocationsByTrack.Key, transaction).ToArray());
+                        errors.AddRange(Track.Reorder(modifiedLocationsByTrack.Key, transaction).ToArray());
+                    }
                 }
 
-                foreach(KeyValuePair<long?, List<RailLocation>> modifiedLocationsByTrain in data.ModifiedTrainsByID)
+                if (data.ModifiedTrainsByID != null)
                 {
-                    Dictionary<long?, RailLocation> modifiedLocationsByID = modifiedLocationsByTrain.Value.ToDictionary(rl => rl.RailLocationID);
-
-                    Search<RailLocation> currentSituationSearch = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
+                    foreach (KeyValuePair<long?, List<RailLocation>> modifiedLocationsByTrain in data.ModifiedTrainsByID)
                     {
-                        Field = nameof(RailLocation.TrainID),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = modifiedLocationsByTrain.Key
-                    });
-                    List<RailLocation> currentLocations = currentSituationSearch.GetReadOnlyReader(transaction, _modifyFields).ToList();
+                        Dictionary<long?, RailLocation> modifiedLocationsByID = modifiedLocationsByTrain.Value.ToDictionary(rl => rl.RailLocationID);
 
-                    if (modifiedLocationsByTrain.Value.Any())
-                    {
-                        Search<RailLocation> modifiedLocationsSearch = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
+                        Search<RailLocation> currentSituationSearch = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
                         {
-                            Field = nameof(RailLocation.RailLocationID),
-                            SearchConditionType = SearchCondition.SearchConditionTypes.List,
-                            List = modifiedLocationsByTrain.Value.Select(rl => rl.RailLocationID.Value).ToList()
+                            Field = nameof(RailLocation.TrainID),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = modifiedLocationsByTrain.Key
                         });
-                        foreach (RailLocation modifiedLocation in modifiedLocationsSearch.GetEditableReader(transaction))
+                        List<RailLocation> currentLocations = currentSituationSearch.GetReadOnlyReader(transaction, _modifyFields).ToList();
+
+                        if (modifiedLocationsByTrain.Value.Any())
                         {
-                            RailLocation modifiedLocationFromData = modifiedLocationsByID[modifiedLocation.RailLocationID];
-                            modifiedLocation.TrainID = modifiedLocationFromData.TrainID;
-                            modifiedLocation.TrackID = modifiedLocationFromData.TrackID;
-                            modifiedLocation.Position = modifiedLocationFromData.Position;
-
-                            CreateRailLocationTransaction(modifiedLocation, data.TimeMoved, transaction);
-
-                            if (!modifiedLocation.Save(transaction))
+                            Search<RailLocation> modifiedLocationsSearch = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
                             {
-                                errors.AddRange(modifiedLocation.Errors.ToArray());
-                            }
-
-                            if (currentLocations.Any(rl => rl.RailLocationID == modifiedLocation.RailLocationID))
+                                Field = nameof(RailLocation.RailLocationID),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.List,
+                                List = modifiedLocationsByTrain.Value.Select(rl => rl.RailLocationID.Value).ToList()
+                            });
+                            foreach (RailLocation modifiedLocation in modifiedLocationsSearch.GetEditableReader(transaction))
                             {
-                                currentLocations.RemoveAll(rl => rl.RailLocationID == modifiedLocation.RailLocationID);
-                            }
+                                RailLocation modifiedLocationFromData = modifiedLocationsByID[modifiedLocation.RailLocationID];
+                                modifiedLocation.TrainID = modifiedLocationFromData.TrainID;
+                                modifiedLocation.TrackID = modifiedLocationFromData.TrackID;
+                                modifiedLocation.Position = modifiedLocationFromData.Position;
 
-                            railLocationIDsAccountedFor.Add(modifiedLocation.RailLocationID);
-                            railLocationIDsOrphaned.Remove(modifiedLocation.RailLocationID);
+                                CreateRailLocationTransaction(modifiedLocation, data.TimeMoved, transaction);
+
+                                if (!modifiedLocation.Save(transaction))
+                                {
+                                    errors.AddRange(modifiedLocation.Errors.ToArray());
+                                }
+
+                                if (currentLocations.Any(rl => rl.RailLocationID == modifiedLocation.RailLocationID))
+                                {
+                                    currentLocations.RemoveAll(rl => rl.RailLocationID == modifiedLocation.RailLocationID);
+                                }
+
+                                railLocationIDsAccountedFor.Add(modifiedLocation.RailLocationID);
+                                railLocationIDsOrphaned.Remove(modifiedLocation.RailLocationID);
+                            }
                         }
-                    }
 
-                    foreach (RailLocation orphanedLocation in currentLocations.Where(rl => !railLocationIDsAccountedFor.Contains(rl.RailLocationID)))
-                    {
-                        railLocationIDsOrphaned.Add(orphanedLocation.RailLocationID);
-                    }
+                        foreach (RailLocation orphanedLocation in currentLocations.Where(rl => !railLocationIDsAccountedFor.Contains(rl.RailLocationID)))
+                        {
+                            railLocationIDsOrphaned.Add(orphanedLocation.RailLocationID);
+                        }
 
-                    errors.AddRange(Train.Reorder(modifiedLocationsByTrain.Key, transaction).ToArray());
+                        errors.AddRange(Train.Reorder(modifiedLocationsByTrain.Key, transaction).ToArray());
+                    }
                 }
 
                 if (railLocationIDsOrphaned.Any())

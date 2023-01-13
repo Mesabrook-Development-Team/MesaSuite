@@ -30,13 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgvRailcars = new System.Windows.Forms.DataGridView();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.loader = new FleetTracking.Loader();
             this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCurrentLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDestination = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLoad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colOwner = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.loader = new FleetTracking.Loader();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRailcars)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,12 +53,26 @@
             this.colReportingMark,
             this.colModel,
             this.colCurrentLocation,
+            this.colDestination,
+            this.colLoad,
             this.colOwner});
             this.dgvRailcars.Location = new System.Drawing.Point(0, 0);
             this.dgvRailcars.Name = "dgvRailcars";
             this.dgvRailcars.Size = new System.Drawing.Size(832, 241);
             this.dgvRailcars.TabIndex = 1;
             this.dgvRailcars.SelectionChanged += new System.EventHandler(this.dgvRailcars_SelectionChanged);
+            // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(832, 241);
+            this.loader.TabIndex = 2;
+            this.loader.Visible = false;
             // 
             // colImage
             // 
@@ -80,23 +96,23 @@
             this.colCurrentLocation.Name = "colCurrentLocation";
             this.colCurrentLocation.Width = 300;
             // 
+            // colDestination
+            // 
+            this.colDestination.HeaderText = "Destination";
+            this.colDestination.Name = "colDestination";
+            this.colDestination.Width = 200;
+            // 
+            // colLoad
+            // 
+            this.colLoad.HeaderText = "Current Load";
+            this.colLoad.Name = "colLoad";
+            this.colLoad.Width = 200;
+            // 
             // colOwner
             // 
             this.colOwner.HeaderText = "Owner";
             this.colOwner.Name = "colOwner";
             this.colOwner.Width = 150;
-            // 
-            // loader
-            // 
-            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(0, 0);
-            this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(832, 241);
-            this.loader.TabIndex = 2;
-            this.loader.Visible = false;
             // 
             // RailcarList
             // 
@@ -115,12 +131,14 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvRailcars;
+        private DataGridViewStylizer dataGridViewStylizer;
+        private Loader loader;
         private System.Windows.Forms.DataGridViewImageColumn colImage;
         private System.Windows.Forms.DataGridViewTextBoxColumn colReportingMark;
         private System.Windows.Forms.DataGridViewTextBoxColumn colModel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCurrentLocation;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDestination;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLoad;
         private System.Windows.Forms.DataGridViewTextBoxColumn colOwner;
-        private DataGridViewStylizer dataGridViewStylizer;
-        private Loader loader;
     }
 }

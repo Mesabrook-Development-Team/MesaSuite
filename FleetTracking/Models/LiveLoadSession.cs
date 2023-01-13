@@ -6,6 +6,7 @@ namespace FleetTracking.Models
     {
         public long? LiveLoadSessionID { get; set; }
         public long? LiveLoadID { get; set; }
+        public LiveLoad LiveLoad { get; set; }
         public long? UserID { get; set; }
         public User User { get; set; }
         public long? CompanyID { get; set; }

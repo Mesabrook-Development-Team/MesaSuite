@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FleetTracking.Interop;
 using FleetTracking.Models;
-using FleetTracking.Release;
 using MesaSuite.Common.Collections;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
@@ -970,12 +969,7 @@ namespace FleetTracking.Train
                     {
                         ParentForm.Hide();
 
-                        MassRelease release = new MassRelease()
-                        {
-                            Application = _application
-                        };
-
-                        Form releaseForm = _application.OpenForm(release, FleetTrackingApplication.OpenFormOptions.Dialog);
+                        _application.MassReleaseStock();
                     }
                     ParentForm.Close();
                     Dispose();

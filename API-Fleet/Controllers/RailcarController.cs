@@ -46,15 +46,19 @@ namespace API_Fleet.Controllers
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.TrackID)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.TrackID)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.Name)}",
-            $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrictID)}",
-            $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrict)}.{nameof(RailDistrict.RailDistrictID)}",
-            $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrict)}.{nameof(RailDistrict.Name)}",
+            $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrictID)}",
+            $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrict)}.{nameof(RailDistrict.RailDistrictID)}",
+            $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrict)}.{nameof(RailDistrict.Name)}",
+            $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrict)}.{nameof(RailDistrict.CompanyIDOperator)}",
+            $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrict)}.{nameof(RailDistrict.GovernmentIDOperator)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.TrainID)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Train)}.{nameof(Train.TrainID)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Train)}.{nameof(Train.TimeOnDuty)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Train)}.{nameof(Train.TrainSymbolID)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Train)}.{nameof(Train.TrainSymbol)}.{nameof(TrainSymbol.TrainSymbolID)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Train)}.{nameof(Train.TrainSymbol)}.{nameof(TrainSymbol.Name)}",
+            $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Train)}.{nameof(Train.TrainSymbol)}.{nameof(TrainSymbol.CompanyIDOperator)}",
+            $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Train)}.{nameof(Train.TrainSymbol)}.{nameof(TrainSymbol.GovernmentIDOperator)}",
             $"{nameof(Railcar.RailcarLoads)}.{nameof(RailcarLoad.RailcarLoadID)}",
             $"{nameof(Railcar.RailcarLoads)}.{nameof(RailcarLoad.RailcarID)}",
             $"{nameof(Railcar.RailcarLoads)}.{nameof(RailcarLoad.ItemID)}",
@@ -64,7 +68,13 @@ namespace API_Fleet.Controllers
             $"{nameof(Railcar.RailcarLoads)}.{nameof(RailcarLoad.Quantity)}",
             nameof(Railcar.ReportingMark),
             nameof(Railcar.ReportingNumber),
-            nameof(Railcar.HasOpenBid)
+            nameof(Railcar.HasOpenBid),
+            nameof(Railcar.TrackIDDestination),
+            $"{nameof(Railcar.TrackDestination)}.{nameof(Track.TrackID)}",
+            $"{nameof(Railcar.TrackDestination)}.{nameof(Track.Name)}",
+            nameof(Railcar.TrackIDStrategic),
+            $"{nameof(Railcar.TrackStrategic)}.{nameof(Track.TrackID)}",
+            $"{nameof(Railcar.TrackStrategic)}.{nameof(Track.Name)}"
         };
 
         public override bool AllowGetAll => true;

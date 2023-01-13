@@ -175,6 +175,7 @@ namespace FleetTracking.Roster
                 row.Cells[colModel.Name].Value = railcar.RailcarModel?.Name;
                 row.Cells[colOwner.Name].Value = railcar.CompanyOwner?.Name ?? railcar.GovernmentOwner?.Name;
                 row.Cells[colCurrentLocation.Name].Value = railcar.Location;
+                row.Cells[colDestination.Name].Value = railcar.TrackDestination?.Name;
                 row.Cells[colType.Name].Value = "Railcar";
                 row.Tag = railcar;
 

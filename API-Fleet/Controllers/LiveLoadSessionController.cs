@@ -20,6 +20,9 @@ namespace API_Fleet.Controllers
     {
         private readonly List<string> RetrievedFields = FieldPathUtility.CreateFieldPathsAsList<LiveLoadSession>(lls => new List<object>()
         {
+            lls.LiveLoad.TrainID,
+            lls.LiveLoad.Train.TimeOnDuty,
+            lls.LiveLoad.Train.TrainSymbol.Name,
             lls.LiveLoadSessionID,
             lls.LastHeartbeat
         });

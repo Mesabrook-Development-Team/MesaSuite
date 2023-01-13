@@ -76,6 +76,8 @@ namespace FleetTracking.Roster
                     row.Cells[colReportingMark.Name].Value = reportingMark;
                     row.Cells[colModel.Name].Value = railcar.RailcarModel.Name;
                     row.Cells[colCurrentLocation.Name].Value = railcar.Location;
+                    row.Cells[colDestination.Name].Value = railcar.TrackDestination?.Name;
+                    row.Cells[colLoad.Name].Value = railcar.FormattedRailcarLoads;
                     row.Cells[colOwner.Name].Value = $"{railcar.CompanyOwner?.Name ?? railcar.GovernmentOwner?.Name}";
                     row.Tag = railcar;
 

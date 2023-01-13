@@ -79,5 +79,9 @@ namespace FleetTracking.Models
                 return loadsBuilder.ToString().Substring(2);
             }
         }
+        public long? TrackIDDestination { get; set; }
+        public Track TrackDestination { get; set; }
+        public long? TrackIDStrategic { get; set; }
+        public Track TrackStrategic { get; set; }
     }
 }

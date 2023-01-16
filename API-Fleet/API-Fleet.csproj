@@ -87,6 +87,8 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CarHandlingRateController.cs" />
+    <Compile Include="Controllers\EmailImplementationController.cs" />
+    <Compile Include="Controllers\EmailTemplateController.cs" />
     <Compile Include="Controllers\GovernmentController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\ItemController.cs" />

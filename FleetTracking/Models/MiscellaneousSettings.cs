@@ -7,5 +7,9 @@
         public long? GovernmentID { get; set; }
         public long? LocationIDInvoicePayee { get; set; }
         public long? LocationIDInvoicePayor { get; set; }
+        public long? EmailImplementationIDCarReleased { get; set; }
+        public long? EmailImplementationIDLocomotiveReleased { get; set; }
+        public long? EmailImplementationIDLeaseRequestAvailable { get; set; }
+        public long? EmailImplementationIDLeaseBidReceived { get; set; }
     }
 }

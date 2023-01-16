@@ -257,6 +257,8 @@ namespace FleetTracking.Train
             DataGridViewColumn colType = isFromView ? colFromType : colToType;
             DataGridViewColumn colPossesedBy = isFromView ? colFromPossession : colToPossession;
             DataGridViewColumn colPos = isFromView ? colFromPos : colToPos;
+            DataGridViewColumn colDestination = isFromView ? colFromDestination : colToDestination;
+            DataGridViewColumn colStrategic = isFromView ? colFromStrategic : colToStrategic;
             List<RailLocation> railLocations = isFromView ? _currentFromRailLocations : _currentToRailLocations;
             railLocations = railLocations.OrderBy(rl => rl.Position).ToList();
 
@@ -269,6 +271,8 @@ namespace FleetTracking.Train
                 row.Cells[colType.Name].Value = railLocation.LocomotiveID != null ? railLocation.Locomotive?.LocomotiveModel?.Name : railLocation.Railcar?.RailcarModel?.Name;
                 row.Cells[colPossesedBy.Name].Value = railLocation.LocomotiveID != null ? (railLocation.Locomotive?.CompanyPossessor?.Name ?? railLocation.Locomotive?.GovernmentPossessor?.Name) : (railLocation.Railcar?.CompanyPossessor?.Name ?? railLocation.Railcar?.GovernmentPossessor?.Name);
                 row.Cells[colPos.Name].Value = railLocation.Position.ToString();
+                row.Cells[colDestination.Name].Value = railLocation.Railcar?.TrackDestination?.Name;
+                row.Cells[colStrategic.Name].Value = railLocation.Railcar?.TrackStrategic?.Name;
                 row.Tag = railLocation;
             }
 

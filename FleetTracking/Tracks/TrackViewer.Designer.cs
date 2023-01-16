@@ -39,6 +39,10 @@
             this.cboTrack = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvStock = new System.Windows.Forms.DataGridView();
+            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loaderStock = new FleetTracking.Loader();
             this.label2 = new System.Windows.Forms.Label();
             this.txtDistrict = new System.Windows.Forms.TextBox();
@@ -51,10 +55,8 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.loaderMain = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPos = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolPrint = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStock)).BeginInit();
@@ -67,7 +69,9 @@
             this.toolAddTrack,
             this.toolDeleteTrack,
             this.toolStripSeparator1,
-            this.toolModify});
+            this.toolModify,
+            this.toolStripSeparator2,
+            this.toolPrint});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(641, 38);
@@ -160,6 +164,29 @@
             this.dgvStock.Name = "dgvStock";
             this.dgvStock.Size = new System.Drawing.Size(626, 201);
             this.dgvStock.TabIndex = 0;
+            // 
+            // colImage
+            // 
+            this.colImage.HeaderText = "Image";
+            this.colImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colImage.Name = "colImage";
+            // 
+            // colReportingMark
+            // 
+            this.colReportingMark.HeaderText = "Reporting Mark";
+            this.colReportingMark.Name = "colReportingMark";
+            this.colReportingMark.Width = 140;
+            // 
+            // colType
+            // 
+            this.colType.HeaderText = "Type";
+            this.colType.Name = "colType";
+            // 
+            // colPos
+            // 
+            this.colPos.HeaderText = "Pos";
+            this.colPos.Name = "colPos";
+            this.colPos.Width = 40;
             // 
             // loaderStock
             // 
@@ -281,28 +308,21 @@
             this.loaderMain.TabIndex = 1;
             this.loaderMain.Visible = false;
             // 
-            // colImage
+            // toolStripSeparator2
             // 
-            this.colImage.HeaderText = "Image";
-            this.colImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colImage.Name = "colImage";
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
             // 
-            // colReportingMark
+            // toolPrint
             // 
-            this.colReportingMark.HeaderText = "Reporting Mark";
-            this.colReportingMark.Name = "colReportingMark";
-            this.colReportingMark.Width = 140;
-            // 
-            // colType
-            // 
-            this.colType.HeaderText = "Type";
-            this.colType.Name = "colType";
-            // 
-            // colPos
-            // 
-            this.colPos.HeaderText = "Pos";
-            this.colPos.Name = "colPos";
-            this.colPos.Width = 40;
+            this.toolPrint.Enabled = false;
+            this.toolPrint.Image = ((System.Drawing.Image)(resources.GetObject("toolPrint.Image")));
+            this.toolPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolPrint.Name = "toolPrint";
+            this.toolPrint.Size = new System.Drawing.Size(36, 35);
+            this.toolPrint.Text = "Print";
+            this.toolPrint.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolPrint.Click += new System.EventHandler(this.toolPrint_Click);
             // 
             // TrackViewer
             // 
@@ -355,5 +375,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colReportingMark;
         private System.Windows.Forms.DataGridViewTextBoxColumn colType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPos;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton toolPrint;
     }
 }

@@ -118,7 +118,7 @@ namespace FleetTracking.Leasing
                 dtpStart.Value = leaseContract.LeaseTimeStart.Value;
                 dtpEnd.Value = leaseContract.LeaseTimeEnd ?? dtpEnd.MaxDate;
 
-                bool isHistorical = (leaseContract.LeaseTimeEnd ?? dtpEnd.MaxDate) < DateTime.Today;
+                bool isHistorical = (leaseContract.LeaseTimeEnd ?? dtpEnd.MaxDate) < DateTime.Now;
 
                 long? governmentOwner = leaseContract.Locomotive?.GovernmentIDOwner ?? leaseContract.Railcar?.GovernmentIDOwner;
                 cboPaidTo.Enabled = _application.GetCurrentCompanyIDGovernmentID().Item1 != null && _application.IsCurrentEntity(companyOwner, governmentOwner) && !isHistorical;
@@ -220,7 +220,7 @@ namespace FleetTracking.Leasing
                 return;
             }
 
-            if (dtpEnd.Value.Date < DateTime.Today && !this.Confirm("Back dating the End Date will lock this Lease Contract immediately. You will not be able to change the Lease End Date again.\r\n\r\nContinue?"))
+            if (dtpEnd.Value < DateTime.Now && !this.Confirm("Back dating the End Date will lock this Lease Contract immediately. You will not be able to change the Lease End Date again.\r\n\r\nContinue?"))
             {
                 return;
             }

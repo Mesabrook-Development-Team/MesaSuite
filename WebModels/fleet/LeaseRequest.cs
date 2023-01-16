@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
 using WebModels.company;
 using WebModels.gov;
+using WebModels.mesasys;
 
 namespace WebModels.fleet
 {
@@ -121,5 +125,36 @@ namespace WebModels.fleet
         }
         #endregion
         #endregion
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (IsInsert)
+            {
+                Search<MiscellaneousSettings> settingsSearch = new Search<MiscellaneousSettings>(new LongSearchCondition<MiscellaneousSettings>()
+                {
+                    Field = nameof(MiscellaneousSettings.EmailImplementationIDLeaseRequestAvailable),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
+                });
+
+                List<string> fields = FieldPathUtility.CreateFieldPathsAsList<MiscellaneousSettings>(ms => new List<object>()
+                {
+                    ms.EmailImplementationIDLeaseRequestAvailable,
+                    ms.CompanyID,
+                    ms.GovernmentID
+                });
+
+                foreach(MiscellaneousSettings settings in settingsSearch.GetReadOnlyReader(transaction, fields))
+                {
+                    if (settings.CompanyID == CompanyIDRequester || settings.GovernmentID == GovernmentIDRequester)
+                    {
+                        continue;
+                    }
+
+                    EmailImplementation implementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(settings.EmailImplementationIDLeaseRequestAvailable, transaction, null);
+                    implementation.SendEmail<LeaseRequest>(LeaseRequestID, transaction);
+                }
+            }
+            return base.PostSave(transaction);
+        }
     }
 }

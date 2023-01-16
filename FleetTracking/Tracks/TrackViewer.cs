@@ -95,6 +95,7 @@ namespace FleetTracking.Tracks
                 }
                 
                 List<RailLocation> railLocations = await get.GetObject<List<RailLocation>>() ?? new List<RailLocation>();
+                railLocations = railLocations.OrderBy(rl => rl.Position).ToList();
                 foreach(RailLocation railLocation in railLocations)
                 {
                     int rowIndex = dgvStock.Rows.Add();
@@ -253,9 +254,11 @@ namespace FleetTracking.Tracks
                 txtDistrict.Clear();
                 txtName.Clear();
                 txtLength.Clear();
+                toolPrint.Enabled = false;
                 return;
             }
 
+            toolPrint.Enabled = true;
             txtDistrict.Text = selectedTrack.Object.RailDistrict?.Name;
             txtName.Text = selectedTrack.Object.Name;
             txtLength.Text = selectedTrack.Object.Length?.ToString();
@@ -310,6 +313,32 @@ namespace FleetTracking.Tracks
             _application.OpenForm(modifier, FleetTrackingApplication.OpenFormOptions.Dialog);
 
             PopulateStock();
+        }
+
+        private async void toolPrint_Click(object sender, EventArgs e)
+        {
+            DropDownItem<Track> selectedItem = cboTrack.SelectedItem as DropDownItem<Track>;
+            if (selectedItem == null)
+            {
+                return;
+            }
+
+            GetData get = _application.GetAccess<GetData>();
+            get.API = DataAccess.APIs.FleetTracking;
+            get.Resource = $"RailLocation/GetByTrack/{selectedItem.Object.TrackID}";
+            List<RailLocation> railLocations = await get.GetObject<List<RailLocation>>() ?? new List<RailLocation>();
+
+            PrintableReport report = new PrintableReport()
+            {
+                Application = _application,
+                ReportResourcePath = "FleetTracking.Tracks.Track.rdlc",
+                DataSources = new Dictionary<string, object>()
+                {
+                    { "RailLocation", railLocations }
+                }
+            };
+
+            _application.OpenForm(report);
         }
     }
 }

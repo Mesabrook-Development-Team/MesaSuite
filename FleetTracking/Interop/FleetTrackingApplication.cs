@@ -19,6 +19,11 @@ namespace FleetTracking.Interop
             public delegate Task<List<User>> GetUsersForEntity();
         }
 
+        public FleetTrackingApplication()
+        {
+            SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
+        }
+
         private Dictionary<Type, Delegate> callbacks = new Dictionary<Type, Delegate>();
 
         public void RegisterCallback<TDelegate>(TDelegate callback) where TDelegate : Delegate

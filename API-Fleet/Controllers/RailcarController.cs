@@ -47,6 +47,8 @@ namespace API_Fleet.Controllers
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.TrackID)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.Name)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrictID)}",
+            $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.CompanyIDOwner)}",
+            $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.GovernmentIDOwner)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrict)}.{nameof(RailDistrict.RailDistrictID)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrict)}.{nameof(RailDistrict.Name)}",
             $"{nameof(Railcar.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrict)}.{nameof(RailDistrict.CompanyIDOperator)}",

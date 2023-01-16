@@ -84,7 +84,8 @@ namespace WebModels.mesasys
         public enum SecurityCheckTypes
         {
             WireTransferHistory,
-            Invoicing
+            Invoicing,
+            FleetTracking
         }
 
         private SecurityCheckTypes _securityCheckType;
@@ -221,6 +222,8 @@ namespace WebModels.mesasys
             // FLEET TRACKING
             public static readonly Guid RailcarReleasedReceived = new Guid("80F22108-A726-447F-9BCC-5790F4C45748");
             public static readonly Guid LocomotiveReleasedReceived = new Guid("B4F7CBDA-AA69-42B2-A683-A305D59E7A3D");
+            public static readonly Guid NewLeaseRequestAvailable = new Guid("11F1DB20-A81A-4E89-81E0-47660CD66F1C");
+            public static readonly Guid LeaseBidReceived = new Guid("3B22A796-0C6A-4079-92C3-A3971E8DC526");
         }
     }
 }

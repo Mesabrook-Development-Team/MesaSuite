@@ -22,7 +22,11 @@ namespace API_Fleet.Controllers
             ms.CompanyID,
             ms.GovernmentID,
             ms.LocationIDInvoicePayee,
-            ms.LocationIDInvoicePayor
+            ms.LocationIDInvoicePayor,
+            ms.EmailImplementationIDCarReleased,
+            ms.EmailImplementationIDLocomotiveReleased,
+            ms.EmailImplementationIDLeaseRequestAvailable,
+            ms.EmailImplementationIDLeaseBidReceived
         });
 
         public override ISearchCondition GetBaseSearchCondition()

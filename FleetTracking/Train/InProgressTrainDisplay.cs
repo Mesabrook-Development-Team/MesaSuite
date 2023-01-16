@@ -662,6 +662,9 @@ namespace FleetTracking.Train
                 loaderDutyTrans.Visible = false;
                 loaderLocoFuel.Visible = false;
                 loaderHandledCars.Visible = false;
+
+                LoadEverything();
+                OnSave?.Invoke(this, EventArgs.Empty);
             }
         }
 

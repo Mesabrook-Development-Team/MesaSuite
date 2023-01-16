@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using WebModels.company;
+using WebModels.mesasys;
 
 namespace WebModels.fleet
 {
@@ -122,6 +125,25 @@ namespace WebModels.fleet
         {
             get { CheckGet(); return _terms; }
             set { CheckSet(); _terms = value; }
+        }
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (IsInsert)
+            {
+                Search<MiscellaneousSettings> settingsSearch = new Search<MiscellaneousSettings>(new LongSearchCondition<MiscellaneousSettings>()
+                {
+                    Field = nameof(MiscellaneousSettings.EmailImplementationIDLeaseBidReceived),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
+                });
+
+                foreach (MiscellaneousSettings settings in settingsSearch.GetReadOnlyReader(transaction, new[] { nameof(MiscellaneousSettings.EmailImplementationIDLeaseBidReceived) }))
+                {
+                    EmailImplementation implementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(settings.EmailImplementationIDLeaseBidReceived, transaction, null);
+                    implementation.SendEmail<LeaseBid>(LeaseBidID, transaction);
+                }
+            }
+            return base.PostSave(transaction);
         }
     }
 }

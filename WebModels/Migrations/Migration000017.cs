@@ -313,13 +313,21 @@ namespace WebModels.Migrations
                 { "CompanyID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "GovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "LocationIDInvoicePayee", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "LocationIDInvoicePayor", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+                { "LocationIDInvoicePayor", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "EmailImplementationIDCarReleased", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "EmailImplementationIDLocomotiveReleased", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "EmailImplementationIDLeaseRequestAvailable", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "EmailImplementationIDLeaseBidReceived", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
             };
             createTable.Execute(transaction);
             CreateForeignKey(transaction, createTable, "company", "Company");
             CreateForeignKey(transaction, createTable, "gov", "Government");
             CreateForeignKey(transaction, createTable, "company", "Location", "LocationIDInvoicePayee");
             CreateForeignKey(transaction, createTable, "company", "Location", "LocationIDInvoicePayor");
+            CreateForeignKey(transaction, createTable, "mesasys", "EmailImplementation", "EmailImplementationIDCarReleased");
+            CreateForeignKey(transaction, createTable, "mesasys", "EmailImplementation", "EmailImplementationIDLocomotiveReleased");
+            CreateForeignKey(transaction, createTable, "mesasys", "EmailImplementation", "EmailImplementationIDLeaseRequestAvailable");
+            CreateForeignKey(transaction, createTable, "mesasys", "EmailImplementation", "EmailImplementationIDLeaseBidReceived");
 
             createTable.SchemaName = "mesasys";
             createTable.TableName = "ItemNamespace";

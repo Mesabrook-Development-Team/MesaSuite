@@ -7,6 +7,7 @@ using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using WebModels.company;
+using WebModels.fleet;
 using WebModels.gov;
 
 namespace WebModels.mesasys
@@ -100,6 +101,35 @@ namespace WebModels.mesasys
         public IReadOnlyCollection<Location> LocationReadyForReceipts
         {
             get { CheckGet(); return _locationReadyForReceipts; }
+        }
+        #endregion
+        #region fleet
+        private List<MiscellaneousSettings> _miscellaneousSettingsCarReleased = new List<MiscellaneousSettings>();
+        [RelationshipList("7C25ACC6-B943-4B3E-8F13-B711D67FF6D0", nameof(MiscellaneousSettings.EmailImplementationIDCarReleased))]
+        public IReadOnlyCollection<MiscellaneousSettings> MiscellaneousSettingsCarReleased
+        {
+            get { CheckGet(); return _miscellaneousSettingsCarReleased; }
+        }
+
+        private List<MiscellaneousSettings> _miscellaneousSettingsLocomotiveReleased = new List<MiscellaneousSettings>();
+        [RelationshipList("CB53111E-9B6A-4467-8F6A-49C55F2E1713", nameof(MiscellaneousSettings.EmailImplementationIDLocomotiveReleased))]
+        public IReadOnlyCollection<MiscellaneousSettings> MiscellaneousSettingsLocomotiveReleased
+        {
+            get { CheckGet(); return _miscellaneousSettingsLocomotiveReleased; }
+        }
+
+        private List<MiscellaneousSettings> _miscellaneousSettingsLeaseRequestAvailable = new List<MiscellaneousSettings>();
+        [RelationshipList("15B4D7C3-5880-4C84-B18A-F7BE90FEC1D3", nameof(MiscellaneousSettings.EmailImplementationIDLeaseRequestAvailable))]
+        public IReadOnlyCollection<MiscellaneousSettings> MiscellaneousSettingsLeaseRequestAvailable
+        {
+            get { CheckGet(); return _miscellaneousSettingsLeaseRequestAvailable; }
+        }
+
+        private List<MiscellaneousSettings> _miscellaneousSettingsLeaseBidReceived = new List<MiscellaneousSettings>();
+        [RelationshipList("786599AC-D4A6-4351-9EBA-63C5892410FB", nameof(MiscellaneousSettings.EmailImplementationIDLeaseBidReceived))]
+        public IReadOnlyCollection<MiscellaneousSettings> MiscellaneousSettingsLeaseBidReceived
+        {
+            get { CheckGet(); return _miscellaneousSettingsLeaseBidReceived; }
         }
         #endregion
         #region gov

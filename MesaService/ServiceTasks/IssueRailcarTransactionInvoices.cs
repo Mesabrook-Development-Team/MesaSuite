@@ -195,7 +195,7 @@ namespace MesaService.ServiceTasks
                 }
 
                 // Who are we charging?
-                LeaseContract leasedTo = uninvoicedTransaction.Railcar.LeaseContracts.FirstOrDefault(lc => lc.LeaseTimeStart >= uninvoicedTransaction.TransactionTime && lc.LeaseTimeEnd <= uninvoicedTransaction.TransactionTime);
+                LeaseContract leasedTo = uninvoicedTransaction.Railcar.LeaseContracts.FirstOrDefault(lc => lc.LeaseTimeStart <= uninvoicedTransaction.TransactionTime && lc.LeaseTimeEnd >= uninvoicedTransaction.TransactionTime);
                 long? companyIDChargeTo = null;
                 long? governmentIDChargeTo = null;
                 if (leasedTo != null)

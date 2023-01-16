@@ -10,6 +10,7 @@ using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using WebModels.company;
 using WebModels.gov;
+using WebModels.mesasys;
 
 namespace WebModels.fleet
 {
@@ -209,6 +210,16 @@ namespace WebModels.fleet
             };
         }
 
+        protected override bool PreSave(ITransaction transaction)
+        {
+            if (IsFieldDirty(nameof(CompanyIDPossessor)) || IsFieldDirty(nameof(GovernmentIDPossessor)))
+            {
+                TrackIDStrategic = null;
+            }
+
+            return base.PreSave(transaction);
+        }
+
         protected override bool PostSave(ITransaction transaction)
         {
             if (IsInsert)
@@ -219,6 +230,38 @@ namespace WebModels.fleet
                 {
                     Errors.AddRange(newRailLocation.Errors.ToArray());
                     return false;
+                }
+            }
+            else
+            {
+                if (IsFieldDirty(nameof(CompanyIDPossessor)) && CompanyIDPossessor != null)
+                {
+                    MiscellaneousSettings settings = new Search<MiscellaneousSettings>(new LongSearchCondition<MiscellaneousSettings>()
+                    {
+                        Field = nameof(MiscellaneousSettings.CompanyID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = CompanyIDPossessor
+                    }).GetReadOnly(transaction, new[] { nameof(MiscellaneousSettings.EmailImplementationIDCarReleased) });
+                    if (settings?.EmailImplementationIDCarReleased != null)
+                    {
+                        EmailImplementation emailImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(settings.EmailImplementationIDCarReleased, transaction, null);
+                        emailImplementation.SendEmail<Railcar>(RailcarID, transaction);
+                    }
+                }
+
+                if (IsFieldDirty(nameof(GovernmentIDPossessor)) && GovernmentIDPossessor != null)
+                {
+                    MiscellaneousSettings settings = new Search<MiscellaneousSettings>(new LongSearchCondition<MiscellaneousSettings>()
+                    {
+                        Field = nameof(MiscellaneousSettings.GovernmentID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = GovernmentIDPossessor
+                    }).GetReadOnly(transaction, new[] { nameof(MiscellaneousSettings.EmailImplementationIDCarReleased) });
+                    if (settings?.EmailImplementationIDCarReleased != null)
+                    {
+                        EmailImplementation emailImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(settings.EmailImplementationIDCarReleased, transaction, null);
+                        emailImplementation.SendEmail<Railcar>(RailcarID, transaction);
+                    }
                 }
             }
             return base.PostSave(transaction);

@@ -84,6 +84,7 @@ namespace WebModels.fleet
         public static OperationDelegate TimeOnDutyOperation => (alias) =>
         {
             ISelectQuery select = SQLProviderFactory.GetSelectQuery();
+            select.PageSize = 1;
             select.SelectList = new List<Select>()
             {
                 new Select() { SelectOperand = (Field)"TimeOnDuty"}
@@ -99,13 +100,12 @@ namespace WebModels.fleet
                         Left = (Field)"tdt.TrainID",
                         ConditionType = Condition.ConditionTypes.Equal,
                         Right = (Field)$"{alias}.TrainID"
-                    },
-                    new Condition()
-                    {
-                        Left = (Field)"tdt.TimeOffDuty",
-                        ConditionType = Condition.ConditionTypes.Null
                     }
                 }
+            };
+            select.OrderByList = new List<Order>()
+            {
+                new Order() { Field = nameof(TrainDutyTransaction.TimeOnDuty), OrderDirection = Order.OrderDirections.Descending }
             };
 
             return new SubQuery(select);

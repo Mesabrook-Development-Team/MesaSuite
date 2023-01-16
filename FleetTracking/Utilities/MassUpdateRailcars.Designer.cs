@@ -93,6 +93,7 @@
             // colImage
             // 
             this.colImage.HeaderText = "Image";
+            this.colImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
             this.colImage.Name = "colImage";
             // 
             // colReportingMark
@@ -222,7 +223,7 @@
             // 
             // cmdSave
             // 
-            this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdSave.Location = new System.Drawing.Point(701, 97);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(130, 23);
@@ -233,7 +234,7 @@
             // 
             // cmdApply
             // 
-            this.cmdApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdApply.Location = new System.Drawing.Point(609, 97);
             this.cmdApply.Name = "cmdApply";
             this.cmdApply.Size = new System.Drawing.Size(86, 23);

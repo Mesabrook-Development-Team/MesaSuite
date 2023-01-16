@@ -37,11 +37,6 @@
             this.cmdAdd = new System.Windows.Forms.Button();
             this.cmdMoveUp = new System.Windows.Forms.Button();
             this.dgvFromList = new System.Windows.Forms.DataGridView();
-            this.colFromImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colFromReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFromType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFromPossession = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFromPos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControlFrom = new System.Windows.Forms.TabControl();
             this.tabTrackFrom = new System.Windows.Forms.TabPage();
             this.cboFromTrack = new System.Windows.Forms.ComboBox();
@@ -55,11 +50,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.loaderFrom = new FleetTracking.Loader();
             this.dgvToList = new System.Windows.Forms.DataGridView();
-            this.colToImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colToReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colToType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colToPossession = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colToPos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControlTo = new System.Windows.Forms.TabControl();
             this.tabTrackTo = new System.Windows.Forms.TabPage();
             this.cboToTrack = new System.Windows.Forms.ComboBox();
@@ -77,6 +67,20 @@
             this.cmdSave = new System.Windows.Forms.Button();
             this.cmdClose = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
+            this.colFromImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colFromReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFromType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFromPossession = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFromPos = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFromDestination = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFromStrategic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colToImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colToReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colToType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colToPossession = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colToPos = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colToDestination = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colToStrategic = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -198,39 +202,14 @@
             this.colFromReportingMark,
             this.colFromType,
             this.colFromPossession,
-            this.colFromPos});
+            this.colFromPos,
+            this.colFromDestination,
+            this.colFromStrategic});
             this.dgvFromList.Location = new System.Drawing.Point(0, 89);
             this.dgvFromList.Name = "dgvFromList";
             this.dgvFromList.Size = new System.Drawing.Size(360, 463);
             this.dgvFromList.TabIndex = 1;
             this.dgvFromList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_CellClick);
-            // 
-            // colFromImage
-            // 
-            this.colFromImage.HeaderText = "Image";
-            this.colFromImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colFromImage.Name = "colFromImage";
-            // 
-            // colFromReportingMark
-            // 
-            this.colFromReportingMark.HeaderText = "Reporting Mark";
-            this.colFromReportingMark.Name = "colFromReportingMark";
-            // 
-            // colFromType
-            // 
-            this.colFromType.HeaderText = "Type";
-            this.colFromType.Name = "colFromType";
-            // 
-            // colFromPossession
-            // 
-            this.colFromPossession.HeaderText = "Possesed By";
-            this.colFromPossession.Name = "colFromPossession";
-            // 
-            // colFromPos
-            // 
-            this.colFromPos.HeaderText = "Pos";
-            this.colFromPos.Name = "colFromPos";
-            this.colFromPos.Width = 40;
             // 
             // tabControlFrom
             // 
@@ -379,39 +358,14 @@
             this.colToReportingMark,
             this.colToType,
             this.colToPossession,
-            this.colToPos});
+            this.colToPos,
+            this.colToDestination,
+            this.colToStrategic});
             this.dgvToList.Location = new System.Drawing.Point(0, 89);
             this.dgvToList.Name = "dgvToList";
             this.dgvToList.Size = new System.Drawing.Size(455, 463);
             this.dgvToList.TabIndex = 1;
             this.dgvToList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_CellClick);
-            // 
-            // colToImage
-            // 
-            this.colToImage.HeaderText = "Image";
-            this.colToImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colToImage.Name = "colToImage";
-            // 
-            // colToReportingMark
-            // 
-            this.colToReportingMark.HeaderText = "Reporting Mark";
-            this.colToReportingMark.Name = "colToReportingMark";
-            // 
-            // colToType
-            // 
-            this.colToType.HeaderText = "Type";
-            this.colToType.Name = "colToType";
-            // 
-            // colToPossession
-            // 
-            this.colToPossession.HeaderText = "Possesed By";
-            this.colToPossession.Name = "colToPossession";
-            // 
-            // colToPos
-            // 
-            this.colToPos.HeaderText = "Pos";
-            this.colToPos.Name = "colToPos";
-            this.colToPos.Width = 40;
             // 
             // tabControlTo
             // 
@@ -595,6 +549,80 @@
             this.label10.Text = "Moving Railcars and saving will charge customers. Be sure of all your changes bef" +
     "ore saving.";
             // 
+            // colFromImage
+            // 
+            this.colFromImage.HeaderText = "Image";
+            this.colFromImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colFromImage.Name = "colFromImage";
+            // 
+            // colFromReportingMark
+            // 
+            this.colFromReportingMark.HeaderText = "Reporting Mark";
+            this.colFromReportingMark.Name = "colFromReportingMark";
+            // 
+            // colFromType
+            // 
+            this.colFromType.HeaderText = "Type";
+            this.colFromType.Name = "colFromType";
+            // 
+            // colFromPossession
+            // 
+            this.colFromPossession.HeaderText = "Possesed By";
+            this.colFromPossession.Name = "colFromPossession";
+            // 
+            // colFromPos
+            // 
+            this.colFromPos.HeaderText = "Pos";
+            this.colFromPos.Name = "colFromPos";
+            this.colFromPos.Width = 40;
+            // 
+            // colFromDestination
+            // 
+            this.colFromDestination.HeaderText = "Destination";
+            this.colFromDestination.Name = "colFromDestination";
+            // 
+            // colFromStrategic
+            // 
+            this.colFromStrategic.HeaderText = "Strategic Dest";
+            this.colFromStrategic.Name = "colFromStrategic";
+            // 
+            // colToImage
+            // 
+            this.colToImage.HeaderText = "Image";
+            this.colToImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colToImage.Name = "colToImage";
+            // 
+            // colToReportingMark
+            // 
+            this.colToReportingMark.HeaderText = "Reporting Mark";
+            this.colToReportingMark.Name = "colToReportingMark";
+            // 
+            // colToType
+            // 
+            this.colToType.HeaderText = "Type";
+            this.colToType.Name = "colToType";
+            // 
+            // colToPossession
+            // 
+            this.colToPossession.HeaderText = "Possesed By";
+            this.colToPossession.Name = "colToPossession";
+            // 
+            // colToPos
+            // 
+            this.colToPos.HeaderText = "Pos";
+            this.colToPos.Name = "colToPos";
+            this.colToPos.Width = 40;
+            // 
+            // colToDestination
+            // 
+            this.colToDestination.HeaderText = "Destination";
+            this.colToDestination.Name = "colToDestination";
+            // 
+            // colToStrategic
+            // 
+            this.colToStrategic.HeaderText = "Strategic Dest";
+            this.colToStrategic.Name = "colToStrategic";
+            // 
             // RailLocationModifier
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -667,18 +695,22 @@
         private Loader loaderFrom;
         private Loader loaderTo;
         private DataGridViewStylizer dataGridViewStylizer;
+        private System.Windows.Forms.Button cmdSave;
+        private System.Windows.Forms.Button cmdClose;
+        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.DataGridViewImageColumn colFromImage;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFromReportingMark;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFromType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFromPossession;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFromPos;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFromDestination;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFromStrategic;
         private System.Windows.Forms.DataGridViewImageColumn colToImage;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToReportingMark;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToPossession;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToPos;
-        private System.Windows.Forms.Button cmdSave;
-        private System.Windows.Forms.Button cmdClose;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colToDestination;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colToStrategic;
     }
 }

@@ -42,6 +42,8 @@ namespace API_Fleet.Controllers
             $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.TrackID)}",
             $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.Name)}",
             $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrictID)}",
+            $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.CompanyIDOwner)}",
+            $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.GovernmentIDOwner)}",
             $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrict)}.{nameof(RailDistrict.RailDistrictID)}",
             $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Track)}.{nameof(Track.RailDistrict)}.{nameof(RailDistrict.Name)}",
             $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.TrainID)}",
@@ -50,6 +52,8 @@ namespace API_Fleet.Controllers
             $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Train)}.{nameof(Train.TrainSymbolID)}",
             $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Train)}.{nameof(Train.TrainSymbol)}.{nameof(TrainSymbol.TrainSymbolID)}",
             $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Train)}.{nameof(Train.TrainSymbol)}.{nameof(TrainSymbol.Name)}",
+            $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Train)}.{nameof(Train.TrainSymbol)}.{nameof(TrainSymbol.CompanyIDOperator)}",
+            $"{nameof(Locomotive.RailLocation)}.{nameof(RailLocation.Train)}.{nameof(Train.TrainSymbol)}.{nameof(TrainSymbol.GovernmentIDOperator)}",
             nameof(Locomotive.ReportingMark),
             nameof(Locomotive.ReportingNumber),
             nameof(Locomotive.HasOpenBid)

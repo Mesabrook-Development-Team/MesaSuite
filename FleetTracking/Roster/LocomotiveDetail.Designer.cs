@@ -49,6 +49,7 @@
             this.txtLessee = new System.Windows.Forms.TextBox();
             this.txtCurrentLocation = new System.Windows.Forms.TextBox();
             this.loader = new FleetTracking.Loader();
+            this.cboCurrentLocation = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -107,6 +108,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.txtLessee);
             this.splitContainer1.Panel2.Controls.Add(this.txtCurrentLocation);
+            this.splitContainer1.Panel2.Controls.Add(this.cboCurrentLocation);
             this.splitContainer1.Size = new System.Drawing.Size(838, 293);
             this.splitContainer1.SplitterDistance = 325;
             this.splitContainer1.TabIndex = 0;
@@ -292,6 +294,19 @@
             this.loader.TabIndex = 1;
             this.loader.Visible = false;
             // 
+            // cboCurrentLocation
+            // 
+            this.cboCurrentLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboCurrentLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCurrentLocation.FormattingEnabled = true;
+            this.cboCurrentLocation.Location = new System.Drawing.Point(96, 136);
+            this.cboCurrentLocation.Name = "cboCurrentLocation";
+            this.cboCurrentLocation.Size = new System.Drawing.Size(410, 21);
+            this.cboCurrentLocation.Sorted = true;
+            this.cboCurrentLocation.TabIndex = 6;
+            this.cboCurrentLocation.Visible = false;
+            // 
             // LocomotiveDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -336,5 +351,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtLessee;
+        private System.Windows.Forms.ComboBox cboCurrentLocation;
     }
 }

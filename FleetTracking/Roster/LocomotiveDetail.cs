@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FleetTracking.Interop;
+using FleetTracking.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -66,6 +67,11 @@ namespace FleetTracking.Roster
                     cboPossessor.Enabled = isPossessor;
 
                     cmdUpdateImage.Enabled = isOwner;
+                }
+                else
+                {
+                    txtCurrentLocation.Visible = false;
+                    cboCurrentLocation.Visible = true;
                 }
 
                 get.Resource = "LocomotiveModel/GetAll";
@@ -131,6 +137,14 @@ namespace FleetTracking.Roster
                         cboPossessor.SelectedItem = dropDownItem;
                     }
                 }
+
+                get.Resource = "Track/GetAll";
+                List<Track> tracks = await get.GetObject<List<Track>>() ?? new List<Track>();
+                foreach(Track track in tracks)
+                {
+                    DropDownItem<Track> ddi = new DropDownItem<Track>(track, track.Name);
+                    cboCurrentLocation.Items.Add(ddi);
+                }
             }
             finally
             {
@@ -186,6 +200,12 @@ namespace FleetTracking.Roster
             if (cboPossessor.SelectedItem == null)
             {
                 this.ShowError("Possessor is a required field");
+                return;
+            }
+
+            if (LocomotiveID == null && cboCurrentLocation.SelectedItem == null)
+            {
+                this.ShowError("Current Location is a required field");
                 return;
             }
 
@@ -262,12 +282,38 @@ namespace FleetTracking.Roster
                 updateImage.Resource = "Locomotive/UpdateImage";
                 updateImage.ObjectToPut = new { locomotiveID = locomotive.LocomotiveID, image = imageData };
                 await updateImage.ExecuteNoResult();
-                if (updateImage.RequestSuccessful)
+            }
+
+            if (saveSuccessful && LocomotiveID == null)
+            {
+                GetData get = _application.GetAccess<GetData>();
+                get.API = DataAccess.APIs.FleetTracking;
+                get.Resource = $"RailLocation/GetForLocomotive/{locomotive.LocomotiveID}";
+
+                RailLocation railLocation = await get.GetObject<RailLocation>();
+                if (railLocation != null)
                 {
-                    LocomotiveSaved?.Invoke(this, locomotive);
+                    railLocation.TrackID = cboCurrentLocation.SelectedItem.Cast<DropDownItem<Track>>().Object.TrackID;
+                    railLocation.Position = int.MaxValue;
+
+                    get.Resource = $"RailLocation/GetByTrack/{railLocation.TrackID}";
+                    List<RailLocation> railLocations = await get.GetObject<List<RailLocation>>() ?? new List<RailLocation>();
+                    railLocations.Add(railLocation);
+
+                    PutData modify = _application.GetAccess<PutData>();
+                    modify.API = DataAccess.APIs.FleetTracking;
+                    modify.Resource = "RailLocation/Modify";
+                    modify.ObjectToPut = new
+                    {
+                        ModifiedTracksByID = new Dictionary<long?, List<RailLocation>>() { { railLocation.TrackID, railLocations } },
+                        TimeMoved = DateTime.Now
+                    };
+                    await modify.ExecuteNoResult();
+                    saveSuccessful = modify.RequestSuccessful;
                 }
             }
-            else if (saveSuccessful)
+            
+            if (saveSuccessful)
             {
                 LocomotiveSaved?.Invoke(this, locomotive);
             }

@@ -192,6 +192,8 @@ namespace FleetTracking.Train
 
         private async void LoadTrackFrom(bool skipReloadTo = false)
         {
+            List<long?> selectedRailLocationIDs = dgvFromList.SelectedRows.Cast<DataGridViewRow>().Select(r => r.Tag).OfType<RailLocation>().Select(rl => rl.RailLocationID).ToList();
+
             if (_formLoadingRequests <= 0 || _formLoadingRequests-- <= 0)
             {
                 dgvFromList.Rows.Clear();
@@ -207,8 +209,6 @@ namespace FleetTracking.Train
             {
                 loaderFrom.BringToFront();
                 loaderFrom.Visible = true;
-
-                List<long?> selectedRailLocationIDs = dgvFromList.SelectedRows.Cast<DataGridViewRow>().Select(r => r.Tag).OfType<RailLocation>().Select(rl => rl.RailLocationID).ToList();
 
                 if (!_modifiedTracksByID.ContainsKey(trackDDI.Object.TrackID))
                 {
@@ -334,6 +334,8 @@ namespace FleetTracking.Train
 
         private async void LoadTrainFrom(bool skipReloadTo = false)
         {
+            List<long?> selectedRailLocationIDs = dgvFromList.SelectedRows.Cast<DataGridViewRow>().Select(r => r.Tag).OfType<RailLocation>().Select(rl => rl.RailLocationID).ToList();
+
             if (_formLoadingRequests <= 0 || _formLoadingRequests-- <= 0)
             {
                 dgvFromList.Rows.Clear();
@@ -349,8 +351,6 @@ namespace FleetTracking.Train
             {
                 loaderFrom.BringToFront();
                 loaderFrom.Visible = true;
-
-                List<long?> selectedRailLocationIDs = dgvFromList.SelectedRows.Cast<DataGridViewRow>().Select(r => r.Tag).OfType<RailLocation>().Select(rl => rl.RailLocationID).ToList();
 
                 if (!_modifiedTrainsByID.ContainsKey(trainDDI.Object.TrainID))
                 {
@@ -495,6 +495,8 @@ namespace FleetTracking.Train
 
         private async void LoadTrackTo(bool skipReloadFrom = false)
         {
+            List<long?> selectedRailLocationIDs = dgvToList.SelectedRows.Cast<DataGridViewRow>().Select(r => r.Tag).OfType<RailLocation>().Select(rl => rl.RailLocationID).ToList();
+
             if (_formLoadingRequests <= 0 || _formLoadingRequests-- <= 0)
             {
                 dgvToList.Rows.Clear();
@@ -510,8 +512,6 @@ namespace FleetTracking.Train
             {
                 loaderTo.BringToFront();
                 loaderTo.Visible = true;
-
-                List<long?> selectedRailLocationIDs = dgvToList.SelectedRows.Cast<DataGridViewRow>().Select(r => r.Tag).OfType<RailLocation>().Select(rl => rl.RailLocationID).ToList();
 
                 if (!_modifiedTracksByID.ContainsKey(trackDDI.Object.TrackID))
                 {
@@ -545,6 +545,8 @@ namespace FleetTracking.Train
 
         private async void LoadTrainTo(bool skipReloadFrom = false)
         {
+            List<long?> selectedRailLocationIDs = dgvToList.SelectedRows.Cast<DataGridViewRow>().Select(r => r.Tag).OfType<RailLocation>().Select(rl => rl.RailLocationID).ToList();
+
             if (_formLoadingRequests <= 0 || _formLoadingRequests-- <= 0)
             {
                 dgvToList.Rows.Clear();
@@ -560,8 +562,6 @@ namespace FleetTracking.Train
             {
                 loaderTo.BringToFront();
                 loaderTo.Visible = true;
-
-                List<long?> selectedRailLocationIDs = dgvToList.SelectedRows.Cast<DataGridViewRow>().Select(r => r.Tag).OfType<RailLocation>().Select(rl => rl.RailLocationID).ToList();
 
                 if (!_modifiedTrainsByID.ContainsKey(trainDDI.Object.TrainID))
                 {

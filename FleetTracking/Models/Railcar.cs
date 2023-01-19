@@ -1,12 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace FleetTracking.Models
 {
+    [Serializable()]
     public class Railcar
     {
-        public long? RailcarID { get; set; }
+        public Railcar() { }
+
+        private long? _railcarID;
+        public long? RailcarID
+        {
+            get => _railcarID;
+            set => _railcarID = value;
+        }
         public long? RailcarModelID { get; set; }
         public RailcarModel RailcarModel { get; set; }
         public long? CompanyIDOwner { get; set; }
@@ -45,6 +54,7 @@ namespace FleetTracking.Models
 
                 return location;
             }
+            set { }
         }
         public string FormattedReportingMark
         {
@@ -57,6 +67,7 @@ namespace FleetTracking.Models
 
                 return $"{ReportingMark}{ReportingNumber}";
             }
+            set { }
         }
         public bool HasOpenBid { get; set; }
         public List<RailcarLoad> RailcarLoads { get; set; }
@@ -78,6 +89,7 @@ namespace FleetTracking.Models
 
                 return loadsBuilder.ToString().Substring(2);
             }
+            set { }
         }
         public long? TrackIDDestination { get; set; }
         public Track TrackDestination { get; set; }

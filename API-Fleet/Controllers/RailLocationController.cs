@@ -27,6 +27,11 @@ namespace API_Fleet.Controllers
             rl.RailcarID,
             rl.LocomotiveID,
             rl.TrackID,
+            rl.Track.TrackID,
+            rl.Track.Name,
+            rl.Track.RailDistrictID,
+            rl.Track.RailDistrict.RailDistrictID,
+            rl.Track.RailDistrict.Name,
             rl.TrainID,
             rl.Position,
             rl.Railcar.RailcarID,
@@ -143,6 +148,18 @@ namespace API_Fleet.Controllers
             Search<RailLocation> search = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
             {
                 Field = nameof(RailLocation.RailcarID),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = id
+            });
+
+            return search.GetReadOnly(null, DefaultRetrievedFields);
+        }
+
+        public RailLocation GetForLocomotive(long? id)
+        {
+            Search<RailLocation> search = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
+            {
+                Field = nameof(RailLocation.LocomotiveID),
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                 Value = id
             });

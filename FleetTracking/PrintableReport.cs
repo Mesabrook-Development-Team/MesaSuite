@@ -1,5 +1,6 @@
 ﻿using FleetTracking.Interop;
 using FleetTracking.Properties;
+using FleetTracking.Reports;
 using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections.Generic;
@@ -18,19 +19,22 @@ namespace FleetTracking
     {
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; }
-        public string ReportResourcePath { get; set; }
-        public Dictionary<string, object> DataSources { get; set; }
+
+        public IReportContext ReportContext { get; set; }
+
         public PrintableReport()
         {
             InitializeComponent();
         }
 
-
-        private void PrintableReport_Load(object sender, EventArgs e)
+        private async void PrintableReport_Load(object sender, EventArgs e)
         {
+            ParentForm.Text = ReportContext.WindowTitle;
+            reportViewer.BackColor = Color.White;
             reportViewer.Reset();
-            reportViewer.LocalReport.ReportEmbeddedResource = ReportResourcePath;
-            foreach(KeyValuePair<string, object> dataSource in DataSources)
+            reportViewer.LocalReport.ReportEmbeddedResource = ReportContext.ReportPath;
+            Dictionary<string, object> dataSources = await ReportContext.GetReportDataSources();
+            foreach(KeyValuePair<string, object> dataSource in dataSources)
             {
                 reportViewer.LocalReport.DataSources.Add(new ReportDataSource(dataSource.Key, dataSource.Value));
             }

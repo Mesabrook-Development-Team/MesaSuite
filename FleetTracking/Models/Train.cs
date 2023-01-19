@@ -17,6 +17,7 @@ namespace FleetTracking.Models
         }
         public Statuses Status { get; set; }
 
+        public List<TrainFuelRecord> TrainFuelRecords { get; set; }
         public List<RailLocation> RailLocations { get; set; }
         public List<TrainDutyTransaction> TrainDutyTransactions { get; set; }
 

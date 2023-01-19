@@ -285,6 +285,29 @@
     <Compile Include="Rates\CarHandlingRateList.Designer.cs">
       <DependentUpon>CarHandlingRateList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reports\IReportContext.cs" />
+    <Compile Include="Reports\TrackListing\RailLocationModel.cs" />
+    <Compile Include="Reports\TrackListing\SelectTracks.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Reports\TrackListing\SelectTracks.Designer.cs">
+      <DependentUpon>SelectTracks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\TrackListing\TrackListingReportContext.cs" />
+    <Compile Include="Reports\TrainManifest\RailLocationReportModel.cs" />
+    <Compile Include="Reports\TrainManifest\TrainManifestReportContext.cs" />
+    <Compile Include="Roster\MassAddStock.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Roster\MassAddStock.Designer.cs">
+      <DependentUpon>MassAddStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Roster\MassAddStockInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Roster\MassAddStockInput.Designer.cs">
+      <DependentUpon>MassAddStockInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Utilities\MassUpdateRailcars.cs">
       <SubType>UserControl</SubType>
@@ -529,7 +552,17 @@
     <EmbeddedResource Include="Rates\CarHandlingRateList.resx">
       <DependentUpon>CarHandlingRateList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tracks\Track.rdlc" />
+    <EmbeddedResource Include="Reports\TrackListing\SelectTracks.resx">
+      <DependentUpon>SelectTracks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\TrainManifest\Manifest.rdlc" />
+    <EmbeddedResource Include="Roster\MassAddStock.resx">
+      <DependentUpon>MassAddStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Roster\MassAddStockInput.resx">
+      <DependentUpon>MassAddStockInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\TrackListing\Track.rdlc" />
     <EmbeddedResource Include="Utilities\MassUpdateRailcars.resx">
       <DependentUpon>MassUpdateRailcars.cs</DependentUpon>
     </EmbeddedResource>
@@ -605,8 +638,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\FleetTracking.Models.RailLocation.datasource" />
-    <None Include="Properties\DataSources\FleetTracking.Models.Track.datasource" />
+    <None Include="Properties\DataSources\FleetTracking.Reports.TrackListing.RailLocationModel.datasource" />
+    <None Include="Properties\DataSources\FleetTracking.Reports.TrainManifest.RailLocationReportModel.datasource" />
     <None Include="Resources\bg_ny.jpg" />
   </ItemGroup>
   <ItemGroup>

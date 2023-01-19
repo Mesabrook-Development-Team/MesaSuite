@@ -279,5 +279,15 @@ namespace FleetTracking.Roster
 
             RefreshShownList(null);
         }
+
+        private void toolMassAdd_Click(object sender, EventArgs e)
+        {
+            MassAddStock massAdd = new MassAddStock()
+            {
+                Application = _application
+            };
+            Form massAddForm = _application.OpenForm(massAdd);
+            massAddForm.FormClosed += (s, ea) => { if (IsHandleCreated) AddListByTab(); };
+        }
     }
 }

@@ -168,6 +168,25 @@ namespace FleetTracking.Interop
             clientForm.Text = "Live Load";
         }
 
+        public void PrintTracks()
+        {
+            Reports.TrackListing.SelectTracks select = new Reports.TrackListing.SelectTracks()
+            {
+                Application = this
+            };
+            OpenForm(select, OpenFormOptions.Popout);
+        }
+
+        public void PrintTrainManifests()
+        {
+            PrintableReport select = new PrintableReport()
+            {
+                Application = this,
+                ReportContext = new Reports.TrainManifest.TrainManifestReportContext(this, 1)
+            };
+            OpenForm(select);
+        }
+
         public IEnumerable<MainNavigationItem> GetNavigationItems()
         {
             yield return new MainNavigationItem("Rail")
@@ -204,6 +223,14 @@ namespace FleetTracking.Interop
                         SubItems = new List<MainNavigationItem>()
                         {
                             new MainNavigationItem("Mass Update Railcars", () => MassUpdateRailcars())
+                        }
+                    },
+                    new MainNavigationItem("Reports")
+                    {
+                        SubItems = new List<MainNavigationItem>()
+                        {
+                            new MainNavigationItem("Track Listing", PrintTracks),
+                            new MainNavigationItem("Train Manifest", PrintTrainManifests)
                         }
                     }
                 }

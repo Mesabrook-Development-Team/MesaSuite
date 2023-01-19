@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FleetTracking.Interop;
 using FleetTracking.Models;
+using FleetTracking.Reports.TrackListing;
 using FleetTracking.Train;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
@@ -315,7 +316,7 @@ namespace FleetTracking.Tracks
             PopulateStock();
         }
 
-        private async void toolPrint_Click(object sender, EventArgs e)
+        private void toolPrint_Click(object sender, EventArgs e)
         {
             DropDownItem<Track> selectedItem = cboTrack.SelectedItem as DropDownItem<Track>;
             if (selectedItem == null)
@@ -323,19 +324,10 @@ namespace FleetTracking.Tracks
                 return;
             }
 
-            GetData get = _application.GetAccess<GetData>();
-            get.API = DataAccess.APIs.FleetTracking;
-            get.Resource = $"RailLocation/GetByTrack/{selectedItem.Object.TrackID}";
-            List<RailLocation> railLocations = await get.GetObject<List<RailLocation>>() ?? new List<RailLocation>();
-
             PrintableReport report = new PrintableReport()
             {
                 Application = _application,
-                ReportResourcePath = "FleetTracking.Tracks.Track.rdlc",
-                DataSources = new Dictionary<string, object>()
-                {
-                    { "RailLocation", railLocations }
-                }
+                ReportContext = new TrackListingReportContext(new[] { selectedItem.Object.TrackID }) { Application = _application }
             };
 
             _application.OpenForm(report);

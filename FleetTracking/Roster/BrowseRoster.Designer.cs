@@ -33,6 +33,7 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabAll = new System.Windows.Forms.TabPage();
             this.tabOnProperty = new System.Windows.Forms.TabPage();
+            this.tabPossessed = new System.Windows.Forms.TabPage();
             this.tabOwned = new System.Windows.Forms.TabPage();
             this.tabLeased = new System.Windows.Forms.TabPage();
             this.toolStripStock = new System.Windows.Forms.ToolStrip();
@@ -42,7 +43,8 @@
             this.mnuAddRailcar = new System.Windows.Forms.ToolStripButton();
             this.mnuDeleteRailcar = new System.Windows.Forms.ToolStripButton();
             this.loader = new FleetTracking.Loader();
-            this.tabPossessed = new System.Windows.Forms.TabPage();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolMassAdd = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -98,6 +100,15 @@
             this.tabOnProperty.Text = "On Property";
             this.tabOnProperty.UseVisualStyleBackColor = true;
             // 
+            // tabPossessed
+            // 
+            this.tabPossessed.Location = new System.Drawing.Point(4, 22);
+            this.tabPossessed.Name = "tabPossessed";
+            this.tabPossessed.Size = new System.Drawing.Size(1063, 239);
+            this.tabPossessed.TabIndex = 4;
+            this.tabPossessed.Text = "In Possession";
+            this.tabPossessed.UseVisualStyleBackColor = true;
+            // 
             // tabOwned
             // 
             this.tabOwned.Location = new System.Drawing.Point(4, 22);
@@ -124,7 +135,9 @@
             this.mnuDeleteLocomotive,
             this.toolStripSeparator1,
             this.mnuAddRailcar,
-            this.mnuDeleteRailcar});
+            this.mnuDeleteRailcar,
+            this.toolStripSeparator2,
+            this.toolMassAdd});
             this.toolStripStock.Location = new System.Drawing.Point(0, 0);
             this.toolStripStock.Name = "toolStripStock";
             this.toolStripStock.Size = new System.Drawing.Size(1071, 38);
@@ -190,14 +203,20 @@
             this.loader.TabIndex = 1;
             this.loader.Visible = false;
             // 
-            // tabPossessed
+            // toolStripSeparator2
             // 
-            this.tabPossessed.Location = new System.Drawing.Point(4, 22);
-            this.tabPossessed.Name = "tabPossessed";
-            this.tabPossessed.Size = new System.Drawing.Size(1063, 239);
-            this.tabPossessed.TabIndex = 4;
-            this.tabPossessed.Text = "In Possession";
-            this.tabPossessed.UseVisualStyleBackColor = true;
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
+            // 
+            // toolMassAdd
+            // 
+            this.toolMassAdd.Image = ((System.Drawing.Image)(resources.GetObject("toolMassAdd.Image")));
+            this.toolMassAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolMassAdd.Name = "toolMassAdd";
+            this.toolMassAdd.Size = new System.Drawing.Size(63, 35);
+            this.toolMassAdd.Text = "Mass Add";
+            this.toolMassAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolMassAdd.Click += new System.EventHandler(this.toolMassAdd_Click);
             // 
             // BrowseRoster
             // 
@@ -236,5 +255,7 @@
         private Loader loader;
         private System.Windows.Forms.TabPage tabOnProperty;
         private System.Windows.Forms.TabPage tabPossessed;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton toolMassAdd;
     }
 }

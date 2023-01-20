@@ -555,7 +555,9 @@
     <EmbeddedResource Include="Reports\TrackListing\SelectTracks.resx">
       <DependentUpon>SelectTracks.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\TrainManifest\Locomotives.rdlc" />
     <EmbeddedResource Include="Reports\TrainManifest\Manifest.rdlc" />
+    <EmbeddedResource Include="Reports\TrainManifest\Railcars.rdlc" />
     <EmbeddedResource Include="Roster\MassAddStock.resx">
       <DependentUpon>MassAddStock.cs</DependentUpon>
     </EmbeddedResource>

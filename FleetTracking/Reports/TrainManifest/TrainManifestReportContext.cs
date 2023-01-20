@@ -26,12 +26,14 @@ namespace FleetTracking.Reports.TrainManifest
         {
             GetData get = _application.GetAccess<GetData>();
             get.API = DataAccess.APIs.FleetTracking;
-            get.Resource = $"Train/Get/{TrainID}";
-            Models.Train train = await get.GetObject<Models.Train>();
+            get.Resource = $"RailLocation/GetByTrain/{TrainID}";
+            List<RailLocationReportModel> railLocations = await get.GetObject<List<RailLocationReportModel>>();
 
             return new Dictionary<string, object>()
             {
-                { "RailLocationReportModel", new List<Models.Train>() { train } }
+                { "RailLocationReportModel", railLocations },
+                { "FleetTracking.Reports.TrainManifest.Locomotives.rdlc.RailLocationReportModel", railLocations },
+                { "FleetTracking.Reports.TrainManifest.Railcars.rdlc.RailLocationReportModel", railLocations }
             };
         }
     }

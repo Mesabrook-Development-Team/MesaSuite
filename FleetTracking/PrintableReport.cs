@@ -33,6 +33,7 @@ namespace FleetTracking
             reportViewer.BackColor = Color.White;
             reportViewer.Reset();
             reportViewer.LocalReport.ReportEmbeddedResource = ReportContext.ReportPath;
+            reportViewer.LocalReport.SubreportProcessing += SubreportProcessingAsync;
             Dictionary<string, object> dataSources = await ReportContext.GetReportDataSources();
             foreach(KeyValuePair<string, object> dataSource in dataSources)
             {
@@ -40,6 +41,15 @@ namespace FleetTracking
             }
             reportViewer.LocalReport.Refresh();
             reportViewer.RefreshReport();
+        }
+
+        private void SubreportProcessingAsync(object sender, SubreportProcessingEventArgs e)
+        {
+            Dictionary<string, object> dataSources = ReportContext.GetReportDataSources().Result;
+            foreach (KeyValuePair<string, object> dataSource in dataSources.Where(kvp => kvp.Key.StartsWith(e.ReportPath)))
+            {
+                e.DataSources.Add(new ReportDataSource(dataSource.Key.Replace(e.ReportPath + ".", ""), dataSource.Value));
+            }
         }
     }
 }

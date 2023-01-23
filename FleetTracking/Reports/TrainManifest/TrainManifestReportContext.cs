@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FleetTracking.Interop;
 using MesaSuite.Common.Data;
@@ -10,12 +11,12 @@ namespace FleetTracking.Reports.TrainManifest
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; }
 
-        public long? TrainID { get; set; }
+        public List<long?> TrainIDs { get; set; }
 
-        public TrainManifestReportContext(FleetTrackingApplication application, long? trainID)
+        public TrainManifestReportContext(FleetTrackingApplication application, IEnumerable<long?> trainIDs)
         {
             _application = application;
-            TrainID = trainID;
+            TrainIDs = trainIDs.ToList();
         }
 
         public string WindowTitle => "Train Manifest";
@@ -24,10 +25,14 @@ namespace FleetTracking.Reports.TrainManifest
 
         public async Task<Dictionary<string, object>> GetReportDataSources()
         {
-            GetData get = _application.GetAccess<GetData>();
-            get.API = DataAccess.APIs.FleetTracking;
-            get.Resource = $"RailLocation/GetByTrain/{TrainID}";
-            List<RailLocationReportModel> railLocations = await get.GetObject<List<RailLocationReportModel>>();
+            List<RailLocationReportModel> railLocations = new List<RailLocationReportModel>();
+            foreach (long? trainID in TrainIDs)
+            {
+                GetData get = _application.GetAccess<GetData>();
+                get.API = DataAccess.APIs.FleetTracking;
+                get.Resource = $"RailLocation/GetByTrain/{trainID}";
+                railLocations.AddRange(await get.GetObject<List<RailLocationReportModel>>());
+            }
 
             return new Dictionary<string, object>()
             {

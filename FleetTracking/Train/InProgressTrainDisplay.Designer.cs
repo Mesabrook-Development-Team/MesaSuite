@@ -49,6 +49,13 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabConsist = new System.Windows.Forms.TabPage();
             this.dgvConsist = new System.Windows.Forms.DataGridView();
+            this.colConsistImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPosition = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLoad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDestination = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStrategic = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colConsistType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolModifyConsist = new System.Windows.Forms.ToolStripButton();
             this.toolLiveLoad = new System.Windows.Forms.ToolStripButton();
@@ -83,13 +90,8 @@
             this.toolTogglePartialTrip = new System.Windows.Forms.ToolStripButton();
             this.loaderHandledCars = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.colConsistImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPosition = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLoad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDestination = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStrategic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colConsistType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolPrintManifest = new System.Windows.Forms.ToolStripButton();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -352,11 +354,54 @@
             this.dgvConsist.Size = new System.Drawing.Size(512, 310);
             this.dgvConsist.TabIndex = 2;
             // 
+            // colConsistImage
+            // 
+            this.colConsistImage.HeaderText = "Image";
+            this.colConsistImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colConsistImage.Name = "colConsistImage";
+            // 
+            // colReportingMark
+            // 
+            this.colReportingMark.HeaderText = "Reporting Mark";
+            this.colReportingMark.Name = "colReportingMark";
+            this.colReportingMark.Width = 120;
+            // 
+            // colPosition
+            // 
+            this.colPosition.HeaderText = "Pos";
+            this.colPosition.Name = "colPosition";
+            this.colPosition.Width = 40;
+            // 
+            // colLoad
+            // 
+            this.colLoad.HeaderText = "Current Load";
+            this.colLoad.Name = "colLoad";
+            this.colLoad.Width = 200;
+            // 
+            // colDestination
+            // 
+            this.colDestination.HeaderText = "Destination";
+            this.colDestination.Name = "colDestination";
+            this.colDestination.Width = 200;
+            // 
+            // colStrategic
+            // 
+            this.colStrategic.HeaderText = "Strategic Dest";
+            this.colStrategic.Name = "colStrategic";
+            this.colStrategic.Width = 200;
+            // 
+            // colConsistType
+            // 
+            this.colConsistType.HeaderText = "Type";
+            this.colConsistType.Name = "colConsistType";
+            // 
             // toolStrip2
             // 
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolModifyConsist,
-            this.toolLiveLoad});
+            this.toolLiveLoad,
+            this.toolStripSeparator1,
+            this.toolPrintManifest});
             this.toolStrip2.Location = new System.Drawing.Point(3, 3);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(512, 25);
@@ -654,46 +699,19 @@
             this.loaderHandledCars.TabIndex = 2;
             this.loaderHandledCars.Visible = false;
             // 
-            // colConsistImage
+            // toolStripSeparator1
             // 
-            this.colConsistImage.HeaderText = "Image";
-            this.colConsistImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colConsistImage.Name = "colConsistImage";
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // colReportingMark
+            // toolPrintManifest
             // 
-            this.colReportingMark.HeaderText = "Reporting Mark";
-            this.colReportingMark.Name = "colReportingMark";
-            this.colReportingMark.Width = 120;
-            // 
-            // colPosition
-            // 
-            this.colPosition.HeaderText = "Pos";
-            this.colPosition.Name = "colPosition";
-            this.colPosition.Width = 40;
-            // 
-            // colLoad
-            // 
-            this.colLoad.HeaderText = "Current Load";
-            this.colLoad.Name = "colLoad";
-            this.colLoad.Width = 200;
-            // 
-            // colDestination
-            // 
-            this.colDestination.HeaderText = "Destination";
-            this.colDestination.Name = "colDestination";
-            this.colDestination.Width = 200;
-            // 
-            // colStrategic
-            // 
-            this.colStrategic.HeaderText = "Strategic Dest";
-            this.colStrategic.Name = "colStrategic";
-            this.colStrategic.Width = 200;
-            // 
-            // colConsistType
-            // 
-            this.colConsistType.HeaderText = "Type";
-            this.colConsistType.Name = "colConsistType";
+            this.toolPrintManifest.Image = ((System.Drawing.Image)(resources.GetObject("toolPrintManifest.Image")));
+            this.toolPrintManifest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolPrintManifest.Name = "toolPrintManifest";
+            this.toolPrintManifest.Size = new System.Drawing.Size(101, 22);
+            this.toolPrintManifest.Text = "Print Manifest";
+            this.toolPrintManifest.Click += new System.EventHandler(this.toolPrintManifest_Click);
             // 
             // InProgressTrainDisplay
             // 
@@ -798,5 +816,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDestination;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStrategic;
         private System.Windows.Forms.DataGridViewTextBoxColumn colConsistType;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolPrintManifest;
     }
 }

@@ -295,6 +295,12 @@
     </Compile>
     <Compile Include="Reports\TrackListing\TrackListingReportContext.cs" />
     <Compile Include="Reports\TrainManifest\RailLocationReportModel.cs" />
+    <Compile Include="Reports\TrainManifest\SelectTrains.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Reports\TrainManifest\SelectTrains.Designer.cs">
+      <DependentUpon>SelectTrains.cs</DependentUpon>
+    </Compile>
     <Compile Include="Reports\TrainManifest\TrainManifestReportContext.cs" />
     <Compile Include="Roster\MassAddStock.cs">
       <SubType>UserControl</SubType>
@@ -558,6 +564,9 @@
     <EmbeddedResource Include="Reports\TrainManifest\Locomotives.rdlc" />
     <EmbeddedResource Include="Reports\TrainManifest\Manifest.rdlc" />
     <EmbeddedResource Include="Reports\TrainManifest\Railcars.rdlc" />
+    <EmbeddedResource Include="Reports\TrainManifest\SelectTrains.resx">
+      <DependentUpon>SelectTrains.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Roster\MassAddStock.resx">
       <DependentUpon>MassAddStock.cs</DependentUpon>
     </EmbeddedResource>

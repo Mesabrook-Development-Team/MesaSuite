@@ -709,5 +709,15 @@ namespace FleetTracking.Train
             };
             ParentForm.Enabled = false;
         }
+
+        private void toolPrintManifest_Click(object sender, EventArgs e)
+        {
+            PrintableReport report = new PrintableReport()
+            {
+                Application = _application,
+                ReportContext = new Reports.TrainManifest.TrainManifestReportContext(_application, new[] { TrainID })
+            };
+            _application.OpenForm(report);
+        }
     }
 }

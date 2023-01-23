@@ -179,12 +179,11 @@ namespace FleetTracking.Interop
 
         public void PrintTrainManifests()
         {
-            PrintableReport select = new PrintableReport()
+            Reports.TrainManifest.SelectTrains select = new Reports.TrainManifest.SelectTrains()
             {
-                Application = this,
-                ReportContext = new Reports.TrainManifest.TrainManifestReportContext(this, 1)
+                Application = this
             };
-            OpenForm(select);
+            OpenForm(select, OpenFormOptions.Popout);
         }
 
         public IEnumerable<MainNavigationItem> GetNavigationItems()

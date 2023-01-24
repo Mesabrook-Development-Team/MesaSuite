@@ -188,7 +188,17 @@ namespace OAuth.Controllers
                 return OAuthErrorRedirect("server_error", "An unexpected error occurred on the server.", state, redirectUri);
             }
 
-            return new RedirectResult(redirectUri + $"?code={code.AuthCode.ToString()}&state={state}", false);
+            if (keys.Contains("noredirect") && string.Equals(collection["noredirect"], "true", StringComparison.OrdinalIgnoreCase))
+            {
+                Response.Output.Write($"code={code.AuthCode.ToString()}&state={state}");
+                Response.Flush();
+
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
+            }
+            else
+            {
+                return new RedirectResult(redirectUri + $"?code={code.AuthCode.ToString()}&state={state}", false);
+            }
         }
 
         private ActionResult OAuthError(string error, string error_description)

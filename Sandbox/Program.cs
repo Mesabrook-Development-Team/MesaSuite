@@ -1,4 +1,6 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Loader;
 using ClussPro.ObjectBasedFramework.Schema;
 using System;
@@ -11,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebModels.account;
 using WebModels.hMailServer.dbo;
+using WebModels.netprint;
 using WebModels.security;
 
 namespace Sandbox
@@ -19,35 +22,42 @@ namespace Sandbox
     {
         static void Main(string[] args)
         {
-            User user = DataObjectFactory.Create<User>();
-            //Schema.Deploy();
-
-            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:65171/AccessCode/Verify");
-            request.Method = "PUT";
-            request.ContentType = "application/json";
-            //Console.Write("Enter OAuth Token:");
-            //request.Headers.Add("Authorization", "Bearer " + Console.ReadLine());
-
-            Console.Write("Enter Door Code:");
-            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
-                writer.Write("\"" + Console.ReadLine() + "\"");
-            }
+                PrintJob job = DataObjectFactory.Create<PrintJob>();
+                job.PrinterID = 2;
+                job.DocumentName = "Test Print Job";
+                job.Finalized = true;
+                if (!job.Save(transaction))
+                {
+                    return;
+                }
 
-            WebResponse response;
-            try
-            {
-                response = request.GetResponse();
-            }
-            catch(WebException ex)
-            {
-                response = ex.Response;
-            }
+                for(byte i = 1; i <= 2; i++)
+                {
+                    PrintPage page = DataObjectFactory.Create<PrintPage>();
+                    page.PrintJobID = job.PrintJobID;
+                    page.DisplayOrder = i;
+                    if (!page.Save(transaction))
+                    {
+                        return;
+                    }
 
-            string responseData;
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-            {
-                responseData = reader.ReadToEnd();
+                    for(byte j = 2; j > 0; j--)
+                    {
+                        PrintLine line = DataObjectFactory.Create<PrintLine>();
+                        line.PrintPageID = page.PrintPageID;
+                        line.Alignment = PrintLine.Alignments.Left;
+                        line.Text = $"Page {i} Line {j}";
+                        line.DisplayOrder = j;
+                        if (!line.Save(transaction))
+                        {
+                            return;
+                        }
+                    }
+                }
+
+                transaction.Commit();
             }
 
             Console.WriteLine("Done!");

@@ -40,6 +40,37 @@ namespace FleetTracking
             }
             reportViewer.LocalReport.Refresh();
             reportViewer.RefreshReport();
+
+            if (ReportContext is INetworkPrintable)
+            {
+                cmdNetworkPrint.Visible = true;
+            }
+        }
+
+        private async void cmdNetworkPrint_Click(object sender, EventArgs e)
+        {
+            PrintableReportSelectPrinter selectPrinter = new PrintableReportSelectPrinter()
+            {
+                Application = _application
+            };
+
+            Form dialog = _application.OpenForm(selectPrinter, FleetTrackingApplication.OpenFormOptions.Dialog);
+            if (dialog.DialogResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
+
+                await ((INetworkPrintable)ReportContext).NetworkPrint(selectPrinter.PrinterID, selectPrinter.DocumentName);
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
         }
     }
 }

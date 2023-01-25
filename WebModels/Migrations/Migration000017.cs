@@ -389,6 +389,22 @@ namespace WebModels.Migrations
             CreateForeignKey(transaction, createTable, "company", "Company");
             CreateForeignKey(transaction, createTable, "gov", "Government");
 
+            createTable.TableName = "FleetSecurity";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "FleetSecurityID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "EmployeeID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "OfficialID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "AllowSetup", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } },
+                { "AllowLeasingManagement", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } },
+                { "IsYardmaster", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } },
+                { "IsTrainCrew", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } },
+                { "AllowLoadUnload", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "company", "Employee");
+            CreateForeignKey(transaction, createTable, "gov", "Official");
+
             alterTable.Schema = "invoicing";
             alterTable.Table = "InvoiceLine";
             alterTable.AddColumn("ItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);

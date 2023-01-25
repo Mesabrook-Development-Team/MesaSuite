@@ -46,6 +46,15 @@ namespace GovernmentPortal.Officials
             this.chkManageTaxes = new System.Windows.Forms.CheckBox();
             this.chkManageInvoices = new System.Windows.Forms.CheckBox();
             this.chkIssueWireTransfers = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkFleetLoadUnload = new System.Windows.Forms.CheckBox();
+            this.chkFleetTrainCrew = new System.Windows.Forms.CheckBox();
+            this.chkFleetYardmaster = new System.Windows.Forms.CheckBox();
+            this.chkFleetLeasing = new System.Windows.Forms.CheckBox();
+            this.chkFleetSetup = new System.Windows.Forms.CheckBox();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // loader
@@ -93,7 +102,7 @@ namespace GovernmentPortal.Officials
             // chkEmails
             // 
             this.chkEmails.AutoSize = true;
-            this.chkEmails.Location = new System.Drawing.Point(6, 43);
+            this.chkEmails.Location = new System.Drawing.Point(6, 19);
             this.chkEmails.Name = "chkEmails";
             this.chkEmails.Size = new System.Drawing.Size(98, 17);
             this.chkEmails.TabIndex = 1;
@@ -104,7 +113,7 @@ namespace GovernmentPortal.Officials
             // chkOfficials
             // 
             this.chkOfficials.AutoSize = true;
-            this.chkOfficials.Location = new System.Drawing.Point(6, 66);
+            this.chkOfficials.Location = new System.Drawing.Point(6, 42);
             this.chkOfficials.Name = "chkOfficials";
             this.chkOfficials.Size = new System.Drawing.Size(105, 17);
             this.chkOfficials.TabIndex = 2;
@@ -115,7 +124,7 @@ namespace GovernmentPortal.Officials
             // chkManageAccounts
             // 
             this.chkManageAccounts.AutoSize = true;
-            this.chkManageAccounts.Location = new System.Drawing.Point(6, 89);
+            this.chkManageAccounts.Location = new System.Drawing.Point(6, 65);
             this.chkManageAccounts.Name = "chkManageAccounts";
             this.chkManageAccounts.Size = new System.Drawing.Size(113, 17);
             this.chkManageAccounts.TabIndex = 2;
@@ -126,7 +135,7 @@ namespace GovernmentPortal.Officials
             // chkMintCurrency
             // 
             this.chkMintCurrency.AutoSize = true;
-            this.chkMintCurrency.Location = new System.Drawing.Point(6, 112);
+            this.chkMintCurrency.Location = new System.Drawing.Point(6, 88);
             this.chkMintCurrency.Name = "chkMintCurrency";
             this.chkMintCurrency.Size = new System.Drawing.Size(91, 17);
             this.chkMintCurrency.TabIndex = 4;
@@ -136,7 +145,7 @@ namespace GovernmentPortal.Officials
             // chkManageTaxes
             // 
             this.chkManageTaxes.AutoSize = true;
-            this.chkManageTaxes.Location = new System.Drawing.Point(6, 135);
+            this.chkManageTaxes.Location = new System.Drawing.Point(6, 111);
             this.chkManageTaxes.Name = "chkManageTaxes";
             this.chkManageTaxes.Size = new System.Drawing.Size(97, 17);
             this.chkManageTaxes.TabIndex = 5;
@@ -146,7 +155,7 @@ namespace GovernmentPortal.Officials
             // chkManageInvoices
             // 
             this.chkManageInvoices.AutoSize = true;
-            this.chkManageInvoices.Location = new System.Drawing.Point(6, 158);
+            this.chkManageInvoices.Location = new System.Drawing.Point(6, 134);
             this.chkManageInvoices.Name = "chkManageInvoices";
             this.chkManageInvoices.Size = new System.Drawing.Size(108, 17);
             this.chkManageInvoices.TabIndex = 5;
@@ -156,24 +165,99 @@ namespace GovernmentPortal.Officials
             // chkIssueWireTransfers
             // 
             this.chkIssueWireTransfers.AutoSize = true;
-            this.chkIssueWireTransfers.Location = new System.Drawing.Point(6, 181);
+            this.chkIssueWireTransfers.Location = new System.Drawing.Point(6, 157);
             this.chkIssueWireTransfers.Name = "chkIssueWireTransfers";
             this.chkIssueWireTransfers.Size = new System.Drawing.Size(123, 17);
             this.chkIssueWireTransfers.TabIndex = 5;
             this.chkIssueWireTransfers.Text = "Issue Wire Transfers";
             this.chkIssueWireTransfers.UseVisualStyleBackColor = true;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.chkEmails);
+            this.groupBox1.Controls.Add(this.chkIssueWireTransfers);
+            this.groupBox1.Controls.Add(this.chkOfficials);
+            this.groupBox1.Controls.Add(this.chkManageInvoices);
+            this.groupBox1.Controls.Add(this.chkManageAccounts);
+            this.groupBox1.Controls.Add(this.chkManageTaxes);
+            this.groupBox1.Controls.Add(this.chkMintCurrency);
+            this.groupBox1.Location = new System.Drawing.Point(3, 43);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(200, 184);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "General";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.chkFleetLoadUnload);
+            this.groupBox2.Controls.Add(this.chkFleetTrainCrew);
+            this.groupBox2.Controls.Add(this.chkFleetYardmaster);
+            this.groupBox2.Controls.Add(this.chkFleetLeasing);
+            this.groupBox2.Controls.Add(this.chkFleetSetup);
+            this.groupBox2.Location = new System.Drawing.Point(212, 43);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(200, 184);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Fleet Tracking";
+            // 
+            // chkFleetLoadUnload
+            // 
+            this.chkFleetLoadUnload.AutoSize = true;
+            this.chkFleetLoadUnload.Location = new System.Drawing.Point(6, 111);
+            this.chkFleetLoadUnload.Name = "chkFleetLoadUnload";
+            this.chkFleetLoadUnload.Size = new System.Drawing.Size(125, 17);
+            this.chkFleetLoadUnload.TabIndex = 9;
+            this.chkFleetLoadUnload.Text = "Railcar Load/Unload";
+            this.chkFleetLoadUnload.UseVisualStyleBackColor = true;
+            // 
+            // chkFleetTrainCrew
+            // 
+            this.chkFleetTrainCrew.AutoSize = true;
+            this.chkFleetTrainCrew.Location = new System.Drawing.Point(6, 88);
+            this.chkFleetTrainCrew.Name = "chkFleetTrainCrew";
+            this.chkFleetTrainCrew.Size = new System.Drawing.Size(131, 17);
+            this.chkFleetTrainCrew.TabIndex = 8;
+            this.chkFleetTrainCrew.Text = "Train Crew Operations";
+            this.chkFleetTrainCrew.UseVisualStyleBackColor = true;
+            // 
+            // chkFleetYardmaster
+            // 
+            this.chkFleetYardmaster.AutoSize = true;
+            this.chkFleetYardmaster.Location = new System.Drawing.Point(6, 65);
+            this.chkFleetYardmaster.Name = "chkFleetYardmaster";
+            this.chkFleetYardmaster.Size = new System.Drawing.Size(133, 17);
+            this.chkFleetYardmaster.TabIndex = 7;
+            this.chkFleetYardmaster.Text = "Yardmaster Operations";
+            this.chkFleetYardmaster.UseVisualStyleBackColor = true;
+            // 
+            // chkFleetLeasing
+            // 
+            this.chkFleetLeasing.AutoSize = true;
+            this.chkFleetLeasing.Location = new System.Drawing.Point(6, 42);
+            this.chkFleetLeasing.Name = "chkFleetLeasing";
+            this.chkFleetLeasing.Size = new System.Drawing.Size(120, 17);
+            this.chkFleetLeasing.TabIndex = 6;
+            this.chkFleetLeasing.Text = "Lease Management";
+            this.chkFleetLeasing.UseVisualStyleBackColor = true;
+            // 
+            // chkFleetSetup
+            // 
+            this.chkFleetSetup.AutoSize = true;
+            this.chkFleetSetup.Location = new System.Drawing.Point(6, 19);
+            this.chkFleetSetup.Name = "chkFleetSetup";
+            this.chkFleetSetup.Size = new System.Drawing.Size(91, 17);
+            this.chkFleetSetup.TabIndex = 5;
+            this.chkFleetSetup.Text = "System Setup";
+            this.chkFleetSetup.UseVisualStyleBackColor = true;
+            // 
             // OfficialExplorerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.chkIssueWireTransfers);
-            this.Controls.Add(this.chkManageInvoices);
-            this.Controls.Add(this.chkManageTaxes);
-            this.Controls.Add(this.chkMintCurrency);
-            this.Controls.Add(this.chkManageAccounts);
-            this.Controls.Add(this.chkOfficials);
-            this.Controls.Add(this.chkEmails);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cboUsers);
@@ -181,6 +265,10 @@ namespace GovernmentPortal.Officials
             this.Name = "OfficialExplorerControl";
             this.Size = new System.Drawing.Size(448, 230);
             this.Load += new System.EventHandler(this.OfficialExplorerControl_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -199,5 +287,12 @@ namespace GovernmentPortal.Officials
         private System.Windows.Forms.CheckBox chkManageTaxes;
         private System.Windows.Forms.CheckBox chkManageInvoices;
         private System.Windows.Forms.CheckBox chkIssueWireTransfers;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox chkFleetLoadUnload;
+        private System.Windows.Forms.CheckBox chkFleetTrainCrew;
+        private System.Windows.Forms.CheckBox chkFleetYardmaster;
+        private System.Windows.Forms.CheckBox chkFleetLeasing;
+        private System.Windows.Forms.CheckBox chkFleetSetup;
     }
 }

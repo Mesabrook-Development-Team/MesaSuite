@@ -58,6 +58,7 @@
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
     <Compile Include="fleet\CarHandlingRate.cs" />
+    <Compile Include="fleet\FleetSecurity.cs" />
     <Compile Include="fleet\LiveLoad.cs" />
     <Compile Include="fleet\LiveLoadSession.cs" />
     <Compile Include="fleet\MiscellaneousSettings.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Migrations\Migration000015.cs" />
     <Compile Include="Migrations\Migration000016.cs" />
     <Compile Include="Migrations\Migration000017.cs" />
+    <Compile Include="Migrations\Migration000018.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="security\Program.cs" />

@@ -209,6 +209,7 @@
     <Compile Include="Models\CarHandlingRate.cs" />
     <Compile Include="Models\EmailImplementation.cs" />
     <Compile Include="Models\EmailTemplate.cs" />
+    <Compile Include="Models\FleetSecurity.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\ItemNamespace.cs" />
     <Compile Include="Models\LiveLoad.cs" />

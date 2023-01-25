@@ -13,5 +13,6 @@
         public bool CanMintCurrency { get; set; }
         public bool ManageInvoices { get; set; }
         public bool IssueWireTransfers { get; set; }
+        public FleetTracking.Models.FleetSecurity FleetSecurity { get; set; }
     }
 }

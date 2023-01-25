@@ -1,12 +1,15 @@
 ﻿using API.Common;
 using API.Common.Attributes;
+using API.Common.Extensions;
 using API_Company.Attributes;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebModels.company;
+using WebModels.fleet;
 using WebModels.security;
 
 namespace API_Company.Controllers
@@ -25,7 +28,12 @@ namespace API_Company.Controllers
             nameof(Employee.ManageEmployees),
             nameof(Employee.ManageAccounts),
             nameof(Employee.ManageLocations),
-            nameof(Employee.IssueWireTransfers)
+            nameof(Employee.IssueWireTransfers),
+            $"{nameof(Employee.FleetSecurity)}.{nameof(FleetSecurity.AllowSetup)}",
+            $"{nameof(Employee.FleetSecurity)}.{nameof(FleetSecurity.AllowLeasingManagement)}",
+            $"{nameof(Employee.FleetSecurity)}.{nameof(FleetSecurity.IsYardmaster)}",
+            $"{nameof(Employee.FleetSecurity)}.{nameof(FleetSecurity.IsTrainCrew)}",
+            $"{nameof(Employee.FleetSecurity)}.{nameof(FleetSecurity.AllowLoadUnload)}"
         };
 
         [HttpGet]
@@ -106,6 +114,66 @@ namespace API_Company.Controllers
         public async override Task<IHttpActionResult> Post(Employee dataObject)
         {
             return await base.Post(dataObject);
+        }
+
+        [HttpPut]
+        [CompanyAccess(RequiredPermissions = new[] { nameof(Employee.ManageEmployees) })]
+        public IHttpActionResult PutFleetSecurity(FleetSecurity dataObject)
+        {
+            if (dataObject.EmployeeID == null)
+            {
+                return BadRequest("Object must at least provide an EmployeeID");
+            }
+
+            FleetSecurity fleetSecurity = new Search<FleetSecurity>(new LongSearchCondition<FleetSecurity>()
+            {
+                Field = nameof(FleetSecurity.EmployeeID),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = dataObject.EmployeeID
+            }).GetEditable();
+            
+            if (fleetSecurity == null) // Must've gotten messed up somewhere - we can create one np
+            {
+                fleetSecurity = DataObjectFactory.Create<FleetSecurity>();
+                fleetSecurity.EmployeeID = dataObject.EmployeeID;
+            }
+
+            fleetSecurity.AllowSetup = dataObject.AllowSetup;
+            fleetSecurity.AllowLeasingManagement = dataObject.AllowLeasingManagement;
+            fleetSecurity.IsYardmaster = dataObject.IsYardmaster;
+            fleetSecurity.IsTrainCrew = dataObject.IsTrainCrew;
+            fleetSecurity.AllowLoadUnload = dataObject.AllowLoadUnload;
+            if (!fleetSecurity.Save())
+            {
+                return fleetSecurity.HandleFailedValidation(this);
+            }
+
+            return Ok(fleetSecurity);
+        }
+
+        [HttpPatch]
+        public IHttpActionResult PatchFleetSecurity(PatchData patchData)
+        {
+            FleetSecurity fleetSecurity = new Search<FleetSecurity>(new LongSearchCondition<FleetSecurity>()
+            {
+                Field = nameof(FleetSecurity.EmployeeID),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = patchData.PrimaryKey
+            }).GetEditable();
+
+            if (fleetSecurity == null)
+            {
+                return NotFound();
+            }
+
+            Dictionary<string, object> patchValues = patchData.Values.Where(kvp => FleetSecurity.SecurityFields.Contains(kvp.Key)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            fleetSecurity.PatchData(patchData.Method, patchValues);
+            if (!fleetSecurity.Save())
+            {
+                return fleetSecurity.HandleFailedValidation(this);
+            }
+
+            return Ok();
         }
     }
 }

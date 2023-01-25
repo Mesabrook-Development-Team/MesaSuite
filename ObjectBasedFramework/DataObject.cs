@@ -228,6 +228,50 @@ namespace ClussPro.ObjectBasedFramework
                 }
             }
 
+            foreach(Relationship relationship in Schema.Schema.GetSchemaObject(GetType()).GetRelationships().Where(r => r.OneToOneByForeignKey)) // Auto-delete 1:1 relationships
+            {
+                SchemaObject relatedSchemaObject = Schema.Schema.GetSchemaObject(relationship.RelatedObjectType);
+                Schema.Field relatedField = relatedSchemaObject.GetField(string.IsNullOrEmpty(relationship.OneToOneForeignKey) ? primaryKeyField.FieldName : relationship.OneToOneForeignKey);
+
+                ISelectQuery relatedObjectQuery = SQLProviderFactory.GetSelectQuery();
+                relatedObjectQuery.Table = new Table(relatedSchemaObject.SchemaName, relatedSchemaObject.ObjectName);
+                relatedObjectQuery.SelectList.Add(relatedSchemaObject.PrimaryKeyField.FieldName);
+                relatedObjectQuery.WhereCondition = new Condition()
+                {
+                    Left = (Base.Data.Operand.Field)relatedField.FieldName,
+                    ConditionType = Condition.ConditionTypes.Equal,
+                    Right = new Literal(primaryKeyField.GetValue(this))
+                };
+
+                DataTable results = relatedObjectQuery.Execute(transaction);
+                foreach (DataRow row in results.Rows)
+                {
+                    object primaryKeyValue = null;
+                    if (relatedSchemaObject.PrimaryKeyField.ReturnType == typeof(long?))
+                    {
+                        primaryKeyValue = row[relatedSchemaObject.PrimaryKeyField.FieldName] as long?;
+                    }
+                    else if (relatedSchemaObject.PrimaryKeyField.ReturnType == typeof(int?))
+                    {
+                        primaryKeyValue = row[relatedSchemaObject.PrimaryKeyField.FieldName] as int?;
+                    }
+
+                    if (primaryKeyValue != null && typeof(Nullable<>).IsAssignableFrom(primaryKeyValue.GetType()))
+                    {
+                        Type underlyingType = Nullable.GetUnderlyingType(primaryKeyValue.GetType());
+                        primaryKeyValue = Convert.ChangeType(primaryKeyValue, underlyingType);
+                    }
+
+                    FKConstraintConflict fKConstraintConflict = new FKConstraintConflict();
+                    fKConstraintConflict.ConflictType = relationship.RelatedObjectType;
+                    fKConstraintConflict.ForeignKey = primaryKeyValue != null ? (long)Convert.ChangeType(primaryKeyValue, typeof(long)) : 0;
+                    fKConstraintConflict.ForeignKeyName = relatedField.FieldName;
+                    fKConstraintConflict.ActionType = FKConstraintConflict.ActionTypes.AutoDeleteReference;
+
+                    fKConstraintConflicts.Add(fKConstraintConflict);
+                }
+            }
+
             return fKConstraintConflicts;
         }
 

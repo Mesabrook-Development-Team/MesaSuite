@@ -84,6 +84,8 @@ namespace FleetTracking.Reports
                         {
                             throw new OperationCanceledException();
                         }
+
+                        lineCounter = 0;
                     }
 
                     post.Resource = "PrintLine/Post";

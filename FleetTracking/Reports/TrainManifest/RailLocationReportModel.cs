@@ -15,7 +15,7 @@ namespace FleetTracking.Reports.TrainManifest
         public decimal? Length => Railcar?.RailcarModel?.Length ?? Locomotive?.LocomotiveModel?.Length;
 
         // Locomotive-Specific
-        public decimal? LastReportedFuel => Train?.TrainFuelRecords?.FirstOrDefault(tfr => tfr.LocomotiveID == LocomotiveID)?.FuelStart;
+        public decimal? LastReportedFuel => Train?.TrainFuelRecords?.LastOrDefault(tfr => tfr.LocomotiveID == LocomotiveID)?.FuelStart;
 
         // Railcar-Specific
         public string FormattedLoad => Railcar?.FormattedRailcarLoads;

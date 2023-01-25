@@ -409,6 +409,52 @@ namespace WebModels.Migrations
             alterTable.Table = "InvoiceLine";
             alterTable.AddColumn("ItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
             alterTable.AddForeignKey("FKInvoiceLine_Item_ItemID", "ItemID", "mesasys", "Item", "ItemID", transaction);
+
+            createSchema.SchemaName = "netprint";
+            createSchema.Execute(transaction);
+
+            createTable.SchemaName = "netprint";
+            createTable.TableName = "Printer";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "PrinterID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "Address", new FieldSpecification(FieldSpecification.FieldTypes.UniqueIdentifier) },
+                { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) }
+            };
+            createTable.Execute(transaction);
+
+            createTable.TableName = "PrintJob";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "PrintJobID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "PrinterID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "DocumentName", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) },
+                { "Finalized", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "netprint", "Printer");
+
+            createTable.TableName = "PrintPage";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "PrintPageID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary= true } },
+                { "PrintJobID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "DisplayOrder", new FieldSpecification(FieldSpecification.FieldTypes.TinyInt) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "netprint", "PrintJob");
+
+            createTable.TableName = "PrintLine";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "PrintLineID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "PrintPageID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "DisplayOrder", new FieldSpecification(FieldSpecification.FieldTypes.TinyInt) },
+                { "Alignment", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "Text", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(transaction, createTable, "netprint", "PrintLine");
         }
 
         private void CreateForeignKey(ITransaction transaction, ICreateTable createTableQuery, string parentSchema, string parentTable, string foreignKey = "")

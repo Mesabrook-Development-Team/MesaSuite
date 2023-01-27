@@ -1,11 +1,13 @@
 ﻿using System;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.invoicing;
 
 namespace WebModels.fleet
 {
     [Table("9BE7F6D6-A444-41C1-BEFB-7E5243D114CE")]
+    [Unique(new[] { nameof(InvoiceID), nameof(LeaseContractID) })]
     public class LeaseContractInvoice : DataObject
     {
         protected LeaseContractInvoice() : base() { }
@@ -19,6 +21,7 @@ namespace WebModels.fleet
 
         private long? _leaseContractID;
         [Field("B457D5E6-132D-4833-B6BF-36A09E67736C")]
+        [Required]
         public long? LeaseContractID
         {
             get { CheckGet(); return _leaseContractID; }
@@ -34,6 +37,7 @@ namespace WebModels.fleet
 
         private long? _invoiceID;
         [Field("3A0ABB6A-504F-48CC-A127-171F2EB72AAE")]
+        [Required]
         public long? InvoiceID
         {
             get { CheckGet(); return _invoiceID; }
@@ -61,9 +65,10 @@ namespace WebModels.fleet
             set { CheckSet(); _type = value; }
         }
 
-        private DateTime _issueTime;
+        private DateTime? _issueTime;
         [Field("12D4C958-A6A7-49E7-93E4-46D347480210", DataSize = 7)]
-        public DateTime IssueTime
+        [Required]
+        public DateTime? IssueTime
         {
             get { CheckGet(); return _issueTime; }
             set { CheckSet(); _issueTime = value; }

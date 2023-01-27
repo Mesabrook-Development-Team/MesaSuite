@@ -1,5 +1,6 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,7 @@ namespace WebModels.fleet
 
         private decimal? _interDistrictRate;
         [Field("D3BA6DD1-780F-495B-BD4C-2D262445F72A", DataSize = 9, DataScale = 2)]
+        [Required]
         public decimal? InterDistrictRate
         {
             get { CheckGet(); return _interDistrictRate; }
@@ -63,6 +65,7 @@ namespace WebModels.fleet
 
         private decimal? _intraDistrictRate;
         [Field("11AC230C-43F1-4F15-96D8-115771D4CCEF", DataSize = 9, DataScale = 2)]
+        [Required]
         public decimal? IntraDistrictRate
         {
             get { CheckGet(); return _intraDistrictRate; }
@@ -71,6 +74,7 @@ namespace WebModels.fleet
 
         private decimal? _placementRate;
         [Field("32E6D910-E94B-43B9-B6BC-920FAFCBA1D9", DataSize = 9, DataScale = 2)]
+        [Required]
         public decimal? PlacementRate
         {
             get { CheckGet(); return _placementRate; }
@@ -79,6 +83,7 @@ namespace WebModels.fleet
 
         private DateTime? _effectiveTime;
         [Field("630AA93E-BE46-409A-A86E-57E0AE8F37FA", DataSize = 7)]
+        [Required]
         public DateTime? EffectiveTime
         {
             get { CheckGet(); return _effectiveTime; }

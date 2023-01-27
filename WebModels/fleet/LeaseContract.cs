@@ -7,6 +7,7 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Utility;
 using ClussPro.ObjectBasedFramework.Validation;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
 using WebModels.invoicing;
@@ -88,6 +89,7 @@ namespace WebModels.fleet
 
         private decimal? _amount;
         [Field("0BD927BC-8B33-4641-B981-55A6CFC3ACA4", DataSize = 8, DataScale = 2)]
+        [Required]
         public decimal? Amount
         {
             get { CheckGet(); return _amount; }
@@ -150,6 +152,7 @@ namespace WebModels.fleet
 
         private DateTime? _leaseTimeStart;
         [Field("206905E5-0FF8-4396-BBB5-C10BFF12734A", DataSize = 7)]
+        [Required]
         public DateTime? LeaseTimeStart
         {
             get { CheckGet(); return _leaseTimeStart; }

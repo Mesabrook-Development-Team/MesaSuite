@@ -7,6 +7,7 @@ using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.mesasys;
 
@@ -27,6 +28,7 @@ namespace WebModels.fleet
 
         private long? _leaseRequestID;
         [Field("E0F3B87A-3C60-4C1C-9A39-42ECD375DE00")]
+        [Required]
         public long? LeaseRequestID
         {
             get { CheckGet(); return _leaseRequestID; }
@@ -72,6 +74,7 @@ namespace WebModels.fleet
 
         private decimal? _leaseAmount;
         [Field("73B76825-BD46-45E8-81F8-1297CFAA766F", DataSize = 8, DataScale = 2)]
+        [Required]
         public decimal? LeaseAmount
         {
             get { CheckGet(); return _leaseAmount; }
@@ -90,6 +93,7 @@ namespace WebModels.fleet
 
         private RecurringAmountTypes _recurringAmountType;
         [Field("07E88E71-1053-418C-B981-D7E56BBBCE55")]
+        [Required]
         public RecurringAmountTypes RecurringAmountType
         {
             get { CheckGet(); return _recurringAmountType; }

@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 
 namespace WebModels.fleet
 {
     [Table("6D34A822-8AEB-403A-BA96-7E73D081106E")]
+    [Unique(new[] { nameof(TrainID)})]
     public class LiveLoad : DataObject
     {
         protected LiveLoad() : base() { }
@@ -23,6 +25,7 @@ namespace WebModels.fleet
 
         private long? _trainID;
         [Field("A2114E5F-D018-4C52-B958-0422C37A759C")]
+        [Required]
         public long? TrainID
         {
             get { CheckGet(); return _trainID; }
@@ -38,6 +41,7 @@ namespace WebModels.fleet
 
         private string _code;
         [Field("B87CA811-3CA5-426E-8BD0-371A5861CDC8", DataSize = 4)]
+        [Required]
         public string Code
         {
             get { CheckGet(); return _code; }

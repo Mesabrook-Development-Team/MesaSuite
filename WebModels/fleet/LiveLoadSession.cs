@@ -9,6 +9,7 @@ using ClussPro.Base.Data.Operand;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
 using WebModels.security;
@@ -30,6 +31,7 @@ namespace WebModels.fleet
 
         private long? _liveLoadID;
         [Field("A5AE60E5-7B3C-441D-83EE-3FEA5CC70797")]
+        [Required]
         public long? LiveLoadID
         {
             get { CheckGet(); return _liveLoadID; }
@@ -45,6 +47,7 @@ namespace WebModels.fleet
 
         private long? _userID;
         [Field("D735A03F-1DD6-4F1E-A4B6-980FD3C3E20B")]
+        [Required]
         public long? UserID
         {
             get { CheckGet(); return _userID; }

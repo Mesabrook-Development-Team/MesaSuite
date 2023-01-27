@@ -5,6 +5,7 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Utility;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
 using WebModels.mesasys;
@@ -93,6 +94,7 @@ namespace WebModels.fleet
 
         private string _deliveryLocation;
         [Field("364944B8-A401-4138-9292-88EBBFD884FB", DataSize = 50)]
+        [Required]
         public string DeliveryLocation
         {
             get { CheckGet(); return _deliveryLocation; }
@@ -101,6 +103,7 @@ namespace WebModels.fleet
 
         private string _purpose;
         [Field("F2A2A1EB-2CA3-42FB-81D9-989363695819", DataSize = -1)]
+        [Required]
         public string Purpose
         {
             get { CheckGet(); return _purpose; }
@@ -109,6 +112,7 @@ namespace WebModels.fleet
 
         private DateTime? _bidEndTime;
         [Field("13D767CA-4013-43D0-9DB2-59EBCB980CB4", DataSize = 7)]
+        [Required]
         public DateTime? BidEndTime
         {
             get { CheckGet(); return _bidEndTime; }

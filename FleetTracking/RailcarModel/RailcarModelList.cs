@@ -4,12 +4,14 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 
 namespace FleetTracking.RailcarModel
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowSetup)]
     public partial class RailcarModelList : UserControl, IFleetTrackingControl
     {
         private FleetTrackingApplication _application;

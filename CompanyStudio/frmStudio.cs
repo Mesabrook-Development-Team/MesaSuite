@@ -23,7 +23,6 @@ namespace CompanyStudio
         Dictionary<string, ThemeBase> themes = new Dictionary<string, ThemeBase>();
         ThemeBase currentTheme = null;
         Dictionary<long, FleetTrackingApplication> fleetTrackingApplicationsByCompany = new Dictionary<long, FleetTrackingApplication>();
-        private ToolStripMenuItem fleetMenu;
 
         private void InitializeThemeLookup()
         {
@@ -42,6 +41,15 @@ namespace CompanyStudio
             get { return _activeCompany; }
             set
             {
+                if (_activeCompany != null && fleetTrackingApplicationsByCompany.ContainsKey(_activeCompany.CompanyID.Value))
+                {
+                    FleetTrackingApplication fleetTrackingApplication = fleetTrackingApplicationsByCompany[_activeCompany.CompanyID.Value];
+                    if (mnuBanner.Items.Contains(fleetTrackingApplication.GetNavigation()))
+                    {
+                        mnuBanner.Items.Remove(fleetTrackingApplication.GetNavigation());
+                    }
+                }
+
                 _activeCompany = value;
                 toolCompanyDropDown.Text = _activeCompany?.Name ?? "";
 
@@ -52,7 +60,6 @@ namespace CompanyStudio
                 emailToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageEmails);
                 employeesToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageEmployees);
                 mnuLocationExplorer.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageLocations);
-                fleetMenu.Visible = _activeCompany != null;
 
                 toolLocationDropDown.SelectedItem = null;
                 toolLocationDropDown.Items.Clear();
@@ -65,6 +72,12 @@ namespace CompanyStudio
                     }
 
                     toolLocationDropDown.SelectedItem = toolLocationDropDown.Items.Cast<DropDownItem<Location>>().FirstOrDefault();
+
+                    if (fleetTrackingApplicationsByCompany.ContainsKey(_activeCompany.CompanyID.Value))
+                    {
+                        mnuBanner.Items.Add(fleetTrackingApplicationsByCompany[_activeCompany.CompanyID.Value].GetNavigation());
+                        fleetTrackingApplicationsByCompany[_activeCompany.CompanyID.Value].VerifyNavigationVisibility();
+                    }
                 }
             }
         }
@@ -107,14 +120,6 @@ namespace CompanyStudio
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.IsCurrentEntity((companyID, governmentID) => FleetTracking_IsCurrentEntity(fleetTrackingApplication, companyID, governmentID)));
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetCurrentCompanyIDGovernmentID(() => ((long?)fleetTrackingApplicationsByCompany.FirstOrDefault(kvp => kvp.Value == fleetTrackingApplication).Key ?? null, null)));
             fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetUsersForEntity(() => FleetTracking_GetUsersForEntity(fleetTrackingApplication)));
-
-            fleetMenu = new ToolStripMenuItem("Fleet Tracking");
-            foreach(FleetTrackingApplication.MainNavigationItem navItem in fleetTrackingApplication.GetNavigationItems())
-            {
-                FleetTracking_AddNavigationItem(fleetMenu.DropDownItems, navItem);
-            }
-            fleetMenu.Visible = false;
-            mnuBanner.Items.Add(fleetMenu);
         }
 
         private void FleetTracking_AddNavigationItem(ToolStripItemCollection collection, FleetTrackingApplication.MainNavigationItem item)
@@ -219,6 +224,11 @@ namespace CompanyStudio
             FleetTracking_AppendHeaders(get);
             List<Employee> employees = await get.GetObject<List<Employee>>() ?? new List<Employee>();
             return employees.Select(e => new FleetTracking.Models.User() { UserID = e.UserID, Username = e.EmployeeName }).ToList();
+        }
+
+        private bool FleetTracking_SecurityPermissionCheck(string permission)
+        {
+            return PermissionsManager.HasPermissionFleetTrack(ActiveCompany?.CompanyID ?? 0L, permission);
         }
 
         private void frmStudio_Load(object sender, EventArgs e)
@@ -439,9 +449,15 @@ namespace CompanyStudio
 
         public void AddCompany(Company company)
         {
+            if (_companies.Any(c => c.CompanyID == company.CompanyID))
+            {
+                this.ShowError("You're already connected to this company");
+                return;
+            }
+
             _companies.Add(company);
             toolCompanyDropDown.Items.Add(company.Name);
-            fleetTrackingApplicationsByCompany[company.CompanyID.Value] = new FleetTrackingApplication();
+            fleetTrackingApplicationsByCompany[company.CompanyID.Value] = new FleetTrackingApplication(FleetTracking_SecurityPermissionCheck);
             InitializeFleetTracking(fleetTrackingApplicationsByCompany[company.CompanyID.Value]);
             OnCompanyAdded?.Invoke(this, company);
         }
@@ -456,7 +472,11 @@ namespace CompanyStudio
                 ActiveCompany = null;
             }
 
-            fleetTrackingApplicationsByCompany.Remove(company.CompanyID.Value);
+            if (fleetTrackingApplicationsByCompany.ContainsKey(company.CompanyID.Value))
+            {
+                fleetTrackingApplicationsByCompany[company.CompanyID.Value].Shutdown();
+                fleetTrackingApplicationsByCompany.Remove(company.CompanyID.Value);
+            }
 
             OnCompanyRemoved?.Invoke(this, company);
         }
@@ -563,6 +583,11 @@ namespace CompanyStudio
             PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnCompanyPermissionChange;
             PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
             PermissionsManager.StopCheckThread();
+
+            foreach(FleetTrackingApplication fleetTrackingApplication in fleetTrackingApplicationsByCompany.Values)
+            {
+                fleetTrackingApplication.Shutdown();
+            }
         }
 
         private void mnuAccountExplorer_Click(object sender, EventArgs e)

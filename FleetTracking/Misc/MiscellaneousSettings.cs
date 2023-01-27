@@ -1,4 +1,5 @@
-﻿using FleetTracking.Interop;
+﻿using FleetTracking.Attributes;
+using FleetTracking.Interop;
 using FleetTracking.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
@@ -15,6 +16,7 @@ using System.Windows.Forms;
 
 namespace FleetTracking.Misc
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowSetup)]
     public partial class MiscellaneousSettings : UserControl, IFleetTrackingControl
     {
         private FleetTrackingApplication _application;

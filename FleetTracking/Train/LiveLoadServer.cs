@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using FleetTracking.Models;
 using MesaSuite.Common.Data;
 
 namespace FleetTracking.Train
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.IsTrainCrew)]
     public partial class LiveLoadServer : UserControl, IFleetTrackingControl
     {
         private FleetTrackingApplication _application;

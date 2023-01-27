@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 
 namespace FleetTracking.Roster
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowSetup, SecuredControlAttribute.Permissions.IsTrainCrew, SecuredControlAttribute.Permissions.IsYardmaster)]
     public partial class RosterList : UserControl, IFleetTrackingControl
     {
         private FleetTrackingApplication _application;

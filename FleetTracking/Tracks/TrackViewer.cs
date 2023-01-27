@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using FleetTracking.Models;
 using FleetTracking.Reports.TrackListing;
@@ -18,6 +19,7 @@ using MesaSuite.Common.Utility;
 
 namespace FleetTracking.Tracks
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowSetup, SecuredControlAttribute.Permissions.IsYardmaster)]
     public partial class TrackViewer : UserControl, IFleetTrackingControl
     {
         public TrackViewer()

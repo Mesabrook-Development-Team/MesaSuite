@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using FleetTracking.Models;
 using FleetTracking.Roster;
@@ -14,6 +15,7 @@ using MesaSuite.Common.Extensions;
 
 namespace FleetTracking.Leasing
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowLeasingManagement)]
     public partial class SubmitBidsStockPicker : UserControl, IFleetTrackingControl
     {
         public LeaseRequest.LeaseTypes LeaseType { get; set; }

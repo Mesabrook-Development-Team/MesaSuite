@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using FleetTracking.Models;
 using MesaSuite.Common.Data;
@@ -14,6 +15,7 @@ using MesaSuite.Common.Extensions;
 
 namespace FleetTracking.TrainSymbols
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.IsTrainCrew, SecuredControlAttribute.Permissions.IsYardmaster)]
     public partial class TrainSymbolList : UserControl, IFleetTrackingControl
     {
         private FleetTrackingApplication _application = null;

@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 
 namespace FleetTracking.Train
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.IsYardmaster)]
     public partial class NewTrainSelectSymbol : UserControl, IFleetTrackingControl
     {
         private FleetTrackingApplication _application;

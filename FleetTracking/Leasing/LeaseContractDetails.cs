@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using FleetTracking.Models;
 using FleetTracking.Roster;
@@ -17,6 +18,7 @@ using MesaSuite.Common.Utility;
 
 namespace FleetTracking.Leasing
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowLeasingManagement)]
     public partial class LeaseContractDetails : UserControl, IFleetTrackingControl
     {
         public LeaseContractDetails()

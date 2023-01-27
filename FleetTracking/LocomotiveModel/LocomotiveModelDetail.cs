@@ -9,12 +9,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 
 namespace FleetTracking.LocomotiveModel
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowSetup)]
     public partial class LocomotiveModelDetail : UserControl, IFleetTrackingControl
     {
         public event EventHandler Save;

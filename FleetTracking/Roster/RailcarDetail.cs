@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using FleetTracking.Models;
 using MesaSuite.Common.Data;
@@ -17,6 +18,7 @@ using MesaSuite.Common.Utility;
 
 namespace FleetTracking.Roster
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowSetup, SecuredControlAttribute.Permissions.IsTrainCrew, SecuredControlAttribute.Permissions.IsYardmaster)]
     public partial class RailcarDetail : UserControl, IFleetTrackingControl
     {
         public event EventHandler<Models.Railcar> RailcarSaved;

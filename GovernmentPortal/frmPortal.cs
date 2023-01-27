@@ -15,12 +15,10 @@ namespace GovernmentPortal
         private Government _government = null;
         private Dictionary<PermissionsManager.Permissions, ToolStripItem> _toolStripItemsByPermission = new Dictionary<PermissionsManager.Permissions, ToolStripItem>();
         private FleetTracking.Interop.FleetTrackingApplication _fleetTrackingApplication;
-        private ToolStripMenuItem mnuFleetTracking;
 
         public frmPortal()
         {
             InitializeComponent();
-            InitializeFleetTracking();
         }
 
         private void SetupPermissions()
@@ -48,6 +46,7 @@ namespace GovernmentPortal
 
             _government = selectGovernment.SelectedGovernment;
             UpdateMenuVisibility();
+            InitializeFleetTracking();
         }
 
         private void UpdateMenuVisibility()
@@ -70,7 +69,10 @@ namespace GovernmentPortal
             }
 
             toolFinance.Visible = shouldShowFinanceToolstrip;
-            mnuFleetTracking.Visible = _government != null;
+            if (_government == null && toolStrip1.Items.Contains(_fleetTrackingApplication.GetNavigation()))
+            {
+                toolStrip1.Items.Remove(_fleetTrackingApplication.GetNavigation());
+            }
         }
 
         private void toolOfficials_Click(object sender, EventArgs e)
@@ -89,7 +91,7 @@ namespace GovernmentPortal
 
         private void InitializeFleetTracking()
         {
-            _fleetTrackingApplication = new FleetTracking.Interop.FleetTrackingApplication();
+            _fleetTrackingApplication = new FleetTracking.Interop.FleetTrackingApplication(FleetTracking_HasFleetPermission);
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.OpenForm(FleetTracking_OpenForm));
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<GetData>(FleetTracking_GetData));
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<PutData>(FleetTracking_PutData));
@@ -100,14 +102,8 @@ namespace GovernmentPortal
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetCurrentCompanyIDGovernmentID(() => (null, _government.GovernmentID)));
             _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetUsersForEntity(FleetTracking_GetCurrentUsers));
 
-            mnuFleetTracking = new ToolStripMenuItem("Fleet Tracking");
-            foreach (FleetTracking.Interop.FleetTrackingApplication.MainNavigationItem mainNavigationItem in _fleetTrackingApplication.GetNavigationItems())
-            {
-                FleetTracking_AddNavigationItem(mnuFleetTracking.DropDownItems, mainNavigationItem);
-            }
-
-            mnuFleetTracking.Visible = false;
-            toolStrip1.Items.Add(mnuFleetTracking);
+            toolStrip1.Items.Add(_fleetTrackingApplication.GetNavigation());
+            _fleetTrackingApplication.VerifyNavigationVisibility();
         }
 
         private void FleetTracking_AddNavigationItem(ToolStripItemCollection collection, FleetTracking.Interop.FleetTrackingApplication.MainNavigationItem item)
@@ -210,6 +206,16 @@ namespace GovernmentPortal
             return officials.Select(o => new FleetTracking.Models.User() { UserID = o.UserID, Username = o.OfficialName }).ToList();
         }
 
+        private bool FleetTracking_HasFleetPermission(string permission)
+        {
+            if (_government?.GovernmentID == null)
+            {
+                return false;
+            }
+
+            return PermissionsManager.HasFleetPermission(_government.GovernmentID.Value, permission);
+        }
+
         private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
         {
             if (!_toolStripItemsByPermission.ContainsKey(e.Permission))
@@ -224,6 +230,10 @@ namespace GovernmentPortal
         {
             PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
             PermissionsManager.StopCheckThread();
+            if (_fleetTrackingApplication != null)
+            {
+                _fleetTrackingApplication.Shutdown();
+            }
         }
 
         private void tsbSwitchGovernment_Click(object sender, EventArgs e)
@@ -239,6 +249,7 @@ namespace GovernmentPortal
             }
 
             _government = null;
+            _fleetTrackingApplication.Shutdown();
             UpdateMenuVisibility();
 
             frmSelectGovernment selectGovernment = new frmSelectGovernment();
@@ -251,6 +262,7 @@ namespace GovernmentPortal
 
             _government = selectGovernment.SelectedGovernment;
             UpdateMenuVisibility();
+            InitializeFleetTracking();
         }
 
         private void tsmiAliases_Click(object sender, EventArgs e)

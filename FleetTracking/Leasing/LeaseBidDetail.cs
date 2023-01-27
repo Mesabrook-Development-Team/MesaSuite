@@ -1,4 +1,5 @@
-﻿using FleetTracking.Interop;
+﻿using FleetTracking.Attributes;
+using FleetTracking.Interop;
 using FleetTracking.Models;
 using FleetTracking.Roster;
 using MesaSuite.Common.Data;
@@ -16,6 +17,7 @@ using System.Windows.Forms;
 
 namespace FleetTracking.Leasing
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowLeasingManagement)]
     public partial class LeaseBidDetail : UserControl, IFleetTrackingControl
     {
         public event EventHandler Saved;

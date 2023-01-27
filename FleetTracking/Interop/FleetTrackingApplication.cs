@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
@@ -10,6 +15,9 @@ namespace FleetTracking.Interop
 {
     public class FleetTrackingApplication
     {
+        private Thread _permissionsThread;
+        private CancellationTokenSource _permissionsTokenSource;
+
         public static class CallbackDelegates
         {
             public delegate Form OpenForm(IFleetTrackingControl primaryControl, OpenFormOptions formOptions, IWin32Window parentWindow);
@@ -17,11 +25,17 @@ namespace FleetTracking.Interop
             public delegate bool IsCurrentEntity(long? companyID, long? governmentID);
             public delegate (long?, long?) GetCurrentCompanyIDGovernmentID();
             public delegate Task<List<User>> GetUsersForEntity();
+            public delegate bool SecurityPermissionCheck(string permission);
         }
 
-        public FleetTrackingApplication()
+        public FleetTrackingApplication(CallbackDelegates.SecurityPermissionCheck securityPermissionCheckCallback)
         {
             SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
+            RegisterCallback(securityPermissionCheckCallback);
+
+            _permissionsThread = new Thread(new ParameterizedThreadStart(PermissionsChecker));
+            _permissionsTokenSource = new CancellationTokenSource();
+            _permissionsThread.Start(_permissionsTokenSource.Token);
         }
 
         private Dictionary<Type, Delegate> callbacks = new Dictionary<Type, Delegate>();
@@ -31,14 +45,37 @@ namespace FleetTracking.Interop
             callbacks[typeof(TDelegate)] = callback;
         }
 
-        public TDelegate GetCallback<TDelegate>() where TDelegate : Delegate
+        private TDelegate GetCallback<TDelegate>() where TDelegate : Delegate
         {
             return (TDelegate)callbacks.GetOrDefault(typeof(TDelegate));
         }
 
         internal Form OpenForm(IFleetTrackingControl control, OpenFormOptions formOptions, IWin32Window parent)
         {
-            return GetCallback<CallbackDelegates.OpenForm>().Invoke(control, formOptions, parent);
+            bool closeFormImmediately = false;
+            if (control.GetType().GetCustomAttribute<SecuredControlAttribute>() != null)
+            {
+                SecuredControlAttribute securedControl = control.GetType().GetCustomAttribute<SecuredControlAttribute>();
+                if (!securedControl.OptionalPermissions.Any(p => SecurityPermissionCheck(p.ToString())))
+                {
+                    MessageBox.Show("You do not have permission to open this", "Forbidden", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    closeFormImmediately = true;
+                }
+            }
+
+            OpenFormOptions localOptions = formOptions;
+            if (closeFormImmediately)
+            {
+                localOptions &= ~OpenFormOptions.Dialog;
+            }
+
+            Form response = GetCallback<CallbackDelegates.OpenForm>().Invoke(control, localOptions, parent);
+            if (closeFormImmediately)
+            {
+                response.Close();
+            }
+
+            return response;
         }
 
         internal Form OpenForm(IFleetTrackingControl control, OpenFormOptions formOptions)
@@ -49,6 +86,11 @@ namespace FleetTracking.Interop
         internal Form OpenForm(IFleetTrackingControl control)
         {
             return OpenForm(control, OpenFormOptions.None);
+        }
+
+        internal bool SecurityPermissionCheck(string permission)
+        {
+            return GetCallback<CallbackDelegates.SecurityPermissionCheck>().Invoke(permission);
         }
 
         internal TAccess GetAccess<TAccess>() where TAccess : DataAccess
@@ -186,9 +228,136 @@ namespace FleetTracking.Interop
             OpenForm(select, OpenFormOptions.Popout);
         }
 
-        public IEnumerable<MainNavigationItem> GetNavigationItems()
+        private ToolStripMenuItem toolStrip = null;
+        private List<MainNavigationItem> items = null;
+        public ToolStripMenuItem GetNavigation()
         {
-            yield return new MainNavigationItem("Rail")
+            if (items == null)
+            {
+                items = GetFullNavigationTree().ToList();
+            }
+
+            if (toolStrip == null)
+            {
+                toolStrip = new ToolStripMenuItem("Fleet Tracking");
+                toolStrip.DropDownOpened += Navigation_DropDownOpening;
+                foreach(MainNavigationItem item in items)
+                {
+                    AddItemToToolStrip(item, toolStrip);
+                }
+            }
+
+            return toolStrip;
+        }
+
+        public void VerifyNavigationVisibility()
+        {
+            bool anyVisible = false;
+            foreach (ToolStripMenuItem item in toolStrip.DropDownItems.OfType<ToolStripMenuItem>())
+            {
+                anyVisible |= SetToolStripItemVisibility(item);
+            }
+
+            if (toolStrip.Visible != anyVisible)
+            {
+                toolStrip.Visible = anyVisible;
+            }
+        }
+
+        private void AddItemToToolStrip(MainNavigationItem item, ToolStripMenuItem toolStripMenuItem)
+        {
+            ToolStripMenuItem newStripItem = new ToolStripMenuItem(item.Text, null, (s, e) => { if (item.SelectedAction != null) item.SelectedAction(); });
+            newStripItem.DropDownOpened += Navigation_DropDownOpening;
+            newStripItem.Tag = item;
+            newStripItem.Image = item.Image;
+            newStripItem.ImageScaling = ToolStripItemImageScaling.None;
+            toolStripMenuItem.DropDownItems.Add(newStripItem);
+
+            if (item.SubItems != null)
+            {
+                foreach (MainNavigationItem subItem in item.SubItems)
+                {
+                    AddItemToToolStrip(subItem, newStripItem);
+                }
+            }
+        }
+
+        private void Navigation_DropDownOpening(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            SetToolStripItemVisibility(item);
+        }
+
+        private bool SetToolStripItemVisibility(ToolStripMenuItem item)
+        {
+            ToolStrip parent = null;
+            ToolStripItem searchItem = item;
+            while(searchItem.OwnerItem != null)
+            {
+                searchItem = searchItem.OwnerItem;
+            }
+
+            parent = searchItem.Owner;
+            if (parent == null)
+            {
+                return false;
+            }
+
+            if (item.Tag is MainNavigationItem navItem && navItem.OptionalPermissions != null)
+            {
+                bool newVisible = false;
+                foreach(string permission in navItem.OptionalPermissions)
+                {
+                    newVisible |= SecurityPermissionCheck(permission);
+                }
+
+                if (newVisible != item.Visible)
+                {
+                    if (parent.InvokeRequired)
+                    {
+                        parent.Invoke(new MethodInvoker(() => item.Visible = newVisible));
+                    }
+                    else
+                    {
+                        item.Visible = newVisible;
+                    }
+                }
+
+                if (!newVisible)
+                {
+                    return false;
+                }
+            }
+
+            if (item.DropDownItems.Count > 0)
+            {
+                bool anyVisible = false;
+                foreach (ToolStripMenuItem subItem in item.DropDownItems.OfType<ToolStripMenuItem>())
+                {
+                    anyVisible |= SetToolStripItemVisibility(subItem);
+                }
+
+                if (item.Visible != anyVisible)
+                {
+                    if (parent.InvokeRequired)
+                    {
+                        parent.Invoke(new MethodInvoker(() => item.Visible = anyVisible));
+                    }
+                    else
+                    {
+                        item.Visible = anyVisible;
+                    }
+                }
+
+                return anyVisible;
+            }
+
+            return true;
+        }
+
+        private IEnumerable<MainNavigationItem> GetFullNavigationTree()
+        {
+            yield return new MainNavigationItem("Rail", Properties.Resources.lorry)
             {
                 SubItems = new List<MainNavigationItem>()
                 {
@@ -196,40 +365,40 @@ namespace FleetTracking.Interop
                     {
                         SubItems = new List<MainNavigationItem>()
                         {
-                            new MainNavigationItem("Locomotive Models", BrowseLocomotiveModels),
-                            new MainNavigationItem("Railcar Models", BrowseRailcarModels),
-                            new MainNavigationItem("Train Symbols", BrowseTrainSymbols),
-                            new MainNavigationItem("Track Districts", BrowseRailDistricts),
-                            new MainNavigationItem("Car Handling Rates", ManageCarHandlingRates),
-                            new MainNavigationItem("Misc Setup", ManageMiscSetup)
+                            new MainNavigationItem("Locomotive Models", BrowseLocomotiveModels, nameof(FleetSecurity.AllowSetup)),
+                            new MainNavigationItem("Railcar Models", BrowseRailcarModels, nameof(FleetSecurity.AllowSetup)),
+                            new MainNavigationItem("Train Symbols", BrowseTrainSymbols, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster)),
+                            new MainNavigationItem("Track Districts", BrowseRailDistricts, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster)),
+                            new MainNavigationItem("Car Handling Rates", ManageCarHandlingRates, nameof(FleetSecurity.AllowSetup)),
+                            new MainNavigationItem("Misc Setup", ManageMiscSetup, nameof(FleetSecurity.AllowSetup))
                         }
                     },
-                    new MainNavigationItem("Leasing", ManageLeasing),
-                    new MainNavigationItem("Equipment Roster", BrowseEquipmentRoster),
-                    new MainNavigationItem("Train Manager", BrowseTrains),
-                    new MainNavigationItem("Track Viewer", OpenTrackViewer),
-                    new MainNavigationItem("Release Equipment", MassReleaseStock),
+                    new MainNavigationItem("Leasing", ManageLeasing, nameof(FleetSecurity.AllowLeasingManagement)),
+                    new MainNavigationItem("Equipment Roster", BrowseEquipmentRoster, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.IsYardmaster)),
+                    new MainNavigationItem("Train Manager", BrowseTrains, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew)),
+                    new MainNavigationItem("Track Viewer", OpenTrackViewer, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
+                    new MainNavigationItem("Release Equipment", MassReleaseStock, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
                     new MainNavigationItem("Load/Unload Cars")
                     {
                         SubItems = new List<MainNavigationItem>()
                         {
-                            new MainNavigationItem("Live Load", StartLiveLoading),
-                            new MainNavigationItem("Load On Track", () => OpenForm(new CarLoading.LoadOnTrack() { Application = this, Text = "Load On Track" }))
+                            new MainNavigationItem("Live Load", StartLiveLoading, nameof(FleetSecurity.AllowLoadUnload)),
+                            new MainNavigationItem("Load On Track", () => OpenForm(new CarLoading.LoadOnTrack() { Application = this, Text = "Load On Track" }), nameof(FleetSecurity.AllowLoadUnload))
                         }
                     },
                     new MainNavigationItem("Utilities")
                     {
                         SubItems = new List<MainNavigationItem>()
                         {
-                            new MainNavigationItem("Mass Update Railcars", () => MassUpdateRailcars())
+                            new MainNavigationItem("Mass Update Railcars", () => MassUpdateRailcars(), nameof(FleetSecurity.AllowLoadUnload), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.IsYardmaster))
                         }
                     },
                     new MainNavigationItem("Reports")
                     {
                         SubItems = new List<MainNavigationItem>()
                         {
-                            new MainNavigationItem("Track Listing", PrintTracks),
-                            new MainNavigationItem("Train Manifest", PrintTrainManifests)
+                            new MainNavigationItem("Track Listing", PrintTracks, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
+                            new MainNavigationItem("Train Manifest", PrintTrainManifests, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew))
                         }
                     }
                 }
@@ -267,19 +436,75 @@ namespace FleetTracking.Interop
 
         public class MainNavigationItem
         {
-            public MainNavigationItem(string text, Action selectedAction)
+            public MainNavigationItem(string text, Action selectedAction, Image image, params string[] optionalPermissions)
             {
                 Text = text;
                 SelectedAction = selectedAction;
+                Image = image;
+                OptionalPermissions = optionalPermissions;
             }
 
-            public MainNavigationItem(string text) : this(text, null) { }
+            public MainNavigationItem(string text, Action selectedAction, params string[] optionalPermissions) : this(text, selectedAction, null, optionalPermissions) { }
 
-            public MainNavigationItem() : this(null, null) { }
+            public MainNavigationItem(string text, Image image) : this(text, null, image, null) { }
+
+            public MainNavigationItem(string text) : this(text, null, null, optionalPermissions: null) { }
+
+            public MainNavigationItem() : this(null, null, null, optionalPermissions: null) { }
 
             public string Text { get; set; }
             public Action SelectedAction { get; set; }
             public List<MainNavigationItem> SubItems { get; set; }
+            public Image Image { get; set; }
+            public string[] OptionalPermissions { get; set; }
+        }
+
+        private void PermissionsChecker(object cancelTokenObj)
+        {
+            if (!(cancelTokenObj is CancellationToken cancellationToken))
+            {
+                throw new ArgumentException("Parameter must be a CancellationToken", nameof(cancelTokenObj));
+            }
+
+            while(!cancellationToken.IsCancellationRequested)
+            {
+                if (toolStrip != null)
+                {
+                    VerifyNavigationVisibility();
+                }
+
+                foreach(Form form in Application.OpenForms.OfType<Form>().ToList())
+                {
+                    foreach (IFleetTrackingControl control in form.Controls.OfType<IFleetTrackingControl>().Where(c => c.GetType().GetCustomAttribute<SecuredControlAttribute>() != null))
+                    {
+                        SecuredControlAttribute securedControl = control.GetType().GetCustomAttribute<SecuredControlAttribute>();
+                        if (!securedControl.OptionalPermissions.Any(p => SecurityPermissionCheck(p.ToString())))
+                        {
+                            Action action = () =>
+                            {
+                                form.ShowError("You do not have permission to use " + form.Text);
+                                form.Close();
+                            };
+
+                            if (form.InvokeRequired)
+                            {
+                                form.Invoke(new MethodInvoker(action));
+                            }
+                            else
+                            {
+                                action();
+                            }
+                        }
+                    }
+                }
+
+                Thread.Sleep(5000);
+            }
+        }
+
+        public void Shutdown()
+        {
+            _permissionsTokenSource.Cancel();
         }
     }
 }

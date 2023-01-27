@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using FleetTracking.Models;
 using MesaSuite.Common.Data;
@@ -9,6 +10,7 @@ using MesaSuite.Common.Extensions;
 
 namespace FleetTracking.Roster
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowSetup, SecuredControlAttribute.Permissions.IsTrainCrew, SecuredControlAttribute.Permissions.IsYardmaster)]
     public partial class BrowseRoster : UserControl, IFleetTrackingControl
     {
         private RosterList shownRosterList;

@@ -1,4 +1,5 @@
-﻿using FleetTracking.Interop;
+﻿using FleetTracking.Attributes;
+using FleetTracking.Interop;
 using FleetTracking.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
@@ -14,6 +15,7 @@ using System.Windows.Forms;
 
 namespace FleetTracking.Rates
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowSetup)]
     public partial class CarHandlingRateDetail : UserControl, IFleetTrackingControl
     {
         public event EventHandler OnSave;

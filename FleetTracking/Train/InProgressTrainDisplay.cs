@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using FleetTracking.Models;
 using MesaSuite.Common.Data;
@@ -15,6 +16,7 @@ using MesaSuite.Common.Extensions;
 
 namespace FleetTracking.Train
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.IsTrainCrew, SecuredControlAttribute.Permissions.IsYardmaster)]
     public partial class InProgressTrainDisplay : UserControl, IFleetTrackingControl
     {
         private FleetTrackingApplication _application;

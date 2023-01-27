@@ -5,11 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using MesaSuite.Common.Data;
 
 namespace FleetTracking.LocomotiveModel
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowSetup)]
     public partial class LocomotiveModelList : UserControl, IFleetTrackingControl
     {
         public event EventHandler<Models.LocomotiveModel> LocomotiveModelChanged;

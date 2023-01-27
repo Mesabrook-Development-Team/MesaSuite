@@ -1,4 +1,5 @@
-﻿using FleetTracking.Interop;
+﻿using FleetTracking.Attributes;
+using FleetTracking.Interop;
 using FleetTracking.Models;
 using FleetTracking.Roster;
 using System;
@@ -13,6 +14,7 @@ using System.Windows.Forms;
 
 namespace FleetTracking.Train
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.IsTrainCrew, SecuredControlAttribute.Permissions.IsYardmaster)]
     public partial class SelectLocoForFuel : UserControl, IFleetTrackingControl
     {
         private FleetTrackingApplication _application;

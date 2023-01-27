@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using FleetTracking.Models;
 using MesaSuite.Common.Data;
@@ -16,6 +17,7 @@ using MesaSuite.Common.Utility;
 
 namespace FleetTracking.Utilities
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowLoadUnload, SecuredControlAttribute.Permissions.IsTrainCrew, SecuredControlAttribute.Permissions.IsYardmaster)]
     public partial class MassUpdateRailcars : UserControl, IFleetTrackingControl
     {
         public bool DefaultSetRelease { get; set; }

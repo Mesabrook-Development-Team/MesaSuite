@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\SecuredControlAttribute.cs" />
     <Compile Include="CarLoading\LiveLoadClient.cs">
       <SubType>UserControl</SubType>
     </Compile>

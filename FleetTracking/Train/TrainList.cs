@@ -1,4 +1,5 @@
-﻿using FleetTracking.Interop;
+﻿using FleetTracking.Attributes;
+using FleetTracking.Interop;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using System;
@@ -14,6 +15,7 @@ using System.Windows.Forms;
 
 namespace FleetTracking.Train
 {
+    [SecuredControl(SecuredControlAttribute.Permissions.IsTrainCrew, SecuredControlAttribute.Permissions.IsYardmaster)]
     public partial class TrainList : UserControl, IFleetTrackingControl
     {
         private FleetTrackingApplication _application;

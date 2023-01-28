@@ -357,7 +357,7 @@ namespace FleetTracking.Interop
 
         private IEnumerable<MainNavigationItem> GetFullNavigationTree()
         {
-            yield return new MainNavigationItem("Rail", Properties.Resources.lorry)
+            yield return new MainNavigationItem("Rail", Properties.Resources.freight)
             {
                 SubItems = new List<MainNavigationItem>()
                 {

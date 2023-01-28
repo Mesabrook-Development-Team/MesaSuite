@@ -5,12 +5,14 @@ using ClussPro.Base.Data.Operand;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
 
 namespace WebModels.fleet
 {
     [Table("8D14543C-895B-409B-B2EF-9298AF326273")]
+    [Unique(new[] { nameof(Name) })]
     public class TrainSymbol : DataObject
     {
         protected TrainSymbol() : base() { }
@@ -55,6 +57,7 @@ namespace WebModels.fleet
 
         private string _name;
         [Field("25AF32D5-5DE1-4E08-87FE-9DB04AB8C1CD", DataSize = 15)]
+        [Required]
         public string Name
         {
             get { CheckGet(); return _name; }
@@ -63,6 +66,7 @@ namespace WebModels.fleet
 
         private string _description;
         [Field("D82E57A3-88CB-4789-B2E4-24C24D9AFD1C", DataSize = 200)]
+        [Required]
         public string Description
         {
             get { CheckGet(); return _description; }

@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
 
 namespace WebModels.fleet
 {
     [Table("48602ED1-6509-49F4-8DEE-F8FBB1D0616B")]
+    [Unique(new[] { nameof(Name) })]
     public class RailDistrict : DataObject
     {
         protected RailDistrict() : base() { }
@@ -51,6 +53,7 @@ namespace WebModels.fleet
 
         private string _name;
         [Field("94F33093-62E5-4F1B-A774-36CE7706BC77", DataSize = 50)]
+        [Required]
         public string Name
         {
             get { CheckGet(); return _name; }

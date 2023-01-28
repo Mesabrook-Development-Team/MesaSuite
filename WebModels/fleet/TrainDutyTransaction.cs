@@ -2,6 +2,7 @@
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Linq;
 using WebModels.security;
@@ -23,6 +24,7 @@ namespace WebModels.fleet
 
         private long? _trainID;
         [Field("0ABF9C96-AC4D-4040-9873-04189EBD23A6")]
+        [Required]
         public long? TrainID
         {
             get { CheckGet(); return _trainID; }
@@ -38,6 +40,7 @@ namespace WebModels.fleet
 
         private long? _userIDOperator;
         [Field("ED86E9F2-8A20-40A8-863D-771F7DE393ED")]
+        [Required]
         public long? UserIDOperator
         {
             get { CheckGet(); return _userIDOperator; }
@@ -53,6 +56,7 @@ namespace WebModels.fleet
 
         private DateTime? _timeOnDuty;
         [Field("B00C3629-DACE-484B-864D-861754905501", DataSize = 7)]
+        [Required]
         public DateTime? TimeOnDuty
         {
             get { CheckGet(); return _timeOnDuty; }

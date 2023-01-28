@@ -29,6 +29,14 @@ namespace WebModels.fleet.Validations
                     Field = "CompanyIDPossessor,GovernmentIDPossessor",
                     Condition = new XOrPresenceCondition("CompanyIDPossessor", "GovernmentIDPossessor")
                 };
+
+                yield return new ValidationRule()
+                {
+                    ID = new Guid("8B664D12-7A7B-4267-B5FA-B4FF47B42AAB"),
+                    Message = "Reporting Mark must be unique amongst Locomotives and Railcars",
+                    Field = "ReportingMark,ReportingNumber",
+                    Condition = new ReportingMarkUniqueCondition()
+                };
             }
         }
     }

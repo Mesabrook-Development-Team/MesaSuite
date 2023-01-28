@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 
 namespace WebModels.fleet
 {
@@ -52,9 +53,10 @@ namespace WebModels.fleet
             get { CheckGet(); return _locomotive; }
         }
 
-        private int _position;
+        private int? _position;
         [Field("17A69205-E208-4EFA-B334-582FB350E5C9")]
-        public int Position
+        [Required]
+        public int? Position
         {
             get { CheckGet(); return _position; }
             set { CheckSet(); _position = value; }

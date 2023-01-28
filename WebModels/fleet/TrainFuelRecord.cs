@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 
 namespace WebModels.fleet
 {
@@ -23,6 +24,7 @@ namespace WebModels.fleet
 
         private long? _trainID;
         [Field("978C2A7A-0EA6-4CF2-9D45-604C716589D3")]
+        [Required]
         public long? TrainID
         {
             get { CheckGet(); return _trainID; }
@@ -38,6 +40,7 @@ namespace WebModels.fleet
 
         private long? _locomotiveID;
         [Field("0AB56ECA-FD4B-423C-8CD7-0EB9E5B2CA65")]
+        [Required]
         public long? LocomotiveID
         {
             get { CheckGet(); return _locomotiveID; }
@@ -53,6 +56,7 @@ namespace WebModels.fleet
 
         private decimal? _fuelStart;
         [Field("E527F690-EABA-4D9C-8E7E-78620DE1CE6F", DataSize = 4, DataScale = 1)]
+        [Required]
         public decimal? FuelStart
         {
             get { CheckGet(); return _fuelStart; }

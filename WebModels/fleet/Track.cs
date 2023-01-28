@@ -9,12 +9,14 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
 
 namespace WebModels.fleet
 {
     [Table("A65E0F0C-6EC2-4943-B345-B5983B05DFD6")]
+    [Unique(new[] { nameof(Name) })]
     public class Track : DataObject
     {
         protected Track() : base() { }
@@ -74,6 +76,7 @@ namespace WebModels.fleet
 
         private string _name;
         [Field("D9D14F78-33C7-4C53-A4B4-31967FF51DE0", DataSize = 30)]
+        [Required]
         public string Name
         {
             get { CheckGet(); return _name; }
@@ -82,6 +85,7 @@ namespace WebModels.fleet
 
         private decimal? _length;
         [Field("EA80FD21-C139-4682-9976-0EF39023AAFD", DataSize = 6, DataScale = 2)]
+        [Required]
         public decimal? Length
         {
             get { CheckGet(); return _length; }

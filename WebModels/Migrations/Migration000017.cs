@@ -190,7 +190,7 @@ namespace WebModels.Migrations
             createTable.TableName = "Train";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
             {
-                { "TrainID", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { IsPrimary = true } },
+                { "TrainID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "TrainSymbolID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "TrainInstructions", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 300) },
                 { "Status", new FieldSpecification(FieldSpecification.FieldTypes.Int) }
@@ -229,7 +229,7 @@ namespace WebModels.Migrations
             {
                 { "RailDistrictID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "CompanyIDOperator", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "GovenrmentIDOperator", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDOperator", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) }
             };
             createTable.Execute(transaction);
@@ -303,8 +303,8 @@ namespace WebModels.Migrations
                 { "EffectiveTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
             };
             createTable.Execute(transaction);
-            CreateForeignKey(transaction, createTable, "company", "CompanyID");
-            CreateForeignKey(transaction, createTable, "gov", "GovernmentID");
+            CreateForeignKey(transaction, createTable, "company", "Company");
+            CreateForeignKey(transaction, createTable, "gov", "Government");
 
             createTable.TableName = "MiscellaneousSettings";
             createTable.Columns = new Dictionary<string, FieldSpecification>()

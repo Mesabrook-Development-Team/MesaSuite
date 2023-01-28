@@ -8,6 +8,7 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
 using WebModels.mesasys;
@@ -29,6 +30,7 @@ namespace WebModels.fleet
 
         private long? _railcarModelID;
         [Field("3D8E9CAC-11E8-4275-8927-AEC060C46EF8")]
+        [Required]
         public long? RailcarModelID
         {
             get { CheckGet(); return _railcarModelID; }
@@ -111,6 +113,7 @@ namespace WebModels.fleet
 
         private string _reportingMark;
         [Field("DF38F559-C558-476E-B3D0-15828D80DAB0")]
+        [Required]
         public string ReportingMark
         {
             get { CheckGet(); return _reportingMark; }
@@ -119,6 +122,7 @@ namespace WebModels.fleet
 
         private int? _reportingNumber;
         [Field("0EBE9191-DCA9-49A4-BE99-C0FEC9E27CAA")]
+        [Required]
         public int? ReportingNumber
         {
             get { CheckGet(); return _reportingNumber; }

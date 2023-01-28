@@ -80,6 +80,13 @@
     <Compile Include="fleet\TrainFuelRecord.cs" />
     <Compile Include="fleet\TrainSymbol.cs" />
     <Compile Include="fleet\TrainSymbolRate.cs" />
+    <Compile Include="fleet\Validations\TrainSymbolValidationDefinition.cs" />
+    <Compile Include="fleet\Validations\TrackValidationDefinition.cs" />
+    <Compile Include="fleet\Validations\RailLocationValidationDefinition.cs" />
+    <Compile Include="fleet\Validations\RailDistrictValidationDefinition.cs" />
+    <Compile Include="fleet\Validations\RailcarValidationDefinition.cs" />
+    <Compile Include="fleet\Validations\MiscellaneousSettingsValidationDefinition.cs" />
+    <Compile Include="fleet\Validations\LocomotiveModelValidationDefinition.cs" />
     <Compile Include="fleet\Validations\LocomotiveValidationDefinition.cs" />
     <Compile Include="fleet\Validations\LiveLoadSessionValidationDefinition.cs" />
     <Compile Include="fleet\Validations\LeaseRequestValidationDefinition.cs" />
@@ -87,6 +94,7 @@
     <Compile Include="fleet\Validations\LeaseBidValidationDefinition.cs" />
     <Compile Include="fleet\Validations\FleetSecurityValidationDefinition.cs" />
     <Compile Include="fleet\Validations\ReportingMarkUniqueCondition.cs" />
+    <Compile Include="fleet\Validations\TrainValidationDefinition.cs" />
     <Compile Include="fleet\Validations\XOrPresenceCondition.cs" />
     <Compile Include="fleet\Validations\CarHandlingRateValidationDefinition.cs" />
     <Compile Include="gov\Government.cs" />

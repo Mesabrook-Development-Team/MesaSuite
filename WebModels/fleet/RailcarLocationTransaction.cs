@@ -10,6 +10,7 @@ using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.invoicing;
 
 namespace WebModels.fleet
@@ -29,6 +30,7 @@ namespace WebModels.fleet
 
         private long? _railcarID;
         [Field("522B7C1D-8B85-4F79-99AB-9C544B580DAE")]
+        [Required]
         public long? RailcarID
         {
             get { CheckGet(); return _railcarID; }
@@ -44,6 +46,7 @@ namespace WebModels.fleet
 
         private long? _trackIDNew;
         [Field("0D6E2013-4E8B-4881-BF3C-0EB9A591880E")]
+        [Required]
         public long? TrackIDNew
         {
             get { CheckGet(); return _trackIDNew; }
@@ -59,6 +62,7 @@ namespace WebModels.fleet
 
         private long? _trainIDNew;
         [Field("E88AF0F2-8ACB-46D8-A347-88F6F2609A2C")]
+        [Required]
         public long? TrainIDNew
         {
             get { CheckGet(); return _trainIDNew; }
@@ -82,6 +86,7 @@ namespace WebModels.fleet
 
         private DateTime? _transactionTime;
         [Field("3932912A-D4C5-4520-B0C4-3DD77BFF2320", DataSize = 7)]
+        [Required]
         public DateTime? TransactionTime
         {
             get { CheckGet(); return _transactionTime; }

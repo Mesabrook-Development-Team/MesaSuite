@@ -11,6 +11,7 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
 
@@ -31,6 +32,7 @@ namespace WebModels.fleet
 
         private long? _trainSymbolID;
         [Field("BD6A260E-193D-456A-BE01-9F9A5B880B41")]
+        [Required]
         public long? TrainSymbolID
         {
             get { CheckGet(); return _trainSymbolID; }

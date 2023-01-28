@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 
 namespace WebModels.fleet
 {
@@ -23,6 +24,7 @@ namespace WebModels.fleet
 
         private long? _trainSymbolID;
         [Field("A155A8EE-8372-41A4-96CC-C50EF84352B3")]
+        [Required]
         public long? TrainSymbolID
         {
             get { CheckGet(); return _trainSymbolID; }
@@ -38,6 +40,7 @@ namespace WebModels.fleet
 
         private DateTime? _effectiveTime;
         [Field("1DBA9C63-0129-49FF-BA2C-EE87678A09BA", DataSize = 7)]
+        [Required]
         public DateTime? EffectiveTime
         {
             get { CheckGet(); return _effectiveTime; }
@@ -46,6 +49,7 @@ namespace WebModels.fleet
 
         private decimal? _ratePerCar;
         [Field("6709FDDA-A258-4866-AF1A-A409FCD36FD6", DataSize = 9, DataScale = 2)]
+        [Required]
         public decimal? RatePerCar
         {
             get { CheckGet(); return _ratePerCar; }
@@ -54,6 +58,7 @@ namespace WebModels.fleet
 
         private decimal? _ratePerPartialTrip;
         [Field("88417201-3B86-47C5-B6E1-425A7BA13631", DataSize = 9, DataScale = 2)]
+        [Required]
         public decimal? RatePerPartialTrip
         {
             get { CheckGet(); return _ratePerPartialTrip; }

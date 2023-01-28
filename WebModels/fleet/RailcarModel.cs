@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 
 namespace WebModels.fleet
 {
     [Table("4BC25FCF-9500-4FA1-8F89-EECF2E6F686E")]
+    [Unique(new[] { nameof(Name) })]
     public class RailcarModel : DataObject
     {
         protected RailcarModel() : base() { }
@@ -19,6 +21,7 @@ namespace WebModels.fleet
 
         private string _name;
         [Field("AC0B56FD-C697-4648-8C73-C4096A167A04")]
+        [Required]
         public string Name
         {
             get { CheckGet(); return _name; }
@@ -27,6 +30,7 @@ namespace WebModels.fleet
 
         private decimal? _cargoCapacity;
         [Field("2F3C2EE2-A7DB-4A6D-BC1C-8E149B5227F1", DataSize = 4)]
+        [Required]
         public decimal? CargoCapacity
         {
             get { CheckGet(); return _cargoCapacity; }
@@ -35,6 +39,7 @@ namespace WebModels.fleet
 
         private decimal? _length;
         [Field("DB7F7B79-1516-444A-B249-4C34AE5A0140", DataSize = 3, DataScale = 1)]
+        [Required]
         public decimal? Length
         {
             get { CheckGet(); return _length; }

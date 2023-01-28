@@ -1,5 +1,6 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace WebModels.fleet
 
         private long? _railcarID;
         [Field("C91974D9-90FA-438B-B1C6-AC9600D4F2F9")]
+        [Required]
         public long? RailcarID
         {
             get { CheckGet(); return _railcarID; }
@@ -39,6 +41,7 @@ namespace WebModels.fleet
 
         private long? _itemID;
         [Field("BACB57AE-CE0D-433B-B846-34C73BD269E8")]
+        [Required]
         public long? ItemID
         {
             get { CheckGet(); return _itemID; }
@@ -54,6 +57,7 @@ namespace WebModels.fleet
 
         private decimal? _quantity;
         [Field("B8350982-0BD8-488C-8E77-9C9DC5F1A48D", DataSize = 9, DataScale = 2)]
+        [Required]
         public decimal? Quantity
         {
             get { CheckGet(); return _quantity; }

@@ -29,17 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CarHandlingRateList));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolAdd = new System.Windows.Forms.ToolStripButton();
             this.toolDelete = new System.Windows.Forms.ToolStripButton();
             this.dgvRates = new System.Windows.Forms.DataGridView();
-            this.loader = new FleetTracking.Loader();
-            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             this.colEffectiveTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIntraDistrictRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colInterDistrictRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPlacementRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.loader = new FleetTracking.Loader();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRates)).BeginInit();
             this.SuspendLayout();
@@ -57,7 +56,7 @@
             // 
             // toolAdd
             // 
-            this.toolAdd.Image = ((System.Drawing.Image)(resources.GetObject("toolAdd.Image")));
+            this.toolAdd.Image = global::FleetTracking.Properties.Resources.add;
             this.toolAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAdd.Name = "toolAdd";
             this.toolAdd.Size = new System.Drawing.Size(59, 35);
@@ -67,7 +66,7 @@
             // 
             // toolDelete
             // 
-            this.toolDelete.Image = ((System.Drawing.Image)(resources.GetObject("toolDelete.Image")));
+            this.toolDelete.Image = global::FleetTracking.Properties.Resources.delete;
             this.toolDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolDelete.Name = "toolDelete";
             this.toolDelete.Size = new System.Drawing.Size(70, 35);
@@ -90,18 +89,6 @@
             this.dgvRates.TabIndex = 1;
             this.dgvRates.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRates_CellDoubleClick);
             this.dgvRates.SelectionChanged += new System.EventHandler(this.dgvRates_SelectionChanged);
-            // 
-            // loader
-            // 
-            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(0, 0);
-            this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(611, 283);
-            this.loader.TabIndex = 2;
-            this.loader.Visible = false;
             // 
             // colEffectiveTime
             // 
@@ -126,6 +113,18 @@
             this.colPlacementRate.HeaderText = "Placement Rate";
             this.colPlacementRate.Name = "colPlacementRate";
             this.colPlacementRate.Width = 150;
+            // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(611, 283);
+            this.loader.TabIndex = 2;
+            this.loader.Visible = false;
             // 
             // CarHandlingRateList
             // 

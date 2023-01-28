@@ -3679,6 +3679,7 @@
   <ItemGroup>
     <Content Include="Resources\checkall.png" />
     <None Include="Resources\freight.png" />
+    <None Include="Resources\freight1.png" />
     <Content Include="Resources\uncheckall.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">

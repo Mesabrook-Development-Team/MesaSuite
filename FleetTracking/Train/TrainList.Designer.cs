@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrainList));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cmdFirst = new System.Windows.Forms.Button();
             this.cmdNext = new System.Windows.Forms.Button();
@@ -182,7 +181,7 @@
             // 
             // toolAddTrain
             // 
-            this.toolAddTrain.Image = ((System.Drawing.Image)(resources.GetObject("toolAddTrain.Image")));
+            this.toolAddTrain.Image = global::FleetTracking.Properties.Resources.add;
             this.toolAddTrain.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAddTrain.Name = "toolAddTrain";
             this.toolAddTrain.Size = new System.Drawing.Size(61, 35);
@@ -193,7 +192,7 @@
             // toolDeleteTrain
             // 
             this.toolDeleteTrain.Enabled = false;
-            this.toolDeleteTrain.Image = ((System.Drawing.Image)(resources.GetObject("toolDeleteTrain.Image")));
+            this.toolDeleteTrain.Image = global::FleetTracking.Properties.Resources.delete;
             this.toolDeleteTrain.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolDeleteTrain.Name = "toolDeleteTrain";
             this.toolDeleteTrain.Size = new System.Drawing.Size(72, 35);

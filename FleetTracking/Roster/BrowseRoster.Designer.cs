@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrowseRoster));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabAll = new System.Windows.Forms.TabPage();
@@ -42,9 +41,9 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuAddRailcar = new System.Windows.Forms.ToolStripButton();
             this.mnuDeleteRailcar = new System.Windows.Forms.ToolStripButton();
-            this.loader = new FleetTracking.Loader();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolMassAdd = new System.Windows.Forms.ToolStripButton();
+            this.loader = new FleetTracking.Loader();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -146,7 +145,7 @@
             // 
             // mnuAddLocomotive
             // 
-            this.mnuAddLocomotive.Image = ((System.Drawing.Image)(resources.GetObject("mnuAddLocomotive.Image")));
+            this.mnuAddLocomotive.Image = global::FleetTracking.Properties.Resources.add;
             this.mnuAddLocomotive.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuAddLocomotive.Name = "mnuAddLocomotive";
             this.mnuAddLocomotive.Size = new System.Drawing.Size(99, 35);
@@ -157,7 +156,7 @@
             // mnuDeleteLocomotive
             // 
             this.mnuDeleteLocomotive.Enabled = false;
-            this.mnuDeleteLocomotive.Image = ((System.Drawing.Image)(resources.GetObject("mnuDeleteLocomotive.Image")));
+            this.mnuDeleteLocomotive.Image = global::FleetTracking.Properties.Resources.delete;
             this.mnuDeleteLocomotive.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuDeleteLocomotive.Name = "mnuDeleteLocomotive";
             this.mnuDeleteLocomotive.Size = new System.Drawing.Size(123, 35);
@@ -172,7 +171,7 @@
             // 
             // mnuAddRailcar
             // 
-            this.mnuAddRailcar.Image = ((System.Drawing.Image)(resources.GetObject("mnuAddRailcar.Image")));
+            this.mnuAddRailcar.Image = global::FleetTracking.Properties.Resources.add;
             this.mnuAddRailcar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuAddRailcar.Name = "mnuAddRailcar";
             this.mnuAddRailcar.Size = new System.Drawing.Size(71, 35);
@@ -183,13 +182,28 @@
             // mnuDeleteRailcar
             // 
             this.mnuDeleteRailcar.Enabled = false;
-            this.mnuDeleteRailcar.Image = ((System.Drawing.Image)(resources.GetObject("mnuDeleteRailcar.Image")));
+            this.mnuDeleteRailcar.Image = global::FleetTracking.Properties.Resources.delete;
             this.mnuDeleteRailcar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuDeleteRailcar.Name = "mnuDeleteRailcar";
             this.mnuDeleteRailcar.Size = new System.Drawing.Size(95, 35);
             this.mnuDeleteRailcar.Text = "Delete Railcar(s)";
             this.mnuDeleteRailcar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.mnuDeleteRailcar.Click += new System.EventHandler(this.mnuDeleteRailcar_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
+            // 
+            // toolMassAdd
+            // 
+            this.toolMassAdd.Image = global::FleetTracking.Properties.Resources.application_cascade;
+            this.toolMassAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolMassAdd.Name = "toolMassAdd";
+            this.toolMassAdd.Size = new System.Drawing.Size(63, 35);
+            this.toolMassAdd.Text = "Mass Add";
+            this.toolMassAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolMassAdd.Click += new System.EventHandler(this.toolMassAdd_Click);
             // 
             // loader
             // 
@@ -202,21 +216,6 @@
             this.loader.Size = new System.Drawing.Size(1071, 555);
             this.loader.TabIndex = 1;
             this.loader.Visible = false;
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
-            // 
-            // toolMassAdd
-            // 
-            this.toolMassAdd.Image = ((System.Drawing.Image)(resources.GetObject("toolMassAdd.Image")));
-            this.toolMassAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolMassAdd.Name = "toolMassAdd";
-            this.toolMassAdd.Size = new System.Drawing.Size(63, 35);
-            this.toolMassAdd.Text = "Mass Add";
-            this.toolMassAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolMassAdd.Click += new System.EventHandler(this.toolMassAdd_Click);
             // 
             // BrowseRoster
             // 

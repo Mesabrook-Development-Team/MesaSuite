@@ -29,17 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RailDistrictDetails));
             this.label1 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cmdSave = new System.Windows.Forms.Button();
-            this.cmdReset = new System.Windows.Forms.Button();
             this.dgvTracks = new System.Windows.Forms.DataGridView();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolSelectTracks = new System.Windows.Forms.ToolStripButton();
             this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colOwner = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolSelectTracks = new System.Windows.Forms.ToolStripButton();
+            this.cmdSave = new System.Windows.Forms.Button();
+            this.cmdReset = new System.Windows.Forms.Button();
             this.loader = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             this.groupBox1.SuspendLayout();
@@ -79,6 +78,49 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tracks";
             // 
+            // dgvTracks
+            // 
+            this.dgvTracks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTracks.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colName,
+            this.colOwner});
+            this.dgvTracks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvTracks.Location = new System.Drawing.Point(3, 41);
+            this.dgvTracks.Name = "dgvTracks";
+            this.dgvTracks.Size = new System.Drawing.Size(542, 208);
+            this.dgvTracks.TabIndex = 1;
+            // 
+            // colName
+            // 
+            this.colName.HeaderText = "Name";
+            this.colName.Name = "colName";
+            this.colName.Width = 200;
+            // 
+            // colOwner
+            // 
+            this.colOwner.HeaderText = "Owned By";
+            this.colOwner.Name = "colOwner";
+            this.colOwner.Width = 200;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolSelectTracks});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 16);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(542, 25);
+            this.toolStrip1.TabIndex = 0;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolSelectTracks
+            // 
+            this.toolSelectTracks.Image = global::FleetTracking.Properties.Resources.accept;
+            this.toolSelectTracks.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolSelectTracks.Name = "toolSelectTracks";
+            this.toolSelectTracks.Size = new System.Drawing.Size(93, 22);
+            this.toolSelectTracks.Text = "Select Tracks";
+            this.toolSelectTracks.Click += new System.EventHandler(this.toolSelectTracks_Click);
+            // 
             // cmdSave
             // 
             this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -99,49 +141,6 @@
             this.cmdReset.TabIndex = 2;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
-            // 
-            // dgvTracks
-            // 
-            this.dgvTracks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTracks.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colName,
-            this.colOwner});
-            this.dgvTracks.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTracks.Location = new System.Drawing.Point(3, 41);
-            this.dgvTracks.Name = "dgvTracks";
-            this.dgvTracks.Size = new System.Drawing.Size(542, 208);
-            this.dgvTracks.TabIndex = 1;
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolSelectTracks});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 16);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(542, 25);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolSelectTracks
-            // 
-            this.toolSelectTracks.Image = ((System.Drawing.Image)(resources.GetObject("toolSelectTracks.Image")));
-            this.toolSelectTracks.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolSelectTracks.Name = "toolSelectTracks";
-            this.toolSelectTracks.Size = new System.Drawing.Size(93, 22);
-            this.toolSelectTracks.Text = "Select Tracks";
-            this.toolSelectTracks.Click += new System.EventHandler(this.toolSelectTracks_Click);
-            // 
-            // colName
-            // 
-            this.colName.HeaderText = "Name";
-            this.colName.Name = "colName";
-            this.colName.Width = 200;
-            // 
-            // colOwner
-            // 
-            this.colOwner.HeaderText = "Owned By";
-            this.colOwner.Name = "colOwner";
-            this.colOwner.Width = 200;
             // 
             // loader
             // 

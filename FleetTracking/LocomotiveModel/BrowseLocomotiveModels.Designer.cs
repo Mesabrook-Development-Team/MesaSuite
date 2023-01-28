@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrowseLocomotiveModels));
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.mnuAdd = new System.Windows.Forms.ToolStripButton();
@@ -66,7 +65,7 @@
             // 
             // mnuAdd
             // 
-            this.mnuAdd.Image = ((System.Drawing.Image)(resources.GetObject("mnuAdd.Image")));
+            this.mnuAdd.Image = global::FleetTracking.Properties.Resources.add;
             this.mnuAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuAdd.Name = "mnuAdd";
             this.mnuAdd.Size = new System.Drawing.Size(136, 35);
@@ -78,7 +77,7 @@
             // mnuDelete
             // 
             this.mnuDelete.Enabled = false;
-            this.mnuDelete.Image = ((System.Drawing.Image)(resources.GetObject("mnuDelete.Image")));
+            this.mnuDelete.Image = global::FleetTracking.Properties.Resources.delete;
             this.mnuDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuDelete.Name = "mnuDelete";
             this.mnuDelete.Size = new System.Drawing.Size(147, 35);

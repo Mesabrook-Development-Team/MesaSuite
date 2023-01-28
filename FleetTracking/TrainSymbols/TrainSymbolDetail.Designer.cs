@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrainSymbolDetail));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cmdReset = new System.Windows.Forms.Button();
             this.cmdSave = new System.Windows.Forms.Button();
@@ -205,7 +204,7 @@
             // 
             // toolAddRate
             // 
-            this.toolAddRate.Image = ((System.Drawing.Image)(resources.GetObject("toolAddRate.Image")));
+            this.toolAddRate.Image = global::FleetTracking.Properties.Resources.add;
             this.toolAddRate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAddRate.Name = "toolAddRate";
             this.toolAddRate.Size = new System.Drawing.Size(59, 35);
@@ -216,7 +215,7 @@
             // toolDeleteRate
             // 
             this.toolDeleteRate.Enabled = false;
-            this.toolDeleteRate.Image = ((System.Drawing.Image)(resources.GetObject("toolDeleteRate.Image")));
+            this.toolDeleteRate.Image = global::FleetTracking.Properties.Resources.delete;
             this.toolDeleteRate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolDeleteRate.Name = "toolDeleteRate";
             this.toolDeleteRate.Size = new System.Drawing.Size(70, 35);

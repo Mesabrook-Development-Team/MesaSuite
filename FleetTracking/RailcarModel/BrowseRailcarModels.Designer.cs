@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrowseRailcarModels));
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.mnuAddRailcarModel = new System.Windows.Forms.ToolStripButton();
@@ -67,7 +66,7 @@
             // 
             // mnuAddRailcarModel
             // 
-            this.mnuAddRailcarModel.Image = ((System.Drawing.Image)(resources.GetObject("mnuAddRailcarModel.Image")));
+            this.mnuAddRailcarModel.Image = global::FleetTracking.Properties.Resources.add;
             this.mnuAddRailcarModel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuAddRailcarModel.Name = "mnuAddRailcarModel";
             this.mnuAddRailcarModel.Size = new System.Drawing.Size(108, 35);
@@ -78,7 +77,7 @@
             // mnuDeleteRailcarModel
             // 
             this.mnuDeleteRailcarModel.Enabled = false;
-            this.mnuDeleteRailcarModel.Image = ((System.Drawing.Image)(resources.GetObject("mnuDeleteRailcarModel.Image")));
+            this.mnuDeleteRailcarModel.Image = global::FleetTracking.Properties.Resources.delete;
             this.mnuDeleteRailcarModel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuDeleteRailcarModel.Name = "mnuDeleteRailcarModel";
             this.mnuDeleteRailcarModel.Size = new System.Drawing.Size(119, 35);

@@ -204,7 +204,7 @@
             // 
             // mnuAddRequest
             // 
-            this.mnuAddRequest.Image = ((System.Drawing.Image)(resources.GetObject("mnuAddRequest.Image")));
+            this.mnuAddRequest.Image = global::FleetTracking.Properties.Resources.add;
             this.mnuAddRequest.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuAddRequest.Name = "mnuAddRequest";
             this.mnuAddRequest.Size = new System.Drawing.Size(110, 35);
@@ -214,7 +214,7 @@
             // 
             // mnuDeleteRequests
             // 
-            this.mnuDeleteRequests.Image = ((System.Drawing.Image)(resources.GetObject("mnuDeleteRequests.Image")));
+            this.mnuDeleteRequests.Image = global::FleetTracking.Properties.Resources.delete;
             this.mnuDeleteRequests.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuDeleteRequests.Name = "mnuDeleteRequests";
             this.mnuDeleteRequests.Size = new System.Drawing.Size(126, 35);
@@ -229,7 +229,7 @@
             // 
             // mnuSubmitBids
             // 
-            this.mnuSubmitBids.Image = ((System.Drawing.Image)(resources.GetObject("mnuSubmitBids.Image")));
+            this.mnuSubmitBids.Image = global::FleetTracking.Properties.Resources.arrow_up;
             this.mnuSubmitBids.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuSubmitBids.Name = "mnuSubmitBids";
             this.mnuSubmitBids.Size = new System.Drawing.Size(74, 35);

@@ -73,19 +73,19 @@ namespace MesaService.ServiceTasks
                     case LeaseBid.RecurringAmountTypes.None:
                         continue;
                     case LeaseBid.RecurringAmountTypes.Biweekly:
-                        nextIssueTime = lastIssueTime.IssueTime.AddDays(14);
+                        nextIssueTime = lastIssueTime.IssueTime.Value.AddDays(14);
                         break;
                     case LeaseBid.RecurringAmountTypes.Monthly:
-                        nextIssueTime = lastIssueTime.IssueTime.AddMonths(1);
+                        nextIssueTime = lastIssueTime.IssueTime.Value.AddMonths(1);
                         break;
                     case LeaseBid.RecurringAmountTypes.Quarterly:
-                        nextIssueTime = lastIssueTime.IssueTime.AddMonths(3);
+                        nextIssueTime = lastIssueTime.IssueTime.Value.AddMonths(3);
                         break;
                     case LeaseBid.RecurringAmountTypes.Daily:
-                        nextIssueTime = lastIssueTime.IssueTime.AddDays(1);
+                        nextIssueTime = lastIssueTime.IssueTime.Value.AddDays(1);
                         break;
                     case LeaseBid.RecurringAmountTypes.Weekly:
-                        nextIssueTime = lastIssueTime.IssueTime.AddDays(7);
+                        nextIssueTime = lastIssueTime.IssueTime.Value.AddDays(7);
                         break;
                     default: 
                         continue;

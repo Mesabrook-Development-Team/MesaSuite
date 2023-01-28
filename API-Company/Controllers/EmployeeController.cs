@@ -163,7 +163,8 @@ namespace API_Company.Controllers
 
             if (fleetSecurity == null)
             {
-                return NotFound();
+                fleetSecurity = DataObjectFactory.Create<FleetSecurity>();
+                fleetSecurity.EmployeeID = patchData.PrimaryKey;
             }
 
             Dictionary<string, object> patchValues = patchData.Values.Where(kvp => FleetSecurity.SecurityFields.Contains(kvp.Key)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);

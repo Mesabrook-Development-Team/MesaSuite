@@ -13,10 +13,12 @@ namespace WebModels.fleet.Validations
     {
         public override bool Evaluate(DataObject dataObject)
         {
-            if (!(dataObject is Railcar railcar) || !(dataObject is Locomotive locomotive))
+            if (!(dataObject is Railcar railcar) && !(dataObject is Locomotive locomotive))
             {
                 throw new ArgumentException("dataObject must be either a Railcar or Locomotive", "dataObject");
             }
+            railcar = dataObject is Railcar ? (Railcar)dataObject : null;
+            locomotive = dataObject is Locomotive ? (Locomotive)dataObject : null;
 
             SearchConditionGroup railcarSearchCondition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 new StringSearchCondition<Railcar>()
@@ -53,13 +55,13 @@ namespace WebModels.fleet.Validations
                 {
                     Field = nameof(Locomotive.ReportingMark),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = locomotive?.ReportingMark ?? locomotive?.ReportingMark
+                    Value = railcar?.ReportingMark ?? locomotive?.ReportingMark
                 },
                 new IntSearchCondition<Locomotive>()
                 {
                     Field = nameof(Locomotive.ReportingNumber),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = locomotive?.ReportingNumber ?? locomotive?.ReportingNumber
+                    Value = railcar?.ReportingNumber ?? locomotive?.ReportingNumber
                 });
 
             if (locomotive?.LocomotiveID != null)

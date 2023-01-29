@@ -190,7 +190,8 @@ namespace WebModels.fleet
             {
                 RailLocation newRailLocation = DataObjectFactory.Create<RailLocation>();
                 newRailLocation.LocomotiveID = LocomotiveID;
-                if (!newRailLocation.Save(transaction))
+                newRailLocation.Position = int.MaxValue;
+                if (!newRailLocation.Save(transaction, new List<System.Guid>() { RailLocation.ValidationIDs.TrackOrTrainRequired }))
                 {
                     Errors.AddRange(newRailLocation.Errors.ToArray());
                     return false;

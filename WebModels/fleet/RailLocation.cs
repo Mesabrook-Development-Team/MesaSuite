@@ -91,5 +91,10 @@ namespace WebModels.fleet
         {
             get { CheckGet(); return _train; }
         }
+
+        public static class ValidationIDs
+        {
+            public static readonly Guid TrackOrTrainRequired = new Guid("AEEFD126-2886-476E-A41E-ADE5492CDB2D");
+        }
     }
 }

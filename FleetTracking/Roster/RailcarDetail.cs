@@ -328,6 +328,10 @@ namespace FleetTracking.Roster
                 location.TrackID = currentLocation.Object.TrackID;
                 location.Position = int.MaxValue;
 
+                get.Resource = $"RailLocation/GetByTrack/{location.TrackID}";
+                List<RailLocation> railLocations = await get.GetObject<List<RailLocation>>();
+                railLocations.Add(location);
+
                 PutData modify = _application.GetAccess<PutData>();
                 modify.API = DataAccess.APIs.FleetTracking;
                 modify.Resource = "RailLocation/Modify";
@@ -335,7 +339,7 @@ namespace FleetTracking.Roster
                 {
                     ModifiedTracksByID = new Dictionary<long?, List<RailLocation>>()
                     {
-                        { currentLocation.Object.TrackID, new List<RailLocation>() { location } }
+                        { currentLocation.Object.TrackID, railLocations }
                     },
                     TimeMoved = DateTime.Now
                 };

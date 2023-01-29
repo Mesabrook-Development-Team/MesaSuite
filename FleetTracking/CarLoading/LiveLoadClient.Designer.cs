@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LiveLoadClient));
             this.tmrSession = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.txtTrain = new System.Windows.Forms.TextBox();
@@ -76,10 +75,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(0, 6);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Train:";
             // 
@@ -255,7 +254,7 @@
             // 
             // toolClearLoads
             // 
-            this.toolClearLoads.Image = ((System.Drawing.Image)(resources.GetObject("toolClearLoads.Image")));
+            this.toolClearLoads.Image = global::FleetTracking.Properties.Resources.arrow_undo;
             this.toolClearLoads.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolClearLoads.Name = "toolClearLoads";
             this.toolClearLoads.Size = new System.Drawing.Size(88, 22);
@@ -264,7 +263,7 @@
             // 
             // toolApplyLoad
             // 
-            this.toolApplyLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolApplyLoad.Image")));
+            this.toolApplyLoad.Image = global::FleetTracking.Properties.Resources.accept;
             this.toolApplyLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolApplyLoad.Name = "toolApplyLoad";
             this.toolApplyLoad.Size = new System.Drawing.Size(87, 22);
@@ -274,10 +273,10 @@
             // lblMassLoadDetails
             // 
             this.lblMassLoadDetails.AutoSize = true;
-            this.lblMassLoadDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMassLoadDetails.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMassLoadDetails.Location = new System.Drawing.Point(3, 26);
             this.lblMassLoadDetails.Name = "lblMassLoadDetails";
-            this.lblMassLoadDetails.Size = new System.Drawing.Size(111, 13);
+            this.lblMassLoadDetails.Size = new System.Drawing.Size(101, 13);
             this.lblMassLoadDetails.TabIndex = 11;
             this.lblMassLoadDetails.Text = "Mass Load Details";
             // 

@@ -60,20 +60,20 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(120, 34);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(195, 20);
+            this.label1.Size = new System.Drawing.Size(175, 21);
             this.label1.TabIndex = 1;
             this.label1.Text = "Live Load in progress...";
             // 
             // lblCode
             // 
             this.lblCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 32.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCode.Location = new System.Drawing.Point(3, 16);
+            this.lblCode.Font = new System.Drawing.Font("Segoe UI", 32.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCode.Location = new System.Drawing.Point(3, 18);
             this.lblCode.Name = "lblCode";
-            this.lblCode.Size = new System.Drawing.Size(370, 61);
+            this.lblCode.Size = new System.Drawing.Size(370, 59);
             this.lblCode.TabIndex = 2;
             this.lblCode.Text = "Fetching...";
             this.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -83,6 +83,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.lblCode);
+            this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(3, 94);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(376, 80);
@@ -107,6 +108,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.lstClients);
+            this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(3, 180);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(376, 104);
@@ -118,9 +120,9 @@
             // 
             this.lstClients.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstClients.HideSelection = false;
-            this.lstClients.Location = new System.Drawing.Point(3, 16);
+            this.lstClients.Location = new System.Drawing.Point(3, 18);
             this.lstClients.Name = "lstClients";
-            this.lstClients.Size = new System.Drawing.Size(370, 85);
+            this.lstClients.Size = new System.Drawing.Size(370, 83);
             this.lstClients.SmallImageList = this.imageList;
             this.lstClients.TabIndex = 0;
             this.lstClients.UseCompatibleStateImageBehavior = false;

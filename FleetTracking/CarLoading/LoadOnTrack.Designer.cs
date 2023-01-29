@@ -116,20 +116,20 @@
             // lblMassLoadDetails
             // 
             this.lblMassLoadDetails.AutoSize = true;
-            this.lblMassLoadDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMassLoadDetails.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMassLoadDetails.Location = new System.Drawing.Point(3, 0);
             this.lblMassLoadDetails.Name = "lblMassLoadDetails";
-            this.lblMassLoadDetails.Size = new System.Drawing.Size(111, 13);
+            this.lblMassLoadDetails.Size = new System.Drawing.Size(101, 13);
             this.lblMassLoadDetails.TabIndex = 5;
             this.lblMassLoadDetails.Text = "Mass Load Details";
             // 
             // lblRailcars
             // 
             this.lblRailcars.AutoSize = true;
-            this.lblRailcars.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRailcars.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRailcars.Location = new System.Drawing.Point(3, 65);
             this.lblRailcars.Name = "lblRailcars";
-            this.lblRailcars.Size = new System.Drawing.Size(53, 13);
+            this.lblRailcars.Size = new System.Drawing.Size(46, 13);
             this.lblRailcars.TabIndex = 5;
             this.lblRailcars.Text = "Railcars";
             // 

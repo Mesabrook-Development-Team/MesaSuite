@@ -31,7 +31,20 @@
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dgvStock = new System.Windows.Forms.DataGridView();
+            this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colReportingNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colOwner = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colReleasedTo = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colLocation = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolCheckAll = new System.Windows.Forms.ToolStripButton();
+            this.toolUncheckAll = new System.Windows.Forms.ToolStripButton();
+            this.chkLocation = new System.Windows.Forms.CheckBox();
+            this.chkReleasedTo = new System.Windows.Forms.CheckBox();
+            this.chkOwner = new System.Windows.Forms.CheckBox();
             this.cmdApplyFields = new System.Windows.Forms.Button();
+            this.cboReleasedTo = new System.Windows.Forms.ComboBox();
             this.cboLocation = new System.Windows.Forms.ComboBox();
             this.cboOwner = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -40,19 +53,6 @@
             this.cboLocomotiveModel = new FleetTracking.ControlSelector();
             this.cboRailcarModel = new FleetTracking.ControlSelector();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.cboReleasedTo = new System.Windows.Forms.ComboBox();
-            this.colLocation = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.colReleasedTo = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.colOwner = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.colReportingNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.toolCheckAll = new System.Windows.Forms.ToolStripButton();
-            this.toolUncheckAll = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.chkOwner = new System.Windows.Forms.CheckBox();
-            this.chkReleasedTo = new System.Windows.Forms.CheckBox();
-            this.chkLocation = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -107,6 +107,106 @@
             this.dgvStock.TabIndex = 0;
             this.dgvStock.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStock_CellClick);
             // 
+            // colCheck
+            // 
+            this.colCheck.HeaderText = "";
+            this.colCheck.Name = "colCheck";
+            this.colCheck.Width = 30;
+            // 
+            // colReportingMark
+            // 
+            this.colReportingMark.HeaderText = "Reporting Mark";
+            this.colReportingMark.Name = "colReportingMark";
+            // 
+            // colReportingNumber
+            // 
+            this.colReportingNumber.HeaderText = "Reporting Number";
+            this.colReportingNumber.Name = "colReportingNumber";
+            this.colReportingNumber.Width = 150;
+            // 
+            // colOwner
+            // 
+            this.colOwner.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.colOwner.HeaderText = "Owner";
+            this.colOwner.Name = "colOwner";
+            this.colOwner.Width = 150;
+            // 
+            // colReleasedTo
+            // 
+            this.colReleasedTo.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.colReleasedTo.HeaderText = "Released To";
+            this.colReleasedTo.Name = "colReleasedTo";
+            this.colReleasedTo.Width = 150;
+            // 
+            // colLocation
+            // 
+            this.colLocation.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.colLocation.HeaderText = "Location";
+            this.colLocation.Name = "colLocation";
+            this.colLocation.Width = 150;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolCheckAll,
+            this.toolUncheckAll});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(617, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolCheckAll
+            // 
+            this.toolCheckAll.Image = global::FleetTracking.Properties.Resources.checkall;
+            this.toolCheckAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolCheckAll.Name = "toolCheckAll";
+            this.toolCheckAll.Size = new System.Drawing.Size(77, 22);
+            this.toolCheckAll.Text = "Check All";
+            this.toolCheckAll.Click += new System.EventHandler(this.toolCheckAll_Click);
+            // 
+            // toolUncheckAll
+            // 
+            this.toolUncheckAll.Image = global::FleetTracking.Properties.Resources.uncheckall;
+            this.toolUncheckAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolUncheckAll.Name = "toolUncheckAll";
+            this.toolUncheckAll.Size = new System.Drawing.Size(90, 22);
+            this.toolUncheckAll.Text = "Uncheck All";
+            this.toolUncheckAll.Click += new System.EventHandler(this.toolUncheckAll_Click);
+            // 
+            // chkLocation
+            // 
+            this.chkLocation.AutoSize = true;
+            this.chkLocation.Location = new System.Drawing.Point(3, 72);
+            this.chkLocation.Name = "chkLocation";
+            this.chkLocation.Size = new System.Drawing.Size(70, 17);
+            this.chkLocation.TabIndex = 4;
+            this.chkLocation.Text = "Location:";
+            this.chkLocation.UseVisualStyleBackColor = true;
+            this.chkLocation.CheckedChanged += new System.EventHandler(this.chkLocation_CheckedChanged);
+            // 
+            // chkReleasedTo
+            // 
+            this.chkReleasedTo.AutoSize = true;
+            this.chkReleasedTo.Location = new System.Drawing.Point(3, 45);
+            this.chkReleasedTo.Name = "chkReleasedTo";
+            this.chkReleasedTo.Size = new System.Drawing.Size(90, 17);
+            this.chkReleasedTo.TabIndex = 4;
+            this.chkReleasedTo.Text = "Released To:";
+            this.chkReleasedTo.UseVisualStyleBackColor = true;
+            this.chkReleasedTo.CheckedChanged += new System.EventHandler(this.chkReleasedTo_CheckedChanged);
+            // 
+            // chkOwner
+            // 
+            this.chkOwner.AutoSize = true;
+            this.chkOwner.Location = new System.Drawing.Point(3, 18);
+            this.chkOwner.Name = "chkOwner";
+            this.chkOwner.Size = new System.Drawing.Size(60, 17);
+            this.chkOwner.TabIndex = 4;
+            this.chkOwner.Text = "Owner:";
+            this.chkOwner.UseVisualStyleBackColor = true;
+            this.chkOwner.CheckedChanged += new System.EventHandler(this.chkOwner_CheckedChanged);
+            // 
             // cmdApplyFields
             // 
             this.cmdApplyFields.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -117,6 +217,19 @@
             this.cmdApplyFields.Text = "Apply Fields";
             this.cmdApplyFields.UseVisualStyleBackColor = true;
             this.cmdApplyFields.Click += new System.EventHandler(this.cmdApplyFields_Click);
+            // 
+            // cboReleasedTo
+            // 
+            this.cboReleasedTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboReleasedTo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboReleasedTo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboReleasedTo.Enabled = false;
+            this.cboReleasedTo.FormattingEnabled = true;
+            this.cboReleasedTo.Location = new System.Drawing.Point(99, 43);
+            this.cboReleasedTo.Name = "cboReleasedTo";
+            this.cboReleasedTo.Size = new System.Drawing.Size(515, 21);
+            this.cboReleasedTo.TabIndex = 2;
             // 
             // cboLocation
             // 
@@ -147,10 +260,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(159, 13);
+            this.label1.Size = new System.Drawing.Size(147, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Mass Update Field Options";
             // 
@@ -205,119 +318,6 @@
             this.cboRailcarModel.Size = new System.Drawing.Size(493, 21);
             this.cboRailcarModel.TabIndex = 2;
             this.cboRailcarModel.SelectedIndexChanged += new System.EventHandler(this.cboRailcarModel_SelectedIndexChanged);
-            // 
-            // cboReleasedTo
-            // 
-            this.cboReleasedTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboReleasedTo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboReleasedTo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboReleasedTo.Enabled = false;
-            this.cboReleasedTo.FormattingEnabled = true;
-            this.cboReleasedTo.Location = new System.Drawing.Point(99, 43);
-            this.cboReleasedTo.Name = "cboReleasedTo";
-            this.cboReleasedTo.Size = new System.Drawing.Size(515, 21);
-            this.cboReleasedTo.TabIndex = 2;
-            // 
-            // colLocation
-            // 
-            this.colLocation.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.colLocation.HeaderText = "Location";
-            this.colLocation.Name = "colLocation";
-            this.colLocation.Width = 150;
-            // 
-            // colReleasedTo
-            // 
-            this.colReleasedTo.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.colReleasedTo.HeaderText = "Released To";
-            this.colReleasedTo.Name = "colReleasedTo";
-            this.colReleasedTo.Width = 150;
-            // 
-            // colOwner
-            // 
-            this.colOwner.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.colOwner.HeaderText = "Owner";
-            this.colOwner.Name = "colOwner";
-            this.colOwner.Width = 150;
-            // 
-            // colReportingNumber
-            // 
-            this.colReportingNumber.HeaderText = "Reporting Number";
-            this.colReportingNumber.Name = "colReportingNumber";
-            this.colReportingNumber.Width = 150;
-            // 
-            // colReportingMark
-            // 
-            this.colReportingMark.HeaderText = "Reporting Mark";
-            this.colReportingMark.Name = "colReportingMark";
-            // 
-            // colCheck
-            // 
-            this.colCheck.HeaderText = "";
-            this.colCheck.Name = "colCheck";
-            this.colCheck.Width = 30;
-            // 
-            // toolCheckAll
-            // 
-            this.toolCheckAll.Image = global::FleetTracking.Properties.Resources.checkall;
-            this.toolCheckAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolCheckAll.Name = "toolCheckAll";
-            this.toolCheckAll.Size = new System.Drawing.Size(77, 22);
-            this.toolCheckAll.Text = "Check All";
-            this.toolCheckAll.Click += new System.EventHandler(this.toolCheckAll_Click);
-            // 
-            // toolUncheckAll
-            // 
-            this.toolUncheckAll.Image = global::FleetTracking.Properties.Resources.uncheckall;
-            this.toolUncheckAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolUncheckAll.Name = "toolUncheckAll";
-            this.toolUncheckAll.Size = new System.Drawing.Size(90, 22);
-            this.toolUncheckAll.Text = "Uncheck All";
-            this.toolUncheckAll.Click += new System.EventHandler(this.toolUncheckAll_Click);
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolCheckAll,
-            this.toolUncheckAll});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(617, 25);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // chkOwner
-            // 
-            this.chkOwner.AutoSize = true;
-            this.chkOwner.Location = new System.Drawing.Point(3, 18);
-            this.chkOwner.Name = "chkOwner";
-            this.chkOwner.Size = new System.Drawing.Size(60, 17);
-            this.chkOwner.TabIndex = 4;
-            this.chkOwner.Text = "Owner:";
-            this.chkOwner.UseVisualStyleBackColor = true;
-            this.chkOwner.CheckedChanged += new System.EventHandler(this.chkOwner_CheckedChanged);
-            // 
-            // chkReleasedTo
-            // 
-            this.chkReleasedTo.AutoSize = true;
-            this.chkReleasedTo.Location = new System.Drawing.Point(3, 45);
-            this.chkReleasedTo.Name = "chkReleasedTo";
-            this.chkReleasedTo.Size = new System.Drawing.Size(90, 17);
-            this.chkReleasedTo.TabIndex = 4;
-            this.chkReleasedTo.Text = "Released To:";
-            this.chkReleasedTo.UseVisualStyleBackColor = true;
-            this.chkReleasedTo.CheckedChanged += new System.EventHandler(this.chkReleasedTo_CheckedChanged);
-            // 
-            // chkLocation
-            // 
-            this.chkLocation.AutoSize = true;
-            this.chkLocation.Location = new System.Drawing.Point(3, 72);
-            this.chkLocation.Name = "chkLocation";
-            this.chkLocation.Size = new System.Drawing.Size(70, 17);
-            this.chkLocation.TabIndex = 4;
-            this.chkLocation.Text = "Location:";
-            this.chkLocation.UseVisualStyleBackColor = true;
-            this.chkLocation.CheckedChanged += new System.EventHandler(this.chkLocation_CheckedChanged);
             // 
             // MassAddStockInput
             // 

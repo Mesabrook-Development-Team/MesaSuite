@@ -24,7 +24,7 @@ namespace WebModels.fleet.Validations
 
                 yield return new ValidationRule()
                 {
-                    ID = new Guid("AEEFD126-2886-476E-A41E-ADE5492CDB2D"),
+                    ID = RailLocation.ValidationIDs.TrackOrTrainRequired,
                     Message = "Track or Train are required, but not both",
                     Field = "TrackID,TrainID",
                     Condition = new XOrPresenceCondition("TrackID", "TrainID")

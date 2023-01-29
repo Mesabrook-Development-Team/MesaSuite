@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeaseRequests));
             this.rdoRequestsFromOthers = new System.Windows.Forms.RadioButton();
             this.dgvRequests = new System.Windows.Forms.DataGridView();
             this.colLeaseID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -359,7 +358,7 @@
             // 
             // mnuDeleteBids
             // 
-            this.mnuDeleteBids.Image = ((System.Drawing.Image)(resources.GetObject("mnuDeleteBids.Image")));
+            this.mnuDeleteBids.Image = global::FleetTracking.Properties.Resources.delete;
             this.mnuDeleteBids.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuDeleteBids.Name = "mnuDeleteBids";
             this.mnuDeleteBids.Size = new System.Drawing.Size(69, 35);
@@ -443,7 +442,7 @@
             // 
             // mnuAcceptBids
             // 
-            this.mnuAcceptBids.Image = ((System.Drawing.Image)(resources.GetObject("mnuAcceptBids.Image")));
+            this.mnuAcceptBids.Image = global::FleetTracking.Properties.Resources.accept;
             this.mnuAcceptBids.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuAcceptBids.Name = "mnuAcceptBids";
             this.mnuAcceptBids.Size = new System.Drawing.Size(73, 35);

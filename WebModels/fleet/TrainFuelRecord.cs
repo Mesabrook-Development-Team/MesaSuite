@@ -56,7 +56,6 @@ namespace WebModels.fleet
 
         private decimal? _fuelStart;
         [Field("E527F690-EABA-4D9C-8E7E-78620DE1CE6F", DataSize = 4, DataScale = 1)]
-        [Required]
         public decimal? FuelStart
         {
             get { CheckGet(); return _fuelStart; }

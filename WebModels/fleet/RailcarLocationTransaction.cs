@@ -46,7 +46,6 @@ namespace WebModels.fleet
 
         private long? _trackIDNew;
         [Field("0D6E2013-4E8B-4881-BF3C-0EB9A591880E")]
-        [Required]
         public long? TrackIDNew
         {
             get { CheckGet(); return _trackIDNew; }
@@ -62,7 +61,6 @@ namespace WebModels.fleet
 
         private long? _trainIDNew;
         [Field("E88AF0F2-8ACB-46D8-A347-88F6F2609A2C")]
-        [Required]
         public long? TrainIDNew
         {
             get { CheckGet(); return _trainIDNew; }

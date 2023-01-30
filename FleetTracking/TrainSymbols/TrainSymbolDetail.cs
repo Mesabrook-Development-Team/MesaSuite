@@ -197,5 +197,60 @@ namespace FleetTracking.TrainSymbols
             Form shownForm = _application.OpenForm(editDetail, FleetTrackingApplication.OpenFormOptions.Popout);
             shownForm.Text = "Train Symbol Rate";
         }
+
+        private async Task LoadTrains()
+        {
+            if (TrainSymbolID == null)
+            {
+                return;
+            }
+
+            try
+            {
+                loaderTrains.BringToFront();
+                loaderTrains.Visible = true;
+
+                GetData get = _application.GetAccess<GetData>();
+                get.API = DataAccess.APIs.FleetTracking;
+                get.Resource = $"Train/GetBySymbol/{TrainSymbolID}";
+                List<Models.Train> trains = await get.GetObject<List<Models.Train>>() ?? new List<Models.Train>();
+                trains = trains.OrderByDescending(t => t.TimeOnDuty).ToList();
+
+                foreach(Models.Train train in trains)
+                {
+                    List<TrainDutyTransaction> dutyTransactions = train.TrainDutyTransactions ?? new List<TrainDutyTransaction>();
+                    List<TrainFuelRecord> fuelRecords = train.TrainFuelRecords ?? new List<TrainFuelRecord>();
+
+                    TimeSpan span = new TimeSpan(0, 0, 0);
+                    foreach(TrainDutyTransaction dutyTransaction in dutyTransactions.Where(tdt => tdt.TimeOnDuty != null && tdt.TimeOffDuty != null))
+                    {
+                        span += dutyTransaction.TimeOffDuty.Value - dutyTransaction.TimeOnDuty.Value;
+                    }
+                    
+
+                    int rowIndex = dgvTrains.Rows.Add();
+                    DataGridViewRow row = dgvTrains.Rows[rowIndex];
+                    row.Cells[colStart.Name].Value = dutyTransactions.OrderByDescending(tdt => tdt.TimeOnDuty).FirstOrDefault()?.TimeOnDuty?.ToString("MM/dd/yyyy HH:mm");
+                    row.Cells[colEnd.Name].Value = dutyTransactions.OrderByDescending(tdt => tdt.TimeOffDuty).FirstOrDefault()?.TimeOffDuty?.ToString("MM/dd/yyyy HH:mm");
+                    row.Cells[colFuelUsage.Name].Value = fuelRecords.Where(fr => fr.FuelStart != null && fr.FuelEnd != null).Sum(fr => fr.FuelEnd - fr.FuelStart)?.ToString("N2");
+                }
+            }
+            finally
+            {
+                loaderTrains.Visible = false;
+            }
+        }
+
+        private async void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab == tabPage1)
+            {
+                await LoadData();
+            }
+            if (tabControl1.SelectedTab == tabPage2)
+            {
+                await LoadTrains();
+            }
+        }
     }
 }

@@ -48,8 +48,14 @@
             this.toolDeleteRate = new System.Windows.Forms.ToolStripButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgvTrains = new System.Windows.Forms.DataGridView();
-            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.loader = new FleetTracking.Loader();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.colStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colEndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFuelUsage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTimeTaken = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.loaderTrains = new FleetTracking.Loader();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -143,11 +149,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(0, 171);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(721, 225);
             this.tabControl1.TabIndex = 1;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -226,6 +234,7 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.dgvTrains);
+            this.tabPage2.Controls.Add(this.loaderTrains);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -237,11 +246,26 @@
             // dgvTrains
             // 
             this.dgvTrains.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTrains.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colStart,
+            this.colEndTime,
+            this.colFuelUsage,
+            this.colTimeTaken});
             this.dgvTrains.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTrains.Location = new System.Drawing.Point(3, 3);
             this.dgvTrains.Name = "dgvTrains";
             this.dgvTrains.Size = new System.Drawing.Size(707, 193);
             this.dgvTrains.TabIndex = 0;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(713, 199);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Statistics";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // loader
             // 
@@ -254,6 +278,39 @@
             this.loader.Size = new System.Drawing.Size(721, 396);
             this.loader.TabIndex = 2;
             this.loader.Visible = false;
+            // 
+            // colStart
+            // 
+            this.colStart.HeaderText = "Start Time";
+            this.colStart.Name = "colStart";
+            // 
+            // colEndTime
+            // 
+            this.colEndTime.HeaderText = "End Time";
+            this.colEndTime.Name = "colEndTime";
+            // 
+            // colFuelUsage
+            // 
+            this.colFuelUsage.HeaderText = "Fuel Usage";
+            this.colFuelUsage.Name = "colFuelUsage";
+            // 
+            // colTimeTaken
+            // 
+            this.colTimeTaken.HeaderText = "Total On Duty Time";
+            this.colTimeTaken.Name = "colTimeTaken";
+            this.colTimeTaken.Width = 125;
+            // 
+            // loaderTrains
+            // 
+            this.loaderTrains.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loaderTrains.BackColor = System.Drawing.Color.Transparent;
+            this.loaderTrains.Location = new System.Drawing.Point(0, 0);
+            this.loaderTrains.Name = "loaderTrains";
+            this.loaderTrains.Size = new System.Drawing.Size(711, 200);
+            this.loaderTrains.TabIndex = 1;
+            this.loaderTrains.Visible = false;
             // 
             // TrainSymbolDetail
             // 
@@ -301,5 +358,11 @@
         private System.Windows.Forms.ToolStripButton toolAddRate;
         private System.Windows.Forms.ToolStripButton toolDeleteRate;
         private Loader loader;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStart;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colEndTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFuelUsage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTimeTaken;
+        private Loader loaderTrains;
     }
 }

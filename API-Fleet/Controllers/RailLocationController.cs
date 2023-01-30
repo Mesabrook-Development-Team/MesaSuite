@@ -239,8 +239,6 @@ namespace API_Fleet.Controllers
                         {
                             railLocationIDsOrphaned.Add(orphanedLocation.RailLocationID);
                         }
-
-                        errors.AddRange(Track.Reorder(modifiedLocationsByTrack.Key, transaction).ToArray());
                     }
                 }
 
@@ -294,9 +292,17 @@ namespace API_Fleet.Controllers
                         {
                             railLocationIDsOrphaned.Add(orphanedLocation.RailLocationID);
                         }
-
-                        errors.AddRange(Train.Reorder(modifiedLocationsByTrain.Key, transaction).ToArray());
                     }
+                }
+
+                foreach(long? modifiedTrackID in data.ModifiedTracksByID.Keys)
+                {
+                    errors.AddRange(Track.Reorder(modifiedTrackID, transaction).ToArray());
+                }
+
+                foreach(long? modifiedTrainID in data.ModifiedTrainsByID.Keys)
+                {
+                    errors.AddRange(Train.Reorder(modifiedTrainID, transaction).ToArray());
                 }
 
                 if (railLocationIDsOrphaned.Any())

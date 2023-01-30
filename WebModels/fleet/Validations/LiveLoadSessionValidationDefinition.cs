@@ -17,9 +17,9 @@ namespace WebModels.fleet.Validations
                 yield return new ValidationRule()
                 {
                     ID = new Guid("C335F0E5-183C-4079-82BE-E6A38232BA5C"),
-                    Message = "Employee or Official are required, but not both",
+                    Message = "Company or Government are required, but not both",
                     Field = "CompanyID,GovernmentID",
-                    Condition = new XOrPresenceCondition("EmployeeID", "OfficialID")
+                    Condition = new XOrPresenceCondition("CompanyID", "GovernmentID")
                 };
             }
         }

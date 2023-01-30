@@ -77,6 +77,18 @@ namespace API_Fleet.Controllers
 
         public override bool AllowGetAll => true;
 
+        public async Task<List<Train>> GetByTrainSymbol(long? id)
+        {
+            Search<Train> trainSearch = new Search<Train>(new LongSearchCondition()
+            {
+                Field = nameof(Train.TrainSymbolID),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = id
+            });
+
+            return trainSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
+        }
+
         [HttpGet]
         public async Task<IHttpActionResult> GetFiltered([FromUri]string status = "inprogress", [FromUri]bool operableonly = true, [FromUri]int skip = 0, [FromUri]int take = 50)
         {

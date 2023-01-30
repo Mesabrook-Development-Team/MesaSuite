@@ -51,6 +51,7 @@ namespace FleetTracking.Tracks
                 get.Resource = "Track/GetAll";
 
                 List<Track> tracks = await get.GetObject<List<Track>>() ?? new List<Track>();
+                tracks = tracks.OrderBy(t => t.Name).ToList();
                 foreach (Track track in tracks)
                 {
                     DropDownItem<Track> trackDDI = new DropDownItem<Track>(track, track.Name);

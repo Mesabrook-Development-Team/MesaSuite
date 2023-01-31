@@ -55,9 +55,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 23);
+            this.label1.Location = new System.Drawing.Point(11, 15);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 20);
+            this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Email Name:";
             // 
@@ -65,20 +66,18 @@
             // 
             this.txtEmailName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtEmailName.Location = new System.Drawing.Point(123, 18);
-            this.txtEmailName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtEmailName.Location = new System.Drawing.Point(82, 12);
             this.txtEmailName.Name = "txtEmailName";
             this.txtEmailName.ReadOnly = true;
-            this.txtEmailName.Size = new System.Drawing.Size(961, 26);
+            this.txtEmailName.Size = new System.Drawing.Size(642, 20);
             this.txtEmailName.TabIndex = 0;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 92);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(11, 60);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(96, 20);
+            this.label2.Size = new System.Drawing.Size(64, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "From Name:";
             // 
@@ -86,29 +85,26 @@
             // 
             this.txtFromName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFromName.Location = new System.Drawing.Point(122, 88);
-            this.txtFromName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtFromName.Location = new System.Drawing.Point(81, 57);
             this.txtFromName.Name = "txtFromName";
-            this.txtFromName.Size = new System.Drawing.Size(961, 26);
+            this.txtFromName.Size = new System.Drawing.Size(642, 20);
             this.txtFromName.TabIndex = 2;
             // 
             // txtFromEmail
             // 
             this.txtFromEmail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFromEmail.Location = new System.Drawing.Point(122, 128);
-            this.txtFromEmail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtFromEmail.Location = new System.Drawing.Point(81, 83);
             this.txtFromEmail.Name = "txtFromEmail";
-            this.txtFromEmail.Size = new System.Drawing.Size(961, 26);
+            this.txtFromEmail.Size = new System.Drawing.Size(642, 20);
             this.txtFromEmail.TabIndex = 3;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 132);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(11, 86);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(93, 20);
+            this.label3.Size = new System.Drawing.Size(61, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "From Email:";
             // 
@@ -116,19 +112,17 @@
             // 
             this.txtToEmail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtToEmail.Location = new System.Drawing.Point(122, 168);
-            this.txtToEmail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtToEmail.Location = new System.Drawing.Point(81, 109);
             this.txtToEmail.Name = "txtToEmail";
-            this.txtToEmail.Size = new System.Drawing.Size(961, 26);
+            this.txtToEmail.Size = new System.Drawing.Size(642, 20);
             this.txtToEmail.TabIndex = 4;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 172);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(11, 112);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(74, 20);
+            this.label4.Size = new System.Drawing.Size(51, 13);
             this.label4.TabIndex = 2;
             this.label4.Text = "To Email:";
             // 
@@ -136,19 +130,17 @@
             // 
             this.txtSubject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSubject.Location = new System.Drawing.Point(122, 208);
-            this.txtSubject.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtSubject.Location = new System.Drawing.Point(81, 135);
             this.txtSubject.Name = "txtSubject";
-            this.txtSubject.Size = new System.Drawing.Size(961, 26);
+            this.txtSubject.Size = new System.Drawing.Size(642, 20);
             this.txtSubject.TabIndex = 5;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(16, 212);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(11, 138);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(67, 20);
+            this.label5.Size = new System.Drawing.Size(46, 13);
             this.label5.TabIndex = 2;
             this.label5.Text = "Subject:";
             // 
@@ -158,21 +150,19 @@
             this.txtBody.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBody.Location = new System.Drawing.Point(21, 263);
-            this.txtBody.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtBody.Location = new System.Drawing.Point(14, 171);
             this.txtBody.Multiline = true;
             this.txtBody.Name = "txtBody";
             this.txtBody.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBody.Size = new System.Drawing.Size(803, 276);
+            this.txtBody.Size = new System.Drawing.Size(537, 181);
             this.txtBody.TabIndex = 0;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(17, 238);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(11, 155);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(49, 20);
+            this.label6.Size = new System.Drawing.Size(34, 13);
             this.label6.TabIndex = 0;
             this.label6.Text = "Body:";
             // 
@@ -180,10 +170,9 @@
             // 
             this.treFields.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.treFields.Location = new System.Drawing.Point(832, 263);
-            this.treFields.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.treFields.Location = new System.Drawing.Point(555, 171);
             this.treFields.Name = "treFields";
-            this.treFields.Size = new System.Drawing.Size(250, 276);
+            this.treFields.Size = new System.Drawing.Size(168, 181);
             this.treFields.TabIndex = 0;
             this.treFields.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treFields_NodeMouseDoubleClick);
             // 
@@ -191,20 +180,18 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(828, 238);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Location = new System.Drawing.Point(552, 155);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(55, 20);
+            this.label7.Size = new System.Drawing.Size(37, 13);
             this.label7.TabIndex = 0;
             this.label7.Text = "Fields:";
             // 
             // cmdSave
             // 
             this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSave.Location = new System.Drawing.Point(972, 565);
-            this.cmdSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmdSave.Location = new System.Drawing.Point(648, 367);
             this.cmdSave.Name = "cmdSave";
-            this.cmdSave.Size = new System.Drawing.Size(112, 35);
+            this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 7;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
@@ -214,10 +201,9 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(850, 565);
-            this.cmdCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmdCancel.Location = new System.Drawing.Point(567, 367);
             this.cmdCancel.Name = "cmdCancel";
-            this.cmdCancel.Size = new System.Drawing.Size(112, 35);
+            this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 8;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
@@ -226,10 +212,9 @@
             // cmdReset
             // 
             this.cmdReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmdReset.Location = new System.Drawing.Point(21, 565);
-            this.cmdReset.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmdReset.Location = new System.Drawing.Point(14, 367);
             this.cmdReset.Name = "cmdReset";
-            this.cmdReset.Size = new System.Drawing.Size(146, 35);
+            this.cmdReset.Size = new System.Drawing.Size(97, 23);
             this.cmdReset.TabIndex = 9;
             this.cmdReset.Text = "Reset To Default";
             this.cmdReset.UseVisualStyleBackColor = true;
@@ -238,10 +223,9 @@
             // chkEnabled
             // 
             this.chkEnabled.AutoSize = true;
-            this.chkEnabled.Location = new System.Drawing.Point(21, 58);
-            this.chkEnabled.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.chkEnabled.Location = new System.Drawing.Point(14, 38);
             this.chkEnabled.Name = "chkEnabled";
-            this.chkEnabled.Size = new System.Drawing.Size(155, 24);
+            this.chkEnabled.Size = new System.Drawing.Size(105, 17);
             this.chkEnabled.TabIndex = 1;
             this.chkEnabled.Text = "Enable this email";
             this.chkEnabled.UseVisualStyleBackColor = true;
@@ -254,19 +238,19 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.loader.BackColor = System.Drawing.Color.Transparent;
             this.loader.Location = new System.Drawing.Point(0, 0);
-            this.loader.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.loader.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(1107, 615);
+            this.loader.Size = new System.Drawing.Size(738, 400);
             this.loader.TabIndex = 0;
             this.loader.Visible = false;
             // 
             // frmEmailEditor
             // 
             this.AcceptButton = this.cmdSave;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(1104, 614);
+            this.ClientSize = new System.Drawing.Size(736, 399);
             this.Controls.Add(this.treFields);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtBody);
@@ -288,7 +272,6 @@
             this.Controls.Add(this.loader);
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmEmailEditor";

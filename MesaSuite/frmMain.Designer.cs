@@ -326,7 +326,7 @@
             // aboutMesaSuiteToolStripMenuItem
             // 
             this.aboutMesaSuiteToolStripMenuItem.Name = "aboutMesaSuiteToolStripMenuItem";
-            this.aboutMesaSuiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutMesaSuiteToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.aboutMesaSuiteToolStripMenuItem.Text = "About MesaSuite";
             this.aboutMesaSuiteToolStripMenuItem.Click += new System.EventHandler(this.aboutMesaSuiteToolStripMenuItem_Click);
             // 

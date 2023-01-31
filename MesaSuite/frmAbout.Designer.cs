@@ -34,10 +34,13 @@ namespace MesaSuite
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.label12 = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -62,9 +65,6 @@ namespace MesaSuite
             this.pboxCSX8600 = new System.Windows.Forms.PictureBox();
             this.pboxLogo = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -139,6 +139,16 @@ namespace MesaSuite
             this.panel6.TabIndex = 2;
             this.panel6.Click += new System.EventHandler(this.panel6_Click);
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(5, 63);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(66, 13);
+            this.label11.TabIndex = 4;
+            this.label11.Text = "Our Website";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
+            // 
             // pictureBox4
             // 
             this.pictureBox4.Image = global::MesaSuite.Properties.Resources.image2;
@@ -161,6 +171,16 @@ namespace MesaSuite
             this.panel5.TabIndex = 2;
             this.panel5.Click += new System.EventHandler(this.panel5_Click);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(14, 63);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(46, 13);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "Dynmap";
+            this.label12.Click += new System.EventHandler(this.label12_Click);
+            // 
             // pictureBox3
             // 
             this.pictureBox3.Image = global::MesaSuite.Properties.Resources.icn_dynmap;
@@ -182,6 +202,16 @@ namespace MesaSuite
             this.panel1.Size = new System.Drawing.Size(73, 81);
             this.panel1.TabIndex = 0;
             this.panel1.Click += new System.EventHandler(this.panel1_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(17, 64);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(40, 13);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "GitHub";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // pictureBox1
             // 
@@ -445,36 +475,6 @@ namespace MesaSuite
             this.button1.Text = "Close";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(17, 64);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(40, 13);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "GitHub";
-            this.label10.Click += new System.EventHandler(this.label10_Click);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(5, 63);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(66, 13);
-            this.label11.TabIndex = 4;
-            this.label11.Text = "Our Website";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(14, 63);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(46, 13);
-            this.label12.TabIndex = 4;
-            this.label12.Text = "Dynmap";
-            this.label12.Click += new System.EventHandler(this.label12_Click);
             // 
             // frmAbout
             // 

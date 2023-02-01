@@ -46,9 +46,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(3, 7);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.Size = new System.Drawing.Size(80, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Effective Time:";
             // 
@@ -69,6 +70,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.dgvRates);
+            this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 29);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(471, 158);
@@ -83,9 +85,9 @@
             this.colRateType,
             this.colAmount});
             this.dgvRates.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvRates.Location = new System.Drawing.Point(3, 16);
+            this.dgvRates.Location = new System.Drawing.Point(3, 18);
             this.dgvRates.Name = "dgvRates";
-            this.dgvRates.Size = new System.Drawing.Size(465, 139);
+            this.dgvRates.Size = new System.Drawing.Size(465, 137);
             this.dgvRates.TabIndex = 0;
             // 
             // colRateType

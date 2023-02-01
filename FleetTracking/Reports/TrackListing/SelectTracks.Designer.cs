@@ -30,6 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgvTracks = new System.Windows.Forms.DataGridView();
+            this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colTrack = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDistrict = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.cmdRunReport = new System.Windows.Forms.Button();
@@ -37,9 +40,6 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolCheckAll = new System.Windows.Forms.ToolStripButton();
             this.toolUncheckAll = new System.Windows.Forms.ToolStripButton();
-            this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colTrack = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDistrict = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loader = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTracks)).BeginInit();
@@ -62,14 +62,30 @@
             this.dgvTracks.TabIndex = 1;
             this.dgvTracks.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTracks_CellClick);
             // 
+            // colCheck
+            // 
+            this.colCheck.HeaderText = "";
+            this.colCheck.Name = "colCheck";
+            this.colCheck.Width = 25;
+            // 
+            // colTrack
+            // 
+            this.colTrack.HeaderText = "Track";
+            this.colTrack.Name = "colTrack";
+            // 
+            // colDistrict
+            // 
+            this.colDistrict.HeaderText = "District";
+            this.colDistrict.Name = "colDistrict";
+            // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(3, 323);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Search";
             // 
@@ -132,22 +148,6 @@
             this.toolUncheckAll.Size = new System.Drawing.Size(90, 22);
             this.toolUncheckAll.Text = "Uncheck All";
             this.toolUncheckAll.Click += new System.EventHandler(this.toolUncheckAll_Click);
-            // 
-            // colCheck
-            // 
-            this.colCheck.HeaderText = "";
-            this.colCheck.Name = "colCheck";
-            this.colCheck.Width = 25;
-            // 
-            // colTrack
-            // 
-            this.colTrack.HeaderText = "Track";
-            this.colTrack.Name = "colTrack";
-            // 
-            // colDistrict
-            // 
-            this.colDistrict.HeaderText = "District";
-            this.colDistrict.Name = "colDistrict";
             // 
             // loader
             // 

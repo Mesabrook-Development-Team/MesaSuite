@@ -29,15 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RailDistrictList));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.dgvDistricts = new System.Windows.Forms.DataGridView();
-            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.loader = new FleetTracking.Loader();
-            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colOperator = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolAddDistrict = new System.Windows.Forms.ToolStripButton();
             this.toolDeleteDistricts = new System.Windows.Forms.ToolStripButton();
+            this.dgvDistricts = new System.Windows.Forms.DataGridView();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colOperator = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.loader = new FleetTracking.Loader();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDistricts)).BeginInit();
             this.SuspendLayout();
@@ -53,6 +52,27 @@
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // toolAddDistrict
+            // 
+            this.toolAddDistrict.Image = global::FleetTracking.Properties.Resources.add;
+            this.toolAddDistrict.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolAddDistrict.Name = "toolAddDistrict";
+            this.toolAddDistrict.Size = new System.Drawing.Size(73, 35);
+            this.toolAddDistrict.Text = "Add District";
+            this.toolAddDistrict.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolAddDistrict.Click += new System.EventHandler(this.toolAddDistrict_Click);
+            // 
+            // toolDeleteDistricts
+            // 
+            this.toolDeleteDistricts.Enabled = false;
+            this.toolDeleteDistricts.Image = global::FleetTracking.Properties.Resources.delete;
+            this.toolDeleteDistricts.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolDeleteDistricts.Name = "toolDeleteDistricts";
+            this.toolDeleteDistricts.Size = new System.Drawing.Size(97, 35);
+            this.toolDeleteDistricts.Text = "Delete District(s)";
+            this.toolDeleteDistricts.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolDeleteDistricts.Click += new System.EventHandler(this.toolDeleteDistricts_Click);
+            // 
             // dgvDistricts
             // 
             this.dgvDistricts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -67,18 +87,6 @@
             this.dgvDistricts.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDistricts_CellDoubleClick);
             this.dgvDistricts.SelectionChanged += new System.EventHandler(this.dgvDistricts_SelectionChanged);
             // 
-            // loader
-            // 
-            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(0, 0);
-            this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(618, 362);
-            this.loader.TabIndex = 2;
-            this.loader.Visible = false;
-            // 
             // colName
             // 
             this.colName.HeaderText = "Name";
@@ -91,26 +99,17 @@
             this.colOperator.Name = "colOperator";
             this.colOperator.Width = 200;
             // 
-            // toolAddDistrict
+            // loader
             // 
-            this.toolAddDistrict.Image = ((System.Drawing.Image)(resources.GetObject("toolAddDistrict.Image")));
-            this.toolAddDistrict.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolAddDistrict.Name = "toolAddDistrict";
-            this.toolAddDistrict.Size = new System.Drawing.Size(73, 35);
-            this.toolAddDistrict.Text = "Add District";
-            this.toolAddDistrict.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolAddDistrict.Click += new System.EventHandler(this.toolAddDistrict_Click);
-            // 
-            // toolDeleteDistricts
-            // 
-            this.toolDeleteDistricts.Enabled = false;
-            this.toolDeleteDistricts.Image = ((System.Drawing.Image)(resources.GetObject("toolDeleteDistricts.Image")));
-            this.toolDeleteDistricts.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolDeleteDistricts.Name = "toolDeleteDistricts";
-            this.toolDeleteDistricts.Size = new System.Drawing.Size(97, 35);
-            this.toolDeleteDistricts.Text = "Delete District(s)";
-            this.toolDeleteDistricts.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolDeleteDistricts.Click += new System.EventHandler(this.toolDeleteDistricts_Click);
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(618, 362);
+            this.loader.TabIndex = 2;
+            this.loader.Visible = false;
             // 
             // RailDistrictList
             // 

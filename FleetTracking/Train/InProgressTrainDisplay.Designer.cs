@@ -59,6 +59,8 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolModifyConsist = new System.Windows.Forms.ToolStripButton();
             this.toolLiveLoad = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolPrintManifest = new System.Windows.Forms.ToolStripButton();
             this.loaderConsist = new FleetTracking.Loader();
             this.tabDutyTrans = new System.Windows.Forms.TabPage();
             this.dgvDutyTrans = new System.Windows.Forms.DataGridView();
@@ -90,8 +92,6 @@
             this.toolTogglePartialTrip = new System.Windows.Forms.ToolStripButton();
             this.loaderHandledCars = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolPrintManifest = new System.Windows.Forms.ToolStripButton();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -116,10 +116,10 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 3);
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 13);
+            this.label1.Size = new System.Drawing.Size(49, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Symbol:";
             // 
@@ -127,9 +127,10 @@
             // 
             this.lnkSymbol.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lnkSymbol.AutoSize = true;
-            this.lnkSymbol.Location = new System.Drawing.Point(60, 3);
+            this.lnkSymbol.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnkSymbol.Location = new System.Drawing.Point(60, 2);
             this.lnkSymbol.Name = "lnkSymbol";
-            this.lnkSymbol.Size = new System.Drawing.Size(58, 13);
+            this.lnkSymbol.Size = new System.Drawing.Size(57, 13);
             this.lnkSymbol.TabIndex = 1;
             this.lnkSymbol.TabStop = true;
             this.lnkSymbol.Text = "IRW Q100";
@@ -138,18 +139,18 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(3, 26);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 25);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 13);
+            this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Train Status:";
             // 
             // lblStatus
             // 
             this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatus.Location = new System.Drawing.Point(89, 21);
+            this.lblStatus.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.Location = new System.Drawing.Point(89, 20);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(169, 23);
             this.lblStatus.TabIndex = 3;
@@ -159,18 +160,18 @@
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(3, 49);
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(3, 48);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(93, 13);
+            this.label4.Size = new System.Drawing.Size(83, 13);
             this.label4.TabIndex = 2;
             this.label4.Text = "On Duty Since:";
             // 
             // lblOnDutySince
             // 
             this.lblOnDutySince.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblOnDutySince.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOnDutySince.Location = new System.Drawing.Point(93, 44);
+            this.lblOnDutySince.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOnDutySince.Location = new System.Drawing.Point(93, 43);
             this.lblOnDutySince.Name = "lblOnDutySince";
             this.lblOnDutySince.Size = new System.Drawing.Size(165, 23);
             this.lblOnDutySince.TabIndex = 3;
@@ -182,6 +183,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.splitContainer1);
             this.groupBox3.Controls.Add(this.loaderTrainInfo);
+            this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(544, 115);
@@ -192,7 +194,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(3, 16);
+            this.splitContainer1.Location = new System.Drawing.Point(3, 18);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -209,14 +211,14 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.txtInstructions);
             this.splitContainer1.Panel2.Controls.Add(this.label10);
-            this.splitContainer1.Size = new System.Drawing.Size(538, 96);
+            this.splitContainer1.Size = new System.Drawing.Size(538, 94);
             this.splitContainer1.SplitterDistance = 261;
             this.splitContainer1.TabIndex = 0;
             // 
             // cmdEndTrain
             // 
             this.cmdEndTrain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdEndTrain.Location = new System.Drawing.Point(3, 70);
+            this.cmdEndTrain.Location = new System.Drawing.Point(3, 69);
             this.cmdEndTrain.Name = "cmdEndTrain";
             this.cmdEndTrain.Size = new System.Drawing.Size(255, 23);
             this.cmdEndTrain.TabIndex = 4;
@@ -229,21 +231,22 @@
             this.txtInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInstructions.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtInstructions.Location = new System.Drawing.Point(3, 16);
             this.txtInstructions.Multiline = true;
             this.txtInstructions.Name = "txtInstructions";
             this.txtInstructions.ReadOnly = true;
             this.txtInstructions.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtInstructions.Size = new System.Drawing.Size(267, 77);
+            this.txtInstructions.Size = new System.Drawing.Size(267, 75);
             this.txtInstructions.TabIndex = 1;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(3, 0);
+            this.label10.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(3, 1);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(110, 13);
+            this.label10.Size = new System.Drawing.Size(99, 13);
             this.label10.TabIndex = 0;
             this.label10.Text = "Train Instructions:";
             // 
@@ -410,7 +413,7 @@
             // 
             // toolModifyConsist
             // 
-            this.toolModifyConsist.Image = ((System.Drawing.Image)(resources.GetObject("toolModifyConsist.Image")));
+            this.toolModifyConsist.Image = global::FleetTracking.Properties.Resources.application_edit;
             this.toolModifyConsist.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolModifyConsist.Name = "toolModifyConsist";
             this.toolModifyConsist.Size = new System.Drawing.Size(65, 22);
@@ -419,12 +422,26 @@
             // 
             // toolLiveLoad
             // 
-            this.toolLiveLoad.Image = ((System.Drawing.Image)(resources.GetObject("toolLiveLoad.Image")));
+            this.toolLiveLoad.Image = global::FleetTracking.Properties.Resources.freight1;
             this.toolLiveLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolLiveLoad.Name = "toolLiveLoad";
             this.toolLiveLoad.Size = new System.Drawing.Size(77, 22);
             this.toolLiveLoad.Text = "Live Load";
             this.toolLiveLoad.Click += new System.EventHandler(this.toolLiveLoad_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolPrintManifest
+            // 
+            this.toolPrintManifest.Image = global::FleetTracking.Properties.Resources.printer;
+            this.toolPrintManifest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolPrintManifest.Name = "toolPrintManifest";
+            this.toolPrintManifest.Size = new System.Drawing.Size(101, 22);
+            this.toolPrintManifest.Text = "Print Manifest";
+            this.toolPrintManifest.Click += new System.EventHandler(this.toolPrintManifest_Click);
             // 
             // loaderConsist
             // 
@@ -698,20 +715,6 @@
             this.loaderHandledCars.Size = new System.Drawing.Size(518, 357);
             this.loaderHandledCars.TabIndex = 2;
             this.loaderHandledCars.Visible = false;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolPrintManifest
-            // 
-            this.toolPrintManifest.Image = ((System.Drawing.Image)(resources.GetObject("toolPrintManifest.Image")));
-            this.toolPrintManifest.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolPrintManifest.Name = "toolPrintManifest";
-            this.toolPrintManifest.Size = new System.Drawing.Size(101, 22);
-            this.toolPrintManifest.Text = "Print Manifest";
-            this.toolPrintManifest.Click += new System.EventHandler(this.toolPrintManifest_Click);
             // 
             // InProgressTrainDisplay
             // 

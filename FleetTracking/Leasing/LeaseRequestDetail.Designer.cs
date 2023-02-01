@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeaseRequestDetail));
             this.grpLeaseRequest = new System.Windows.Forms.GroupBox();
             this.dtpEndTime = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
@@ -308,7 +307,7 @@
             // 
             // tsmiAccept
             // 
-            this.tsmiAccept.Image = ((System.Drawing.Image)(resources.GetObject("tsmiAccept.Image")));
+            this.tsmiAccept.Image = global::FleetTracking.Properties.Resources.accept;
             this.tsmiAccept.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiAccept.Name = "tsmiAccept";
             this.tsmiAccept.Size = new System.Drawing.Size(68, 43);
@@ -318,7 +317,7 @@
             // 
             // tsmiSubmitBid
             // 
-            this.tsmiSubmitBid.Image = ((System.Drawing.Image)(resources.GetObject("tsmiSubmitBid.Image")));
+            this.tsmiSubmitBid.Image = global::FleetTracking.Properties.Resources.arrow_up;
             this.tsmiSubmitBid.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiSubmitBid.Name = "tsmiSubmitBid";
             this.tsmiSubmitBid.Size = new System.Drawing.Size(69, 43);
@@ -328,7 +327,7 @@
             // 
             // tsmiDeleteBid
             // 
-            this.tsmiDeleteBid.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDeleteBid.Image")));
+            this.tsmiDeleteBid.Image = global::FleetTracking.Properties.Resources.delete;
             this.tsmiDeleteBid.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiDeleteBid.Name = "tsmiDeleteBid";
             this.tsmiDeleteBid.Size = new System.Drawing.Size(64, 43);

@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrackViewer));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolAddTrack = new System.Windows.Forms.ToolStripButton();
             this.toolDeleteTrack = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolModify = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolPrint = new System.Windows.Forms.ToolStripButton();
             this.label1 = new System.Windows.Forms.Label();
             this.cboTrack = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -55,8 +56,6 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.loaderMain = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolPrint = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStock)).BeginInit();
@@ -80,7 +79,7 @@
             // 
             // toolAddTrack
             // 
-            this.toolAddTrack.Image = ((System.Drawing.Image)(resources.GetObject("toolAddTrack.Image")));
+            this.toolAddTrack.Image = global::FleetTracking.Properties.Resources.add;
             this.toolAddTrack.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAddTrack.Name = "toolAddTrack";
             this.toolAddTrack.Size = new System.Drawing.Size(63, 35);
@@ -91,7 +90,7 @@
             // toolDeleteTrack
             // 
             this.toolDeleteTrack.Enabled = false;
-            this.toolDeleteTrack.Image = ((System.Drawing.Image)(resources.GetObject("toolDeleteTrack.Image")));
+            this.toolDeleteTrack.Image = global::FleetTracking.Properties.Resources.delete;
             this.toolDeleteTrack.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolDeleteTrack.Name = "toolDeleteTrack";
             this.toolDeleteTrack.Size = new System.Drawing.Size(74, 35);
@@ -106,7 +105,7 @@
             // 
             // toolModify
             // 
-            this.toolModify.Image = ((System.Drawing.Image)(resources.GetObject("toolModify.Image")));
+            this.toolModify.Image = global::FleetTracking.Properties.Resources.application_edit;
             this.toolModify.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolModify.Name = "toolModify";
             this.toolModify.Size = new System.Drawing.Size(49, 35);
@@ -114,13 +113,29 @@
             this.toolModify.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolModify.Click += new System.EventHandler(this.toolModify_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
+            // 
+            // toolPrint
+            // 
+            this.toolPrint.Enabled = false;
+            this.toolPrint.Image = global::FleetTracking.Properties.Resources.printer;
+            this.toolPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolPrint.Name = "toolPrint";
+            this.toolPrint.Size = new System.Drawing.Size(36, 35);
+            this.toolPrint.Text = "Print";
+            this.toolPrint.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolPrint.Click += new System.EventHandler(this.toolPrint_Click);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 44);
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(10, 44);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.Size = new System.Drawing.Size(36, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Track:";
             // 
@@ -307,22 +322,6 @@
             this.loaderMain.Size = new System.Drawing.Size(641, 392);
             this.loaderMain.TabIndex = 1;
             this.loaderMain.Visible = false;
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
-            // 
-            // toolPrint
-            // 
-            this.toolPrint.Enabled = false;
-            this.toolPrint.Image = ((System.Drawing.Image)(resources.GetObject("toolPrint.Image")));
-            this.toolPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolPrint.Name = "toolPrint";
-            this.toolPrint.Size = new System.Drawing.Size(36, 35);
-            this.toolPrint.Text = "Print";
-            this.toolPrint.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolPrint.Click += new System.EventHandler(this.toolPrint_Click);
             // 
             // TrackViewer
             // 

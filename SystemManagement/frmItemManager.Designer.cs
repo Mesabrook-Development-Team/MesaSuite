@@ -45,10 +45,10 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.txtSearch = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.loader = new SystemManagement.Loader();
             this.toolAddNamespace = new System.Windows.Forms.ToolStripButton();
             this.toolAddItem = new System.Windows.Forms.ToolStripButton();
             this.toolImportItems = new System.Windows.Forms.ToolStripButton();
-            this.loader = new SystemManagement.Loader();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -141,7 +141,7 @@
             this.mnuEditItem,
             this.mnuDeleteItem});
             this.ctxItem.Name = "ctxNamespace";
-            this.ctxItem.Size = new System.Drawing.Size(181, 70);
+            this.ctxItem.Size = new System.Drawing.Size(135, 48);
             this.ctxItem.Opening += new System.ComponentModel.CancelEventHandler(this.ctxItem_Opening);
             // 
             // mnuEditItem
@@ -154,7 +154,7 @@
             // mnuDeleteItem
             // 
             this.mnuDeleteItem.Name = "mnuDeleteItem";
-            this.mnuDeleteItem.Size = new System.Drawing.Size(180, 22);
+            this.mnuDeleteItem.Size = new System.Drawing.Size(134, 22);
             this.mnuDeleteItem.Text = "Delete Item";
             this.mnuDeleteItem.Click += new System.EventHandler(this.mnuDeleteItem_Click);
             // 
@@ -197,33 +197,6 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolAddNamespace
-            // 
-            this.toolAddNamespace.Image = ((System.Drawing.Image)(resources.GetObject("toolAddNamespace.Image")));
-            this.toolAddNamespace.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolAddNamespace.Name = "toolAddNamespace";
-            this.toolAddNamespace.Size = new System.Drawing.Size(114, 22);
-            this.toolAddNamespace.Text = "Add Namespace";
-            this.toolAddNamespace.Click += new System.EventHandler(this.toolAddNamespace_Click);
-            // 
-            // toolAddItem
-            // 
-            this.toolAddItem.Image = ((System.Drawing.Image)(resources.GetObject("toolAddItem.Image")));
-            this.toolAddItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolAddItem.Name = "toolAddItem";
-            this.toolAddItem.Size = new System.Drawing.Size(76, 22);
-            this.toolAddItem.Text = "Add Item";
-            this.toolAddItem.Click += new System.EventHandler(this.toolAddItem_Click);
-            // 
-            // toolImportItems
-            // 
-            this.toolImportItems.Image = ((System.Drawing.Image)(resources.GetObject("toolImportItems.Image")));
-            this.toolImportItems.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolImportItems.Name = "toolImportItems";
-            this.toolImportItems.Size = new System.Drawing.Size(95, 22);
-            this.toolImportItems.Text = "Import Items";
-            this.toolImportItems.Click += new System.EventHandler(this.toolImportItems_Click);
-            // 
             // loader
             // 
             this.loader.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -232,6 +205,33 @@
             this.loader.Name = "loader";
             this.loader.Size = new System.Drawing.Size(196, 101);
             this.loader.TabIndex = 2;
+            // 
+            // toolAddNamespace
+            // 
+            this.toolAddNamespace.Image = global::SystemManagement.Properties.Resources.asterisk_orange;
+            this.toolAddNamespace.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolAddNamespace.Name = "toolAddNamespace";
+            this.toolAddNamespace.Size = new System.Drawing.Size(114, 22);
+            this.toolAddNamespace.Text = "Add Namespace";
+            this.toolAddNamespace.Click += new System.EventHandler(this.toolAddNamespace_Click);
+            // 
+            // toolAddItem
+            // 
+            this.toolAddItem.Image = global::SystemManagement.Properties.Resources._new;
+            this.toolAddItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolAddItem.Name = "toolAddItem";
+            this.toolAddItem.Size = new System.Drawing.Size(76, 22);
+            this.toolAddItem.Text = "Add Item";
+            this.toolAddItem.Click += new System.EventHandler(this.toolAddItem_Click);
+            // 
+            // toolImportItems
+            // 
+            this.toolImportItems.Image = global::SystemManagement.Properties.Resources.folder_add;
+            this.toolImportItems.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolImportItems.Name = "toolImportItems";
+            this.toolImportItems.Size = new System.Drawing.Size(95, 22);
+            this.toolImportItems.Text = "Import Items";
+            this.toolImportItems.Click += new System.EventHandler(this.toolImportItems_Click);
             // 
             // frmItemManager
             // 

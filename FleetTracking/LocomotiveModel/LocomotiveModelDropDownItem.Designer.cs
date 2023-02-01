@@ -46,20 +46,20 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblName.Location = new System.Drawing.Point(119, 3);
+            this.lblName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblName.Location = new System.Drawing.Point(118, 2);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(82, 20);
+            this.lblName.Size = new System.Drawing.Size(81, 21);
             this.lblName.TabIndex = 1;
             this.lblName.Text = "loading...";
             // 
             // lblType
             // 
             this.lblType.AutoSize = true;
-            this.lblType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblType.Location = new System.Drawing.Point(120, 23);
+            this.lblType.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblType.Location = new System.Drawing.Point(119, 22);
             this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(84, 16);
+            this.lblType.Size = new System.Drawing.Size(82, 17);
             this.lblType.TabIndex = 2;
             this.lblType.Text = "please wait...";
             // 

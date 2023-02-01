@@ -151,7 +151,7 @@ namespace MesaSuite
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Image = global::MesaSuite.Properties.Resources.image2;
+            this.pictureBox4.Image = global::MesaSuite.Properties.Resources.Mesabrook_Icon;
             this.pictureBox4.Location = new System.Drawing.Point(8, 3);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(57, 57);

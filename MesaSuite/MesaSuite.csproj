@@ -286,6 +286,7 @@
   <ItemGroup>
     <Content Include="logo_ms.ico" />
     <Content Include="Mesabrook Icon.ico" />
+    <None Include="Resources\Mesabrook Icon.png" />
     <None Include="Resources\icn_dynmap.png" />
     <None Include="Resources\image2.png" />
     <None Include="Resources\icn_github.png" />

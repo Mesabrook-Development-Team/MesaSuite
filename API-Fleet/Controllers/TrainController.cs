@@ -51,6 +51,10 @@ namespace API_Fleet.Controllers
             t.TrainSymbol.CompanyIDOperator,
             t.TrainSymbol.GovernmentIDOperator,
             t.TrainFuelRecords.First().LocomotiveID,
+            t.TrainFuelRecords.First().Locomotive.LocomotiveID,
+            t.TrainFuelRecords.First().Locomotive.LocomotiveModelID,
+            t.TrainFuelRecords.First().Locomotive.LocomotiveModel.LocomotiveModelID,
+            t.TrainFuelRecords.First().Locomotive.LocomotiveModel.Name,
             t.TrainFuelRecords.First().FuelStart,
             t.TrainFuelRecords.First().FuelEnd,
             t.TrainDutyTransactions.First().TrainDutyTransactionID,
@@ -79,7 +83,7 @@ namespace API_Fleet.Controllers
 
         public async Task<List<Train>> GetByTrainSymbol(long? id)
         {
-            Search<Train> trainSearch = new Search<Train>(new LongSearchCondition()
+            Search<Train> trainSearch = new Search<Train>(new LongSearchCondition<Train>()
             {
                 Field = nameof(Train.TrainSymbolID),
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,

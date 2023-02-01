@@ -55,7 +55,7 @@ namespace FleetTracking
                 Application = _application
             };
 
-            Form dialog = _application.OpenForm(selectPrinter, FleetTrackingApplication.OpenFormOptions.Dialog);
+            Form dialog = _application.OpenForm(selectPrinter, FleetTrackingApplication.OpenFormOptions.Dialog | FleetTrackingApplication.OpenFormOptions.ResizeToControl);
             if (dialog.DialogResult != DialogResult.OK)
             {
                 return;

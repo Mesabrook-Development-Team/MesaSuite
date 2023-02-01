@@ -4,12 +4,15 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FleetTracking.Attributes;
 using FleetTracking.Interop;
 using FleetTracking.Models;
+using FleetTracking.Roster;
+using FleetTracking.Train;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 
@@ -31,6 +34,7 @@ namespace FleetTracking.TrainSymbols
             InitializeComponent();
             dataGridViewStylizer.ApplyStyle(dgvRates);
             dataGridViewStylizer.ApplyStyle(dgvTrains);
+            dataGridViewStylizer.ApplyStyle(dgvFuelByModel);
         }
 
         private async void TrainSymbolDetail_Load(object sender, EventArgs e)
@@ -212,10 +216,11 @@ namespace FleetTracking.TrainSymbols
 
                 GetData get = _application.GetAccess<GetData>();
                 get.API = DataAccess.APIs.FleetTracking;
-                get.Resource = $"Train/GetBySymbol/{TrainSymbolID}";
+                get.Resource = $"Train/GetByTrainSymbol/{TrainSymbolID}";
                 List<Models.Train> trains = await get.GetObject<List<Models.Train>>() ?? new List<Models.Train>();
                 trains = trains.OrderByDescending(t => t.TimeOnDuty).ToList();
 
+                dgvTrains.Rows.Clear();
                 foreach(Models.Train train in trains)
                 {
                     List<TrainDutyTransaction> dutyTransactions = train.TrainDutyTransactions ?? new List<TrainDutyTransaction>();
@@ -227,12 +232,13 @@ namespace FleetTracking.TrainSymbols
                         span += dutyTransaction.TimeOffDuty.Value - dutyTransaction.TimeOnDuty.Value;
                     }
                     
-
                     int rowIndex = dgvTrains.Rows.Add();
                     DataGridViewRow row = dgvTrains.Rows[rowIndex];
                     row.Cells[colStart.Name].Value = dutyTransactions.OrderByDescending(tdt => tdt.TimeOnDuty).FirstOrDefault()?.TimeOnDuty?.ToString("MM/dd/yyyy HH:mm");
-                    row.Cells[colEnd.Name].Value = dutyTransactions.OrderByDescending(tdt => tdt.TimeOffDuty).FirstOrDefault()?.TimeOffDuty?.ToString("MM/dd/yyyy HH:mm");
-                    row.Cells[colFuelUsage.Name].Value = fuelRecords.Where(fr => fr.FuelStart != null && fr.FuelEnd != null).Sum(fr => fr.FuelEnd - fr.FuelStart)?.ToString("N2");
+                    row.Cells[colEndTime.Name].Value = dutyTransactions.OrderByDescending(tdt => tdt.TimeOffDuty).FirstOrDefault()?.TimeOffDuty?.ToString("MM/dd/yyyy HH:mm");
+                    row.Cells[colFuelUsage.Name].Value = fuelRecords.Where(fr => fr.FuelStart != null && fr.FuelEnd != null).Sum(fr => fr.FuelStart - fr.FuelEnd)?.ToString("N2");
+                    row.Cells[colTimeTaken.Name].Value = span.ToString(@"hh\:mm");
+                    row.Tag = train;
                 }
             }
             finally
@@ -247,9 +253,90 @@ namespace FleetTracking.TrainSymbols
             {
                 await LoadData();
             }
-            if (tabControl1.SelectedTab == tabPage2)
+            else if (tabControl1.SelectedTab == tabPage2)
             {
                 await LoadTrains();
+            }
+            else if (tabControl1.SelectedTab == tabPage3)
+            {
+                await LoadStats();
+            }
+        }
+
+        private void dgvTrains_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvTrains.Rows.Count)
+            {
+                return;
+            }
+
+            DataGridViewRow row = dgvTrains.Rows[e.RowIndex];
+            Models.Train train = row.Tag as Models.Train;
+
+            if (train == null)
+            {
+                return;
+            }
+
+            InProgressTrainDisplay trainDisplay = new InProgressTrainDisplay()
+            {
+                Application = _application,
+                TrainID = train.TrainID
+            };
+
+            _application.OpenForm(trainDisplay, FleetTrackingApplication.OpenFormOptions.Popout);
+        }
+
+        private async Task LoadStats()
+        {
+            try
+            {
+                loaderStats.BringToFront();
+                loaderStats.Visible = true;
+
+                GetData get = _application.GetAccess<GetData>();
+                get.API = DataAccess.APIs.FleetTracking;
+                get.Resource = $"Train/GetByTrainSymbol/{TrainSymbolID}";
+                List<Models.Train> trains = await get.GetObject<List<Models.Train>>() ?? new List<Models.Train>();
+                decimal averageFuelUsage = 0;
+
+                if (trains.Any(t => t.TrainFuelRecords.Any(tfr => tfr.FuelStart != null && tfr.FuelEnd != null)))
+                {
+                    averageFuelUsage = trains
+                        .SelectMany(t => t.TrainFuelRecords)
+                        .Where(t => t.FuelStart != null && t.FuelEnd != null)
+                        .GroupBy(t => t.TrainID)
+                        .Average(group => group.Sum(tfr => tfr.FuelStart.Value - tfr.FuelEnd.Value));
+                }
+
+
+                TimeSpan averageTimeSpan = new TimeSpan();
+
+                if (trains.Any(t => t.TrainDutyTransactions.Any(tdt => tdt.TimeOnDuty != null && tdt.TimeOffDuty != null)))
+                {
+                    averageTimeSpan = TimeSpan.FromMinutes(trains
+                                                .SelectMany(t => t.TrainDutyTransactions)
+                                                .Where(tdt => tdt.TimeOnDuty != null && tdt.TimeOffDuty != null)
+                                                .GroupBy(tdt => tdt.TrainID)
+                                                .Average(group => group.Sum(tdt => (tdt.TimeOffDuty.Value - tdt.TimeOnDuty.Value).TotalMinutes)));
+                }
+
+                lblAverageFuel.Text = averageFuelUsage.ToString("N2");
+                lblAverageDuty.Text = averageTimeSpan.ToString(@"hh\:mm");
+
+                dgvFuelByModel.Rows.Clear();
+                foreach (IGrouping<long?, TrainFuelRecord> fuelRecordsByModel in trains.SelectMany(t => t.TrainFuelRecords).Where(tfr => tfr.FuelStart != null && tfr.FuelEnd != null).GroupBy(tfr => tfr.Locomotive.LocomotiveModelID))
+                {
+                    int rowIndex = dgvFuelByModel.Rows.Add();
+                    DataGridViewRow row = dgvFuelByModel.Rows[rowIndex];
+
+                    row.Cells[colModel.Name].Value = fuelRecordsByModel.First().Locomotive?.LocomotiveModel?.Name;
+                    row.Cells[colAvgFuel.Name].Value = fuelRecordsByModel.Where(tfr => tfr.FuelStart != null && tfr.FuelEnd != null).Average(tfr => tfr.FuelStart.Value - tfr.FuelEnd.Value).ToString("N2");
+                }
+            }
+            finally
+            {
+                loaderStats.Visible = false;
             }
         }
     }

@@ -14,5 +14,13 @@ namespace MesaSuite.Common.Extensions
             TimeZoneInfo centralTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
             return TimeZoneInfo.ConvertTime(centralDateTime, centralTimeZone, localTimeZone);
         }
+
+        public static DateTime ConvertToServerTime(this DateTime localTimeDateTime)
+        {
+            DateTime innerDateTime = new DateTime(localTimeDateTime.Ticks, DateTimeKind.Unspecified);
+            TimeZoneInfo localTimeZone = TimeZoneInfo.FindSystemTimeZoneById(TimeZone.CurrentTimeZone.StandardName);
+            TimeZoneInfo centralTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+            return TimeZoneInfo.ConvertTime(innerDateTime, localTimeZone, centralTimeZone);
+        }
     }
 }

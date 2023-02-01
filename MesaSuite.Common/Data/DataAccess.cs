@@ -1,7 +1,9 @@
 ﻿using CefSharp.DevTools.CSS;
 using MesaSuite.Common.Attributes;
+using MesaSuite.Common.Extensions;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -133,7 +135,87 @@ namespace MesaSuite.Common.Data
 
             throw ex;
         }
-        
+
+        protected void TimeZoneCorrection(object anObject, bool toLocalTime)
+        {
+            if (anObject == null)
+            {
+                return;
+            }
+
+            if (typeof(IEnumerable).IsAssignableFrom(anObject.GetType()) && anObject.GetType().IsGenericType)
+            {
+                IEnumerable objects = (IEnumerable)anObject;
+                foreach (object subObject in objects)
+                {
+                    TimeZoneCorrection(subObject, toLocalTime);
+                }
+
+                return;
+            }
+
+            foreach (PropertyInfo property in anObject.GetType().GetProperties())
+            {
+                if (property.PropertyType == typeof(DateTime?) && property.GetValue(anObject) == null)
+                {
+                    continue;
+                }
+
+                if (property.PropertyType == typeof(DateTime) && ((DateTime)property.GetValue(anObject) == default(DateTime) || (DateTime)property.GetValue(anObject) == DateTime.MaxValue))
+                {
+                    continue;
+                }
+
+                if (typeof(IEnumerable).IsAssignableFrom(property.PropertyType) && property.PropertyType.IsGenericType)
+                {
+                    IEnumerable objects = (IEnumerable)property.GetValue(anObject);
+                    if (objects != null)
+                    {
+                        foreach (object subObject in objects)
+                        {
+                            TimeZoneCorrection(subObject, toLocalTime);
+                        }
+                    }
+
+                    continue;
+                }
+
+                if (property.PropertyType.Assembly.GetReferencedAssemblies().Select(an => an.FullName).Contains(Assembly.GetExecutingAssembly().FullName))
+                {
+                    TimeZoneCorrection(property.GetValue(anObject), toLocalTime);
+                    continue;
+                }
+
+                if (property.SetMethod == null)
+                {
+                    continue;
+                }
+
+                if (property.PropertyType == typeof(DateTime) || property.PropertyType == typeof(DateTime?))
+                {
+                    DateTime currentValue;
+                    if (property.PropertyType == typeof(DateTime?))
+                    {
+                        currentValue = ((DateTime?)property.GetValue(anObject)).Value;
+                    }
+                    else
+                    {
+                        currentValue = (DateTime)property.GetValue(anObject);
+                    }
+
+                    if (toLocalTime)
+                    {
+                        currentValue = currentValue.ConvertToLocalTime();
+                    }
+                    else
+                    {
+                        currentValue = currentValue.ConvertToServerTime();
+                    }
+                    property.SetValue(anObject, currentValue);
+                }
+            }
+        }
+
         public enum APIs
         {
             [EnumValue("mcsync")]

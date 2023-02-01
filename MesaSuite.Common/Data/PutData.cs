@@ -38,34 +38,43 @@ namespace MesaSuite.Common.Data
             }
             request.ContentType = "application/json";
 
-            JObject jObject = JObject.FromObject(_objectToPut ?? new object());
-
-            if (RequestFields != null && RequestFields.Any())
-            {
-                jObject.Add(new JProperty("requestfields", RequestFields));
-            }
-
-            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
-            {
-                await writer.WriteAsync(jObject.ToString());
-            }
+            TimeZoneCorrection(_objectToPut, false);
 
             try
             {
-                string json;
+                JObject jObject = JObject.FromObject(_objectToPut ?? new object());
 
-                using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                if (RequestFields != null && RequestFields.Any())
                 {
-                    json = await reader.ReadToEndAsync();
+                    jObject.Add(new JProperty("requestfields", RequestFields));
                 }
 
-                RequestSuccessful = true;
-                return json;
+                using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+                {
+                    await writer.WriteAsync(jObject.ToString());
+                }
+
+                try
+                {
+                    string json;
+
+                    using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        json = await reader.ReadToEndAsync();
+                    }
+
+                    RequestSuccessful = true;
+                    return json;
+                }
+                catch (WebException ex)
+                {
+                    await HandleResponseWebException(ex, new ResponseWebExceptionRetryCallback(InternalExecute));
+                }
             }
-            catch(WebException ex)
+            finally
             {
-                await HandleResponseWebException(ex, new ResponseWebExceptionRetryCallback(InternalExecute));
+                TimeZoneCorrection(_objectToPut, true);
             }
 
             return null;

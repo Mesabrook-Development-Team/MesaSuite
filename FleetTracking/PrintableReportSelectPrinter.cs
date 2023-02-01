@@ -29,6 +29,8 @@ namespace FleetTracking
 
         private async void PrintableReportSelectPrinter_Load(object sender, EventArgs e)
         {
+            ParentForm.Text = "Select Network Printer";
+
             try
             {
                 loader.BringToFront();

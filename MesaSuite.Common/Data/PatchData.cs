@@ -1,6 +1,7 @@
 ﻿using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Extensions;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -42,6 +43,32 @@ namespace MesaSuite.Common.Data
             foreach (KeyValuePair<string, string> kvp in Headers)
             {
                 request.Headers.Add(kvp.Key, kvp.Value);
+            }
+
+            Dictionary<string, object> valueEdits = new Dictionary<string, object>();
+            foreach(KeyValuePair<string, object> kvp in Values)
+            {
+                if (kvp.Value != null && (kvp.Value is DateTime? || kvp.Value is DateTime))
+                {
+                    DateTime currentValue;
+                    if (kvp.Value is DateTime?)
+                    {
+                        currentValue = ((DateTime?)kvp.Value).Value;
+                    }
+                    else
+                    {
+                        currentValue = (DateTime)kvp.Value;
+                    }
+
+                    currentValue = currentValue.ConvertToServerTime();
+
+                    valueEdits[kvp.Key] = currentValue;
+                }
+            }
+
+            foreach(KeyValuePair<string, object> edit in valueEdits)
+            {
+                Values[edit.Key] = edit.Value;
             }
 
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))

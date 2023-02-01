@@ -169,7 +169,7 @@ namespace MCSync
                     }
                 }
 
-                // Splash Animation PNG Files
+                // Custom Loading Screen Files
                 IEnumerable<MCSyncFile> animationSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.animation && IsDownloadTypeValid(configSyncMode, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(animationDirectory, "*", SearchOption.AllDirectories))
                 {

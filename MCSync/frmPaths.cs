@@ -73,7 +73,7 @@ namespace MCSync
 
                 txtConfigDirectory.Text = txtMinecraftFolder.Text + "\\config";
                 txtOResourcesDirectory.Text = txtMinecraftFolder.Text + "\\oresources";
-                txtAnimationDirectory.Text = txtMinecraftFolder.Text + "\\animation";
+                txtAnimationDirectory.Text = txtMinecraftFolder.Text + "\\config\\customloadingscreen";
             }
         }
 
@@ -178,7 +178,7 @@ namespace MCSync
         private void cmdBrowseAnimation_Click(object sender, EventArgs e)
         {
             BetterFolderBrowser browser = new BetterFolderBrowser();
-            browser.Title = "Select Animation folder";
+            browser.Title = "Select Custom Loading Screen folder";
             browser.Multiselect = false;
             browser.RootFolder = txtAnimationDirectory.Text;
             if (browser.ShowDialog() != DialogResult.OK)
@@ -212,7 +212,7 @@ namespace MCSync
 
                 txtConfigDirectory.Text = txtMinecraftFolder.Text + "\\config";
                 txtOResourcesDirectory.Text = txtMinecraftFolder.Text + "\\oresources";
-                txtAnimationDirectory.Text = txtMinecraftFolder.Text + "\\animation";
+                txtAnimationDirectory.Text = txtMinecraftFolder.Text + "\\config\\customloadingscreen";
             }
         }
     }

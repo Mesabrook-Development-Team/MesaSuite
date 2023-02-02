@@ -11,7 +11,6 @@ namespace MCSync
 {
     public partial class frmWhitelist : Form
     {
-        public string WhitelistName { get; set; }
         public frmWhitelist()
         {
             InitializeComponent();
@@ -21,9 +20,21 @@ namespace MCSync
         {
             Dock = DockStyle.Fill;
             Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>());
-            if (configValues.ContainsKey(WhitelistName))
+            
+            // Resource Packs
+            if (configValues.ContainsKey("resourcepacks_whitelist"))
             {
-                string[] whitelist = configValues[WhitelistName].Cast<JArray>()?.ToObject<string[]>() ?? configValues[WhitelistName].Cast<string[]>();
+                string[] whitelist = configValues["resourcepacks_whitelist"].Cast<JArray>()?.ToObject<string[]>() ?? configValues["resourcepacks_whitelist"].Cast<string[]>();
+                if (whitelist != null)
+                {
+                    txtResourcePacks.Lines = whitelist;
+                }
+            }
+
+            // Mods
+            if (configValues.ContainsKey("mods_whitelist"))
+            {
+                string[] whitelist = configValues["mods_whitelist"].Cast<JArray>()?.ToObject<string[]>() ?? configValues["mods_whitelist"].Cast<string[]>();
                 if (whitelist != null)
                 {
                     txtItems.Lines = whitelist;
@@ -35,7 +46,8 @@ namespace MCSync
         {
             UserPreferences userPreferences = UserPreferences.Get();
             Dictionary<string, object> configValues = userPreferences.Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
-            configValues[WhitelistName] = txtItems.Lines;
+            configValues["mods_whitelist"] = txtItems.Lines;
+            configValues["resourcepacks_whitelist"] = txtResourcePacks.Lines;
             userPreferences.Save();
 
             DialogResult = DialogResult.OK;

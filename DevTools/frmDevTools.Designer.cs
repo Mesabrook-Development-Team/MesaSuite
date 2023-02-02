@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDevTools));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtSQLProviderLocation = new System.Windows.Forms.TextBox();
@@ -105,10 +106,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(170, 16);
+            this.label1.Size = new System.Drawing.Size(163, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "1. Confirm Configuration";
             // 
@@ -117,7 +118,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(48, 31);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(117, 13);
+            this.label2.Size = new System.Drawing.Size(121, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "SQL Provider Location:";
             // 
@@ -125,14 +126,14 @@
             // 
             this.txtSQLProviderLocation.Location = new System.Drawing.Point(171, 28);
             this.txtSQLProviderLocation.Name = "txtSQLProviderLocation";
-            this.txtSQLProviderLocation.Size = new System.Drawing.Size(245, 20);
+            this.txtSQLProviderLocation.Size = new System.Drawing.Size(245, 22);
             this.txtSQLProviderLocation.TabIndex = 0;
             // 
             // cmdBrowse
             // 
             this.cmdBrowse.Location = new System.Drawing.Point(422, 26);
             this.cmdBrowse.Name = "cmdBrowse";
-            this.cmdBrowse.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowse.Size = new System.Drawing.Size(71, 23);
             this.cmdBrowse.TabIndex = 1;
             this.cmdBrowse.Text = "Browse...";
             this.cmdBrowse.UseVisualStyleBackColor = true;
@@ -141,9 +142,9 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(71, 57);
+            this.label3.Location = new System.Drawing.Point(60, 56);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(94, 13);
+            this.label3.Size = new System.Drawing.Size(104, 13);
             this.label3.TabIndex = 1;
             this.label3.Text = "Connection String:";
             // 
@@ -151,15 +152,15 @@
             // 
             this.txtConnectionString.Location = new System.Drawing.Point(171, 54);
             this.txtConnectionString.Name = "txtConnectionString";
-            this.txtConnectionString.Size = new System.Drawing.Size(245, 20);
+            this.txtConnectionString.Size = new System.Drawing.Size(245, 22);
             this.txtConnectionString.TabIndex = 2;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 83);
+            this.label4.Location = new System.Drawing.Point(4, 83);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(153, 13);
+            this.label4.Size = new System.Drawing.Size(167, 13);
             this.label4.TabIndex = 1;
             this.label4.Text = "hMailServer Connection String:";
             // 
@@ -167,7 +168,7 @@
             // 
             this.txtMailConnectionString.Location = new System.Drawing.Point(171, 80);
             this.txtMailConnectionString.Name = "txtMailConnectionString";
-            this.txtMailConnectionString.Size = new System.Drawing.Size(245, 20);
+            this.txtMailConnectionString.Size = new System.Drawing.Size(245, 22);
             this.txtMailConnectionString.TabIndex = 3;
             // 
             // label5
@@ -175,7 +176,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(86, 132);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(79, 13);
+            this.label5.Size = new System.Drawing.Size(80, 13);
             this.label5.TabIndex = 1;
             this.label5.Text = "LDAP Address:";
             // 
@@ -183,7 +184,7 @@
             // 
             this.txtAddress.Location = new System.Drawing.Point(171, 129);
             this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(245, 20);
+            this.txtAddress.Size = new System.Drawing.Size(245, 22);
             this.txtAddress.TabIndex = 6;
             // 
             // label6
@@ -191,7 +192,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(79, 158);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(86, 13);
+            this.label6.Size = new System.Drawing.Size(90, 13);
             this.label6.TabIndex = 1;
             this.label6.Text = "LDAP Container:";
             // 
@@ -199,15 +200,15 @@
             // 
             this.txtContainer.Location = new System.Drawing.Point(171, 155);
             this.txtContainer.Name = "txtContainer";
-            this.txtContainer.Size = new System.Drawing.Size(245, 20);
+            this.txtContainer.Size = new System.Drawing.Size(245, 22);
             this.txtContainer.TabIndex = 7;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(64, 184);
+            this.label7.Location = new System.Drawing.Point(62, 184);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(101, 13);
+            this.label7.Size = new System.Drawing.Size(104, 13);
             this.label7.TabIndex = 1;
             this.label7.Text = "LDAP Group Name:";
             // 
@@ -215,7 +216,7 @@
             // 
             this.txtGroup.Location = new System.Drawing.Point(171, 181);
             this.txtGroup.Name = "txtGroup";
-            this.txtGroup.Size = new System.Drawing.Size(245, 20);
+            this.txtGroup.Size = new System.Drawing.Size(245, 22);
             this.txtGroup.TabIndex = 8;
             // 
             // label8
@@ -223,7 +224,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(102, 210);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(63, 13);
+            this.label8.Size = new System.Drawing.Size(62, 13);
             this.label8.TabIndex = 1;
             this.label8.Text = "LDAP User:";
             // 
@@ -231,7 +232,7 @@
             // 
             this.txtUser.Location = new System.Drawing.Point(171, 207);
             this.txtUser.Name = "txtUser";
-            this.txtUser.Size = new System.Drawing.Size(245, 20);
+            this.txtUser.Size = new System.Drawing.Size(245, 22);
             this.txtUser.TabIndex = 9;
             // 
             // label9
@@ -239,7 +240,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(78, 236);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(87, 13);
+            this.label9.Size = new System.Drawing.Size(88, 13);
             this.label9.TabIndex = 1;
             this.label9.Text = "LDAP Password:";
             // 
@@ -247,14 +248,14 @@
             // 
             this.txtPassword.Location = new System.Drawing.Point(171, 233);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(245, 20);
+            this.txtPassword.Size = new System.Drawing.Size(245, 22);
             this.txtPassword.TabIndex = 10;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(178, 13);
+            this.label10.Location = new System.Drawing.Point(175, 13);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(83, 9);
             this.label10.TabIndex = 4;
@@ -263,10 +264,10 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(12, 351);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(198, 16);
+            this.label11.Size = new System.Drawing.Size(179, 17);
             this.label11.TabIndex = 0;
             this.label11.Text = "2. Run Database Migrations";
             // 
@@ -293,10 +294,10 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(12, 396);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(111, 16);
+            this.label12.Size = new System.Drawing.Size(99, 17);
             this.label12.TabIndex = 0;
             this.label12.Text = "3. Run Loaders";
             // 
@@ -313,10 +314,10 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.Location = new System.Drawing.Point(12, 306);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(141, 16);
+            this.label13.Size = new System.Drawing.Size(125, 17);
             this.label13.TabIndex = 0;
             this.label13.Text = "1.5 Deploy Schema";
             // 
@@ -334,7 +335,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(153, 310);
+            this.label14.Location = new System.Drawing.Point(139, 312);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(75, 9);
             this.label14.TabIndex = 4;
@@ -343,10 +344,10 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(12, 441);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(88, 16);
+            this.label15.Size = new System.Drawing.Size(80, 17);
             this.label15.TabIndex = 0;
             this.label15.Text = "Other Tools";
             // 
@@ -354,7 +355,7 @@
             // 
             this.cmdBackEndAuth.Location = new System.Drawing.Point(15, 460);
             this.cmdBackEndAuth.Name = "cmdBackEndAuth";
-            this.cmdBackEndAuth.Size = new System.Drawing.Size(81, 61);
+            this.cmdBackEndAuth.Size = new System.Drawing.Size(96, 61);
             this.cmdBackEndAuth.TabIndex = 24;
             this.cmdBackEndAuth.Text = "Start Development Backend Auth";
             this.cmdBackEndAuth.UseVisualStyleBackColor = true;
@@ -363,9 +364,9 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(499, 31);
+            this.label16.Location = new System.Drawing.Point(495, 31);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(109, 13);
+            this.label16.Size = new System.Drawing.Size(116, 13);
             this.label16.TabIndex = 1;
             this.label16.Text = "System Management:";
             // 
@@ -374,7 +375,7 @@
             this.rdoSysLive.AutoSize = true;
             this.rdoSysLive.Location = new System.Drawing.Point(0, 0);
             this.rdoSysLive.Name = "rdoSysLive";
-            this.rdoSysLive.Size = new System.Drawing.Size(45, 17);
+            this.rdoSysLive.Size = new System.Drawing.Size(44, 17);
             this.rdoSysLive.TabIndex = 0;
             this.rdoSysLive.TabStop = true;
             this.rdoSysLive.Text = "Live";
@@ -394,7 +395,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(558, 54);
+            this.label17.Location = new System.Drawing.Point(554, 54);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(50, 13);
             this.label17.TabIndex = 1;
@@ -403,18 +404,18 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(521, 102);
+            this.label18.Location = new System.Drawing.Point(517, 102);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(87, 13);
+            this.label18.Size = new System.Drawing.Size(95, 13);
             this.label18.TabIndex = 1;
             this.label18.Text = "Company Studio:";
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(530, 171);
+            this.label19.Location = new System.Drawing.Point(526, 148);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(78, 13);
+            this.label19.Size = new System.Drawing.Size(87, 13);
             this.label19.TabIndex = 1;
             this.label19.Text = "Authentication:";
             // 
@@ -441,7 +442,7 @@
             this.rdoSyncLive.AutoSize = true;
             this.rdoSyncLive.Location = new System.Drawing.Point(0, 0);
             this.rdoSyncLive.Name = "rdoSyncLive";
-            this.rdoSyncLive.Size = new System.Drawing.Size(45, 17);
+            this.rdoSyncLive.Size = new System.Drawing.Size(44, 17);
             this.rdoSyncLive.TabIndex = 0;
             this.rdoSyncLive.TabStop = true;
             this.rdoSyncLive.Text = "Live";
@@ -472,7 +473,7 @@
             this.rdoCompanyLive.AutoSize = true;
             this.rdoCompanyLive.Location = new System.Drawing.Point(0, 0);
             this.rdoCompanyLive.Name = "rdoCompanyLive";
-            this.rdoCompanyLive.Size = new System.Drawing.Size(45, 17);
+            this.rdoCompanyLive.Size = new System.Drawing.Size(44, 17);
             this.rdoCompanyLive.TabIndex = 0;
             this.rdoCompanyLive.TabStop = true;
             this.rdoCompanyLive.Text = "Live";
@@ -503,7 +504,7 @@
             this.rdoAuthLive.AutoSize = true;
             this.rdoAuthLive.Location = new System.Drawing.Point(0, 0);
             this.rdoAuthLive.Name = "rdoAuthLive";
-            this.rdoAuthLive.Size = new System.Drawing.Size(45, 17);
+            this.rdoAuthLive.Size = new System.Drawing.Size(44, 17);
             this.rdoAuthLive.TabIndex = 0;
             this.rdoAuthLive.TabStop = true;
             this.rdoAuthLive.Text = "Live";
@@ -534,7 +535,7 @@
             this.rdoVersionLive.AutoSize = true;
             this.rdoVersionLive.Location = new System.Drawing.Point(0, 0);
             this.rdoVersionLive.Name = "rdoVersionLive";
-            this.rdoVersionLive.Size = new System.Drawing.Size(45, 17);
+            this.rdoVersionLive.Size = new System.Drawing.Size(44, 17);
             this.rdoVersionLive.TabIndex = 0;
             this.rdoVersionLive.TabStop = true;
             this.rdoVersionLive.Text = "Live";
@@ -554,9 +555,9 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(563, 79);
+            this.label20.Location = new System.Drawing.Point(559, 79);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(45, 13);
+            this.label20.Size = new System.Drawing.Size(48, 13);
             this.label20.TabIndex = 17;
             this.label20.Text = "Version:";
             // 
@@ -565,7 +566,7 @@
             this.rdoLDAP.AutoSize = true;
             this.rdoLDAP.Location = new System.Drawing.Point(171, 106);
             this.rdoLDAP.Name = "rdoLDAP";
-            this.rdoLDAP.Size = new System.Drawing.Size(75, 17);
+            this.rdoLDAP.Size = new System.Drawing.Size(73, 17);
             this.rdoLDAP.TabIndex = 4;
             this.rdoLDAP.TabStop = true;
             this.rdoLDAP.Text = "Use LDAP";
@@ -577,7 +578,7 @@
             this.rdoBackend.AutoSize = true;
             this.rdoBackend.Location = new System.Drawing.Point(252, 106);
             this.rdoBackend.Name = "rdoBackend";
-            this.rdoBackend.Size = new System.Drawing.Size(138, 17);
+            this.rdoBackend.Size = new System.Drawing.Size(140, 17);
             this.rdoBackend.TabIndex = 5;
             this.rdoBackend.TabStop = true;
             this.rdoBackend.Text = "Use Dev Backend Auth";
@@ -588,7 +589,7 @@
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(116, 261);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(49, 13);
+            this.label21.Size = new System.Drawing.Size(50, 13);
             this.label21.TabIndex = 1;
             this.label21.Text = "API Port:";
             // 
@@ -606,7 +607,7 @@
             0,
             0});
             this.numAPIPort.Name = "numAPIPort";
-            this.numAPIPort.Size = new System.Drawing.Size(245, 20);
+            this.numAPIPort.Size = new System.Drawing.Size(245, 22);
             this.numAPIPort.TabIndex = 11;
             this.numAPIPort.Value = new decimal(new int[] {
             1024,
@@ -628,7 +629,7 @@
             this.rdoGovLive.AutoSize = true;
             this.rdoGovLive.Location = new System.Drawing.Point(0, 0);
             this.rdoGovLive.Name = "rdoGovLive";
-            this.rdoGovLive.Size = new System.Drawing.Size(45, 17);
+            this.rdoGovLive.Size = new System.Drawing.Size(44, 17);
             this.rdoGovLive.TabIndex = 0;
             this.rdoGovLive.TabStop = true;
             this.rdoGovLive.Text = "Live";
@@ -648,18 +649,18 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(510, 125);
+            this.label26.Location = new System.Drawing.Point(506, 125);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(98, 13);
+            this.label26.Size = new System.Drawing.Size(106, 13);
             this.label26.TabIndex = 1;
             this.label26.Text = "Government Portal:";
             // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(103, 287);
+            this.label22.Location = new System.Drawing.Point(96, 287);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(62, 13);
+            this.label22.Size = new System.Drawing.Size(68, 13);
             this.label22.TabIndex = 1;
             this.label22.Text = "OAuth Port:";
             // 
@@ -677,7 +678,7 @@
             0,
             0});
             this.numAuthPort.Name = "numAuthPort";
-            this.numAuthPort.Size = new System.Drawing.Size(245, 20);
+            this.numAuthPort.Size = new System.Drawing.Size(245, 22);
             this.numAuthPort.TabIndex = 12;
             this.numAuthPort.Value = new decimal(new int[] {
             1024,
@@ -699,7 +700,7 @@
             this.rdoFleetLive.AutoSize = true;
             this.rdoFleetLive.Location = new System.Drawing.Point(0, 0);
             this.rdoFleetLive.Name = "rdoFleetLive";
-            this.rdoFleetLive.Size = new System.Drawing.Size(45, 17);
+            this.rdoFleetLive.Size = new System.Drawing.Size(44, 17);
             this.rdoFleetLive.TabIndex = 0;
             this.rdoFleetLive.TabStop = true;
             this.rdoFleetLive.Text = "Live";
@@ -721,7 +722,7 @@
             this.label23.AutoSize = true;
             this.label23.Location = new System.Drawing.Point(530, 150);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(78, 13);
+            this.label23.Size = new System.Drawing.Size(81, 13);
             this.label23.TabIndex = 1;
             this.label23.Text = "Fleet Tracking:";
             // 
@@ -779,6 +780,8 @@
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label1);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmDevTools";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MesaSuite Development Tools";

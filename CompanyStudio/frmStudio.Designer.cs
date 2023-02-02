@@ -125,7 +125,7 @@
             this.mnuCompanyExplorer.Image = global::CompanyStudio.Properties.Resources.building;
             this.mnuCompanyExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuCompanyExplorer.Name = "mnuCompanyExplorer";
-            this.mnuCompanyExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuCompanyExplorer.Size = new System.Drawing.Size(172, 22);
             this.mnuCompanyExplorer.Text = "Company Explorer";
             this.mnuCompanyExplorer.Click += new System.EventHandler(this.mnuCompanyExplorer_Click);
             // 
@@ -134,7 +134,7 @@
             this.mnuLocationExplorer.Image = global::CompanyStudio.Properties.Resources.world;
             this.mnuLocationExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuLocationExplorer.Name = "mnuLocationExplorer";
-            this.mnuLocationExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuLocationExplorer.Size = new System.Drawing.Size(172, 22);
             this.mnuLocationExplorer.Text = "Location Explorer";
             this.mnuLocationExplorer.Click += new System.EventHandler(this.mnuLocationExplorer_Click);
             // 
@@ -155,7 +155,7 @@
             this.mnuEmailExplorer.Image = global::CompanyStudio.Properties.Resources.email;
             this.mnuEmailExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuEmailExplorer.Name = "mnuEmailExplorer";
-            this.mnuEmailExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuEmailExplorer.Size = new System.Drawing.Size(149, 22);
             this.mnuEmailExplorer.Text = "Email Explorer";
             this.mnuEmailExplorer.Click += new System.EventHandler(this.mnuEmailExplorer_Click);
             // 
@@ -176,7 +176,7 @@
             this.mnuEmployeeExplorer.Image = global::CompanyStudio.Properties.Resources.user;
             this.mnuEmployeeExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuEmployeeExplorer.Name = "mnuEmployeeExplorer";
-            this.mnuEmployeeExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuEmployeeExplorer.Size = new System.Drawing.Size(172, 22);
             this.mnuEmployeeExplorer.Text = "Employee Explorer";
             this.mnuEmployeeExplorer.Click += new System.EventHandler(this.mnuEmployeeExplorer_Click);
             // 
@@ -202,7 +202,7 @@
             this.accountsToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.money;
             this.accountsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.accountsToolStripMenuItem.Name = "accountsToolStripMenuItem";
-            this.accountsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.accountsToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.accountsToolStripMenuItem.Text = "Accounts";
             // 
             // mnuAccountExplorer
@@ -233,7 +233,7 @@
             this.invoicingToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.page;
             this.invoicingToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.invoicingToolStripMenuItem.Name = "invoicingToolStripMenuItem";
-            this.invoicingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.invoicingToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.invoicingToolStripMenuItem.Text = "Invoicing";
             // 
             // mnuInvoicePayables
@@ -293,7 +293,7 @@
             this.mnuWireTransfers.Image = global::CompanyStudio.Properties.Resources.arrow_turn_right;
             this.mnuWireTransfers.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuWireTransfers.Name = "mnuWireTransfers";
-            this.mnuWireTransfers.Size = new System.Drawing.Size(180, 22);
+            this.mnuWireTransfers.Size = new System.Drawing.Size(147, 22);
             this.mnuWireTransfers.Text = "Wire Transfers";
             this.mnuWireTransfers.Visible = false;
             // 
@@ -339,7 +339,7 @@
             this.mnuThemes.Image = global::CompanyStudio.Properties.Resources.paintbrush;
             this.mnuThemes.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuThemes.Name = "mnuThemes";
-            this.mnuThemes.Size = new System.Drawing.Size(180, 22);
+            this.mnuThemes.Size = new System.Drawing.Size(110, 22);
             this.mnuThemes.Text = "Theme";
             // 
             // mnuLightTheme

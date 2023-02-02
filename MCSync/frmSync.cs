@@ -29,19 +29,6 @@ namespace MCSync
             syncer.TaskAdded += Syncer_TaskAdded;
             syncer.SyncComplete += Syncer_SyncComplete;
 
-            trayIcon.Icon = Properties.Resources.icn_mcsync;
-            trayIcon.Text = "MCSync";
-            trayIcon.Visible = true;
-            trayIcon.Click += new EventHandler(trayIcon_Clicked);
-
-            if(showBalloonTips)
-            {
-                trayIcon.BalloonTipIcon = ToolTipIcon.Info;
-                trayIcon.BalloonTipTitle = "Beginning Sync";
-                trayIcon.BalloonTipText = "Initializing" + "\n" + "Sync will begin shortly";
-                trayIcon.ShowBalloonTip(3000);
-            }
-
             syncer.BeginSync();
         }
 
@@ -51,47 +38,18 @@ namespace MCSync
             {
                 foreach(string error in Task.Errors)
                 {
-                    if(showBalloonTips)
-                    {
-                        trayIcon.BalloonTipIcon = ToolTipIcon.Error;
-                        trayIcon.BalloonTipTitle = "Sync Error";
-                        trayIcon.BalloonTipText = error;
-                        trayIcon.ShowBalloonTip(3000);
-                    }
-                    else
-                    {
-                        MessageBox.Show("An error occurred during sync: \n\n" + error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    MessageBox.Show("An error occurred during sync: \n\n" + error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                foreach(string info in Task.Informations)
+                foreach (string info in Task.Informations)
                 {
-                    if(showBalloonTips)
-                    {
-                        trayIcon.BalloonTipIcon = ToolTipIcon.Info;
-                        trayIcon.BalloonTipTitle = "Sync Information";
-                        trayIcon.BalloonTipText = info;
-                        trayIcon.ShowBalloonTip(3000);
-                    }
-                    else
-                    {
-                        MessageBox.Show(info, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    MessageBox.Show(info, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 pbarOverall.Value = pbarOverall.Maximum;
 
-                if(showBalloonTips)
-                {
-                    trayIcon.BalloonTipIcon = ToolTipIcon.Info;
-                    trayIcon.BalloonTipTitle = "Sync Complete";
-                    trayIcon.BalloonTipText = "Syncing is complete. Make sure your resource packs are enabled!";
-                    trayIcon.ShowBalloonTip(3000);
-                }
-                else
-                {
-                    MessageBox.Show("Sync Completed" + "\n" + "Make sure all resource packs are enabled.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                MessageBox.Show("Sync Completed" + "\n" + "Make sure all resource packs are enabled.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 Application.ExitThread();
             });
         }

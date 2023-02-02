@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Programs", System.Windows.Forms.HorizontalAlignment.Left);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditUser));
             this.label1 = new System.Windows.Forms.Label();
@@ -36,8 +37,8 @@
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.lstPrograms = new System.Windows.Forms.ListView();
-            this.imlLarge = new System.Windows.Forms.ImageList();
-            this.imlSmall = new System.Windows.Forms.ImageList();
+            this.imlLarge = new System.Windows.Forms.ImageList(this.components);
+            this.imlSmall = new System.Windows.Forms.ImageList(this.components);
             this.cmdSelectPrograms = new System.Windows.Forms.Button();
             this.cmdSave = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();

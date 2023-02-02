@@ -2,7 +2,9 @@
 using ClussPro.Base.Data.Query;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,7 +64,7 @@ namespace ClussPro.SqlServerProvider
 
                 string parameterNumber = parameters.Count.ToString();
                 sqlBuilder.Append($"@{parameterNumber}");
-                parameters.AddWithValue(parameterNumber, fieldValue.Value ?? DBNull.Value);
+                parameters.AddWithValue(parameterNumber, fieldValue.Value ?? (fieldValue.FieldType == FieldSpecification.FieldTypes.Binary ? (object)SqlBinary.Null : (object)DBNull.Value));
             }
 
             sqlBuilder.Append("); SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY]");

@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using CompanyStudio.Extensions;
 using CompanyStudio.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Utility;
@@ -61,6 +56,11 @@ namespace CompanyStudio.Employees
                 chkManageAccounts.Checked = Employee.ManageAccounts;
                 chkManageLocations.Checked = Employee.ManageLocations;
                 chkIssueWireTransfers.Checked = Employee.IssueWireTransfers;
+                chkFleetSetup.Checked = Employee.FleetSecurity.AllowSetup;
+                chkFleetLeasing.Checked = Employee.FleetSecurity.AllowLeasingManagement;
+                chkFleetYardmaster.Checked = Employee.FleetSecurity.IsYardmaster;
+                chkFleetTrainCrew.Checked = Employee.FleetSecurity.IsTrainCrew;
+                chkFleetLoadUnload.Checked = Employee.FleetSecurity.AllowLoadUnload;
 
                 IsDirty = false;
             }
@@ -117,30 +117,46 @@ namespace CompanyStudio.Employees
             Employee.ManageLocations = chkManageLocations.Checked;
             Employee.IssueWireTransfers = chkIssueWireTransfers.Checked;
 
+            bool saveSuccess;
+            Employee savedEmployee;
             if (Employee.EmployeeID == default)
             {
                 PostData post = new PostData(DataAccess.APIs.CompanyStudio, "Employee/Post");
                 post.Headers.Add("CompanyID", Company.CompanyID.ToString());
                 post.ObjectToPost = Employee;
-                Employee savedEmployee = await post.Execute<Employee>();
-                if (post.RequestSuccessful)
-                {
-                    IsDirty = false;
-                    Employee = savedEmployee;
-                    Text = Text.Substring(0, Text.LastIndexOf("-") + 2) + Employee.EmployeeName;
-                    OnSave?.Invoke(this, new EventArgs());
-                    cboEmployees.Enabled = false;
-                }
+                savedEmployee = await post.Execute<Employee>();
+                saveSuccess = post.RequestSuccessful;
             }
             else
             {
                 PutData put = new PutData(DataAccess.APIs.CompanyStudio, "Employee/Put", Employee);
                 put.Headers.Add("CompanyID", Company.CompanyID.ToString());
-                Employee savedEmployee = await put.Execute<Employee>();
+                savedEmployee = await put.Execute<Employee>();
+                saveSuccess = put.RequestSuccessful;
+            }
+
+            if (saveSuccess)
+            {
+                FleetTracking.Models.FleetSecurity security = new FleetTracking.Models.FleetSecurity()
+                {
+                    EmployeeID = savedEmployee.EmployeeID,
+                    AllowSetup = chkFleetSetup.Checked,
+                    AllowLeasingManagement = chkFleetLeasing.Checked,
+                    IsYardmaster = chkFleetYardmaster.Checked,
+                    IsTrainCrew = chkFleetTrainCrew.Checked,
+                    AllowLoadUnload = chkFleetLoadUnload.Checked
+                };
+
+                PutData put = new PutData(DataAccess.APIs.CompanyStudio, "Employee/PutFleetSecurity", security);
+                put.AddCompanyHeader(Company.CompanyID);
+                await put.ExecuteNoResult();
                 if (put.RequestSuccessful)
                 {
+                    GetData get = new GetData(DataAccess.APIs.CompanyStudio, $"Employee/Get/{savedEmployee.EmployeeID}");
+                    get.AddCompanyHeader(Company.CompanyID);
+
+                    Employee = await get.GetObject<Employee>();
                     IsDirty = false;
-                    Employee = savedEmployee;
                     Text = Text.Substring(0, Text.LastIndexOf("-") + 2) + Employee.EmployeeName;
                     OnSave?.Invoke(this, new EventArgs());
                     cboEmployees.Enabled = false;

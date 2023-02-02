@@ -76,6 +76,7 @@ namespace CompanyStudio.Employees
             {
                 foreach(Employee employee in employees.OrderBy(e => e.EmployeeName))
                 {
+
                     TreeNode employeeNode = new TreeNode(employee.EmployeeName);
                     employeeNode.Tag = employee;
                     employeeNode.ContextMenuStrip = ctxEmployee;
@@ -84,30 +85,63 @@ namespace CompanyStudio.Employees
                     TreeNode permissionsNode = new TreeNode("Permissions");
                     employeeNode.Nodes.Add(permissionsNode);
 
+                    TreeNode general = new TreeNode("General");
+                    general.Tag = employee;
+                    permissionsNode.Nodes.Add(general);
+
                     TreeNode manageEmployees = new TreeNode($"Manage Employees - {employee.ManageEmployees}");
                     manageEmployees.ContextMenuStrip = ctxPermission;
                     manageEmployees.Tag = nameof(Employee.ManageEmployees);
-                    permissionsNode.Nodes.Add(manageEmployees);
+                    general.Nodes.Add(manageEmployees);
 
                     TreeNode manageEmails = new TreeNode($"Manage Emails - {employee.ManageEmails}");
                     manageEmails.ContextMenuStrip = ctxPermission;
                     manageEmails.Tag = nameof(Employee.ManageEmails);
-                    permissionsNode.Nodes.Add(manageEmails);
+                    general.Nodes.Add(manageEmails);
 
                     TreeNode manageAccounts = new TreeNode($"Manage Accounts - {employee.ManageAccounts}");
                     manageAccounts.ContextMenuStrip = ctxPermission;
                     manageAccounts.Tag = nameof(Employee.ManageAccounts);
-                    permissionsNode.Nodes.Add(manageAccounts);
+                    general.Nodes.Add(manageAccounts);
 
                     TreeNode manageLocations = new TreeNode($"Manage Locations - {employee.ManageLocations}");
                     manageLocations.ContextMenuStrip = ctxPermission;
                     manageLocations.Tag = nameof(Employee.ManageLocations);
-                    permissionsNode.Nodes.Add(manageLocations);
+                    general.Nodes.Add(manageLocations);
 
                     TreeNode issueWireTransfers = new TreeNode($"Issue Wire Transfers - {employee.IssueWireTransfers}");
                     issueWireTransfers.ContextMenuStrip = ctxPermission;
                     issueWireTransfers.Tag = nameof(Employee.IssueWireTransfers);
-                    permissionsNode.Nodes.Add(issueWireTransfers);
+                    general.Nodes.Add(issueWireTransfers);
+
+                    TreeNode fleet = new TreeNode("Fleet Tracking");
+                    fleet.Tag = employee.FleetSecurity;
+                    permissionsNode.Nodes.Add(fleet);
+
+                    TreeNode allowSetup = new TreeNode($"System Setup - {employee.FleetSecurity.AllowSetup}");
+                    allowSetup.ContextMenuStrip = ctxPermission;
+                    allowSetup.Tag = nameof(FleetTracking.Models.FleetSecurity.AllowSetup);
+                    fleet.Nodes.Add(allowSetup);
+
+                    TreeNode allowLeasingManagment = new TreeNode($"Leasing Management - {employee.FleetSecurity.AllowLeasingManagement}");
+                    allowLeasingManagment.ContextMenuStrip = ctxPermission;
+                    allowLeasingManagment.Tag = nameof(FleetTracking.Models.FleetSecurity.AllowLeasingManagement);
+                    fleet.Nodes.Add(allowLeasingManagment);
+
+                    TreeNode isYardmaster = new TreeNode($"Is Yardmaster - {employee.FleetSecurity.IsYardmaster}");
+                    isYardmaster.ContextMenuStrip = ctxPermission;
+                    isYardmaster.Tag = nameof(FleetTracking.Models.FleetSecurity.IsYardmaster);
+                    fleet.Nodes.Add(isYardmaster);
+
+                    TreeNode isTrainCrew = new TreeNode($"Is Train Crew - {employee.FleetSecurity.IsTrainCrew}");
+                    isTrainCrew.ContextMenuStrip = ctxPermission;
+                    isTrainCrew.Tag = nameof(FleetTracking.Models.FleetSecurity.IsTrainCrew);
+                    fleet.Nodes.Add(isTrainCrew);
+
+                    TreeNode allowLoadUnload = new TreeNode($"Railcar Load/Unload - {employee.FleetSecurity.AllowLoadUnload}");
+                    allowLoadUnload.ContextMenuStrip = ctxPermission;
+                    allowLoadUnload.Tag = nameof(FleetTracking.Models.FleetSecurity.AllowLoadUnload);
+                    fleet.Nodes.Add(allowLoadUnload);
                 }
             }
 
@@ -117,7 +151,7 @@ namespace CompanyStudio.Employees
         private async void mnuTogglePermission_Click(object sender, EventArgs e)
         {
             TreeNode currentNode = treEmployees.SelectedNode;
-            if (currentNode == null || !(currentNode.Parent?.Parent?.Tag is Employee employee) || !(currentNode.Tag is string property))
+            if (currentNode == null || !(currentNode.Parent?.Parent?.Parent?.Tag is Employee employee) || !(currentNode.Tag is string property))
             {
                 return;
             }
@@ -125,13 +159,29 @@ namespace CompanyStudio.Employees
 
             path = path.Substring(0, path.LastIndexOf("\\"));
 
-            PropertyInfo propertyInfo = typeof(Employee).GetProperty(property);
-            bool value = (bool)propertyInfo.GetValue(employee);
+            object parentObject = currentNode.Parent.Tag;
+            PropertyInfo propertyInfo = parentObject.GetType().GetProperty(property);
+            bool value = (bool)propertyInfo.GetValue(parentObject);
 
-            PatchData patchData = new PatchData(DataAccess.APIs.CompanyStudio, "Employee/Patch", PatchData.PatchMethods.Replace, employee.EmployeeID, new Dictionary<string, object>()
+            PatchData patchData;
+            if (parentObject is Employee)
             {
-                { property, !value }
-            });
+                patchData = new PatchData(DataAccess.APIs.CompanyStudio, "Employee/Patch", PatchData.PatchMethods.Replace, employee.EmployeeID, new Dictionary<string, object>()
+                {
+                    { property, !value }
+                });
+            }
+            else if (parentObject is FleetTracking.Models.FleetSecurity security)
+            {
+                patchData = new PatchData(DataAccess.APIs.CompanyStudio, "Employee/PatchFleetSecurity", PatchData.PatchMethods.Replace, employee.EmployeeID, new Dictionary<string, object>()
+                {
+                    { property, !value }
+                });
+            }
+            else
+            {
+                return;
+            }
             patchData.Headers.Add("CompanyID", Company.CompanyID.ToString());
 
             loader.BringToFront();

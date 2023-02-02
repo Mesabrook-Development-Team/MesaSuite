@@ -1,10 +1,14 @@
-﻿using MesaSuite.Common.Collections;
+﻿using CefSharp.DevTools.Debugger;
+using MesaSuite.Common.Collections;
+using MesaSuite.Common.Extensions;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -99,7 +103,9 @@ namespace MesaSuite.Common.Data
 
             if (!string.IsNullOrEmpty(json))
             {
-                return JsonConvert.DeserializeAnonymousType(json, anonymous);
+                T obj = JsonConvert.DeserializeAnonymousType(json, anonymous);
+                TimeZoneCorrection(obj, true);
+                return obj;
             }
 
             return default(T);
@@ -111,7 +117,9 @@ namespace MesaSuite.Common.Data
 
             if (!string.IsNullOrEmpty(json))
             {
-                return JsonConvert.DeserializeObject<T>(json);
+                T retObject = JsonConvert.DeserializeObject<T>(json);
+                TimeZoneCorrection(retObject, true);
+                return retObject;
             }
 
             return default(T);

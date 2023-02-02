@@ -1,4 +1,5 @@
 ﻿using API.Common.Cache;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -10,15 +11,20 @@ namespace API.Common.Attributes
 {
     public class ProgramAccessAttribute : ActionFilterAttribute
     {
-        public string ProgramKey { get; set; }
+        public string[] ProgramKeys { get; set; } = new string[0];
         public ProgramAccessAttribute(string ProgramKey)
         {
-            this.ProgramKey = ProgramKey;
+            ProgramKeys = new string[] { ProgramKey };
+        }
+
+        public ProgramAccessAttribute(string[] programKeys)
+        {
+            this.ProgramKeys = programKeys;
         }
 
         public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(ProgramKey)) // Likely overriding to be public
+            if (ProgramKeys == null || ProgramKeys.Length == 0) // Likely overriding to be public
             {
                 return;
             }
@@ -33,10 +39,23 @@ namespace API.Common.Attributes
 
             SecurityProfile securityProfile = SecurityCache.Get(actionContext.Request.Headers.Authorization.Parameter);
 
-            if (securityProfile == null || !await ProgramCache.UserHasProgram(securityProfile.UserID, ProgramKey))
+            if (securityProfile == null || !(await UserHasAtLeastOneProgram(securityProfile.UserID)))
             {
                 actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Forbidden);
             }
+        }
+
+        private async Task<bool> UserHasAtLeastOneProgram(long userID)
+        {
+            foreach(string key in ProgramKeys)
+            {
+                if (await ProgramCache.UserHasProgram(userID, key))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

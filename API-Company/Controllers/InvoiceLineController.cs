@@ -10,6 +10,7 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using WebModels.company;
 using WebModels.invoicing;
+using WebModels.mesasys;
 
 namespace API_Company.Controllers
 {
@@ -27,7 +28,10 @@ namespace API_Company.Controllers
             nameof(InvoiceLine.Description),
             nameof(InvoiceLine.Quantity),
             nameof(InvoiceLine.UnitCost),
-            nameof(InvoiceLine.Total)
+            nameof(InvoiceLine.Total),
+            nameof(InvoiceLine.ItemID),
+            $"{nameof(InvoiceLine.Item)}.{nameof(Item.ItemID)}",
+            $"{nameof(InvoiceLine.Item)}.{nameof(Item.Name)}"
         };
 
         public override ISearchCondition GetBaseSearchCondition()

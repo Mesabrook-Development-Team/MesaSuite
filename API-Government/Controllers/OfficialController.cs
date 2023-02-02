@@ -5,8 +5,11 @@ using System.Web;
 using System.Web.Http;
 using API.Common;
 using API.Common.Attributes;
+using API.Common.Extensions;
 using API_Government.Attributes;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
+using WebModels.fleet;
 using WebModels.gov;
 using WebModels.security;
 
@@ -30,7 +33,12 @@ namespace API_Government.Controllers
             nameof(Official.OfficialName),
             nameof(Official.CanMintCurrency),
             nameof(Official.ManageInvoices),
-            nameof(Official.IssueWireTransfers)
+            nameof(Official.IssueWireTransfers),
+            $"{nameof(Official.FleetSecurity)}.{nameof(FleetSecurity.AllowSetup)}",
+            $"{nameof(Official.FleetSecurity)}.{nameof(FleetSecurity.AllowLeasingManagement)}",
+            $"{nameof(Official.FleetSecurity)}.{nameof(FleetSecurity.IsYardmaster)}",
+            $"{nameof(Official.FleetSecurity)}.{nameof(FleetSecurity.IsTrainCrew)}",
+            $"{nameof(Official.FleetSecurity)}.{nameof(FleetSecurity.AllowLoadUnload)}"
         };
 
         [HttpGet]
@@ -87,6 +95,40 @@ namespace API_Government.Controllers
                 }));
 
             return officialSeach.GetReadOnly(null, DefaultRetrievedFields);
+        }
+
+        [HttpPut]
+        public IHttpActionResult PutFleetSecurity(FleetSecurity fleetSecurity)
+        {
+            if (fleetSecurity?.OfficialID == null)
+            {
+                return BadRequest("Fleet Security must be at least associated to an Official");
+            }
+
+            FleetSecurity security = new Search<FleetSecurity>(new LongSearchCondition<FleetSecurity>()
+            {
+                Field = nameof(FleetSecurity.OfficialID),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = fleetSecurity.OfficialID
+            }).GetEditable();
+
+            if (security == null)
+            {
+                security = DataObjectFactory.Create<FleetSecurity>();
+                security.OfficialID = fleetSecurity.OfficialID;
+            }
+
+            security.AllowSetup = fleetSecurity.AllowSetup;
+            security.AllowLeasingManagement = fleetSecurity.AllowLeasingManagement;
+            security.IsYardmaster = fleetSecurity.IsYardmaster;
+            security.IsTrainCrew = fleetSecurity.IsTrainCrew;
+            security.AllowLoadUnload = fleetSecurity.AllowLoadUnload;
+            if (!security.Save())
+            {
+                return security.HandleFailedValidation(this);
+            }
+
+            return Ok(security);
         }
     }
 }

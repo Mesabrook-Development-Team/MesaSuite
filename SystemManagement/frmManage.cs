@@ -430,5 +430,10 @@ namespace SystemManagement
         {
             await LoadData();
         }
+
+        private void toolItemManager_Click(object sender, EventArgs e)
+        {
+            new frmItemManager().ShowDialog();
+        }
     }
 }

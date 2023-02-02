@@ -8,7 +8,7 @@ using WebModels.mesasys;
 namespace API_Company.Controllers
 {
     [MesabrookAuthorization]
-    [ProgramAccess("company")]
+    [ProgramAccess("gov")]
     [GovernmentAccess]
     public class EmailTemplateController : ApiController
     {

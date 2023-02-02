@@ -18,6 +18,7 @@ namespace CompanyStudio
         private static bool _isRunning;
         private static ConcurrentDictionary<long?, Dictionary<CompanyWidePermissions, bool>> CompanyWidePermissionsByCompany = new ConcurrentDictionary<long?, Dictionary<CompanyWidePermissions, bool>>();
         private static ConcurrentDictionary<long?, Dictionary<LocationWidePermissions, bool>> LocationWidePermissionsByLocation = new ConcurrentDictionary<long?, Dictionary<LocationWidePermissions, bool>>();
+        private static ConcurrentDictionary<long?, FleetTracking.Models.FleetSecurity> FleetSecuritiesByCompany = new ConcurrentDictionary<long?, FleetTracking.Models.FleetSecurity>();
 
         public static event EventHandler<CompanyWidePermissionChangeEventArgs> OnCompanyPermissionChange;
         public static event EventHandler<LocationWidePermissionChangeEventArgs> OnLocationPermissionChange;
@@ -76,6 +77,8 @@ namespace CompanyStudio
                     {
                         continue;
                     }
+
+                    FleetSecuritiesByCompany[employee.CompanyID] = employee.FleetSecurity;
 
                     foreach (var item in Enum.GetValues(typeof(CompanyWidePermissions)))
                     {
@@ -213,6 +216,18 @@ namespace CompanyStudio
             }
 
             return LocationWidePermissionsByLocation[locationID][permission];
+        }
+
+        public static bool HasPermissionFleetTrack(long companyID, string permission)
+        {
+            if (!FleetSecuritiesByCompany.ContainsKey(companyID) || typeof(FleetTracking.Models.FleetSecurity).GetProperty(permission) == null)
+            {
+                return false;
+            }
+
+            FleetTracking.Models.FleetSecurity fleetSecurity = FleetSecuritiesByCompany[companyID];
+            PropertyInfo permissionProp = typeof(FleetTracking.Models.FleetSecurity).GetProperty(permission);
+            return (bool)permissionProp.GetValue(fleetSecurity);
         }
 
         public static bool HasAccessToLocation(long locationID)

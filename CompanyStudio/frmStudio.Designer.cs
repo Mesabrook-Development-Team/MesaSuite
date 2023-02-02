@@ -89,7 +89,7 @@
             this.dockPanel.DockTopPortion = 0.15D;
             this.dockPanel.Location = new System.Drawing.Point(0, 52);
             this.dockPanel.Name = "dockPanel";
-            this.dockPanel.Size = new System.Drawing.Size(800, 398);
+            this.dockPanel.Size = new System.Drawing.Size(855, 398);
             this.dockPanel.TabIndex = 0;
             // 
             // mnuBanner
@@ -104,7 +104,7 @@
             this.mnuBanner.Location = new System.Drawing.Point(0, 0);
             this.mnuBanner.Name = "mnuBanner";
             this.mnuBanner.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
-            this.mnuBanner.Size = new System.Drawing.Size(800, 24);
+            this.mnuBanner.Size = new System.Drawing.Size(855, 24);
             this.mnuBanner.TabIndex = 2;
             this.mnuBanner.Text = "Banner";
             // 
@@ -210,7 +210,7 @@
             this.mnuAccountExplorer.Image = global::CompanyStudio.Properties.Resources.book;
             this.mnuAccountExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuAccountExplorer.Name = "mnuAccountExplorer";
-            this.mnuAccountExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuAccountExplorer.Size = new System.Drawing.Size(165, 22);
             this.mnuAccountExplorer.Text = "Account Explorer";
             this.mnuAccountExplorer.Click += new System.EventHandler(this.mnuAccountExplorer_Click);
             // 
@@ -219,7 +219,7 @@
             this.mnuCategories.Image = global::CompanyStudio.Properties.Resources.database;
             this.mnuCategories.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuCategories.Name = "mnuCategories";
-            this.mnuCategories.Size = new System.Drawing.Size(180, 22);
+            this.mnuCategories.Size = new System.Drawing.Size(165, 22);
             this.mnuCategories.Text = "Categories";
             this.mnuCategories.Click += new System.EventHandler(this.mnuCategories_Click);
             // 
@@ -273,14 +273,14 @@
             // mnuInvoicingEmailPayableReceived
             // 
             this.mnuInvoicingEmailPayableReceived.Name = "mnuInvoicingEmailPayableReceived";
-            this.mnuInvoicingEmailPayableReceived.Size = new System.Drawing.Size(180, 22);
+            this.mnuInvoicingEmailPayableReceived.Size = new System.Drawing.Size(165, 22);
             this.mnuInvoicingEmailPayableReceived.Text = "Payable Received";
             this.mnuInvoicingEmailPayableReceived.Click += new System.EventHandler(this.mnuInvoicingEmailPayableReceived_Click);
             // 
             // mnuInvoicingEmailReceivableReady
             // 
             this.mnuInvoicingEmailReceivableReady.Name = "mnuInvoicingEmailReceivableReady";
-            this.mnuInvoicingEmailReceivableReady.Size = new System.Drawing.Size(180, 22);
+            this.mnuInvoicingEmailReceivableReady.Size = new System.Drawing.Size(165, 22);
             this.mnuInvoicingEmailReceivableReady.Text = "Receivable Ready";
             this.mnuInvoicingEmailReceivableReady.Click += new System.EventHandler(this.mnuInvoicingEmailReceivableReady_Click);
             // 
@@ -345,7 +345,7 @@
             // mnuLightTheme
             // 
             this.mnuLightTheme.Name = "mnuLightTheme";
-            this.mnuLightTheme.Size = new System.Drawing.Size(180, 22);
+            this.mnuLightTheme.Size = new System.Drawing.Size(101, 22);
             this.mnuLightTheme.Tag = "light";
             this.mnuLightTheme.Text = "Light";
             this.mnuLightTheme.Click += new System.EventHandler(this.mnuTheme_Click);
@@ -353,7 +353,7 @@
             // mnuDarkTheme
             // 
             this.mnuDarkTheme.Name = "mnuDarkTheme";
-            this.mnuDarkTheme.Size = new System.Drawing.Size(180, 22);
+            this.mnuDarkTheme.Size = new System.Drawing.Size(101, 22);
             this.mnuDarkTheme.Tag = "dark";
             this.mnuDarkTheme.Text = "Dark";
             this.mnuDarkTheme.Click += new System.EventHandler(this.mnuTheme_Click);
@@ -361,7 +361,7 @@
             // mnuBlueTheme
             // 
             this.mnuBlueTheme.Name = "mnuBlueTheme";
-            this.mnuBlueTheme.Size = new System.Drawing.Size(180, 22);
+            this.mnuBlueTheme.Size = new System.Drawing.Size(101, 22);
             this.mnuBlueTheme.Tag = "blue";
             this.mnuBlueTheme.Text = "Blue";
             this.mnuBlueTheme.Click += new System.EventHandler(this.mnuTheme_Click);
@@ -384,7 +384,7 @@
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip.Size = new System.Drawing.Size(800, 25);
+            this.toolStrip.Size = new System.Drawing.Size(855, 25);
             this.toolStrip.TabIndex = 4;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -461,7 +461,7 @@
             this.loader.Location = new System.Drawing.Point(0, 0);
             this.loader.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(800, 450);
+            this.loader.Size = new System.Drawing.Size(855, 450);
             this.loader.TabIndex = 7;
             this.loader.Visible = false;
             // 
@@ -469,7 +469,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(855, 450);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.dockPanel);
             this.Controls.Add(this.mnuBanner);

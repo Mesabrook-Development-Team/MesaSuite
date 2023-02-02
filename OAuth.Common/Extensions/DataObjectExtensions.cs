@@ -72,6 +72,16 @@ namespace API.Common.Extensions
                         }
                         break;
                     case "replace":
+                        if (property.PropertyType.IsEnum)
+                        {
+                            if (!(workingValueToUpdate.Value is string stringValue))
+                            {
+                                throw new ArgumentException("Patching Enum values must be it's string representation");
+                            }
+
+                            property.SetValue(dataObject, Enum.Parse(property.PropertyType, stringValue));
+                            break;
+                        }
                         property.SetValue(dataObject, workingValueToUpdate.Value);
                         break;
                     case "remove":

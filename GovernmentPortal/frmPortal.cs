@@ -14,6 +14,7 @@ namespace GovernmentPortal
     {
         private Government _government = null;
         private Dictionary<PermissionsManager.Permissions, ToolStripItem> _toolStripItemsByPermission = new Dictionary<PermissionsManager.Permissions, ToolStripItem>();
+        private FleetTracking.Interop.FleetTrackingApplication _fleetTrackingApplication;
 
         public frmPortal()
         {
@@ -45,6 +46,7 @@ namespace GovernmentPortal
 
             _government = selectGovernment.SelectedGovernment;
             UpdateMenuVisibility();
+            InitializeFleetTracking();
         }
 
         private void UpdateMenuVisibility()
@@ -67,6 +69,10 @@ namespace GovernmentPortal
             }
 
             toolFinance.Visible = shouldShowFinanceToolstrip;
+            if (_government == null && toolStrip1.Items.Contains(_fleetTrackingApplication.GetNavigation()))
+            {
+                toolStrip1.Items.Remove(_fleetTrackingApplication.GetNavigation());
+            }
         }
 
         private void toolOfficials_Click(object sender, EventArgs e)
@@ -83,6 +89,133 @@ namespace GovernmentPortal
             PermissionsManager.StartCheckThread(action => Invoke(action));
         }
 
+        private void InitializeFleetTracking()
+        {
+            _fleetTrackingApplication = new FleetTracking.Interop.FleetTrackingApplication(FleetTracking_HasFleetPermission);
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.OpenForm(FleetTracking_OpenForm));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<GetData>(FleetTracking_GetData));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<PutData>(FleetTracking_PutData));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<PostData>(FleetTracking_PostData));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<DeleteData>(FleetTracking_DeleteData));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetAccess<PatchData>(FleetTracking_PatchData));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.IsCurrentEntity(FleetTracking_IsCurrentEntity));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetCurrentCompanyIDGovernmentID(() => (null, _government.GovernmentID)));
+            _fleetTrackingApplication.RegisterCallback(new FleetTracking.Interop.FleetTrackingApplication.CallbackDelegates.GetUsersForEntity(FleetTracking_GetCurrentUsers));
+
+            toolStrip1.Items.Add(_fleetTrackingApplication.GetNavigation());
+            _fleetTrackingApplication.VerifyNavigationVisibility();
+        }
+
+        private void FleetTracking_AddNavigationItem(ToolStripItemCollection collection, FleetTracking.Interop.FleetTrackingApplication.MainNavigationItem item)
+        {
+            ToolStripMenuItem tsmi = new ToolStripMenuItem(item.Text);
+
+            if (item.SelectedAction != null)
+            {
+                tsmi.Click += (s, e) => item.SelectedAction.Invoke();
+            }
+
+            if (item.SubItems != null)
+            {
+                foreach(FleetTracking.Interop.FleetTrackingApplication.MainNavigationItem subItem in item.SubItems)
+                {
+                    FleetTracking_AddNavigationItem(tsmi.DropDownItems, subItem);
+                }
+            }
+
+            collection.Add(tsmi);
+        }
+
+        private Form FleetTracking_OpenForm(FleetTracking.IFleetTrackingControl fleetTrackingControl, FleetTracking.Interop.FleetTrackingApplication.OpenFormOptions openFormOptions, IWin32Window parent)
+        {
+            Fleet.frmFleetForm fleetForm = new Fleet.frmFleetForm();
+            if (openFormOptions.HasFlag(FleetTracking.Interop.FleetTrackingApplication.OpenFormOptions.ResizeToControl))
+            {
+                fleetForm.ClientSize = ((Control)fleetTrackingControl).Size;
+            }
+
+            fleetForm.FleetTrackingControl = fleetTrackingControl;
+
+            if (!openFormOptions.HasFlag(FleetTracking.Interop.FleetTrackingApplication.OpenFormOptions.Dialog))
+            {
+                fleetForm.MdiParent = this;
+                if (parent == null)
+                {
+                    fleetForm.Show();
+                }
+                else
+                {
+                    fleetForm.Show(parent);
+                }
+            }
+            else
+            {
+                if (parent == null)
+                {
+                    fleetForm.ShowDialog();
+                }
+                else
+                {
+                    fleetForm.ShowDialog(parent);
+                }
+            }
+            return fleetForm;
+        }
+
+        private TAccess FleetTracking_AppendHeaders<TAccess>(TAccess dataAccess) where TAccess : DataAccess
+        {
+            dataAccess.AddGovHeader(_government.GovernmentID.Value);
+            return dataAccess;
+        }
+
+        private GetData FleetTracking_GetData()
+        {
+            return FleetTracking_AppendHeaders(new GetData(DataAccess.APIs.FleetTracking, ""));
+        }
+
+        private PutData FleetTracking_PutData()
+        {
+            return FleetTracking_AppendHeaders(new PutData(DataAccess.APIs.FleetTracking, "", null));
+        }
+
+        private PostData FleetTracking_PostData()
+        {
+            return FleetTracking_AppendHeaders(new PostData(DataAccess.APIs.FleetTracking, ""));
+        }
+
+        private DeleteData FleetTracking_DeleteData()
+        {
+            return FleetTracking_AppendHeaders(new DeleteData(DataAccess.APIs.FleetTracking, ""));
+        }
+
+        private PatchData FleetTracking_PatchData()
+        {
+            return FleetTracking_AppendHeaders(new PatchData(DataAccess.APIs.FleetTracking, "", PatchData.PatchMethods.Replace, null, null));
+        }
+
+        private bool FleetTracking_IsCurrentEntity(long? companyID, long? governmentID)
+        {
+            return _government.GovernmentID == governmentID;
+        }
+
+        private async Task<List<FleetTracking.Models.User>> FleetTracking_GetCurrentUsers()
+        {
+            GetData get = new GetData(DataAccess.APIs.GovernmentPortal, "Official/GetAllForGovernment");
+            get.AddGovHeader(_government.GovernmentID.Value);
+            List<Official> officials = await get.GetObject<List<Official>>() ?? new List<Official>();
+            return officials.Select(o => new FleetTracking.Models.User() { UserID = o.UserID, Username = o.OfficialName }).ToList();
+        }
+
+        private bool FleetTracking_HasFleetPermission(string permission)
+        {
+            if (_government?.GovernmentID == null)
+            {
+                return false;
+            }
+
+            return PermissionsManager.HasFleetPermission(_government.GovernmentID.Value, permission);
+        }
+
         private void PermissionsManager_OnPermissionChange(object sender, PermissionsManager.PermissionChangeEventArgs e)
         {
             if (!_toolStripItemsByPermission.ContainsKey(e.Permission))
@@ -97,6 +230,10 @@ namespace GovernmentPortal
         {
             PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
             PermissionsManager.StopCheckThread();
+            if (_fleetTrackingApplication != null)
+            {
+                _fleetTrackingApplication.Shutdown();
+            }
         }
 
         private void tsbSwitchGovernment_Click(object sender, EventArgs e)
@@ -112,6 +249,7 @@ namespace GovernmentPortal
             }
 
             _government = null;
+            _fleetTrackingApplication.Shutdown();
             UpdateMenuVisibility();
 
             frmSelectGovernment selectGovernment = new frmSelectGovernment();
@@ -124,6 +262,7 @@ namespace GovernmentPortal
 
             _government = selectGovernment.SelectedGovernment;
             UpdateMenuVisibility();
+            InitializeFleetTracking();
         }
 
         private void tsmiAliases_Click(object sender, EventArgs e)

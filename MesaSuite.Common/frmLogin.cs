@@ -25,6 +25,11 @@ namespace MesaSuite.Common
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
+        }
+
+        private void frmLogin_Shown(object sender, EventArgs e)
+        {
+            browser.Refresh();
             browser.Load($"{ConfigurationManager.AppSettings.Get("MesaSuite.Common.AuthHost")}/Authorize?response_type=code&client_id={ClientID.ToString()}&redirect_uri={WebUtility.UrlEncode("http://localhost:" + Port)}&state={State.ToString()}");
         }
     }

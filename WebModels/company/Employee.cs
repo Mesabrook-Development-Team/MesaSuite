@@ -103,6 +103,13 @@ namespace WebModels.company
             get { CheckGet(); return _employeeName; }
         }
 
+        private fleet.FleetSecurity _fleetSecurity = null;
+        [Relationship("525B1F7E-087D-463F-84CD-E01D11352A96", OneToOneByForeignKey = true)]
+        public fleet.FleetSecurity FleetSecurity
+        {
+            get { CheckGet(); return _fleetSecurity; }
+        }
+
         public static OperationDelegate EmployeeNameOperation
         {
             get

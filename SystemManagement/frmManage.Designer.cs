@@ -58,6 +58,7 @@
             this.mnuDetails = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loader1 = new SystemManagement.Loader();
+            this.toolItemManager = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -144,7 +145,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.mnuView,
-            this.refreshToolStripMenuItem});
+            this.refreshToolStripMenuItem,
+            this.toolItemManager});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(753, 24);
@@ -270,6 +272,13 @@
             this.loader1.Size = new System.Drawing.Size(196, 101);
             this.loader1.TabIndex = 5;
             // 
+            // toolItemManager
+            // 
+            this.toolItemManager.Name = "toolItemManager";
+            this.toolItemManager.Size = new System.Drawing.Size(93, 20);
+            this.toolItemManager.Text = "Item Manager";
+            this.toolItemManager.Click += new System.EventHandler(this.toolItemManager_Click);
+            // 
             // frmManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -318,5 +327,6 @@
         private System.Windows.Forms.ToolStripMenuItem mnuNewDomain;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private Loader loader1;
+        private System.Windows.Forms.ToolStripMenuItem toolItemManager;
     }
 }

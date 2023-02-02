@@ -197,7 +197,7 @@ namespace WebModels.company
         }
 
         private List<fleet.Locomotive> _locomotivesPossessed = new List<fleet.Locomotive>();
-        [RelationshipList("1B224D6C-9898-4F6D-A281-8F100AA32A81", nameof(fleet.Locomotive.GovernmentIDPossessor))]
+        [RelationshipList("1B224D6C-9898-4F6D-A281-8F100AA32A81", nameof(fleet.Locomotive.CompanyIDPossessor))]
         public IReadOnlyCollection<fleet.Locomotive> LocomotivesPossessed
         {
             get { CheckGet(); return _locomotivesPossessed; }
@@ -250,6 +250,13 @@ namespace WebModels.company
         public IReadOnlyCollection<fleet.LiveLoadSession> LiveLoadSessions
         {
             get { CheckGet(); return _liveLoadSessions; }
+        }
+
+        private List<fleet.RailDistrict> _railDistricts = new List<fleet.RailDistrict>();
+        [RelationshipList("5101CE2E-00F0-4559-95D5-F27850C7123A", nameof(fleet.RailDistrict.CompanyIDOperator))]
+        public IReadOnlyCollection<fleet.RailDistrict> RailDistricts
+        {
+            get { CheckGet(); return _railDistricts; }
         }
         #endregion
         #region gov

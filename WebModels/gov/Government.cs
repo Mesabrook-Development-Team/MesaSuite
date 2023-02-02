@@ -273,6 +273,13 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _liveLoadSessions; }
         }
+
+        private List<fleet.RailDistrict> _railDistricts = new List<fleet.RailDistrict>();
+        [RelationshipList("34622950-65FD-486D-A6BB-23FE8276BFCE", nameof(fleet.RailDistrict.GovernmentIDOperator))]
+        public IReadOnlyCollection<fleet.RailDistrict> RailDistricts
+        {
+            get { CheckGet(); return _railDistricts; }
+        }
         #endregion
         #region gov
         private List<Official> _officials = new List<Official>();

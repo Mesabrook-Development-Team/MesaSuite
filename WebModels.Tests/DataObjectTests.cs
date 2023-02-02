@@ -62,7 +62,8 @@ namespace WebModels.Tests
                 foreach(Relationship relationship in schemaObject.GetRelationships().Where(rel => rel.HasForeignKey && !rel.OneToOneByForeignKey))
                 {
                     SchemaObject relatedSchemaObject = relationship.RelatedSchemaObject;
-                    if (!relatedSchemaObject.GetRelationshipLists().Any(rl => rl.ForeignKeyName == relationship.ForeignKeyField.FieldName))
+                    if (!relatedSchemaObject.GetRelationshipLists().Any(rl => rl.RelatedSchemaObject == relationship.ParentSchemaObject && rl.ForeignKeyName == relationship.ForeignKeyField.FieldName) &&
+                        !relatedSchemaObject.GetRelationships().Any(r => r.OneToOneByForeignKey && (r.OneToOneForeignKey ?? relatedSchemaObject.PrimaryKeyField.FieldName) == relationship.ForeignKeyField.FieldName))
                     {
                         errors.AppendLine($"{schemaObject.DataObjectType.FullName}: Relationship {relationship.RelationshipName} is missing a Reverse Relationship on {relatedSchemaObject.DataObjectType.FullName}");
                     }

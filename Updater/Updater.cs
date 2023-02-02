@@ -66,28 +66,30 @@ namespace Updater
                 return false;
             }
 
+            NonTaskExecuting?.Invoke(this, "Discovering download manifest");
             NetworkCredential ftpCredentials = new NetworkCredential("Reporting", "NetLogon");
-            FtpWebRequest webRequest = (FtpWebRequest)WebRequest.Create($"ftp://www.clussmanproductions.com/support/MCSyncNew/updates/{StartupArguments.VersionToDownload}");
-            webRequest.Method = WebRequestMethods.Ftp.ListDirectory;
+            FtpWebRequest webRequest = (FtpWebRequest)WebRequest.Create($"ftp://www.clussmanproductions.com/support/MCSyncNew/updates/{StartupArguments.VersionToDownload}/manifest");
+            webRequest.Method = WebRequestMethods.Ftp.DownloadFile;
             webRequest.Credentials = ftpCredentials;
 
-            string files;
+            string manifest;
             try
             {
                 using (Stream responseStream = webRequest.GetResponse().GetResponseStream())
                 using (StreamReader reader = new StreamReader(responseStream))
                 {
-                    files = reader.ReadToEnd();
+                    manifest = reader.ReadToEnd();
                 }
             }
             catch (WebException)
             {
-                _errors.Add("Invalid version specified");
+                _errors.Add("No download manifest could be found. Was an invalid version specified?");
                 UpdateFailed?.Invoke(this, new EventArgs());
                 return false;
             }
 
-            using (StringReader reader = new StringReader(files))
+            HashSet<string> directories = new HashSet<string>();
+            using (StringReader reader = new StringReader(manifest))
             {
                 string file;
 
@@ -95,12 +97,22 @@ namespace Updater
                 while ((file = reader.ReadLine()) != null)
                 {
                     counter++;
+                    if (file.Contains("\\"))
+                    {
+                        directories.Add(file.Substring(0, file.LastIndexOf("\\")));
+                    }
                 }
 
                 NumberOfTasks?.Invoke(this, counter + 2); // Adding 2 - one for registry, one for icons
             }
 
-            using (StringReader reader = new StringReader(files))
+            NonTaskExecuting?.Invoke(this, "Creating directories");
+            foreach(string directory in directories)
+            {
+                Directory.CreateDirectory(Path.Combine(InstallationConfiguration.InstallDirectory, directory));
+            }
+
+            using (StringReader reader = new StringReader(manifest))
             {
                 string file;
                 while ((file = reader.ReadLine()) != null)

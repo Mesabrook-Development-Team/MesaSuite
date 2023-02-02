@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -59,7 +60,7 @@ namespace ReleaseUtility.Steps
                 previouslySelected = File.ReadAllLines(Path.Combine(LocalDirectory, ".ftpupload"));
             }
 
-            IEnumerable<string> filesToUpload = Directory.GetFiles(LocalDirectory).Where(f => !f.EndsWith(".ftpupload"));
+            IEnumerable<string> filesToUpload = Directory.GetFiles(LocalDirectory, "*", SearchOption.AllDirectories).Where(f => !f.EndsWith(".ftpupload"));
 
             if (ReviewFilesBeforeUpload)
             {
@@ -79,6 +80,45 @@ namespace ReleaseUtility.Steps
             }
 
             File.WriteAllLines(Path.Combine(LocalDirectory, ".ftpupload"), filesToUpload.ToArray());
+            string[] manifest = filesToUpload.Select(f => f.Replace(LocalDirectory, "")).Select(f => { return f.StartsWith("\\") ? f.Substring(1) : f; }).ToArray();
+            File.WriteAllLines(Path.Combine(LocalDirectory, "manifest"), manifest);
+
+            if (manifest.Any(m => m.Contains("\\")))
+            {
+                HashSet<string> checkedDirectories = new HashSet<string>();
+                HashSet<string> directoriesToCheck = manifest.Where(m => m.Contains("\\")).Select(m => m.Substring(0, m.LastIndexOf("\\"))).ToHashSet();
+
+                foreach(string directoryToCheck in directoriesToCheck)
+                {
+                    string workingString = "";
+                    string[] directoryParts = directoryToCheck.Split('\\');
+                    foreach(string directoryPart in directoryParts)
+                    {
+                        if (workingString.Length > 0)
+                        {
+                            workingString += "/";
+                        }
+
+                        workingString += directoryPart;
+                        if (!checkedDirectories.Add(workingString))
+                        {
+                            continue;
+                        }
+
+                        FtpWebRequest request = (FtpWebRequest)WebRequest.Create(RemoteURL + workingString);
+                        if (!string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password))
+                        {
+                            request.Credentials = new NetworkCredential(Username, Password);
+                        }
+                        request.Method = WebRequestMethods.Ftp.MakeDirectory;
+                        try
+                        {
+                            request.GetResponse();
+                        }
+                        catch { }
+                    }
+                }
+            }
 
             WebClient client = new WebClient();
             if (!string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password))
@@ -86,10 +126,13 @@ namespace ReleaseUtility.Steps
                 client.Credentials = new NetworkCredential(Username, Password);
             }
 
-            foreach(string file in filesToUpload)
+            foreach(string file in manifest)
             {
-                client.UploadFile(RemoteURL + Path.GetFileName(file), file);
+                client.UploadFile(RemoteURL + file, Path.Combine(LocalDirectory, file));
             }
+
+            client.UploadFile(RemoteURL + "manifest", Path.Combine(LocalDirectory, "manifest"));
+            File.Delete(Path.Combine(LocalDirectory, "manifest"));
         }
 
         public void ReadXML(XElement element)

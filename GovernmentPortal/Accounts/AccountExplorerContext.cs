@@ -20,7 +20,7 @@ namespace GovernmentPortal.Accounts
 
         internal override bool DeleteButtonVisible => false;
 
-        internal override Icon ExplorerIcon => Properties.Resources.icn_govt;
+        internal override Icon ExplorerIcon => Properties.Resources.icn_book;
 
         internal override IExplorerControl<Account> GetControlForModel(Account model)
         {

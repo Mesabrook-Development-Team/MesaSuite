@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,16 +37,23 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\591f1575a360ea1.ico</ApplicationIcon>
+    <ApplicationIcon>btnMCSync.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BetterFolderBrowser, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\BetterFolderBrowser.1.2.0\lib\BetterFolderBrowser.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Core.1.1.2\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,6 +67,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FancyButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="frmConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +81,12 @@
     </Compile>
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPaths.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPaths.Designer.cs">
+      <DependentUpon>frmPaths.cs</DependentUpon>
     </Compile>
     <Compile Include="frmSync.cs">
       <SubType>Form</SubType>
@@ -95,6 +112,9 @@
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmPaths.resx">
+      <DependentUpon>frmPaths.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmSync.resx">
       <DependentUpon>frmSync.cs</DependentUpon>
     </EmbeddedResource>
@@ -111,6 +131,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="font_minecraft.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -126,7 +147,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="btnMCSync.ico" />
     <Content Include="minecraft-hero-og.c5517b7973e1.jpg" />
+    <None Include="Resources\icn_folder.png" />
+    <None Include="Resources\icn_clipboard.png" />
+    <None Include="Resources\font_minecraft.ttf" />
+    <None Include="Resources\tile_transparent1.png" />
+    <None Include="Resources\tile_transparent.png" />
+    <None Include="Resources\icn_mcsync.ico" />
+    <None Include="Resources\mcsync.ico" />
+    <None Include="Resources\btnMCSync.png" />
     <None Include="Resources\main_logo.png" />
     <None Include="Resources\b6.png" />
     <None Include="Resources\b5.png" />

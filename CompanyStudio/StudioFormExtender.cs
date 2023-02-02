@@ -55,7 +55,9 @@ namespace CompanyStudio
 
             foreach(TabControl tabControl in control.Controls.OfType<TabControl>())
             {
-                foreach(TabPage page in tabControl.TabPages)
+                ApplyStyle(tabControl, theme);
+                tabControl.ControlAdded += (tabCtrl, e) => ApplyStyle(e.Control, theme);
+                foreach (TabPage page in tabControl.TabPages)
                 {
                     ApplyStyle(page, theme);
                 }
@@ -89,6 +91,11 @@ namespace CompanyStudio
                 //groupBox.BackColor = theme.ColorPalette.CommandBarToolbarDefault.Background;
 
                 ApplyStyle(groupBox, theme);
+            }
+
+            foreach(SplitContainer splitContainer in control.Controls.OfType<SplitContainer>())
+            {
+                ApplyStyle(splitContainer, theme);
             }
         }
     }

@@ -57,6 +57,21 @@ namespace WebModels.security
             get { CheckGet(); return _accountClearances; }
         }
         #endregion
+        #region fleet
+        private List<fleet.TrainDutyTransaction> _trainDutyTransactions = new List<fleet.TrainDutyTransaction>();
+        [RelationshipList("28494AB9-46E0-4DA6-88F6-A826CC3B6342", nameof(fleet.TrainDutyTransaction.UserIDOperator))]
+        public IReadOnlyCollection<fleet.TrainDutyTransaction> TrainDutyTransactions
+        {
+            get { CheckGet(); return _trainDutyTransactions; }
+        }
+
+        private List<fleet.LiveLoadSession> _liveLoadSessions = new List<fleet.LiveLoadSession>();
+        [RelationshipList("9A3F3912-820E-480C-A488-762ECD624D93", nameof(fleet.LiveLoadSession.UserID))]
+        public IReadOnlyCollection<fleet.LiveLoadSession> LiveLoadSessions
+        {
+            get { CheckGet(); return _liveLoadSessions; }
+        }
+        #endregion
         #region gov
         private List<Official> _officials = new List<Official>();
         [RelationshipList("59E3FCF3-5FD8-42CE-BA06-0B91E0E40318", "UserID")]

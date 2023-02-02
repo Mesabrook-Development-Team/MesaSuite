@@ -4,6 +4,7 @@ using ClussPro.Base.Data.Query;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Text;
 
 namespace ClussPro.SqlServerProvider
@@ -47,7 +48,7 @@ namespace ClussPro.SqlServerProvider
                 string parameterNumber = parameters.Count.ToString();
 
                 sqlBuilder.Append($"[{fieldValue.FieldName}]=@{parameterNumber}");
-                parameters.Add(new SqlParameter(parameterNumber, fieldValue.Value ?? DBNull.Value));
+                parameters.Add(new SqlParameter(parameterNumber, fieldValue.Value ?? (fieldValue.FieldType == FieldSpecification.FieldTypes.Binary ? (object)SqlBinary.Null : (object)DBNull.Value)));
             }
 
             if (Condition != null)

@@ -28,7 +28,7 @@ namespace GovernmentPortal.Email
                 Model = model
             };
         }
-        internal override Icon ExplorerIcon => Properties.Resources.icn_govt;
+        internal override Icon ExplorerIcon => Properties.Resources.icn_email;
 
         internal async override Task<List<DropDownItem<DistributionList>>> GetInitialListItems()
         {

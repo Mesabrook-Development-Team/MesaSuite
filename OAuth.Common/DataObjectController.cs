@@ -19,6 +19,13 @@ namespace API.Common
 {
     public abstract class DataObjectController<TDataObject> : ApiController where TDataObject : DataObject
     {
+        protected event EventHandler<SecurityCheckEventArgs> GetAllSecurityCheck;
+        protected event EventHandler<SecurityCheckEventArgs> GetSecurityCheck;
+        protected event EventHandler<SecurityCheckEventArgs> PostSecurityCheck;
+        protected event EventHandler<SecurityCheckEventArgs> PutSecurityCheck;
+        protected event EventHandler<SecurityCheckEventArgs> DeleteSecurityCheck;
+        protected event EventHandler<SecurityCheckEventArgs> PatchSecurityCheck;
+
         public abstract IEnumerable<string> DefaultRetrievedFields { get; }
 
         protected virtual IEnumerable<string> RequestableFields => Enumerable.Empty<string>();
@@ -66,6 +73,13 @@ namespace API.Common
         [HttpGet]
         public async virtual Task<TDataObject> Get(long id)
         {
+            SecurityCheckEventArgs securityCheck = new SecurityCheckEventArgs(id, null);
+            GetSecurityCheck?.Invoke(this, securityCheck);
+            if (!securityCheck.IsValid)
+            {
+                return null;
+            }
+
             SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
 
             ISearchCondition searchCondition = new LongSearchCondition<TDataObject>()
@@ -94,7 +108,25 @@ namespace API.Common
                 return NotFound();
             }
 
-            return Ok(new Search<TDataObject>(GetBaseSearchCondition()).GetReadOnlyReader(null, await FieldsToRetrieve()).ToList());
+            SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
+            List<string> fields = (await FieldsToRetrieve()).ToList();
+            fields.Add(schemaObject.PrimaryKeyField.FieldName);
+
+            List<DataObject> retVal = new List<DataObject>();
+            Search<TDataObject> search = new Search<TDataObject>(GetBaseSearchCondition());
+            foreach(TDataObject dataObject in search.GetReadOnlyReader(null, fields))
+            {
+                SecurityCheckEventArgs securityCheck = new SecurityCheckEventArgs(dataObject.PrimaryKeyField.GetValue(dataObject) as long?, null);
+                GetAllSecurityCheck?.Invoke(this, securityCheck);
+                if (!securityCheck.IsValid)
+                {
+                    continue;
+                }
+
+                retVal.Add(dataObject);
+            }
+
+            return Ok(retVal);
         }
 
         [HttpPost]
@@ -120,6 +152,14 @@ namespace API.Common
                 if (!dataObject.Save(transaction))
                 {
                     return dataObject.HandleFailedValidation(this);
+                }
+
+                SecurityCheckEventArgs securityCheck = new SecurityCheckEventArgs(dataObject.PrimaryKeyField.GetValue(dataObject) as long?, transaction);
+                PostSecurityCheck?.Invoke(this, securityCheck);
+                if (!securityCheck.IsValid)
+                {
+                    transaction.Rollback();
+                    return BadRequest("You do not have permission to save this object");
                 }
 
                 SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
@@ -165,6 +205,13 @@ namespace API.Common
 
         protected async Task<TDataObject> GetPutObjectResult(TDataObject modifiedObject)
         {
+            SecurityCheckEventArgs securityCheck = new SecurityCheckEventArgs(modifiedObject.PrimaryKeyField.GetValue(modifiedObject) as long?, null);
+            PutSecurityCheck?.Invoke(this, securityCheck);
+            if (!securityCheck.IsValid)
+            {
+                return null;
+            }
+
             SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
             Search<TDataObject> dataObjectSearch = new Search<TDataObject>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 GetBaseSearchCondition(),
@@ -198,6 +245,13 @@ namespace API.Common
         [HttpDelete]
         public virtual IHttpActionResult Delete(long id)
         {
+            SecurityCheckEventArgs securityCheck = new SecurityCheckEventArgs(id, null);
+            DeleteSecurityCheck?.Invoke(this, securityCheck);
+            if (!securityCheck.IsValid)
+            {
+                return Unauthorized();
+            }
+
             SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
             Search<TDataObject> dataObjectSearch = new Search<TDataObject>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 GetBaseSearchCondition(),
@@ -226,6 +280,13 @@ namespace API.Common
         [HttpPatch]
         public async virtual Task<IHttpActionResult> Patch(PatchData patchData)
         {
+            SecurityCheckEventArgs securityCheck = new SecurityCheckEventArgs(patchData.PrimaryKey, null);
+            PatchSecurityCheck?.Invoke(this, securityCheck);
+            if (!securityCheck.IsValid)
+            {
+                return Unauthorized();
+            }
+
             SchemaObject schemaObject = Schema.GetSchemaObject<TDataObject>();
             Search<TDataObject> dataObjectSearch = new Search<TDataObject>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 GetBaseSearchCondition(),
@@ -259,6 +320,19 @@ namespace API.Common
             {
                 Request.Properties.TryGetValue("SecurityProfile", out object securityProfile);
                 return securityProfile as SecurityProfile;
+            }
+        }
+
+        protected class SecurityCheckEventArgs : EventArgs
+        {
+            public bool IsValid { get; set; } = true;
+            public long? ObjectID { get; }
+            public ITransaction Transaction { get; }
+
+            public SecurityCheckEventArgs(long? id, ITransaction transaction)
+            {
+                ObjectID = id;
+                Transaction = transaction;
             }
         }
     }

@@ -11,7 +11,7 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
     {
         private string Field { get; set; }
         private Operations Operation { get; set; }
-        private object Value { get; set; }
+        protected object Value { get; set; }
 
         public InequalityCondition(string field, Operations operation, object value)
         {

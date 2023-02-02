@@ -55,7 +55,7 @@ namespace MCSync
 
                 if (!configValues.ContainsKey("modsDirectory") || !configValues.ContainsKey("resourcePackDirectory") || !configValues.ContainsKey("configFilesDirectory") || !configValues.ContainsKey("mode") ||
                     string.IsNullOrEmpty(configValues.GetOrDefault("modsDirectory", string.Empty).Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("resourcePackDirectory", "").Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("configFilesDirectory", "").Cast<string>()) || !Enum.TryParse(configValues["mode"].Cast<string>(), true, out SyncMode configSyncMode) ||
-                    (configSyncMode == SyncMode.Client && (!configValues.ContainsKey("oResourcesDirectory") || string.IsNullOrEmpty(configValues["oResourcesDirectory"].Cast<string>()))))
+                    (configSyncMode == SyncMode.Client && (!configValues.ContainsKey("oResourcesDirectory") || string.IsNullOrEmpty(configValues["oResourcesDirectory"].Cast<string>()) || !configValues.ContainsKey("animationDirectory") || string.IsNullOrEmpty(configValues["animationDirectory"].Cast<string>()))))
                 {
                     Task.Errors.Add("Configuration file not setup");
                     SyncComplete?.Invoke(this, new EventArgs());
@@ -66,11 +66,19 @@ namespace MCSync
                 string resourcePackDirectory = configValues["resourcePackDirectory"].Cast<string>();
                 string configFilesDirectory = configValues["configFilesDirectory"].Cast<string>();
                 string oResourcesDirectory = configValues["oResourcesDirectory"].Cast<string>();
+                string animationDirectory = configValues["animationDirectory"].Cast<string>();
 
                 string[] clientSideWhiteListMods = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("mods_whitelist")?.Cast<string[]>() ?? new string[0];
                 string[] clientSideWhiteListResourcePacks = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("resourcepacks_whitelist")?.Cast<string[]>() ?? new string[0];
 
                 List<Task> tasks = new List<Task>();
+
+                // Create Required Subdirectories
+                Directory.CreateDirectory(animationDirectory);
+                Directory.CreateDirectory(modsDirectory);
+                Directory.CreateDirectory(resourcePackDirectory);
+                Directory.CreateDirectory(configFilesDirectory);
+                Directory.CreateDirectory(oResourcesDirectory);
 
                 // Load database stuff
                 List<MCSyncFile> syncFiles = await MCSyncFile.GetMCSyncFiles();
@@ -82,7 +90,7 @@ namespace MCSync
                 IEnumerable<MCSyncFile> modSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.mods && IsDownloadTypeValid(configSyncMode, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(modsDirectory, "*", SearchOption.AllDirectories))
                 {
-                    string strippedFile = StripDirectory(file, MCSyncFile.FileTypes.mods);
+                    string strippedFile = StripDirectory(file, modsDirectory);
                     byte[] fileHash = CalculateHash(file);
                     MCSyncFile syncFile = modSyncFiles.FirstOrDefault(f => f.Filename == strippedFile);
                     if (syncFile == null)
@@ -114,7 +122,7 @@ namespace MCSync
                 IEnumerable<MCSyncFile> resourcePackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.resourcepacks && IsDownloadTypeValid(configSyncMode, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(resourcePackDirectory, "*", SearchOption.AllDirectories))
                 {
-                    string strippedFile = StripDirectory(file, MCSyncFile.FileTypes.resourcepacks);
+                    string strippedFile = StripDirectory(file, resourcePackDirectory);
                     byte[] fileHash = CalculateHash(file);
                     MCSyncFile syncFile = resourcePackSyncFiles.FirstOrDefault(f => f.Filename == strippedFile);
                     if (syncFile == null)
@@ -161,11 +169,39 @@ namespace MCSync
                     }
                 }
 
+                // Custom Loading Screen Files
+                IEnumerable<MCSyncFile> animationSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.animation && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                foreach (string file in Directory.EnumerateFiles(animationDirectory, "*", SearchOption.AllDirectories))
+                {
+                    string strippedFile = StripDirectory(file, animationDirectory);
+                    byte[] fileHash = CalculateHash(file);
+                    MCSyncFile syncFile = animationSyncFiles.FirstOrDefault(f => f.Filename == strippedFile);
+                    if (syncFile == null)
+                    {
+                        // Extrinsic, delete
+                        Task deleteTask = new Task($"Delete animation file {strippedFile}", () =>
+                        {
+                            File.Delete(file);
+                            return true;
+                        });
+                        tasks.Add(deleteTask);
+                        TaskAdded?.Invoke(this, deleteTask);
+                    }
+                    else if (!syncFile.Checksum.SequenceEqual(fileHash))
+                    {
+                        Task updateTask = new Task($"Update animation file {strippedFile}", () => DownloadFile(syncFile.FileType, animationDirectory, strippedFile, syncFile.DownloadType));
+                        tasks.Add(updateTask);
+                        TaskAdded?.Invoke(this, updateTask);
+                    }
+
+                    handledFiles.Add(strippedFile);
+                }
+
                 // OResources Files
                 IEnumerable<MCSyncFile> oResourcesSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.oresources && IsDownloadTypeValid(configSyncMode, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(oResourcesDirectory, "*", SearchOption.AllDirectories))
                 {
-                    string strippedFile = StripDirectory(file, MCSyncFile.FileTypes.oresources);
+                    string strippedFile = StripDirectory(file, oResourcesDirectory);
                     byte[] fileHash = CalculateHash(file);
                     MCSyncFile syncFile = oResourcesSyncFiles.FirstOrDefault(f => f.Filename == strippedFile);
                     if (syncFile == null)
@@ -213,6 +249,9 @@ namespace MCSync
                             break;
                         case MCSyncFile.FileTypes.oresources:
                             directory = oResourcesDirectory;
+                            break;
+                        case MCSyncFile.FileTypes.animation:
+                            directory = animationDirectory;
                             break;
                     }
 
@@ -274,21 +313,21 @@ namespace MCSync
             }
         }
 
-        private string StripDirectory(string file, MCSyncFile.FileTypes fileType)
+        private string StripDirectory(string file, string configedPath)
         {
-            if (!file.Contains(fileType.ToString().ToLower() + "\\"))
+            if (!file.Contains(configedPath + "\\", StringComparison.OrdinalIgnoreCase))
             {
                 return file;
             }
 
-            return file.Substring(file.LastIndexOf(fileType.ToString().ToLower() + "\\") + fileType.ToString().Length + 1);
+            return file.Substring(file.LastIndexOf(configedPath + "\\", StringComparison.OrdinalIgnoreCase) + configedPath.Length + 1);
         }
 
         private bool DownloadFile(MCSyncFile.FileTypes type, string directory, string file, MCSyncFile.DownloadTypes downloadTypes)
         {
             try
             {
-                FtpWebRequest webRequest = (FtpWebRequest)WebRequest.Create("ftp://www.clussmanproductions.com/support/MCSyncNew/" + downloadTypes.ToString().ToLower() + "/" + type.ToString() + "/" + StripDirectory(file, type));
+                FtpWebRequest webRequest = (FtpWebRequest)WebRequest.Create("ftp://www.clussmanproductions.com/support/MCSyncNew/" + downloadTypes.ToString().ToLower() + "/" + type.ToString() + "/" + StripDirectory(file, directory));
                 webRequest.Credentials = new NetworkCredential("Reporting", "NetLogon");
                 webRequest.Method = WebRequestMethods.Ftp.DownloadFile;
 

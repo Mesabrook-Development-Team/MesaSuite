@@ -11,5 +11,6 @@
         public bool ManageLocations { get; set; }
         public bool IssueWireTransfers { get; set; }
         public string EmployeeName { get; set; }
+        public FleetTracking.Models.FleetSecurity FleetSecurity { get; set; }
     }
 }

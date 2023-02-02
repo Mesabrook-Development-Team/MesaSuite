@@ -101,6 +101,7 @@
     <Compile Include="Controllers\GovernmentController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\InvoiceLineController.cs" />
+    <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\OfficialController.cs" />
     <Compile Include="Controllers\SalesTaxController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
@@ -158,9 +159,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>58465</DevelopmentServerPort>
+          <DevelopmentServerPort>58480</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:58465</IISUrl>
+          <IISUrl>http://localhost:58480/gov</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

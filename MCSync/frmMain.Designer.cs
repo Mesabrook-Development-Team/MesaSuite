@@ -28,85 +28,119 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            this.picMainLogo = new System.Windows.Forms.PictureBox();
-            this.btnHelp = new System.Windows.Forms.PictureBox();
-            this.btnConf = new System.Windows.Forms.Panel();
-            this.btnSync = new System.Windows.Forms.Panel();
-            this.lblDocumentation = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.picMainLogo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnHelp)).BeginInit();
+            this.pnlMain = new System.Windows.Forms.Panel();
+            this.lblVersion = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pnlForm = new System.Windows.Forms.Panel();
+            this.pnlMainTimer = new System.Windows.Forms.Timer(this.components);
+            this.fButtonSync = new MCSync.FancyButton();
+            this.fButtonOptions = new MCSync.FancyButton();
+            this.pnlMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // picMainLogo
+            // pnlMain
             // 
-            this.picMainLogo.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.picMainLogo.BackColor = System.Drawing.Color.Transparent;
-            this.picMainLogo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("picMainLogo.BackgroundImage")));
-            this.picMainLogo.Location = new System.Drawing.Point(208, 42);
-            this.picMainLogo.Name = "picMainLogo";
-            this.picMainLogo.Size = new System.Drawing.Size(370, 76);
-            this.picMainLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picMainLogo.TabIndex = 2;
-            this.picMainLogo.TabStop = false;
+            this.pnlMain.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pnlMain.BackColor = System.Drawing.Color.Transparent;
+            this.pnlMain.BackgroundImage = global::MCSync.Properties.Resources.tile_transparent1;
+            this.pnlMain.Controls.Add(this.lblVersion);
+            this.pnlMain.Controls.Add(this.fButtonSync);
+            this.pnlMain.Controls.Add(this.fButtonOptions);
+            this.pnlMain.Controls.Add(this.pictureBox1);
+            this.pnlMain.ForeColor = System.Drawing.Color.Transparent;
+            this.pnlMain.Location = new System.Drawing.Point(251, 90);
+            this.pnlMain.Name = "pnlMain";
+            this.pnlMain.Size = new System.Drawing.Size(400, 342);
+            this.pnlMain.TabIndex = 10;
             // 
-            // btnHelp
+            // lblVersion
             // 
-            this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHelp.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnHelp.Image = global::MCSync.Properties.Resources.buttonHelp;
-            this.btnHelp.Location = new System.Drawing.Point(742, 403);
-            this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(33, 40);
-            this.btnHelp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.btnHelp.TabIndex = 6;
-            this.btnHelp.TabStop = false;
-            this.btnHelp.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnHelp_MouseClick);
-            this.btnHelp.MouseEnter += new System.EventHandler(this.btnHelp_MouseEnter);
-            this.btnHelp.MouseLeave += new System.EventHandler(this.btnHelp_MouseLeave);
+            this.lblVersion.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVersion.Location = new System.Drawing.Point(160, 297);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(81, 13);
+            this.lblVersion.TabIndex = 3;
+            this.lblVersion.Text = "Version 0.0.0.0";
+            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // btnConf
+            // pictureBox1
             // 
-            this.btnConf.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnConf.BackColor = System.Drawing.Color.Transparent;
-            this.btnConf.BackgroundImage = global::MCSync.Properties.Resources.btnOptBase;
-            this.btnConf.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnConf.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnConf.Location = new System.Drawing.Point(291, 168);
-            this.btnConf.Name = "btnConf";
-            this.btnConf.Size = new System.Drawing.Size(204, 57);
-            this.btnConf.TabIndex = 7;
-            this.btnConf.MouseClick += new System.Windows.Forms.MouseEventHandler(this.newBtnConf_MouseClick);
-            this.btnConf.MouseEnter += new System.EventHandler(this.newBtnConf_MouseEnter);
-            this.btnConf.MouseLeave += new System.EventHandler(this.newBtnConf_MouseLeave);
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BackgroundImage = global::MCSync.Properties.Resources.main_logo;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(88, 58);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(225, 50);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
-            // btnSync
+            // pnlForm
             // 
-            this.btnSync.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSync.BackColor = System.Drawing.Color.Transparent;
-            this.btnSync.BackgroundImage = global::MCSync.Properties.Resources.btnSyncBase;
-            this.btnSync.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSync.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSync.Location = new System.Drawing.Point(291, 246);
-            this.btnSync.Name = "btnSync";
-            this.btnSync.Size = new System.Drawing.Size(204, 57);
-            this.btnSync.TabIndex = 8;
-            this.btnSync.MouseClick += new System.Windows.Forms.MouseEventHandler(this.newBtnSync_MouseClick);
-            this.btnSync.MouseEnter += new System.EventHandler(this.newBtnSync_MouseEnter);
-            this.btnSync.MouseLeave += new System.EventHandler(this.newBtnSync_MouseLeave);
+            this.pnlForm.BackColor = System.Drawing.Color.Transparent;
+            this.pnlForm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlForm.Location = new System.Drawing.Point(0, 0);
+            this.pnlForm.Name = "pnlForm";
+            this.pnlForm.Size = new System.Drawing.Size(902, 522);
+            this.pnlForm.TabIndex = 13;
             // 
-            // lblDocumentation
+            // pnlMainTimer
             // 
-            this.lblDocumentation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDocumentation.AutoSize = true;
-            this.lblDocumentation.BackColor = System.Drawing.Color.Transparent;
-            this.lblDocumentation.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDocumentation.ForeColor = System.Drawing.Color.White;
-            this.lblDocumentation.Location = new System.Drawing.Point(691, 414);
-            this.lblDocumentation.Name = "lblDocumentation";
-            this.lblDocumentation.Size = new System.Drawing.Size(45, 19);
-            this.lblDocumentation.TabIndex = 9;
-            this.lblDocumentation.Text = "Help";
+            this.pnlMainTimer.Tick += new System.EventHandler(this.pnlMainTimer_Tick);
+            // 
+            // fButtonSync
+            // 
+            this.fButtonSync.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.fButtonSync.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.fButtonSync.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.fButtonSync.BorderColor1 = System.Drawing.Color.PaleVioletRed;
+            this.fButtonSync.BorderRadius = 5;
+            this.fButtonSync.BorderRadius1 = 5;
+            this.fButtonSync.BorderSize = 0;
+            this.fButtonSync.BorderSize1 = 0;
+            this.fButtonSync.FlatAppearance.BorderSize = 0;
+            this.fButtonSync.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.fButtonSync.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fButtonSync.ForeColor = System.Drawing.Color.White;
+            this.fButtonSync.Location = new System.Drawing.Point(125, 221);
+            this.fButtonSync.Name = "fButtonSync";
+            this.fButtonSync.Size = new System.Drawing.Size(150, 40);
+            this.fButtonSync.TabIndex = 2;
+            this.fButtonSync.Text = "Sync";
+            this.fButtonSync.TextColor = System.Drawing.Color.White;
+            this.fButtonSync.UseCompatibleTextRendering = true;
+            this.fButtonSync.UseVisualStyleBackColor = false;
+            this.fButtonSync.Click += new System.EventHandler(this.fButtonSync_Click);
+            // 
+            // fButtonOptions
+            // 
+            this.fButtonOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.fButtonOptions.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.fButtonOptions.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.fButtonOptions.BorderColor1 = System.Drawing.Color.PaleVioletRed;
+            this.fButtonOptions.BorderRadius = 5;
+            this.fButtonOptions.BorderRadius1 = 5;
+            this.fButtonOptions.BorderSize = 0;
+            this.fButtonOptions.BorderSize1 = 0;
+            this.fButtonOptions.FlatAppearance.BorderSize = 0;
+            this.fButtonOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.fButtonOptions.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fButtonOptions.ForeColor = System.Drawing.Color.White;
+            this.fButtonOptions.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.fButtonOptions.Location = new System.Drawing.Point(125, 158);
+            this.fButtonOptions.Name = "fButtonOptions";
+            this.fButtonOptions.Size = new System.Drawing.Size(150, 40);
+            this.fButtonOptions.TabIndex = 1;
+            this.fButtonOptions.Text = "Options";
+            this.fButtonOptions.TextColor = System.Drawing.Color.White;
+            this.fButtonOptions.UseCompatibleTextRendering = true;
+            this.fButtonOptions.UseVisualStyleBackColor = false;
+            this.fButtonOptions.Click += new System.EventHandler(this.fancyButton1_Click);
             // 
             // frmMain
             // 
@@ -115,32 +149,35 @@
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::MCSync.Properties.Resources.b1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(787, 455);
-            this.Controls.Add(this.lblDocumentation);
-            this.Controls.Add(this.btnSync);
-            this.Controls.Add(this.btnConf);
-            this.Controls.Add(this.btnHelp);
-            this.Controls.Add(this.picMainLogo);
+            this.ClientSize = new System.Drawing.Size(902, 522);
+            this.Controls.Add(this.pnlMain);
+            this.Controls.Add(this.pnlForm);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Minecraft Sync";
+            this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.frmMain_HelpButtonClicked);
             this.Load += new System.EventHandler(this.frmMain_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.picMainLogo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnHelp)).EndInit();
+            this.pnlMain.ResumeLayout(false);
+            this.pnlMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.PictureBox picMainLogo;
-        private System.Windows.Forms.PictureBox btnHelp;
-        private System.Windows.Forms.Panel btnConf;
-        private System.Windows.Forms.Panel btnSync;
-        private System.Windows.Forms.Label lblDocumentation;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private FancyButton fButtonOptions;
+        private FancyButton fButtonSync;
+        private System.Windows.Forms.Label lblVersion;
+        public System.Windows.Forms.Panel pnlMain;
+        private System.Windows.Forms.Timer pnlMainTimer;
+        public System.Windows.Forms.Panel pnlForm;
     }
 }
 

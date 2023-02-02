@@ -9,19 +9,31 @@ namespace ClussPro.ObjectBasedFramework.Utility
 {
     public static class FieldPathUtility
     {
-        public static string CreateFieldPaths<TDataObject>(Expression<Func<TDataObject, List<object>>> expression)
+        public static List<string> CreateFieldPathsAsList<TDataObject>(Expression<Func<TDataObject, List<object>>> expression)
         {
             if (!(expression.Body is ListInitExpression listInitExpression))
             {
                 return null;
             }
 
-            StringBuilder fieldPathBuilder = new StringBuilder(";");
+            List<string> fieldPaths = new List<string>();
             foreach (Expression elementInitArgument in listInitExpression.Initializers.OfType<ElementInit>().SelectMany(ei => ei.Arguments))
             {
                 StringBuilder fieldBuilder = new StringBuilder();
                 DrillToRoot(elementInitArgument, fieldBuilder);
-                fieldPathBuilder.Append(fieldBuilder.ToString(0, fieldBuilder.Length - 1) + ";");
+                fieldPaths.Add(fieldBuilder.ToString(0, fieldBuilder.Length - 1));
+            }
+
+            return fieldPaths;
+        }
+
+        public static string CreateFieldPaths<TDataObject>(Expression<Func<TDataObject, List<object>>> expression)
+        {
+            List<string> fieldPaths = CreateFieldPathsAsList<TDataObject>(expression);
+            StringBuilder fieldPathBuilder = new StringBuilder(";");
+            foreach(string fieldPath in fieldPaths)
+            {
+                fieldPathBuilder.Append(fieldPath + ";");
             }
 
             return fieldPathBuilder.ToString().Substring(1);
@@ -38,6 +50,11 @@ namespace ClussPro.ObjectBasedFramework.Utility
                 }
 
                 memberExpression = (MemberExpression)unaryExpression.Operand;
+            }
+
+            if (expression is MethodCallExpression methodCallExpression && methodCallExpression.Method.Name.Equals("First", StringComparison.OrdinalIgnoreCase))
+            {
+                memberExpression = (MemberExpression)methodCallExpression.Arguments[0];
             }
 
             if (expression is MemberExpression)

@@ -173,6 +173,13 @@ namespace WebModels.gov
             get { CheckGet(); return _emailImplementationReadyForReceipt; }
         }
 
+        private fleet.MiscellaneousSettings _fleetMiscSettings = null;
+        [Relationship("F1224CCC-BF07-4835-AA1A-00BF2E623F41", OneToOneByForeignKey = true)]
+        public fleet.MiscellaneousSettings FleetMiscSettings
+        {
+            get { CheckGet(); return _fleetMiscSettings; }
+        }
+
         #region Relationships
         #region account
         private List<Account> _accounts = new List<Account>();
@@ -194,6 +201,84 @@ namespace WebModels.gov
         public IReadOnlyCollection<LocationGovernment> LocationGovernments
         {
             get { CheckGet(); return _locationGovernments; }
+        }
+        #endregion
+        #region fleet
+        private List<fleet.Locomotive> _locomotivesOwned = new List<fleet.Locomotive>();
+        [RelationshipList("0237C142-DD8E-49FC-93F3-0A57211F589C", nameof(fleet.Locomotive.GovernmentIDOwner))]
+        public IReadOnlyCollection<fleet.Locomotive> LocomotivesOwned
+        {
+            get { CheckGet(); return _locomotivesOwned; }
+        }
+
+        private List<fleet.Railcar> _railcarsOwned = new List<fleet.Railcar>();
+        [RelationshipList("8CAD76EA-2D7C-48DC-B1A5-4A0073650BB6", nameof(fleet.Railcar.GovernmentIDOwner))]
+        public IReadOnlyCollection<fleet.Railcar> RailcarsOwned
+        {
+            get { CheckGet(); return _railcarsOwned; }
+        }
+
+        private List<fleet.Locomotive> _locomotivesPossessed = new List<fleet.Locomotive>();
+        [RelationshipList("A4BAF3DF-92DB-403C-B95A-671DBC1349C9", nameof(fleet.Locomotive.GovernmentIDPossessor))]
+        public IReadOnlyCollection<fleet.Locomotive> LocomotivesPossessed
+        {
+            get { CheckGet(); return _locomotivesPossessed; }
+        }
+
+        private List<fleet.Railcar> _railcarsPossessed = new List<fleet.Railcar>();
+        [RelationshipList("F271C9D0-A890-4705-B8B9-AAF68099041A", nameof(fleet.Railcar.GovernmentIDPossessor))]
+        public IReadOnlyCollection<fleet.Railcar> RailcarsPossessed
+        {
+            get { CheckGet(); return _railcarsPossessed; }
+        }
+
+        private List<fleet.LeaseRequest> _leaseRequests = new List<fleet.LeaseRequest>();
+        [RelationshipList("48742154-B856-402A-8D11-07582D7D7320", nameof(fleet.LeaseRequest.GovernmentIDRequester))]
+        public IReadOnlyCollection<fleet.LeaseRequest> LeaseRequests
+        {
+            get { CheckGet(); return _leaseRequests; }
+        }
+
+        private List<fleet.LeaseContract> _leaseContracts = new List<fleet.LeaseContract>();
+        [RelationshipList("32B13E3E-4D9B-4324-8AA5-77FDACF310F9", nameof(fleet.LeaseContract.GovernmentIDLessee))]
+        public IReadOnlyCollection<fleet.LeaseContract> LeaseContracts
+        {
+            get { CheckGet(); return _leaseContracts; }
+        }
+
+        private List<fleet.Track> _tracksOwned = new List<fleet.Track>();
+        [RelationshipList("7B5ACBD2-1030-41CE-AABD-D2806BF97FC2", nameof(fleet.Track.GovernmentIDOwner))]
+        public IReadOnlyCollection<fleet.Track> TracksOwned
+        {
+            get { CheckGet(); return _tracksOwned; }
+        }
+
+        private List<fleet.TrainSymbol> _trainSymbols = new List<fleet.TrainSymbol>();
+        [RelationshipList("65F56AF7-B293-4AD8-AD3A-342EEBFF3C72", nameof(fleet.TrainSymbol.GovernmentIDOperator))]
+        public IReadOnlyCollection<fleet.TrainSymbol> TrainSymbols
+        {
+            get { CheckGet(); return _trainSymbols; }
+        }
+
+        private List<fleet.CarHandlingRate> _carHandlingRates = new List<fleet.CarHandlingRate>();
+        [RelationshipList("F363B668-6CEC-450C-A4B6-8CF9C5B6CD8C", nameof(fleet.CarHandlingRate.GovernmentID))]
+        public IReadOnlyCollection<fleet.CarHandlingRate> CarHandlingRates
+        {
+            get { CheckGet(); return _carHandlingRates; }
+        }
+
+        private List<fleet.LiveLoadSession> _liveLoadSessions = new List<fleet.LiveLoadSession>();
+        [RelationshipList("9FD6DE08-617E-49F9-886A-4836B382F425", nameof(fleet.LiveLoadSession.GovernmentID))]
+        public IReadOnlyCollection<fleet.LiveLoadSession> LiveLoadSessions
+        {
+            get { CheckGet(); return _liveLoadSessions; }
+        }
+
+        private List<fleet.RailDistrict> _railDistricts = new List<fleet.RailDistrict>();
+        [RelationshipList("34622950-65FD-486D-A6BB-23FE8276BFCE", nameof(fleet.RailDistrict.GovernmentIDOperator))]
+        public IReadOnlyCollection<fleet.RailDistrict> RailDistricts
+        {
+            get { CheckGet(); return _railDistricts; }
         }
         #endregion
         #region gov

@@ -157,7 +157,8 @@ namespace CompanyStudio.Email
             // 
             // toolAddAlias
             // 
-            this.toolAddAlias.Image = global::CompanyStudio.Properties.Resources.icn_alias;
+            this.toolAddAlias.Image = global::CompanyStudio.Properties.Resources.email_link;
+            this.toolAddAlias.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolAddAlias.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAddAlias.Name = "toolAddAlias";
             this.toolAddAlias.Size = new System.Drawing.Size(77, 22);
@@ -166,7 +167,7 @@ namespace CompanyStudio.Email
             // 
             // toolAddDistList
             // 
-            this.toolAddDistList.Image = global::CompanyStudio.Properties.Resources.icn_list;
+            this.toolAddDistList.Image = global::CompanyStudio.Properties.Resources.page_attach;
             this.toolAddDistList.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAddDistList.Name = "toolAddDistList";
             this.toolAddDistList.Size = new System.Drawing.Size(135, 22);

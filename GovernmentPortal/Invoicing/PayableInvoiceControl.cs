@@ -157,6 +157,8 @@ namespace GovernmentPortal.Invoicing
                 foreach (InvoiceLine line in Model.InvoiceLines)
                 {
                     int rowIndex = dgvLines.Rows.Add();
+                    dgvLines[colItem.Name, rowIndex].Value = line.Item?.Name;
+                    dgvLines[colItem.Name, rowIndex].Tag = line.Item?.ItemID;
                     dgvLines[colDescription.Name, rowIndex].Value = line.Description;
                     dgvLines[colQuantity.Name, rowIndex].Value = line.Quantity.ToString("N2");
                     dgvLines[colUnitCost.Name, rowIndex].Value = line.UnitCost.ToString("N2");
@@ -202,6 +204,27 @@ namespace GovernmentPortal.Invoicing
 
             Dispose();
             _explorer.LoadAllItems(true, PayableInvoiceContext.GetItemDisplayText(Model.InvoiceNumber, Invoice.Statuses.ReadyForReceipt));
+        }
+
+        private void dgvLines_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvLines.Rows.Count || e.ColumnIndex != colItem.Index)
+            {
+                return;
+            }
+
+            long? itemID = dgvLines[e.ColumnIndex, e.RowIndex].Tag as long?;
+
+            Rectangle cellLocation = dgvLines.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+
+            ItemSelector shownSelector = new ItemSelector();
+            shownSelector.ReadOnlyMode = true;
+            shownSelector.SelectedItemID = itemID;
+            shownSelector.Location = PointToClient(dgvLines.PointToScreen(cellLocation.Location));
+            shownSelector.Leave += (s, ea) => { Controls.Remove(shownSelector); shownSelector = null; };
+            Controls.Add(shownSelector);
+            shownSelector.BringToFront();
+            shownSelector.Focus();
         }
     }
 }

@@ -122,7 +122,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmUpdate";
-            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MesaSuite Update";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmUpdate_FormClosed);

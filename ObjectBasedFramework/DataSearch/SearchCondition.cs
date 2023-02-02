@@ -67,7 +67,16 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
                 fieldOperand.TableAlias = tableAliasesByFieldPath[fieldOperand.TableAlias ?? string.Empty];
             }
 
-            condition.Left = fieldOperand;
+            Schema.SchemaObject conditionSchemaObject = Schema.Schema.GetSchemaObject(DataObjectType);
+            Schema.Field destinationField = conditionSchemaObject.GetField(Field);
+            if (destinationField.HasOperation)
+            {
+                condition.Left = destinationField.GetOperation(fieldOperand.TableAlias);
+            }
+            else
+            {
+                condition.Left = fieldOperand;
+            }
             
             switch(SearchConditionType)
             {

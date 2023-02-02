@@ -9,6 +9,7 @@ using ClussPro.ObjectBasedFramework.Loader;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Utility;
 using WebModels.account;
+using WebModels.fleet;
 using WebModels.mesasys;
 
 namespace WebModels.Loaders.mesasys
@@ -16,6 +17,15 @@ namespace WebModels.Loaders.mesasys
     public class EmailTemplateLoader : ILoader
     {
         public IEnumerable<LoaderObject> GetLoaderObjects()
+        {
+            List<LoaderObject> loaderObjects = new List<LoaderObject>();
+            loaderObjects.AddRange(GetInvoicingEmails());
+            loaderObjects.AddRange(GetFleetTrackingEmails());
+
+            return loaderObjects;
+        }
+
+        private IEnumerable<LoaderObject> GetInvoicingEmails()
         {
             yield return new EmailTemplateLoaderObject<WireTransferHistory>(EmailTemplate.EmailTemplates.WireTransferReceived,
                                                                             "Wire Transfer Received",
@@ -79,6 +89,102 @@ namespace WebModels.Loaders.mesasys
                                                                               invoice.AccountTo.Description,
                                                                               invoice.Amount
                                                                           });
+        }
+
+        private IEnumerable<LoaderObject> GetFleetTrackingEmails()
+        {
+            yield return new EmailTemplateLoaderObject<Railcar>(EmailTemplate.EmailTemplates.RailcarReleasedReceived,
+                                                                "Railcar Release Received",
+                                                                "Railcar {ReportingMark}{ReportingNumber} has been released to {CompanyPossessor.Name}{GovernmentPossessor.Name}. It has been set out to {RailLocation.Track.Name}{RailLocation.Train.TrainSymbol.Name}.",
+                                                                EmailTemplate.SecurityCheckTypes.FleetTracking,
+                                                                r => new List<object>()
+                                                                {
+                                                                    r.ReportingMark,
+                                                                    r.ReportingNumber,
+                                                                    r.CompanyPossessor.Name,
+                                                                    r.GovernmentPossessor.Name,
+                                                                    r.TrackDestination.Name,
+                                                                    r.RailLocation.Position,
+                                                                    r.RailLocation.Track.Name,
+                                                                    r.RailLocation.Train.TimeOnDuty,
+                                                                    r.RailLocation.Train.TrainSymbol.Name
+                                                                });
+
+            yield return new EmailTemplateLoaderObject<Locomotive>(EmailTemplate.EmailTemplates.LocomotiveReleasedReceived,
+                                                                "Locomotive Release Received",
+                                                                "Locomotive {ReportingMark}{ReportingNumber} has been released to {CompanyPossessor.Name}{GovernmentPossessor.Name}. It has been set out to {RailLocation.Track.Name}{RailLocation.Train.TrainSymbol.Name}.",
+                                                                EmailTemplate.SecurityCheckTypes.FleetTracking,
+                                                                l => new List<object>()
+                                                                {
+                                                                    l.ReportingMark,
+                                                                    l.ReportingNumber,
+                                                                    l.CompanyPossessor.Name,
+                                                                    l.GovernmentPossessor.Name,
+                                                                    l.RailLocation.Position,
+                                                                    l.RailLocation.Track.Name,
+                                                                    l.RailLocation.Train.TimeOnDuty,
+                                                                    l.RailLocation.Train.TrainSymbol.Name
+                                                                });
+
+            yield return new EmailTemplateLoaderObject<LeaseRequest>(EmailTemplate.EmailTemplates.NewLeaseRequestAvailable,
+                                                                    "New Lease Request Available",
+                                                                    "A new Lease Request has been made by {CompanyRequester.Name}{GovernmentRequester.Name} for a {LeaseType}.\r\n\r\nPurpose: {Purpose}\r\n\r\nBidding Ends: {BidEndTime}",
+                                                                    EmailTemplate.SecurityCheckTypes.FleetTracking,
+                                                                    lr => new List<object>()
+                                                                    {
+                                                                        lr.LeaseRequestID,
+                                                                        lr.CompanyRequester.Name,
+                                                                        lr.GovernmentRequester.Name,
+                                                                        lr.LeaseType,
+                                                                        lr.RailcarType,
+                                                                        lr.TrackDeliveryLocation.Name,
+                                                                        lr.Purpose,
+                                                                        lr.BidEndTime
+                                                                    });
+
+            yield return new EmailTemplateLoaderObject<LeaseBid>(EmailTemplate.EmailTemplates.LeaseBidReceived,
+                                                                "Lease Bid Received",
+                                                                "{Railcar.CompanyOwner.Name}{Railcar.GovernmentOwner.Name}{Locomotive.CompanyOwner.Name}{Locomotive.GovernmentOwner.Name} has submitted a bid for your Lease Request number {LeaseRequestID}.\r\n\r\n" +
+                                                                    "Bid Amount: {LeaseAmount}\r\n" +
+                                                                    "Recurring? {RecurringAmountType}\r\n" +
+                                                                    "Recurring Amount: {RecurringAmount}\r\n" +
+                                                                    "Terms: {Terms}",
+                                                                EmailTemplate.SecurityCheckTypes.FleetTracking,
+                                                                lb => new List<object>()
+                                                                {
+                                                                    lb.LeaseRequestID,
+                                                                    lb.LeaseAmount,
+                                                                    lb.RecurringAmountType,
+                                                                    lb.RecurringAmount,
+                                                                    lb.Terms,
+                                                                    lb.LeaseRequest.TrackDeliveryLocation.Name,
+                                                                    lb.LeaseRequest.LeaseType,
+                                                                    lb.LeaseRequest.RailcarType,
+                                                                    lb.LeaseRequest.Purpose,
+                                                                    lb.LeaseRequest.BidEndTime,
+                                                                    lb.Railcar.ReportingMark,
+                                                                    lb.Railcar.ReportingNumber,
+                                                                    lb.Railcar.RailcarModel.Name,
+                                                                    lb.Railcar.RailcarModel.CargoCapacity,
+                                                                    lb.Railcar.RailcarModel.Length,
+                                                                    lb.Railcar.CompanyOwner.Name,
+                                                                    lb.Railcar.GovernmentOwner.Name,
+                                                                    lb.Railcar.RailLocation.Track.Name,
+                                                                    lb.Railcar.RailLocation.Train.TrainSymbol.Name,
+                                                                    lb.Railcar.RailLocation.Train.TimeOnDuty,
+                                                                    lb.Locomotive.ReportingMark,
+                                                                    lb.Locomotive.ReportingNumber,
+                                                                    lb.Locomotive.LocomotiveModel.Name,
+                                                                    lb.Locomotive.LocomotiveModel.IsSteamPowered,
+                                                                    lb.Locomotive.LocomotiveModel.WaterCapacity,
+                                                                    lb.Locomotive.LocomotiveModel.FuelCapacity,
+                                                                    lb.Locomotive.LocomotiveModel.Length,
+                                                                    lb.Locomotive.CompanyOwner.Name,
+                                                                    lb.Locomotive.GovernmentOwner.Name,
+                                                                    lb.Locomotive.RailLocation.Track.Name,
+                                                                    lb.Locomotive.RailLocation.Train.TrainSymbol.Name,
+                                                                    lb.Locomotive.RailLocation.Train.TimeOnDuty
+                                                                });
         }
 
         private class EmailTemplateLoaderObject<TTemplateObject> : LoaderObject where TTemplateObject : DataObject

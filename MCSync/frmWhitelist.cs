@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MesaSuite.Common;
 using MesaSuite.Common.Extensions;
@@ -15,7 +11,6 @@ namespace MCSync
 {
     public partial class frmWhitelist : Form
     {
-        public string WhitelistName { get; set; }
         public frmWhitelist()
         {
             InitializeComponent();
@@ -23,10 +18,23 @@ namespace MCSync
 
         private void frmWhitelist_Load(object sender, EventArgs e)
         {
+            Dock = DockStyle.Fill;
             Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>());
-            if (configValues.ContainsKey(WhitelistName))
+            
+            // Resource Packs
+            if (configValues.ContainsKey("resourcepacks_whitelist"))
             {
-                string[] whitelist = configValues[WhitelistName].Cast<JArray>()?.ToObject<string[]>() ?? configValues[WhitelistName].Cast<string[]>();
+                string[] whitelist = configValues["resourcepacks_whitelist"].Cast<JArray>()?.ToObject<string[]>() ?? configValues["resourcepacks_whitelist"].Cast<string[]>();
+                if (whitelist != null)
+                {
+                    txtResourcePacks.Lines = whitelist;
+                }
+            }
+
+            // Mods
+            if (configValues.ContainsKey("mods_whitelist"))
+            {
+                string[] whitelist = configValues["mods_whitelist"].Cast<JArray>()?.ToObject<string[]>() ?? configValues["mods_whitelist"].Cast<string[]>();
                 if (whitelist != null)
                 {
                     txtItems.Lines = whitelist;
@@ -34,14 +42,20 @@ namespace MCSync
             }
         }
 
-        private void cmdSave_Click(object sender, EventArgs e)
+        private void fButtonSave_Click(object sender, EventArgs e)
         {
             UserPreferences userPreferences = UserPreferences.Get();
             Dictionary<string, object> configValues = userPreferences.Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
-            configValues[WhitelistName] = txtItems.Lines;
+            configValues["mods_whitelist"] = txtItems.Lines;
+            configValues["resourcepacks_whitelist"] = txtResourcePacks.Lines;
             userPreferences.Save();
 
             DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void fButtonCancel_Click(object sender, EventArgs e)
+        {
             Close();
         }
     }

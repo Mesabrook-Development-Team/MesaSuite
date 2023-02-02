@@ -1,4 +1,5 @@
-﻿using ClussPro.Base.Extensions;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.Base.Extensions;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Utility;
@@ -14,7 +15,7 @@ namespace ClussPro.ObjectBasedFramework.Validation
     public static class Validator
     {
         private static Dictionary<SchemaObject, List<IValidationDefinition>> validationDefinitionsBySchemaObject;
-        public static bool Validate(DataObject dataObject, SaveModes saveMode, List<Guid> saveFlags = null)
+        public static bool Validate(DataObject dataObject, SaveModes saveMode, List<Guid> saveFlags = null, ITransaction transaction = null)
         {
             if (validationDefinitionsBySchemaObject == null)
             {
@@ -56,7 +57,7 @@ namespace ClussPro.ObjectBasedFramework.Validation
 
                             IEnumerable<string> fieldsToRetrieve = extraFieldsByPrefix.Select(f => f.Substring(f.IndexOf(".") + 1));
 
-                            DataObject relatedDataObject = DataObject.GetReadOnlyByPrimaryKey(relationship.RelatedObjectType, foreignKey, null, fieldsToRetrieve);
+                            DataObject relatedDataObject = DataObject.GetReadOnlyByPrimaryKey(relationship.RelatedObjectType, foreignKey, transaction, fieldsToRetrieve);
                             relationship.SetPrivateDataCallback(dataObject, relatedDataObject);
                         }
                     }

@@ -11,6 +11,7 @@ using ClussPro.ObjectBasedFramework.DataSearch;
 using WebModels.company;
 using WebModels.gov;
 using WebModels.invoicing;
+using WebModels.mesasys;
 
 namespace API_Company.Controllers
 {
@@ -49,6 +50,9 @@ namespace API_Company.Controllers
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.UnitCost)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Total)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Description)}",
+            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.ItemID)}",
+            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Item)}.{nameof(Item.ItemID)}",
+            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Item)}.{nameof(Item.Name)}",
             $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.InvoiceSalesTaxID)}",
             $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.InvoiceID)}",
             $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.Municipality)}",

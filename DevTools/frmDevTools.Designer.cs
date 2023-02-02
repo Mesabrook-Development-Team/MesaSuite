@@ -356,7 +356,7 @@
             this.cmdBackEndAuth.Location = new System.Drawing.Point(15, 460);
             this.cmdBackEndAuth.Name = "cmdBackEndAuth";
             this.cmdBackEndAuth.Size = new System.Drawing.Size(96, 61);
-            this.cmdBackEndAuth.TabIndex = 20;
+            this.cmdBackEndAuth.TabIndex = 24;
             this.cmdBackEndAuth.Text = "Start Development Backend Auth";
             this.cmdBackEndAuth.UseVisualStyleBackColor = true;
             this.cmdBackEndAuth.Click += new System.EventHandler(this.cmdBackEndAuth_Click);
@@ -679,7 +679,7 @@
             0});
             this.numAuthPort.Name = "numAuthPort";
             this.numAuthPort.Size = new System.Drawing.Size(245, 22);
-            this.numAuthPort.TabIndex = 11;
+            this.numAuthPort.TabIndex = 12;
             this.numAuthPort.Value = new decimal(new int[] {
             1024,
             0,
@@ -700,7 +700,7 @@
             this.rdoFleetLive.AutoSize = true;
             this.rdoFleetLive.Location = new System.Drawing.Point(0, 0);
             this.rdoFleetLive.Name = "rdoFleetLive";
-            this.rdoFleetLive.Size = new System.Drawing.Size(45, 17);
+            this.rdoFleetLive.Size = new System.Drawing.Size(44, 17);
             this.rdoFleetLive.TabIndex = 0;
             this.rdoFleetLive.TabStop = true;
             this.rdoFleetLive.Text = "Live";
@@ -722,7 +722,7 @@
             this.label23.AutoSize = true;
             this.label23.Location = new System.Drawing.Point(530, 150);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(78, 13);
+            this.label23.Size = new System.Drawing.Size(81, 13);
             this.label23.TabIndex = 1;
             this.label23.Text = "Fleet Tracking:";
             // 

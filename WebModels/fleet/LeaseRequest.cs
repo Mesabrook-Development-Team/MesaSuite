@@ -92,13 +92,20 @@ namespace WebModels.fleet
             set { CheckSet(); _railcarType = value; }
         }
 
-        private string _deliveryLocation;
-        [Field("364944B8-A401-4138-9292-88EBBFD884FB", DataSize = 50)]
+        private long? _trackIDDeliveryLocation;
+        [Field("63AEEE73-298B-4A24-9B7C-912C48C8BDC2")]
         [Required]
-        public string DeliveryLocation
+        public long? TrackIDDeliveryLocation
         {
-            get { CheckGet(); return _deliveryLocation; }
-            set { CheckSet(); _deliveryLocation = value; }
+            get { CheckGet(); return _trackIDDeliveryLocation; }
+            set { CheckSet(); _trackIDDeliveryLocation = value; }
+        }
+
+        private Track _trackDeliveryLocation = null;
+        [Relationship("28FB06F8-CDAE-4731-9D68-170A772DD406", ForeignKeyField = nameof(TrackIDDeliveryLocation))]
+        public Track TrackDeliveryLocation
+        {
+            get { CheckGet(); return _trackDeliveryLocation; }
         }
 
         private string _purpose;

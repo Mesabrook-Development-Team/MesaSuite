@@ -175,7 +175,7 @@ namespace FleetTracking.Train
                 earliestDateTime = earliestTransaction.TimeOnDuty.Value.ToString("MM/dd/yyyy HH:mm");
             }
 
-            return $"{earliestDateTime}: {train.TrainSymbol?.Name}";
+            return $"{train.TrainSymbol?.Name}: {earliestDateTime}";
         }
 
         private void FromCombo_SelectedValueChanged(object sender, EventArgs e)
@@ -983,6 +983,12 @@ namespace FleetTracking.Train
             {
                 loaderFull.Visible = false;
             }
+        }
+
+        private void cmdClose_Click(object sender, EventArgs e)
+        {
+            ParentForm.Close();
+            Dispose();
         }
     }
 }

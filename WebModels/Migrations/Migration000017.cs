@@ -96,7 +96,7 @@ namespace WebModels.Migrations
                 { "GovernmentIDRequester", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "LeaseType", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
                 { "RailcarType", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
-                { "DeliveryLocation", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) },
+                { "TrackIDDeliveryLocation", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "Purpose", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, -1) },
                 { "BidEndTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
             };
@@ -253,6 +253,9 @@ namespace WebModels.Migrations
 
             IAlterTable alterTable = SQLProviderFactory.GetAlterTableQuery();
             alterTable.Schema = "fleet";
+            alterTable.Table = "LeaseRequest";
+            alterTable.AddForeignKey("FKLeaseRequest_Track_TrackIDDeliveryLocation", "TrackIDDeliveryLocation", "fleet", "Track", "TrackID", transaction);
+
             alterTable.Table = "Railcar";
             alterTable.AddForeignKey("FKRailcar_Track_TrackIDDestination", "TrackIDDestination", "fleet", "Track", "TrackID", transaction);
             alterTable.AddForeignKey("FKRailcar_Track_TrackIDStrategic", "TrackIDStrategic", "fleet", "Track", "TrackID", transaction);

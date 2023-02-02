@@ -31,9 +31,12 @@ namespace FleetTracking.Tracks
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; }
 
+        public long? InitialTrackID { get; set; }
+
         private async void TrackViewer_Load(object sender, EventArgs e)
         {
-            LoadTracks();
+            ParentForm.Text = "Track Viewer";
+            LoadTracks(InitialTrackID);
         }
 
         private async void LoadTracks(long? selectedTrackID = null)
@@ -61,6 +64,27 @@ namespace FleetTracking.Tracks
                     {
                         cboTrack.SelectedItem = trackDDI;
                     }
+                }
+
+                cboOwner.Items.Clear();
+                get.Resource = "Company/GetAll";
+                List<Company> companies = await get.GetObject<List<Company>>() ?? new List<Company>();
+                companies = companies.OrderBy(c => c.Name).ToList();
+
+                foreach(Company company in companies)
+                {
+                    DropDownItem<Company> ddi = new DropDownItem<Company>(company, company.Name);
+                    cboOwner.Items.Add(ddi);
+                }
+
+                get.Resource = "Government/GetAll";
+                List<Government> governments = await get.GetObject<List<Government>>() ?? new List<Government>();
+                governments = governments.OrderBy(c => c.Name).ToList();
+
+                foreach(Government government in governments)
+                {
+                    DropDownItem<Government> ddi = new DropDownItem<Government>(government, government.Name);
+                    cboOwner.Items.Add(ddi);
                 }
             }
             finally
@@ -110,6 +134,9 @@ namespace FleetTracking.Tracks
                         row.Cells[colReportingMark.Name].Value = railLocation.Railcar.FormattedReportingMark;
                         row.Cells[colType.Name].Value = railLocation.Railcar.RailcarModel?.Name;
                         row.Cells[colPos.Name].Value = railLocation.Position;
+                        row.Cells[colDest.Name].Value = railLocation.Railcar.TrackDestination?.Name;
+                        row.Cells[colStrategicDest.Name].Value = railLocation.Railcar.TrackStrategic?.Name;
+                        row.Cells[colContents.Name].Value = railLocation.Railcar.FormattedRailcarLoads;
                     }
                     else if (railLocation.Locomotive?.LocomotiveID != null)
                     {
@@ -167,14 +194,26 @@ namespace FleetTracking.Tracks
         private void toolAddTrack_Click(object sender, EventArgs e)
         {
             cboTrack.SelectedItem = null;
+            cboOwner.SelectedItem = null;
             txtDistrict.Clear();
             txtName.Clear();
             txtName.Enabled = true;
             txtLength.Clear();
+            cboOwner.Enabled = true;
             txtLength.Enabled = true;
             cmdSave.Enabled = true;
             cmdReset.Enabled = true;
             dgvStock.Rows.Clear();
+
+            (long?, long?) companyIDGovernmentID = _application.GetCurrentCompanyIDGovernmentID();
+            if (companyIDGovernmentID.Item1 != null)
+            {
+                cboOwner.SelectedItem = cboOwner.Items.OfType<DropDownItem<Company>>().FirstOrDefault(ddi => ddi.Object.CompanyID == companyIDGovernmentID.Item1);
+            }
+            else
+            {
+                cboOwner.SelectedItem = cboOwner.Items.OfType<DropDownItem<Government>>().FirstOrDefault(ddi => ddi.Object.GovernmentID == companyIDGovernmentID.Item2);
+            }
 
             txtName.Focus();
         }
@@ -184,7 +223,8 @@ namespace FleetTracking.Tracks
             if (!this.AreFieldsPresent(new List<(string, Control)>()
             {
                 ("Name", txtName),
-                ("Length", txtLength)
+                ("Length", txtLength),
+                ("Owner", cboOwner)
             }))
             {
                 return;
@@ -208,8 +248,8 @@ namespace FleetTracking.Tracks
                     RailDistrictID = selectedTrack?.Object?.RailDistrictID,
                     Name = txtName.Text,
                     Length = length,
-                    CompanyIDOwner = _application.GetCurrentCompanyIDGovernmentID().Item1,
-                    GovernmentIDOwner = _application.GetCurrentCompanyIDGovernmentID().Item2
+                    CompanyIDOwner = cboOwner.SelectedItem.Cast<DropDownItem<Company>>()?.Object.CompanyID,
+                    GovernmentIDOwner = cboOwner.SelectedItem.Cast<DropDownItem<Government>>()?.Object.GovernmentID
                 };
 
                 if (selectedTrack?.Object?.TrackID == null)
@@ -248,6 +288,7 @@ namespace FleetTracking.Tracks
             DropDownItem<Track> selectedTrack = cboTrack.SelectedItem as DropDownItem<Track>;
             cmdSave.Enabled = selectedTrack?.Object?.TrackID == null || _application.IsCurrentEntity(selectedTrack?.Object?.CompanyIDOwner, selectedTrack?.Object?.GovernmentIDOwner);
             cmdReset.Enabled = selectedTrack?.Object?.TrackID == null || _application.IsCurrentEntity(selectedTrack?.Object?.CompanyIDOwner, selectedTrack?.Object?.GovernmentIDOwner);
+            cboOwner.Enabled = _application.IsCurrentEntity(selectedTrack?.Object?.CompanyIDOwner, selectedTrack?.Object?.GovernmentIDOwner);
             txtName.Enabled = _application.IsCurrentEntity(selectedTrack?.Object?.CompanyIDOwner, selectedTrack?.Object?.GovernmentIDOwner);
             txtLength.Enabled = _application.IsCurrentEntity(selectedTrack?.Object?.CompanyIDOwner, selectedTrack?.Object?.GovernmentIDOwner);
             toolDeleteTrack.Enabled = _application.IsCurrentEntity(selectedTrack?.Object?.CompanyIDOwner, selectedTrack?.Object?.GovernmentIDOwner);
@@ -255,6 +296,7 @@ namespace FleetTracking.Tracks
             if (selectedTrack?.Object?.TrackID == null)
             {
                 dgvStock.Rows.Clear();
+                cboOwner.SelectedItem = null;
                 txtDistrict.Clear();
                 txtName.Clear();
                 txtLength.Clear();
@@ -263,6 +305,9 @@ namespace FleetTracking.Tracks
             }
 
             toolPrint.Enabled = true;
+            cboOwner.SelectedItem = selectedTrack.Object.GovernmentIDOwner != null ?
+                                    (object)cboOwner.Items.OfType<DropDownItem<Government>>().FirstOrDefault(ddi => ddi.Object.GovernmentID == selectedTrack.Object.GovernmentIDOwner) :
+                                    cboOwner.Items.OfType<DropDownItem<Company>>().FirstOrDefault(ddi => ddi.Object.CompanyID == selectedTrack.Object.CompanyIDOwner);
             txtDistrict.Text = selectedTrack.Object.RailDistrict?.Name;
             txtName.Text = selectedTrack.Object.Name;
             txtLength.Text = selectedTrack.Object.Length?.ToString();
@@ -334,6 +379,46 @@ namespace FleetTracking.Tracks
             };
 
             _application.OpenForm(report);
+        }
+
+        private void cmdReset_Click(object sender, EventArgs e)
+        {
+            cboTrack_SelectedIndexChanged(cboTrack, EventArgs.Empty);
+        }
+
+        private void dgvStock_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvStock.Rows.Count)
+            {
+                return;
+            }
+
+            RailLocation location = dgvStock.Rows[e.RowIndex].Tag as RailLocation;
+            if (location == null)
+            {
+                return;
+            }
+
+            if (location.RailcarID != null)
+            {
+                Roster.RailcarDetail detail = new Roster.RailcarDetail()
+                {
+                    Application = _application,
+                    RailcarID = location.RailcarID
+                };
+
+                _application.OpenForm(detail);
+            }
+            else if (location.LocomotiveID != null)
+            {
+                Roster.LocomotiveDetail detail = new Roster.LocomotiveDetail()
+                {
+                    Application = _application,
+                    LocomotiveID = location.LocomotiveID
+                };
+
+                _application.OpenForm(detail);
+            }
         }
     }
 }

@@ -171,6 +171,7 @@
             this.cmdReset.TabIndex = 7;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
+            this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);
             // 
             // cboRollingStock
             // 

@@ -267,5 +267,11 @@ namespace FleetTracking.Leasing
                 loader.Visible = false;
             }
         }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            ParentForm.Close();
+            Dispose();
+        }
     }
 }

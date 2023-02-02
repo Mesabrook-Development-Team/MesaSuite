@@ -31,7 +31,11 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cmdEditLocomotivesReleased = new System.Windows.Forms.Button();
             this.chkLocomotivesReleased = new System.Windows.Forms.CheckBox();
+            this.cmdLeaseBidsReceived = new System.Windows.Forms.Button();
+            this.cmdNewLeaseRequests = new System.Windows.Forms.Button();
             this.cmdEditCarsReleased = new System.Windows.Forms.Button();
+            this.chkLeaseBidsReceived = new System.Windows.Forms.CheckBox();
+            this.chkNewLeaseRequests = new System.Windows.Forms.CheckBox();
             this.chkCarsReleased = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.grpLocation = new System.Windows.Forms.GroupBox();
@@ -43,10 +47,6 @@
             this.cmdSave = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.loader = new FleetTracking.Loader();
-            this.chkNewLeaseRequests = new System.Windows.Forms.CheckBox();
-            this.cmdNewLeaseRequests = new System.Windows.Forms.Button();
-            this.chkLeaseBidsReceived = new System.Windows.Forms.CheckBox();
-            this.cmdLeaseBidsReceived = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.grpLocation.SuspendLayout();
             this.flow.SuspendLayout();
@@ -76,7 +76,7 @@
             this.cmdEditLocomotivesReleased.Location = new System.Drawing.Point(238, 61);
             this.cmdEditLocomotivesReleased.Name = "cmdEditLocomotivesReleased";
             this.cmdEditLocomotivesReleased.Size = new System.Drawing.Size(75, 23);
-            this.cmdEditLocomotivesReleased.TabIndex = 2;
+            this.cmdEditLocomotivesReleased.TabIndex = 3;
             this.cmdEditLocomotivesReleased.Text = "Edit Email";
             this.cmdEditLocomotivesReleased.UseVisualStyleBackColor = true;
             this.cmdEditLocomotivesReleased.Click += new System.EventHandler(this.cmdEditLocomotivesReleased_Click);
@@ -87,10 +87,32 @@
             this.chkLocomotivesReleased.Location = new System.Drawing.Point(64, 65);
             this.chkLocomotivesReleased.Name = "chkLocomotivesReleased";
             this.chkLocomotivesReleased.Size = new System.Drawing.Size(168, 17);
-            this.chkLocomotivesReleased.TabIndex = 1;
+            this.chkLocomotivesReleased.TabIndex = 2;
             this.chkLocomotivesReleased.Text = "Locomotives Released To Me";
             this.chkLocomotivesReleased.UseVisualStyleBackColor = true;
             this.chkLocomotivesReleased.CheckedChanged += new System.EventHandler(this.chkLocomotivesReleased_CheckedChanged);
+            // 
+            // cmdLeaseBidsReceived
+            // 
+            this.cmdLeaseBidsReceived.Enabled = false;
+            this.cmdLeaseBidsReceived.Location = new System.Drawing.Point(482, 61);
+            this.cmdLeaseBidsReceived.Name = "cmdLeaseBidsReceived";
+            this.cmdLeaseBidsReceived.Size = new System.Drawing.Size(75, 23);
+            this.cmdLeaseBidsReceived.TabIndex = 7;
+            this.cmdLeaseBidsReceived.Text = "Edit Email";
+            this.cmdLeaseBidsReceived.UseVisualStyleBackColor = true;
+            this.cmdLeaseBidsReceived.Click += new System.EventHandler(this.cmdLeaseBidsReceived_Click);
+            // 
+            // cmdNewLeaseRequests
+            // 
+            this.cmdNewLeaseRequests.Enabled = false;
+            this.cmdNewLeaseRequests.Location = new System.Drawing.Point(482, 32);
+            this.cmdNewLeaseRequests.Name = "cmdNewLeaseRequests";
+            this.cmdNewLeaseRequests.Size = new System.Drawing.Size(75, 23);
+            this.cmdNewLeaseRequests.TabIndex = 5;
+            this.cmdNewLeaseRequests.Text = "Edit Email";
+            this.cmdNewLeaseRequests.UseVisualStyleBackColor = true;
+            this.cmdNewLeaseRequests.Click += new System.EventHandler(this.cmdNewLeaseRequests_Click);
             // 
             // cmdEditCarsReleased
             // 
@@ -98,10 +120,32 @@
             this.cmdEditCarsReleased.Location = new System.Drawing.Point(238, 32);
             this.cmdEditCarsReleased.Name = "cmdEditCarsReleased";
             this.cmdEditCarsReleased.Size = new System.Drawing.Size(75, 23);
-            this.cmdEditCarsReleased.TabIndex = 2;
+            this.cmdEditCarsReleased.TabIndex = 1;
             this.cmdEditCarsReleased.Text = "Edit Email";
             this.cmdEditCarsReleased.UseVisualStyleBackColor = true;
             this.cmdEditCarsReleased.Click += new System.EventHandler(this.cmdEditCarsReleased_Click);
+            // 
+            // chkLeaseBidsReceived
+            // 
+            this.chkLeaseBidsReceived.AutoSize = true;
+            this.chkLeaseBidsReceived.Location = new System.Drawing.Point(319, 65);
+            this.chkLeaseBidsReceived.Name = "chkLeaseBidsReceived";
+            this.chkLeaseBidsReceived.Size = new System.Drawing.Size(157, 17);
+            this.chkLeaseBidsReceived.TabIndex = 6;
+            this.chkLeaseBidsReceived.Text = "Bids on my Lease Requests";
+            this.chkLeaseBidsReceived.UseVisualStyleBackColor = true;
+            this.chkLeaseBidsReceived.CheckedChanged += new System.EventHandler(this.chkLeaseBidsReceived_CheckedChanged);
+            // 
+            // chkNewLeaseRequests
+            // 
+            this.chkNewLeaseRequests.AutoSize = true;
+            this.chkNewLeaseRequests.Location = new System.Drawing.Point(319, 36);
+            this.chkNewLeaseRequests.Name = "chkNewLeaseRequests";
+            this.chkNewLeaseRequests.Size = new System.Drawing.Size(128, 17);
+            this.chkNewLeaseRequests.TabIndex = 4;
+            this.chkNewLeaseRequests.Text = "New Lease Requests";
+            this.chkNewLeaseRequests.UseVisualStyleBackColor = true;
+            this.chkNewLeaseRequests.CheckedChanged += new System.EventHandler(this.chkNewLeaseRequests_CheckedChanged);
             // 
             // chkCarsReleased
             // 
@@ -109,7 +153,7 @@
             this.chkCarsReleased.Location = new System.Drawing.Point(64, 36);
             this.chkCarsReleased.Name = "chkCarsReleased";
             this.chkCarsReleased.Size = new System.Drawing.Size(129, 17);
-            this.chkCarsReleased.TabIndex = 1;
+            this.chkCarsReleased.TabIndex = 0;
             this.chkCarsReleased.Text = "Cars Released To Me";
             this.chkCarsReleased.UseVisualStyleBackColor = true;
             this.chkCarsReleased.CheckedChanged += new System.EventHandler(this.chkCarsReleased_CheckedChanged);
@@ -154,7 +198,7 @@
             this.cboLocationPayee.Location = new System.Drawing.Point(6, 32);
             this.cboLocationPayee.Name = "cboLocationPayee";
             this.cboLocationPayee.Size = new System.Drawing.Size(609, 21);
-            this.cboLocationPayee.TabIndex = 1;
+            this.cboLocationPayee.TabIndex = 0;
             // 
             // label3
             // 
@@ -195,7 +239,7 @@
             this.cmdSave.Location = new System.Drawing.Point(549, 300);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 2;
+            this.cmdSave.TabIndex = 1;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -222,50 +266,6 @@
             this.loader.Size = new System.Drawing.Size(627, 326);
             this.loader.TabIndex = 1;
             this.loader.Visible = false;
-            // 
-            // chkNewLeaseRequests
-            // 
-            this.chkNewLeaseRequests.AutoSize = true;
-            this.chkNewLeaseRequests.Location = new System.Drawing.Point(319, 36);
-            this.chkNewLeaseRequests.Name = "chkNewLeaseRequests";
-            this.chkNewLeaseRequests.Size = new System.Drawing.Size(128, 17);
-            this.chkNewLeaseRequests.TabIndex = 1;
-            this.chkNewLeaseRequests.Text = "New Lease Requests";
-            this.chkNewLeaseRequests.UseVisualStyleBackColor = true;
-            this.chkNewLeaseRequests.CheckedChanged += new System.EventHandler(this.chkNewLeaseRequests_CheckedChanged);
-            // 
-            // cmdNewLeaseRequests
-            // 
-            this.cmdNewLeaseRequests.Enabled = false;
-            this.cmdNewLeaseRequests.Location = new System.Drawing.Point(482, 32);
-            this.cmdNewLeaseRequests.Name = "cmdNewLeaseRequests";
-            this.cmdNewLeaseRequests.Size = new System.Drawing.Size(75, 23);
-            this.cmdNewLeaseRequests.TabIndex = 2;
-            this.cmdNewLeaseRequests.Text = "Edit Email";
-            this.cmdNewLeaseRequests.UseVisualStyleBackColor = true;
-            this.cmdNewLeaseRequests.Click += new System.EventHandler(this.cmdNewLeaseRequests_Click);
-            // 
-            // chkLeaseBidsReceived
-            // 
-            this.chkLeaseBidsReceived.AutoSize = true;
-            this.chkLeaseBidsReceived.Location = new System.Drawing.Point(319, 65);
-            this.chkLeaseBidsReceived.Name = "chkLeaseBidsReceived";
-            this.chkLeaseBidsReceived.Size = new System.Drawing.Size(157, 17);
-            this.chkLeaseBidsReceived.TabIndex = 1;
-            this.chkLeaseBidsReceived.Text = "Bids on my Lease Requests";
-            this.chkLeaseBidsReceived.UseVisualStyleBackColor = true;
-            this.chkLeaseBidsReceived.CheckedChanged += new System.EventHandler(this.chkLeaseBidsReceived_CheckedChanged);
-            // 
-            // cmdLeaseBidsReceived
-            // 
-            this.cmdLeaseBidsReceived.Enabled = false;
-            this.cmdLeaseBidsReceived.Location = new System.Drawing.Point(482, 61);
-            this.cmdLeaseBidsReceived.Name = "cmdLeaseBidsReceived";
-            this.cmdLeaseBidsReceived.Size = new System.Drawing.Size(75, 23);
-            this.cmdLeaseBidsReceived.TabIndex = 2;
-            this.cmdLeaseBidsReceived.Text = "Edit Email";
-            this.cmdLeaseBidsReceived.UseVisualStyleBackColor = true;
-            this.cmdLeaseBidsReceived.Click += new System.EventHandler(this.cmdLeaseBidsReceived_Click);
             // 
             // MiscellaneousSettings
             // 

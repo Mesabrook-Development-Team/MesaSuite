@@ -132,6 +132,7 @@
             this.dgvTrains.Size = new System.Drawing.Size(604, 222);
             this.dgvTrains.TabIndex = 0;
             this.dgvTrains.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrains_CellDoubleClick);
+            this.dgvTrains.SelectionChanged += new System.EventHandler(this.dgvTrains_SelectionChanged);
             // 
             // colSymbol
             // 
@@ -198,6 +199,7 @@
             this.toolDeleteTrain.Size = new System.Drawing.Size(72, 35);
             this.toolDeleteTrain.Text = "Delete Train";
             this.toolDeleteTrain.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolDeleteTrain.Click += new System.EventHandler(this.toolDeleteTrain_Click);
             // 
             // label1
             // 
@@ -222,6 +224,7 @@
             this.rdoInProgress.TabStop = true;
             this.rdoInProgress.Text = "In Progress";
             this.rdoInProgress.UseVisualStyleBackColor = true;
+            this.rdoInProgress.CheckedChanged += new System.EventHandler(this.FilterOption_CheckedChanged);
             // 
             // rdoAll
             // 
@@ -233,6 +236,7 @@
             this.rdoAll.TabIndex = 3;
             this.rdoAll.Text = "All";
             this.rdoAll.UseVisualStyleBackColor = true;
+            this.rdoAll.CheckedChanged += new System.EventHandler(this.FilterOption_CheckedChanged);
             // 
             // chkOperableTrainsOnly
             // 
@@ -246,6 +250,7 @@
             this.chkOperableTrainsOnly.TabIndex = 4;
             this.chkOperableTrainsOnly.Text = "Operable Trains Only";
             this.chkOperableTrainsOnly.UseVisualStyleBackColor = true;
+            this.chkOperableTrainsOnly.CheckedChanged += new System.EventHandler(this.FilterOption_CheckedChanged);
             // 
             // loader
             // 

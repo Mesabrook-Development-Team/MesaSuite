@@ -81,6 +81,8 @@
             // 
             this.cboTrack.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboTrack.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboTrack.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboTrack.FormattingEnabled = true;
             this.cboTrack.Location = new System.Drawing.Point(58, 81);
             this.cboTrack.Name = "cboTrack";

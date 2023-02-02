@@ -51,19 +51,19 @@
             this.colEndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFuelUsage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTimeTaken = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.loaderTrains = new FleetTracking.Loader();
-            this.loader = new FleetTracking.Loader();
-            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.label3 = new System.Windows.Forms.Label();
-            this.lblAverageFuel = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.lblAverageDuty = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvFuelByModel = new System.Windows.Forms.DataGridView();
             this.colModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAvgFuel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblAverageDuty = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblAverageFuel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.loaderStats = new FleetTracking.Loader();
+            this.loader = new FleetTracking.Loader();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -102,6 +102,7 @@
             this.cmdReset.TabIndex = 3;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
+            this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);
             // 
             // cmdSave
             // 
@@ -193,6 +194,7 @@
             this.dgvRates.Size = new System.Drawing.Size(707, 155);
             this.dgvRates.TabIndex = 1;
             this.dgvRates.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRates_CellDoubleClick);
+            this.dgvRates.SelectionChanged += new System.EventHandler(this.dgvRates_SelectionChanged);
             // 
             // colEffective
             // 
@@ -241,6 +243,7 @@
             this.toolDeleteRate.Size = new System.Drawing.Size(70, 35);
             this.toolDeleteRate.Text = "Delete Rate";
             this.toolDeleteRate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolDeleteRate.Click += new System.EventHandler(this.toolDeleteRate_Click);
             // 
             // tabPage2
             // 
@@ -290,6 +293,18 @@
             this.colTimeTaken.Name = "colTimeTaken";
             this.colTimeTaken.Width = 125;
             // 
+            // loaderTrains
+            // 
+            this.loaderTrains.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loaderTrains.BackColor = System.Drawing.Color.Transparent;
+            this.loaderTrains.Location = new System.Drawing.Point(0, 0);
+            this.loaderTrains.Name = "loaderTrains";
+            this.loaderTrains.Size = new System.Drawing.Size(711, 200);
+            this.loaderTrains.TabIndex = 1;
+            this.loaderTrains.Visible = false;
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.groupBox2);
@@ -305,66 +320,6 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Statistics";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // loaderTrains
-            // 
-            this.loaderTrains.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loaderTrains.BackColor = System.Drawing.Color.Transparent;
-            this.loaderTrains.Location = new System.Drawing.Point(0, 0);
-            this.loaderTrains.Name = "loaderTrains";
-            this.loaderTrains.Size = new System.Drawing.Size(711, 200);
-            this.loaderTrains.TabIndex = 1;
-            this.loaderTrains.Visible = false;
-            // 
-            // loader
-            // 
-            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(0, 0);
-            this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(721, 396);
-            this.loader.TabIndex = 2;
-            this.loader.Visible = false;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 6);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(107, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Average Fuel Usage:";
-            // 
-            // lblAverageFuel
-            // 
-            this.lblAverageFuel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblAverageFuel.Location = new System.Drawing.Point(126, 3);
-            this.lblAverageFuel.Name = "lblAverageFuel";
-            this.lblAverageFuel.Size = new System.Drawing.Size(149, 20);
-            this.lblAverageFuel.TabIndex = 1;
-            this.lblAverageFuel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(2, 32);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(118, 13);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Average On Duty Time:";
-            // 
-            // lblAverageDuty
-            // 
-            this.lblAverageDuty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblAverageDuty.Location = new System.Drawing.Point(126, 29);
-            this.lblAverageDuty.Name = "lblAverageDuty";
-            this.lblAverageDuty.Size = new System.Drawing.Size(149, 20);
-            this.lblAverageDuty.TabIndex = 1;
-            this.lblAverageDuty.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // groupBox2
             // 
@@ -400,6 +355,42 @@
             this.colAvgFuel.HeaderText = "Avg Fuel";
             this.colAvgFuel.Name = "colAvgFuel";
             // 
+            // lblAverageDuty
+            // 
+            this.lblAverageDuty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAverageDuty.Location = new System.Drawing.Point(126, 29);
+            this.lblAverageDuty.Name = "lblAverageDuty";
+            this.lblAverageDuty.Size = new System.Drawing.Size(149, 20);
+            this.lblAverageDuty.TabIndex = 1;
+            this.lblAverageDuty.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(2, 32);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(118, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Average On Duty Time:";
+            // 
+            // lblAverageFuel
+            // 
+            this.lblAverageFuel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAverageFuel.Location = new System.Drawing.Point(126, 3);
+            this.lblAverageFuel.Name = "lblAverageFuel";
+            this.lblAverageFuel.Size = new System.Drawing.Size(149, 20);
+            this.lblAverageFuel.TabIndex = 1;
+            this.lblAverageFuel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 6);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(107, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Average Fuel Usage:";
+            // 
             // loaderStats
             // 
             this.loaderStats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -411,6 +402,18 @@
             this.loaderStats.Size = new System.Drawing.Size(713, 199);
             this.loaderStats.TabIndex = 3;
             this.loaderStats.Visible = false;
+            // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(721, 396);
+            this.loader.TabIndex = 2;
+            this.loader.Visible = false;
             // 
             // TrainSymbolDetail
             // 

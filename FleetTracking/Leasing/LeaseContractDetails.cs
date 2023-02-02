@@ -243,5 +243,10 @@ namespace FleetTracking.Leasing
                 await LoadData();
             }
         }
+
+        private void cmdReset_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
     }
 }

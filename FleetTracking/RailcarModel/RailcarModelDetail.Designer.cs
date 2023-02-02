@@ -127,6 +127,7 @@
             this.cmdReset.TabIndex = 5;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
+            this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);
             // 
             // cmdSave
             // 
@@ -295,6 +296,7 @@
             this.dgvRailcars.Name = "dgvRailcars";
             this.dgvRailcars.Size = new System.Drawing.Size(809, 323);
             this.dgvRailcars.TabIndex = 2;
+            this.dgvRailcars.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRailcars_CellDoubleClick);
             // 
             // colImage
             // 

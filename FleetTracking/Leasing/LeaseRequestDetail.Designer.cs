@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.grpLeaseRequest = new System.Windows.Forms.GroupBox();
+            this.cboDeliveryLocation = new System.Windows.Forms.ComboBox();
             this.dtpEndTime = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -40,7 +41,6 @@
             this.lblRailcarType = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtPurpose = new System.Windows.Forms.TextBox();
-            this.txtDeliveryLocation = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtRequester = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -69,6 +69,7 @@
             // 
             this.grpLeaseRequest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpLeaseRequest.Controls.Add(this.cboDeliveryLocation);
             this.grpLeaseRequest.Controls.Add(this.dtpEndTime);
             this.grpLeaseRequest.Controls.Add(this.label6);
             this.grpLeaseRequest.Controls.Add(this.label5);
@@ -79,7 +80,6 @@
             this.grpLeaseRequest.Controls.Add(this.lblRailcarType);
             this.grpLeaseRequest.Controls.Add(this.label2);
             this.grpLeaseRequest.Controls.Add(this.txtPurpose);
-            this.grpLeaseRequest.Controls.Add(this.txtDeliveryLocation);
             this.grpLeaseRequest.Controls.Add(this.label4);
             this.grpLeaseRequest.Controls.Add(this.txtRequester);
             this.grpLeaseRequest.Controls.Add(this.label1);
@@ -91,6 +91,18 @@
             this.grpLeaseRequest.TabStop = false;
             this.grpLeaseRequest.Text = "Lease Request";
             // 
+            // cboDeliveryLocation
+            // 
+            this.cboDeliveryLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboDeliveryLocation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboDeliveryLocation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboDeliveryLocation.FormattingEnabled = true;
+            this.cboDeliveryLocation.Location = new System.Drawing.Point(78, 79);
+            this.cboDeliveryLocation.Name = "cboDeliveryLocation";
+            this.cboDeliveryLocation.Size = new System.Drawing.Size(544, 21);
+            this.cboDeliveryLocation.TabIndex = 4;
+            // 
             // dtpEndTime
             // 
             this.dtpEndTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -100,7 +112,7 @@
             this.dtpEndTime.Location = new System.Drawing.Point(87, 232);
             this.dtpEndTime.Name = "dtpEndTime";
             this.dtpEndTime.Size = new System.Drawing.Size(535, 20);
-            this.dtpEndTime.TabIndex = 5;
+            this.dtpEndTime.TabIndex = 6;
             // 
             // label6
             // 
@@ -130,7 +142,7 @@
             this.cboChargeTo.Location = new System.Drawing.Point(385, 19);
             this.cboChargeTo.Name = "cboChargeTo";
             this.cboChargeTo.Size = new System.Drawing.Size(237, 21);
-            this.cboChargeTo.TabIndex = 2;
+            this.cboChargeTo.TabIndex = 1;
             this.cboChargeTo.Visible = false;
             // 
             // cboRailcarType
@@ -140,7 +152,7 @@
             this.cboRailcarType.Location = new System.Drawing.Point(281, 45);
             this.cboRailcarType.Name = "cboRailcarType";
             this.cboRailcarType.Size = new System.Drawing.Size(121, 21);
-            this.cboRailcarType.TabIndex = 2;
+            this.cboRailcarType.TabIndex = 3;
             this.cboRailcarType.Visible = false;
             // 
             // cboLeaseType
@@ -150,7 +162,7 @@
             this.cboLeaseType.Location = new System.Drawing.Point(78, 45);
             this.cboLeaseType.Name = "cboLeaseType";
             this.cboLeaseType.Size = new System.Drawing.Size(121, 21);
-            this.cboLeaseType.TabIndex = 1;
+            this.cboLeaseType.TabIndex = 2;
             this.cboLeaseType.SelectedIndexChanged += new System.EventHandler(this.cboLeaseType_SelectedIndexChanged);
             // 
             // lblChargeTo
@@ -192,16 +204,7 @@
             this.txtPurpose.Name = "txtPurpose";
             this.txtPurpose.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtPurpose.Size = new System.Drawing.Size(613, 97);
-            this.txtPurpose.TabIndex = 4;
-            // 
-            // txtDeliveryLocation
-            // 
-            this.txtDeliveryLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDeliveryLocation.Location = new System.Drawing.Point(78, 79);
-            this.txtDeliveryLocation.Name = "txtDeliveryLocation";
-            this.txtDeliveryLocation.Size = new System.Drawing.Size(544, 20);
-            this.txtDeliveryLocation.TabIndex = 3;
+            this.txtPurpose.TabIndex = 5;
             // 
             // label4
             // 
@@ -239,7 +242,7 @@
             this.grpBids.Location = new System.Drawing.Point(3, 274);
             this.grpBids.Name = "grpBids";
             this.grpBids.Size = new System.Drawing.Size(628, 255);
-            this.grpBids.TabIndex = 1;
+            this.grpBids.TabIndex = 4;
             this.grpBids.TabStop = false;
             this.grpBids.Text = "Bids";
             // 
@@ -256,7 +259,7 @@
             this.dgvBids.Name = "dgvBids";
             this.dgvBids.RowHeadersWidth = 62;
             this.dgvBids.Size = new System.Drawing.Size(622, 190);
-            this.dgvBids.TabIndex = 0;
+            this.dgvBids.TabIndex = 1;
             this.dgvBids.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBids_CellDoubleClick);
             this.dgvBids.SelectionChanged += new System.EventHandler(this.dgvBids_SelectionChanged);
             // 
@@ -302,7 +305,7 @@
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this.toolStrip1.Size = new System.Drawing.Size(622, 46);
-            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // tsmiAccept
@@ -341,9 +344,10 @@
             this.cmdReset.Location = new System.Drawing.Point(466, 271);
             this.cmdReset.Name = "cmdReset";
             this.cmdReset.Size = new System.Drawing.Size(75, 23);
-            this.cmdReset.TabIndex = 3;
+            this.cmdReset.TabIndex = 2;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
+            this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);
             // 
             // cmdSave
             // 
@@ -351,7 +355,7 @@
             this.cmdSave.Location = new System.Drawing.Point(547, 271);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 3;
+            this.cmdSave.TabIndex = 1;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -413,7 +417,6 @@
         private System.Windows.Forms.ComboBox cboRailcarType;
         private System.Windows.Forms.Label lblRailcarType;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtDeliveryLocation;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtPurpose;
         private System.Windows.Forms.DateTimePicker dtpEndTime;
@@ -435,5 +438,6 @@
         private System.Windows.Forms.Button cmdClone;
         private System.Windows.Forms.ComboBox cboChargeTo;
         private System.Windows.Forms.Label lblChargeTo;
+        private System.Windows.Forms.ComboBox cboDeliveryLocation;
     }
 }

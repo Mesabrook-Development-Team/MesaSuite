@@ -54,7 +54,7 @@ namespace FleetTracking.Roster
                 {
                     Application = _application,
                     RailcarFilter = railcar => _application.IsCurrentEntity(railcar.CompanyIDOwner, railcar.GovernmentIDOwner),
-                    LocomotiveFilter = loco => _application.IsCurrentEntity(loco.CompanyIDOwner, loco.CompanyIDOwner)
+                    LocomotiveFilter = loco => _application.IsCurrentEntity(loco.CompanyIDOwner, loco.GovernmentIDOwner)
                 };
                 shownRosterList.LocomotiveSelected += RosterList_LocomotiveSelected;
                 shownRosterList.RailcarSelected += RosterList_RailcarSelected;

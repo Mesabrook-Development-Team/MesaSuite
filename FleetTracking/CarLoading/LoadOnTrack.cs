@@ -50,6 +50,7 @@ namespace FleetTracking.CarLoading
 
         private async void LoadOnTrack_Load(object sender, EventArgs e)
         {
+            ParentForm.Text = "Load On Track";
             try
             {
                 loader.BringToFront();
@@ -68,6 +69,7 @@ namespace FleetTracking.CarLoading
                 }
 
                 List<Track> tracks = await get.GetObject<List<Track>>() ?? new List<Track>();
+                tracks = tracks.OrderBy(t => t.Name).ToList();
                 foreach(Track track in tracks)
                 {
                     DropDownItem<Track> trackDDI = new DropDownItem<Track>(track, track.Name);

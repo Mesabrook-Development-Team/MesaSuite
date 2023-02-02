@@ -52,11 +52,11 @@
             this.loaderGeneralTab = new FleetTracking.Loader();
             this.tabLocomotives = new System.Windows.Forms.TabPage();
             this.dgvLocomotives = new System.Windows.Forms.DataGridView();
-            this.loaderLocomotives = new FleetTracking.Loader();
-            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colOwner = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.loaderLocomotives = new FleetTracking.Loader();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             this.tabControl.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -122,7 +122,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Size = new System.Drawing.Size(902, 392);
             this.splitContainer1.SplitterDistance = 326;
-            this.splitContainer1.TabIndex = 0;
+            this.splitContainer1.TabIndex = 1;
             // 
             // cmdUpdate
             // 
@@ -163,9 +163,10 @@
             this.cmdReset.Location = new System.Drawing.Point(413, 366);
             this.cmdReset.Name = "cmdReset";
             this.cmdReset.Size = new System.Drawing.Size(75, 23);
-            this.cmdReset.TabIndex = 4;
+            this.cmdReset.TabIndex = 6;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
+            this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);
             // 
             // cmdSave
             // 
@@ -173,7 +174,7 @@
             this.cmdSave.Location = new System.Drawing.Point(494, 366);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 4;
+            this.cmdSave.TabIndex = 5;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -214,7 +215,7 @@
             this.chkIsSteam.Location = new System.Drawing.Point(6, 29);
             this.chkIsSteam.Name = "chkIsSteam";
             this.chkIsSteam.Size = new System.Drawing.Size(103, 17);
-            this.chkIsSteam.TabIndex = 2;
+            this.chkIsSteam.TabIndex = 1;
             this.chkIsSteam.Text = "Is Steam Engine";
             this.chkIsSteam.UseVisualStyleBackColor = true;
             this.chkIsSteam.CheckedChanged += new System.EventHandler(this.chkIsSteam_CheckedChanged);
@@ -226,7 +227,7 @@
             this.txtLength.Location = new System.Drawing.Point(92, 104);
             this.txtLength.Name = "txtLength";
             this.txtLength.Size = new System.Drawing.Size(426, 20);
-            this.txtLength.TabIndex = 1;
+            this.txtLength.TabIndex = 4;
             // 
             // label7
             // 
@@ -244,7 +245,7 @@
             this.txtWater.Location = new System.Drawing.Point(92, 78);
             this.txtWater.Name = "txtWater";
             this.txtWater.Size = new System.Drawing.Size(426, 20);
-            this.txtWater.TabIndex = 1;
+            this.txtWater.TabIndex = 3;
             // 
             // label5
             // 
@@ -262,7 +263,7 @@
             this.txtFuel.Location = new System.Drawing.Point(92, 52);
             this.txtFuel.Name = "txtFuel";
             this.txtFuel.Size = new System.Drawing.Size(426, 20);
-            this.txtFuel.TabIndex = 1;
+            this.txtFuel.TabIndex = 2;
             // 
             // label3
             // 
@@ -280,7 +281,7 @@
             this.txtName.Location = new System.Drawing.Point(92, 3);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(477, 20);
-            this.txtName.TabIndex = 1;
+            this.txtName.TabIndex = 0;
             // 
             // label2
             // 
@@ -327,15 +328,7 @@
             this.dgvLocomotives.Name = "dgvLocomotives";
             this.dgvLocomotives.Size = new System.Drawing.Size(902, 392);
             this.dgvLocomotives.TabIndex = 1;
-            // 
-            // loaderLocomotives
-            // 
-            this.loaderLocomotives.BackColor = System.Drawing.Color.Transparent;
-            this.loaderLocomotives.Location = new System.Drawing.Point(0, 0);
-            this.loaderLocomotives.Name = "loaderLocomotives";
-            this.loaderLocomotives.Size = new System.Drawing.Size(908, 399);
-            this.loaderLocomotives.TabIndex = 0;
-            this.loaderLocomotives.Visible = false;
+            this.dgvLocomotives.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLocomotives_CellDoubleClick);
             // 
             // colImage
             // 
@@ -354,6 +347,15 @@
             this.colOwner.HeaderText = "Owner";
             this.colOwner.Name = "colOwner";
             this.colOwner.Width = 300;
+            // 
+            // loaderLocomotives
+            // 
+            this.loaderLocomotives.BackColor = System.Drawing.Color.Transparent;
+            this.loaderLocomotives.Location = new System.Drawing.Point(0, 0);
+            this.loaderLocomotives.Name = "loaderLocomotives";
+            this.loaderLocomotives.Size = new System.Drawing.Size(908, 399);
+            this.loaderLocomotives.TabIndex = 0;
+            this.loaderLocomotives.Visible = false;
             // 
             // LocomotiveModelDetail
             // 

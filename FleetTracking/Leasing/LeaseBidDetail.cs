@@ -143,6 +143,7 @@ namespace FleetTracking.Leasing
                     }
                 }
 
+                cboRecurringBilling.Items.Clear();
                 foreach (LeaseBid.RecurringAmountTypes recurringType in Enum.GetValues(typeof(LeaseBid.RecurringAmountTypes)))
                 {
                     DropDownItem<LeaseBid.RecurringAmountTypes> recurringDDI = new DropDownItem<LeaseBid.RecurringAmountTypes>(recurringType, recurringType.ToString().ToDisplayName());
@@ -185,6 +186,12 @@ namespace FleetTracking.Leasing
                 else
                 {
                     SetupFormForCurrentEntity(true);
+
+                    cboRollingStock.SelectedItem = null;
+                    txtLeaseAmount.Clear();
+                    cboReceivedTo.SelectedItem = null;
+                    cboRecurringBilling.SelectedItem = null;
+                    txtTerms.Clear();
                 }
             }
             finally
@@ -305,6 +312,11 @@ namespace FleetTracking.Leasing
             {
                 loader.Visible = false;
             }
+        }
+
+        private void cmdReset_Click(object sender, EventArgs e)
+        {
+            LoadData();
         }
     }
 }

@@ -45,11 +45,11 @@
             this.txtReportingNumber = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.txtLessee = new System.Windows.Forms.TextBox();
             this.txtCurrentLocation = new System.Windows.Forms.TextBox();
-            this.loader = new FleetTracking.Loader();
             this.cboCurrentLocation = new System.Windows.Forms.ComboBox();
+            this.loader = new FleetTracking.Loader();
+            this.lnkLocation = new System.Windows.Forms.LinkLabel();
             this.tabControl1.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -93,6 +93,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.lnkLocation);
             this.splitContainer1.Panel2.Controls.Add(this.cmdReset);
             this.splitContainer1.Panel2.Controls.Add(this.cmdSave);
             this.splitContainer1.Panel2.Controls.Add(this.label4);
@@ -105,7 +106,6 @@
             this.splitContainer1.Panel2.Controls.Add(this.txtReportingNumber);
             this.splitContainer1.Panel2.Controls.Add(this.label3);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
-            this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.txtLessee);
             this.splitContainer1.Panel2.Controls.Add(this.txtCurrentLocation);
             this.splitContainer1.Panel2.Controls.Add(this.cboCurrentLocation);
@@ -143,9 +143,10 @@
             this.cmdReset.Location = new System.Drawing.Point(350, 267);
             this.cmdReset.Name = "cmdReset";
             this.cmdReset.Size = new System.Drawing.Size(75, 23);
-            this.cmdReset.TabIndex = 8;
+            this.cmdReset.TabIndex = 9;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
+            this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);
             // 
             // cmdSave
             // 
@@ -153,7 +154,7 @@
             this.cmdSave.Location = new System.Drawing.Point(431, 267);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 7;
+            this.cmdSave.TabIndex = 8;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -252,15 +253,6 @@
             this.label6.TabIndex = 4;
             this.label6.Text = "Lessee:";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(2, 139);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Current Location:";
-            // 
             // txtLessee
             // 
             this.txtLessee.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -279,7 +271,20 @@
             this.txtCurrentLocation.Name = "txtCurrentLocation";
             this.txtCurrentLocation.ReadOnly = true;
             this.txtCurrentLocation.Size = new System.Drawing.Size(410, 20);
-            this.txtCurrentLocation.TabIndex = 6;
+            this.txtCurrentLocation.TabIndex = 7;
+            // 
+            // cboCurrentLocation
+            // 
+            this.cboCurrentLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboCurrentLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCurrentLocation.FormattingEnabled = true;
+            this.cboCurrentLocation.Location = new System.Drawing.Point(96, 136);
+            this.cboCurrentLocation.Name = "cboCurrentLocation";
+            this.cboCurrentLocation.Size = new System.Drawing.Size(410, 21);
+            this.cboCurrentLocation.Sorted = true;
+            this.cboCurrentLocation.TabIndex = 6;
+            this.cboCurrentLocation.Visible = false;
             // 
             // loader
             // 
@@ -294,18 +299,16 @@
             this.loader.TabIndex = 1;
             this.loader.Visible = false;
             // 
-            // cboCurrentLocation
+            // lnkLocation
             // 
-            this.cboCurrentLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboCurrentLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboCurrentLocation.FormattingEnabled = true;
-            this.cboCurrentLocation.Location = new System.Drawing.Point(96, 136);
-            this.cboCurrentLocation.Name = "cboCurrentLocation";
-            this.cboCurrentLocation.Size = new System.Drawing.Size(410, 21);
-            this.cboCurrentLocation.Sorted = true;
-            this.cboCurrentLocation.TabIndex = 6;
-            this.cboCurrentLocation.Visible = false;
+            this.lnkLocation.AutoSize = true;
+            this.lnkLocation.Location = new System.Drawing.Point(3, 139);
+            this.lnkLocation.Name = "lnkLocation";
+            this.lnkLocation.Size = new System.Drawing.Size(88, 13);
+            this.lnkLocation.TabIndex = 6;
+            this.lnkLocation.TabStop = true;
+            this.lnkLocation.Text = "Current Location:";
+            this.lnkLocation.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkLocation_LinkClicked);
             // 
             // LocomotiveDetail
             // 
@@ -337,7 +340,6 @@
         private System.Windows.Forms.TextBox txtReportingMark;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button cmdUpdateImage;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtCurrentLocation;
         private System.Windows.Forms.ComboBox cboOwner;
         private System.Windows.Forms.Label label3;
@@ -352,5 +354,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtLessee;
         private System.Windows.Forms.ComboBox cboCurrentLocation;
+        private System.Windows.Forms.LinkLabel lnkLocation;
     }
 }

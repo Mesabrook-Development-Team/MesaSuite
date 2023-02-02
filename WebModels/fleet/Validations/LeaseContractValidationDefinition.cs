@@ -63,7 +63,15 @@ namespace WebModels.fleet.Validations
                                     new LocationRecurringDestinationRequiredCondition())
                 };
 
-
+                yield return new ValidationRule()
+                {
+                    ID = new Guid("CE913FC9-56EC-48FE-91AF-B0E8540FBE87"),
+                    Message = "Lease End Date must be greater than Lease Start Date",
+                    Field = $"{nameof(LeaseContract.LeaseTimeStart)},{nameof(LeaseContract.LeaseTimeEnd)}",
+                    Condition = new ConditionGroup(ConditionGroup.ConditionGroupTypes.Or,
+                                    new NotCondition(new PresenceCondition("LeaseTimeEnd")),
+                                    new FieldToFieldInequalityCondition("LeaseTimeEnd", InequalityCondition.Operations.GreaterThan, "LeaseTimeStart"))
+                };
             }
         }
 

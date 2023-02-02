@@ -35,6 +35,7 @@ namespace FleetTracking.Leasing
             {
                 await LoadLocomotivesLeasedChartData();
                 await LoadRailcarsLeasedChartData();
+                await LoadLeaseRequestsChartData();
             }
             finally
             {
@@ -82,6 +83,29 @@ namespace FleetTracking.Leasing
             };
             chrtRailcarsAvailable.Series[0].Points.Add(availableRailcarsPoint);
             chrtRailcarsAvailable.Series[0].Points.Add(leasedRailcarsPoint);
+        }
+
+        private async Task LoadLeaseRequestsChartData()
+        {
+            GetData get = _application.GetAccess<GetData>();
+            get.API = DataAccess.APIs.FleetTracking;
+            get.Resource = "LeaseRequest/GetAll";
+            List<LeaseRequest> leaseRequests = await get.GetObject<List<LeaseRequest>>() ?? new List<LeaseRequest>();
+            leaseRequests = leaseRequests.Where(lr => !_application.IsCurrentEntity(lr.CompanyIDRequester, lr.GovernmentIDRequester)).ToList();
+            get.Resource = "LeaseBid/GetAll";
+            List<LeaseBid> leaseBids = await get.GetObject<List<LeaseBid>>() ?? new List<LeaseBid>();
+            DataPoint availableLeaseRequests = new DataPoint()
+            {
+                YValues = new double[] { leaseRequests.Where(lq => !leaseBids.Any(lb => lb.LeaseRequestID == lq.LeaseRequestID)).Count() },
+                LabelFormat = "Available ({0})"
+            };
+            DataPoint leasedRailcarsPoint = new DataPoint()
+            {
+                YValues = new double[] { leaseRequests.Where(lq => leaseBids.Any(lb => lb.LeaseRequestID == lq.LeaseRequestID)).Count() },
+                LabelFormat = "Bidded ({0})"
+            };
+            chrtLeaseRequests.Series[0].Points.Add(availableLeaseRequests);
+            chrtLeaseRequests.Series[0].Points.Add(leasedRailcarsPoint);
         }
     }
 }

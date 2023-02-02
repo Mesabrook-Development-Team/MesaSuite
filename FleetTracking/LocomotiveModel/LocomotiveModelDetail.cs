@@ -61,14 +61,16 @@ namespace FleetTracking.LocomotiveModel
 
             try
             {
+                txtName.Clear();
+                chkIsSteam.Checked = false;
+                txtWater.Enabled = false;
+                txtFuel.Clear();
+                txtWater.Clear();
+                txtLength.Clear();
+                pboxImage.Image = null;
+
                 if (_locomotiveDetailID == null)
                 {
-                    txtName.Clear();
-                    chkIsSteam.Checked = false;
-                    txtFuel.Clear();
-                    txtWater.Clear();
-                    txtLength.Clear();
-                    pboxImage.Image = null;
                     return;
                 }
 
@@ -304,6 +306,33 @@ namespace FleetTracking.LocomotiveModel
                 }
             }
             catch { }
+        }
+
+        private void dgvLocomotives_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvLocomotives.Rows.Count)
+            {
+                return;
+            }
+
+            DataGridViewRow row = dgvLocomotives.Rows[e.RowIndex];
+            Models.Locomotive locomotive = row.Tag as Models.Locomotive;
+            if (locomotive == null)
+            {
+                return;
+            }
+
+            Roster.LocomotiveDetail detail = new Roster.LocomotiveDetail()
+            {
+                Application = _application,
+                LocomotiveID = locomotive.LocomotiveID
+            };
+            _application.OpenForm(detail);
+        }
+
+        private void cmdReset_Click(object sender, EventArgs e)
+        {
+            LoadData();
         }
     }
 }

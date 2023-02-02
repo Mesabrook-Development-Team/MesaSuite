@@ -280,5 +280,32 @@ namespace FleetTracking.RailcarModel
             }
             catch { }
         }
+
+        private void dgvRailcars_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvRailcars.Rows.Count)
+            {
+                return;
+            }
+
+            DataGridViewRow row = dgvRailcars.Rows[e.RowIndex];
+            Models.Railcar railcar = row.Tag as Models.Railcar;
+            if (railcar == null)
+            {
+                return;
+            }
+
+            Roster.RailcarDetail detail = new Roster.RailcarDetail()
+            {
+                Application = _application,
+                RailcarID = railcar.RailcarID
+            };
+            _application.OpenForm(detail);
+        }
+
+        private void cmdReset_Click(object sender, EventArgs e)
+        {
+            LoadGeneralData();
+        }
     }
 }

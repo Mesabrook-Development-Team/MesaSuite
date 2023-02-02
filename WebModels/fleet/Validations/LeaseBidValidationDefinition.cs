@@ -69,7 +69,7 @@ namespace WebModels.fleet.Validations
                     return true;
                 }
 
-                return companyID != null && bid.LocationIDInvoiceDestination != null;
+                return companyID == null || bid.LocationIDInvoiceDestination != null;
             }
         }
     }

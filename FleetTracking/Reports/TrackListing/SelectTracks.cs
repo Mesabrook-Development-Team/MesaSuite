@@ -46,6 +46,7 @@ namespace FleetTracking.Reports.TrackListing
                 get.API = DataAccess.APIs.FleetTracking;
                 get.Resource = "Track/GetAll";
                 List<Track> tracks = await get.GetObject<List<Track>>();
+                tracks = tracks.OrderBy(t => t.Name).ToList();
                 foreach(Track track in tracks)
                 {
                     int rowIndex = dgvTracks.Rows.Add();

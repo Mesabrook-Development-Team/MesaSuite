@@ -281,6 +281,8 @@
             // 
             this.cboFromTrack.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboFromTrack.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboFromTrack.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboFromTrack.FormattingEnabled = true;
             this.cboFromTrack.Location = new System.Drawing.Point(48, 33);
             this.cboFromTrack.Name = "cboFromTrack";
@@ -302,6 +304,8 @@
             // 
             this.cboFromDistrict.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboFromDistrict.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboFromDistrict.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboFromDistrict.FormattingEnabled = true;
             this.cboFromDistrict.Location = new System.Drawing.Point(48, 6);
             this.cboFromDistrict.Name = "cboFromDistrict";
@@ -336,6 +340,8 @@
             // cboFromTrain
             // 
             this.cboFromTrain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboFromTrain.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboFromTrain.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboFromTrain.FormattingEnabled = true;
             this.cboFromTrain.Location = new System.Drawing.Point(51, 33);
             this.cboFromTrain.Name = "cboFromTrain";
@@ -356,6 +362,8 @@
             // cboFromSymbol
             // 
             this.cboFromSymbol.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboFromSymbol.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboFromSymbol.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboFromSymbol.FormattingEnabled = true;
             this.cboFromSymbol.Location = new System.Drawing.Point(51, 6);
             this.cboFromSymbol.Name = "cboFromSymbol";
@@ -475,6 +483,8 @@
             // 
             this.cboToTrack.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboToTrack.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboToTrack.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboToTrack.FormattingEnabled = true;
             this.cboToTrack.Location = new System.Drawing.Point(48, 33);
             this.cboToTrack.Name = "cboToTrack";
@@ -496,6 +506,8 @@
             // 
             this.cboToDistrict.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboToDistrict.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboToDistrict.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboToDistrict.FormattingEnabled = true;
             this.cboToDistrict.Location = new System.Drawing.Point(48, 6);
             this.cboToDistrict.Name = "cboToDistrict";
@@ -530,6 +542,8 @@
             // cboToTrain
             // 
             this.cboToTrain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboToTrain.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboToTrain.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboToTrain.FormattingEnabled = true;
             this.cboToTrain.Location = new System.Drawing.Point(51, 33);
             this.cboToTrain.Name = "cboToTrain";
@@ -550,6 +564,8 @@
             // cboToSymbol
             // 
             this.cboToSymbol.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboToSymbol.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboToSymbol.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboToSymbol.FormattingEnabled = true;
             this.cboToSymbol.Location = new System.Drawing.Point(51, 6);
             this.cboToSymbol.Name = "cboToSymbol";
@@ -613,6 +629,7 @@
             this.cmdClose.TabIndex = 4;
             this.cmdClose.Text = "Close";
             this.cmdClose.UseVisualStyleBackColor = true;
+            this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
             // 
             // label10
             // 

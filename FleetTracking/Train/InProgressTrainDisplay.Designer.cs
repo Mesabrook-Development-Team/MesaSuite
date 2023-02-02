@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InProgressTrainDisplay));
             this.label1 = new System.Windows.Forms.Label();
             this.lnkSymbol = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
@@ -134,6 +133,7 @@
             this.lnkSymbol.TabIndex = 1;
             this.lnkSymbol.TabStop = true;
             this.lnkSymbol.Text = "IRW Q100";
+            this.lnkSymbol.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSymbol_LinkClicked);
             // 
             // label2
             // 
@@ -510,7 +510,7 @@
             // 
             // toolAddTransaction
             // 
-            this.toolAddTransaction.Image = ((System.Drawing.Image)(resources.GetObject("toolAddTransaction.Image")));
+            this.toolAddTransaction.Image = global::FleetTracking.Properties.Resources.add;
             this.toolAddTransaction.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAddTransaction.Name = "toolAddTransaction";
             this.toolAddTransaction.Size = new System.Drawing.Size(140, 22);
@@ -592,7 +592,7 @@
             // 
             // toolFuelAddLoco
             // 
-            this.toolFuelAddLoco.Image = ((System.Drawing.Image)(resources.GetObject("toolFuelAddLoco.Image")));
+            this.toolFuelAddLoco.Image = global::FleetTracking.Properties.Resources.add;
             this.toolFuelAddLoco.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolFuelAddLoco.Name = "toolFuelAddLoco";
             this.toolFuelAddLoco.Size = new System.Drawing.Size(115, 22);
@@ -601,7 +601,7 @@
             // 
             // toolFuelSetStart
             // 
-            this.toolFuelSetStart.Image = ((System.Drawing.Image)(resources.GetObject("toolFuelSetStart.Image")));
+            this.toolFuelSetStart.Image = global::FleetTracking.Properties.Resources.control_play_blue;
             this.toolFuelSetStart.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolFuelSetStart.Name = "toolFuelSetStart";
             this.toolFuelSetStart.Size = new System.Drawing.Size(70, 22);
@@ -610,7 +610,7 @@
             // 
             // toolFuelSetEnd
             // 
-            this.toolFuelSetEnd.Image = ((System.Drawing.Image)(resources.GetObject("toolFuelSetEnd.Image")));
+            this.toolFuelSetEnd.Image = global::FleetTracking.Properties.Resources.control_stop_blue;
             this.toolFuelSetEnd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolFuelSetEnd.Name = "toolFuelSetEnd";
             this.toolFuelSetEnd.Size = new System.Drawing.Size(66, 22);
@@ -697,7 +697,7 @@
             // 
             // toolTogglePartialTrip
             // 
-            this.toolTogglePartialTrip.Image = ((System.Drawing.Image)(resources.GetObject("toolTogglePartialTrip.Image")));
+            this.toolTogglePartialTrip.Image = global::FleetTracking.Properties.Resources.arrow_switch;
             this.toolTogglePartialTrip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolTogglePartialTrip.Name = "toolTogglePartialTrip";
             this.toolTogglePartialTrip.Size = new System.Drawing.Size(120, 22);

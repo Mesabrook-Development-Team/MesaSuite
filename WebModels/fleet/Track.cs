@@ -154,6 +154,13 @@ namespace WebModels.fleet
 
         #region Relationships
         #region fleet
+        private List<LeaseRequest> _leaseRequests = new List<LeaseRequest>();
+        [RelationshipList("B78C8212-F61A-48D4-AC85-CB69B9F9AF11", nameof(LeaseRequest.TrackIDDeliveryLocation))]
+        public IReadOnlyCollection<LeaseRequest> LeaseRequests
+        {
+            get { CheckGet(); return _leaseRequests; }
+        }
+
         private List<RailLocation> _railLocations = new List<RailLocation>();
         [RelationshipList("02D1BA12-0F58-4C9C-9BFC-EF5DD97C4807", nameof(RailLocation.TrackID))]
         public IReadOnlyCollection<RailLocation> RailLocations

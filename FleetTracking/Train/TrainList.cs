@@ -83,6 +83,11 @@ namespace FleetTracking.Train
                 cmdPrev.Enabled = _skip != 0;
                 cmdNext.Enabled = _skip + TAKE < responseObject.maxItems;
                 cmdLast.Enabled = _skip + TAKE < responseObject.maxItems;
+
+                if (dgvTrains.SelectedRows.Count > 0)
+                {
+                    dgvTrains_SelectionChanged(this, EventArgs.Empty);
+                }
             }
             finally
             {
@@ -97,7 +102,11 @@ namespace FleetTracking.Train
                 Application = _application
             };
 
-            _application.OpenForm(selectSymbol, FleetTrackingApplication.OpenFormOptions.Dialog);
+            Form addTrainForm = _application.OpenForm(selectSymbol, FleetTrackingApplication.OpenFormOptions.Dialog);
+            if (addTrainForm.DialogResult == DialogResult.OK) 
+            { 
+                LoadData(); 
+            }
         }
 
         private void dgvTrains_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -117,6 +126,71 @@ namespace FleetTracking.Train
             display.OnSave += (s, ea) => LoadData();
             Form trainDisplay = _application.OpenForm(display, FleetTrackingApplication.OpenFormOptions.Popout);
             trainDisplay.Text = train.TrainSymbol.Name;
+            trainDisplay.FormClosed += (s, ea) => LoadData();
+        }
+
+        private void FilterOption_CheckedChanged(object sender, EventArgs e)
+        {
+            if (sender is RadioButton rb && !rb.Checked)
+            {
+                return;
+            }
+
+            LoadData();
+        }
+
+        private void dgvTrains_SelectionChanged(object sender, EventArgs e)
+        {
+            toolDeleteTrain.Enabled = false;
+
+            foreach(DataGridViewRow row in dgvTrains.SelectedRows)
+            {
+                Models.Train train = row.Tag as Models.Train;
+                if (train == null)
+                {
+                    continue;
+                }
+
+                if (_application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator) && train.Status == Models.Train.Statuses.NotStarted)
+                {
+                    toolDeleteTrain.Enabled = true;
+                }
+            }
+        }
+
+        private async void toolDeleteTrain_Click(object sender, EventArgs e)
+        {
+            if (dgvTrains.SelectedRows.Count <= 0 || !this.Confirm("Are you sure you want to delete these Trains?"))
+            {
+                return;
+            }
+
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
+
+                DeleteData delete = _application.GetAccess<DeleteData>();
+                delete.API = DataAccess.APIs.FleetTracking;
+
+                foreach(DataGridViewRow row in dgvTrains.SelectedRows)
+                {
+                    Models.Train train = row.Tag as Models.Train;
+                    if (train == null || !_application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator) || train.Status != Models.Train.Statuses.NotStarted)
+                    {
+                        continue;
+                    }
+
+                    delete.Resource = $"Train/Delete/{train.TrainID}";
+                    await delete.Execute();
+                }
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
+
+            LoadData();
         }
     }
 }

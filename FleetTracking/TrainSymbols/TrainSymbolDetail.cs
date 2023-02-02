@@ -58,6 +58,8 @@ namespace FleetTracking.TrainSymbols
                     get.API = DataAccess.APIs.FleetTracking;
                     get.Resource = $"TrainSymbol/Get/{TrainSymbolID}";
                     symbol = await get.GetObject<TrainSymbol>();
+
+                    ParentForm.Text = $"Symbol - {symbol.Name}";
                 }
 
                 _canSave = symbol == null || _application.IsCurrentEntity(symbol.CompanyIDOperator, symbol.GovernmentIDOperator);
@@ -84,6 +86,7 @@ namespace FleetTracking.TrainSymbols
 
                     if (symbol.TrainSymbolRates != null)
                     {
+                        dgvRates.Rows.Clear();
                         bool foundOnOrBefore = false;
                         foreach(TrainSymbolRate trainSymbolRate in symbol.TrainSymbolRates.OrderByDescending(tsr => tsr.EffectiveTime))
                         {
@@ -101,6 +104,11 @@ namespace FleetTracking.TrainSymbols
                                 row.DefaultCellStyle.Font = new Font(dgvRates.Font, FontStyle.Italic);
                                 foundOnOrBefore = true;
                             }
+                        }
+
+                        if (dgvRates.SelectedRows.Count > 0)
+                        {
+                            dgvRates_SelectionChanged(this, EventArgs.Empty);
                         }
                     }
                 }
@@ -289,6 +297,11 @@ namespace FleetTracking.TrainSymbols
 
         private async Task LoadStats()
         {
+            if (TrainSymbolID == null)
+            {
+                return;
+            }
+
             try
             {
                 loaderStats.BringToFront();
@@ -338,6 +351,64 @@ namespace FleetTracking.TrainSymbols
             {
                 loaderStats.Visible = false;
             }
+        }
+
+        private void dgvRates_SelectionChanged(object sender, EventArgs e)
+        {
+            toolDeleteRate.Enabled = false;
+            foreach(DataGridViewRow row in dgvRates.SelectedRows)
+            {
+                TrainSymbolRate rate = row.Tag as TrainSymbolRate;
+                if (rate == null)
+                {
+                    continue;
+                }
+
+                if (rate.EffectiveTime >= DateTime.Now)
+                {
+                    toolDeleteRate.Enabled = true;
+                    return;
+                }
+            }
+        }
+
+        private async void toolDeleteRate_Click(object sender, EventArgs e)
+        {
+            if (dgvRates.SelectedRows.Count <= 0 || !this.Confirm("Are you sure you want to delete these Rates?"))
+            {
+                return;
+            }
+
+            try
+            {
+                loader.BringToFront();
+                loader.Visible = true;
+
+                DeleteData delete = _application.GetAccess<DeleteData>();
+                delete.API = DataAccess.APIs.FleetTracking;
+
+                foreach (DataGridViewRow row in dgvRates.SelectedRows)
+                {
+                    TrainSymbolRate rate = row.Tag as TrainSymbolRate;
+                    if (rate == null || rate.EffectiveTime < DateTime.Now)
+                    {
+                        continue;
+                    }
+                    delete.Resource = $"TrainSymbolRate/Delete/{rate.TrainSymbolRateID}";
+                    await delete.Execute();
+                }
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
+
+            LoadData();
+        }
+
+        private void cmdReset_Click(object sender, EventArgs e)
+        {
+            LoadData();
         }
     }
 }

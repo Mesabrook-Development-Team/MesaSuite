@@ -204,7 +204,7 @@
             this.dtpStart.Location = new System.Drawing.Point(85, 151);
             this.dtpStart.Name = "dtpStart";
             this.dtpStart.Size = new System.Drawing.Size(203, 20);
-            this.dtpStart.TabIndex = 7;
+            this.dtpStart.TabIndex = 6;
             // 
             // txtTerms
             // 
@@ -217,7 +217,7 @@
             this.txtTerms.ReadOnly = true;
             this.txtTerms.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtTerms.Size = new System.Drawing.Size(751, 75);
-            this.txtTerms.TabIndex = 6;
+            this.txtTerms.TabIndex = 8;
             // 
             // label9
             // 
@@ -360,7 +360,7 @@
             this.cmdSave.Location = new System.Drawing.Point(682, 550);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 2;
+            this.cmdSave.TabIndex = 3;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -371,9 +371,10 @@
             this.cmdReset.Location = new System.Drawing.Point(601, 550);
             this.cmdReset.Name = "cmdReset";
             this.cmdReset.Size = new System.Drawing.Size(75, 23);
-            this.cmdReset.TabIndex = 3;
+            this.cmdReset.TabIndex = 4;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
+            this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);
             // 
             // loader
             // 
@@ -396,7 +397,7 @@
             this.groupBox3.Location = new System.Drawing.Point(0, 400);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(766, 144);
-            this.groupBox3.TabIndex = 5;
+            this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Invoices";
             // 

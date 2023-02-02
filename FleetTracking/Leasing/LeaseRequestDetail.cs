@@ -158,7 +158,21 @@ namespace FleetTracking.Leasing
                     }
                 }
 
-                txtDeliveryLocation.Text = leaseRequest?.DeliveryLocation;
+                get.Resource = "Track/GetAll";
+                cboDeliveryLocation.Items.Clear();
+                List<Track> tracks = await get.GetObject<List<Track>>() ?? new List<Track>();
+                tracks = tracks.OrderBy(t => t.Name).ToList();
+                foreach(Track track in tracks)
+                {
+                    DropDownItem<Track> ddi = new DropDownItem<Track>(track, track.Name);
+                    cboDeliveryLocation.Items.Add(ddi);
+
+                    if (leaseRequest?.TrackIDDeliveryLocation == track.TrackID)
+                    {
+                        cboDeliveryLocation.SelectedItem = ddi;
+                    }
+                }
+
                 txtPurpose.Text = leaseRequest?.Purpose;
                 dtpEndTime.Value = leaseRequest?.BidEndTime ?? DateTime.Now;
 
@@ -184,7 +198,7 @@ namespace FleetTracking.Leasing
                 cboChargeTo.Enabled = _allowSave;
                 cboLeaseType.Enabled = _allowSave;
                 cboRailcarType.Enabled = _allowSave;
-                txtDeliveryLocation.Enabled = _allowSave;
+                cboDeliveryLocation.Enabled = _allowSave;
                 txtPurpose.Enabled = _allowSave;
                 dtpEndTime.Enabled = _allowSave;
                 tsmiAccept.Visible = _allowSave;
@@ -259,7 +273,7 @@ namespace FleetTracking.Leasing
             if (!this.AreFieldsPresent(new List<(string, Control)>()
             {
                 ("Lease Type", cboLeaseType),
-                ("Delivery Location", txtDeliveryLocation),
+                ("Delivery Location", cboDeliveryLocation),
                 ("Purpose", txtPurpose)
             }))
             {
@@ -287,7 +301,7 @@ namespace FleetTracking.Leasing
                 GovernmentIDRequester = _application.GetCurrentCompanyIDGovernmentID().Item2,
                 LeaseType = leaseType,
                 RailcarType = (cboRailcarType.SelectedItem as DropDownItem<Models.RailcarModel.Types>)?.Object ?? 0,
-                DeliveryLocation = txtDeliveryLocation.Text,
+                TrackIDDeliveryLocation = (cboDeliveryLocation.SelectedItem as DropDownItem<Track>)?.Object.TrackID ?? 0,
                 Purpose = txtPurpose.Text,
                 BidEndTime = dtpEndTime.Value
             };
@@ -342,7 +356,7 @@ namespace FleetTracking.Leasing
             if (!this.AreFieldsPresent(new List<(string, Control)>()
             {
                 ("Lease Type", cboLeaseType),
-                ("Delivery Location", txtDeliveryLocation),
+                ("Delivery Location", cboDeliveryLocation),
                 ("Purpose", txtPurpose)
             }))
             {
@@ -363,7 +377,7 @@ namespace FleetTracking.Leasing
                 GovernmentIDRequester = _application.GetCurrentCompanyIDGovernmentID().Item2,
                 LeaseType = leaseType,
                 RailcarType = (cboRailcarType.SelectedItem as DropDownItem<Models.RailcarModel.Types>).Object,
-                DeliveryLocation = txtDeliveryLocation.Text,
+                TrackIDDeliveryLocation = (cboDeliveryLocation.SelectedItem as DropDownItem<Track>).Object.TrackID,
                 Purpose = txtPurpose.Text,
                 BidEndTime = dtpEndTime.Value
             };
@@ -522,6 +536,11 @@ namespace FleetTracking.Leasing
             {
                 loader.Visible = false;
             }
+        }
+
+        private void cmdReset_Click(object sender, EventArgs e)
+        {
+            LoadData();
         }
     }
 }

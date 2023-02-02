@@ -26,6 +26,7 @@ namespace API_Fleet.Controllers
             t.CompanyIDOwner,
             t.CompanyOwner.CompanyID,
             t.CompanyOwner.Name,
+            t.GovernmentIDOwner,
             t.GovernmentOwner.GovernmentID,
             t.GovernmentOwner.Name,
             t.RailDistrictID,

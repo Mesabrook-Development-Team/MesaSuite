@@ -50,6 +50,7 @@ namespace FleetTracking.Reports.TrainManifest
                 };
                 response = await get.GetAnonymousObject(response);
                 List<Models.Train> trains = response?.trains ?? new List<Models.Train>();
+                trains = trains.OrderBy(t => t.TimeOnDuty).ToList();
 
                 foreach (Models.Train train in trains)
                 {

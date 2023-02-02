@@ -137,7 +137,7 @@ namespace WebModels.Loaders.mesasys
                                                                         lr.GovernmentRequester.Name,
                                                                         lr.LeaseType,
                                                                         lr.RailcarType,
-                                                                        lr.DeliveryLocation,
+                                                                        lr.TrackDeliveryLocation.Name,
                                                                         lr.Purpose,
                                                                         lr.BidEndTime
                                                                     });
@@ -157,7 +157,7 @@ namespace WebModels.Loaders.mesasys
                                                                     lb.RecurringAmountType,
                                                                     lb.RecurringAmount,
                                                                     lb.Terms,
-                                                                    lb.LeaseRequest.DeliveryLocation,
+                                                                    lb.LeaseRequest.TrackDeliveryLocation.Name,
                                                                     lb.LeaseRequest.LeaseType,
                                                                     lb.LeaseRequest.RailcarType,
                                                                     lb.LeaseRequest.Purpose,

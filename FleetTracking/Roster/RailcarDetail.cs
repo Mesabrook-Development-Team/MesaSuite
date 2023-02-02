@@ -39,6 +39,10 @@ namespace FleetTracking.Roster
 
         private void RailcarDetail_Load(object sender, EventArgs e)
         {
+            if (ParentForm != null)
+            {
+                ParentForm.Text = "Railcar";
+            }
             LoadGeneralData();
         }
 
@@ -59,9 +63,14 @@ namespace FleetTracking.Roster
 
                     txtReportingMark.Text = railcar.ReportingMark;
                     txtReportingNumber.Text = railcar.ReportingNumber?.ToString();
+                    if (ParentForm != null)
+                    {
+                        ParentForm.Text = railcar.FormattedReportingMark;
+                    }
                     txtLessee.Text = railcar.CompanyLeasedTo?.CompanyID != null ? railcar.CompanyLeasedTo.Name : railcar.GovernmentLeasedTo?.Name;
                     txtLessee.Tag = railcar.CompanyLeasedTo?.CompanyID != null ? (object)railcar.CompanyLeasedTo : railcar.GovernmentLeasedTo?.GovernmentID != null ? railcar.GovernmentLeasedTo : null;
                     txtCurrentLocation.Text = railcar.Location;
+                    lnkLocation.Tag = railcar.RailLocation.TrackID != null ? (object)railcar.RailLocation.Track : railcar.RailLocation.Train;
                     txtContents.Text = railcar.FormattedRailcarLoads;
                     OriginalTrackIDDestination = railcar.TrackIDDestination;
                     OriginalTrackIDStrategic = railcar.TrackIDStrategic;
@@ -83,6 +92,8 @@ namespace FleetTracking.Roster
                 }
                 else
                 {
+                    txtReportingMark.Clear();
+                    txtReportingNumber.Clear();
                     txtCurrentLocation.Visible = false;
                     cboCurrentLocation.Visible = true;
                 }
@@ -544,6 +555,41 @@ namespace FleetTracking.Roster
             {
                 cboDestination.Enabled = _application.IsCurrentEntity(null, selectedGovernment.Object.GovernmentID);
             }
+        }
+
+        private void lnkLocation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (lnkLocation.Tag == null)
+            {
+                return;
+            }
+
+            if (lnkLocation.Tag is Track track)
+            {
+                Tracks.TrackViewer viewer = new Tracks.TrackViewer()
+                {
+                    Application = _application,
+                    InitialTrackID = track.TrackID
+                };
+
+                _application.OpenForm(viewer);
+            }
+
+            if (lnkLocation.Tag is Models.Train train)
+            {
+                Train.InProgressTrainDisplay trainDisplay = new Train.InProgressTrainDisplay()
+                {
+                    Application = _application,
+                    TrainID = train.TrainID
+                };
+
+                _application.OpenForm(trainDisplay, FleetTrackingApplication.OpenFormOptions.Popout);
+            }
+        }
+
+        private void cmdReset_Click(object sender, EventArgs e)
+        {
+            LoadGeneralData();
         }
     }
 }

@@ -45,6 +45,8 @@ namespace FleetTracking.Train
             Models.Train train = await get.GetObject<Models.Train>();
             if (train != null)
             {
+                ParentForm.Text = train.TrainSymbol?.Name;
+
                 toolModifyConsist.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
                 toolLiveLoad.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
                 toolAddTransaction.Enabled = _application.IsCurrentEntity(train.TrainSymbol.CompanyIDOperator, train.TrainSymbol.GovernmentIDOperator);
@@ -485,7 +487,7 @@ namespace FleetTracking.Train
 
         private async void toolFuelSetStart_Click(object sender, EventArgs e)
         {
-            TrainFuelRecord currentFuelRecord = dgvLocoFuel.SelectedRows.OfType<DataGridViewRow>().FirstOrDefault().Tag as TrainFuelRecord;
+            TrainFuelRecord currentFuelRecord = dgvLocoFuel.SelectedRows.OfType<DataGridViewRow>().FirstOrDefault()?.Tag as TrainFuelRecord;
             if (currentFuelRecord == null)
             {
                 return;
@@ -532,7 +534,7 @@ namespace FleetTracking.Train
 
         private async void toolFuelSetEnd_Click(object sender, EventArgs e)
         {
-            TrainFuelRecord currentFuelRecord = dgvLocoFuel.SelectedRows.OfType<DataGridViewRow>().FirstOrDefault().Tag as TrainFuelRecord;
+            TrainFuelRecord currentFuelRecord = dgvLocoFuel.SelectedRows.OfType<DataGridViewRow>().FirstOrDefault()?.Tag as TrainFuelRecord;
             if (currentFuelRecord == null)
             {
                 return;
@@ -720,6 +722,19 @@ namespace FleetTracking.Train
                 ReportContext = new Reports.TrainManifest.TrainManifestReportContext(_application, new[] { TrainID })
             };
             _application.OpenForm(report);
+        }
+
+        private void lnkSymbol_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (lnkSymbol.Tag is TrainSymbol symbol && (_application.SecurityPermissionCheck(nameof(FleetSecurity.AllowSetup)) || _application.SecurityPermissionCheck(nameof(FleetSecurity.IsYardmaster))))
+            {
+                TrainSymbols.TrainSymbolDetail detail = new TrainSymbols.TrainSymbolDetail()
+                {
+                    Application = _application,
+                    TrainSymbolID = symbol.TrainSymbolID
+                };
+                _application.OpenForm(detail);
+            }
         }
     }
 }

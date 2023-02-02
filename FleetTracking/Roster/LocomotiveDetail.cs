@@ -35,6 +35,10 @@ namespace FleetTracking.Roster
 
         private void LocomotiveDetail_Load(object sender, EventArgs e)
         {
+            if (ParentForm != null)
+            {
+                ParentForm.Text = "Locomotive";
+            }
             LoadData();
         }
 
@@ -56,8 +60,13 @@ namespace FleetTracking.Roster
 
                     txtReportingMark.Text = locomotive.ReportingMark;
                     txtReportingNumber.Text = locomotive.ReportingNumber?.ToString();
+                    if (ParentForm != null)
+                    {
+                        ParentForm.Text = locomotive.FormattedReportingMark;
+                    }
                     txtLessee.Text = locomotive.CompanyLeasedTo?.CompanyID != null ? locomotive.CompanyLeasedTo.Name : locomotive.GovernmentLeasedTo.Name;
                     txtCurrentLocation.Text = locomotive.Location;
+                    lnkLocation.Tag = locomotive.RailLocation.TrackID != null ? (object)locomotive.RailLocation.Track : locomotive.RailLocation.Train;
 
                     bool isOwner = _application.IsCurrentEntity(locomotive.CompanyIDOwner, locomotive.GovernmentIDOwner);
                     bool isPossessor = _application.IsCurrentEntity(locomotive.CompanyIDPossessor, locomotive.GovernmentIDPossessor);
@@ -346,6 +355,41 @@ namespace FleetTracking.Roster
             }
 
             pboxImage.Image = image;
+        }
+
+        private void lnkLocation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (lnkLocation.Tag == null)
+            {
+                return;
+            }
+
+            if (lnkLocation.Tag is Track track)
+            {
+                Tracks.TrackViewer viewer = new Tracks.TrackViewer()
+                {
+                    Application = _application,
+                    InitialTrackID = track.TrackID
+                };
+
+                _application.OpenForm(viewer);
+            }
+
+            if (lnkLocation.Tag is Models.Train train)
+            {
+                Train.InProgressTrainDisplay trainDisplay = new Train.InProgressTrainDisplay()
+                {
+                    Application = _application,
+                    TrainID = train.TrainID
+                };
+
+                _application.OpenForm(trainDisplay, FleetTrackingApplication.OpenFormOptions.Popout);
+            }
+        }
+
+        private void cmdReset_Click(object sender, EventArgs e)
+        {
+            LoadData();
         }
     }
 }

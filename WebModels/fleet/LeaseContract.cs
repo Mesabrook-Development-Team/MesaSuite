@@ -185,6 +185,8 @@ namespace WebModels.fleet
                     lb.LeaseRequest.CompanyIDRequester,
                     lb.LeaseRequest.GovernmentIDRequester,
                     lb.LeaseRequest.LocationIDChargeTo,
+                    lb.LeaseRequest.TrackIDDeliveryLocation,
+                    lb.LeaseRequest.TrackDeliveryLocation.Name,
                     lb.RailcarID,
                     lb.Railcar.GovernmentIDOwner,
                     lb.Railcar.ReportingMark,
@@ -274,6 +276,25 @@ namespace WebModels.fleet
                 {
                     contract.Errors.AddRange(leaseContractInvoice.Errors.ToArray());
                     return contract;
+                }
+
+                if (bid.RailcarID != null)
+                {
+                    Railcar railcar = DataObject.GetEditableByPrimaryKey<Railcar>(bid.RailcarID, localTransaction, null);
+                    railcar.TrackIDDestination = bid.LeaseRequest.TrackIDDeliveryLocation;
+                    if (!railcar.Save(localTransaction))
+                    {
+                        contract.Errors.AddRange(railcar.Errors.ToArray());
+                        return contract;
+                    }
+                }
+                else if (bid.LocomotiveID != null)
+                {
+                    contract.Terms = "Delivery Location: " + bid.LeaseRequest.TrackDeliveryLocation.Name + "\r\n\r\n" + contract.Terms;
+                    if (!contract.Save(localTransaction))
+                    {
+                        return contract;
+                    }
                 }
 
                 LeaseRequest leaseRequest = DataObject.GetEditableByPrimaryKey<LeaseRequest>(bid.LeaseRequestID, localTransaction, null);

@@ -18,7 +18,8 @@ namespace FleetTracking.Models
         }
         public LeaseTypes LeaseType { get; set; }
         public RailcarModel.Types RailcarType { get; set; }
-        public string DeliveryLocation { get; set; }
+        public long? TrackIDDeliveryLocation { get; set; }
+        public Track TrackDeliveryLocation { get; set; }
         public string Purpose { get; set; }
         public DateTime? BidEndTime { get; set; }
     }

@@ -47,6 +47,9 @@ namespace FleetTracking
 
         private void InputBox_Load(object sender, EventArgs e)
         {
+            ParentForm.AcceptButton = cmdOK;
+            ParentForm.CancelButton = cmdCancel;
+
             if (MultiLine)
             {
                 InitialSize = new Size(350, 121);

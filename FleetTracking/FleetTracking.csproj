@@ -329,11 +329,11 @@
       <DependentUpon>MassAddStockInput.cs</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
-    <Compile Include="Utilities\MassUpdateRailcars.cs">
+    <Compile Include="Utilities\MassUpdateEquipment.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Utilities\MassUpdateRailcars.Designer.cs">
-      <DependentUpon>MassUpdateRailcars.cs</DependentUpon>
+    <Compile Include="Utilities\MassUpdateEquipment.Designer.cs">
+      <DependentUpon>MassUpdateEquipment.cs</DependentUpon>
     </Compile>
     <Compile Include="Roster\BrowseRoster.cs">
       <SubType>UserControl</SubType>
@@ -591,8 +591,8 @@
       <DependentUpon>MassAddStockInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\TrackListing\Track.rdlc" />
-    <EmbeddedResource Include="Utilities\MassUpdateRailcars.resx">
-      <DependentUpon>MassUpdateRailcars.cs</DependentUpon>
+    <EmbeddedResource Include="Utilities\MassUpdateEquipment.resx">
+      <DependentUpon>MassUpdateEquipment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Roster\BrowseRoster.resx">
       <DependentUpon>BrowseRoster.cs</DependentUpon>
@@ -3680,6 +3680,9 @@
     <Content Include="Resources\checkall.png" />
     <None Include="Resources\freight.png" />
     <None Include="Resources\freight1.png" />
+    <None Include="Resources\train.png" />
+    <None Include="Resources\train_car.png" />
+    <None Include="Resources\tracks.png" />
     <Content Include="Resources\uncheckall.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">

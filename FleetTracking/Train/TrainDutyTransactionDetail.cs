@@ -155,5 +155,11 @@ namespace FleetTracking.Train
         {
             dtpOffDuty.Enabled = chkOffDuty.Checked;
         }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            ParentForm.Close();
+            Dispose();
+        }
     }
 }

@@ -35,6 +35,10 @@
             this.pboxImage = new System.Windows.Forms.PictureBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.cmdUpdateImage = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtLessee = new System.Windows.Forms.TextBox();
+            this.txtCurrentLocation = new System.Windows.Forms.TextBox();
+            this.cboModel = new FleetTracking.ControlSelector();
             this.label1 = new System.Windows.Forms.Label();
             this.txtReportingMark = new System.Windows.Forms.TextBox();
             this.cboStrategicTrack = new System.Windows.Forms.ComboBox();
@@ -46,13 +50,11 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtReportingNumber = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtLessee = new System.Windows.Forms.TextBox();
             this.txtContents = new System.Windows.Forms.TextBox();
-            this.txtCurrentLocation = new System.Windows.Forms.TextBox();
+            this.cboCurrentLocation = new System.Windows.Forms.ComboBox();
             this.tabGeneral = new System.Windows.Forms.TabPage();
+            this.loaderGeneral = new FleetTracking.Loader();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabHistory = new System.Windows.Forms.TabPage();
             this.cmdNext = new System.Windows.Forms.Button();
@@ -65,11 +67,9 @@
             this.colTrack = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colInvoiced = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colNoCharge = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.cboCurrentLocation = new System.Windows.Forms.ComboBox();
-            this.cboModel = new FleetTracking.ControlSelector();
-            this.loaderGeneral = new FleetTracking.Loader();
             this.loaderHistory = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.lnkLocation = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pboxImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -87,9 +87,10 @@
             this.cmdReset.Location = new System.Drawing.Point(287, 257);
             this.cmdReset.Name = "cmdReset";
             this.cmdReset.Size = new System.Drawing.Size(75, 23);
-            this.cmdReset.TabIndex = 11;
+            this.cmdReset.TabIndex = 12;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
+            this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);
             // 
             // cmdSave
             // 
@@ -97,7 +98,7 @@
             this.cmdSave.Location = new System.Drawing.Point(368, 257);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 10;
+            this.cmdSave.TabIndex = 11;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -137,8 +138,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
+            this.splitContainer1.Panel2.Controls.Add(this.lnkLocation);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
-            this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.txtLessee);
             this.splitContainer1.Panel2.Controls.Add(this.txtCurrentLocation);
             this.splitContainer1.Panel2.Controls.Add(this.cmdReset);
@@ -175,6 +176,46 @@
             this.cmdUpdateImage.UseVisualStyleBackColor = true;
             this.cmdUpdateImage.Click += new System.EventHandler(this.cmdUpdateImage_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(2, 86);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(44, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "Lessee:";
+            // 
+            // txtLessee
+            // 
+            this.txtLessee.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLessee.Location = new System.Drawing.Point(96, 83);
+            this.txtLessee.Name = "txtLessee";
+            this.txtLessee.ReadOnly = true;
+            this.txtLessee.Size = new System.Drawing.Size(347, 20);
+            this.txtLessee.TabIndex = 4;
+            // 
+            // txtCurrentLocation
+            // 
+            this.txtCurrentLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCurrentLocation.Location = new System.Drawing.Point(96, 136);
+            this.txtCurrentLocation.Name = "txtCurrentLocation";
+            this.txtCurrentLocation.ReadOnly = true;
+            this.txtCurrentLocation.Size = new System.Drawing.Size(347, 20);
+            this.txtCurrentLocation.TabIndex = 7;
+            // 
+            // cboModel
+            // 
+            this.cboModel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboModel.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cboModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboModel.Location = new System.Drawing.Point(96, 3);
+            this.cboModel.Name = "cboModel";
+            this.cboModel.Size = new System.Drawing.Size(347, 21);
+            this.cboModel.TabIndex = 0;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -202,7 +243,7 @@
             this.cboStrategicTrack.Name = "cboStrategicTrack";
             this.cboStrategicTrack.Size = new System.Drawing.Size(347, 21);
             this.cboStrategicTrack.Sorted = true;
-            this.cboStrategicTrack.TabIndex = 6;
+            this.cboStrategicTrack.TabIndex = 9;
             // 
             // cboDestination
             // 
@@ -215,7 +256,7 @@
             this.cboDestination.Name = "cboDestination";
             this.cboDestination.Size = new System.Drawing.Size(347, 21);
             this.cboDestination.Sorted = true;
-            this.cboDestination.TabIndex = 5;
+            this.cboDestination.TabIndex = 8;
             // 
             // label9
             // 
@@ -236,7 +277,7 @@
             this.cboPossessor.Name = "cboPossessor";
             this.cboPossessor.Size = new System.Drawing.Size(347, 21);
             this.cboPossessor.Sorted = true;
-            this.cboPossessor.TabIndex = 4;
+            this.cboPossessor.TabIndex = 5;
             // 
             // label8
             // 
@@ -285,15 +326,6 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "Owner:";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(2, 86);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 13);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Lessee:";
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -303,25 +335,6 @@
             this.label7.TabIndex = 4;
             this.label7.Text = "Contents:";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(2, 139);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Current Location:";
-            // 
-            // txtLessee
-            // 
-            this.txtLessee.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLessee.Location = new System.Drawing.Point(96, 83);
-            this.txtLessee.Name = "txtLessee";
-            this.txtLessee.ReadOnly = true;
-            this.txtLessee.Size = new System.Drawing.Size(347, 20);
-            this.txtLessee.TabIndex = 7;
-            // 
             // txtContents
             // 
             this.txtContents.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -330,17 +343,20 @@
             this.txtContents.Name = "txtContents";
             this.txtContents.ReadOnly = true;
             this.txtContents.Size = new System.Drawing.Size(347, 20);
-            this.txtContents.TabIndex = 9;
+            this.txtContents.TabIndex = 10;
             // 
-            // txtCurrentLocation
+            // cboCurrentLocation
             // 
-            this.txtCurrentLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.cboCurrentLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCurrentLocation.Location = new System.Drawing.Point(96, 136);
-            this.txtCurrentLocation.Name = "txtCurrentLocation";
-            this.txtCurrentLocation.ReadOnly = true;
-            this.txtCurrentLocation.Size = new System.Drawing.Size(347, 20);
-            this.txtCurrentLocation.TabIndex = 8;
+            this.cboCurrentLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCurrentLocation.FormattingEnabled = true;
+            this.cboCurrentLocation.Location = new System.Drawing.Point(96, 136);
+            this.cboCurrentLocation.Name = "cboCurrentLocation";
+            this.cboCurrentLocation.Size = new System.Drawing.Size(347, 21);
+            this.cboCurrentLocation.TabIndex = 7;
+            this.cboCurrentLocation.Visible = false;
+            this.cboCurrentLocation.SelectedIndexChanged += new System.EventHandler(this.cboCurrentLocation_SelectedIndexChanged);
             // 
             // tabGeneral
             // 
@@ -353,6 +369,19 @@
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
+            // 
+            // loaderGeneral
+            // 
+            this.loaderGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loaderGeneral.BackColor = System.Drawing.Color.Transparent;
+            this.loaderGeneral.Location = new System.Drawing.Point(0, 0);
+            this.loaderGeneral.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.loaderGeneral.Name = "loaderGeneral";
+            this.loaderGeneral.Size = new System.Drawing.Size(738, 289);
+            this.loaderGeneral.TabIndex = 3;
+            this.loaderGeneral.Visible = false;
             // 
             // tabControl
             // 
@@ -481,43 +510,6 @@
             this.colNoCharge.Name = "colNoCharge";
             this.colNoCharge.Width = 105;
             // 
-            // cboCurrentLocation
-            // 
-            this.cboCurrentLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboCurrentLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboCurrentLocation.FormattingEnabled = true;
-            this.cboCurrentLocation.Location = new System.Drawing.Point(96, 136);
-            this.cboCurrentLocation.Name = "cboCurrentLocation";
-            this.cboCurrentLocation.Size = new System.Drawing.Size(347, 21);
-            this.cboCurrentLocation.TabIndex = 12;
-            this.cboCurrentLocation.Visible = false;
-            this.cboCurrentLocation.SelectedIndexChanged += new System.EventHandler(this.cboCurrentLocation_SelectedIndexChanged);
-            // 
-            // cboModel
-            // 
-            this.cboModel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboModel.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.cboModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboModel.Location = new System.Drawing.Point(96, 3);
-            this.cboModel.Name = "cboModel";
-            this.cboModel.Size = new System.Drawing.Size(347, 21);
-            this.cboModel.TabIndex = 0;
-            // 
-            // loaderGeneral
-            // 
-            this.loaderGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loaderGeneral.BackColor = System.Drawing.Color.Transparent;
-            this.loaderGeneral.Location = new System.Drawing.Point(0, 0);
-            this.loaderGeneral.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.loaderGeneral.Name = "loaderGeneral";
-            this.loaderGeneral.Size = new System.Drawing.Size(738, 289);
-            this.loaderGeneral.TabIndex = 3;
-            this.loaderGeneral.Visible = false;
-            // 
             // loaderHistory
             // 
             this.loaderHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -529,6 +521,17 @@
             this.loaderHistory.Size = new System.Drawing.Size(742, 290);
             this.loaderHistory.TabIndex = 1;
             this.loaderHistory.Visible = false;
+            // 
+            // lnkLocation
+            // 
+            this.lnkLocation.AutoSize = true;
+            this.lnkLocation.Location = new System.Drawing.Point(3, 139);
+            this.lnkLocation.Name = "lnkLocation";
+            this.lnkLocation.Size = new System.Drawing.Size(88, 13);
+            this.lnkLocation.TabIndex = 6;
+            this.lnkLocation.TabStop = true;
+            this.lnkLocation.Text = "Current Location:";
+            this.lnkLocation.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkLocation_LinkClicked);
             // 
             // RailcarDetail
             // 
@@ -567,7 +570,6 @@
         private System.Windows.Forms.ComboBox cboOwner;
         private System.Windows.Forms.TextBox txtReportingNumber;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtCurrentLocation;
         private System.Windows.Forms.TabPage tabGeneral;
         private System.Windows.Forms.TabControl tabControl;
@@ -595,5 +597,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox cboCurrentLocation;
+        private System.Windows.Forms.LinkLabel lnkLocation;
     }
 }

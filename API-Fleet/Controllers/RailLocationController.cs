@@ -295,14 +295,20 @@ namespace API_Fleet.Controllers
                     }
                 }
 
-                foreach(long? modifiedTrackID in data.ModifiedTracksByID.Keys)
+                if (data.ModifiedTracksByID != null)
                 {
-                    errors.AddRange(Track.Reorder(modifiedTrackID, transaction).ToArray());
+                    foreach (long? modifiedTrackID in data.ModifiedTracksByID.Keys)
+                    {
+                        errors.AddRange(Track.Reorder(modifiedTrackID, transaction).ToArray());
+                    }
                 }
 
-                foreach(long? modifiedTrainID in data.ModifiedTrainsByID.Keys)
+                if (data.ModifiedTrainsByID != null)
                 {
-                    errors.AddRange(Train.Reorder(modifiedTrainID, transaction).ToArray());
+                    foreach (long? modifiedTrainID in data.ModifiedTrainsByID.Keys)
+                    {
+                        errors.AddRange(Train.Reorder(modifiedTrainID, transaction).ToArray());
+                    }
                 }
 
                 if (railLocationIDsOrphaned.Any())

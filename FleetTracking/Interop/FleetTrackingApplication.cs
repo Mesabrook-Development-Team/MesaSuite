@@ -239,7 +239,8 @@ namespace FleetTracking.Interop
 
             if (toolStrip == null)
             {
-                toolStrip = new ToolStripMenuItem("Fleet Tracking");
+                toolStrip = new ToolStripMenuItem("Fleet Tracking", Properties.Resources.lorry);
+                toolStrip.ImageScaling = ToolStripItemImageScaling.None;
                 toolStrip.DropDownOpened += Navigation_DropDownOpening;
                 foreach(MainNavigationItem item in items)
                 {
@@ -361,44 +362,44 @@ namespace FleetTracking.Interop
             {
                 SubItems = new List<MainNavigationItem>()
                 {
-                    new MainNavigationItem("Setup")
+                    new MainNavigationItem("Setup", Properties.Resources.bricks)
                     {
                         SubItems = new List<MainNavigationItem>()
                         {
-                            new MainNavigationItem("Locomotive Models", BrowseLocomotiveModels, nameof(FleetSecurity.AllowSetup)),
-                            new MainNavigationItem("Railcar Models", BrowseRailcarModels, nameof(FleetSecurity.AllowSetup)),
-                            new MainNavigationItem("Train Symbols", BrowseTrainSymbols, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster)),
-                            new MainNavigationItem("Track Districts", BrowseRailDistricts, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster)),
-                            new MainNavigationItem("Car Handling Rates", ManageCarHandlingRates, nameof(FleetSecurity.AllowSetup)),
-                            new MainNavigationItem("Misc Setup", ManageMiscSetup, nameof(FleetSecurity.AllowSetup))
+                            new MainNavigationItem("Locomotive Models", BrowseLocomotiveModels, Properties.Resources.train, nameof(FleetSecurity.AllowSetup)),
+                            new MainNavigationItem("Railcar Models", BrowseRailcarModels, Properties.Resources.train_car, nameof(FleetSecurity.AllowSetup)),
+                            new MainNavigationItem("Train Symbols", BrowseTrainSymbols, Properties.Resources.paste_plain, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster)),
+                            new MainNavigationItem("Track Districts", BrowseRailDistricts, Properties.Resources.sitemap, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster)),
+                            new MainNavigationItem("Car Handling Rates", ManageCarHandlingRates, Properties.Resources.coins, nameof(FleetSecurity.AllowSetup)),
+                            new MainNavigationItem("Misc Setup", ManageMiscSetup, Properties.Resources.cog, nameof(FleetSecurity.AllowSetup))
                         }
                     },
-                    new MainNavigationItem("Leasing", ManageLeasing, nameof(FleetSecurity.AllowLeasingManagement)),
-                    new MainNavigationItem("Equipment Roster", BrowseEquipmentRoster, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.IsYardmaster)),
-                    new MainNavigationItem("Train Manager", BrowseTrains, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew)),
-                    new MainNavigationItem("Track Viewer", OpenTrackViewer, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
-                    new MainNavigationItem("Release Equipment", MassReleaseStock, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
-                    new MainNavigationItem("Load/Unload Cars")
+                    new MainNavigationItem("Leasing", ManageLeasing, Properties.Resources.basket, nameof(FleetSecurity.AllowLeasingManagement)),
+                    new MainNavigationItem("Equipment Roster", BrowseEquipmentRoster, Properties.Resources.application_view_detail, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.IsYardmaster)),
+                    new MainNavigationItem("Train Manager", BrowseTrains, Properties.Resources.train, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew)),
+                    new MainNavigationItem("Track Viewer", OpenTrackViewer, Properties.Resources.tracks, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
+                    new MainNavigationItem("Release Equipment", MassReleaseStock, Properties.Resources.key_go, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
+                    new MainNavigationItem("Load/Unload Cars", Properties.Resources.box)
                     {
                         SubItems = new List<MainNavigationItem>()
                         {
-                            new MainNavigationItem("Live Load", StartLiveLoading, nameof(FleetSecurity.AllowLoadUnload)),
-                            new MainNavigationItem("Load On Track", () => OpenForm(new CarLoading.LoadOnTrack() { Application = this, Text = "Load On Track" }), nameof(FleetSecurity.AllowLoadUnload))
+                            new MainNavigationItem("Live Load", StartLiveLoading, Properties.Resources.lightning, nameof(FleetSecurity.AllowLoadUnload)),
+                            new MainNavigationItem("Load On Track", () => OpenForm(new CarLoading.LoadOnTrack() { Application = this, Text = "Load On Track" }), Properties.Resources.package, nameof(FleetSecurity.AllowLoadUnload))
                         }
                     },
-                    new MainNavigationItem("Utilities")
+                    new MainNavigationItem("Utilities", Properties.Resources.lightbulb)
                     {
                         SubItems = new List<MainNavigationItem>()
                         {
-                            new MainNavigationItem("Mass Update Railcars", () => MassUpdateRailcars(), nameof(FleetSecurity.AllowLoadUnload), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.IsYardmaster))
+                            new MainNavigationItem("Mass Update Railcars", () => MassUpdateRailcars(), Properties.Resources.table_multiple, nameof(FleetSecurity.AllowLoadUnload), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.IsYardmaster))
                         }
                     },
-                    new MainNavigationItem("Reports")
+                    new MainNavigationItem("Reports", Properties.Resources.report)
                     {
                         SubItems = new List<MainNavigationItem>()
                         {
-                            new MainNavigationItem("Track Listing", PrintTracks, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
-                            new MainNavigationItem("Train Manifest", PrintTrainManifests, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew))
+                            new MainNavigationItem("Track Listing", PrintTracks, Properties.Resources.tracks, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
+                            new MainNavigationItem("Train Manifest", PrintTrainManifests, Properties.Resources.train, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew))
                         }
                     }
                 }
@@ -407,7 +408,7 @@ namespace FleetTracking.Interop
 
         private void MassUpdateRailcars(bool defaultSetRelease = false)
         {
-            Form form = OpenForm(new Utilities.MassUpdateRailcars() { Application = this, DefaultSetRelease = defaultSetRelease }, OpenFormOptions.Popout);
+            Form form = OpenForm(new Utilities.MassUpdateEquipment() { Application = this, DefaultSetRelease = defaultSetRelease }, OpenFormOptions.Popout);
             form.Text = "Mass Update Railcars";
         }
 

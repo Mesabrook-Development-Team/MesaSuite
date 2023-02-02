@@ -88,7 +88,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Size = new System.Drawing.Size(617, 389);
             this.splitContainer1.SplitterDistance = 261;
-            this.splitContainer1.TabIndex = 0;
+            this.splitContainer1.TabIndex = 4;
             // 
             // dgvStock
             // 
@@ -104,7 +104,7 @@
             this.dgvStock.Location = new System.Drawing.Point(0, 25);
             this.dgvStock.Name = "dgvStock";
             this.dgvStock.Size = new System.Drawing.Size(617, 236);
-            this.dgvStock.TabIndex = 0;
+            this.dgvStock.TabIndex = 1;
             this.dgvStock.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStock_CellClick);
             // 
             // colCheck
@@ -153,7 +153,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(617, 25);
-            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // toolCheckAll
@@ -191,7 +191,7 @@
             this.chkReleasedTo.Location = new System.Drawing.Point(3, 45);
             this.chkReleasedTo.Name = "chkReleasedTo";
             this.chkReleasedTo.Size = new System.Drawing.Size(90, 17);
-            this.chkReleasedTo.TabIndex = 4;
+            this.chkReleasedTo.TabIndex = 2;
             this.chkReleasedTo.Text = "Released To:";
             this.chkReleasedTo.UseVisualStyleBackColor = true;
             this.chkReleasedTo.CheckedChanged += new System.EventHandler(this.chkReleasedTo_CheckedChanged);
@@ -202,7 +202,7 @@
             this.chkOwner.Location = new System.Drawing.Point(3, 18);
             this.chkOwner.Name = "chkOwner";
             this.chkOwner.Size = new System.Drawing.Size(60, 17);
-            this.chkOwner.TabIndex = 4;
+            this.chkOwner.TabIndex = 0;
             this.chkOwner.Text = "Owner:";
             this.chkOwner.UseVisualStyleBackColor = true;
             this.chkOwner.CheckedChanged += new System.EventHandler(this.chkOwner_CheckedChanged);
@@ -213,7 +213,7 @@
             this.cmdApplyFields.Location = new System.Drawing.Point(539, 97);
             this.cmdApplyFields.Name = "cmdApplyFields";
             this.cmdApplyFields.Size = new System.Drawing.Size(75, 23);
-            this.cmdApplyFields.TabIndex = 3;
+            this.cmdApplyFields.TabIndex = 6;
             this.cmdApplyFields.Text = "Apply Fields";
             this.cmdApplyFields.UseVisualStyleBackColor = true;
             this.cmdApplyFields.Click += new System.EventHandler(this.cmdApplyFields_Click);
@@ -229,7 +229,7 @@
             this.cboReleasedTo.Location = new System.Drawing.Point(99, 43);
             this.cboReleasedTo.Name = "cboReleasedTo";
             this.cboReleasedTo.Size = new System.Drawing.Size(515, 21);
-            this.cboReleasedTo.TabIndex = 2;
+            this.cboReleasedTo.TabIndex = 3;
             // 
             // cboLocation
             // 
@@ -242,7 +242,7 @@
             this.cboLocation.Location = new System.Drawing.Point(99, 70);
             this.cboLocation.Name = "cboLocation";
             this.cboLocation.Size = new System.Drawing.Size(515, 21);
-            this.cboLocation.TabIndex = 2;
+            this.cboLocation.TabIndex = 5;
             // 
             // cboOwner
             // 
@@ -255,7 +255,7 @@
             this.cboOwner.Location = new System.Drawing.Point(99, 16);
             this.cboOwner.Name = "cboOwner";
             this.cboOwner.Size = new System.Drawing.Size(515, 21);
-            this.cboOwner.TabIndex = 2;
+            this.cboOwner.TabIndex = 1;
             // 
             // label1
             // 
@@ -273,7 +273,7 @@
             this.rdoRailcarModel.Location = new System.Drawing.Point(3, 3);
             this.rdoRailcarModel.Name = "rdoRailcarModel";
             this.rdoRailcarModel.Size = new System.Drawing.Size(90, 17);
-            this.rdoRailcarModel.TabIndex = 1;
+            this.rdoRailcarModel.TabIndex = 0;
             this.rdoRailcarModel.TabStop = true;
             this.rdoRailcarModel.Text = "Railcar Model";
             this.rdoRailcarModel.UseVisualStyleBackColor = true;
@@ -285,7 +285,7 @@
             this.rdoLocomotiveModel.Location = new System.Drawing.Point(3, 30);
             this.rdoLocomotiveModel.Name = "rdoLocomotiveModel";
             this.rdoLocomotiveModel.Size = new System.Drawing.Size(112, 17);
-            this.rdoLocomotiveModel.TabIndex = 1;
+            this.rdoLocomotiveModel.TabIndex = 2;
             this.rdoLocomotiveModel.TabStop = true;
             this.rdoLocomotiveModel.Text = "Locomotive Model";
             this.rdoLocomotiveModel.UseVisualStyleBackColor = true;
@@ -302,7 +302,7 @@
             this.cboLocomotiveModel.Location = new System.Drawing.Point(121, 29);
             this.cboLocomotiveModel.Name = "cboLocomotiveModel";
             this.cboLocomotiveModel.Size = new System.Drawing.Size(493, 21);
-            this.cboLocomotiveModel.TabIndex = 2;
+            this.cboLocomotiveModel.TabIndex = 3;
             this.cboLocomotiveModel.SelectedIndexChanged += new System.EventHandler(this.cboLocomotiveModel_SelectedIndexChanged);
             // 
             // cboRailcarModel
@@ -316,7 +316,7 @@
             this.cboRailcarModel.Location = new System.Drawing.Point(121, 2);
             this.cboRailcarModel.Name = "cboRailcarModel";
             this.cboRailcarModel.Size = new System.Drawing.Size(493, 21);
-            this.cboRailcarModel.TabIndex = 2;
+            this.cboRailcarModel.TabIndex = 1;
             this.cboRailcarModel.SelectedIndexChanged += new System.EventHandler(this.cboRailcarModel_SelectedIndexChanged);
             // 
             // MassAddStockInput

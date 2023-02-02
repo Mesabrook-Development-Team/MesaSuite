@@ -68,6 +68,7 @@ namespace FleetTracking.Train
             };
             instructions.Text = "Train Instructions";
             instructions.lblPrompt.Text = "Enter Train Instructions (if needed):";
+            instructions.txtInput.Text = symbolList.SelectedSymbol.Description;
             Form inputForm = _application.OpenForm(instructions, FleetTrackingApplication.OpenFormOptions.Dialog);
             if (inputForm.DialogResult != DialogResult.OK)
             {
@@ -101,6 +102,8 @@ namespace FleetTracking.Train
 
                     Form form = _application.OpenForm(trainDisplay, FleetTrackingApplication.OpenFormOptions.Popout);
                     form.Text = symbolList.SelectedSymbol.Name;
+
+                    ParentForm.DialogResult = DialogResult.OK;
 
                     ParentForm?.Close();
                     Dispose();

@@ -191,5 +191,10 @@ namespace FleetTracking.Tracks
 
             LoadData();
         }
+
+        private void cmdReset_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
     }
 }

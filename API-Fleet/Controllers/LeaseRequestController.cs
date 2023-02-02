@@ -24,7 +24,9 @@ namespace API_Fleet.Controllers
             lr.GovernmentRequester.Name,
             lr.LeaseType,
             lr.RailcarType,
-            lr.DeliveryLocation,
+            lr.TrackIDDeliveryLocation,
+            lr.TrackDeliveryLocation.TrackID,
+            lr.TrackDeliveryLocation.Name,
             lr.Purpose,
             lr.BidEndTime
         });

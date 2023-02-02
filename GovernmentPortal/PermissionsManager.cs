@@ -16,6 +16,7 @@ namespace GovernmentPortal
         private static bool _requestStop;
         private static bool _isRunning;
         private static ConcurrentDictionary<long, Dictionary<Permissions, bool>> PermissionsByGovernment = new ConcurrentDictionary<long, Dictionary<Permissions, bool>>();
+        private static ConcurrentDictionary<long, FleetTracking.Models.FleetSecurity> FleetSecuritiesByGovernment = new ConcurrentDictionary<long, FleetTracking.Models.FleetSecurity>();
 
         public static event EventHandler<PermissionChangeEventArgs> OnPermissionChange;
 
@@ -40,6 +41,7 @@ namespace GovernmentPortal
             _isRunning = true;
             _requestStop = false;
             PermissionsByGovernment = new ConcurrentDictionary<long, Dictionary<Permissions, bool>>();
+            FleetSecuritiesByGovernment = new ConcurrentDictionary<long, FleetTracking.Models.FleetSecurity>();
             Dictionary<string, PropertyInfo> permissionPropertiesByName = new Dictionary<string, PropertyInfo>();
             Type officialType = typeof(Official);
             foreach (var item in Enum.GetValues(typeof(Permissions)))
@@ -51,11 +53,11 @@ namespace GovernmentPortal
             while (!_requestStop)
             {
                 GetData getData = new GetData(DataAccess.APIs.GovernmentPortal, "Government/GetAllForUser");
-                List<Government> companies = getData.GetObject<List<Government>>().Result;
+                List<Government> governments = getData.GetObject<List<Government>>().Result;
 
                 if (getData.RequestSuccessful)
                 {
-                    foreach (Government government in companies)
+                    foreach (Government government in governments)
                     {
                         getData = new GetData(DataAccess.APIs.GovernmentPortal, "Official/GetForGovernment");
                         getData.Headers.Add("GovernmentID", government.GovernmentID.Value.ToString());
@@ -66,6 +68,8 @@ namespace GovernmentPortal
                         {
                             continue;
                         }
+
+                        FleetSecuritiesByGovernment[government.GovernmentID.Value] = official.FleetSecurity;
 
                         foreach (var item in Enum.GetValues(typeof(Permissions)))
                         {
@@ -113,6 +117,18 @@ namespace GovernmentPortal
             }
 
             return PermissionsByGovernment[governmentID][permission];
+        }
+
+        public static bool HasFleetPermission(long governmentID, string permission)
+        {
+            if (!FleetSecuritiesByGovernment.ContainsKey(governmentID) || typeof(FleetTracking.Models.FleetSecurity).GetProperty(permission) == null)
+            {
+                return false;
+            }
+
+            FleetTracking.Models.FleetSecurity fleetSecurity = FleetSecuritiesByGovernment[governmentID];
+            PropertyInfo permissionProp = typeof(FleetTracking.Models.FleetSecurity).GetProperty(permission);
+            return (bool)permissionProp.GetValue(fleetSecurity);
         }
 
         public enum Permissions

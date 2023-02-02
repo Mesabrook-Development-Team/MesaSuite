@@ -15,7 +15,7 @@ using MesaSuite.Common.Utility;
 
 namespace CompanyStudio.Invoicing
 {
-    public partial class frmPayableInvoice : BaseCompanyStudioContent, ILocationScoped, ISaveable
+    public partial class frmPayableInvoice : /*Form*/ BaseCompanyStudioContent, ILocationScoped, ISaveable
     {
         public frmPayableInvoice()
         {
@@ -108,6 +108,8 @@ namespace CompanyStudio.Invoicing
                 row.Cells[colQuantity.Name].Value = invoiceLine.Quantity;
                 row.Cells[colUnitCost.Name].Value = invoiceLine.UnitCost.ToString("N2");
                 row.Cells[colLineTotal.Name].Value = invoiceLine.Total.ToString("N2");
+                row.Cells[colItem.Name].Value = invoiceLine.Item?.Name;
+                row.Cells[colItem.Name].Tag = invoiceLine.Item?.ItemID;
                 subTotal += invoiceLine.Total;
             }
 
@@ -252,6 +254,27 @@ namespace CompanyStudio.Invoicing
             }
 
             loader.Visible = false;
+        }
+
+        private void dgvLineItems_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvLineItems.Rows.Count || e.ColumnIndex != colItem.Index)
+            {
+                return;
+            }
+
+            long? itemID = dgvLineItems[e.ColumnIndex, e.RowIndex].Tag as long?;
+
+            Rectangle cellLocation = dgvLineItems.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+
+            ItemSelector shownSelector = new ItemSelector();
+            shownSelector.ReadOnlyMode = true;
+            shownSelector.SelectedItemID = itemID;
+            shownSelector.Location = PointToClient(dgvLineItems.PointToScreen(cellLocation.Location));
+            shownSelector.Leave += (s, ea) => { Controls.Remove(shownSelector); shownSelector = null; };
+            Controls.Add(shownSelector);
+            shownSelector.BringToFront();
+            shownSelector.Focus();
         }
     }
 }

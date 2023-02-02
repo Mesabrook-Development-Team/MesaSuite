@@ -88,6 +88,10 @@
             this.label26 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.numAuthPort = new System.Windows.Forms.NumericUpDown();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.rdoFleetLive = new System.Windows.Forms.RadioButton();
+            this.rdoFleetLocal = new System.Windows.Forms.RadioButton();
+            this.label23 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -96,6 +100,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numAPIPort)).BeginInit();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numAuthPort)).BeginInit();
+            this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -271,7 +276,7 @@
             this.cmdSave.Location = new System.Drawing.Point(650, 296);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 16;
+            this.cmdSave.TabIndex = 20;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -281,7 +286,7 @@
             this.cmdMigrations.Location = new System.Drawing.Point(15, 370);
             this.cmdMigrations.Name = "cmdMigrations";
             this.cmdMigrations.Size = new System.Drawing.Size(710, 23);
-            this.cmdMigrations.TabIndex = 18;
+            this.cmdMigrations.TabIndex = 22;
             this.cmdMigrations.Text = "Run";
             this.cmdMigrations.UseVisualStyleBackColor = true;
             this.cmdMigrations.Click += new System.EventHandler(this.cmdMigrations_Click);
@@ -301,7 +306,7 @@
             this.cmdLoaders.Location = new System.Drawing.Point(15, 415);
             this.cmdLoaders.Name = "cmdLoaders";
             this.cmdLoaders.Size = new System.Drawing.Size(710, 23);
-            this.cmdLoaders.TabIndex = 19;
+            this.cmdLoaders.TabIndex = 23;
             this.cmdLoaders.Text = "Run";
             this.cmdLoaders.UseVisualStyleBackColor = true;
             this.cmdLoaders.Click += new System.EventHandler(this.cmdLoaders_Click);
@@ -321,7 +326,7 @@
             this.cmdDeploy.Location = new System.Drawing.Point(15, 325);
             this.cmdDeploy.Name = "cmdDeploy";
             this.cmdDeploy.Size = new System.Drawing.Size(710, 23);
-            this.cmdDeploy.TabIndex = 17;
+            this.cmdDeploy.TabIndex = 21;
             this.cmdDeploy.Text = "Run";
             this.cmdDeploy.UseVisualStyleBackColor = true;
             this.cmdDeploy.Click += new System.EventHandler(this.cmdDeploy_Click);
@@ -421,7 +426,7 @@
             this.panel1.Location = new System.Drawing.Point(614, 31);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(91, 17);
-            this.panel1.TabIndex = 15;
+            this.panel1.TabIndex = 13;
             // 
             // panel2
             // 
@@ -430,7 +435,7 @@
             this.panel2.Location = new System.Drawing.Point(614, 54);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(91, 17);
-            this.panel2.TabIndex = 16;
+            this.panel2.TabIndex = 14;
             // 
             // rdoSyncLive
             // 
@@ -461,7 +466,7 @@
             this.panel3.Location = new System.Drawing.Point(614, 100);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(91, 17);
-            this.panel3.TabIndex = 17;
+            this.panel3.TabIndex = 16;
             // 
             // rdoCompanyLive
             // 
@@ -489,10 +494,10 @@
             // 
             this.panel4.Controls.Add(this.rdoAuthLive);
             this.panel4.Controls.Add(this.rdoAuthLocal);
-            this.panel4.Location = new System.Drawing.Point(614, 146);
+            this.panel4.Location = new System.Drawing.Point(614, 169);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(91, 17);
-            this.panel4.TabIndex = 16;
+            this.panel4.TabIndex = 19;
             // 
             // rdoAuthLive
             // 
@@ -523,7 +528,7 @@
             this.panel5.Location = new System.Drawing.Point(614, 77);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(91, 17);
-            this.panel5.TabIndex = 18;
+            this.panel5.TabIndex = 15;
             // 
             // rdoVersionLive
             // 
@@ -617,7 +622,7 @@
             this.panel6.Location = new System.Drawing.Point(614, 123);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(91, 17);
-            this.panel6.TabIndex = 16;
+            this.panel6.TabIndex = 17;
             // 
             // rdoGovLive
             // 
@@ -681,6 +686,46 @@
             0,
             0});
             // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.rdoFleetLive);
+            this.panel7.Controls.Add(this.rdoFleetLocal);
+            this.panel7.Location = new System.Drawing.Point(614, 146);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(91, 17);
+            this.panel7.TabIndex = 18;
+            // 
+            // rdoFleetLive
+            // 
+            this.rdoFleetLive.AutoSize = true;
+            this.rdoFleetLive.Location = new System.Drawing.Point(0, 0);
+            this.rdoFleetLive.Name = "rdoFleetLive";
+            this.rdoFleetLive.Size = new System.Drawing.Size(45, 17);
+            this.rdoFleetLive.TabIndex = 0;
+            this.rdoFleetLive.TabStop = true;
+            this.rdoFleetLive.Text = "Live";
+            this.rdoFleetLive.UseVisualStyleBackColor = true;
+            // 
+            // rdoFleetLocal
+            // 
+            this.rdoFleetLocal.AutoSize = true;
+            this.rdoFleetLocal.Location = new System.Drawing.Point(45, 0);
+            this.rdoFleetLocal.Name = "rdoFleetLocal";
+            this.rdoFleetLocal.Size = new System.Drawing.Size(51, 17);
+            this.rdoFleetLocal.TabIndex = 1;
+            this.rdoFleetLocal.TabStop = true;
+            this.rdoFleetLocal.Text = "Local";
+            this.rdoFleetLocal.UseVisualStyleBackColor = true;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(530, 150);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(78, 13);
+            this.label23.TabIndex = 1;
+            this.label23.Text = "Fleet Tracking:";
+            // 
             // frmDevTools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -688,10 +733,12 @@
             this.ClientSize = new System.Drawing.Size(740, 530);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.label18);
+            this.Controls.Add(this.label23);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.numAuthPort);
             this.Controls.Add(this.numAPIPort);
+            this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.rdoBackend);
@@ -753,6 +800,8 @@
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numAuthPort)).EndInit();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -819,6 +868,10 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.NumericUpDown numAuthPort;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.RadioButton rdoFleetLive;
+        private System.Windows.Forms.RadioButton rdoFleetLocal;
+        private System.Windows.Forms.Label label23;
     }
 }
 

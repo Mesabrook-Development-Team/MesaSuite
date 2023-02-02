@@ -186,7 +186,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                         createTable.Execute(deploymentTransaction);
                     }
 
-                    foreach (Relationship relationship in schemaObjectsByConnectionName.SelectMany(so => so.GetRelationships().Where(rel => rel.HasForeignKey)))
+                    foreach (Relationship relationship in schemaObjectsByConnectionName.SelectMany(so => so.GetRelationships().Where(rel => rel.HasForeignKey && !rel.OneToOneByForeignKey)))
                     {
                         string fkName = $"FK{relationship.ParentSchemaObject.ObjectName}_{relationship.RelatedSchemaObject.ObjectName}_{relationship.ForeignKeyField.FieldName}";
                         IAlterTable alterTableQuery = SQLProviderFactory.GetAlterTableQuery();
@@ -217,7 +217,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                 {
                     undeploymentTransaction = SQLProviderFactory.GenerateTransaction(schemaObjectsByConnectionName.Key ?? "_default");
 
-                    foreach (Relationship relationship in schemaObjectsByConnectionName.SelectMany(so => so.GetRelationships().Where(rel => rel.HasForeignKey)))
+                    foreach (Relationship relationship in schemaObjectsByConnectionName.SelectMany(so => so.GetRelationships().Where(rel => rel.HasForeignKey && !rel.OneToOneByForeignKey)))
                     {
                         string fkName = $"FK{relationship.ParentSchemaObject.ObjectName}_{relationship.RelatedSchemaObject.ObjectName}_{relationship.ForeignKeyField.FieldName}";
                         IAlterTable alterTableQuery = SQLProviderFactory.GetAlterTableQuery();

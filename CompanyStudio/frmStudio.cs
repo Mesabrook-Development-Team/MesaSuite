@@ -1,5 +1,7 @@
 ﻿using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using FleetTracking;
+using FleetTracking.Interop;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -20,6 +22,7 @@ namespace CompanyStudio
     {
         Dictionary<string, ThemeBase> themes = new Dictionary<string, ThemeBase>();
         ThemeBase currentTheme = null;
+        Dictionary<long, FleetTrackingApplication> fleetTrackingApplicationsByCompany = new Dictionary<long, FleetTrackingApplication>();
 
         private void InitializeThemeLookup()
         {
@@ -38,6 +41,15 @@ namespace CompanyStudio
             get { return _activeCompany; }
             set
             {
+                if (_activeCompany != null && fleetTrackingApplicationsByCompany.ContainsKey(_activeCompany.CompanyID.Value))
+                {
+                    FleetTrackingApplication fleetTrackingApplication = fleetTrackingApplicationsByCompany[_activeCompany.CompanyID.Value];
+                    if (mnuBanner.Items.Contains(fleetTrackingApplication.GetNavigation()))
+                    {
+                        mnuBanner.Items.Remove(fleetTrackingApplication.GetNavigation());
+                    }
+                }
+
                 _activeCompany = value;
                 toolCompanyDropDown.Text = _activeCompany?.Name ?? "";
 
@@ -60,6 +72,12 @@ namespace CompanyStudio
                     }
 
                     toolLocationDropDown.SelectedItem = toolLocationDropDown.Items.Cast<DropDownItem<Location>>().FirstOrDefault();
+
+                    if (fleetTrackingApplicationsByCompany.ContainsKey(_activeCompany.CompanyID.Value))
+                    {
+                        mnuBanner.Items.Add(fleetTrackingApplicationsByCompany[_activeCompany.CompanyID.Value].GetNavigation());
+                        fleetTrackingApplicationsByCompany[_activeCompany.CompanyID.Value].VerifyNavigationVisibility();
+                    }
                 }
             }
         }
@@ -89,6 +107,128 @@ namespace CompanyStudio
         {
             InitializeComponent();
             InitializeThemeLookup();
+        }
+
+        private void InitializeFleetTracking(FleetTrackingApplication fleetTrackingApplication)
+        {
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.OpenForm(FleetTracking_OpenForm));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<GetData>(FleetTracking_GetData));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<PutData>(FleetTracking_PutData));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<PostData>(FleetTracking_PostData));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<DeleteData>(FleetTracking_DeleteData));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetAccess<PatchData>(FleetTracking_PatchData));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.IsCurrentEntity((companyID, governmentID) => FleetTracking_IsCurrentEntity(fleetTrackingApplication, companyID, governmentID)));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetCurrentCompanyIDGovernmentID(() => ((long?)fleetTrackingApplicationsByCompany.FirstOrDefault(kvp => kvp.Value == fleetTrackingApplication).Key ?? null, null)));
+            fleetTrackingApplication.RegisterCallback(new FleetTrackingApplication.CallbackDelegates.GetUsersForEntity(() => FleetTracking_GetUsersForEntity(fleetTrackingApplication)));
+        }
+
+        private void FleetTracking_AddNavigationItem(ToolStripItemCollection collection, FleetTrackingApplication.MainNavigationItem item)
+        {
+            ToolStripMenuItem tsmi = new ToolStripMenuItem(item.Text);
+            if (item.SelectedAction != null)
+            {
+                tsmi.Click += (s, e) => item.SelectedAction.Invoke();
+            }
+
+            if (item.SubItems != null)
+            {
+                foreach(FleetTrackingApplication.MainNavigationItem subItem in item.SubItems)
+                {
+                    FleetTracking_AddNavigationItem(tsmi.DropDownItems, subItem);
+                }
+            }
+
+            collection.Add(tsmi);
+        }
+
+        private Form FleetTracking_OpenForm(IFleetTrackingControl fleetTrackingControl, FleetTrackingApplication.OpenFormOptions formOptions, IWin32Window parent)
+        {
+            FleetTrackingForms.frmFleetForm fleetForm = new FleetTrackingForms.frmFleetForm();
+            if (formOptions.HasFlag(FleetTrackingApplication.OpenFormOptions.ResizeToControl))
+            {
+                fleetForm.ClientSize = ((Control)fleetTrackingControl).Size;
+            }
+            fleetForm.FleetTrackingControl = fleetTrackingControl;
+            DecorateStudioContent(fleetForm);
+
+            if (formOptions.HasFlag(FleetTrackingApplication.OpenFormOptions.Popout))
+            {
+                if (parent == null)
+                {
+                    fleetForm.Show();
+                }
+                else
+                {
+                    fleetForm.Show(parent);
+                }
+            }
+            else if (formOptions.HasFlag(FleetTrackingApplication.OpenFormOptions.Dialog))
+            {
+                if (parent == null)
+                {
+                    fleetForm.ShowDialog();
+                }
+                else
+                {
+                    fleetForm.ShowDialog(parent);
+                }
+            }
+            else
+            {
+                fleetForm.Show(dockPanel, DockState.Document);
+            }
+            return fleetForm;
+        }
+
+        private TAccess FleetTracking_AppendHeaders<TAccess>(TAccess dataAccess) where TAccess : DataAccess
+        {
+            dataAccess.AddLocationHeader(ActiveCompany?.CompanyID, ActiveLocation?.LocationID);
+            return dataAccess;
+        }
+
+        private GetData FleetTracking_GetData()
+        {
+            return FleetTracking_AppendHeaders(new GetData(DataAccess.APIs.FleetTracking, ""));
+        }
+
+        private PutData FleetTracking_PutData()
+        {
+            return FleetTracking_AppendHeaders(new PutData(DataAccess.APIs.FleetTracking, "", null));
+        }
+
+        private PostData FleetTracking_PostData()
+        {
+            return FleetTracking_AppendHeaders(new PostData(DataAccess.APIs.FleetTracking, ""));
+        }
+
+        private DeleteData FleetTracking_DeleteData()
+        {
+            return FleetTracking_AppendHeaders(new DeleteData(DataAccess.APIs.FleetTracking, ""));
+        }
+
+        private PatchData FleetTracking_PatchData()
+        {
+            return FleetTracking_AppendHeaders(new PatchData(DataAccess.APIs.FleetTracking, "", PatchData.PatchMethods.Replace, null, null));
+        }
+
+        private bool FleetTracking_IsCurrentEntity(FleetTrackingApplication application, long? companyID, long? governmentID)
+        {
+            return companyID != null && fleetTrackingApplicationsByCompany.GetOrDefault(companyID.Value) == application;
+        }
+
+        private async Task<List<FleetTracking.Models.User>> FleetTracking_GetUsersForEntity(FleetTrackingApplication fleetTrackingApplication)
+        {
+            long companyID = fleetTrackingApplicationsByCompany.First(kvp => kvp.Value == fleetTrackingApplication).Key;
+
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, $"Employee/GetAllForCompany/{companyID}");
+            FleetTracking_AppendHeaders(get);
+            List<Employee> employees = await get.GetObject<List<Employee>>() ?? new List<Employee>();
+            return employees.Select(e => new FleetTracking.Models.User() { UserID = e.UserID, Username = e.EmployeeName }).ToList();
+        }
+
+        private bool FleetTracking_SecurityPermissionCheck(string permission)
+        {
+            return PermissionsManager.HasPermissionFleetTrack(ActiveCompany?.CompanyID ?? 0L, permission);
         }
 
         private void frmStudio_Load(object sender, EventArgs e)
@@ -309,8 +449,16 @@ namespace CompanyStudio
 
         public void AddCompany(Company company)
         {
+            if (_companies.Any(c => c.CompanyID == company.CompanyID))
+            {
+                this.ShowError("You're already connected to this company");
+                return;
+            }
+
             _companies.Add(company);
             toolCompanyDropDown.Items.Add(company.Name);
+            fleetTrackingApplicationsByCompany[company.CompanyID.Value] = new FleetTrackingApplication(FleetTracking_SecurityPermissionCheck);
+            InitializeFleetTracking(fleetTrackingApplicationsByCompany[company.CompanyID.Value]);
             OnCompanyAdded?.Invoke(this, company);
         }
 
@@ -322,6 +470,12 @@ namespace CompanyStudio
             if (company == ActiveCompany)
             {
                 ActiveCompany = null;
+            }
+
+            if (fleetTrackingApplicationsByCompany.ContainsKey(company.CompanyID.Value))
+            {
+                fleetTrackingApplicationsByCompany[company.CompanyID.Value].Shutdown();
+                fleetTrackingApplicationsByCompany.Remove(company.CompanyID.Value);
             }
 
             OnCompanyRemoved?.Invoke(this, company);
@@ -429,6 +583,11 @@ namespace CompanyStudio
             PermissionsManager.OnCompanyPermissionChange -= PermissionsManager_OnCompanyPermissionChange;
             PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
             PermissionsManager.StopCheckThread();
+
+            foreach(FleetTrackingApplication fleetTrackingApplication in fleetTrackingApplicationsByCompany.Values)
+            {
+                fleetTrackingApplication.Shutdown();
+            }
         }
 
         private void mnuAccountExplorer_Click(object sender, EventArgs e)

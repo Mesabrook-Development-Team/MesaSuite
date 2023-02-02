@@ -13,6 +13,7 @@ using ClussPro.ObjectBasedFramework.DataSearch;
 using WebModels.company;
 using WebModels.gov;
 using WebModels.invoicing;
+using WebModels.mesasys;
 
 namespace API_Government.Controllers
 {
@@ -52,7 +53,10 @@ namespace API_Government.Controllers
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Quantity)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.UnitCost)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Total)}",
-            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Description)}"
+            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Description)}",
+            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.ItemID)}",
+            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Item)}.{nameof(Item.ItemID)}",
+            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Item)}.{nameof(Item.Name)}",
         };
 
         public override ISearchCondition GetBaseSearchCondition() => new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,

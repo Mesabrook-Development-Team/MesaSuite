@@ -48,31 +48,40 @@ namespace MesaSuite.Common.Data
             }
             request.ContentType = "application/json";
 
-            JObject jObject = JObject.FromObject(ObjectToPost);
-            if (RequestFields != null && RequestFields.Any())
-            {
-                jObject.Add(new JProperty("requestfields", RequestFields));
-            }
-
-            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
-            {
-                await writer.WriteAsync(jObject.ToString());
-            }
+            TimeZoneCorrection(ObjectToPost, false);
 
             try
             {
-                string responseJson;
-                using (WebResponse response = await request.GetResponseAsync())
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                JObject jObject = JObject.FromObject(ObjectToPost);
+                if (RequestFields != null && RequestFields.Any())
                 {
-                    responseJson = await reader.ReadToEndAsync();
+                    jObject.Add(new JProperty("requestfields", RequestFields));
                 }
-                RequestSuccessful = true;
-                return responseJson;
+
+                using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+                {
+                    await writer.WriteAsync(jObject.ToString());
+                }
+
+                try
+                {
+                    string responseJson;
+                    using (WebResponse response = await request.GetResponseAsync())
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        responseJson = await reader.ReadToEndAsync();
+                    }
+                    RequestSuccessful = true;
+                    return responseJson;
+                }
+                catch (WebException ex)
+                {
+                    return await HandleResponseWebException(ex, new ResponseWebExceptionRetryCallback(GetJson));
+                }
             }
-            catch(WebException ex)
+            finally
             {
-                return await HandleResponseWebException(ex, new ResponseWebExceptionRetryCallback(GetJson));
+                TimeZoneCorrection(ObjectToPost, true);
             }
         }
     }

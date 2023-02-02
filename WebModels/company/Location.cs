@@ -4,6 +4,7 @@ using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using WebModels.fleet;
 using WebModels.invoicing;
 using WebModels.mesasys;
 
@@ -134,6 +135,20 @@ namespace WebModels.company
             return base.PostSave(transaction);
         }
 
+        private MiscellaneousSettings _fleetMiscSettingsInvoicePayee = null;
+        [Relationship("0A29B5E8-7805-43DC-8D15-A1A45FD0AEBA", OneToOneByForeignKey = true, OneToOneForeignKey = nameof(MiscellaneousSettings.LocationIDInvoicePayee))]
+        public MiscellaneousSettings FleetMiscSettingsInvoicePayee
+        {
+            get { CheckGet(); return _fleetMiscSettingsInvoicePayee; }
+        }
+
+        private MiscellaneousSettings _fleetMiscSettingsInvoicePayor = null;
+        [Relationship("8D0C48B1-BD82-41B6-88F4-A83CE27EE4C3", OneToOneByForeignKey = true, OneToOneForeignKey = nameof(MiscellaneousSettings.LocationIDInvoicePayor))]
+        public MiscellaneousSettings FleetMiscSettingsInvoicePayor
+        {
+            get { CheckGet(); return _fleetMiscSettingsInvoicePayor; }
+        }
+
         #region Relationships
         #region company
         private List<LocationEmployee> _locationEmployees = new List<LocationEmployee>();
@@ -148,6 +163,35 @@ namespace WebModels.company
         public IReadOnlyCollection<LocationGovernment> LocationGovernments
         {
             get { CheckGet(); return _locationGovernments; }
+        }
+        #endregion
+        #region fleet
+        private List<LeaseRequest> _leaseRequests = new List<LeaseRequest>();
+        [RelationshipList("CC3820D7-F975-44D3-B22C-69FC070A7704", nameof(LeaseRequest.LocationIDChargeTo))]
+        public IReadOnlyCollection<LeaseRequest> LeaseRequests
+        {
+            get { CheckGet(); return _leaseRequests; }
+        }
+
+        private List<LeaseBid> _leaseBidRecurringDestinations = new List<LeaseBid>();
+        [RelationshipList("F084805B-8F14-45EA-940B-646F97AF9268", nameof(LeaseBid.LocationIDInvoiceDestination))]
+        public IReadOnlyCollection<LeaseBid> LeaseBidRecurringDestinations
+        {
+            get { CheckGet(); return _leaseBidRecurringDestinations; }
+        }
+
+        private List<LeaseContract> _leaseContractRecurringSources = new List<LeaseContract>();
+        [RelationshipList("1B601D65-BFF5-40D0-8E11-A1624D12E3A3", nameof(LeaseContract.LocationIDRecurringAmountSource))]
+        public IReadOnlyCollection<LeaseContract> LeaseContractRecurringSources
+        {
+            get { CheckGet(); return _leaseContractRecurringSources; }
+        }
+
+        private List<LeaseContract> _leaseContractRecurringDestinations = new List<LeaseContract>();
+        [RelationshipList("DF30485C-668A-4686-B512-F7B15EC6B3E9", nameof(LeaseContract.LocationIDRecurringAmountDestination))]
+        public IReadOnlyCollection<LeaseContract> LeaseContractRecurringDestinations
+        {
+            get { CheckGet(); return _leaseContractRecurringDestinations; }
         }
         #endregion
         #region invoicing

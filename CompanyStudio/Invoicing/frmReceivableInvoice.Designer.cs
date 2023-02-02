@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmReceivableInvoice));
             this.lblTitle = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -53,11 +54,6 @@
             this.txtTotal = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.dgvLines = new System.Windows.Forms.DataGridView();
-            this.colInvoiceLineID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colUnitCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.cboAccount = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -67,6 +63,12 @@
             this.toolStripExtender = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
             this.loader = new CompanyStudio.Loader();
             this.cmdAction = new System.Windows.Forms.Button();
+            this.colInvoiceLineID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colItem = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.colDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUnitCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -329,6 +331,7 @@
             this.dgvLines.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvLines.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colInvoiceLineID,
+            this.colItem,
             this.colDescription,
             this.colQuantity,
             this.colUnitCost,
@@ -338,39 +341,8 @@
             this.dgvLines.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvLines.Size = new System.Drawing.Size(530, 132);
             this.dgvLines.TabIndex = 1;
+            this.dgvLines.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLines_CellClick);
             this.dgvLines.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLines_CellValueChanged);
-            // 
-            // colInvoiceLineID
-            // 
-            this.colInvoiceLineID.HeaderText = "";
-            this.colInvoiceLineID.Name = "colInvoiceLineID";
-            this.colInvoiceLineID.ReadOnly = true;
-            this.colInvoiceLineID.Visible = false;
-            // 
-            // colDescription
-            // 
-            this.colDescription.HeaderText = "Description";
-            this.colDescription.Name = "colDescription";
-            this.colDescription.Width = 150;
-            // 
-            // colQuantity
-            // 
-            this.colQuantity.HeaderText = "Quantity";
-            this.colQuantity.Name = "colQuantity";
-            this.colQuantity.Width = 60;
-            // 
-            // colUnitCost
-            // 
-            this.colUnitCost.HeaderText = "Unit Cost";
-            this.colUnitCost.Name = "colUnitCost";
-            this.colUnitCost.Width = 75;
-            // 
-            // colTotal
-            // 
-            this.colTotal.HeaderText = "Line Total";
-            this.colTotal.Name = "colTotal";
-            this.colTotal.ReadOnly = true;
-            this.colTotal.Width = 80;
             // 
             // groupBox4
             // 
@@ -471,6 +443,45 @@
             this.cmdAction.Visible = false;
             this.cmdAction.Click += new System.EventHandler(this.cmdAction_Click);
             // 
+            // colInvoiceLineID
+            // 
+            this.colInvoiceLineID.HeaderText = "";
+            this.colInvoiceLineID.Name = "colInvoiceLineID";
+            this.colInvoiceLineID.ReadOnly = true;
+            this.colInvoiceLineID.Visible = false;
+            // 
+            // colItem
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colItem.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colItem.HeaderText = "Item";
+            this.colItem.Name = "colItem";
+            // 
+            // colDescription
+            // 
+            this.colDescription.HeaderText = "Description";
+            this.colDescription.Name = "colDescription";
+            this.colDescription.Width = 150;
+            // 
+            // colQuantity
+            // 
+            this.colQuantity.HeaderText = "Quantity";
+            this.colQuantity.Name = "colQuantity";
+            this.colQuantity.Width = 60;
+            // 
+            // colUnitCost
+            // 
+            this.colUnitCost.HeaderText = "Unit Cost";
+            this.colUnitCost.Name = "colUnitCost";
+            this.colUnitCost.Width = 75;
+            // 
+            // colTotal
+            // 
+            this.colTotal.HeaderText = "Line Total";
+            this.colTotal.Name = "colTotal";
+            this.colTotal.ReadOnly = true;
+            this.colTotal.Width = 80;
+            // 
             // frmReceivableInvoice
             // 
             this.AcceptButton = this.cmdSave;
@@ -538,11 +549,12 @@
         private Loader loader;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.DateTimePicker dtpInvoiceDate;
+        private System.Windows.Forms.Button cmdAction;
         private System.Windows.Forms.DataGridViewTextBoxColumn colInvoiceLineID;
+        private System.Windows.Forms.DataGridViewButtonColumn colItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescription;
         private System.Windows.Forms.DataGridViewTextBoxColumn colQuantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUnitCost;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTotal;
-        private System.Windows.Forms.Button cmdAction;
     }
 }

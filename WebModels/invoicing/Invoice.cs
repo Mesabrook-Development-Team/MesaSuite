@@ -230,6 +230,21 @@ namespace WebModels.invoicing
         };
 
         #region Relationships
+        #region fleet
+        private List<fleet.LeaseContractInvoice> _leaseContractInvoices = new List<fleet.LeaseContractInvoice>();
+        [RelationshipList("BC306004-B909-4E56-9BE4-C5153904350B", nameof(fleet.LeaseContractInvoice.InvoiceID))]
+        public IReadOnlyCollection<fleet.LeaseContractInvoice> LeaseContractInvoices
+        {
+            get { CheckGet(); return _leaseContractInvoices; }
+        }
+
+        private List<fleet.RailcarLocationTransaction> _railcarLocationTransactions = new List<fleet.RailcarLocationTransaction>();
+        [RelationshipList("5D15D10B-9744-415A-8060-0FF591FAB760", nameof(fleet.RailcarLocationTransaction.InvoiceID), AutoRemoveReferences = true)]
+        public IReadOnlyCollection<fleet.RailcarLocationTransaction> RailcarLocationTransactions
+        {
+            get { CheckGet(); return _railcarLocationTransactions; }
+        }
+        #endregion
         #region invoicing
         private List<InvoiceLine> _invoiceLines = new List<InvoiceLine>();
         [RelationshipList("151E4019-12B6-47B3-9F62-3F5B9B5F7A4D", "InvoiceID", AutoDeleteReferences = true)]
@@ -599,6 +614,7 @@ namespace WebModels.invoicing
         public static class ValidationIDs
         {
             public static readonly Guid V_HistoryStatusChanges = new Guid("DE904CC5-FF28-4250-BCEA-D31D749FEF51");
+            public static readonly Guid V_SentStatusValid = new Guid("DE904CC5-FF28-4250-BCEA-D31D749FEF51");
         }
     }
 }

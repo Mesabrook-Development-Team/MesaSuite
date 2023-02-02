@@ -4,6 +4,7 @@ using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using WebModels.mesasys;
 
 namespace WebModels.invoicing
 {
@@ -69,6 +70,21 @@ namespace WebModels.invoicing
         {
             get { CheckGet(); return _description; }
             set { CheckSet(); _description = value; }
+        }
+
+        private long? _itemID;
+        [Field("3C8ECFDD-A6A7-4A44-810C-411A008E3CC4")]
+        public long? ItemID
+        {
+            get { CheckGet(); return _itemID; }
+            set { CheckSet(); _itemID = value; }
+        }
+
+        private Item _item = null;
+        [Relationship("427BC45C-17BA-4DA1-8A82-B051F4ED6726")]
+        public Item Item
+        {
+            get { CheckGet(); return _item; }
         }
 
         protected override void PreValidate()

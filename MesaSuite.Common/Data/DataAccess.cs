@@ -1,6 +1,9 @@
-﻿using MesaSuite.Common.Attributes;
+﻿using CefSharp.DevTools.CSS;
+using MesaSuite.Common.Attributes;
+using MesaSuite.Common.Extensions;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -22,6 +25,7 @@ namespace MesaSuite.Common.Data
         public bool RequireAuthentication { internal get; set; } = true;
         public Dictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
         public List<string> RequestFields { get; set; } = new List<string>();
+        public bool SuppressErrors { get; set; }
 
         public DataAccess(APIs api, string resource)
         {
@@ -64,7 +68,10 @@ namespace MesaSuite.Common.Data
                     }
                     else
                     {
-                        MessageBox.Show("You must sign in to view this content", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (!SuppressErrors)
+                        {
+                            MessageBox.Show("You must sign in to view this content", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                         RequestSuccessful = false;
                         return Task.FromResult<string>(null);
                     }
@@ -72,7 +79,10 @@ namespace MesaSuite.Common.Data
 
                 if (response.StatusCode == HttpStatusCode.Forbidden)
                 {
-                    MessageBox.Show("You do not have sufficient permissions to view this content", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!SuppressErrors)
+                    {
+                        MessageBox.Show("You do not have sufficient permissions to view this content", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                     RequestSuccessful = false;
                     return Task.FromResult<string>(null);
                 }
@@ -104,14 +114,20 @@ namespace MesaSuite.Common.Data
                         }
                     }
 
-                    MessageBox.Show(errorText.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!SuppressErrors)
+                    {
+                        MessageBox.Show(errorText.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                     RequestSuccessful = false;
                     return Task.FromResult<string>(null);
                 }
 
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {
-                    MessageBox.Show("The resource you requested was not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!SuppressErrors)
+                    {
+                        MessageBox.Show("The resource you requested was not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                     RequestSuccessful = false;
                     return Task.FromResult<string>(null);
                 }
@@ -119,7 +135,87 @@ namespace MesaSuite.Common.Data
 
             throw ex;
         }
-        
+
+        protected void TimeZoneCorrection(object anObject, bool toLocalTime)
+        {
+            if (anObject == null)
+            {
+                return;
+            }
+
+            if (typeof(IEnumerable).IsAssignableFrom(anObject.GetType()) && anObject.GetType().IsGenericType)
+            {
+                IEnumerable objects = (IEnumerable)anObject;
+                foreach (object subObject in objects)
+                {
+                    TimeZoneCorrection(subObject, toLocalTime);
+                }
+
+                return;
+            }
+
+            foreach (PropertyInfo property in anObject.GetType().GetProperties())
+            {
+                if (property.PropertyType == typeof(DateTime?) && property.GetValue(anObject) == null)
+                {
+                    continue;
+                }
+
+                if (property.PropertyType == typeof(DateTime) && ((DateTime)property.GetValue(anObject) == default(DateTime) || (DateTime)property.GetValue(anObject) == DateTime.MaxValue))
+                {
+                    continue;
+                }
+
+                if (typeof(IEnumerable).IsAssignableFrom(property.PropertyType) && property.PropertyType.IsGenericType)
+                {
+                    IEnumerable objects = (IEnumerable)property.GetValue(anObject);
+                    if (objects != null)
+                    {
+                        foreach (object subObject in objects)
+                        {
+                            TimeZoneCorrection(subObject, toLocalTime);
+                        }
+                    }
+
+                    continue;
+                }
+
+                if (property.PropertyType.Assembly.GetReferencedAssemblies().Select(an => an.FullName).Contains(Assembly.GetExecutingAssembly().FullName))
+                {
+                    TimeZoneCorrection(property.GetValue(anObject), toLocalTime);
+                    continue;
+                }
+
+                if (property.SetMethod == null)
+                {
+                    continue;
+                }
+
+                if (property.PropertyType == typeof(DateTime) || property.PropertyType == typeof(DateTime?))
+                {
+                    DateTime currentValue;
+                    if (property.PropertyType == typeof(DateTime?))
+                    {
+                        currentValue = ((DateTime?)property.GetValue(anObject)).Value;
+                    }
+                    else
+                    {
+                        currentValue = (DateTime)property.GetValue(anObject);
+                    }
+
+                    if (toLocalTime)
+                    {
+                        currentValue = currentValue.ConvertToLocalTime();
+                    }
+                    else
+                    {
+                        currentValue = currentValue.ConvertToServerTime();
+                    }
+                    property.SetValue(anObject, currentValue);
+                }
+            }
+        }
+
         public enum APIs
         {
             [EnumValue("mcsync")]
@@ -131,7 +227,9 @@ namespace MesaSuite.Common.Data
             [EnumValue("gov")]
             GovernmentPortal,
             [EnumValue("tow")]
-            TowTickets
+            TowTickets,
+            [EnumValue("fleet")]
+            FleetTracking
         }
     }
 }

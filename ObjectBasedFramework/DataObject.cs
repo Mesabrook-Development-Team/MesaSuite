@@ -57,7 +57,7 @@ namespace ClussPro.ObjectBasedFramework
             }
 
             PreValidate();
-            Validate(isInsert ? Validator.SaveModes.Insert : Validator.SaveModes.Update, saveFlags);
+            Validate(isInsert ? Validator.SaveModes.Insert : Validator.SaveModes.Update, saveFlags, transaction);
 
             if (Errors.Any())
             {
@@ -118,7 +118,7 @@ namespace ClussPro.ObjectBasedFramework
                 }
 
                 PreValidate();
-                Validate(Validator.SaveModes.Delete, saveFlags);
+                Validate(Validator.SaveModes.Delete, saveFlags, transaction);
 
                 if (Errors.Any())
                 {
@@ -228,6 +228,50 @@ namespace ClussPro.ObjectBasedFramework
                 }
             }
 
+            foreach(Relationship relationship in Schema.Schema.GetSchemaObject(GetType()).GetRelationships().Where(r => r.OneToOneByForeignKey)) // Auto-delete 1:1 relationships
+            {
+                SchemaObject relatedSchemaObject = Schema.Schema.GetSchemaObject(relationship.RelatedObjectType);
+                Schema.Field relatedField = relatedSchemaObject.GetField(string.IsNullOrEmpty(relationship.OneToOneForeignKey) ? primaryKeyField.FieldName : relationship.OneToOneForeignKey);
+
+                ISelectQuery relatedObjectQuery = SQLProviderFactory.GetSelectQuery();
+                relatedObjectQuery.Table = new Table(relatedSchemaObject.SchemaName, relatedSchemaObject.ObjectName);
+                relatedObjectQuery.SelectList.Add(relatedSchemaObject.PrimaryKeyField.FieldName);
+                relatedObjectQuery.WhereCondition = new Condition()
+                {
+                    Left = (Base.Data.Operand.Field)relatedField.FieldName,
+                    ConditionType = Condition.ConditionTypes.Equal,
+                    Right = new Literal(primaryKeyField.GetValue(this))
+                };
+
+                DataTable results = relatedObjectQuery.Execute(transaction);
+                foreach (DataRow row in results.Rows)
+                {
+                    object primaryKeyValue = null;
+                    if (relatedSchemaObject.PrimaryKeyField.ReturnType == typeof(long?))
+                    {
+                        primaryKeyValue = row[relatedSchemaObject.PrimaryKeyField.FieldName] as long?;
+                    }
+                    else if (relatedSchemaObject.PrimaryKeyField.ReturnType == typeof(int?))
+                    {
+                        primaryKeyValue = row[relatedSchemaObject.PrimaryKeyField.FieldName] as int?;
+                    }
+
+                    if (primaryKeyValue != null && typeof(Nullable<>).IsAssignableFrom(primaryKeyValue.GetType()))
+                    {
+                        Type underlyingType = Nullable.GetUnderlyingType(primaryKeyValue.GetType());
+                        primaryKeyValue = Convert.ChangeType(primaryKeyValue, underlyingType);
+                    }
+
+                    FKConstraintConflict fKConstraintConflict = new FKConstraintConflict();
+                    fKConstraintConflict.ConflictType = relationship.RelatedObjectType;
+                    fKConstraintConflict.ForeignKey = primaryKeyValue != null ? (long)Convert.ChangeType(primaryKeyValue, typeof(long)) : 0;
+                    fKConstraintConflict.ForeignKeyName = relatedField.FieldName;
+                    fKConstraintConflict.ActionType = FKConstraintConflict.ActionTypes.AutoDeleteReference;
+
+                    fKConstraintConflicts.Add(fKConstraintConflict);
+                }
+            }
+
             return fKConstraintConflicts;
         }
 
@@ -303,9 +347,9 @@ namespace ClussPro.ObjectBasedFramework
             conflicts.RemoveAll(fk => handled.Contains(fk));
         }
 
-        public bool Validate(Validator.SaveModes saveMode, List<Guid> saveFlags = null)
+        public bool Validate(Validator.SaveModes saveMode, List<Guid> saveFlags = null, ITransaction transaction = null)
         {
-            return Validator.Validate(this, saveMode, saveFlags);
+            return Validator.Validate(this, saveMode, saveFlags, transaction);
         }
 
         private bool SaveInsert(ITransaction transaction)
@@ -321,6 +365,7 @@ namespace ClussPro.ObjectBasedFramework
 
                 FieldValue fieldValue = new FieldValue();
                 fieldValue.FieldName = field.FieldName;
+                fieldValue.FieldType = field.FieldType;
                 fieldValue.Value = field.GetValue(this);
                 insertQuery.FieldValueList.Add(fieldValue);
             }
@@ -357,6 +402,7 @@ namespace ClussPro.ObjectBasedFramework
             {
                 FieldValue fieldValue = new FieldValue();
                 fieldValue.FieldName = field.FieldName;
+                fieldValue.FieldType = field.FieldType;
                 fieldValue.Value = field.GetValue(this);
                 updateQuery.FieldValueList.Add(fieldValue);
             }
@@ -429,12 +475,25 @@ namespace ClussPro.ObjectBasedFramework
 
         public virtual ICondition GetRelationshipCondition(Relationship relationship, string myAlias, string otherAlias)
         {
-            return new Condition()
+            if (!relationship.OneToOneByForeignKey)
             {
-                Left = (Base.Data.Operand.Field)$"{myAlias}.{relationship.ForeignKeyField.FieldName}",
-                ConditionType = Condition.ConditionTypes.Equal,
-                Right = (Base.Data.Operand.Field)$"{otherAlias}.{relationship.RelatedSchemaObject.PrimaryKeyField.FieldName}"
-            };
+                return new Condition()
+                {
+                    Left = (Base.Data.Operand.Field)$"{myAlias}.{relationship.ForeignKeyField.FieldName}",
+                    ConditionType = Condition.ConditionTypes.Equal,
+                    Right = (Base.Data.Operand.Field)$"{otherAlias}.{relationship.RelatedSchemaObject.PrimaryKeyField.FieldName}"
+                };
+            }
+            else
+            {
+                string otherObjectForeignKey = string.IsNullOrEmpty(relationship.OneToOneForeignKey) ? PrimaryKeyField.FieldName : relationship.OneToOneForeignKey;
+                return new Condition()
+                {
+                    Left = (Base.Data.Operand.Field)$"{otherAlias}.{otherObjectForeignKey}",
+                    ConditionType = Condition.ConditionTypes.Equal,
+                    Right = (Base.Data.Operand.Field)$"{myAlias}.{PrimaryKeyField.FieldName}"
+                };
+            }
         }
 
         //public void SetData(IEnumerable<string> fieldsToSet, Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> queries, DataRow row)
@@ -582,7 +641,8 @@ namespace ClussPro.ObjectBasedFramework
                     {
                         parentObject = relationship.GetValue(parentObject);
                         parentSchemaObject = relationship.RelatedSchemaObject;
-                        reverseRelationshipWeCanDoSomethingAbout += relationship.RelatedSchemaObject.ObjectName + ".";
+                        //reverseRelationshipWeCanDoSomethingAbout += relationship.RelatedSchemaObject.ObjectName + ".";
+                        reverseRelationshipWeCanDoSomethingAbout += relationship.RelationshipName + ".";
                     }
                     else
                     {
@@ -607,48 +667,51 @@ namespace ClussPro.ObjectBasedFramework
                     primaryKey = parentObject.PrimaryKeyField.GetValue(parentObject) as int?;
                 }
 
-                ISelectQuery query = queries[reverseRelationshipWeCanDoSomethingAbout].Item1;
-                Condition primaryKeyCondition = new Condition()
+                if (primaryKey != null) // Can't set child relationships if the parent object is null
                 {
-                    Left = (Base.Data.Operand.Field)relationshipList.ForeignKeyName,
-                    ConditionType = Condition.ConditionTypes.Equal,
-                    Right = new Literal(primaryKey)
-                };
-
-                ICondition previousQueryCondition = query.WhereCondition;
-                if (query.WhereCondition != null)
-                {
-                    ConditionGroup conditionGroup = new ConditionGroup()
+                    ISelectQuery query = queries[reverseRelationshipWeCanDoSomethingAbout].Item1;
+                    Condition primaryKeyCondition = new Condition()
                     {
-                        ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
-                        Conditions = new List<ICondition>() { query.WhereCondition, primaryKeyCondition }
+                        Left = (Base.Data.Operand.Field)relationshipList.ForeignKeyName,
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = new Literal(primaryKey)
                     };
-                    query.WhereCondition = conditionGroup;
-                }
-                else
-                {
-                    query.WhereCondition = primaryKeyCondition;
-                }
 
-                HashSet<string> childFieldsToSet = fieldsToSet.Where(f => f.StartsWith(reverseRelationshipWeCanDoSomethingAbout)).Select(f => f.Replace(reverseRelationshipWeCanDoSomethingAbout, "")).ToHashSet();
-                childFieldsToSet.Add(relationshipList.RelatedSchemaObject.PrimaryKeyField.FieldName);
-                Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> childQueries = new Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>>();
-                foreach(KeyValuePair<string, Tuple<ISelectQuery, Dictionary<string, string>>> childQuery in queries.Where(kvp => kvp.Key.StartsWith(reverseRelationshipWeCanDoSomethingAbout)))
-                {
-                    childQueries.Add(childQuery.Key.Replace(reverseRelationshipWeCanDoSomethingAbout, ""), childQuery.Value);
-                }
+                    ICondition previousQueryCondition = query.WhereCondition;
+                    if (query.WhereCondition != null)
+                    {
+                        ConditionGroup conditionGroup = new ConditionGroup()
+                        {
+                            ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                            Conditions = new List<ICondition>() { query.WhereCondition, primaryKeyCondition }
+                        };
+                        query.WhereCondition = conditionGroup;
+                    }
+                    else
+                    {
+                        query.WhereCondition = primaryKeyCondition;
+                    }
 
-                object reverseRelationshipList = relationshipList.GetPrivateDataCallback(parentObject);
-                MethodInfo addMethod = reverseRelationshipList.GetType().GetMethod("Add", new Type[] { relationshipList.RelatedObjectType });
+                    HashSet<string> childFieldsToSet = fieldsToSet.Where(f => f.StartsWith(reverseRelationshipWeCanDoSomethingAbout)).Select(f => f.Replace(reverseRelationshipWeCanDoSomethingAbout, "")).ToHashSet();
+                    childFieldsToSet.Add(relationshipList.RelatedSchemaObject.PrimaryKeyField.FieldName);
+                    Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> childQueries = new Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>>();
+                    foreach (KeyValuePair<string, Tuple<ISelectQuery, Dictionary<string, string>>> childQuery in queries.Where(kvp => kvp.Key.StartsWith(reverseRelationshipWeCanDoSomethingAbout)))
+                    {
+                        childQueries.Add(childQuery.Key.Replace(reverseRelationshipWeCanDoSomethingAbout, ""), childQuery.Value);
+                    }
 
-                DataTable results = query.Execute(transaction);
-                query.WhereCondition = previousQueryCondition;
-                foreach(DataRow row in results.Rows)
-                {
-                    DataObject childObject = DataObjectFactory.Create(relationshipList.RelatedObjectType);
-                    childObject.isEditable = false;
-                    childObject.SetData(childFieldsToSet, childQueries, row, transaction);
-                    addMethod.Invoke(reverseRelationshipList, new object[] { childObject });
+                    object reverseRelationshipList = relationshipList.GetPrivateDataCallback(parentObject);
+                    MethodInfo addMethod = reverseRelationshipList.GetType().GetMethod("Add", new Type[] { relationshipList.RelatedObjectType });
+
+                    DataTable results = query.Execute(transaction);
+                    query.WhereCondition = previousQueryCondition;
+                    foreach (DataRow row in results.Rows)
+                    {
+                        DataObject childObject = DataObjectFactory.Create(relationshipList.RelatedObjectType);
+                        childObject.isEditable = false;
+                        childObject.SetData(childFieldsToSet, childQueries, row, transaction);
+                        addMethod.Invoke(reverseRelationshipList, new object[] { childObject });
+                    }
                 }
                 parentObject.retrievedPaths.Add(relationshipList.RelationshipListName);
             }

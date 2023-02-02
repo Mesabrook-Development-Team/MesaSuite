@@ -118,6 +118,13 @@ namespace WebModels.gov
             set { CheckSet(); _issueWireTransfers = value; }
         }
 
+        private fleet.FleetSecurity _fleetSecurity = null;
+        [Relationship("FED1EFD8-73ED-4E3F-88D9-C71E67D63725", OneToOneByForeignKey = true)]
+        public fleet.FleetSecurity FleetSecurity
+        {
+            get { CheckGet(); return _fleetSecurity; }
+        }
+
         public static OperationDelegate OfficialNameOperation
         {
             get

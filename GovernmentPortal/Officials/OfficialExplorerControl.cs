@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GovernmentPortal.Extensions;
 using GovernmentPortal.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
@@ -108,25 +109,43 @@ namespace GovernmentPortal.Officials
                 Model.ManageInvoices = chkManageInvoices.Checked;
                 Model.IssueWireTransfers = chkIssueWireTransfers.Checked;
 
+                bool saveSuccess;
+                Official returnedOfficial;
                 if (Model.OfficialID == default(long))
                 {
                     PostData post = new PostData(DataAccess.APIs.GovernmentPortal, "Official/Post", Model);
                     post.Headers.Add("GovernmentID", GovernmentID.ToString());
-                    Official returnedOfficial = await post.Execute<Official>();
-                    if (post.RequestSuccessful)
-                    {
-                        Model = returnedOfficial;
-                        IsDirty = false;
-                    }
+                    returnedOfficial = await post.Execute<Official>();
+                    saveSuccess = post.RequestSuccessful;
                 }
                 else
                 {
                     PutData put = new PutData(DataAccess.APIs.GovernmentPortal, "Official/Put", Model);
                     put.Headers.Add("GovernmentID", GovernmentID.ToString());
-                    Official returnedOfficial = await put.Execute<Official>();
+                    returnedOfficial = await put.Execute<Official>();
+                    saveSuccess = put.RequestSuccessful;
+                }
+
+                if (saveSuccess)
+                {
+                    FleetTracking.Models.FleetSecurity security = new FleetTracking.Models.FleetSecurity()
+                    {
+                        OfficialID = returnedOfficial.OfficialID,
+                        AllowSetup = chkFleetSetup.Checked,
+                        AllowLeasingManagement = chkFleetLeasing.Checked,
+                        IsYardmaster = chkFleetYardmaster.Checked,
+                        IsTrainCrew = chkFleetTrainCrew.Checked,
+                        AllowLoadUnload = chkFleetLoadUnload.Checked
+                    };
+
+                    PutData put = new PutData(DataAccess.APIs.GovernmentPortal, "Official/PutFleetSecurity", security);
+                    put.AddGovHeader(GovernmentID);
+                    await put.ExecuteNoResult();
                     if (put.RequestSuccessful)
                     {
-                        Model = returnedOfficial;
+                        GetData get = new GetData(DataAccess.APIs.GovernmentPortal, $"Official/Get/{returnedOfficial.OfficialID}");
+                        get.AddGovHeader(GovernmentID);
+                        Model = await get.GetObject<Official>();
                         IsDirty = false;
                     }
                 }
@@ -175,6 +194,12 @@ namespace GovernmentPortal.Officials
                 chkManageTaxes.Checked = Model.ManageTaxes;
                 chkManageInvoices.Checked = Model.ManageInvoices;
                 chkIssueWireTransfers.Checked = Model.IssueWireTransfers;
+
+                chkFleetSetup.Checked = Model.FleetSecurity.AllowSetup;
+                chkFleetLeasing.Checked = Model.FleetSecurity.AllowLeasingManagement;
+                chkFleetYardmaster.Checked = Model.FleetSecurity.IsYardmaster;
+                chkFleetTrainCrew.Checked = Model.FleetSecurity.IsTrainCrew;
+                chkFleetLoadUnload.Checked = Model.FleetSecurity.AllowLoadUnload;
             }
 
             loader.Visible = false;

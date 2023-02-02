@@ -89,7 +89,7 @@
             this.dockPanel.DockTopPortion = 0.15D;
             this.dockPanel.Location = new System.Drawing.Point(0, 52);
             this.dockPanel.Name = "dockPanel";
-            this.dockPanel.Size = new System.Drawing.Size(800, 398);
+            this.dockPanel.Size = new System.Drawing.Size(855, 398);
             this.dockPanel.TabIndex = 0;
             // 
             // mnuBanner
@@ -104,7 +104,7 @@
             this.mnuBanner.Location = new System.Drawing.Point(0, 0);
             this.mnuBanner.Name = "mnuBanner";
             this.mnuBanner.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
-            this.mnuBanner.Size = new System.Drawing.Size(800, 24);
+            this.mnuBanner.Size = new System.Drawing.Size(855, 24);
             this.mnuBanner.TabIndex = 2;
             this.mnuBanner.Text = "Banner";
             // 
@@ -384,7 +384,7 @@
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip.Size = new System.Drawing.Size(800, 25);
+            this.toolStrip.Size = new System.Drawing.Size(855, 25);
             this.toolStrip.TabIndex = 4;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -461,7 +461,7 @@
             this.loader.Location = new System.Drawing.Point(0, 0);
             this.loader.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(800, 450);
+            this.loader.Size = new System.Drawing.Size(855, 450);
             this.loader.TabIndex = 7;
             this.loader.Visible = false;
             // 
@@ -469,7 +469,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(855, 450);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.dockPanel);
             this.Controls.Add(this.mnuBanner);

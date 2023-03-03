@@ -156,7 +156,7 @@ namespace FleetTracking.Roster
             Control listControl = panelList.Controls[0];
             if (listControl is RollingStockList rollingStockList)
             {
-                rollingStockList.LoadData(selectedReportingMark);
+                rollingStockList.RetrieveData(selectedReportingMark);
             }
 
             if (listControl is LocomotiveList locomotiveList)

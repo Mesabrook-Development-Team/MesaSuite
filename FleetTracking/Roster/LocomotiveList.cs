@@ -14,6 +14,12 @@ namespace FleetTracking.Roster
 {
     public partial class LocomotiveList : UserControl, IFleetTrackingControl
     {
+        private const int take = 15;
+        private int skip = 0;
+        private int total = 0;
+
+        Dictionary<string, Locomotive> stockByReportingMark = new Dictionary<string, Locomotive>();
+
         public event EventHandler<Locomotive> LocomotiveSelected;
         public Func<Locomotive, bool> Filter { get; set; }
         private string _reportingMarkFilter;
@@ -49,10 +55,10 @@ namespace FleetTracking.Roster
             dataGridViewStylizer.ApplyStyle(dgvLocomotives);
             dgvLocomotives.MultiSelect = true;
 
-            await LoadData();
+            await RetrieveData();
         }
 
-        public async Task LoadData(string selectedReportingMark = null)
+        public async Task RetrieveData(string selectedReportingMark = null)
         {
             try
             {
@@ -70,20 +76,46 @@ namespace FleetTracking.Roster
                 {
                     locomotives = locomotives.Where(Filter).ToList();
                 }
+                stockByReportingMark = locomotives.ToDictionary(l => l.FormattedReportingMark);
+                total = locomotives.Count;
+                PopulateGrid(selectedReportingMark);
+                
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
+        }
 
-                foreach (Locomotive locomotive in locomotives)
+        private async void PopulateGrid(string selectedReportingMark = null)
+        {
+            try
+            {
+                dgvLocomotives.Rows.Clear();
+
+                Dictionary<string, Locomotive> filteredStock = stockByReportingMark.OrderBy(kvp => kvp.Key).Skip(skip).Take(take).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+                lblRecordCount.Text = $"Displaying {skip + 1}-{(skip + take > total ? total : skip + take)} of {total}";
+
+                cmdFirst.Enabled = skip > 0;
+                cmdPrevious.Enabled = skip > 0;
+                cmdNext.Enabled = skip + take < total;
+                cmdLast.Enabled = skip + take < total;
+
+                foreach (KeyValuePair<string, Locomotive> kvp in filteredStock)
                 {
                     int rowIndex = dgvLocomotives.Rows.Add();
                     DataGridViewRow row = dgvLocomotives.Rows[rowIndex];
 
-                    string reportingMark = locomotive.ReportingMark + locomotive.ReportingNumber;
-                    row.Cells[colReportingMark.Name].Value = reportingMark;
+                    row.Cells[colReportingMark.Name].Value = kvp.Key;
+                    Locomotive locomotive = kvp.Value;
+
                     row.Cells[colModel.Name].Value = locomotive.LocomotiveModel?.Name;
                     row.Cells[colOwner.Name].Value = locomotive.CompanyOwner?.Name ?? locomotive.GovernmentOwner?.Name;
                     row.Cells[colCurrentLocation.Name].Value = locomotive.Location;
                     row.Tag = locomotive;
 
-                    if (!string.IsNullOrEmpty(reportingMark) && string.Equals(reportingMark, selectedReportingMark, StringComparison.OrdinalIgnoreCase))
+                    if (!string.IsNullOrEmpty(kvp.Key) && string.Equals(kvp.Key, selectedReportingMark, StringComparison.OrdinalIgnoreCase))
                     {
                         row.Selected = true;
                     }
@@ -108,14 +140,7 @@ namespace FleetTracking.Roster
                         row.Selected = true;
                     }
                 }
-            }
-            finally
-            {
-                loader.Visible = false;
-            }
 
-            try
-            {
                 GetData getImage = _application.GetAccess<GetData>();
                 getImage.API = DataAccess.APIs.FleetTracking;
 
@@ -158,6 +183,39 @@ namespace FleetTracking.Roster
                 string reportingMark = row.Cells[colReportingMark.Name].Value as string;
                 row.Visible = string.IsNullOrEmpty(reportingMark) || string.IsNullOrEmpty(ReportingMarkFilter) || reportingMark.Contains(ReportingMarkFilter);
             }
+        }
+
+        private void cmdFirst_Click(object sender, EventArgs e)
+        {
+            skip = 0;
+            PopulateGrid();
+        }
+
+        private void cmdPrevious_Click(object sender, EventArgs e)
+        {
+            skip -= take;
+            if (skip < 0)
+            {
+                skip = 0;
+            }
+
+            PopulateGrid();
+        }
+
+        private void cmdNext_Click(object sender, EventArgs e)
+        {
+            skip += take;
+            PopulateGrid();
+        }
+
+        private void cmdLast_Click(object sender, EventArgs e)
+        {
+            skip = total - take;
+            if (skip < 0)
+            {
+                skip = 0;
+            }
+            PopulateGrid();
         }
     }
 }

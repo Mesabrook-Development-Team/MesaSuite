@@ -161,12 +161,12 @@ namespace FleetTracking.Roster
 
             if (listControl is LocomotiveList locomotiveList)
             {
-                locomotiveList.LoadData(selectedReportingMark);
+                locomotiveList.RetrieveData(selectedReportingMark);
             }
 
             if (listControl is RailcarList railcarList)
             {
-                railcarList.LoadData(selectedReportingMark);
+                railcarList.RetrieveData(selectedReportingMark);
             }
         }
     }

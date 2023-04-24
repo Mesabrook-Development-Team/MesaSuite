@@ -45,7 +45,7 @@ namespace FleetTracking.LocomotiveModel
             lblName.Text = model.Name;
             lblType.Text = model.IsSteamPowered ? "Steam Locomotive" : "Diesel Electric Locomotive";
 
-            get.Resource = $"LocomotiveModel/GetImage/{LocomotiveModelID}";
+            get.Resource = $"LocomotiveModel/GetImageThumbnail/{LocomotiveModelID}";
             byte[] imageData = await get.GetObject<byte[]>();
 
             if (imageData != null)

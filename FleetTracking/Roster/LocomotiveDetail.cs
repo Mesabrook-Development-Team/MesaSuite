@@ -291,6 +291,8 @@ namespace FleetTracking.Roster
                 PutData updateImage = _application.GetAccess<PutData>();
                 updateImage.API = DataAccess.APIs.FleetTracking;
                 updateImage.Resource = "Locomotive/UpdateImage";
+                //long? locomotiveID = locomotive.LocomotiveID;
+                //updateImage.ObjectToPut = new { locomotiveID = locomotiveID, image = imageData };
                 updateImage.ObjectToPut = new { locomotiveID = locomotive.LocomotiveID, image = imageData };
                 await updateImage.ExecuteNoResult();
             }

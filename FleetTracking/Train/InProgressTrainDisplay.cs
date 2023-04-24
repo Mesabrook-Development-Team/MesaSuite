@@ -188,12 +188,12 @@ namespace FleetTracking.Train
                     byte[] imageData;
                     if (railLocation.LocomotiveID != null)
                     {
-                        get.Resource = $"Locomotive/GetImage/{railLocation.LocomotiveID}";
+                        get.Resource = $"Locomotive/GetImageThumbnail/{railLocation.LocomotiveID}";
                         imageData = await get.GetObject<byte[]>();
                     }
                     else
                     {
-                        get.Resource = $"Railcar/GetImage/{railLocation.RailcarID}";
+                        get.Resource = $"Railcar/GetImageThumbnail/{railLocation.RailcarID}";
                         imageData = await get.GetObject<byte[]>();
                     }
 
@@ -280,7 +280,7 @@ namespace FleetTracking.Train
                         continue;
                     }
 
-                    get.Resource = $"Locomotive/GetImage/{fuelRecord.LocomotiveID}";
+                    get.Resource = $"Locomotive/GetImageThumbnail/{fuelRecord.LocomotiveID}";
                     byte[] imageData = await get.GetObject<byte[]>();
 
                     if (imageData != null)
@@ -340,7 +340,7 @@ namespace FleetTracking.Train
                         continue;
                     }
 
-                    get.Resource = $"Railcar/GetImage/{locationTransaction.RailcarID}";
+                    get.Resource = $"Railcar/GetImageThumbnail/{locationTransaction.RailcarID}";
                     byte[] imageData = await get.GetObject<byte[]>();
                     if (imageData != null)
                     {

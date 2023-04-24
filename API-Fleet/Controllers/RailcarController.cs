@@ -102,6 +102,17 @@ namespace API_Fleet.Controllers
             return Ok(railcar.ImageOverride ?? railcar.RailcarModel.Image);
         }
 
+        public IHttpActionResult GetImageThumbnail(long? id)
+        {
+            Railcar railcar = DataObject.GetReadOnlyByPrimaryKey<Railcar>(id, null, new[] { "ImageOverrideThumbnail", "RailcarModel.ImageThumbnail" });
+            if (railcar == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(railcar.ImageOverrideThumbnail ?? railcar.RailcarModel.ImageThumbnail);
+        }
+
         [HttpPut]
         public IHttpActionResult UpdateImage(UpdateImageParameter updateImageParameter)
         {

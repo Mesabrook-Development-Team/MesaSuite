@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Conditions;
@@ -18,6 +22,8 @@ namespace WebModels.fleet
     [Table("26F0E07C-E054-49E2-92DB-E535B77D2D66")]
     public class Locomotive : DataObject
     {
+        public const decimal THUMBNAIL_WIDTH = 64M;
+
         protected Locomotive() : base() { }
 
         private long? _locomotiveID;
@@ -137,6 +143,14 @@ namespace WebModels.fleet
             set { CheckSet(); _imageOverride = value; }
         }
 
+        private byte[] _imageOverrideThumbnail;
+        [Field("A2540522-4909-4594-8A8C-AF384110A2FB")]
+        public byte[] ImageOverrideThumbnail
+        {
+            get { CheckGet(); return _imageOverrideThumbnail; }
+            set { CheckSet(); _imageOverrideThumbnail = value; }
+        }
+
         private bool _hasOpenBid;
         [Field("D83BAE12-2E19-4A57-A652-D123A3AC5183", HasOperation = true)]
         public bool HasOpenBid
@@ -182,6 +196,29 @@ namespace WebModels.fleet
 
                 return new SubQuery(selectQuery);
             };
+        }
+
+        protected override bool PreSave(ITransaction transaction)
+        {
+            if (IsFieldDirty(nameof(ImageOverride)))
+            {
+                using (MemoryStream inputStream = new MemoryStream(ImageOverride))
+                using (Image image = Image.FromStream(inputStream))
+                {
+                    int height = (int)(image.Height * (THUMBNAIL_WIDTH / image.Width));
+                    using (Image thumbnail = image.GetThumbnailImage((int)THUMBNAIL_WIDTH, height, () => false, IntPtr.Zero))
+                    using (MemoryStream outputStream = new MemoryStream())
+                    {
+                        thumbnail.Save(outputStream, ImageFormat.Png);
+                        outputStream.Position = 0;
+
+                        ImageOverrideThumbnail = new byte[outputStream.Length];
+                        outputStream.Read(ImageOverrideThumbnail, 0, (int)outputStream.Length);
+                    }
+                }
+            }
+
+            return base.PreSave(transaction);
         }
 
         protected override bool PostSave(ITransaction transaction)

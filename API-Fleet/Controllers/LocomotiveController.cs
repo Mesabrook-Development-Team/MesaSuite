@@ -100,9 +100,20 @@ namespace API_Fleet.Controllers
             return Ok();
         }
 
+        public IHttpActionResult GetImageThumbnail(long? id)
+        {
+            Locomotive locomotive = DataObject.GetReadOnlyByPrimaryKey<Locomotive>(id, null, new[] { "ImageOverrideThumbnail", "LocomotiveModel.ImageThumbnail" });
+            if (locomotive == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(locomotive.ImageOverrideThumbnail ?? locomotive.LocomotiveModel.ImageThumbnail);
+        }
+
         public class UpdateImageParameter
         {
-            public long locomotiveID { get; set; }
+            public long? locomotiveID { get; set; }
             public byte[] image { get; set; }
         }
     }

@@ -149,13 +149,13 @@ namespace FleetTracking.Roster
                     byte[] imageData = null;
                     if (row.Tag is Locomotive locomotive)
                     {
-                        getImage.Resource = $"Locomotive/GetImage/{locomotive.LocomotiveID}";
+                        getImage.Resource = $"Locomotive/GetImageThumbnail/{locomotive.LocomotiveID}";
 
                         imageData = await getImage.GetObject<byte[]>();
                     }
                     else if (row.Tag is Railcar railcar)
                     {
-                        getImage.Resource = $"Railcar/GetImage/{railcar.RailcarID}";
+                        getImage.Resource = $"Railcar/GetImageThumbnail/{railcar.RailcarID}";
 
                         imageData = await getImage.GetObject<byte[]>();
                     }

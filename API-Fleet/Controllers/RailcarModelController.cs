@@ -28,6 +28,11 @@ namespace API_Fleet.Controllers
             return DataObject.GetReadOnlyByPrimaryKey<RailcarModel>(id, null, new[] { nameof(RailcarModel.Image) })?.Image;
         }
 
+        public byte[] GetImageThumbnail(long? id)
+        {
+            return DataObject.GetReadOnlyByPrimaryKey<RailcarModel>(id, null, new[] { nameof(RailcarModel.ImageThumbnail) })?.ImageThumbnail;
+        }
+
         [HttpPut]
         public IHttpActionResult UpdateImage(UpdateImageParameter updateImageParameter)
         {

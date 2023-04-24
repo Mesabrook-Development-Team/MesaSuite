@@ -1,5 +1,6 @@
 ﻿using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
+using ClussPro.SqlServerProvider.Extensions;
 using ClussPro.SqlServerProvider.ScriptWriters;
 using System;
 using System.Data.SqlClient;
@@ -18,25 +19,12 @@ namespace ClussPro.SqlServerProvider
             {
                 StringBuilder sqlBuilder = new StringBuilder("ALTER TABLE ");
                 sqlBuilder.Append($"[{Schema}].[{Table}] ");
-                sqlBuilder.Append($"ADD {columnName} {fieldSpecification.FieldType}");
+                sqlBuilder.Append($"ADD {columnName} {fieldSpecification.ToSqlDataType()}");
                 string defaultParameterName = null;
-
-                if (fieldSpecification.DataSize != -1)
+                if (fieldSpecification.DefaultValue != null)
                 {
-                    sqlBuilder.Append($"({fieldSpecification.DataSize}");
-
-                    if (fieldSpecification.DataScale != -1)
-                    {
-                        sqlBuilder.Append($",{fieldSpecification.DataScale}");
-                    }
-
-                    sqlBuilder.Append(") ");
-
-                    if (fieldSpecification.DefaultValue != null)
-                    {
-                        defaultParameterName = Guid.NewGuid().ToString("N");
-                        sqlBuilder.Append($"DEFAULT @{defaultParameterName}");
-                    }
+                    defaultParameterName = Guid.NewGuid().ToString("N");
+                    sqlBuilder.Append($"DEFAULT @{defaultParameterName}");
                 }
 
                 using (SqlCommand command = new SqlCommand(sqlBuilder.ToString(), localTransaction.SQLTransaction.Connection, localTransaction.SQLTransaction))

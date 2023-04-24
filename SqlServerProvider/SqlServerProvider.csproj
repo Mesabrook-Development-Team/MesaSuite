@@ -49,6 +49,7 @@
     <Compile Include="DeleteQuery.cs" />
     <Compile Include="DropSchemaQuery.cs" />
     <Compile Include="DropTableQuery.cs" />
+    <Compile Include="Extensions\FieldSpecificationExtensions.cs" />
     <Compile Include="InsertQuery.cs" />
     <Compile Include="MSSqlServerProviderConfig.cs" />
     <Compile Include="MSSqlServerProvider.cs" />

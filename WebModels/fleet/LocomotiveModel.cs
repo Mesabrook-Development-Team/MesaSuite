@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
@@ -9,6 +14,8 @@ namespace WebModels.fleet
     [Unique(new[] { nameof(Name) })]
     public class LocomotiveModel : DataObject
     {
+        public const decimal THUMBNAIL_WIDTH = 64M;
+
         protected LocomotiveModel() : base() { }
 
         private long? _locomotiveModelID;
@@ -69,6 +76,37 @@ namespace WebModels.fleet
         {
             get { CheckGet(); return _image; }
             set { CheckSet(); _image = value; }
+        }
+
+        private byte[] _imageThumbnail;
+        [Field("44DF6FCF-E5DC-4D35-AB74-94CCE34BBCFF")]
+        public byte[] ImageThumbnail
+        {
+            get { CheckGet(); return _imageThumbnail; }
+            set { CheckSet(); _imageThumbnail = value; }
+        }
+
+        protected override bool PreSave(ITransaction transaction)
+        {
+            if (IsFieldDirty(nameof(Image)))
+            {
+                using (MemoryStream inputStream = new MemoryStream(Image))
+                using (Image image = System.Drawing.Image.FromStream(inputStream))
+                {
+                    int height = (int)(image.Height * (THUMBNAIL_WIDTH / image.Width));
+                    using (Image thumbnail = image.GetThumbnailImage((int)THUMBNAIL_WIDTH, height, () => false, IntPtr.Zero))
+                    using (MemoryStream outputStream = new MemoryStream())
+                    {
+                        thumbnail.Save(outputStream, ImageFormat.Png);
+                        outputStream.Position = 0;
+
+                        ImageThumbnail = new byte[outputStream.Length];
+                        outputStream.Read(ImageThumbnail, 0, (int)outputStream.Length);
+                    }
+                }
+            }
+
+            return base.PreSave(transaction);
         }
 
         #region Relationships

@@ -159,11 +159,11 @@ namespace FleetTracking.Leasing
                 
                 if (lnkReportingMark.Tag is Railcar railcar)
                 {
-                    get.Resource = $"Railcar/GetImage/{railcar.RailcarID}";
+                    get.Resource = $"Railcar/GetImageThumbnail/{railcar.RailcarID}";
                 }
                 else if (lnkReportingMark.Tag is Locomotive locomotive)
                 {
-                    get.Resource = $"Locomotive/GetImage/{locomotive.LocomotiveID}";
+                    get.Resource = $"Locomotive/GetImageThumbnail/{locomotive.LocomotiveID}";
                 }
 
                 imageData = await get.GetObject<byte[]>();

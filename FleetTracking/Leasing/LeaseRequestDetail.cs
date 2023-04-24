@@ -229,11 +229,11 @@ namespace FleetTracking.Leasing
 
                     if (bid.Locomotive?.LocomotiveID != null)
                     {
-                        get.Resource = $"Locomotive/GetImage/{bid.Locomotive.LocomotiveID}";
+                        get.Resource = $"Locomotive/GetImageThumbnail/{bid.Locomotive.LocomotiveID}";
                     }
                     else if (bid.Railcar?.RailcarID != null)
                     {
-                        get.Resource = $"Railcar/GetImage/{bid.Railcar.RailcarID}";
+                        get.Resource = $"Railcar/GetImageThumbnail/{bid.Railcar.RailcarID}";
                     }
                     byte[] imageData = await get.GetObject<byte[]>();
 

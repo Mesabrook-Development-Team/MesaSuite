@@ -15,6 +15,12 @@ namespace FleetTracking.Roster
 {
     public partial class RailcarList : UserControl, IFleetTrackingControl
     {
+        private const int take = 15;
+        private int skip = 0;
+        private int total = 0;
+
+        Dictionary<string, Models.Railcar> stockByReportingMark = new Dictionary<string, Models.Railcar>();
+
         private FleetTrackingApplication _application;
         public FleetTrackingApplication Application { set => _application = value; }
         public event EventHandler<Models.Railcar> RailcarSelected;
@@ -45,10 +51,10 @@ namespace FleetTracking.Roster
 
         private async void RailcarList_Load(object sender, EventArgs e)
         {
-            await LoadData();
+            await RetrieveData();
         }
 
-        public async Task LoadData(string selectedReportingMark = null)
+        public async Task RetrieveData(string selectedReportingMark = null)
         {
             loader.BringToFront();
             loader.Visible = true;
@@ -56,6 +62,7 @@ namespace FleetTracking.Roster
             try
             {
                 dgvRailcars.Rows.Clear();
+                stockByReportingMark = new Dictionary<string, Models.Railcar>();
 
                 GetData get = _application.GetAccess<GetData>();
                 get.API = DataAccess.APIs.FleetTracking;
@@ -66,14 +73,39 @@ namespace FleetTracking.Roster
                 {
                     railcars = railcars.Where(Filter).ToList();
                 }
+                stockByReportingMark = railcars.ToDictionary(r => r.FormattedReportingMark);
+                total = railcars.Count;
+                PopulateGrid(selectedReportingMark);
+            }
+            finally
+            {
+                loader.Visible = false;
+            }
+        }
 
-                foreach (Models.Railcar railcar in railcars)
+        private async Task PopulateGrid(string selectedReportingMark = null)
+        {
+            try
+            {
+                dgvRailcars.Rows.Clear();
+
+                Dictionary<string, Models.Railcar> filteredStock = stockByReportingMark.OrderBy(kvp => kvp.Key).Skip(skip).Take(take).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+                lblRecordCount.Text = $"Displaying {skip + 1}-{(skip + take > total ? total : skip + take)} of {total}";
+
+                cmdFirst.Enabled = skip > 0;
+                cmdPrevious.Enabled = skip > 0;
+                cmdNext.Enabled = skip + take < total;
+                cmdLast.Enabled = skip + take < total;
+
+                foreach (KeyValuePair<string, Models.Railcar> kvp in filteredStock)
                 {
                     int rowIndex = dgvRailcars.Rows.Add();
                     DataGridViewRow row = dgvRailcars.Rows[rowIndex];
 
-                    string reportingMark = $"{railcar.ReportingMark}{railcar.ReportingNumber}";
-                    row.Cells[colReportingMark.Name].Value = reportingMark;
+                    row.Cells[colReportingMark.Name].Value = kvp.Key;
+
+                    Models.Railcar railcar = kvp.Value;
                     row.Cells[colModel.Name].Value = railcar.RailcarModel.Name;
                     row.Cells[colCurrentLocation.Name].Value = railcar.Location;
                     row.Cells[colDestination.Name].Value = railcar.TrackDestination?.Name;
@@ -81,7 +113,7 @@ namespace FleetTracking.Roster
                     row.Cells[colOwner.Name].Value = $"{railcar.CompanyOwner?.Name ?? railcar.GovernmentOwner?.Name}";
                     row.Tag = railcar;
 
-                    if (string.Equals(reportingMark, selectedReportingMark, StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(kvp.Key, selectedReportingMark, StringComparison.OrdinalIgnoreCase))
                     {
                         row.Selected = true;
                     }
@@ -106,14 +138,7 @@ namespace FleetTracking.Roster
                         row.Selected = true;
                     }
                 }
-            }
-            finally
-            {
-                loader.Visible = false;
-            }
 
-            try
-            {
                 GetData get = _application.GetAccess<GetData>();
                 get.API = DataAccess.APIs.FleetTracking;
 
@@ -125,7 +150,7 @@ namespace FleetTracking.Roster
                         continue;
                     }
 
-                    get.Resource = $"Railcar/GetImage/{railcar.RailcarID}";
+                    get.Resource = $"Railcar/GetImageThumbnail/{railcar.RailcarID}";
                     byte[] imageData = await get.GetObject<byte[]>();
 
                     if (imageData != null)
@@ -158,6 +183,39 @@ namespace FleetTracking.Roster
                 string reportingMark = row.Cells[colReportingMark.Name].Value as string;
                 row.Visible = string.IsNullOrEmpty(reportingMark) || string.IsNullOrEmpty(ReportingMarkFilter) || reportingMark.Contains(ReportingMarkFilter);
             }
+        }
+
+        private void cmdFirst_Click(object sender, EventArgs e)
+        {
+            skip = 0;
+            PopulateGrid();
+        }
+
+        private void cmdPrevious_Click(object sender, EventArgs e)
+        {
+            skip -= take;
+            if (skip < 0)
+            {
+                skip = 0;
+            }
+
+            PopulateGrid();
+        }
+
+        private void cmdNext_Click(object sender, EventArgs e)
+        {
+            skip += take;
+            PopulateGrid();
+        }
+
+        private void cmdLast_Click(object sender, EventArgs e)
+        {
+            skip = total - take;
+            if (skip < 0)
+            {
+                skip = 0;
+            }
+            PopulateGrid();
         }
     }
 }

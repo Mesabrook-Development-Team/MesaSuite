@@ -48,7 +48,7 @@ namespace FleetTracking.Roster
                 lblModel.Text = locomotive.LocomotiveModel?.Name;
                 lblModel.Location = new Point(Width - lblModel.Width - 6, lblModel.Top);
 
-                get.Resource = $"Locomotive/GetImage/{LocomotiveID}";
+                get.Resource = $"Locomotive/GetImageThumbnail/{LocomotiveID}";
                 byte[] imageData = await get.GetObject<byte[]>();
                 if (imageData != null)
                 {

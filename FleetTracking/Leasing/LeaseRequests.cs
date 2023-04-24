@@ -165,11 +165,11 @@ namespace FleetTracking.Leasing
 
                     if (leaseBid.Locomotive?.LocomotiveID != null)
                     {
-                        getImage.Resource = $"Locomotive/GetImage/{leaseBid.Locomotive.LocomotiveID}";
+                        getImage.Resource = $"Locomotive/GetImageThumbnail/{leaseBid.Locomotive.LocomotiveID}";
                     }
                     else if (leaseBid.Railcar?.RailcarID != null)
                     {
-                        getImage.Resource = $"Railcar/GetImage/{leaseBid.Railcar.RailcarID}";
+                        getImage.Resource = $"Railcar/GetImageThumbnail/{leaseBid.Railcar.RailcarID}";
                     }
                     else
                     {

@@ -252,12 +252,12 @@ namespace FleetTracking.Utilities
 
                     if (location.RailcarID != null)
                     {
-                        get.Resource = $"Railcar/GetImage/{location.RailcarID}";
+                        get.Resource = $"Railcar/GetImageThumbnail/{location.RailcarID}";
                         imageData = await get.GetObject<byte[]>();
                     }
                     else if (location.LocomotiveID != null)
                     {
-                        get.Resource = $"Locomotive/GetImage/{location.LocomotiveID}";
+                        get.Resource = $"Locomotive/GetImageThumbnail/{location.LocomotiveID}";
                         imageData = await get.GetObject<byte[]>();
                     }
 

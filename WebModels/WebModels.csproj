@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -143,6 +144,7 @@
     <Compile Include="Migrations\Migration000016.cs" />
     <Compile Include="Migrations\Migration000017.cs" />
     <Compile Include="Migrations\Migration000018.cs" />
+    <Compile Include="Migrations\Migration000019.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="netprint\Printer.cs" />
     <Compile Include="netprint\PrintJob.cs" />

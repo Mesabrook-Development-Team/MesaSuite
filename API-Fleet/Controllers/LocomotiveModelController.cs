@@ -48,6 +48,12 @@ namespace API_Fleet.Controllers
             return DataObject.GetReadOnlyByPrimaryKey<LocomotiveModel>(id, null, new[] { nameof(LocomotiveModel.Image) })?.Image;
         }
 
+        [HttpGet]
+        public byte[] GetImageThumbnail(long? id)
+        {
+            return DataObject.GetReadOnlyByPrimaryKey<LocomotiveModel>(id, null, new[] { nameof(LocomotiveModel.ImageThumbnail) })?.ImageThumbnail;
+        }
+
         public class UpdateImageParameter
         {
             public long? locomotiveModelID { get; set; }

@@ -103,7 +103,7 @@ namespace FleetTracking.RailcarModel
                         continue;
                     }
 
-                    get.Resource = $"RailcarModel/GetImage/{railcarModel.RailcarModelID}";
+                    get.Resource = $"RailcarModel/GetImageThumbnail/{railcarModel.RailcarModelID}";
                     byte[] imageData = await get.GetObject<byte[]>();
 
                     if (imageData != null)

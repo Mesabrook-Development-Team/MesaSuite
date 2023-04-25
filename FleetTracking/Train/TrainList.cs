@@ -111,6 +111,11 @@ namespace FleetTracking.Train
 
         private void dgvTrains_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvTrains.Rows.Count)
+            {
+                return;
+            }
+
             Models.Train train = dgvTrains.Rows[e.RowIndex].Tag as Models.Train;
             if (train == null)
             {

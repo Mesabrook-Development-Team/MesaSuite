@@ -242,7 +242,7 @@ namespace FleetTracking.TrainSymbols
                     
                     int rowIndex = dgvTrains.Rows.Add();
                     DataGridViewRow row = dgvTrains.Rows[rowIndex];
-                    row.Cells[colStart.Name].Value = dutyTransactions.OrderByDescending(tdt => tdt.TimeOnDuty).FirstOrDefault()?.TimeOnDuty?.ToString("MM/dd/yyyy HH:mm");
+                    row.Cells[colStart.Name].Value = dutyTransactions.OrderBy(tdt => tdt.TimeOnDuty).FirstOrDefault()?.TimeOnDuty?.ToString("MM/dd/yyyy HH:mm");
                     row.Cells[colEndTime.Name].Value = dutyTransactions.OrderByDescending(tdt => tdt.TimeOffDuty).FirstOrDefault()?.TimeOffDuty?.ToString("MM/dd/yyyy HH:mm");
                     row.Cells[colFuelUsage.Name].Value = fuelRecords.Where(fr => fr.FuelStart != null && fr.FuelEnd != null).Sum(fr => fr.FuelStart - fr.FuelEnd)?.ToString("N2");
                     row.Cells[colTimeTaken.Name].Value = span.ToString(@"hh\:mm");

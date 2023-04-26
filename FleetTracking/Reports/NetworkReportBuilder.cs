@@ -70,7 +70,6 @@ namespace FleetTracking.Reports
                 {
                     if (grouping.PrintLines.Count + lineCounter > 20)
                     {
-                        pageCounter = 1;
                         currentPage = new PrintPage()
                         {
                             PrintJobID = printJob.PrintJobID,

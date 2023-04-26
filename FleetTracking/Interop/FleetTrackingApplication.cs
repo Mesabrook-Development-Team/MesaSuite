@@ -52,30 +52,17 @@ namespace FleetTracking.Interop
 
         internal Form OpenForm(IFleetTrackingControl control, OpenFormOptions formOptions, IWin32Window parent)
         {
-            bool closeFormImmediately = false;
             if (control.GetType().GetCustomAttribute<SecuredControlAttribute>() != null)
             {
                 SecuredControlAttribute securedControl = control.GetType().GetCustomAttribute<SecuredControlAttribute>();
                 if (!securedControl.OptionalPermissions.Any(p => SecurityPermissionCheck(p.ToString())))
                 {
                     MessageBox.Show("You do not have permission to open this", "Forbidden", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                    closeFormImmediately = true;
+                    return new Form();
                 }
             }
 
-            OpenFormOptions localOptions = formOptions;
-            if (closeFormImmediately)
-            {
-                localOptions &= ~OpenFormOptions.Dialog;
-            }
-
-            Form response = GetCallback<CallbackDelegates.OpenForm>().Invoke(control, localOptions, parent);
-            if (closeFormImmediately)
-            {
-                response.Close();
-            }
-
-            return response;
+            return GetCallback<CallbackDelegates.OpenForm>().Invoke(control, formOptions, parent);
         }
 
         internal Form OpenForm(IFleetTrackingControl control, OpenFormOptions formOptions)

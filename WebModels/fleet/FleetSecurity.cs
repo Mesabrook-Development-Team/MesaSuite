@@ -75,6 +75,7 @@ namespace WebModels.fleet
         private bool _isYardmaster;
         [Field("56E160CE-5DFB-43B2-8A1E-5761B53EC88C")]
         [SecurityOption]
+        // API-Company/Employee/GetAllForCompany and API-Gov/Official/GetAllForGovernment uses string representation of this
         public bool IsYardmaster
         {
             get { CheckGet(); return _isYardmaster; }
@@ -84,6 +85,7 @@ namespace WebModels.fleet
         private bool _isTrainCrew;
         [Field("D7503767-B6AB-4CAD-BDE1-558F506AA37A")]
         [SecurityOption]
+        // API-Company/Employee/GetAllForCompany and API-Gov/Official/GetAllForGovernment uses string representation of this
         public bool IsTrainCrew
         {
             get { CheckGet(); return _isTrainCrew; }

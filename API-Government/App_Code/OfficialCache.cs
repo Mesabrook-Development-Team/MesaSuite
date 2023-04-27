@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework.DataSearch;
+﻿using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,13 @@ namespace API_Government.App_Code
                     foreach(string permissionField in Official.GetPermissionFieldNames())
                     {
                         Field field = officialSchemaObject.GetField(permissionField);
-                        if ((bool)field.GetValue(official))
+                        DataObject objectToValidate = official;
+                        if (permissionField.StartsWith(nameof(Official.FleetSecurity)))
+                        {
+                            objectToValidate = official.FleetSecurity;
+                        }
+
+                        if ((bool)field.GetValue(objectToValidate))
                         {
                             cachedOfficial.Permissions.Add(permissionField);
                         }

@@ -14,7 +14,7 @@ using WebModels.fleet;
 namespace API_Fleet.Controllers
 {
     [MesabrookAuthorization]
-    [ProgramAccess(new[] { "gov", "government" })]
+    [ProgramAccess(new[] { "gov", "company" })]
     public class RailcarLocationTransactionController : DataObjectController<RailcarLocationTransaction>
     {
         public override IEnumerable<string> DefaultRetrievedFields => FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>()

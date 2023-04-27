@@ -91,29 +91,6 @@ namespace WebModels.fleet
             set { CheckSet(); _transactionTime = value; }
         }
 
-        private long? _invoiceID;
-        [Field("CD805F6D-D3FD-4413-B10E-094EB5261D08")]
-        public long? InvoiceID
-        {
-            get { CheckGet(); return _invoiceID; }
-            set { CheckSet(); _invoiceID = value; }
-        }
-
-        private Invoice _invoice = null;
-        [Relationship("07F4CF3C-2ED4-48D5-9B5F-25708806EE59")]
-        public Invoice Invoice
-        {
-            get { CheckGet(); return _invoice; }
-        }
-
-        private bool _willNotCharge = false;
-        [Field("7109E0D9-5B9D-4C54-B5C3-99014DA88FB4")]
-        public bool WillNotCharge
-        {
-            get { CheckGet(); return _willNotCharge; }
-            set { CheckSet(); _willNotCharge = value; }
-        }
-
         private RailcarLocationTransaction _previousTransaction = null;
         [Relationship("0FC674F9-886C-40D4-9D2E-B9E351076C0A", HasForeignKey = false)]
         public RailcarLocationTransaction PreviousTransaction

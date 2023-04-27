@@ -153,16 +153,6 @@ namespace FleetTracking.Interop
             MassUpdateRailcars(true);
         }
 
-        public void ManageCarHandlingRates()
-        {
-            Rates.CarHandlingRateList list = new Rates.CarHandlingRateList()
-            {
-                Application = this
-            };
-            Form rates = OpenForm(list);
-            rates.Text = "Car Handling Rates";
-        }
-
         public void ManageMiscSetup()
         {
             Misc.MiscellaneousSettings settings = new Misc.MiscellaneousSettings()
@@ -357,7 +347,6 @@ namespace FleetTracking.Interop
                             new MainNavigationItem("Railcar Models", BrowseRailcarModels, Properties.Resources.train_car, nameof(FleetSecurity.AllowSetup)),
                             new MainNavigationItem("Train Symbols", BrowseTrainSymbols, Properties.Resources.paste_plain, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster)),
                             new MainNavigationItem("Track Districts", BrowseRailDistricts, Properties.Resources.sitemap, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster)),
-                            new MainNavigationItem("Car Handling Rates", ManageCarHandlingRates, Properties.Resources.coins, nameof(FleetSecurity.AllowSetup)),
                             new MainNavigationItem("Misc Setup", ManageMiscSetup, Properties.Resources.cog, nameof(FleetSecurity.AllowSetup))
                         }
                     },

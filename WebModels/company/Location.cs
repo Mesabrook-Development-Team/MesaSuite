@@ -135,20 +135,6 @@ namespace WebModels.company
             return base.PostSave(transaction);
         }
 
-        private MiscellaneousSettings _fleetMiscSettingsInvoicePayee = null;
-        [Relationship("0A29B5E8-7805-43DC-8D15-A1A45FD0AEBA", OneToOneByForeignKey = true, OneToOneForeignKey = nameof(MiscellaneousSettings.LocationIDInvoicePayee))]
-        public MiscellaneousSettings FleetMiscSettingsInvoicePayee
-        {
-            get { CheckGet(); return _fleetMiscSettingsInvoicePayee; }
-        }
-
-        private MiscellaneousSettings _fleetMiscSettingsInvoicePayor = null;
-        [Relationship("8D0C48B1-BD82-41B6-88F4-A83CE27EE4C3", OneToOneByForeignKey = true, OneToOneForeignKey = nameof(MiscellaneousSettings.LocationIDInvoicePayor))]
-        public MiscellaneousSettings FleetMiscSettingsInvoicePayor
-        {
-            get { CheckGet(); return _fleetMiscSettingsInvoicePayor; }
-        }
-
         #region Relationships
         #region company
         private List<LocationEmployee> _locationEmployees = new List<LocationEmployee>();

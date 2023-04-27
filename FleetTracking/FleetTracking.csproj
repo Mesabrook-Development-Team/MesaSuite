@@ -207,7 +207,6 @@
     <Compile Include="Misc\MiscellaneousSettings.Designer.cs">
       <DependentUpon>MiscellaneousSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\CarHandlingRate.cs" />
     <Compile Include="Models\EmailImplementation.cs" />
     <Compile Include="Models\EmailTemplate.cs" />
     <Compile Include="Models\FleetSecurity.cs" />
@@ -241,7 +240,6 @@
     <Compile Include="Models\TrainDutyTransaction.cs" />
     <Compile Include="Models\TrainFuelRecord.cs" />
     <Compile Include="Models\TrainSymbol.cs" />
-    <Compile Include="Models\TrainSymbolRate.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="PrintableReport.cs">
       <SubType>UserControl</SubType>
@@ -284,18 +282,6 @@
     </Compile>
     <Compile Include="RailcarModel\RailcarModelList.Designer.cs">
       <DependentUpon>RailcarModelList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Rates\CarHandlingRateDetail.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Rates\CarHandlingRateDetail.Designer.cs">
-      <DependentUpon>CarHandlingRateDetail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Rates\CarHandlingRateList.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Rates\CarHandlingRateList.Designer.cs">
-      <DependentUpon>CarHandlingRateList.cs</DependentUpon>
     </Compile>
     <Compile Include="Reports\INetworkPrintable.cs" />
     <Compile Include="Reports\IReportContext.cs" />
@@ -424,12 +410,6 @@
     </Compile>
     <Compile Include="TrainSymbols\TrainSymbolList.Designer.cs">
       <DependentUpon>TrainSymbolList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TrainSymbols\TrainSymbolRateDetail.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TrainSymbols\TrainSymbolRateDetail.Designer.cs">
-      <DependentUpon>TrainSymbolRateDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="Train\InProgressTrainDisplay.cs">
       <SubType>UserControl</SubType>
@@ -569,12 +549,6 @@
     <EmbeddedResource Include="RailcarModel\RailcarModelList.resx">
       <DependentUpon>RailcarModelList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Rates\CarHandlingRateDetail.resx">
-      <DependentUpon>CarHandlingRateDetail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Rates\CarHandlingRateList.resx">
-      <DependentUpon>CarHandlingRateList.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Reports\TrackListing\SelectTracks.resx">
       <DependentUpon>SelectTracks.cs</DependentUpon>
     </EmbeddedResource>
@@ -638,9 +612,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TrainSymbols\TrainSymbolList.resx">
       <DependentUpon>TrainSymbolList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TrainSymbols\TrainSymbolRateDetail.resx">
-      <DependentUpon>TrainSymbolRateDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Train\InProgressTrainDisplay.resx">
       <DependentUpon>InProgressTrainDisplay.cs</DependentUpon>

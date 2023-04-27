@@ -49,9 +49,7 @@ namespace API_Fleet.Controllers
             rlt.NextTransaction.TrainNew.TrainSymbol.TrainSymbolID,
             rlt.NextTransaction.TrainNew.TrainSymbol.Name,
             rlt.IsPartialTrainTrip,
-            rlt.TransactionTime,
-            rlt.InvoiceID,
-            rlt.WillNotCharge
+            rlt.TransactionTime
         });
 
         public RailcarLocationTransactionController() : base()

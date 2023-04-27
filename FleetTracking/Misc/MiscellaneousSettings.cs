@@ -30,10 +30,6 @@ namespace FleetTracking.Misc
 
         private void MiscellaneousSettings_Load(object sender, EventArgs e)
         {
-            if (_application.GetCurrentCompanyIDGovernmentID().Item1 == null)
-            {
-                grpLocation.Visible = false;
-            }
             LoadData();
         }
 
@@ -47,25 +43,6 @@ namespace FleetTracking.Misc
                 GetData get = _application.GetAccess<GetData>();
                 get.API = DataAccess.APIs.FleetTracking;
 
-                long? companyID = _application.GetCurrentCompanyIDGovernmentID().Item1;
-
-                if (companyID != null)
-                {
-                    get.Resource = $"Company/Get/{companyID}";
-
-                    Company company = await get.GetObject<Company>();
-                    if (company?.Locations != null)
-                    {
-                        foreach(Location location in company.Locations)
-                        {
-                            DropDownItem<Location> locationDDI = new DropDownItem<Location>(location, location.Name);
-                            cboLocationPayee.Items.Add(locationDDI);
-                            locationDDI = locationDDI.CreateCopy();
-                            cboLocationPayor.Items.Add(locationDDI);
-                        }
-                    }
-                }
-
                 get.Resource = "MiscellaneousSettings/Get";
                 Models.MiscellaneousSettings settings = await get.GetObject<Models.MiscellaneousSettings>();
                 if (!get.RequestSuccessful)
@@ -74,17 +51,6 @@ namespace FleetTracking.Misc
                 }
 
                 MiscellaneousSettingsID = settings.MiscellaneousSettingsID;
-                DropDownItem<Location> selectedDDI = cboLocationPayee.Items.OfType<DropDownItem<Location>>().FirstOrDefault(ddi => ddi.Object.LocationID == settings.LocationIDInvoicePayee);
-                if (selectedDDI != null)
-                {
-                    cboLocationPayee.SelectedItem = selectedDDI;
-                }
-
-                selectedDDI = cboLocationPayor.Items.OfType<DropDownItem<Location>>().FirstOrDefault(ddi => ddi.Object.LocationID == settings.LocationIDInvoicePayor);
-                if (selectedDDI != null)
-                {
-                    cboLocationPayor.SelectedItem = selectedDDI;
-                }
 
                 chkCarsReleased.Checked = settings.EmailImplementationIDCarReleased != null;
                 chkCarsReleased.Tag = settings.EmailImplementationIDCarReleased;
@@ -120,8 +86,6 @@ namespace FleetTracking.Misc
                     MiscellaneousSettingsID = MiscellaneousSettingsID,
                     CompanyID = companyIDGovernmentID.Item1,
                     GovernmentID = companyIDGovernmentID.Item2,
-                    LocationIDInvoicePayee = cboLocationPayee.SelectedItem.Cast<DropDownItem<Location>>()?.Object.LocationID,
-                    LocationIDInvoicePayor = cboLocationPayor.SelectedItem.Cast<DropDownItem<Location>>()?.Object.LocationID,
                     EmailImplementationIDCarReleased = chkCarsReleased.Tag as long?,
                     EmailImplementationIDLocomotiveReleased = chkLocomotivesReleased.Tag as long?,
                     EmailImplementationIDLeaseRequestAvailable = chkNewLeaseRequests.Tag as long?,

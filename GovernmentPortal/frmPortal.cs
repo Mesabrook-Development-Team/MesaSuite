@@ -226,16 +226,6 @@ namespace GovernmentPortal
             _toolStripItemsByPermission[e.Permission].Visible = e.Value;
         }
 
-        private void frmPortal_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
-            PermissionsManager.StopCheckThread();
-            if (_fleetTrackingApplication != null)
-            {
-                _fleetTrackingApplication.Shutdown();
-            }
-        }
-
         private void tsbSwitchGovernment_Click(object sender, EventArgs e)
         {
             foreach(Form child in MdiChildren)
@@ -405,6 +395,16 @@ namespace GovernmentPortal
                 await putNewID.ExecuteNoResult();
 
                 loader.Visible = false;
+            }
+        }
+
+        private void frmPortal_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            PermissionsManager.StopCheckThread();
+            if (_fleetTrackingApplication != null)
+            {
+                _fleetTrackingApplication.Shutdown();
             }
         }
     }

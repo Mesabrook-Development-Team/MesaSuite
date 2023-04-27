@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -99,6 +100,7 @@ namespace MesaSuite
         private static void InitializeApplication()
         {
             Application.ApplicationExit += Application_ApplicationExit;
+            ServicePointManager.DefaultConnectionLimit = 20; // Hopefully this'll be enough for a while
             Task<Updater.UpdaterResults> task = new Task<Updater.UpdaterResults>(Updater.Run);
             task.Start();
 

@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework.DataSearch;
+﻿using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using System;
 using System.Collections.Generic;
@@ -78,7 +79,13 @@ namespace API_Company.App_Code
                         }
                         else
                         {
-                            if ((bool)field.GetValue(employee))
+                            DataObject objectToEvaluate = employee;
+                            if (permissionField.StartsWith(nameof(Employee.FleetSecurity)))
+                            {
+                                objectToEvaluate = employee.FleetSecurity;
+                            }
+
+                            if ((bool)field.GetValue(objectToEvaluate))
                             {
                                 cachedEmployee.Permissions.Add(permissionField);
                             }

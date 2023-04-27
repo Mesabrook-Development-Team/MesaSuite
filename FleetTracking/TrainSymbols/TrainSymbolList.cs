@@ -123,6 +123,11 @@ namespace FleetTracking.TrainSymbols
 
         private void dgvList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvList.Rows.Count)
+            {
+                return;
+            }
+
             DataGridViewRow row = dgvList.Rows[e.RowIndex];
             TrainSymbol symbol = row.Tag as TrainSymbol;
             if (symbol == null)

@@ -205,6 +205,15 @@ namespace FleetTracking.Interop
             OpenForm(select, OpenFormOptions.Popout);
         }
 
+        public void PrintRailActivity()
+        {
+            Reports.RailActivity.DateEntry entry = new Reports.RailActivity.DateEntry()
+            {
+                Application = this
+            };
+            OpenForm(entry, OpenFormOptions.Popout | OpenFormOptions.ResizeToControl);
+        }
+
         private ToolStripMenuItem toolStrip = null;
         private List<MainNavigationItem> items = null;
         public ToolStripMenuItem GetNavigation()
@@ -375,7 +384,8 @@ namespace FleetTracking.Interop
                         SubItems = new List<MainNavigationItem>()
                         {
                             new MainNavigationItem("Track Listing", PrintTracks, Properties.Resources.tracks, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
-                            new MainNavigationItem("Train Manifest", PrintTrainManifests, Properties.Resources.train, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew))
+                            new MainNavigationItem("Train Manifest", PrintTrainManifests, Properties.Resources.train, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew)),
+                            new MainNavigationItem("Rail Activity", PrintRailActivity, Properties.Resources.report, nameof(FleetSecurity.IsYardmaster))
                         }
                     }
                 }

@@ -11,6 +11,8 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using WebModels.company;
+using WebModels.gov;
 using WebModels.invoicing;
 
 namespace WebModels.fleet
@@ -105,6 +107,20 @@ namespace WebModels.fleet
             get { CheckGet(); return _nextTransaction; }
         }
 
+        private Company _possessedByCompany = null;
+        [Relationship("BD52B1BD-6649-4EFC-9354-91487A7A061A", HasForeignKey = false)]
+        public Company PossessedByCompany
+        {
+            get { CheckGet(); return _possessedByCompany; }
+        }
+
+        private Government _possessedByGovernment = null;
+        [Relationship("73A26C2C-2536-4EDE-9D4A-444CD99C0C8F", HasForeignKey = false)]
+        public Government PossessedByGovernment
+        {
+            get { CheckGet(); return _possessedByGovernment; }
+        }
+
         public override ICondition GetRelationshipCondition(Relationship relationship, string myAlias, string otherAlias)
         {
             switch(relationship.RelationshipName)
@@ -113,6 +129,10 @@ namespace WebModels.fleet
                     return GetPreviousTransactionCondition(myAlias, otherAlias);
                 case nameof(NextTransaction):
                     return GetNextTransactionCondition(myAlias, otherAlias);
+                case nameof(PossessedByCompany):
+                    return GetPossesedByCompanyCondition(myAlias, otherAlias);
+                case nameof(PossessedByGovernment):
+                    return GetPossesedByGovernmentCondition(myAlias, otherAlias);
                 default:
                     return base.GetRelationshipCondition(relationship, myAlias, otherAlias);
 
@@ -194,6 +214,100 @@ namespace WebModels.fleet
             return new Condition()
             {
                 Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.RailcarLocationTransactionID",
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = new SubQuery(subQuery)
+            };
+        }
+
+        private ICondition GetPossesedByCompanyCondition(string myAlias, string otherAlias)
+        {
+            ISelectQuery subQuery = SQLProviderFactory.GetSelectQuery();
+            subQuery.SelectList = new List<Select>() { new Select() { SelectOperand = new IsNull((ClussPro.Base.Data.Operand.Field)"LC.CompanyIDLessee", (ClussPro.Base.Data.Operand.Field)"R.CompanyIDOwner") } };
+            subQuery.Table = new Table("fleet", "Railcar", "R");
+            subQuery.PageSize = 1;
+            subQuery.JoinList = new List<Join>()
+            {
+                new Join() { JoinType = Join.JoinTypes.Left, Table = new Table("fleet", "LeaseContract", "LC"), Condition = new ConditionGroup()
+                    {
+                        ConditionGroupType= ConditionGroup.ConditionGroupTypes.And,
+                        Conditions = new List<ICondition>()
+                        {
+                            new Condition()
+                            {
+                                Left = (ClussPro.Base.Data.Operand.Field)"LC.RailcarID",
+                                ConditionType = Condition.ConditionTypes.Equal,
+                                Right = (ClussPro.Base.Data.Operand.Field)$"R.RailcarID"
+                            },
+                            new Condition()
+                            {
+                                Left = (ClussPro.Base.Data.Operand.Field)"LC.LeaseTimeStart",
+                                ConditionType = Condition.ConditionTypes.GreaterEqual,
+                                Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.TransactionTime"
+                            },
+                            new Condition()
+                            {
+                                Left = (ClussPro.Base.Data.Operand.Field)"LC.LeaseTimeEnd",
+                                ConditionType = Condition.ConditionTypes.LessEqual,
+                                Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.TransactionTime"
+                            }
+                        }
+                    }
+                }
+            };
+            subQuery.WhereCondition = new Condition()
+            {
+                Left = (ClussPro.Base.Data.Operand.Field)"R.RailcarID",
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.RailcarID"
+            };
+
+            return new Condition()
+            {
+                Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.CompanyID",
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = new SubQuery(subQuery)
+            };
+        }
+
+        private ICondition GetPossesedByGovernmentCondition(string myAlias, string otherAlias)
+        {
+            ISelectQuery subQuery = SQLProviderFactory.GetSelectQuery();
+            subQuery.SelectList = new List<Select>() { new Select() { SelectOperand = new IsNull((ClussPro.Base.Data.Operand.Field)"LC.GovernmentIDLessee", (ClussPro.Base.Data.Operand.Field)"R.GovernmentIDOwner") } };
+            subQuery.Table = new Table("fleet", "Railcar", "R");
+            subQuery.PageSize = 1;
+            subQuery.JoinList = new List<Join>()
+            {
+                new Join() { JoinType = Join.JoinTypes.Left, Table = new Table("fleet", "LeaseContract", "LC"), Condition = new ConditionGroup()
+                    {
+                        ConditionGroupType= ConditionGroup.ConditionGroupTypes.And,
+                        Conditions = new List<ICondition>()
+                        {
+                            new Condition()
+                            {
+                                Left = (ClussPro.Base.Data.Operand.Field)"LC.RailcarID",
+                                ConditionType = Condition.ConditionTypes.Equal,
+                                Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.RailcarID"
+                            },
+                            new Condition()
+                            {
+                                Left = (ClussPro.Base.Data.Operand.Field)"LC.LeaseTimeStart",
+                                ConditionType = Condition.ConditionTypes.GreaterEqual,
+                                Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.TransactionTime"
+                            },
+                            new Condition()
+                            {
+                                Left = (ClussPro.Base.Data.Operand.Field)"LC.LeaseTimeEnd",
+                                ConditionType = Condition.ConditionTypes.LessEqual,
+                                Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.TransactionTime"
+                            }
+                        }
+                    }
+                }
+            };
+
+            return new Condition()
+            {
+                Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.GovernmentID",
                 ConditionType = Condition.ConditionTypes.Equal,
                 Right = new SubQuery(subQuery)
             };

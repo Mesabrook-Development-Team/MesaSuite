@@ -283,9 +283,18 @@
     <Compile Include="RailcarModel\RailcarModelList.Designer.cs">
       <DependentUpon>RailcarModelList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reports\IHasParameters.cs" />
     <Compile Include="Reports\INetworkPrintable.cs" />
     <Compile Include="Reports\IReportContext.cs" />
     <Compile Include="Reports\NetworkReportBuilder.cs" />
+    <Compile Include="Reports\RailActivity\DateEntry.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Reports\RailActivity\DateEntry.Designer.cs">
+      <DependentUpon>DateEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RailActivity\RailcarLocationTransactionModel.cs" />
+    <Compile Include="Reports\RailActivity\RailActivityReportContext.cs" />
     <Compile Include="Reports\TrackListing\RailLocationModel.cs" />
     <Compile Include="Reports\TrackListing\SelectTracks.cs">
       <SubType>UserControl</SubType>
@@ -549,6 +558,11 @@
     <EmbeddedResource Include="RailcarModel\RailcarModelList.resx">
       <DependentUpon>RailcarModelList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RailActivity\Activity.rdlc" />
+    <EmbeddedResource Include="Reports\RailActivity\DateEntry.resx">
+      <DependentUpon>DateEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RailActivity\TrainActivity.rdlc" />
     <EmbeddedResource Include="Reports\TrackListing\SelectTracks.resx">
       <DependentUpon>SelectTracks.cs</DependentUpon>
     </EmbeddedResource>
@@ -637,6 +651,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\FleetTracking.Reports.RailActivity.RailcarLocationTransactionModel.datasource" />
     <None Include="Properties\DataSources\FleetTracking.Reports.TrackListing.RailLocationModel.datasource" />
     <None Include="Properties\DataSources\FleetTracking.Reports.TrainManifest.RailLocationReportModel.datasource" />
     <None Include="Resources\bg_ny.jpg" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Permissions;
 using System.Threading.Tasks;
@@ -48,6 +49,10 @@ namespace API_Fleet.Controllers
             rlt.NextTransaction.TrainNew.TrainSymbolID,
             rlt.NextTransaction.TrainNew.TrainSymbol.TrainSymbolID,
             rlt.NextTransaction.TrainNew.TrainSymbol.Name,
+            rlt.PossessedByCompany.CompanyID,
+            rlt.PossessedByCompany.Name,
+            rlt.PossessedByGovernment.GovernmentID,
+            rlt.PossessedByGovernment.Name,
             rlt.IsPartialTrainTrip,
             rlt.TransactionTime
         });
@@ -150,6 +155,80 @@ namespace API_Fleet.Controllers
                 remaining,
                 railcarLocationTransactions = transactionSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList()
             });
+        }
+
+        [HttpGet]
+        public async Task<List<RailcarLocationTransaction>> GetByDates(DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate == null || endDate == null)
+            {
+                return null;
+            }
+
+            Search<RailcarLocationTransaction> transactionSearch = new Search<RailcarLocationTransaction>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new DateTimeSearchCondition<RailcarLocationTransaction>()
+                {
+                    Field = nameof(RailcarLocationTransaction.TransactionTime),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.GreaterEquals,
+                    Value = startDate
+                },
+                new DateTimeSearchCondition<RailcarLocationTransaction>()
+                {
+                    Field = nameof(RailcarLocationTransaction.TransactionTime),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.LessEquals,
+                    Value = endDate.Value.AddDays(1).AddSeconds(-1)
+                },
+                new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.PreviousTransaction.TrainNew.TrainSymbol.CompanyIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.CompanyID() == null ? -99 : this.CompanyID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.PreviousTransaction.TrackNew.RailDistrict.CompanyIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.CompanyID() == null ? -99 : this.CompanyID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.TrainNew.TrainSymbol.CompanyIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.CompanyID() == null ? -99 : this.CompanyID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.TrackNew.RailDistrict.CompanyIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.CompanyID() == null ? -99 : this.CompanyID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.PreviousTransaction.TrainNew.TrainSymbol.GovernmentIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.GovernmentID() == null ? -99 : this.GovernmentID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.PreviousTransaction.TrackNew.RailDistrict.GovernmentIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.GovernmentID() == null ? -99 : this.GovernmentID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.TrainNew.TrainSymbol.GovernmentIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.GovernmentID() == null ? -99 : this.GovernmentID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.TrackNew.RailDistrict.GovernmentIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.GovernmentID() == null ? -99 : this.GovernmentID()
+                    })));
+
+            return transactionSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
         }
     }
 }

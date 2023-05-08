@@ -26,7 +26,7 @@
             </Paragraphs>
             <rd:DefaultName>Textbox7</rd:DefaultName>
             <Height>0.40625in</Height>
-            <Width>7.5in</Width>
+            <Width>10in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -74,7 +74,7 @@
             <rd:DefaultName>Textbox8</rd:DefaultName>
             <Top>0.44792in</Top>
             <Height>0.25in</Height>
-            <Width>7.5in</Width>
+            <Width>10in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -93,8 +93,8 @@
           <Subreport Name="Subreport1">
             <ReportName>FleetTracking.Reports.RailActivity.TrainActivity.rdlc</ReportName>
             <Top>0.75348in</Top>
-            <Height>1.21307in</Height>
-            <Width>7.5in</Width>
+            <Height>0.01042in</Height>
+            <Width>10in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -106,8 +106,10 @@
         <Height>4.29167in</Height>
         <Style />
       </Body>
-      <Width>7.5in</Width>
+      <Width>10in</Width>
       <Page>
+        <PageHeight>8.5in</PageHeight>
+        <PageWidth>11in</PageWidth>
         <LeftMargin>0.5in</LeftMargin>
         <RightMargin>0.5in</RightMargin>
         <TopMargin>0.5in</TopMargin>

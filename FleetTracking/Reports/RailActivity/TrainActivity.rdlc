@@ -6,19 +6,19 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.09524in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.39732in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.09375in</Width>
+              <Width>1.97024in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.25in</Width>
+              <Width>2.1994in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.875in</Width>
+              <Width>0.93899in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -354,6 +354,78 @@
                 </TablixCell>
               </TablixCells>
             </TablixRow>
+            <TablixRow>
+              <Height>0.42708in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox54">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Average Symbol Fuel Usage: </Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Round(Avg(Fields!TotalFuelUsage.Value), 2)</Value>
+                              <Style>
+                                <FontWeight>Normal</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Average Symbol On Duty Time: </Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>= Fix((Avg(Fields!TotalMinutesOnDuty.Value) / 60)) &amp; ":" &amp; Format((Avg(Fields!TotalMinutesOnDuty.Value) Mod 60), "00")</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox54</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <LeftBorder>
+                          <Style>None</Style>
+                        </LeftBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>5</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
           </TablixRows>
         </TablixBody>
         <TablixColumnHierarchy>
@@ -369,16 +441,16 @@
           <TablixMembers>
             <TablixMember>
               <TablixHeader>
-                <Size>1.28125in</Size>
+                <Size>1.00149in</Size>
                 <CellContents>
-                  <Textbox Name="Textbox47">
+                  <Textbox Name="Textbox8">
                     <CanGrow>true</CanGrow>
                     <KeepTogether>true</KeepTogether>
                     <Paragraphs>
                       <Paragraph>
                         <TextRuns>
                           <TextRun>
-                            <Value>Lessee/Owner</Value>
+                            <Value>Symbol</Value>
                             <Style>
                               <FontWeight>Bold</FontWeight>
                             </Style>
@@ -387,8 +459,7 @@
                         <Style />
                       </Paragraph>
                     </Paragraphs>
-                    <rd:DefaultName>Textbox47</rd:DefaultName>
-                    <RepeatWith>Tablix3</RepeatWith>
+                    <rd:DefaultName>Textbox8</rd:DefaultName>
                     <Style>
                       <Border>
                         <Color>LightGrey</Color>
@@ -405,16 +476,16 @@
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>1in</Size>
+                    <Size>1.39732in</Size>
                     <CellContents>
-                      <Textbox Name="Textbox8">
+                      <Textbox Name="Textbox47">
                         <CanGrow>true</CanGrow>
                         <KeepTogether>true</KeepTogether>
                         <Paragraphs>
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>Symbol</Value>
+                                <Value>Lessor/Owner</Value>
                                 <Style>
                                   <FontWeight>Bold</FontWeight>
                                 </Style>
@@ -423,7 +494,7 @@
                             <Style />
                           </Paragraph>
                         </Paragraphs>
-                        <rd:DefaultName>Textbox8</rd:DefaultName>
+                        <rd:DefaultName>Textbox47</rd:DefaultName>
                         <Style>
                           <Border>
                             <Color>LightGrey</Color>
@@ -437,33 +508,34 @@
                       </Textbox>
                     </CellContents>
                   </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
                 </TablixMember>
               </TablixMembers>
-              <KeepWithGroup>After</KeepWithGroup>
-              <RepeatOnNewPage>true</RepeatOnNewPage>
             </TablixMember>
             <TablixMember>
-              <Group Name="PossessedByName">
+              <Group Name="CurrentLocation">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!PossessedByName.Value</GroupExpression>
+                  <GroupExpression>=Fields!CurrentLocation.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
               <SortExpressions>
                 <SortExpression>
-                  <Value>=Fields!PossessedByName.Value</Value>
+                  <Value>=Fields!CurrentLocation.Value</Value>
                 </SortExpression>
               </SortExpressions>
               <TablixHeader>
-                <Size>1.28125in</Size>
+                <Size>1.00149in</Size>
                 <CellContents>
-                  <Textbox Name="PossessedByName">
+                  <Textbox Name="CurrentLocation">
                     <CanGrow>true</CanGrow>
                     <KeepTogether>true</KeepTogether>
                     <Paragraphs>
                       <Paragraph>
                         <TextRuns>
                           <TextRun>
-                            <Value>=Fields!PossessedByName.Value</Value>
+                            <Value>=Fields!CurrentLocation.Value</Value>
                             <Style>
                               <FontWeight>Bold</FontWeight>
                             </Style>
@@ -472,7 +544,7 @@
                         <Style />
                       </Paragraph>
                     </Paragraphs>
-                    <rd:DefaultName>PossessedByName</rd:DefaultName>
+                    <rd:DefaultName>CurrentLocation</rd:DefaultName>
                     <Style>
                       <Border>
                         <Color>LightGrey</Color>
@@ -488,27 +560,27 @@
               </TablixHeader>
               <TablixMembers>
                 <TablixMember>
-                  <Group Name="CurrentLocation">
+                  <Group Name="PossessedByName">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!CurrentLocation.Value</GroupExpression>
+                      <GroupExpression>=Fields!PossessedByName.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
                   <SortExpressions>
                     <SortExpression>
-                      <Value>=Fields!CurrentLocation.Value</Value>
+                      <Value>=Fields!PossessedByName.Value</Value>
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
-                    <Size>1in</Size>
+                    <Size>1.39732in</Size>
                     <CellContents>
-                      <Textbox Name="CurrentLocation">
+                      <Textbox Name="PossessedByName">
                         <CanGrow>true</CanGrow>
                         <KeepTogether>true</KeepTogether>
                         <Paragraphs>
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>=Fields!CurrentLocation.Value</Value>
+                                <Value>=Fields!PossessedByName.Value</Value>
                                 <Style>
                                   <FontWeight>Bold</FontWeight>
                                 </Style>
@@ -517,7 +589,7 @@
                             <Style />
                           </Paragraph>
                         </Paragraphs>
-                        <rd:DefaultName>CurrentLocation</rd:DefaultName>
+                        <rd:DefaultName>PossessedByName</rd:DefaultName>
                         <Style>
                           <Border>
                             <Color>LightGrey</Color>
@@ -538,6 +610,9 @@
                         <SortExpression>
                           <Value>=Fields!TransactionTime.Value</Value>
                         </SortExpression>
+                        <SortExpression>
+                          <Value>=Fields!ReportingMark.Value</Value>
+                        </SortExpression>
                       </SortExpressions>
                       <TablixMembers>
                         <TablixMember />
@@ -545,14 +620,56 @@
                     </TablixMember>
                   </TablixMembers>
                 </TablixMember>
+                <TablixMember>
+                  <TablixHeader>
+                    <Size>1.39732in</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox59">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <FontWeight>Bold</FontWeight>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox59</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>None</Style>
+                          </Border>
+                          <BottomBorder>
+                            <Style>Solid</Style>
+                          </BottomBorder>
+                          <LeftBorder>
+                            <Style>Solid</Style>
+                          </LeftBorder>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                </TablixMember>
               </TablixMembers>
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>TrainActivityDataSet</DataSetName>
-        <Top>0.28472in</Top>
-        <Height>0.5in</Height>
-        <Width>7.5in</Width>
+        <Top>0.29861in</Top>
+        <Height>0.92708in</Height>
+        <Width>10in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -591,11 +708,13 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>0.78472in</Height>
+    <Height>1.22569in</Height>
     <Style />
   </Body>
-  <Width>7.5in</Width>
+  <Width>10in</Width>
   <Page>
+    <PageHeight>8.5in</PageHeight>
+    <PageWidth>11in</PageWidth>
     <LeftMargin>0.5in</LeftMargin>
     <RightMargin>0.5in</RightMargin>
     <TopMargin>0.5in</TopMargin>
@@ -670,6 +789,14 @@
         <Field Name="ReportingMark">
           <DataField>ReportingMark</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TotalFuelUsage">
+          <DataField>TotalFuelUsage</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="TotalMinutesOnDuty">
+          <DataField>TotalMinutesOnDuty</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="TrackIDNew">
           <DataField>TrackIDNew</DataField>

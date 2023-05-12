@@ -207,7 +207,7 @@ namespace FleetTracking.Interop
 
         public void PrintRailActivity()
         {
-            Reports.RailActivity.DateEntry entry = new Reports.RailActivity.DateEntry()
+            Reports.RailActivity.RailActivityWizard entry = new Reports.RailActivity.RailActivityWizard()
             {
                 Application = this
             };
@@ -385,7 +385,7 @@ namespace FleetTracking.Interop
                         {
                             new MainNavigationItem("Track Listing", PrintTracks, Properties.Resources.tracks, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
                             new MainNavigationItem("Train Manifest", PrintTrainManifests, Properties.Resources.train, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew)),
-                            new MainNavigationItem("Rail Activity", PrintRailActivity, Properties.Resources.report, nameof(FleetSecurity.IsYardmaster))
+                            new MainNavigationItem("Rail Activity", PrintRailActivity, Properties.Resources.moving, nameof(FleetSecurity.IsYardmaster))
                         }
                     }
                 }

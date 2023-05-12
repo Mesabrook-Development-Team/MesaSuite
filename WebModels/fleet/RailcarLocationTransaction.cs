@@ -304,6 +304,12 @@ namespace WebModels.fleet
                     }
                 }
             };
+            subQuery.WhereCondition = new Condition()
+            {
+                Left = (ClussPro.Base.Data.Operand.Field)"R.RailcarID",
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.RailcarID"
+            };
 
             return new Condition()
             {

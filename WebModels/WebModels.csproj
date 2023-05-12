@@ -58,7 +58,6 @@
     <Compile Include="company\LocationGovernment.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
-    <Compile Include="fleet\CarHandlingRate.cs" />
     <Compile Include="fleet\FleetSecurity.cs" />
     <Compile Include="fleet\LiveLoad.cs" />
     <Compile Include="fleet\LiveLoadSession.cs" />
@@ -80,7 +79,6 @@
     <Compile Include="fleet\TrainDutyTransaction.cs" />
     <Compile Include="fleet\TrainFuelRecord.cs" />
     <Compile Include="fleet\TrainSymbol.cs" />
-    <Compile Include="fleet\TrainSymbolRate.cs" />
     <Compile Include="fleet\Validations\TrainSymbolValidationDefinition.cs" />
     <Compile Include="fleet\Validations\TrackValidationDefinition.cs" />
     <Compile Include="fleet\Validations\RailLocationValidationDefinition.cs" />
@@ -97,7 +95,6 @@
     <Compile Include="fleet\Validations\ReportingMarkUniqueCondition.cs" />
     <Compile Include="fleet\Validations\TrainValidationDefinition.cs" />
     <Compile Include="fleet\Validations\XOrPresenceCondition.cs" />
-    <Compile Include="fleet\Validations\CarHandlingRateValidationDefinition.cs" />
     <Compile Include="gov\Government.cs" />
     <Compile Include="gov\Official.cs" />
     <Compile Include="gov\SalesTax.cs" />
@@ -145,6 +142,7 @@
     <Compile Include="Migrations\Migration000017.cs" />
     <Compile Include="Migrations\Migration000018.cs" />
     <Compile Include="Migrations\Migration000019.cs" />
+    <Compile Include="Migrations\Migration000020.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="netprint\Printer.cs" />
     <Compile Include="netprint\PrintJob.cs" />

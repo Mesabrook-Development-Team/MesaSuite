@@ -47,6 +47,11 @@ namespace ClussPro.SqlServerProvider.ScriptWriters
                 return WriteSum(sum, parameters);
             }
 
+            if (operand is IsNull isNull)
+            {
+                return WriteIsNull(isNull, parameters);
+            }
+
             throw new InvalidCastException("Could not determine IOperand type for writing");
         }
 
@@ -137,6 +142,11 @@ namespace ClussPro.SqlServerProvider.ScriptWriters
         private static string WriteSum(Sum sum, SqlParameterCollection parameters)
         {
             return $"SUM({WriteOperand(sum.SumOperand, parameters)})";
+        }
+
+        private static string WriteIsNull(IsNull isNull, SqlParameterCollection parameters)
+        {
+            return $"ISNULL({WriteOperand(isNull.MainOperand, parameters)}, {WriteOperand(isNull.FallbackOperand, parameters)})";
         }
     }
 }

@@ -4,9 +4,6 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Conditions;
 using ClussPro.Base.Data.Operand;
@@ -14,6 +11,9 @@ using ClussPro.Base.Data.Query;
 
 namespace WebModels.Migrations
 {
+    /// <summary>
+    /// Add Image thumbnails to Fleet Tracking
+    /// </summary>
     public class Migration000019 : IMigration
     {
         public int MigrationNumber => 19;

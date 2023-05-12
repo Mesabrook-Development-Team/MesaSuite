@@ -456,8 +456,6 @@ namespace FleetTracking.Roster
                         row.Cells[colTime.Name].Value = railcarLocationTransaction.TransactionTime?.ToString("MM/dd/yyyy HH:mm");
                         row.Cells[colTrain.Name].Value = railcarLocationTransaction.TrainNew?.TrainSymbol?.Name;
                         row.Cells[colTrack.Name].Value = railcarLocationTransaction.TrackNew?.Name;
-                        row.Cells[colInvoiced.Name].Value = railcarLocationTransaction.InvoiceID != null;
-                        row.Cells[colNoCharge.Name].Value = railcarLocationTransaction.WillNotCharge;
                         row.Tag = railcarLocationTransaction;
                     }
                 }

@@ -260,13 +260,6 @@ namespace WebModels.gov
             get { CheckGet(); return _trainSymbols; }
         }
 
-        private List<fleet.CarHandlingRate> _carHandlingRates = new List<fleet.CarHandlingRate>();
-        [RelationshipList("F363B668-6CEC-450C-A4B6-8CF9C5B6CD8C", nameof(fleet.CarHandlingRate.GovernmentID))]
-        public IReadOnlyCollection<fleet.CarHandlingRate> CarHandlingRates
-        {
-            get { CheckGet(); return _carHandlingRates; }
-        }
-
         private List<fleet.LiveLoadSession> _liveLoadSessions = new List<fleet.LiveLoadSession>();
         [RelationshipList("9FD6DE08-617E-49F9-886A-4836B382F425", nameof(fleet.LiveLoadSession.GovernmentID))]
         public IReadOnlyCollection<fleet.LiveLoadSession> LiveLoadSessions

@@ -120,14 +120,20 @@ namespace MesaSuite
 
         private void Authentication_OnLoggedOut(object sender, EventArgs e)
         {
-            pboxLoginStatus.Image = Properties.Resources.icn_x;
-            lblLoginStatus.Text = "Not Logged In";
+            Invoke(new MethodInvoker(() =>
+            {
+                pboxLoginStatus.Image = Properties.Resources.icn_x;
+                lblLoginStatus.Text = "Not Logged In";
+            }));
         }
 
         private void Authentication_OnLoggedIn(object sender, EventArgs e)
         {
-            pboxLoginStatus.Image = Properties.Resources.icn_check;
-            lblLoginStatus.Text = "Logged In";
+            Invoke(new MethodInvoker(() =>
+            {
+                pboxLoginStatus.Image = Properties.Resources.icn_check;
+                lblLoginStatus.Text = "Logged In";
+            }));
         }
 
         private void StartMCSync()

@@ -45,11 +45,6 @@ namespace API_Fleet.Controllers
             ts.Name,
             ts.Description,
             ts.HasTrainInProgress,
-            ts.TrainSymbolRates.First().TrainSymbolRateID,
-            ts.TrainSymbolRates.First().TrainSymbolID,
-            ts.TrainSymbolRates.First().EffectiveTime,
-            ts.TrainSymbolRates.First().RatePerCar,
-            ts.TrainSymbolRates.First().RatePerPartialTrip,
             ts.Trains.First().TrainID,
             ts.Trains.First().TrainSymbolID
         });

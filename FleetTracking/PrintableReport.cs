@@ -39,6 +39,13 @@ namespace FleetTracking
             {
                 reportViewer.LocalReport.DataSources.Add(new ReportDataSource(dataSource.Key, dataSource.Value));
             }
+            if (ReportContext is IHasParameters hasParameters)
+            {
+                foreach(KeyValuePair<string, object> parameter in hasParameters.GetReportParameters())
+                {
+                    reportViewer.LocalReport.SetParameters(new ReportParameter(parameter.Key, parameter.Value.ToString()));
+                }
+            }
             reportViewer.LocalReport.Refresh();
             reportViewer.RefreshReport();
 

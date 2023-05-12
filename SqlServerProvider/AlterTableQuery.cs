@@ -67,5 +67,18 @@ namespace ClussPro.SqlServerProvider
                 }
             });
         }
+
+        public void DropColumn(string columnName, ITransaction transaction)
+        {
+            CheckedTransactionExecute(transaction, trans =>
+            {
+                string query = $"ALTER TABLE [{Schema}].[{Table}] DROP COLUMN [{columnName}]";
+
+                using(SqlCommand command = new SqlCommand(query, trans.SQLTransaction.Connection, trans.SQLTransaction))
+                {
+                    command.ExecuteNonQuery();
+                }
+            });
+        }
     }
 }

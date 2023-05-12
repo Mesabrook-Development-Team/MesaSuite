@@ -54,7 +54,8 @@ namespace MCSync
                 Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
 
                 if (!configValues.ContainsKey("modsDirectory") || !configValues.ContainsKey("resourcePackDirectory") || !configValues.ContainsKey("configFilesDirectory") || !configValues.ContainsKey("mode") ||
-                    string.IsNullOrEmpty(configValues.GetOrDefault("modsDirectory", string.Empty).Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("resourcePackDirectory", "").Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("configFilesDirectory", "").Cast<string>()) || !Enum.TryParse(configValues["mode"].Cast<string>(), true, out SyncMode configSyncMode) ||
+                    string.IsNullOrEmpty(configValues.GetOrDefault("modsDirectory", string.Empty).Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("resourcePackDirectory", "").Cast<string>()) || 
+                    string.IsNullOrEmpty(configValues.GetOrDefault("configFilesDirectory", "").Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("signPacksDirectory", "").Cast<string>()) || !Enum.TryParse(configValues["mode"].Cast<string>(), true, out SyncMode configSyncMode) ||
                     (configSyncMode == SyncMode.Client && (!configValues.ContainsKey("oResourcesDirectory") || string.IsNullOrEmpty(configValues["oResourcesDirectory"].Cast<string>()) || !configValues.ContainsKey("animationDirectory") || string.IsNullOrEmpty(configValues["animationDirectory"].Cast<string>()))))
                 {
                     Task.Errors.Add("Configuration file not setup");
@@ -67,6 +68,7 @@ namespace MCSync
                 string configFilesDirectory = configValues["configFilesDirectory"].Cast<string>();
                 string oResourcesDirectory = configValues["oResourcesDirectory"].Cast<string>();
                 string animationDirectory = configValues["animationDirectory"].Cast<string>();
+                string signPacksDirectory = configValues["signPacksDirectory"].Cast<string>();
 
                 string[] clientSideWhiteListMods = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("mods_whitelist")?.Cast<string[]>() ?? new string[0];
                 string[] clientSideWhiteListResourcePacks = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("resourcepacks_whitelist")?.Cast<string[]>() ?? new string[0];
@@ -79,6 +81,7 @@ namespace MCSync
                 Directory.CreateDirectory(resourcePackDirectory);
                 Directory.CreateDirectory(configFilesDirectory);
                 Directory.CreateDirectory(oResourcesDirectory);
+                Directory.CreateDirectory(signPacksDirectory);
 
                 // Load database stuff
                 List<MCSyncFile> syncFiles = await MCSyncFile.GetMCSyncFiles();
@@ -225,6 +228,34 @@ namespace MCSync
                     handledFiles.Add(strippedFile);
                 }
 
+                // Sign Pack Files
+                IEnumerable<MCSyncFile> signPackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.signpacks && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                foreach (string file in Directory.EnumerateFiles(signPacksDirectory, "*", SearchOption.AllDirectories))
+                {
+                    string strippedFile = StripDirectory(file, signPacksDirectory);
+                    byte[] fileHash = CalculateHash(file);
+                    MCSyncFile syncFile = signPackSyncFiles.FirstOrDefault(f => f.Filename == strippedFile);
+                    if (syncFile == null)
+                    {
+                        // Extrinsic, delete
+                        Task deleteTask = new Task($"Delete sign pack file {strippedFile}", () =>
+                        {
+                            File.Delete(file);
+                            return true;
+                        });
+                        tasks.Add(deleteTask);
+                        TaskAdded?.Invoke(this, deleteTask);
+                    }
+                    else if (!syncFile.Checksum.SequenceEqual(fileHash))
+                    {
+                        Task updateTask = new Task($"Update sign pack file {strippedFile}", () => DownloadFile(syncFile.FileType, signPacksDirectory, strippedFile, syncFile.DownloadType));
+                        tasks.Add(updateTask);
+                        TaskAdded?.Invoke(this, updateTask);
+                    }
+
+                    handledFiles.Add(strippedFile);
+                }
+
                 // Missing Files
                 IEnumerable<MCSyncFile> missingFiles = syncFiles.Where(f => IsDownloadTypeValid(configSyncMode, f.DownloadType) && !handledFiles.Contains(f.Filename));
                 foreach (MCSyncFile missingFile in missingFiles)
@@ -252,6 +283,9 @@ namespace MCSync
                             break;
                         case MCSyncFile.FileTypes.animation:
                             directory = animationDirectory;
+                            break;
+                        case MCSyncFile.FileTypes.signpacks:
+                            directory = signPacksDirectory;
                             break;
                     }
 

@@ -32,6 +32,7 @@ namespace MCSync
             txtConfigDirectory.Text = configValues.GetOrSetDefault("configFilesDirectory", "").Cast<string>();
             txtOResourcesDirectory.Text = configValues.GetOrSetDefault("oResourcesDirectory", "").Cast<string>();
             txtAnimationDirectory.Text = configValues.GetOrSetDefault("animationDirectory", "").Cast<string>();
+            txtSignPacksDirectory.Text = configValues.GetOrSetDefault("signPacksDirectory", "").Cast<string>();
             Enum.TryParse(configValues.GetOrSetDefault("mode", SyncMode.Client.ToString()).Cast<string>(), true, out SyncMode syncMode);
 
             rbClient.Checked = syncMode == SyncMode.Client;
@@ -49,11 +50,13 @@ namespace MCSync
             txtConfigDirectory.Enabled = overrideFoldersCheckBox.Checked;
             txtOResourcesDirectory.Enabled = overrideFoldersCheckBox.Checked;
             txtAnimationDirectory.Enabled = overrideFoldersCheckBox.Checked;
+            txtSignPacksDirectory.Enabled = overrideFoldersCheckBox.Checked;
             cmdBrowseMods.Enabled = overrideFoldersCheckBox.Checked;
             cmdBrowseResourcePacks.Enabled = overrideFoldersCheckBox.Checked;
             cmdBrowseConfig.Enabled = overrideFoldersCheckBox.Checked;
             cmdBrowseOResources.Enabled = overrideFoldersCheckBox.Checked;
             cmdBrowseAnimation.Enabled = overrideFoldersCheckBox.Checked;
+            cmdBrowseSignPacks.Enabled = overrideFoldersCheckBox.Checked;
 
             txtMinecraftFolder.Enabled = !overrideFoldersCheckBox.Checked;
             cmdMinecraftFolder.Enabled = !overrideFoldersCheckBox.Checked;
@@ -74,6 +77,7 @@ namespace MCSync
                 txtConfigDirectory.Text = txtMinecraftFolder.Text + "\\config";
                 txtOResourcesDirectory.Text = txtMinecraftFolder.Text + "\\oresources";
                 txtAnimationDirectory.Text = txtMinecraftFolder.Text + "\\config\\customloadingscreen";
+                txtSignPacksDirectory.Text = txtMinecraftFolder.Text + "\\tc_signpacks";
             }
         }
 
@@ -87,7 +91,7 @@ namespace MCSync
             configValues["configFilesDirectory"] = txtConfigDirectory.Text;
             configValues["oResourcesDirectory"] = txtOResourcesDirectory.Text;
             configValues["animationDirectory"] = txtAnimationDirectory.Text;
-
+            configValues["signPacksDirectory"] = txtSignPacksDirectory.Text;
 
             if (rbClient.Checked)
             {
@@ -189,6 +193,20 @@ namespace MCSync
             txtAnimationDirectory.Text = browser.SelectedPath;
         }
 
+        private void cmdBrowseSignPacks_Click(object sender, EventArgs e)
+        {
+            BetterFolderBrowser browser = new BetterFolderBrowser();
+            browser.Title = "Select Sign Packs folder";
+            browser.Multiselect = false;
+            browser.RootFolder = txtAnimationDirectory.Text;
+            if (browser.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            txtSignPacksDirectory.Text = browser.SelectedPath;
+        }
+
         private void fButtonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
@@ -213,6 +231,7 @@ namespace MCSync
                 txtConfigDirectory.Text = txtMinecraftFolder.Text + "\\config";
                 txtOResourcesDirectory.Text = txtMinecraftFolder.Text + "\\oresources";
                 txtAnimationDirectory.Text = txtMinecraftFolder.Text + "\\config\\customloadingscreen";
+                txtSignPacksDirectory.Text = txtMinecraftFolder.Text + "\\tc_signpacks";
             }
         }
     }

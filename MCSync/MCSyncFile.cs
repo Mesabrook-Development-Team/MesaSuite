@@ -20,7 +20,8 @@ namespace MCSync
             resourcepacks,
             config,
             oresources,
-            animation
+            animation,
+            signpacks
         }
 
         public enum DownloadTypes

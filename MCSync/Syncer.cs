@@ -229,7 +229,7 @@ namespace MCSync
                 }
 
                 // Sign Pack Files
-                IEnumerable<MCSyncFile> signPackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.signpacks && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                IEnumerable<MCSyncFile> signPackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.tc_signpacks && IsDownloadTypeValid(configSyncMode, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(signPacksDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, signPacksDirectory);
@@ -284,7 +284,7 @@ namespace MCSync
                         case MCSyncFile.FileTypes.animation:
                             directory = animationDirectory;
                             break;
-                        case MCSyncFile.FileTypes.signpacks:
+                        case MCSyncFile.FileTypes.tc_signpacks:
                             directory = signPacksDirectory;
                             break;
                     }

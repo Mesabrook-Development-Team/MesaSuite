@@ -40,6 +40,13 @@ namespace WebModels.security
         {
             get { CheckGet(); return _tokens; }
         }
+
+        private List<PersonalAccessToken> _personalAccessTokens = new List<PersonalAccessToken>();
+        [RelationshipList("FA149A61-881D-4FB8-80BB-D27E6DBEAB8D", nameof(UserID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<PersonalAccessToken> PersonalAccessTokens
+        {
+            get { CheckGet(); return _personalAccessTokens; }
+        }
         #endregion
         #region company
         private List<Employee> _employees = new List<Employee>();

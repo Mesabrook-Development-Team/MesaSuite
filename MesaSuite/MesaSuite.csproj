@@ -86,6 +86,12 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPersonalAccessTokens.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPersonalAccessTokens.Designer.cs">
+      <DependentUpon>frmPersonalAccessTokens.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSetBackground.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +136,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPersonalAccessTokens.resx">
+      <DependentUpon>frmPersonalAccessTokens.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSetBackground.resx">
       <DependentUpon>frmSetBackground.cs</DependentUpon>

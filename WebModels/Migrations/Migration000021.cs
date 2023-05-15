@@ -17,6 +17,7 @@ namespace WebModels.Migrations
             {
                 { "PersonalAccessTokenID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "UserID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 30) },
                 { "Token", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) },
                 { "Expiration", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
                 { "CanRefreshInactivity", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } },

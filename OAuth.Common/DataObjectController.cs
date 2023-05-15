@@ -182,7 +182,7 @@ namespace API.Common
                 transaction.Commit();
             }
 
-            return Created("Get?id=" + dataObject.PrimaryKeyField.GetValue(dataObject), DataObject.GetReadOnlyByPrimaryKey<TDataObject>(ConvertUtility.GetNullableLong(dataObject.PrimaryKeyField.GetValue(dataObject)), null, await FieldsToRetrieve()));
+            return Created("Get/" + dataObject.PrimaryKeyField.GetValue(dataObject), DataObject.GetReadOnlyByPrimaryKey<TDataObject>(ConvertUtility.GetNullableLong(dataObject.PrimaryKeyField.GetValue(dataObject)), null, await FieldsToRetrieve()));
         }
 
         [HttpPut]

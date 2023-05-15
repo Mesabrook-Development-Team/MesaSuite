@@ -1,8 +1,10 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using WebModels.security;
@@ -24,6 +26,7 @@ namespace WebModels.auth
 
         private long? _userID;
         [Field("5BC82F75-13BA-45C9-A9FA-9D436E4781D9")]
+        [Required]
         public long? UserID
         {
             get { CheckGet(); return _userID; }
@@ -37,8 +40,18 @@ namespace WebModels.auth
             get { CheckGet(); return _user; }
         }
 
+        private string _name;
+        [Field("943D9587-17F2-4133-974B-2FDC278CEA21", DataSize = 30)]
+        [Required]
+        public string Name
+        {
+            get { CheckGet(); return _name; }
+            set { CheckSet(); _name = value; }
+        }
+
         private string _token;
         [Field("E84D2B39-7CD3-49B6-A3F7-0701FCA57FFD", DataSize = 50)]
+        [Required]
         public string Token
         {
             get { CheckGet(); return _token; }
@@ -68,6 +81,31 @@ namespace WebModels.auth
         {
             get { CheckGet(); return _canPerformNetworkPrinting; }
             set { CheckSet(); _canPerformNetworkPrinting = value; }
+        }
+
+        private const string TOKEN_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmopqrstuvwxyz1234567890!@#$%^*()-_";
+        protected override void PreValidate()
+        {
+            if (IsInsert)
+            {
+                string newToken = "";
+                using (RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider())
+                {
+                    while (newToken.Length != 50)
+                    {
+                        byte[] oneByte = new byte[1];
+                        provider.GetBytes(oneByte);
+                        char character = (char)oneByte[0];
+                        if (TOKEN_CHARS.Contains(character))
+                        {
+                            newToken += character;
+                        }
+                    }
+                }
+
+                Token = newToken;
+            }
+            base.PreValidate();
         }
     }
 }

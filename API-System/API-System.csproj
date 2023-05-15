@@ -129,6 +129,7 @@
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\ItemNamespaceController.cs" />
     <Compile Include="Controllers\OfficialController.cs" />
+    <Compile Include="Controllers\PersonalAccessTokenController.cs" />
     <Compile Include="Controllers\PrinterController.cs" />
     <Compile Include="Controllers\PrintJobController.cs" />
     <Compile Include="Controllers\PrintLineController.cs" />

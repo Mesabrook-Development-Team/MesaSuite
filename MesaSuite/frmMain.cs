@@ -82,12 +82,14 @@ namespace MesaSuite
                 pnlUserBtn.BackgroundImage = Properties.Resources.btnLogOutBase;
                 pboxLoginStatus.Image = Properties.Resources.icn_check;
                 lblLoginStatus.Text = "Logged In";
+                mnuProfile.Visible = true;
             }
             else
             {
                 pnlUserBtn.BackgroundImage = Properties.Resources.btnLoginBase;
                 pboxLoginStatus.Image = Properties.Resources.icn_x;
                 lblLoginStatus.Text = "Not Logged In";
+                mnuProfile.Visible = false;
             }
 
             // Load Personalization Settings
@@ -124,6 +126,7 @@ namespace MesaSuite
             {
                 pboxLoginStatus.Image = Properties.Resources.icn_x;
                 lblLoginStatus.Text = "Not Logged In";
+                mnuProfile.Visible = false;
             }));
         }
 
@@ -133,6 +136,7 @@ namespace MesaSuite
             {
                 pboxLoginStatus.Image = Properties.Resources.icn_check;
                 lblLoginStatus.Text = "Logged In";
+                mnuProfile.Visible = true;
             }));
         }
 
@@ -391,6 +395,12 @@ namespace MesaSuite
         {
             pboxTowing.Image = Properties.Resources.icn_tow;
             pboxTowTxt.Visible = false;
+        }
+
+        private void mnuPATs_Click(object sender, EventArgs e)
+        {
+            frmPersonalAccessTokens accessTokens = new frmPersonalAccessTokens();
+            accessTokens.Show();
         }
     }
 }

@@ -2,6 +2,7 @@
 using MesaSuite.Common.Data;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,6 +13,7 @@ namespace SystemManagement
     public partial class frmEditUser : Form
     {
         public long? UserID { get; set; }
+        private bool _inactivityWarningServed = false;
         public frmEditUser()
         {
             InitializeComponent();
@@ -47,6 +49,13 @@ namespace SystemManagement
             txtLastName.Text = user.LastName;
             txtDiscordID.Text = user.DiscordID;
             txtLastActivity.Text = user.LastActivity?.ToString("MM/dd/yyyy HH:mm");
+            txtLastActivity.Tag = user.LastActivity;
+            _inactivityWarningServed = user.InactivityWarningServed;
+
+            if (user.LastActivity != null && user.LastActivity.Value.AddMonths(1).AddDays(-2) < DateTime.Now)
+            {
+                txtLastActivity.BackColor = Color.Yellow;
+            }
 
             await LoadPrograms();
             await LoadSecurityGroups(user);
@@ -133,13 +142,16 @@ namespace SystemManagement
                 Email = txtEmail.Text,
                 FirstName = txtFirstName.Text,
                 LastName = txtLastName.Text,
-                DiscordID = txtDiscordID.Text
+                DiscordID = txtDiscordID.Text,
+                LastActivity = (DateTime?)txtLastActivity.Tag,
+                InactivityWarningServed = _inactivityWarningServed
             };
 
             PutData data = new PutData(DataAccess.APIs.SystemManagement, "User/UpdateUser", user);
             await data.ExecuteNoResult();
             if (!data.RequestSuccessful)
             {
+                Enabled = true;
                 return;
             }
 

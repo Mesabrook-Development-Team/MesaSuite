@@ -8,6 +8,7 @@ namespace SystemManagement.Models
         public long UserID { get; set; }
         public string Username { get; set; }
         public string DiscordID { get; set; }
+        public bool InactivityWarningServed { get; set; }
         public DateTime? LastActivity { get; set; }
 
         /// <summary>

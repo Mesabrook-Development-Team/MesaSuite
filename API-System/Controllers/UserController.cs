@@ -24,7 +24,7 @@ namespace API_System.Controllers
         [HttpGet]
         public List<LDAPUser> GetAllUsers()
         {
-            return new Search<LDAPUser>().GetReadOnlyReader(null, new string[] { "UserID", "Username" }).ForEach(u => u.PopulateActiveDirectoryInformation()).ToList();
+            return new Search<LDAPUser>().GetReadOnlyReader(null, new string[] { "UserID", "Username", "LastActivity" }).ForEach(u => u.PopulateActiveDirectoryInformation()).ToList();
         }
 
         [HttpGet]

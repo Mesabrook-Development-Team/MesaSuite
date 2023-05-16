@@ -1,6 +1,7 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using System;
 using System.Collections.Generic;
 using WebModels.account;
 using WebModels.auth;
@@ -30,6 +31,31 @@ namespace WebModels.security
         {
             get { CheckGet(); return _username; }
             set { CheckSet(); _username = value; }
+        }
+
+        private DateTime? _lastActivity;
+        [Field("1083BB51-D43E-45C0-AA87-1864AA6C2756", DataSize = 7)]
+        [Required]
+        public DateTime? LastActivity
+        {
+            get { CheckGet(); return _lastActivity; }
+            set { CheckSet(); _lastActivity = value; }
+        }
+
+        private bool _inactivityWarningServed;
+        [Field("BEFC288D-A6F8-4154-BB36-0E10E37973DE")]
+        public bool InactivityWarningServed
+        {
+            get { CheckGet(); return _inactivityWarningServed; }
+            set { CheckSet(); _inactivityWarningServed = value; }
+        }
+
+        private string _discordID;
+        [Field("469CBF2C-253C-46F3-B4D2-12FF2358428A", DataSize = 18)]
+        public string DiscordID
+        {
+            get { CheckGet(); return _discordID; }
+            set { CheckSet(); _discordID = value; }
         }
 
         #region Relationships

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SystemManagement.Models
 {
@@ -6,6 +7,8 @@ namespace SystemManagement.Models
     {
         public long UserID { get; set; }
         public string Username { get; set; }
+        public string DiscordID { get; set; }
+        public DateTime? LastActivity { get; set; }
 
         /// <summary>
         /// Only used during insert - this field is obviously never retrieved

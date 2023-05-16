@@ -45,6 +45,8 @@ namespace SystemManagement
             txtEmail.Text = user.Email;
             txtFirstName.Text = user.FirstName;
             txtLastName.Text = user.LastName;
+            txtDiscordID.Text = user.DiscordID;
+            txtLastActivity.Text = user.LastActivity?.ToString("MM/dd/yyyy HH:mm");
 
             await LoadPrograms();
             await LoadSecurityGroups(user);
@@ -130,7 +132,8 @@ namespace SystemManagement
                 Username = txtUsername.Text,
                 Email = txtEmail.Text,
                 FirstName = txtFirstName.Text,
-                LastName = txtLastName.Text
+                LastName = txtLastName.Text,
+                DiscordID = txtDiscordID.Text
             };
 
             PutData data = new PutData(DataAccess.APIs.SystemManagement, "User/UpdateUser", user);

@@ -29,6 +29,12 @@ namespace WebModels.Migrations
             alter.Schema = "auth";
             alter.Table = "PersonalAccessToken";
             alter.AddForeignKey("FKPersonalAccessToken_User_UserID", "UserID", "security", "User", "UserID", transaction);
+
+            alter.Schema = "security";
+            alter.Table = "User";
+            alter.AddColumn("LastActivity", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7), transaction);
+            alter.AddColumn("InactivityWarningServed", new FieldSpecification(FieldSpecification.FieldTypes.Bit), transaction);
+            alter.AddColumn("DiscordID", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 18));
         }
     }
 }

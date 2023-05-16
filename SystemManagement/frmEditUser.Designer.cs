@@ -49,6 +49,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtLastName = new System.Windows.Forms.TextBox();
             this.cmdSelectSecurityGroups = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtDiscordID = new System.Windows.Forms.TextBox();
+            this.txtLastActivity = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -88,7 +92,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 61);
+            this.label3.Location = new System.Drawing.Point(9, 88);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(54, 13);
             this.label3.TabIndex = 3;
@@ -102,7 +106,7 @@
             listViewGroup1});
             this.lstPrograms.HideSelection = false;
             this.lstPrograms.LargeImageList = this.imlLarge;
-            this.lstPrograms.Location = new System.Drawing.Point(12, 77);
+            this.lstPrograms.Location = new System.Drawing.Point(12, 104);
             this.lstPrograms.Name = "lstPrograms";
             this.lstPrograms.Size = new System.Drawing.Size(282, 145);
             this.lstPrograms.SmallImageList = this.imlSmall;
@@ -125,7 +129,7 @@
             // 
             // cmdSelectPrograms
             // 
-            this.cmdSelectPrograms.Location = new System.Drawing.Point(219, 228);
+            this.cmdSelectPrograms.Location = new System.Drawing.Point(219, 255);
             this.cmdSelectPrograms.Name = "cmdSelectPrograms";
             this.cmdSelectPrograms.Size = new System.Drawing.Size(75, 23);
             this.cmdSelectPrograms.TabIndex = 5;
@@ -135,7 +139,7 @@
             // 
             // cmdSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(510, 257);
+            this.cmdSave.Location = new System.Drawing.Point(510, 284);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 8;
@@ -146,7 +150,7 @@
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(429, 257);
+            this.cmdCancel.Location = new System.Drawing.Point(429, 284);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 9;
@@ -157,7 +161,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(300, 61);
+            this.label4.Location = new System.Drawing.Point(300, 88);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(85, 13);
             this.label4.TabIndex = 3;
@@ -167,7 +171,7 @@
             // 
             this.lstSecurityGroups.HideSelection = false;
             this.lstSecurityGroups.LargeImageList = this.imlLarge;
-            this.lstSecurityGroups.Location = new System.Drawing.Point(303, 77);
+            this.lstSecurityGroups.Location = new System.Drawing.Point(303, 104);
             this.lstSecurityGroups.Name = "lstSecurityGroups";
             this.lstSecurityGroups.Size = new System.Drawing.Size(282, 145);
             this.lstSecurityGroups.SmallImageList = this.imlSmall;
@@ -187,10 +191,10 @@
             // 
             // txtFirstName
             // 
-            this.txtFirstName.Location = new System.Drawing.Point(364, 15);
+            this.txtFirstName.Location = new System.Drawing.Point(366, 12);
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(221, 20);
-            this.txtFirstName.TabIndex = 2;
+            this.txtFirstName.TabIndex = 1;
             this.txtFirstName.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
             // 
             // label6
@@ -204,15 +208,15 @@
             // 
             // txtLastName
             // 
-            this.txtLastName.Location = new System.Drawing.Point(364, 41);
+            this.txtLastName.Location = new System.Drawing.Point(367, 38);
             this.txtLastName.Name = "txtLastName";
-            this.txtLastName.Size = new System.Drawing.Size(221, 20);
-            this.txtLastName.TabIndex = 3;
+            this.txtLastName.Size = new System.Drawing.Size(220, 20);
+            this.txtLastName.TabIndex = 2;
             this.txtLastName.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
             // 
             // cmdSelectSecurityGroups
             // 
-            this.cmdSelectSecurityGroups.Location = new System.Drawing.Point(510, 228);
+            this.cmdSelectSecurityGroups.Location = new System.Drawing.Point(510, 255);
             this.cmdSelectSecurityGroups.Name = "cmdSelectSecurityGroups";
             this.cmdSelectSecurityGroups.Size = new System.Drawing.Size(75, 23);
             this.cmdSelectSecurityGroups.TabIndex = 7;
@@ -220,13 +224,47 @@
             this.cmdSelectSecurityGroups.UseVisualStyleBackColor = true;
             this.cmdSelectSecurityGroups.Click += new System.EventHandler(this.cmdSelectSecurityGroups_Click);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(7, 67);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(60, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Discord ID:";
+            // 
+            // txtDiscordID
+            // 
+            this.txtDiscordID.Location = new System.Drawing.Point(73, 64);
+            this.txtDiscordID.Name = "txtDiscordID";
+            this.txtDiscordID.Size = new System.Drawing.Size(221, 20);
+            this.txtDiscordID.TabIndex = 3;
+            this.txtDiscordID.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
+            // 
+            // txtLastActivity
+            // 
+            this.txtLastActivity.Location = new System.Drawing.Point(367, 64);
+            this.txtLastActivity.Name = "txtLastActivity";
+            this.txtLastActivity.ReadOnly = true;
+            this.txtLastActivity.Size = new System.Drawing.Size(221, 20);
+            this.txtLastActivity.TabIndex = 1;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(294, 67);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(67, 13);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Last Activity:";
+            // 
             // frmEditUser
             // 
             this.AcceptButton = this.cmdSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(593, 291);
+            this.ClientSize = new System.Drawing.Size(593, 314);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.cmdSelectSecurityGroups);
@@ -235,12 +273,16 @@
             this.Controls.Add(this.lstPrograms);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.txtLastActivity);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.txtLastName);
             this.Controls.Add(this.txtFirstName);
             this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtDiscordID);
             this.Controls.Add(this.txtUsername);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label1);
             this.Enabled = false;
@@ -276,5 +318,9 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtLastName;
         private System.Windows.Forms.Button cmdSelectSecurityGroups;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtDiscordID;
+        private System.Windows.Forms.TextBox txtLastActivity;
+        private System.Windows.Forms.Label label8;
     }
 }

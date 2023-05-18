@@ -1,6 +1,7 @@
 ﻿using ClussPro.Base.Data.Operand;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
+using ClussPro.ObjectBasedFramework.Utility;
 using Newtonsoft.Json;
 using OAuth.Models;
 using System;
@@ -72,6 +73,30 @@ namespace OAuth.Controllers
                 missingParameters.Add("client_id");
             }
 
+            string clientID = collection["client_id"];
+            Search<Client> clientSearch = new Search<Client>(new StringSearchCondition<Client>()
+            {
+                Field = "ClientIdentifier",
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = clientID
+            });
+
+            Client client = clientSearch.GetReadOnly(null, FieldPathUtility.CreateFieldPathsAsList<Client>(c => new List<object>()
+            {
+                c.RedirectionURI,
+                c.UserClients.First().UserID
+            }));
+
+            if (client == null)
+            {
+                return OAuthError("unauthorized_client", "The client is not authorized to request an authorization code using this method.");
+            }
+
+            //if (keys.Contains("response_type") && "device_code".Equals(collection["response_type"], StringComparison.OrdinalIgnoreCase))
+            //{
+            //    return HandleDeviceCodeResponse(collection["client_id"]);
+            //}
+
             if (!keys.Contains("redirect_uri") || string.IsNullOrEmpty(collection["redirect_uri"]))
             {
                 missingParameters.Add("redirect_uri");
@@ -98,26 +123,8 @@ namespace OAuth.Controllers
                 return OAuthError("invalid_request", "The following parameters were not specified: " + builder.ToString());
             }
 
-            string clientID = collection["client_id"];
             string redirectUri = collection["redirect_uri"];
             string state = collection["state"];
-
-            Search<Client> clientSearch = new Search<Client>(new StringSearchCondition<Client>()
-            {
-                Field = "ClientIdentifier",
-                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = clientID
-            });
-
-            Client client = clientSearch.GetReadOnly(null, new List<string>()
-            {
-                "RedirectionURI"
-            });
-
-            if (client == null)
-            {
-                return OAuthError("unauthorized_client", "The client is not authorized to request an authorization code using this method.");
-            }
 
             if (!client.ContainsRedirectURI(redirectUri))
             {
@@ -176,29 +183,17 @@ namespace OAuth.Controllers
                 }
             }
 
-            Code code = DataObjectFactory.Create<Code>();
-            code.ClientIdentifier = Guid.Parse(clientID);
-            code.AuthCode = Guid.NewGuid();
-            code.RedirectURI = redirectUri;
-            code.Expiration = DateTime.Now.AddMinutes(5);
-            code.UserID = dbUser.UserID;
-            
-            if (!code.Save())
+            if (!client.UserClients?.Any(uc => uc.UserID == dbUser.UserID) ?? false)
             {
-                return OAuthErrorRedirect("server_error", "An unexpected error occurred on the server.", state, redirectUri);
+                TempData["ClientID"] = clientID;
+                TempData["State"] = state;
+                TempData["RedirectUri"] = redirectUri;
+                TempData["NoRedirect"] = collection.AllKeys.Contains("noredirect") ? collection.Get("noredirect") : bool.FalseString;
+                TempData["UserID"] = dbUser.UserID.ToString();
+                return RedirectToAction("AppGrant");
             }
 
-            if (keys.Contains("noredirect") && string.Equals(collection["noredirect"], "true", StringComparison.OrdinalIgnoreCase))
-            {
-                Response.Output.Write($"code={code.AuthCode.ToString()}&state={state}");
-                Response.Flush();
-
-                return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
-            }
-            else
-            {
-                return new RedirectResult(redirectUri + $"?code={code.AuthCode.ToString()}&state={state}", false);
-            }
+            return CreateOAuthCode(Guid.Parse(clientID), dbUser.UserID.Value, redirectUri, state, collection.AllKeys.Contains("noredirect") && bool.TryParse(collection.Get("noredirect"), out bool noRedirect) ? noRedirect : false);
         }
 
         private ActionResult OAuthError(string error, string error_description)
@@ -216,6 +211,146 @@ namespace OAuth.Controllers
         private ActionResult OAuthErrorRedirect(string error, string error_description, string state, string redirectionUri)
         {
             return new RedirectResult(redirectionUri + $"?error={error}&error_description={error_description}&state={state}", false);
+        }
+
+        private ActionResult HandleDeviceCodeResponse(string client_id)
+        {
+            if (!Guid.TryParse(client_id, out Guid device_id))
+            {
+                return OAuthError("invalid_request", "client_id must be a GUID");
+            }
+
+            Search<Client> clientSearch = new Search<Client>(new GuidSearchCondition<Client>()
+            {
+                Field = nameof(Client.ClientIdentifier),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = device_id
+            });
+
+            Client client = clientSearch.GetReadOnly(null, new[] { "ClientID", "Type" });
+            if (client == null)
+            {
+                client = DataObjectFactory.Create<Client>();
+                client.ClientIdentifier = device_id;
+                client.Type = Client.Types.Device;
+                if (!client.Save())
+                {
+                    Response.Output.Write(JsonConvert.SerializeObject(new { error = "server_error", error_description = "An unexpected error occurred on the server" }));
+                    return new HttpStatusCodeResult(System.Net.HttpStatusCode.InternalServerError);
+                }
+            }
+            else if (client.Type != Client.Types.Device)
+            {
+                return OAuthError("unauthorized_client", "The client is not authorized to request an authorization code using this method.");
+            }
+
+            
+
+            return Json(new
+            {
+                verification_uri = Request.Url.GetLeftPart(UriPartial.Authority) + "/device",
+
+            });
+        }
+
+        [HttpGet]
+        public ActionResult AppGrant()
+        {
+            if (!TempData.ContainsKey("ClientID") || !TempData.ContainsKey("State") || !TempData.ContainsKey("RedirectUri"))
+            {
+                Response.Output.WriteLine("Bad Request");
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+
+            string clientID = TempData["ClientID"] as string;
+            Client client = new Search<Client>(new StringSearchCondition<Client>()
+            {
+                Field = nameof(Client.ClientIdentifier),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = clientID
+            }).GetReadOnly(null, new[] { nameof(Client.ClientName) });
+
+            ViewBag.ClientName = client?.ClientName;
+
+            ViewData["ClientID"] = TempData["ClientID"];
+            ViewData["State"] = TempData["State"];
+            ViewData["RedirectUri"] = TempData["RedirectUri"];
+            ViewData["NoRedirect"] = TempData["NoRedirect"];
+            ViewData["UserID"] = TempData["UserID"];
+
+            TempData.Clear();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AppGrant(FormCollection form)
+        {
+            if (!form.AllKeys.Contains("ClientID") ||
+                !form.AllKeys.Contains("State") ||
+                !form.AllKeys.Contains("RedirectUri") ||
+                !form.AllKeys.Contains("UserID"))
+            {
+                return OAuthError("bad_request", "Required information was missing");
+            }
+
+            if (!form.AllKeys.Contains("allow"))
+            {
+                return OAuthErrorRedirect("unauthorized", "The user rejected authorization of the client", form.Get("State"), form.Get("RedirectUri"));
+            }
+
+            if (!Guid.TryParse(form.Get("ClientID"), out Guid clientID))
+            {
+                return OAuthError("bad_request", "ClientID must be a guid");
+            }
+
+            if (!long.TryParse(form.Get("UserID"), out long userID))
+            {
+                return OAuthError("bad_request", "UserID must be a long");
+            }
+
+            Client client = new Search<Client>(new GuidSearchCondition<Client>()
+            {
+                Field = nameof(Client.ClientIdentifier),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = clientID
+            }).GetReadOnly(null, new[] { nameof(Client.ClientID) });
+
+            if (client == null)
+            {
+                return OAuthErrorRedirect("unauthorized", "The client is not authorized to request an authorization code using this method.", form.Get("State"), form.Get("RedirectUri"));
+            }
+
+            UserClient userClient = DataObjectFactory.Create<UserClient>();
+            userClient.UserID = userID;
+            userClient.ClientID = client.ClientID;
+            userClient.AuthorizationTime = DateTime.Now;
+            userClient.Save();
+
+            return CreateOAuthCode(clientID, userID, form.Get("RedirectUri"), form.Get("State"), form.AllKeys.Contains("NoRedirect") && form.Get("NoRedirect").Equals(bool.TrueString, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private ActionResult CreateOAuthCode(Guid clientID, long userID, string redirectUri, string state, bool noRedirect)
+        {
+            Code code = DataObjectFactory.Create<Code>();
+            code.ClientIdentifier = clientID;
+            code.AuthCode = Guid.NewGuid();
+            code.RedirectURI = redirectUri;
+            code.Expiration = DateTime.Now.AddMinutes(5);
+            code.UserID = userID;
+
+            if (!code.Save())
+            {
+                return OAuthErrorRedirect("server_error", "An unexpected error occurred on the server.", state, redirectUri);
+            }
+
+            if (noRedirect)
+            {
+                Response.Output.WriteLine($"code={code.AuthCode.ToString()}&state={state}");
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
+            }
+
+            return new RedirectResult($"{code.RedirectURI}?code={code.AuthCode.ToString()}&state={state}", false);
         }
     }
 }

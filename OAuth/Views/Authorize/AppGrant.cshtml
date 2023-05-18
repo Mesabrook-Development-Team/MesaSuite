@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "An app is requesting access";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>An app is requesting access to your account</h2>
+
+<div class="container text-center">
+    <div class="d-inline vw-100">
+        <img src="~/Content/flag.jpg" />
+        <img src="~/Content/rightarrow.png" />
+        <div class="d-inline-block align-top">
+            <img src="~/Content/app.png" />
+            <p class="m-0 p-0" style="width: 100px;">@ViewBag.ClientName</p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <p class="font-weight-bold">Do you want to allow <em>@ViewBag.ClientName</em> to access your Mesabrook account?</p>
+
+    <div class="d-inline mt-1">
+        <form action="~/Authorize/AppGrant" method="post">
+            <input type="hidden" name="ClientID" value="@ViewData["ClientID"]" />
+            <input type="hidden" name="State" value="@ViewData["State"]" />
+            <input type="hidden" name="RedirectUri" value="@ViewData["RedirectUri"]" />
+            <input type="hidden" name="NoRedirect" value="@ViewData["NoRedirect"]" />
+            <input type="hidden" name="UserID" value="@ViewData["UserID"]" />
+            <button type="submit" name="allow" class="btn btn-success">Allow</button>
+            <button type="submit" name="reject" class="btn btn-danger">Reject</button>
+        </form>
+    </div>
+</div>
+
+@section footer
+{
+    <p style="font-size: 0.4em" >Icons by <a target="_blank" href="https://icons8.com">Icons8</a></p>
+}

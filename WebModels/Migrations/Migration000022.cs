@@ -18,6 +18,13 @@ namespace WebModels.Migrations
                 new FieldValue() { FieldName = "LastActivity", FieldType = FieldSpecification.FieldTypes.DateTime2, Value = DateTime.Now }
             };
             updateQuery.Execute(transaction);
+
+            updateQuery.Table = new Table("auth", "Client");
+            updateQuery.FieldValueList = new List<FieldValue>()
+            {
+                new FieldValue() { FieldName = "Type", FieldType = FieldSpecification.FieldTypes.Int, Value = 0 }
+            };
+            updateQuery.Execute(transaction);
         }
     }
 }

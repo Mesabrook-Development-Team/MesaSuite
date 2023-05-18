@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
@@ -11,6 +12,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 
 namespace MesaSuite.Common
@@ -39,10 +41,10 @@ namespace MesaSuite.Common
         }
         private static Thread programThread;
 
+        public const int PORT = 48170;
         private static List<string> _programs = new List<string>();
         public static IReadOnlyCollection<string> Programs => _programs;
 
-        public static readonly int[] PORTS = new int[] { 48170, 48171, 48172, 48173, 48174 };
         private static Guid? _clientID = null;
         private static Guid? ClientID
         {
@@ -110,14 +112,59 @@ namespace MesaSuite.Common
 
         public static void Register()
         {
-            if (ClientID == null)
+            VerifyAuthPortOpen();
+
+            using (HttpListener listener = new HttpListener())
             {
-                ClientID = Guid.NewGuid();
+                frmRegister register = new frmRegister();
+                register.DialogResult = DialogResult.Cancel;
+
+                ListenForRegisterResponse(listener, register);
+
+                register.ShowDialog();
+            }
+        }
+
+        private static async void ListenForRegisterResponse(HttpListener listener, frmRegister registerForm)
+        {
+            listener.Prefixes.Add("http://localhost:" + PORT + "/");
+            listener.Start();
+
+            HttpListenerContext listenerContext;
+            try
+            {
+                listenerContext = await listener.GetContextAsync();
+            }
+            catch
+            {
+                return;
             }
 
-            frmRegister register = new frmRegister();
-            register.ClientID = ClientID.Value;
-            register.ShowDialog();
+            string requestData;
+            using (StreamReader reader = new StreamReader(listenerContext.Request.InputStream))
+            {
+                requestData = reader.ReadToEnd();
+            }
+
+            NameValueCollection formData = HttpUtility.ParseQueryString(requestData);
+
+            if (string.IsNullOrEmpty(formData.Get("client_id")) || !Guid.TryParse(formData.Get("client_id"), out Guid clientID))
+            {
+                listenerContext.Response.StatusCode = 400;
+                listenerContext.Response.Close();
+
+                MessageBox.Show("The Client ID was not of the expected format!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                registerForm.Close();
+            }
+            else
+            {
+                ClientID = clientID;
+                listenerContext.Response.StatusCode = 200;
+                listenerContext.Response.Close();
+                registerForm.DialogResult = DialogResult.OK;
+                registerForm.Close();
+            }
         }
 
         private static void DoLogIn()
@@ -127,29 +174,11 @@ namespace MesaSuite.Common
                 Register();
             }
 
-            int openPort = -1;
-            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
-            TcpConnectionInformation[] connections = properties.GetActiveTcpConnections();
-            IPEndPoint[] listeners = properties.GetActiveTcpListeners();
-            foreach (int port in PORTS)
-            {
-                if (connections.Any(connection => connection.LocalEndPoint.Port == port) || listeners.Any(ipListener => ipListener.Port == port))
-                {
-                    continue;
-                }
-
-                openPort = port;
-                break;
-            }
-
-            if (openPort == -1)
-            {
-                throw new Exception("Could not open a port for authentication");
-            }
+            VerifyAuthPortOpen();
 
             Guid state = Guid.NewGuid();
             frmLogin login = new frmLogin();
-            login.Port = openPort;
+            login.Port = PORT;
             login.ClientID = ClientID.Value;
             login.State = state;
             login.DialogResult = DialogResult.Cancel;
@@ -158,7 +187,7 @@ namespace MesaSuite.Common
             try
             {
                 listener = new HttpListener();
-                ListenForResponse(listener, login, openPort, state);
+                ListenForResponse(listener, login, state);
 
                 DialogResult result = login.ShowDialog();
 
@@ -178,9 +207,20 @@ namespace MesaSuite.Common
             }
         }
 
-        private static async void ListenForResponse(HttpListener listener, frmLogin login, int openPort, Guid state)
+        private static void VerifyAuthPortOpen()
         {
-            listener.Prefixes.Add("http://localhost:" + openPort + "/");
+            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+            TcpConnectionInformation[] connections = properties.GetActiveTcpConnections();
+            IPEndPoint[] listeners = properties.GetActiveTcpListeners();
+            if (connections.Any(connection => connection.LocalEndPoint.Port == PORT) || listeners.Any(ipListener => ipListener.Port == PORT))
+            {
+                throw new Exception("Could not open a port for authentication");
+            }
+        }
+
+        private static async void ListenForResponse(HttpListener listener, frmLogin login, Guid state)
+        {
+            listener.Prefixes.Add("http://localhost:" + PORT + "/");
             listener.Start();
             HttpListenerContext context;
             try
@@ -220,11 +260,11 @@ namespace MesaSuite.Common
                 }
 
                 string code = request.QueryString.Get("code");
-                AccessTokenRequest(login, openPort, code);
+                AccessTokenRequest(login, code);
             }
         }
 
-        private static void AccessTokenRequest(frmLogin login, int openPort, string code)
+        private static void AccessTokenRequest(frmLogin login, string code)
         {
             WebClient client = new WebClient();
 
@@ -232,7 +272,7 @@ namespace MesaSuite.Common
             try
             {
                 client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded");
-                responseString = client.UploadString(new Uri($"{ConfigurationManager.AppSettings.Get("MesaSuite.Common.AuthHost")}/Token"), "POST", $"grant_type=authorization_code&code={code}&redirect_uri={WebUtility.UrlEncode("http://localhost:" + openPort)}&client_id={ClientID.ToString()}");
+                responseString = client.UploadString(new Uri($"{ConfigurationManager.AppSettings.Get("MesaSuite.Common.AuthHost")}/Token"), "POST", $"grant_type=authorization_code&code={code}&redirect_uri={WebUtility.UrlEncode("http://localhost:" + PORT)}&client_id={ClientID.ToString()}");
             }
             catch (WebException e)
             {
@@ -496,8 +536,8 @@ namespace MesaSuite.Common
             Expiration = DateTime.Now;
 
             RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
-            key.DeleteValue("AuthToken");
-            key.DeleteValue("RefreshToken");
+            if (key.GetValue("AuthToken") != null) { key.DeleteValue("AuthToken"); }
+            if (key.GetValue("RefreshToken") != null) { key.DeleteValue("RefreshToken"); }
 
             UpdatePrograms();
         }

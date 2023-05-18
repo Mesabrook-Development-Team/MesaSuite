@@ -60,6 +60,20 @@ namespace WebModels.security
 
         #region Relationships
         #region auth
+        private List<Client> _clientsOwned = new List<Client>();
+        [RelationshipList("CE8BAB65-5199-40E5-A5FE-348CB5802C73", nameof(Client.UserID))]
+        public IReadOnlyCollection<Client> ClientsOwned
+        {
+            get { CheckGet(); return _clientsOwned; }
+        }
+
+        private List<UserClient> _userClients = new List<UserClient>();
+        [RelationshipList("7E2EDBC1-07CE-4D53-8FBA-6BFA8A7725C8", nameof(UserClient.UserID))]
+        public IReadOnlyCollection<UserClient> UserClients
+        {
+            get { CheckGet(); return _userClients; }
+        }
+
         private List<Token> _tokens = new List<Token>();
         [RelationshipList("F2685C25-DB7A-4D37-8AB8-9B0C17454B12", "UserID", AutoDeleteReferences = true)]
         public IReadOnlyCollection<Token> Tokens

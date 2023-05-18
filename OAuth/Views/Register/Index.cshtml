@@ -1,39 +1,37 @@
 ﻿
-@{
-    ViewBag.Title = "Register";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+@{ ViewBag.Title = "Register";
+                Layout = "~/Views/Shared/_Layout.cshtml";
 
-    string ValidationMessage(string field)
-    {
-        if (!ViewData.ModelState.Any(kvp => kvp.Key == field))
-        {
-            return "";
-        }
+                string ValidationMessage(string field)
+                {
+                    if (!ViewData.ModelState.Any(kvp => kvp.Key == field))
+                    {
+                        return "";
+                    }
 
-        System.Text.StringBuilder builder = new System.Text.StringBuilder();
-        foreach(string error in ViewData.ModelState[field].Errors.Select(me => me.ErrorMessage))
-        {
-            if (builder.Length > 0)
-            {
-                builder.Append("\r\n");
-            }
+                    System.Text.StringBuilder builder = new System.Text.StringBuilder();
+                    foreach (string error in ViewData.ModelState[field].Errors.Select(me => me.ErrorMessage))
+                    {
+                        if (builder.Length > 0)
+                        {
+                            builder.Append("\r\n");
+                        }
 
-            builder.Append(error);
-        }
+                        builder.Append(error);
+                    }
 
-        return builder.ToString();
-    }
+                    return builder.ToString();
+                }
 
-    string ValidationClass(string field)
-    {
-        if (!string.IsNullOrEmpty(ValidationMessage(field)))
-        {
-            return "";
-        }
+                string ValidationClass(string field)
+                {
+                    if (!string.IsNullOrEmpty(ValidationMessage(field)))
+                    {
+                        return "";
+                    }
 
-        return "d-none";
-    }
-}
+                    return "d-none";
+                } }
 
 @model WebModels.auth.Client
 
@@ -45,11 +43,22 @@
     <div class="border border-info p-1 mb-3">
         <h4 class="h4 borderTitle">Client Information</h4>
         <div class="form-group">
-            <label for="clientIdentifier">Client Identifier</label>
-            <input type="text" class="form-control w-100" name="clientIdentifier" value="@Model.ClientIdentifier.ToString()" />
-            <label class="@ValidationClass("ClientIdentifier") text-danger">@ValidationMessage("ClientIdentifier")</label>
+            <label for="clientName">Client Name</label>
+            <input type="text" class="form-control w-100" name="clientName" value="@Model.ClientName" />
+            <label class="@ValidationClass("ClientName") text-danger">@ValidationMessage("ClientName")</label>
         </div>
+        <label>Authentication Method</label>
         <div class="form-group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="Type" id="BrowserEnabled" value="BrowserEnabled" @{ if (Model.Type == WebModels.auth.Client.Types.BrowserEnabled) { WriteLiteral("checked"); } } />
+                <label class="form-check-label" for="BrowserEnabled">Browser-Enabled</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="Type" id="Device" value="Device" @{ if (Model.Type == WebModels.auth.Client.Types.Device) { WriteLiteral("checked"); } } />
+                <label class="form-check-label" for="Device">Device</label>
+            </div>
+        </div>
+        <div id="RedirectionUriGroup" class="form-group @{ if (Model.Type != WebModels.auth.Client.Types.BrowserEnabled) { WriteLiteral("d-none"); } }">
             <label for="redirectionURI">Redirection URI</label>
             <input type="text" class="form-control w-100" name="redirectionURI" value="@Model.RedirectionURI" />
             <label class="@ValidationClass("RedirectionURI") text-danger">@ValidationMessage("RedirectionURI")</label>
@@ -68,5 +77,26 @@
             <label class="@ValidationClass("password") text-danger">@ValidationMessage("password")</label>
         </div>
     </div>
+    <input type="hidden" name="postToRedirectUri" value="@{ if (ViewData.ContainsKey("postToRedirectUri")) { WriteLiteral(ViewData["postToRedirectUri"]); } else { WriteLiteral("false"); } } " />
     <button type="submit" class="btn btn-info mt-1">Register</button>
 </form>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $('#BrowserEnabled').change(authMethodChanged);
+        $('#Device').change(authMethodChanged);
+
+        function authMethodChanged()
+        {
+            if ($('#BrowserEnabled')[0].checked == true)
+            {
+                $('#RedirectionUriGroup').removeClass('d-none');
+            }
+            else
+            {
+                $('#RedirectionUriGroup').addClass('d-none');
+            }
+        }
+    </script>
+}

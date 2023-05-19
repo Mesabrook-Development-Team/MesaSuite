@@ -36,9 +36,27 @@ namespace WebModels.Migrations
                 { "ClientID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "AuthorizationTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
             };
+            createTable.Execute(transaction);
+
+            createTable.TableName = "DeviceCode";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "DeviceCodeID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "ClientID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "DeviceCodeString", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 16) },
+                { "UserCode", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 5) },
+                { "LastPing", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
+                { "Status", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "CodeID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+            };
+            createTable.Execute(transaction);
 
             IAlterTable alter = SQLProviderFactory.GetAlterTableQuery();
             alter.Schema = "auth";
+            alter.Table = "DeviceCode";
+            alter.AddForeignKey("FKDeviceCode_Client_ClientID", "ClientID", "auth", "Client", "ClientID", transaction);
+            alter.AddForeignKey("FKDeviceCode_Code_CodeID", "CodeID", "auth", "Code", "CodeID", transaction);
+
             alter.Table = "PersonalAccessToken";
             alter.AddForeignKey("FKPersonalAccessToken_User_UserID", "UserID", "security", "User", "UserID", transaction);
 

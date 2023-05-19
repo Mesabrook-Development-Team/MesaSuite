@@ -1,13 +1,16 @@
 ﻿using ClussPro.Base.Data.Operand;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Utility;
 using Newtonsoft.Json;
 using OAuth.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web.Mvc;
 using WebModels.auth;
@@ -83,7 +86,9 @@ namespace OAuth.Controllers
 
             Client client = clientSearch.GetReadOnly(null, FieldPathUtility.CreateFieldPathsAsList<Client>(c => new List<object>()
             {
+                c.ClientID,
                 c.RedirectionURI,
+                c.Type,
                 c.UserClients.First().UserID
             }));
 
@@ -92,10 +97,21 @@ namespace OAuth.Controllers
                 return OAuthError("unauthorized_client", "The client is not authorized to request an authorization code using this method.");
             }
 
-            //if (keys.Contains("response_type") && "device_code".Equals(collection["response_type"], StringComparison.OrdinalIgnoreCase))
-            //{
-            //    return HandleDeviceCodeResponse(collection["client_id"]);
-            //}
+            if (keys.Contains("response_type") && "device_code".Equals(collection["response_type"], StringComparison.OrdinalIgnoreCase))
+            {
+                if (client.Type == Client.Types.Device)
+                {
+                    return HandleDeviceCodeResponse(client.ClientID);
+                }
+                else
+                {
+                    return OAuthError("unauthorized_client", "The client is not authorized to request an authorization code using this method.");
+                }
+            }
+            else if (client.Type != Client.Types.BrowserEnabled)
+            {
+                return OAuthError("unauthorized_client", "The client is not authorized to request an authorization code using this method.");
+            }
 
             if (!keys.Contains("redirect_uri") || string.IsNullOrEmpty(collection["redirect_uri"]))
             {
@@ -213,43 +229,36 @@ namespace OAuth.Controllers
             return new RedirectResult(redirectionUri + $"?error={error}&error_description={error_description}&state={state}", false);
         }
 
-        private ActionResult HandleDeviceCodeResponse(string client_id)
+        const string DEVICE_CODE_CHARS = "ABCDEFGHIKJLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789";
+        private ActionResult HandleDeviceCodeResponse(long? clientID)
         {
-            if (!Guid.TryParse(client_id, out Guid device_id))
+            string deviceCode = "";
+            int fieldLength = Schema.GetSchemaObject<DeviceCode>().GetField(nameof(DeviceCode.DeviceCodeString)).DataSize;
+            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
             {
-                return OAuthError("invalid_request", "client_id must be a GUID");
-            }
-
-            Search<Client> clientSearch = new Search<Client>(new GuidSearchCondition<Client>()
-            {
-                Field = nameof(Client.ClientIdentifier),
-                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = device_id
-            });
-
-            Client client = clientSearch.GetReadOnly(null, new[] { "ClientID", "Type" });
-            if (client == null)
-            {
-                client = DataObjectFactory.Create<Client>();
-                client.ClientIdentifier = device_id;
-                client.Type = Client.Types.Device;
-                if (!client.Save())
+                while(deviceCode.Length < fieldLength)
                 {
-                    Response.Output.Write(JsonConvert.SerializeObject(new { error = "server_error", error_description = "An unexpected error occurred on the server" }));
-                    return new HttpStatusCodeResult(System.Net.HttpStatusCode.InternalServerError);
+                    byte[] oneByte = new byte[1];
+                    rng.GetBytes(oneByte);
+                    char byteChar = (char)oneByte[0];
+                    if (DEVICE_CODE_CHARS.Contains(byteChar))
+                    {
+                        deviceCode += byteChar;
+                    }
                 }
             }
-            else if (client.Type != Client.Types.Device)
-            {
-                return OAuthError("unauthorized_client", "The client is not authorized to request an authorization code using this method.");
-            }
 
-            
+            DeviceCode dbDeviceCode = DataObjectFactory.Create<DeviceCode>();
+            dbDeviceCode.ClientID = clientID;
+            dbDeviceCode.DeviceCodeString = deviceCode;
+            dbDeviceCode.UserCode = new Random().Next(10000, 99999).ToString();
 
             return Json(new
             {
                 verification_uri = Request.Url.GetLeftPart(UriPartial.Authority) + "/device",
-
+                user_code = dbDeviceCode.UserCode,
+                device_code = deviceCode,
+                interval = ConfigurationManager.AppSettings.Get("DeviceCodeInterval")
             });
         }
 

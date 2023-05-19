@@ -220,6 +220,7 @@
     <Content Include="Scripts\src\utils\setAttributes.js" />
     <Content Include="Scripts\src\utils\setStyles.js" />
     <Content Include="Scripts\src\utils\setupEventListeners.js" />
+    <Content Include="Scripts\ui.device.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -236,6 +237,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthorizeController.cs" />
     <Compile Include="Controllers\CheckController.cs" />
+    <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\RevokeController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
@@ -270,6 +272,7 @@
     <Content Include="Views\Register\PostBack.cshtml" />
     <Content Include="Views\Authorize\AppGrant.cshtml" />
     <Content Include="Views\Authorize\PostBack.cshtml" />
+    <Content Include="Views\Device\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

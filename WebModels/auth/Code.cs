@@ -62,5 +62,12 @@ namespace WebModels.auth
             get { CheckGet(); return _userID; }
             set { CheckSet(); _userID = value; }
         }
+
+        private DeviceCode _deviceCode = null;
+        [Relationship("1D2C635C-F31D-4AFA-AC51-43B74A45B7B7", OneToOneByForeignKey = true)]
+        public DeviceCode DeviceCode
+        {
+            get { CheckGet(); return _deviceCode; }
+        }
     }
 }

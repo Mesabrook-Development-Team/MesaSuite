@@ -27,6 +27,8 @@
             <input type="hidden" name="RedirectUri" value="@ViewData["RedirectUri"]" />
             <input type="hidden" name="NoRedirect" value="@ViewData["NoRedirect"]" />
             <input type="hidden" name="UserID" value="@ViewData["UserID"]" />
+            <input type="hidden" name="RequestType" value="@ViewData["RequestType"]" />
+            <input type="hidden" name="DeviceCodeID" value="@ViewData["DeviceCodeID"]" />
             <button type="submit" name="allow" class="btn btn-success">Allow</button>
             <button type="submit" name="reject" class="btn btn-danger">Reject</button>
         </form>

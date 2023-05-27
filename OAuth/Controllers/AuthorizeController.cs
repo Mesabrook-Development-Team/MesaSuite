@@ -1,4 +1,7 @@
-﻿using ClussPro.Base.Data.Operand;
+﻿using ClussPro.Base.Data;
+using ClussPro.Base.Data.Operand;
+using ClussPro.Base.Data.Query;
+using ClussPro.Base.Extensions;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
@@ -252,6 +255,12 @@ namespace OAuth.Controllers
             dbDeviceCode.ClientID = clientID;
             dbDeviceCode.DeviceCodeString = deviceCode;
             dbDeviceCode.UserCode = new Random().Next(10000, 99999).ToString();
+            dbDeviceCode.LastPing = DateTime.Now;
+            dbDeviceCode.Status = DeviceCode.Statuses.WaitingOnUser;
+            if (!dbDeviceCode.Save())
+            {
+                return OAuthError("server_error", "An unexpected error occurred on the server.");
+            }
 
             return Json(new
             {
@@ -262,10 +271,35 @@ namespace OAuth.Controllers
             });
         }
 
+        private readonly string[] DEVICE_CODE_DATA_KEYS = new string[]
+        {
+            "ClientID",
+            "UserID",
+            "DeviceCodeID",
+            "RequestType"
+        };
+
+        private readonly string[] OAUTH_DATA_KEYS = new string[]
+        {
+            "ClientID",
+            "State",
+            "RedirectURI"
+        };
+
         [HttpGet]
         public ActionResult AppGrant()
         {
-            if (!TempData.ContainsKey("ClientID") || !TempData.ContainsKey("State") || !TempData.ContainsKey("RedirectUri"))
+            string[] requiredFields;
+            if (TempData.ContainsKey("RequestType") && "device_code".Equals(TempData["RequestType"] as string, StringComparison.OrdinalIgnoreCase))
+            {
+                requiredFields = DEVICE_CODE_DATA_KEYS;
+            }
+            else
+            {
+                requiredFields = OAUTH_DATA_KEYS;
+            }
+
+            if (!requiredFields.All(requiredField => TempData.ContainsKey(requiredField)))
             {
                 Response.Output.WriteLine("Bad Request");
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
@@ -282,10 +316,12 @@ namespace OAuth.Controllers
             ViewBag.ClientName = client?.ClientName;
 
             ViewData["ClientID"] = TempData["ClientID"];
-            ViewData["State"] = TempData["State"];
-            ViewData["RedirectUri"] = TempData["RedirectUri"];
-            ViewData["NoRedirect"] = TempData["NoRedirect"];
-            ViewData["UserID"] = TempData["UserID"];
+            ViewData["State"] = (string)TempData.GetOrDefault("State", string.Empty);
+            ViewData["RedirectUri"] = (string)TempData.GetOrDefault("RedirectUri", string.Empty);
+            ViewData["NoRedirect"] = (string)TempData.GetOrDefault("NoRedirect", bool.FalseString);
+            ViewData["UserID"] = (string)TempData.GetOrDefault("UserID", string.Empty);
+            ViewData["RequestType"] = (string)TempData.GetOrDefault("RequestType", string.Empty);
+            ViewData["DeviceCodeID"] = (string)TempData.GetOrDefault("DeviceCodeID", string.Empty);
 
             TempData.Clear();
 
@@ -295,17 +331,32 @@ namespace OAuth.Controllers
         [HttpPost]
         public ActionResult AppGrant(FormCollection form)
         {
-            if (!form.AllKeys.Contains("ClientID") ||
-                !form.AllKeys.Contains("State") ||
-                !form.AllKeys.Contains("RedirectUri") ||
-                !form.AllKeys.Contains("UserID"))
+            string[] requiredKeys;
+            bool isDeviceCode = false;
+            if (form.AllKeys.Contains("RequestType") && form.Get("RequestType").Equals("device_code", StringComparison.OrdinalIgnoreCase))
+            {
+                requiredKeys = DEVICE_CODE_DATA_KEYS;
+                isDeviceCode = true;
+            }
+            else
+            {
+                requiredKeys = OAUTH_DATA_KEYS;
+            }
+
+            if (!requiredKeys.All(key => form.AllKeys.Contains(key, StringComparer.OrdinalIgnoreCase)))
             {
                 return OAuthError("bad_request", "Required information was missing");
             }
 
+            long deviceCodeID = -1;
+            if (isDeviceCode && !long.TryParse(form.Get("DeviceCodeID"), out deviceCodeID))
+            {
+                return OAuthError("bad_request", "DeviceCodeID must be a long");
+            }
+
             if (!form.AllKeys.Contains("allow"))
             {
-                return OAuthErrorRedirect("unauthorized", "The user rejected authorization of the client", form.Get("State"), form.Get("RedirectUri"));
+                return isDeviceCode ? RejectDeviceCode(deviceCodeID) : OAuthErrorRedirect("unauthorized", "The user rejected authorization of the client", form.Get("State"), form.Get("RedirectUri"));
             }
 
             if (!Guid.TryParse(form.Get("ClientID"), out Guid clientID))
@@ -317,6 +368,7 @@ namespace OAuth.Controllers
             {
                 return OAuthError("bad_request", "UserID must be a long");
             }
+
 
             Client client = new Search<Client>(new GuidSearchCondition<Client>()
             {
@@ -336,7 +388,7 @@ namespace OAuth.Controllers
             userClient.AuthorizationTime = DateTime.Now;
             userClient.Save();
 
-            return CreateOAuthCode(clientID, userID, form.Get("RedirectUri"), form.Get("State"), form.AllKeys.Contains("NoRedirect") && form.Get("NoRedirect").Equals(bool.TrueString, StringComparison.OrdinalIgnoreCase));
+            return isDeviceCode ? CreateDeviceCode(clientID, userID, deviceCodeID) : CreateOAuthCode(clientID, userID, form.Get("RedirectUri"), form.Get("State"), form.AllKeys.Contains("NoRedirect") && form.Get("NoRedirect").Equals(bool.TrueString, StringComparison.OrdinalIgnoreCase));
         }
 
         private ActionResult CreateOAuthCode(Guid clientID, long userID, string redirectUri, string state, bool noRedirect)
@@ -360,6 +412,47 @@ namespace OAuth.Controllers
             }
 
             return new RedirectResult($"{code.RedirectURI}?code={code.AuthCode.ToString()}&state={state}", false);
+        }
+
+        private ActionResult CreateDeviceCode(Guid clientID, long userID, long deviceCodeID)
+        {
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
+            {
+                Code code = DataObjectFactory.Create<Code>();
+                code.ClientIdentifier = clientID;
+                code.AuthCode = Guid.NewGuid();
+                code.Expiration = DateTime.Now.AddMinutes(5);
+                code.UserID = userID;
+
+                if (!code.Save(transaction))
+                {
+                    return OAuthError("server_error", "An unexpected error occurred on the server.");
+                }
+
+                DeviceCode deviceCode = DataObject.GetEditableByPrimaryKey<DeviceCode>(deviceCodeID, transaction, new string[0]);
+                deviceCode.CodeID = code.CodeID;
+                deviceCode.Status = DeviceCode.Statuses.Accepted;
+                if (!deviceCode.Save(transaction))
+                {
+                    return OAuthError("server_error", "An unexpected error occurred on the server.");
+                }
+
+                transaction.Commit();
+            }
+
+            return View("~/Views/Device/Success.cshtml");
+        }
+
+        private ActionResult RejectDeviceCode(long deviceCodeID)
+        {
+            DeviceCode deviceCode = DataObject.GetEditableByPrimaryKey<DeviceCode>(deviceCodeID, null, null);
+            deviceCode.Status = DeviceCode.Statuses.Rejected;
+            if (!deviceCode.Save())
+            {
+                return OAuthError("server_error", "An unexpected error occurred on the server.");
+            }
+
+            return View("~/Views/Device/Rejected.cshtml");
         }
     }
 }

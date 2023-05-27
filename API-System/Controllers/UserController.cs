@@ -152,7 +152,7 @@ namespace API_System.Controllers
             }
             user.DisableActiveDirectoryUser();
 
-            NotifyOAuthServerOfProgramChanges(id.Value, "userhasbeendeleted");
+            NotifyOAuthServerOfProgramChanges("userhasbeendeleted", "userid=" + id.Value);
 
             return Ok();
         }
@@ -178,7 +178,7 @@ namespace API_System.Controllers
             return Ok();
         }
 
-        internal static void NotifyOAuthServerOfProgramChanges(long userID, string action)
+        internal static int NotifyOAuthServerOfProgramChanges(string action, string data)
         {
             string user = ConfigurationManager.AppSettings.Get("OAuthUser");
             string password = ConfigurationManager.AppSettings.Get("OAuthPass");
@@ -192,10 +192,23 @@ namespace API_System.Controllers
 
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
             {
-                writer.WriteLine("userid=" + userID);
+                writer.WriteLine(data);
             }
 
-            request.GetResponseAsync();
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                return (int)response.StatusCode;
+            }
+            catch(WebException ex)
+            {
+                if (ex.Response is HttpWebResponse wexResponse)
+                {
+                    return (int)wexResponse.StatusCode;
+                }
+
+                throw ex;
+            }
         }
     }
 }

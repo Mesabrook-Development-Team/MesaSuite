@@ -54,7 +54,7 @@
             this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.soundEffectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuProfile = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuPATs = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLoginHistoryApps = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxSignIn = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuRegister = new System.Windows.Forms.ToolStripMenuItem();
             this.pboxLoginStatus = new System.Windows.Forms.PictureBox();
@@ -364,7 +364,7 @@
             // mnuProfile
             // 
             this.mnuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuPATs});
+            this.mnuLoginHistoryApps});
             this.mnuProfile.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mnuProfile.Image = global::MesaSuite.Properties.Resources.user;
             this.mnuProfile.Name = "mnuProfile";
@@ -372,13 +372,13 @@
             this.mnuProfile.Text = "Profile";
             this.mnuProfile.Visible = false;
             // 
-            // mnuPATs
+            // mnuLoginHistoryApps
             // 
-            this.mnuPATs.Image = global::MesaSuite.Properties.Resources.key;
-            this.mnuPATs.Name = "mnuPATs";
-            this.mnuPATs.Size = new System.Drawing.Size(203, 22);
-            this.mnuPATs.Text = "Personal Access Tokens";
-            this.mnuPATs.Click += new System.EventHandler(this.mnuPATs_Click);
+            this.mnuLoginHistoryApps.Image = global::MesaSuite.Properties.Resources.lock_open;
+            this.mnuLoginHistoryApps.Name = "mnuLoginHistoryApps";
+            this.mnuLoginHistoryApps.Size = new System.Drawing.Size(180, 22);
+            this.mnuLoginHistoryApps.Text = "Apps && Activity";
+            this.mnuLoginHistoryApps.Click += new System.EventHandler(this.mnuLoginHistoryApps_Click);
             // 
             // ctxSignIn
             // 
@@ -491,6 +491,6 @@
         private System.Windows.Forms.PictureBox pboxTowing;
         private System.Windows.Forms.PictureBox pboxTowTxt;
         private System.Windows.Forms.ToolStripMenuItem mnuProfile;
-        private System.Windows.Forms.ToolStripMenuItem mnuPATs;
+        private System.Windows.Forms.ToolStripMenuItem mnuLoginHistoryApps;
     }
 }

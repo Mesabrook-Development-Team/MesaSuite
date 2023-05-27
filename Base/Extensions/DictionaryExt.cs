@@ -5,7 +5,7 @@ namespace ClussPro.Base.Extensions
 {
     public static class DictionaryExt
     {
-        public static TValue GetOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue = default(TValue))
+        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue = default(TValue))
         {
             if (dictionary.ContainsKey(key))
             {
@@ -15,7 +15,7 @@ namespace ClussPro.Base.Extensions
             return defaultValue;
         }
 
-        public static TValue GetOrSet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TValue> ctor)
+        public static TValue GetOrSet<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> ctor)
         {
             if (!dictionary.ContainsKey(key))
             {

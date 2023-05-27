@@ -10,7 +10,7 @@
 
     string IsCodeActive()
     {
-        return ViewData.ModelState.IsValid || !ViewData.ModelState.IsValid("UserCode") ? "active" : "";
+        return ViewData.ModelState.IsValid || !ViewData.ModelState.IsValidField("UserCode") ? "active" : "";
     }
 
     string IsAuthActive()

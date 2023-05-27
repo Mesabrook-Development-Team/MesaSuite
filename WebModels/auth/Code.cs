@@ -38,7 +38,6 @@ namespace WebModels.auth
 
         private string _redirectURI;
         [Field("2621BE10-E949-4C14-BF6E-084D739731A3")]
-        [Required]
         public string RedirectURI
         {
             get { CheckGet(); return _redirectURI; }

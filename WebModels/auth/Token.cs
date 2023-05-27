@@ -1,5 +1,6 @@
 ﻿using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
@@ -36,6 +37,15 @@ namespace WebModels.auth
         public Client Client
         {
             get { CheckGet(); return _client; }
+        }
+
+        private DateTime? _grantTime;
+        [Field("CEED86AA-2E8F-49B1-89AE-8C811C127585", DataSize = 7)]
+        [Required]
+        public DateTime? GrantTime
+        {
+            get { CheckGet(); return _grantTime; }
+            set { CheckSet(); _grantTime = value; }
         }
 
         private Guid? _accessToken;
@@ -101,6 +111,33 @@ namespace WebModels.auth
         public User User
         {
             get { CheckGet(); return _user; }
+        }
+
+        protected override bool PreSave(ITransaction transaction)
+        {
+            if (IsInsert)
+            {
+                Search<Token> activeTokenSearch = new Search<Token>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<Token>()
+                    {
+                        Field = nameof(ClientID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = ClientID
+                    },
+                    new LongSearchCondition<Token>()
+                    {
+                        Field = nameof(RevokeTime),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                    }));
+
+                foreach(Token activeToken in activeTokenSearch.GetEditableReader(transaction))
+                {
+                    activeToken.RevokeTime = DateTime.Now;
+                    activeToken.RevokeReason = "Newer session created";
+                    activeToken.Save(transaction);
+                }
+            }
+            return base.PreSave(transaction);
         }
     }
 }

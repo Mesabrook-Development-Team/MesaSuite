@@ -273,6 +273,8 @@
     <Content Include="Views\Authorize\AppGrant.cshtml" />
     <Content Include="Views\Authorize\PostBack.cshtml" />
     <Content Include="Views\Device\Index.cshtml" />
+    <Content Include="Views\Device\Success.cshtml" />
+    <Content Include="Views\Device\Rejected.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

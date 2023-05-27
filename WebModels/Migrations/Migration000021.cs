@@ -60,6 +60,9 @@ namespace WebModels.Migrations
             alter.Table = "PersonalAccessToken";
             alter.AddForeignKey("FKPersonalAccessToken_User_UserID", "UserID", "security", "User", "UserID", transaction);
 
+            alter.Table = "Token";
+            alter.AddColumn("GrantTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7), transaction);
+
             alter.Schema = "security";
             alter.Table = "User";
             alter.AddColumn("LastActivity", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7), transaction);

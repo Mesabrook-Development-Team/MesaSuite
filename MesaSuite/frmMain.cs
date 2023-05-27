@@ -402,5 +402,11 @@ namespace MesaSuite
             frmPersonalAccessTokens accessTokens = new frmPersonalAccessTokens();
             accessTokens.Show();
         }
+
+        private void mnuLoginHistoryApps_Click(object sender, EventArgs e)
+        {
+            frmLoginHistory history = new frmLoginHistory();
+            history.Show();
+        }
     }
 }

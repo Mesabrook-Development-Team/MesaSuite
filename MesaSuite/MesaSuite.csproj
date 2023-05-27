@@ -80,6 +80,12 @@
     <Compile Include="frmAdditionalCredits.Designer.cs">
       <DependentUpon>frmAdditionalCredits.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmLoginHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLoginHistory.Designer.cs">
+      <DependentUpon>frmLoginHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +139,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAdditionalCredits.resx">
       <DependentUpon>frmAdditionalCredits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLoginHistory.resx">
+      <DependentUpon>frmLoginHistory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>

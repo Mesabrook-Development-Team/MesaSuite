@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
@@ -91,13 +93,13 @@ namespace OAuth.Controllers
 
             Search<DeviceCode> deviceCodeSearch = new Search<DeviceCode>(new StringSearchCondition<DeviceCode>()
             {
-                Field = nameof(DeviceCode),
+                Field = nameof(DeviceCode.UserCode),
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                 Value = form.Get("UserCode")
             });
             DeviceCode deviceCode = deviceCodeSearch.GetEditable(readOnlyFields: FieldPathUtility.CreateFieldPathsAsList<DeviceCode>(dc => new List<object>()
             {
-                dc.Client.ClientIdentifier
+                dc.Client.ClientIdentifier,
                 dc.Client.UserClients.First().UserID
             }));
 
@@ -109,19 +111,43 @@ namespace OAuth.Controllers
 
             if (!deviceCode.Client?.UserClients?.Any(uc => uc.UserID == user.UserID) ?? false)
             {
-                TempData["ClientID"] = deviceCode.ClientID;
-                TempData["UserID"] = user.UserID;
-                TempData["DeviceCodeID"] = deviceCode.DeviceCodeID;
+                TempData["ClientID"] = deviceCode.Client.ClientIdentifier.ToString();
+                TempData["UserID"] = user.UserID.ToString();
+                TempData["DeviceCodeID"] = deviceCode.DeviceCodeID.ToString();
                 TempData["RequestType"] = "device_code";
 
                 return RedirectToAction("AppGrant", "Authorize");
             }
 
-            Code code = DataObjectFactory.Create<Code>();
-            code.UserID = user.UserID;
-            code.AuthCode = Guid.NewGuid();
-            code.ClientIdentifier = deviceCode.Client.ClientIdentifier;
-            code.Expiration = 
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
+            {
+                Code code = DataObjectFactory.Create<Code>();
+                code.UserID = user.UserID;
+                code.AuthCode = Guid.NewGuid();
+                code.ClientIdentifier = deviceCode.Client.ClientIdentifier;
+                code.Expiration = DateTime.Now.AddMinutes(5);
+                if (!code.Save(transaction))
+                {
+                    string errors = string.Join(". ", code.Errors.Select(e => e.Message));
+                    ModelState.AddModelError("UserCode", errors);
+
+                    return View(form);
+                }
+
+                deviceCode.CodeID = code.CodeID;
+                deviceCode.Status = DeviceCode.Statuses.Accepted;
+                if (!deviceCode.Save(transaction))
+                {
+                    string errors = string.Join(". ", deviceCode.Errors.Select(e => e.Message));
+                    ModelState.AddModelError("UserCode", errors);
+
+                    return View(form);
+                }
+
+                transaction.Commit();
+            }
+
+            return View("Success");
         }
     }
 }

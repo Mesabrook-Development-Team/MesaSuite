@@ -24,7 +24,7 @@ namespace MesaSuite
         }
 
         bool isLoading = false;
-        private async Task LoadApps()
+        private async Task LoadApps(long? selectedClientID = null)
         {
             try
             {
@@ -55,7 +55,25 @@ namespace MesaSuite
 
             if (dgvApps.Rows.Count > 0)
             {
-                dgvApps.Rows[0].Selected = true;
+                if (selectedClientID == null)
+                {
+                    dgvApps.Rows[0].Selected = true;
+                }
+                else
+                {
+                    foreach(DataGridViewRow row in dgvApps.Rows)
+                    {
+                        if (row.Tag is long?)
+                        {
+                            long? clientID = row.Tag as long?;
+                            if (clientID == selectedClientID)
+                            {
+                                row.Selected = true;
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -98,7 +116,7 @@ namespace MesaSuite
 
             DataGridViewRow row = dgvApps.SelectedRows.OfType<DataGridViewRow>().FirstOrDefault();
             pnlDetail.Visible = row != null;
-            mnuLogOut.Enabled = row != null;
+            mnuLogOut.Enabled = ((string)row.Cells[colCurrentlyLoggedIn.Name].Value).Equals("Yes", StringComparison.OrdinalIgnoreCase);
             mnuRemoveApp.Enabled = row != null;
 
             if (row == null)
@@ -154,10 +172,10 @@ namespace MesaSuite
             }
 
             long? clientID = dgvApps.SelectedRows[0].Tag as long?;
-            PutData put = new PutData(DataAccess.APIs.SystemManagement, "LogOutFromApp/" + clientID, new object());
+            PutData put = new PutData(DataAccess.APIs.SystemManagement, "LoginHistory/LogOutFromApp/" + clientID, new object());
             await put.ExecuteNoResult();
 
-            await LoadAppDetails();
+            await LoadApps(clientID);
         }
 
         private async void mnuRemoveApp_Click(object sender, EventArgs e)
@@ -168,7 +186,7 @@ namespace MesaSuite
             }
 
             long? clientID = dgvApps.SelectedRows[0].Tag as long?;
-            PutData put = new PutData(DataAccess.APIs.SystemManagement, "RemoveApp/" + clientID, new object());
+            PutData put = new PutData(DataAccess.APIs.SystemManagement, "LoginHistory/RemoveApp/" + clientID, new object());
             await put.ExecuteNoResult();
             await LoadApps();
         }

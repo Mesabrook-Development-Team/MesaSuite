@@ -6,7 +6,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Web.Mvc;
 using WebModels.auth;
 
@@ -280,6 +282,39 @@ namespace OAuth.Controllers
                 default:
                     return ErrorResponse("server_error", "An unexpected error occurred on the server.");
             }
+        }
+
+        [HttpPost]
+        public ActionResult VerifyToken(string access_token)
+        {
+            if (!Guid.TryParse(access_token, out Guid accessToken))
+            {
+                using (StreamWriter writer = new StreamWriter(Response.OutputStream))
+                {
+                    writer.Write(JsonConvert.SerializeObject(new
+                    {
+                        error = "bad_request",
+                        error_description = "Malformed access token"
+                    }));
+                }
+
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+
+            Search<Token> tokenSearch = new Search<Token>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new GuidSearchCondition<Token>()
+                {
+                    Field = nameof(Token.AccessToken),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = accessToken
+                },
+                new DateTimeSearchCondition<Token>()
+                {
+                    Field = nameof(Token.RevokeTime),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                }));
+
+            return tokenSearch.ExecuteExists(null) ? new HttpStatusCodeResult(System.Net.HttpStatusCode.OK) : new HttpStatusCodeResult(System.Net.HttpStatusCode.Unauthorized);
         }
     }
 }

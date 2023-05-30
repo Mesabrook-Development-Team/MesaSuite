@@ -501,6 +501,34 @@ namespace MesaSuite.Common
                     {
                         newPrograms = new List<string>();
                     }
+
+                    if (!getData.RequestSuccessful) // Did we get signed out somehow?
+                    {
+                        HttpWebRequest webRequest = WebRequest.CreateHttp(ConfigurationManager.AppSettings.Get("MesaSuite.Common.AuthHost") + "/Token/VerifyToken");
+                        webRequest.Method = "POST";
+                        webRequest.ContentType = "application/json";
+                        using (StreamWriter writer = new StreamWriter(webRequest.GetRequestStream()))
+                        {
+                            writer.Write("{\"access_token\": \"" + GetAuthToken() + "\"}");
+                        }
+                        
+                        try
+                        {
+                            await webRequest.GetResponseAsync();
+                        }
+                        catch(WebException ex)
+                        {
+                            if (ex.Response is HttpWebResponse response && response.StatusCode == HttpStatusCode.Unauthorized)
+                            {
+                                ResetValues();
+                                AuthenticationStatus = AuthenticationStatuses.LoggedOut;
+                            }
+
+                            // If there's an exception for any other reason, we can't really determine
+                            // what the problem is, and we don't really want to be logging people out randomly
+                            // so we'll just do nothing and try again later.
+                        }
+                    }
                 }
                 else
                 {

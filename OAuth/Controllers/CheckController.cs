@@ -142,6 +142,8 @@ namespace OAuth.Controllers
                     {
                         return new HttpStatusCodeResult(System.Net.HttpStatusCode.InternalServerError);
                     }
+
+                    App_Code.SecurityCache.Revoke(token.AccessToken.ToString());
                 }
 
                 foreach (Code code in codeSearch.GetEditableReader(transaction))
@@ -230,7 +232,7 @@ namespace OAuth.Controllers
             {
                 foreach(Token token in tokenSearch.GetEditableReader(transaction))
                 {
-                    SecurityCache.Revoke(token.AccessToken.ToString());
+                    App_Code.SecurityCache.Revoke(token.AccessToken.ToString());
 
                     token.RevokeTime = DateTime.Now;
                     token.RevokeReason = "User removed access from app";

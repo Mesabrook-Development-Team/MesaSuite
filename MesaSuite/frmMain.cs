@@ -127,6 +127,14 @@ namespace MesaSuite
                 pboxLoginStatus.Image = Properties.Resources.icn_x;
                 lblLoginStatus.Text = "Not Logged In";
                 mnuProfile.Visible = false;
+
+                foreach(Form form in Application.OpenForms.OfType<Form>().ToList())
+                {
+                    if (form is frmClients || form is frmLoginHistory)
+                    {
+                        form.Close();
+                    }
+                }
             }));
         }
 
@@ -407,6 +415,12 @@ namespace MesaSuite
         {
             frmLoginHistory history = new frmLoginHistory();
             history.Show();
+        }
+
+        private void myAppsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmClients clients = new frmClients();
+            clients.Show();
         }
     }
 }

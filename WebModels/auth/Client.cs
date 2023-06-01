@@ -1,4 +1,8 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
@@ -76,19 +80,67 @@ namespace WebModels.auth
             get { CheckGet(); return _user; }
         }
 
+        private int _userCount;
+        [Field("5EA0B7B2-712A-4CF8-B085-6004305D76CA", HasOperation = true)]
+        public int UserCount
+        {
+            get { CheckGet(); return _userCount; }
+        }
+
+        public static OperationDelegate UserCountOperation
+        {
+            get
+            {
+                return (alias) =>
+                {
+                    ISelectQuery select = SQLProviderFactory.GetSelectQuery();
+                    select.Table = new Table("auth", "UserClient", "ucCount");
+                    select.SelectList = new List<Select>()
+                    {
+                        new Select() { SelectOperand = new Count((Field)"ucCount.UserClientID") }
+                    };
+                    select.WhereCondition = new Condition()
+                    {
+                        Left = (Field)"ucCount.ClientID",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (Field)$"{alias}.ClientID"
+                    };
+
+                    return new SubQuery(select);
+                };
+            }
+        }
+
+        protected override void PreValidate()
+        {
+            if (IsInsert)
+            {
+                ClientIdentifier = Guid.NewGuid();
+            }
+
+            base.PreValidate();
+        }
+
         #region Relationships
         private List<UserClient> _userClients = new List<UserClient>();
-        [RelationshipList("1A40012B-9FEB-407C-B779-97C5E34202AE", nameof(UserClient.ClientID))]
+        [RelationshipList("1A40012B-9FEB-407C-B779-97C5E34202AE", nameof(UserClient.ClientID), AutoDeleteReferences = true)]
         public IReadOnlyCollection<UserClient> UserClients
         {
             get { CheckGet(); return _userClients; }
         }
 
         private List<Token> _tokens = new List<Token>();
-        [RelationshipList("F9111B34-F4D4-497E-ACCE-A3870EAF7B42", "ClientID")]
+        [RelationshipList("F9111B34-F4D4-497E-ACCE-A3870EAF7B42", "ClientID", AutoDeleteReferences = true)]
         public IReadOnlyCollection<Token> Tokens
         {
             get { CheckGet(); return _tokens; }
+        }
+
+        private List<DeviceCode> _deviceCodes = new List<DeviceCode>();
+        [RelationshipList("CD2C721D-B72A-48FF-8568-9527DEF3DA5D", nameof(DeviceCode.ClientID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<DeviceCode> DeviceCodes
+        {
+            get { CheckGet(); return _deviceCodes; }
         }
         #endregion
 

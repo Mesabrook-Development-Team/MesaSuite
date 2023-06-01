@@ -17,9 +17,7 @@
                 $('#UserCodeVal').html("This code isn't valid");
             }
         }
-    })
-
-
+    });
 }
 
 function prev()
@@ -32,3 +30,22 @@ function submit()
 {
     $('#mainContent').trigger('submit');
 }
+
+function codeKeyPress(event)
+{
+    if (event.charCode == 13) // Enter
+    {
+        $('#btnNext').trigger("click");
+    }
+}
+
+function passwordPress(event)
+{
+    if (event.charCode == 13) // Enter
+    {
+        $('#btnSubmit').trigger("click");
+    }
+}
+
+$('#UserCode').on('keypress', codeKeyPress);
+$('#Password').on('keypress', passwordPress);

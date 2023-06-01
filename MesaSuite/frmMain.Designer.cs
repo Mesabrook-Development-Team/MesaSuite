@@ -55,6 +55,7 @@
             this.soundEffectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLoginHistoryApps = new System.Windows.Forms.ToolStripMenuItem();
+            this.myAppsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxSignIn = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuRegister = new System.Windows.Forms.ToolStripMenuItem();
             this.pboxLoginStatus = new System.Windows.Forms.PictureBox();
@@ -364,7 +365,8 @@
             // mnuProfile
             // 
             this.mnuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuLoginHistoryApps});
+            this.mnuLoginHistoryApps,
+            this.myAppsToolStripMenuItem});
             this.mnuProfile.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mnuProfile.Image = global::MesaSuite.Properties.Resources.user;
             this.mnuProfile.Name = "mnuProfile";
@@ -379,6 +381,14 @@
             this.mnuLoginHistoryApps.Size = new System.Drawing.Size(180, 22);
             this.mnuLoginHistoryApps.Text = "Apps && Activity";
             this.mnuLoginHistoryApps.Click += new System.EventHandler(this.mnuLoginHistoryApps_Click);
+            // 
+            // myAppsToolStripMenuItem
+            // 
+            this.myAppsToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.application;
+            this.myAppsToolStripMenuItem.Name = "myAppsToolStripMenuItem";
+            this.myAppsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.myAppsToolStripMenuItem.Text = "My Owned Apps";
+            this.myAppsToolStripMenuItem.Click += new System.EventHandler(this.myAppsToolStripMenuItem_Click);
             // 
             // ctxSignIn
             // 
@@ -492,5 +502,6 @@
         private System.Windows.Forms.PictureBox pboxTowTxt;
         private System.Windows.Forms.ToolStripMenuItem mnuProfile;
         private System.Windows.Forms.ToolStripMenuItem mnuLoginHistoryApps;
+        private System.Windows.Forms.ToolStripMenuItem myAppsToolStripMenuItem;
     }
 }

@@ -147,6 +147,8 @@ namespace API.Common
                 }
             }
 
+            PrePostCommit(dataObject);
+
             using (ITransaction transaction = SQLProviderFactory.GenerateTransaction(Schema.GetSchemaObject<TDataObject>().ConnectionName ?? "_default"))
             {
                 if (!dataObject.Save(transaction))
@@ -184,6 +186,8 @@ namespace API.Common
 
             return Created("Get/" + dataObject.PrimaryKeyField.GetValue(dataObject), DataObject.GetReadOnlyByPrimaryKey<TDataObject>(ConvertUtility.GetNullableLong(dataObject.PrimaryKeyField.GetValue(dataObject)), null, await FieldsToRetrieve()));
         }
+
+        protected virtual void PrePostCommit(TDataObject dataObject) { }
 
         [HttpPut]
         public async virtual Task<IHttpActionResult> Put(TDataObject dataObject)

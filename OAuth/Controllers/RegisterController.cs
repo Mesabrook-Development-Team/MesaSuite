@@ -80,7 +80,7 @@ namespace OAuth.Controllers
             {
                 transaction = SQLProviderFactory.GenerateTransaction();
                 Client client = DataObjectFactory.Create<Client>();
-                client.ClientIdentifier = Guid.NewGuid();
+                //Client Identifier is handled during pre-validate
                 client.ClientName = form.Get("clientName");
                 client.Type = form.Get("Type")?.Equals("BrowserEnabled", StringComparison.OrdinalIgnoreCase) ?? false ? Client.Types.BrowserEnabled : Client.Types.Device;
                 client.UserID = userObject.UserID;

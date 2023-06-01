@@ -89,6 +89,8 @@ namespace MesaSuite.Common
                 {
                     key.DeleteValue(clientIDKey);
                 }
+
+                _clientID = value;
             }
         }
         private static string AuthToken { get; set; }
@@ -437,11 +439,11 @@ namespace MesaSuite.Common
         public static void Initialize()
         {
             RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
-            long? expirationEncoded = key.GetValue("Expiration") as long?;
+            string strExpirationEncoded = key.GetValue("Expiration") as string;
 
-            if (expirationEncoded != null)
+            if (!string.IsNullOrEmpty(strExpirationEncoded) && long.TryParse(strExpirationEncoded, out long expirationEncoded))
             {
-                Expiration = DateTime.FromBinary(expirationEncoded.Value);
+                Expiration = DateTime.FromBinary(expirationEncoded);
             }
 
             AuthToken = key.GetValue("AuthToken") as string;

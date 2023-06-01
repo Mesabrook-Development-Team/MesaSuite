@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="text-right mt-2">
-                    <button class="btn btn-info" type="button" onclick="next();">Next ➡</button>
+                    <button id="btnNext" class="btn btn-info" type="button" onclick="next();">Next ➡</button>
                 </div>
             </div>
 
@@ -44,18 +44,18 @@
                 <div class="border border-info p-1 mt-2">
                     <div class="form-group">
                         <label for="Username">Mesabrook Username</label>
-                        <input type="text" class="form-control" name="Username" />
+                        <input id="Username" type="text" class="form-control" name="Username" />
                         <label class="text-danger @ValClass("UserCode")">@Html.ValidationMessage("Username")</label>
                     </div>
                     <div class="form-group">
                         <label for="Password">Mesabrook Password</label>
-                        <input type="password" class="form-control" name="Password" />
+                        <input id="Password" type="password" class="form-control" name="Password" />
                         <label class="text-danger @ValClass("UserCode")">@Html.ValidationMessage("Password")</label>
                     </div>
                 </div>
                 <div>
                     <button class="btn btn-info mt-1" type="button" onclick="prev();">⬅ Back</button>
-                    <button class="btn btn-success mt-1 float-right" type="button" onclick="submit();">Sign In</button>
+                    <button id="btnSubmit" class="btn btn-success mt-1 float-right" type="button" onclick="submit();">Sign In</button>
                 </div>
             </div>
         </div>

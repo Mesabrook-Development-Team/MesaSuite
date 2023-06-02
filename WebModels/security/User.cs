@@ -58,6 +58,15 @@ namespace WebModels.security
             set { CheckSet(); _discordID = value; }
         }
 
+        private string _lastActivityReason;
+        [Field("ACA3E4A2-3CE5-473E-AA85-388FB45A6034", DataSize = 1000)]
+        [Required]
+        public string LastActivityReason
+        {
+            get { CheckGet(); return _lastActivityReason; }
+            set { CheckSet(); _lastActivityReason = value; }
+        }
+
         #region Relationships
         #region auth
         private List<Client> _clientsOwned = new List<Client>();

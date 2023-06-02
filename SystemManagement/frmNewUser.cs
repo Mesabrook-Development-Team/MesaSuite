@@ -169,7 +169,6 @@ namespace SystemManagement
             txtUsername.Enabled = !hasSelectedItem;
             txtFirstName.Enabled = !hasSelectedItem;
             txtLastName.Enabled = !hasSelectedItem;
-            txtDiscordID.Enabled = !hasSelectedItem;
             cmdSelectSG.Enabled = !hasSelectedItem;
             cmdSelectPrograms.Enabled = !hasSelectedItem;
         }

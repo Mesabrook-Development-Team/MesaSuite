@@ -50,6 +50,8 @@ namespace SystemManagement
             txtDiscordID.Text = user.DiscordID;
             txtLastActivity.Text = user.LastActivity?.ToString("MM/dd/yyyy HH:mm");
             txtLastActivity.Tag = user.LastActivity;
+            txtLastActivityReason.Text = user.LastActivityReason;
+
             _inactivityWarningServed = user.InactivityWarningServed;
 
             if (user.LastActivity != null && user.LastActivity.Value.AddMonths(1).AddDays(-2) < DateTime.Now)
@@ -144,6 +146,7 @@ namespace SystemManagement
                 LastName = txtLastName.Text,
                 DiscordID = txtDiscordID.Text,
                 LastActivity = (DateTime?)txtLastActivity.Tag,
+                LastActivityReason = txtLastActivityReason.Text,
                 InactivityWarningServed = _inactivityWarningServed
             };
 

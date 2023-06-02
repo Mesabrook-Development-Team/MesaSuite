@@ -53,6 +53,8 @@
             this.txtDiscordID = new System.Windows.Forms.TextBox();
             this.txtLastActivity = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtLastActivityReason = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -87,12 +89,12 @@
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.ReadOnly = true;
             this.txtEmail.Size = new System.Drawing.Size(221, 20);
-            this.txtEmail.TabIndex = 1;
+            this.txtEmail.TabIndex = 2;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 88);
+            this.label3.Location = new System.Drawing.Point(12, 161);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(54, 13);
             this.label3.TabIndex = 3;
@@ -106,11 +108,11 @@
             listViewGroup1});
             this.lstPrograms.HideSelection = false;
             this.lstPrograms.LargeImageList = this.imlLarge;
-            this.lstPrograms.Location = new System.Drawing.Point(12, 104);
+            this.lstPrograms.Location = new System.Drawing.Point(15, 177);
             this.lstPrograms.Name = "lstPrograms";
             this.lstPrograms.Size = new System.Drawing.Size(282, 145);
             this.lstPrograms.SmallImageList = this.imlSmall;
-            this.lstPrograms.TabIndex = 4;
+            this.lstPrograms.TabIndex = 7;
             this.lstPrograms.UseCompatibleStateImageBehavior = false;
             this.lstPrograms.View = System.Windows.Forms.View.List;
             this.lstPrograms.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstPrograms_KeyDown);
@@ -129,20 +131,20 @@
             // 
             // cmdSelectPrograms
             // 
-            this.cmdSelectPrograms.Location = new System.Drawing.Point(219, 255);
+            this.cmdSelectPrograms.Location = new System.Drawing.Point(222, 328);
             this.cmdSelectPrograms.Name = "cmdSelectPrograms";
             this.cmdSelectPrograms.Size = new System.Drawing.Size(75, 23);
-            this.cmdSelectPrograms.TabIndex = 5;
+            this.cmdSelectPrograms.TabIndex = 8;
             this.cmdSelectPrograms.Text = "Select";
             this.cmdSelectPrograms.UseVisualStyleBackColor = true;
             this.cmdSelectPrograms.Click += new System.EventHandler(this.cmdSelectPerms_Click);
             // 
             // cmdSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(510, 284);
+            this.cmdSave.Location = new System.Drawing.Point(513, 357);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 8;
+            this.cmdSave.TabIndex = 11;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -150,10 +152,10 @@
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(429, 284);
+            this.cmdCancel.Location = new System.Drawing.Point(432, 357);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 9;
+            this.cmdCancel.TabIndex = 12;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -161,7 +163,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(300, 88);
+            this.label4.Location = new System.Drawing.Point(303, 161);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(85, 13);
             this.label4.TabIndex = 3;
@@ -171,11 +173,11 @@
             // 
             this.lstSecurityGroups.HideSelection = false;
             this.lstSecurityGroups.LargeImageList = this.imlLarge;
-            this.lstSecurityGroups.Location = new System.Drawing.Point(303, 104);
+            this.lstSecurityGroups.Location = new System.Drawing.Point(306, 177);
             this.lstSecurityGroups.Name = "lstSecurityGroups";
             this.lstSecurityGroups.Size = new System.Drawing.Size(282, 145);
             this.lstSecurityGroups.SmallImageList = this.imlSmall;
-            this.lstSecurityGroups.TabIndex = 6;
+            this.lstSecurityGroups.TabIndex = 9;
             this.lstSecurityGroups.UseCompatibleStateImageBehavior = false;
             this.lstSecurityGroups.View = System.Windows.Forms.View.List;
             this.lstSecurityGroups.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstSecurityGroups_KeyDown);
@@ -211,15 +213,15 @@
             this.txtLastName.Location = new System.Drawing.Point(367, 38);
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(220, 20);
-            this.txtLastName.TabIndex = 2;
+            this.txtLastName.TabIndex = 3;
             this.txtLastName.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
             // 
             // cmdSelectSecurityGroups
             // 
-            this.cmdSelectSecurityGroups.Location = new System.Drawing.Point(510, 255);
+            this.cmdSelectSecurityGroups.Location = new System.Drawing.Point(513, 328);
             this.cmdSelectSecurityGroups.Name = "cmdSelectSecurityGroups";
             this.cmdSelectSecurityGroups.Size = new System.Drawing.Size(75, 23);
-            this.cmdSelectSecurityGroups.TabIndex = 7;
+            this.cmdSelectSecurityGroups.TabIndex = 10;
             this.cmdSelectSecurityGroups.Text = "Select";
             this.cmdSelectSecurityGroups.UseVisualStyleBackColor = true;
             this.cmdSelectSecurityGroups.Click += new System.EventHandler(this.cmdSelectSecurityGroups_Click);
@@ -238,7 +240,7 @@
             this.txtDiscordID.Location = new System.Drawing.Point(73, 64);
             this.txtDiscordID.Name = "txtDiscordID";
             this.txtDiscordID.Size = new System.Drawing.Size(221, 20);
-            this.txtDiscordID.TabIndex = 3;
+            this.txtDiscordID.TabIndex = 4;
             this.txtDiscordID.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
             // 
             // txtLastActivity
@@ -247,7 +249,7 @@
             this.txtLastActivity.Name = "txtLastActivity";
             this.txtLastActivity.ReadOnly = true;
             this.txtLastActivity.Size = new System.Drawing.Size(221, 20);
-            this.txtLastActivity.TabIndex = 1;
+            this.txtLastActivity.TabIndex = 5;
             // 
             // label8
             // 
@@ -258,13 +260,33 @@
             this.label8.TabIndex = 2;
             this.label8.Text = "Last Activity:";
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(7, 93);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(107, 13);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Last Activity Reason:";
+            // 
+            // txtLastActivityReason
+            // 
+            this.txtLastActivityReason.Location = new System.Drawing.Point(10, 109);
+            this.txtLastActivityReason.Multiline = true;
+            this.txtLastActivityReason.Name = "txtLastActivityReason";
+            this.txtLastActivityReason.ReadOnly = true;
+            this.txtLastActivityReason.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtLastActivityReason.Size = new System.Drawing.Size(577, 49);
+            this.txtLastActivityReason.TabIndex = 6;
+            this.txtLastActivityReason.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
+            // 
             // frmEditUser
             // 
             this.AcceptButton = this.cmdSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(593, 314);
+            this.ClientSize = new System.Drawing.Size(593, 392);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.cmdSelectSecurityGroups);
@@ -280,7 +302,9 @@
             this.Controls.Add(this.txtLastName);
             this.Controls.Add(this.txtFirstName);
             this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtLastActivityReason);
             this.Controls.Add(this.txtDiscordID);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
@@ -322,5 +346,7 @@
         private System.Windows.Forms.TextBox txtDiscordID;
         private System.Windows.Forms.TextBox txtLastActivity;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtLastActivityReason;
     }
 }

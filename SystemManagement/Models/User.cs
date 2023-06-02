@@ -10,6 +10,7 @@ namespace SystemManagement.Models
         public string DiscordID { get; set; }
         public bool InactivityWarningServed { get; set; }
         public DateTime? LastActivity { get; set; }
+        public string LastActivityReason { get; set; }
 
         /// <summary>
         /// Only used during insert - this field is obviously never retrieved

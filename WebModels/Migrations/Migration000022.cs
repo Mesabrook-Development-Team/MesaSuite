@@ -67,7 +67,8 @@ namespace WebModels.Migrations
             alter.Table = "User";
             alter.AddColumn("LastActivity", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7), transaction);
             alter.AddColumn("LastActivityReason", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 1000), transaction);
-            alter.AddColumn("InactivityWarningServed", new FieldSpecification(FieldSpecification.FieldTypes.Bit), transaction);
+            alter.AddColumn("InactivityWarningServed", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
+            alter.AddColumn("InactivityDOINotificationServed", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
             alter.AddColumn("DiscordID", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 18), transaction);
 
             alter.Schema = "auth";

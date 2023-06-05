@@ -41,6 +41,7 @@ namespace API_System.Controllers
             }
 
             user.InactivityWarningServed = false;
+            user.InactivityDOINotificationServed = false;
             user.LastActivity = DateTime.Now;
             user.LastActivityReason = parameter.reason;
             if (!user.Save())

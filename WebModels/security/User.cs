@@ -50,6 +50,14 @@ namespace WebModels.security
             set { CheckSet(); _inactivityWarningServed = value; }
         }
 
+        private bool _inactivityDOINotificationServed;
+        [Field("3586B957-9FAD-43EF-90D1-F74B9F1D5038")]
+        public bool InactivityDOINotificationServed
+        {
+            get { CheckGet(); return _inactivityDOINotificationServed; }
+            set { CheckSet(); _inactivityDOINotificationServed = value; }
+        }
+
         private string _discordID;
         [Field("469CBF2C-253C-46F3-B4D2-12FF2358428A", DataSize = 18)]
         public string DiscordID

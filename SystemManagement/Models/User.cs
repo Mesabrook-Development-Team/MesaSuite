@@ -9,6 +9,7 @@ namespace SystemManagement.Models
         public string Username { get; set; }
         public string DiscordID { get; set; }
         public bool InactivityWarningServed { get; set; }
+        public bool InactivityDOINotificationServed { get; set; }
         public DateTime? LastActivity { get; set; }
         public string LastActivityReason { get; set; }
 

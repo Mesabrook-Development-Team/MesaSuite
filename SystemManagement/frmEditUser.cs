@@ -14,6 +14,7 @@ namespace SystemManagement
     {
         public long? UserID { get; set; }
         private bool _inactivityWarningServed = false;
+        private bool _inactivityDOINotificationServed = false;
         public frmEditUser()
         {
             InitializeComponent();
@@ -53,6 +54,7 @@ namespace SystemManagement
             txtLastActivityReason.Text = user.LastActivityReason;
 
             _inactivityWarningServed = user.InactivityWarningServed;
+            _inactivityDOINotificationServed = user.InactivityDOINotificationServed;
 
             if (user.LastActivity != null && user.LastActivity.Value.AddMonths(1).AddDays(-2) < DateTime.Now)
             {
@@ -147,7 +149,8 @@ namespace SystemManagement
                 DiscordID = txtDiscordID.Text,
                 LastActivity = (DateTime?)txtLastActivity.Tag,
                 LastActivityReason = txtLastActivityReason.Text,
-                InactivityWarningServed = _inactivityWarningServed
+                InactivityWarningServed = _inactivityWarningServed,
+                InactivityDOINotificationServed = _inactivityDOINotificationServed
             };
 
             PutData data = new PutData(DataAccess.APIs.SystemManagement, "User/UpdateUser", user);

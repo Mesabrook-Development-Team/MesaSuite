@@ -89,6 +89,7 @@ namespace MesaService.ServiceTasks
         {
             HttpWebRequest request = WebRequest.CreateHttp($"{ConfigurationManager.AppSettings.Get("DiscordBotBaseURL")}/send/{Uri.EscapeDataString(message)}?userId={discordID}");
             request.Method = "POST";
+            request.Headers.Add("api-key", ConfigurationManager.AppSettings.Get("DiscordBotAPIKey"));
 
             try
             {
@@ -136,6 +137,7 @@ namespace MesaService.ServiceTasks
             string message = $"***Mesabrook Department of Internal Affairs***\r\n*Mesabrook Bot Error Notification**\r\n\r\n{errorToSend}";
             HttpWebRequest request = WebRequest.CreateHttp($"{ConfigurationManager.AppSettings.Get("DiscordBotBaseURL")}/send/{Uri.EscapeDataString(message)}?userId={errorDiscordID}");
             request.Method = "POST";
+            request.Headers.Add("api-key", ConfigurationManager.AppSettings.Get("DiscordBotAPIKey"));
 
             try
             {

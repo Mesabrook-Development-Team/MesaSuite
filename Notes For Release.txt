@@ -1,2 +1,2 @@
 - Add key for OAuth called DeviceCodeInterval
-- Add keys for MesaService: DiscordBotBaseURL, DiscordIDErrorNotification, DiscordIDsUserExpired
+- Add keys for MesaService: DiscordBotBaseURL, DiscordIDErrorNotification, DiscordIDsUserExpired, DiscordBotAPIKey

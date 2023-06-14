@@ -54,6 +54,7 @@
     <Compile Include="auth\PersonalAccessToken.cs" />
     <Compile Include="auth\Token.cs" />
     <Compile Include="auth\UserClient.cs" />
+    <Compile Include="auth\Validation\ClientValidationDefinition.cs" />
     <Compile Include="company\Company.cs" />
     <Compile Include="company\Employee.cs" />
     <Compile Include="company\Location.cs" />

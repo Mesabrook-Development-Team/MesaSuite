@@ -114,6 +114,9 @@ namespace MesaService.ServiceTasks
                         case "54": // User blocked bot
                             HandleDiscordError($"User '{usernameRecipient}' has blocked the Mesabrook Bot");
                             break;
+                        case "53": // User not found
+                            HandleDiscordError($"User '{usernameRecipient}' has an invalid Discord ID");
+                            break;
                     }
 
                     return false;

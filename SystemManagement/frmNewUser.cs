@@ -62,7 +62,9 @@ namespace SystemManagement
             User userObject = new User()
             {
                 Username = user,
-                Email = $"{user}@mesabrook.com"
+                Email = $"{user}@mesabrook.com",
+                DiscordID = txtDiscordID.Text,
+                LastActivity = DateTime.Now
             };
 
             PostData post = new PostData(DataAccess.APIs.SystemManagement, "User/PostUserExisting", userObject);
@@ -94,7 +96,9 @@ namespace SystemManagement
                 FirstName = txtFirstName.Text,
                 LastName = txtLastName.Text,
                 Password = password,
-                MemberOf = lstSecurityGroups.Items.Cast<ListViewItem>().Select(lvi => lvi.Text).ToList()
+                MemberOf = lstSecurityGroups.Items.Cast<ListViewItem>().Select(lvi => lvi.Text).ToList(),
+                DiscordID = txtDiscordID.Text,
+                LastActivity = DateTime.Now
             };
 
             PostData post = new PostData(DataAccess.APIs.SystemManagement, "User/PostUserNew", userObject);
@@ -139,6 +143,7 @@ namespace SystemManagement
             if (string.IsNullOrEmpty(txtUsername.Text) && 
                 string.IsNullOrEmpty(txtFirstName.Text) &&
                 string.IsNullOrEmpty(txtLastName.Text) &&
+                string.IsNullOrEmpty(txtDiscordID.Text) &&
                 lstSecurityGroups.Items.Count == 0 &&
                 lstPrograms.Items.Count == 0)
             {

@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Redirecting...</title>
+</head>
+<body>
+    <p><strong>Redirecting you back to your system...</strong></p>
+
+    <form id="postback" method="post" action="@ViewData["redirect_uri"]">
+        <input type="hidden" name="client_id" value="@ViewData["ClientIdentifier"]" />
+    </form>
+
+    <script>
+        document.getElementById("postback").submit();
+    </script>
+</body>
+</html>

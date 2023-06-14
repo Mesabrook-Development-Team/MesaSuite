@@ -2,13 +2,16 @@
 using ClussPro.Base.Data.Query;
 using ClussPro.Base.Extensions;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Validation;
+using Newtonsoft.Json;
 using OAuth.Models;
 using System;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using WebModels.auth;
+using WebModels.security;
 
 namespace OAuth.Controllers
 {
@@ -19,18 +22,19 @@ namespace OAuth.Controllers
         {
             Client client = DataObjectFactory.Create<Client>();
 
-            if (Request.QueryString.AllKeys.Contains("clientIdentifier"))
+            if (Request.QueryString.AllKeys.Contains("clientName", StringComparer.OrdinalIgnoreCase))
             {
-                string clientIdentifierString = Request.QueryString["clientIdentifier"];
-                if (Guid.TryParse(clientIdentifierString, out Guid clientIdentifier))
-                {
-                    client.ClientIdentifier = clientIdentifier;
-                }
+                client.ClientName = Request.QueryString["clientName"];
             }
 
-            if (Request.QueryString.AllKeys.Contains("redirectionUri"))
+            if (Request.QueryString.AllKeys.Contains("redirectionUri", StringComparer.OrdinalIgnoreCase))
             {
                 client.RedirectionURI = Request.QueryString["redirectionUri"];
+            }
+
+            if (Request.QueryString.AllKeys.Contains("postToRedirectUri", StringComparer.OrdinalIgnoreCase) && bool.TryParse(Request.QueryString["postToRedirectUri"], out bool postToRedirectUri))
+            {
+                ViewData["postToRedirectUri"] = postToRedirectUri;
             }
 
             return View(client);
@@ -64,23 +68,40 @@ namespace OAuth.Controllers
                 ModelState.SetModelValue("user", new ValueProviderResult(user, user, CultureInfo.CurrentCulture));
             }
 
-            Guid clientIdentifier = new Guid();
-            if (keys.Contains("clientIdentifier") && !Guid.TryParse(form["clientIdentifier"], out clientIdentifier))
+            User userObject = new Search<User>(new StringSearchCondition<User>()
             {
-                ModelState.AddModelError("ClientIdentifier", "Client Identifier is not in the correct format");
-            }
+                Field = nameof(WebModels.security.User.Username),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = form.Get("user")
+            }).GetReadOnly(null, new[] { nameof(WebModels.security.User.UserID )});
 
             ITransaction transaction = null;
             try
             {
                 transaction = SQLProviderFactory.GenerateTransaction();
                 Client client = DataObjectFactory.Create<Client>();
-                client.ClientIdentifier = clientIdentifier.Equals(new Guid()) ? null : clientIdentifier as Guid?;
+                //Client Identifier is handled during pre-validate
+                client.ClientName = form.Get("clientName");
+                client.Type = form.Get("Type")?.Equals("BrowserEnabled", StringComparison.OrdinalIgnoreCase) ?? false ? Client.Types.BrowserEnabled : Client.Types.Device;
+                client.UserID = userObject.UserID;
                 client.RedirectionURI = form.Get("RedirectionURI");
                 
                 if (!client.Save(transaction))
                 {
                     foreach (Error error in client.Errors)
+                    {
+                        ModelState.AddModelError(error.FieldName, error.Message);
+                    }
+                }
+
+                UserClient userClient = DataObjectFactory.Create<UserClient>();
+                userClient.UserID = userObject.UserID;
+                userClient.ClientID = client.ClientID;
+                userClient.AuthorizationTime = DateTime.Now;
+
+                if (!userClient.Save(transaction))
+                {
+                    foreach (Error error in userClient.Errors)
                     {
                         ModelState.AddModelError(error.FieldName, error.Message);
                     }
@@ -93,6 +114,16 @@ namespace OAuth.Controllers
                 }
 
                 transaction.Commit();
+
+                ViewData["ClientIdentifier"] = client.ClientIdentifier.ToString();
+
+                if (form.Get("postToRedirectUri").Trim().Equals(bool.TrueString, StringComparison.OrdinalIgnoreCase) && client.Type == Client.Types.BrowserEnabled)
+                {
+                    string[] redirectUris = client.RedirectionURI.Split(';');
+                    ViewData["redirect_uri"] = redirectUris[0];
+                    return View("PostBack");
+                }
+
                 return View("Success");
             }
             finally

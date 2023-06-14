@@ -82,12 +82,14 @@ namespace MesaSuite
                 pnlUserBtn.BackgroundImage = Properties.Resources.btnLogOutBase;
                 pboxLoginStatus.Image = Properties.Resources.icn_check;
                 lblLoginStatus.Text = "Logged In";
+                mnuProfile.Visible = true;
             }
             else
             {
                 pnlUserBtn.BackgroundImage = Properties.Resources.btnLoginBase;
                 pboxLoginStatus.Image = Properties.Resources.icn_x;
                 lblLoginStatus.Text = "Not Logged In";
+                mnuProfile.Visible = false;
             }
 
             // Load Personalization Settings
@@ -124,6 +126,15 @@ namespace MesaSuite
             {
                 pboxLoginStatus.Image = Properties.Resources.icn_x;
                 lblLoginStatus.Text = "Not Logged In";
+                mnuProfile.Visible = false;
+
+                foreach(Form form in Application.OpenForms.OfType<Form>().ToList())
+                {
+                    if (form is frmClients || form is frmLoginHistory)
+                    {
+                        form.Close();
+                    }
+                }
             }));
         }
 
@@ -133,6 +144,7 @@ namespace MesaSuite
             {
                 pboxLoginStatus.Image = Properties.Resources.icn_check;
                 lblLoginStatus.Text = "Logged In";
+                mnuProfile.Visible = true;
             }));
         }
 
@@ -391,6 +403,24 @@ namespace MesaSuite
         {
             pboxTowing.Image = Properties.Resources.icn_tow;
             pboxTowTxt.Visible = false;
+        }
+
+        private void mnuPATs_Click(object sender, EventArgs e)
+        {
+            frmPersonalAccessTokens accessTokens = new frmPersonalAccessTokens();
+            accessTokens.Show();
+        }
+
+        private void mnuLoginHistoryApps_Click(object sender, EventArgs e)
+        {
+            frmLoginHistory history = new frmLoginHistory();
+            history.Show();
+        }
+
+        private void myAppsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmClients clients = new frmClients();
+            clients.Show();
         }
     }
 }

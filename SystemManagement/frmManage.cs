@@ -102,7 +102,7 @@ namespace SystemManagement
         {
             lstSecurities.Items.Clear();
 
-            foreach (User user in users.Where(p => p.Username.Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase)))
+            foreach (User user in users.Where(p => p.Username.Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase) || (p.LastActivity != null && p.LastActivity.Value.AddMonths(1).AddDays(-2) < DateTime.Now && " (INACTIVE!)".Contains(txtSearch.Text, StringComparison.OrdinalIgnoreCase))))
             {
                 AddUser(user);
             }
@@ -132,6 +132,10 @@ namespace SystemManagement
         {
             ListViewItem item = new ListViewItem();
             item.Text = user.Username;
+            if (user.LastActivity != null && user.LastActivity.Value.AddMonths(1).AddDays(-2) < DateTime.Now)
+            {
+                item.Text += " (INACTIVE!)";
+            }
             item.Tag = user.UserID;
             item.Group = lstSecurities.Groups["grpUsers"];
             item.ImageKey = "user";

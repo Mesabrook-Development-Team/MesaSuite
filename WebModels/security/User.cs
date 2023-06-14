@@ -1,6 +1,7 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using System;
 using System.Collections.Generic;
 using WebModels.account;
 using WebModels.auth;
@@ -32,13 +33,76 @@ namespace WebModels.security
             set { CheckSet(); _username = value; }
         }
 
+        private DateTime? _lastActivity;
+        [Field("1083BB51-D43E-45C0-AA87-1864AA6C2756", DataSize = 7)]
+        [Required]
+        public DateTime? LastActivity
+        {
+            get { CheckGet(); return _lastActivity; }
+            set { CheckSet(); _lastActivity = value; }
+        }
+
+        private bool _inactivityWarningServed;
+        [Field("BEFC288D-A6F8-4154-BB36-0E10E37973DE")]
+        public bool InactivityWarningServed
+        {
+            get { CheckGet(); return _inactivityWarningServed; }
+            set { CheckSet(); _inactivityWarningServed = value; }
+        }
+
+        private bool _inactivityDOINotificationServed;
+        [Field("3586B957-9FAD-43EF-90D1-F74B9F1D5038")]
+        public bool InactivityDOINotificationServed
+        {
+            get { CheckGet(); return _inactivityDOINotificationServed; }
+            set { CheckSet(); _inactivityDOINotificationServed = value; }
+        }
+
+        private string _discordID;
+        [Field("469CBF2C-253C-46F3-B4D2-12FF2358428A", DataSize = 18)]
+        public string DiscordID
+        {
+            get { CheckGet(); return _discordID; }
+            set { CheckSet(); _discordID = value; }
+        }
+
+        private string _lastActivityReason;
+        [Field("ACA3E4A2-3CE5-473E-AA85-388FB45A6034", DataSize = 1000)]
+        [Required]
+        public string LastActivityReason
+        {
+            get { CheckGet(); return _lastActivityReason; }
+            set { CheckSet(); _lastActivityReason = value; }
+        }
+
         #region Relationships
         #region auth
+        private List<Client> _clientsOwned = new List<Client>();
+        [RelationshipList("CE8BAB65-5199-40E5-A5FE-348CB5802C73", nameof(Client.UserID))]
+        public IReadOnlyCollection<Client> ClientsOwned
+        {
+            get { CheckGet(); return _clientsOwned; }
+        }
+
+        private List<UserClient> _userClients = new List<UserClient>();
+        [RelationshipList("7E2EDBC1-07CE-4D53-8FBA-6BFA8A7725C8", nameof(UserClient.UserID))]
+        public IReadOnlyCollection<UserClient> UserClients
+        {
+            get { CheckGet(); return _userClients; }
+        }
+
         private List<Token> _tokens = new List<Token>();
         [RelationshipList("F2685C25-DB7A-4D37-8AB8-9B0C17454B12", "UserID", AutoDeleteReferences = true)]
         public IReadOnlyCollection<Token> Tokens
         {
             get { CheckGet(); return _tokens; }
+        }
+
+        private List<PersonalAccessToken> _personalAccessTokens = new List<PersonalAccessToken>();
+        [RelationshipList("FA149A61-881D-4FB8-80BB-D27E6DBEAB8D", nameof(UserID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<PersonalAccessToken> PersonalAccessTokens
+        {
+            get { CheckGet(); return _personalAccessTokens; }
         }
         #endregion
         #region company

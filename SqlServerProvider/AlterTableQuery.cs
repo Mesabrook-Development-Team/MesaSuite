@@ -20,20 +20,13 @@ namespace ClussPro.SqlServerProvider
                 StringBuilder sqlBuilder = new StringBuilder("ALTER TABLE ");
                 sqlBuilder.Append($"[{Schema}].[{Table}] ");
                 sqlBuilder.Append($"ADD {columnName} {fieldSpecification.ToSqlDataType()}");
-                string defaultParameterName = null;
                 if (fieldSpecification.DefaultValue != null)
                 {
-                    defaultParameterName = Guid.NewGuid().ToString("N");
-                    sqlBuilder.Append($"DEFAULT @{defaultParameterName}");
+                    sqlBuilder.Append($"DEFAULT '{fieldSpecification.DefaultValue}' NOT NULL");
                 }
 
                 using (SqlCommand command = new SqlCommand(sqlBuilder.ToString(), localTransaction.SQLTransaction.Connection, localTransaction.SQLTransaction))
                 {
-                    if (defaultParameterName != null)
-                    {
-                        command.Parameters.AddWithValue(defaultParameterName, fieldSpecification.DefaultValue);
-                    }
-
                     command.ExecuteNonQuery();
                 }
             });

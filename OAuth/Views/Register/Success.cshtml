@@ -6,5 +6,20 @@
 
 <h2 class="h2 text-success">Registration Successful</h2>
 
-<p>Your client has been successfully registered.  You may close this window.</p>
+<p>Your client has been successfully registered!</p>
+<div class="form-group">
+    <label>Your Client Identifier</label>
+    <input type="text" class="form-control" id="ClientIdentifier" value="@ViewData["ClientIdentifier"]" readonly />
+    <button class="btn btn-primary mt-1" onclick="copy();">Copy</button>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        function copy()
+        {
+            navigator.clipboard.writeText($('#ClientIdentifier').val());
+        }
+    </script>
+}
 

@@ -9,7 +9,7 @@ namespace WebModels.Migrations
     /// </summary>
     public class Migration000022 : IMigration
     {
-        public int MigrationNumber => 21;
+        public int MigrationNumber => 22;
 
         public void Execute(ITransaction transaction)
         {

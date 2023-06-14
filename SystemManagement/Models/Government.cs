@@ -6,5 +6,6 @@
         public string Name { get; set; }
         public string EmailDomain { get; set; }
         public bool CanMintCurrency { get; set; }
+        public bool CanConfigureInterest { get; set; }
     }
 }

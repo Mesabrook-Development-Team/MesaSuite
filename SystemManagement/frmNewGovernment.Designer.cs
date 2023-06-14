@@ -42,6 +42,7 @@
             this.cboDomain = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.chkMintCurrency = new System.Windows.Forms.CheckBox();
+            this.chkInterest = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -63,7 +64,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 110);
+            this.label2.Location = new System.Drawing.Point(12, 133);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(210, 13);
             this.label2.TabIndex = 2;
@@ -75,11 +76,11 @@
             this.colUser});
             this.lstOfficials.FullRowSelect = true;
             this.lstOfficials.HideSelection = false;
-            this.lstOfficials.Location = new System.Drawing.Point(12, 126);
+            this.lstOfficials.Location = new System.Drawing.Point(12, 149);
             this.lstOfficials.Name = "lstOfficials";
             this.lstOfficials.Size = new System.Drawing.Size(284, 112);
             this.lstOfficials.SmallImageList = this.imlSmall;
-            this.lstOfficials.TabIndex = 3;
+            this.lstOfficials.TabIndex = 4;
             this.lstOfficials.UseCompatibleStateImageBehavior = false;
             this.lstOfficials.View = System.Windows.Forms.View.Details;
             // 
@@ -96,20 +97,20 @@
             // 
             // cmdSelectOfficials
             // 
-            this.cmdSelectOfficials.Location = new System.Drawing.Point(211, 244);
+            this.cmdSelectOfficials.Location = new System.Drawing.Point(211, 267);
             this.cmdSelectOfficials.Name = "cmdSelectOfficials";
             this.cmdSelectOfficials.Size = new System.Drawing.Size(85, 23);
-            this.cmdSelectOfficials.TabIndex = 4;
+            this.cmdSelectOfficials.TabIndex = 5;
             this.cmdSelectOfficials.Text = "Select Officials";
             this.cmdSelectOfficials.UseVisualStyleBackColor = true;
             this.cmdSelectOfficials.Click += new System.EventHandler(this.cmdSelectOfficials_Click);
             // 
             // cmdSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(211, 273);
+            this.cmdSave.Location = new System.Drawing.Point(211, 296);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(85, 23);
-            this.cmdSave.TabIndex = 5;
+            this.cmdSave.TabIndex = 6;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -117,10 +118,10 @@
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(120, 273);
+            this.cmdCancel.Location = new System.Drawing.Point(120, 296);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(85, 23);
-            this.cmdCancel.TabIndex = 6;
+            this.cmdCancel.TabIndex = 7;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -153,13 +154,24 @@
             this.chkMintCurrency.Text = "Can this Government mint currency?";
             this.chkMintCurrency.UseVisualStyleBackColor = true;
             // 
+            // chkInterest
+            // 
+            this.chkInterest.AutoSize = true;
+            this.chkInterest.Location = new System.Drawing.Point(12, 113);
+            this.chkInterest.Name = "chkInterest";
+            this.chkInterest.Size = new System.Drawing.Size(275, 17);
+            this.chkInterest.TabIndex = 3;
+            this.chkInterest.Text = "Can this Government manage national interest rates?";
+            this.chkInterest.UseVisualStyleBackColor = true;
+            // 
             // frmNewGovernment
             // 
             this.AcceptButton = this.cmdSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(307, 304);
+            this.ClientSize = new System.Drawing.Size(307, 327);
+            this.Controls.Add(this.chkInterest);
             this.Controls.Add(this.chkMintCurrency);
             this.Controls.Add(this.cboDomain);
             this.Controls.Add(this.label3);
@@ -196,5 +208,6 @@
         private System.Windows.Forms.ComboBox cboDomain;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chkMintCurrency;
+        private System.Windows.Forms.CheckBox chkInterest;
     }
 }

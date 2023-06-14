@@ -6,6 +6,7 @@
         public string Name { get; set; }
         public string EmailDomain { get; set; }
         public bool CanMintCurrency { get; set; }
+        public bool CanConfigureInterest { get; set; }
         public string InvoiceNumberPrefix { get; set; }
         public string NextInvoiceNumber { get; set; }
         public long? EmailImplementationIDPayableInvoice { get; set; }

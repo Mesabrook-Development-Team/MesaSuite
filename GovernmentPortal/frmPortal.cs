@@ -77,7 +77,7 @@ namespace GovernmentPortal
 
         private void toolOfficials_Click(object sender, EventArgs e)
         {
-            frmGenericExplorer<Official> genericExplorer = new frmGenericExplorer<Official>(new OfficialExplorerContext(_government.GovernmentID.Value, _government.CanMintCurrency));
+            frmGenericExplorer<Official> genericExplorer = new frmGenericExplorer<Official>(new OfficialExplorerContext(_government.GovernmentID.Value, _government.CanMintCurrency, _government.CanConfigureInterest));
             genericExplorer.MdiParent = this;
             genericExplorer.Show();
         }

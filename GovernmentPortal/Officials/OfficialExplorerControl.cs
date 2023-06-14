@@ -23,6 +23,8 @@ namespace GovernmentPortal.Officials
 
         public bool GovCanMintCurrency { get; set; }
 
+        public bool GovCanConfigureInterest { get; set; }
+
         private bool _suppressDirty;
         public OfficialExplorerControl()
         {
@@ -105,6 +107,7 @@ namespace GovernmentPortal.Officials
                 Model.ManageOfficials = chkOfficials.Checked;
                 Model.ManageAccounts = chkManageAccounts.Checked;
                 Model.CanMintCurrency = GovCanMintCurrency ? chkMintCurrency.Checked : false;
+                Model.CanConfigureInterest = GovCanConfigureInterest ? chkInterest.Checked : false;
                 Model.ManageTaxes = chkManageTaxes.Checked;
                 Model.ManageInvoices = chkManageInvoices.Checked;
                 Model.IssueWireTransfers = chkIssueWireTransfers.Checked;
@@ -169,6 +172,7 @@ namespace GovernmentPortal.Officials
             loader.Visible = true;
 
             chkMintCurrency.Enabled = GovCanMintCurrency;
+            chkInterest.Enabled = GovCanConfigureInterest;
 
             GetData getUsers = new GetData(DataAccess.APIs.GovernmentPortal, "Official/Candidates");
             getUsers.Headers.Add("GovernmentID", GovernmentID.ToString());
@@ -191,6 +195,7 @@ namespace GovernmentPortal.Officials
                 chkOfficials.Checked = Model.ManageOfficials;
                 chkManageAccounts.Checked = Model.ManageAccounts;
                 chkMintCurrency.Checked = Model.CanMintCurrency;
+                chkInterest.Checked = Model.CanConfigureInterest;
                 chkManageTaxes.Checked = Model.ManageTaxes;
                 chkManageInvoices.Checked = Model.ManageInvoices;
                 chkIssueWireTransfers.Checked = Model.IssueWireTransfers;

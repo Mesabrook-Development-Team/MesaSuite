@@ -100,6 +100,7 @@
     <Compile Include="fleet\Validations\TrainValidationDefinition.cs" />
     <Compile Include="fleet\Validations\XOrPresenceCondition.cs" />
     <Compile Include="gov\Government.cs" />
+    <Compile Include="gov\InterestConfiguration.cs" />
     <Compile Include="gov\Official.cs" />
     <Compile Include="gov\SalesTax.cs" />
     <Compile Include="gov\Validations\OfficialValidationDefinition.cs" />

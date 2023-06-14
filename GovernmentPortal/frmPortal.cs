@@ -29,6 +29,7 @@ namespace GovernmentPortal
                 { PermissionsManager.Permissions.ManageEmails, toolEmail },
                 { PermissionsManager.Permissions.ManageAccounts, toolAccounts },
                 { PermissionsManager.Permissions.CanMintCurrency, tsbMintCurrency },
+                { PermissionsManager.Permissions.CanConfigureInterest, tsbInterestRates },
                 { PermissionsManager.Permissions.ManageTaxes, tsmiTaxes },
                 { PermissionsManager.Permissions.ManageInvoices, mnuInvoices },
                 { PermissionsManager.Permissions.IssueWireTransfers, mnuWireTransfers }
@@ -406,6 +407,11 @@ namespace GovernmentPortal
             {
                 _fleetTrackingApplication.Shutdown();
             }
+        }
+
+        private void tsbInterestRates_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -62,5 +62,11 @@ namespace WebModels.gov
             get { CheckGet(); return _nextInterestRun; }
             set { CheckSet(); _nextInterestRun = value; }
         }
+
+        protected override void PreValidate()
+        {
+            base.PreValidate();
+            NextInterestRun = NextInterestRun?.Date;
+        }
     }
 }

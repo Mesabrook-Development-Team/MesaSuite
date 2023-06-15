@@ -1,4 +1,6 @@
-﻿namespace GovernmentPortal.Models
+﻿using System;
+
+namespace GovernmentPortal.Models
 {
     public class InterestConfiguration
     {
@@ -7,5 +9,6 @@
         public decimal? WealthCapGovernment { get; set; }
         public decimal? RateLocation { get; set; }
         public decimal? WealthCapLocation { get; set; }
+        public DateTime? NextInterestRun { get; set; }
     }
 }

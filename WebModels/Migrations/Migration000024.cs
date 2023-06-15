@@ -23,7 +23,8 @@ namespace WebModels.Migrations
                 { "RateGovernment", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 5, 2) },
                 { "WealthCapGovernment", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
                 { "RateLocation", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 5, 2) },
-                { "WealthLocation", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) }
+                { "WealthCapLocation", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
+                { "NextInterestRun", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
             };
             createTable.Execute(transaction);
 

@@ -45,6 +45,8 @@
             this.cmdSave = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.dtpNextInterestRun = new System.Windows.Forms.DateTimePicker();
             this.loader = new GovernmentPortal.Loader();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -175,32 +177,50 @@
             // 
             // cmdSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(328, 102);
+            this.cmdSave.Location = new System.Drawing.Point(328, 129);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 1;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
+            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(247, 102);
+            this.cmdCancel.Location = new System.Drawing.Point(247, 129);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 2;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
+            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Yellow;
-            this.label7.Location = new System.Drawing.Point(12, 107);
+            this.label7.Location = new System.Drawing.Point(12, 134);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(167, 13);
             this.label7.TabIndex = 2;
             this.label7.Text = "Interest rates are applied biweekly";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 106);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(93, 13);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Next Interest Run:";
+            // 
+            // dtpNextInterestRun
+            // 
+            this.dtpNextInterestRun.Location = new System.Drawing.Point(111, 103);
+            this.dtpNextInterestRun.Name = "dtpNextInterestRun";
+            this.dtpNextInterestRun.Size = new System.Drawing.Size(300, 20);
+            this.dtpNextInterestRun.TabIndex = 4;
             // 
             // loader
             // 
@@ -210,7 +230,7 @@
             this.loader.BackColor = System.Drawing.Color.Transparent;
             this.loader.Location = new System.Drawing.Point(0, 0);
             this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(415, 134);
+            this.loader.Size = new System.Drawing.Size(415, 160);
             this.loader.TabIndex = 3;
             this.loader.Visible = false;
             // 
@@ -220,7 +240,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(415, 134);
+            this.ClientSize = new System.Drawing.Size(415, 160);
+            this.Controls.Add(this.dtpNextInterestRun);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);
@@ -263,5 +285,7 @@
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Label label7;
         private Loader loader;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.DateTimePicker dtpNextInterestRun;
     }
 }

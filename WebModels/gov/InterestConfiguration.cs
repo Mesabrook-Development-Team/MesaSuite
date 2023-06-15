@@ -1,5 +1,7 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using System;
 
 namespace WebModels.gov
 {
@@ -18,6 +20,7 @@ namespace WebModels.gov
 
         private decimal? _rateGovernment;
         [Field("6BE95D69-C33B-4A5C-8713-1CD215B282B2", DataSize = 5, DataScale = 2)]
+        [Required]
         public decimal? RateGovernment
         {
             get { CheckGet(); return _rateGovernment; }
@@ -26,6 +29,7 @@ namespace WebModels.gov
 
         private decimal? _wealthCapGovernment;
         [Field("6255844A-5BB8-441C-8DA1-E1C268B5A241", DataSize = 9, DataScale = 2)]
+        [Required]
         public decimal? WealthCapGovernment
         {
             get { CheckGet(); return _wealthCapGovernment; }
@@ -34,6 +38,7 @@ namespace WebModels.gov
 
         private decimal? _rateLocation;
         [Field("769E8D77-081E-4507-AFA7-AD2EC9F00CC6", DataSize = 5, DataScale = 2)]
+        [Required]
         public decimal? RateLocation
         {
             get { CheckGet(); return _rateLocation; }
@@ -42,10 +47,20 @@ namespace WebModels.gov
 
         private decimal? _wealthCapLocation;
         [Field("9D800019-D476-4034-B43B-94E30B7C6AC3", DataSize = 9, DataScale = 2)]
+        [Required]
         public decimal? WealthCapLocation
         {
             get { CheckGet(); return _wealthCapLocation; }
             set { CheckSet(); _wealthCapLocation = value; }
+        }
+
+        private DateTime? _nextInterestRun;
+        [Field("D2623A07-B5C2-4E0F-8B0A-BA8A339C954E", DataSize = 7)]
+        [Required]
+        public DateTime? NextInterestRun
+        {
+            get { CheckGet(); return _nextInterestRun; }
+            set { CheckSet(); _nextInterestRun = value; }
         }
     }
 }

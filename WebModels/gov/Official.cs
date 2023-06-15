@@ -165,6 +165,7 @@ namespace WebModels.gov
             yield return nameof(ManageTaxes);
             yield return nameof(ManageInvoices);
             yield return nameof(IssueWireTransfers);
+            yield return nameof(CanConfigureInterest);
 
             foreach(string fleetField in fleet.FleetSecurity.SecurityFields)
             {

@@ -411,7 +411,10 @@ namespace GovernmentPortal
 
         private void tsbInterestRates_Click(object sender, EventArgs e)
         {
-
+            frmManageInterest manageInterest = new frmManageInterest();
+            manageInterest.MdiParent = this;
+            manageInterest.GovernmentID = _government.GovernmentID;
+            manageInterest.Show();
         }
     }
 }

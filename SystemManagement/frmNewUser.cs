@@ -64,7 +64,8 @@ namespace SystemManagement
                 Username = user,
                 Email = $"{user}@mesabrook.com",
                 DiscordID = txtDiscordID.Text,
-                LastActivity = DateTime.Now
+                LastActivity = DateTime.Now,
+                LastActivityReason = "New user created"
             };
 
             PostData post = new PostData(DataAccess.APIs.SystemManagement, "User/PostUserExisting", userObject);
@@ -98,7 +99,10 @@ namespace SystemManagement
                 Password = password,
                 MemberOf = lstSecurityGroups.Items.Cast<ListViewItem>().Select(lvi => lvi.Text).ToList(),
                 DiscordID = txtDiscordID.Text,
-                LastActivity = DateTime.Now
+                LastActivity = DateTime.Now,
+                LastActivityReason = "New user created",
+                InactivityDOINotificationServed = false,
+                InactivityWarningServed = false
             };
 
             PostData post = new PostData(DataAccess.APIs.SystemManagement, "User/PostUserNew", userObject);

@@ -118,6 +118,15 @@
     <Compile Include="frmGenericExplorer.Designer.cs">
       <DependentUpon>frmGenericExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmManageInterest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManageInterest.Designer.cs">
+      <DependentUpon>frmManageInterest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmManageInterest.Designer.cs">
+      <DependentUpon>frmManageInterest.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMintCurrency.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -160,6 +169,7 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\EmailImplementation.cs" />
     <Compile Include="Models\EmailTemplate.cs" />
+    <Compile Include="Models\InterestConfiguration.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceLine.cs" />
     <Compile Include="Invoicing\ReceivableInvoiceControl.cs">
@@ -246,6 +256,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmGenericExplorer.resx">
       <DependentUpon>frmGenericExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmManageInterest.resx">
+      <DependentUpon>frmManageInterest.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMintCurrency.resx">
       <DependentUpon>frmMintCurrency.cs</DependentUpon>

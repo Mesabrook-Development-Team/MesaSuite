@@ -99,6 +99,7 @@
     <Compile Include="Controllers\EmailTemplateController.cs" />
     <Compile Include="Controllers\FiscalQuarterController.cs" />
     <Compile Include="Controllers\GovernmentController.cs" />
+    <Compile Include="Controllers\InterestConfigurationController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\InvoiceLineController.cs" />
     <Compile Include="Controllers\ItemController.cs" />

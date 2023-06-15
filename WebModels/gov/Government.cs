@@ -54,6 +54,14 @@ namespace WebModels.gov
             set { CheckSet(); _canMintCurrency = value; }
         }
 
+        private bool _canConfigureInterest;
+        [Field("3D8BFF1D-29DE-4B49-AF5E-EA6FBA106E1E")]
+        public bool CanConfigureInterest
+        {
+            get { CheckGet(); return _canConfigureInterest; }
+            set { CheckSet(); _canConfigureInterest = value; }
+        }
+
         private string _invoiceNumberPrefix;
         [Field("0F5A0F5F-A6D1-46E8-95ED-634E9A6931CE", DataSize = 3)]
         public string InvoiceNumberPrefix

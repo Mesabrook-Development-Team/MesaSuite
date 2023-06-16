@@ -298,14 +298,14 @@ namespace MCSync
                 {
                     Task deleteCaches = new Task("Delete Immersive Railroading caches", () =>
                     {
-                        if (!Directory.Exists(modsDirectory + "\\..\\cache\\universalmodcore"))
+                        if (!Directory.Exists(modsDirectory + "\\..\\cache\\immersiverailroading"))
                         {
                             Task.Errors.Add("Could not find cache folder. New textures may appear incorrectly, not appear at all, or appear as the default texture. Please delete your cache folder manually.");
                             return false;
                         }
 
                         bool errorsOccurred = false;
-                        foreach(string file in Directory.EnumerateFiles(modsDirectory + "\\..\\cache\\universalmodcore", "*", SearchOption.AllDirectories))
+                        foreach(string file in Directory.EnumerateFiles(modsDirectory + "\\..\\cache\\immersiverailroading", "*", SearchOption.AllDirectories))
                         {
                             try
                             {

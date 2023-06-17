@@ -363,7 +363,9 @@ namespace MesaSuite
         public void UpdateLook()
         {
             UserPreferences preferences = UserPreferences.Get();
-            soundEffectToolStripMenuItem.Checked = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("buttonClickSfx", true).Cast<bool>(true);
+            Dictionary<string, object> mcSyncPreferences = preferences.GetPreferencesForSection("mcsync");
+            soundEffectToolStripMenuItem.Checked = mcSyncPreferences.GetOrSetDefault("buttonClickSfx", true).Cast<bool>(true);
+            dynamicSplashScreensToolStripMenuItem.Checked = mcSyncPreferences.GetOrSetDefault("dynamicSplashScreen", true).Cast<bool>(true);
 
             try
             {
@@ -421,6 +423,14 @@ namespace MesaSuite
         {
             frmClients clients = new frmClients();
             clients.Show();
+        }
+
+        private void dynamicSplashScreensToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dynamicSplashScreensToolStripMenuItem.Checked = !dynamicSplashScreensToolStripMenuItem.Checked;
+            UserPreferences userPreferences = UserPreferences.Get();
+            userPreferences.GetPreferencesForSection("mcsync")["dynamicSplashScreen"] = dynamicSplashScreensToolStripMenuItem.Checked;
+            userPreferences.Save();
         }
     }
 }

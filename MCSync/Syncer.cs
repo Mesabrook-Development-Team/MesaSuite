@@ -56,7 +56,10 @@ namespace MCSync
                 if (!configValues.ContainsKey("modsDirectory") || !configValues.ContainsKey("resourcePackDirectory") || !configValues.ContainsKey("configFilesDirectory") || !configValues.ContainsKey("mode") ||
                     string.IsNullOrEmpty(configValues.GetOrDefault("modsDirectory", string.Empty).Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("resourcePackDirectory", "").Cast<string>()) || 
                     string.IsNullOrEmpty(configValues.GetOrDefault("configFilesDirectory", "").Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("signPacksDirectory", "").Cast<string>()) || !Enum.TryParse(configValues["mode"].Cast<string>(), true, out SyncMode configSyncMode) ||
-                    (configSyncMode == SyncMode.Client && (!configValues.ContainsKey("oResourcesDirectory") || string.IsNullOrEmpty(configValues["oResourcesDirectory"].Cast<string>()) || !configValues.ContainsKey("animationDirectory") || string.IsNullOrEmpty(configValues["animationDirectory"].Cast<string>()))))
+                    (configSyncMode == SyncMode.Client && 
+                        (!configValues.ContainsKey("oResourcesDirectory") || string.IsNullOrEmpty(configValues["oResourcesDirectory"].Cast<string>()) ||
+                        !configValues.ContainsKey("animationDirectory") || string.IsNullOrEmpty(configValues["animationDirectory"].Cast<string>()) ||
+                        !configValues.ContainsKey("signPacksDirectory") || string.IsNullOrEmpty(configValues["signPacksDirectory"].Cast<string>()))))
                 {
                     Task.Errors.Add("Configuration file not setup");
                     SyncComplete?.Invoke(this, new EventArgs());

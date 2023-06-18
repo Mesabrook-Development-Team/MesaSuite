@@ -1,5 +1,6 @@
 ﻿using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
+using ClussPro.SqlServerProvider.Extensions;
 using ClussPro.SqlServerProvider.ScriptWriters;
 using System;
 using System.Data.SqlClient;
@@ -18,34 +19,14 @@ namespace ClussPro.SqlServerProvider
             {
                 StringBuilder sqlBuilder = new StringBuilder("ALTER TABLE ");
                 sqlBuilder.Append($"[{Schema}].[{Table}] ");
-                sqlBuilder.Append($"ADD {columnName} {fieldSpecification.FieldType}");
-                string defaultParameterName = null;
-
-                if (fieldSpecification.DataSize != -1)
+                sqlBuilder.Append($"ADD {columnName} {fieldSpecification.ToSqlDataType()}");
+                if (fieldSpecification.DefaultValue != null)
                 {
-                    sqlBuilder.Append($"({fieldSpecification.DataSize}");
-
-                    if (fieldSpecification.DataScale != -1)
-                    {
-                        sqlBuilder.Append($",{fieldSpecification.DataScale}");
-                    }
-
-                    sqlBuilder.Append(") ");
-
-                    if (fieldSpecification.DefaultValue != null)
-                    {
-                        defaultParameterName = Guid.NewGuid().ToString("N");
-                        sqlBuilder.Append($"DEFAULT @{defaultParameterName}");
-                    }
+                    sqlBuilder.Append($"DEFAULT '{fieldSpecification.DefaultValue}' NOT NULL");
                 }
 
                 using (SqlCommand command = new SqlCommand(sqlBuilder.ToString(), localTransaction.SQLTransaction.Connection, localTransaction.SQLTransaction))
                 {
-                    if (defaultParameterName != null)
-                    {
-                        command.Parameters.AddWithValue(defaultParameterName, fieldSpecification.DefaultValue);
-                    }
-
                     command.ExecuteNonQuery();
                 }
             });
@@ -74,6 +55,19 @@ namespace ClussPro.SqlServerProvider
                 sqlBuilder.Append($"[{Schema}].[{Table}] DROP CONSTRAINT {constraintName}");
 
                 using (SqlCommand command = new SqlCommand(sqlBuilder.ToString(), localTransaction.SQLTransaction.Connection, localTransaction.SQLTransaction))
+                {
+                    command.ExecuteNonQuery();
+                }
+            });
+        }
+
+        public void DropColumn(string columnName, ITransaction transaction)
+        {
+            CheckedTransactionExecute(transaction, trans =>
+            {
+                string query = $"ALTER TABLE [{Schema}].[{Table}] DROP COLUMN [{columnName}]";
+
+                using(SqlCommand command = new SqlCommand(query, trans.SQLTransaction.Connection, trans.SQLTransaction))
                 {
                     command.ExecuteNonQuery();
                 }

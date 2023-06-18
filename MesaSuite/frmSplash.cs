@@ -9,6 +9,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MesaSuite.Common;
+using MesaSuite.Common.Extensions;
 using MesaSuite.SplashScreenModifiers;
 
 namespace MesaSuite
@@ -37,7 +39,8 @@ namespace MesaSuite
         {
             fadeTimer.Start();
             lblVersion.Text = "Version " + Application.ProductVersion;
-            if (!SplashScreenModificationController.Modify(this))
+            bool useDyanmicSplashScreens = UserPreferences.Get().GetPreferencesForSection("mcsync").GetOrSetDefault("dynamicSplashScreen", true).Cast(true);
+            if (!useDyanmicSplashScreens || !SplashScreenModificationController.Modify(this))
             {
                 try
                 {

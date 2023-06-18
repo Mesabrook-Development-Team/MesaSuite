@@ -24,7 +24,8 @@ namespace API_Government.Controllers
             nameof(Government.GovernmentID),
             nameof(Government.Name),
             nameof(Government.EmailDomain),
-            nameof(Government.CanMintCurrency)
+            nameof(Government.CanMintCurrency),
+            nameof(Government.CanConfigureInterest)
         };
 
         protected override IEnumerable<string> RequestableFields => new List<string>(DefaultRetrievedFields)

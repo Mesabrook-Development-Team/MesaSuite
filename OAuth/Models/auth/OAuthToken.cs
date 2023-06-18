@@ -29,7 +29,7 @@ namespace OAuth.Models.auth
                 App_Code.SecurityCache.Revoke(AccessToken.ToString());
             }
 
-            return true;
+            return base.PostSave(transaction);
         }
     }
 }

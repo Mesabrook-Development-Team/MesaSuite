@@ -11,6 +11,7 @@
         public bool ManageTaxes { get; set; }
         public string OfficialName { get; set; }
         public bool CanMintCurrency { get; set; }
+        public bool CanConfigureInterest { get; set; }
         public bool ManageInvoices { get; set; }
         public bool IssueWireTransfers { get; set; }
         public FleetTracking.Models.FleetSecurity FleetSecurity { get; set; }

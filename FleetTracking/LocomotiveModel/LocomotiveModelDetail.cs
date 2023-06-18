@@ -293,7 +293,7 @@ namespace FleetTracking.LocomotiveModel
                         continue;
                     }
 
-                    getImage.Resource = $"Locomotive/GetImage/{locomotive.LocomotiveID}";
+                    getImage.Resource = $"Locomotive/GetImageThumbnail/{locomotive.LocomotiveID}";
                     byte[] image = await getImage.GetObject<byte[]>();
 
                     if (image != null)

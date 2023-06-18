@@ -16,7 +16,8 @@ namespace API_System.Controllers
             nameof(Government.GovernmentID),
             nameof(Government.Name),
             nameof(Government.EmailDomain),
-            nameof(Government.CanMintCurrency)
+            nameof(Government.CanMintCurrency),
+            nameof(Government.CanConfigureInterest)
         };
     }
 }

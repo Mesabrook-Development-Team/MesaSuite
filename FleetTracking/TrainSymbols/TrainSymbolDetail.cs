@@ -32,7 +32,6 @@ namespace FleetTracking.TrainSymbols
         public TrainSymbolDetail()
         {
             InitializeComponent();
-            dataGridViewStylizer.ApplyStyle(dgvRates);
             dataGridViewStylizer.ApplyStyle(dgvTrains);
             dataGridViewStylizer.ApplyStyle(dgvFuelByModel);
         }
@@ -49,8 +48,6 @@ namespace FleetTracking.TrainSymbols
 
             try
             {
-                dgvRates.Rows.Clear();
-
                 TrainSymbol symbol = null;
                 if (TrainSymbolID != null)
                 {
@@ -72,45 +69,12 @@ namespace FleetTracking.TrainSymbols
                     txtDescription.Size = new Size(txtDescription.Width, groupBox1.Height - txtDescription.Top - 3);
                     txtDescription.ReadOnly = true;
                     txtName.ReadOnly = true;
-                    toolAddRate.Enabled = false;
-                }
-                else
-                {
-                    toolAddRate.Enabled = symbol != null;
                 }
 
                 if (symbol != null)
                 {
                     txtName.Text = symbol.Name;
                     txtDescription.Text = symbol.Description;
-
-                    if (symbol.TrainSymbolRates != null)
-                    {
-                        dgvRates.Rows.Clear();
-                        bool foundOnOrBefore = false;
-                        foreach(TrainSymbolRate trainSymbolRate in symbol.TrainSymbolRates.OrderByDescending(tsr => tsr.EffectiveTime))
-                        {
-                            int rowIndex = dgvRates.Rows.Add();
-                            DataGridViewRow row = dgvRates.Rows[rowIndex];
-
-                            row.Cells[colEffective.Name].Value = trainSymbolRate.EffectiveTime?.ToString("MM/dd/yyyy HH:mm");
-                            row.Cells[colCar.Name].Value = trainSymbolRate.RatePerCar?.ToString("N2");
-                            row.Cells[colPartial.Name].Value = trainSymbolRate.RatePerPartialTrip?.ToString("N2");
-                            row.Tag = trainSymbolRate;
-
-                            if (trainSymbolRate.EffectiveTime != null && trainSymbolRate.EffectiveTime.Value <= DateTime.Now && !foundOnOrBefore)
-                            {
-                                row.DefaultCellStyle.BackColor = Color.Yellow;
-                                row.DefaultCellStyle.Font = new Font(dgvRates.Font, FontStyle.Italic);
-                                foundOnOrBefore = true;
-                            }
-                        }
-
-                        if (dgvRates.SelectedRows.Count > 0)
-                        {
-                            dgvRates_SelectionChanged(this, EventArgs.Empty);
-                        }
-                    }
                 }
             }
             finally
@@ -178,38 +142,6 @@ namespace FleetTracking.TrainSymbols
             }
         }
 
-        private void toolAddRate_Click(object sender, EventArgs e)
-        {
-            TrainSymbolRateDetail newDetail = new TrainSymbolRateDetail()
-            {
-                Application = _application,
-                TrainSymbolID = TrainSymbolID
-            };
-            newDetail.OnSave += (s, ea) => LoadData();
-
-            Form shownForm = _application.OpenForm(newDetail, FleetTrackingApplication.OpenFormOptions.Popout);
-            shownForm.Text = "Train Symbol Rate";
-        }
-
-        private void dgvRates_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0 || e.RowIndex >= dgvRates.Rows.Count || !(dgvRates.Rows[e.RowIndex].Tag is TrainSymbolRate rate))
-            {
-                return;
-            }
-
-            TrainSymbolRateDetail editDetail = new TrainSymbolRateDetail()
-            {
-                Application = _application,
-                TrainSymbolRateID = rate.TrainSymbolRateID,
-                TrainSymbolID = TrainSymbolID
-            };
-            editDetail.OnSave += (s, ea) => LoadData();
-
-            Form shownForm = _application.OpenForm(editDetail, FleetTrackingApplication.OpenFormOptions.Popout);
-            shownForm.Text = "Train Symbol Rate";
-        }
-
         private async Task LoadTrains()
         {
             if (TrainSymbolID == null)
@@ -242,7 +174,7 @@ namespace FleetTracking.TrainSymbols
                     
                     int rowIndex = dgvTrains.Rows.Add();
                     DataGridViewRow row = dgvTrains.Rows[rowIndex];
-                    row.Cells[colStart.Name].Value = dutyTransactions.OrderByDescending(tdt => tdt.TimeOnDuty).FirstOrDefault()?.TimeOnDuty?.ToString("MM/dd/yyyy HH:mm");
+                    row.Cells[colStart.Name].Value = dutyTransactions.OrderBy(tdt => tdt.TimeOnDuty).FirstOrDefault()?.TimeOnDuty?.ToString("MM/dd/yyyy HH:mm");
                     row.Cells[colEndTime.Name].Value = dutyTransactions.OrderByDescending(tdt => tdt.TimeOffDuty).FirstOrDefault()?.TimeOffDuty?.ToString("MM/dd/yyyy HH:mm");
                     row.Cells[colFuelUsage.Name].Value = fuelRecords.Where(fr => fr.FuelStart != null && fr.FuelEnd != null).Sum(fr => fr.FuelStart - fr.FuelEnd)?.ToString("N2");
                     row.Cells[colTimeTaken.Name].Value = span.ToString(@"hh\:mm");
@@ -257,11 +189,7 @@ namespace FleetTracking.TrainSymbols
 
         private async void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedTab == tabPage1)
-            {
-                await LoadData();
-            }
-            else if (tabControl1.SelectedTab == tabPage2)
+            if (tabControl1.SelectedTab == tabPage2)
             {
                 await LoadTrains();
             }
@@ -351,59 +279,6 @@ namespace FleetTracking.TrainSymbols
             {
                 loaderStats.Visible = false;
             }
-        }
-
-        private void dgvRates_SelectionChanged(object sender, EventArgs e)
-        {
-            toolDeleteRate.Enabled = false;
-            foreach(DataGridViewRow row in dgvRates.SelectedRows)
-            {
-                TrainSymbolRate rate = row.Tag as TrainSymbolRate;
-                if (rate == null)
-                {
-                    continue;
-                }
-
-                if (rate.EffectiveTime >= DateTime.Now)
-                {
-                    toolDeleteRate.Enabled = true;
-                    return;
-                }
-            }
-        }
-
-        private async void toolDeleteRate_Click(object sender, EventArgs e)
-        {
-            if (dgvRates.SelectedRows.Count <= 0 || !this.Confirm("Are you sure you want to delete these Rates?"))
-            {
-                return;
-            }
-
-            try
-            {
-                loader.BringToFront();
-                loader.Visible = true;
-
-                DeleteData delete = _application.GetAccess<DeleteData>();
-                delete.API = DataAccess.APIs.FleetTracking;
-
-                foreach (DataGridViewRow row in dgvRates.SelectedRows)
-                {
-                    TrainSymbolRate rate = row.Tag as TrainSymbolRate;
-                    if (rate == null || rate.EffectiveTime < DateTime.Now)
-                    {
-                        continue;
-                    }
-                    delete.Resource = $"TrainSymbolRate/Delete/{rate.TrainSymbolRateID}";
-                    await delete.Execute();
-                }
-            }
-            finally
-            {
-                loader.Visible = false;
-            }
-
-            LoadData();
         }
 
         private void cmdReset_Click(object sender, EventArgs e)

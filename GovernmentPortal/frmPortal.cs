@@ -29,6 +29,7 @@ namespace GovernmentPortal
                 { PermissionsManager.Permissions.ManageEmails, toolEmail },
                 { PermissionsManager.Permissions.ManageAccounts, toolAccounts },
                 { PermissionsManager.Permissions.CanMintCurrency, tsbMintCurrency },
+                { PermissionsManager.Permissions.CanConfigureInterest, tsbInterestRates },
                 { PermissionsManager.Permissions.ManageTaxes, tsmiTaxes },
                 { PermissionsManager.Permissions.ManageInvoices, mnuInvoices },
                 { PermissionsManager.Permissions.IssueWireTransfers, mnuWireTransfers }
@@ -77,7 +78,7 @@ namespace GovernmentPortal
 
         private void toolOfficials_Click(object sender, EventArgs e)
         {
-            frmGenericExplorer<Official> genericExplorer = new frmGenericExplorer<Official>(new OfficialExplorerContext(_government.GovernmentID.Value, _government.CanMintCurrency));
+            frmGenericExplorer<Official> genericExplorer = new frmGenericExplorer<Official>(new OfficialExplorerContext(_government.GovernmentID.Value, _government.CanMintCurrency, _government.CanConfigureInterest));
             genericExplorer.MdiParent = this;
             genericExplorer.Show();
         }
@@ -224,16 +225,6 @@ namespace GovernmentPortal
             }
 
             _toolStripItemsByPermission[e.Permission].Visible = e.Value;
-        }
-
-        private void frmPortal_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
-            PermissionsManager.StopCheckThread();
-            if (_fleetTrackingApplication != null)
-            {
-                _fleetTrackingApplication.Shutdown();
-            }
         }
 
         private void tsbSwitchGovernment_Click(object sender, EventArgs e)
@@ -406,6 +397,24 @@ namespace GovernmentPortal
 
                 loader.Visible = false;
             }
+        }
+
+        private void frmPortal_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnPermissionChange -= PermissionsManager_OnPermissionChange;
+            PermissionsManager.StopCheckThread();
+            if (_fleetTrackingApplication != null)
+            {
+                _fleetTrackingApplication.Shutdown();
+            }
+        }
+
+        private void tsbInterestRates_Click(object sender, EventArgs e)
+        {
+            frmManageInterest manageInterest = new frmManageInterest();
+            manageInterest.MdiParent = this;
+            manageInterest.GovernmentID = _government.GovernmentID;
+            manageInterest.Show();
         }
     }
 }

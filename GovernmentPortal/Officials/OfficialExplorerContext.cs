@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using GovernmentPortal.Models;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Utility;
@@ -15,10 +12,12 @@ namespace GovernmentPortal.Officials
     {
         private long _governmentID;
         private bool _govCanMintCurrency;
-        public OfficialExplorerContext(long governmentID, bool govCanMintCurrency)
+        private bool _govCanConfigureInterest;
+        public OfficialExplorerContext(long governmentID, bool govCanMintCurrency, bool govCanConfigureInterest)
         {
             _governmentID = governmentID;
             _govCanMintCurrency = govCanMintCurrency;
+            _govCanConfigureInterest = govCanConfigureInterest;
         }
 
         internal override Icon ExplorerIcon => Properties.Resources.icn_user;
@@ -29,7 +28,8 @@ namespace GovernmentPortal.Officials
             {
                 Model = model,
                 GovernmentID = _governmentID,
-                GovCanMintCurrency = _govCanMintCurrency
+                GovCanMintCurrency = _govCanMintCurrency,
+                GovCanConfigureInterest = _govCanConfigureInterest
             };
         }
 

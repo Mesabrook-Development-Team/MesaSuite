@@ -130,13 +130,6 @@ namespace WebModels.fleet
         {
             get { CheckGet(); return _trains; }
         }
-
-        private List<TrainSymbolRate> _trainSymbolRates = new List<TrainSymbolRate>();
-        [RelationshipList("2C92A970-766D-420D-9E58-FDCA133963E6", nameof(TrainSymbolRate.TrainSymbolID))]
-        public IReadOnlyCollection<TrainSymbolRate> TrainSymbolRates
-        {
-            get { CheckGet(); return _trainSymbolRates; }
-        }
         #endregion
         #endregion
     }

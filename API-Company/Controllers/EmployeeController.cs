@@ -59,7 +59,7 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
-        [CompanyAccess(OptionalPermissions = new string[] { nameof(Employee.ManageEmployees), nameof(Employee.ManageLocations), nameof(Employee.ManageAccounts) })]
+        [CompanyAccess(OptionalPermissions = new string[] { nameof(Employee.ManageEmployees), nameof(Employee.ManageLocations), nameof(Employee.ManageAccounts), "FleetSecurity.IsTrainCrew", "FleetSecurity.IsYardmaster" })]
         public List<Employee> GetAllForCompany()
         {
             long companyID = long.Parse(Request.Headers.GetValues("CompanyID").First());

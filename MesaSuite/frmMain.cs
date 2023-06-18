@@ -82,12 +82,14 @@ namespace MesaSuite
                 pnlUserBtn.BackgroundImage = Properties.Resources.btnLogOutBase;
                 pboxLoginStatus.Image = Properties.Resources.icn_check;
                 lblLoginStatus.Text = "Logged In";
+                mnuProfile.Visible = true;
             }
             else
             {
                 pnlUserBtn.BackgroundImage = Properties.Resources.btnLoginBase;
                 pboxLoginStatus.Image = Properties.Resources.icn_x;
                 lblLoginStatus.Text = "Not Logged In";
+                mnuProfile.Visible = false;
             }
 
             // Load Personalization Settings
@@ -120,14 +122,30 @@ namespace MesaSuite
 
         private void Authentication_OnLoggedOut(object sender, EventArgs e)
         {
-            pboxLoginStatus.Image = Properties.Resources.icn_x;
-            lblLoginStatus.Text = "Not Logged In";
+            Invoke(new MethodInvoker(() =>
+            {
+                pboxLoginStatus.Image = Properties.Resources.icn_x;
+                lblLoginStatus.Text = "Not Logged In";
+                mnuProfile.Visible = false;
+
+                foreach(Form form in Application.OpenForms.OfType<Form>().ToList())
+                {
+                    if (form is frmClients || form is frmLoginHistory)
+                    {
+                        form.Close();
+                    }
+                }
+            }));
         }
 
         private void Authentication_OnLoggedIn(object sender, EventArgs e)
         {
-            pboxLoginStatus.Image = Properties.Resources.icn_check;
-            lblLoginStatus.Text = "Logged In";
+            Invoke(new MethodInvoker(() =>
+            {
+                pboxLoginStatus.Image = Properties.Resources.icn_check;
+                lblLoginStatus.Text = "Logged In";
+                mnuProfile.Visible = true;
+            }));
         }
 
         private void StartMCSync()
@@ -345,7 +363,9 @@ namespace MesaSuite
         public void UpdateLook()
         {
             UserPreferences preferences = UserPreferences.Get();
-            soundEffectToolStripMenuItem.Checked = preferences.GetPreferencesForSection("mcsync").GetOrSetDefault("buttonClickSfx", true).Cast<bool>(true);
+            Dictionary<string, object> mcSyncPreferences = preferences.GetPreferencesForSection("mcsync");
+            soundEffectToolStripMenuItem.Checked = mcSyncPreferences.GetOrSetDefault("buttonClickSfx", true).Cast<bool>(true);
+            dynamicSplashScreensToolStripMenuItem.Checked = mcSyncPreferences.GetOrSetDefault("dynamicSplashScreen", true).Cast<bool>(true);
 
             try
             {
@@ -385,6 +405,32 @@ namespace MesaSuite
         {
             pboxTowing.Image = Properties.Resources.icn_tow;
             pboxTowTxt.Visible = false;
+        }
+
+        private void mnuPATs_Click(object sender, EventArgs e)
+        {
+            frmPersonalAccessTokens accessTokens = new frmPersonalAccessTokens();
+            accessTokens.Show();
+        }
+
+        private void mnuLoginHistoryApps_Click(object sender, EventArgs e)
+        {
+            frmLoginHistory history = new frmLoginHistory();
+            history.Show();
+        }
+
+        private void myAppsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmClients clients = new frmClients();
+            clients.Show();
+        }
+
+        private void dynamicSplashScreensToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dynamicSplashScreensToolStripMenuItem.Checked = !dynamicSplashScreensToolStripMenuItem.Checked;
+            UserPreferences userPreferences = UserPreferences.Get();
+            userPreferences.GetPreferencesForSection("mcsync")["dynamicSplashScreen"] = dynamicSplashScreensToolStripMenuItem.Checked;
+            userPreferences.Save();
         }
     }
 }

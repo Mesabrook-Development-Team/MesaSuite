@@ -139,6 +139,11 @@ namespace WebModels.company
             yield return nameof(ManageLocations);
             yield return nameof(IssueWireTransfers);
             yield return $"{nameof(LocationEmployees)}.{nameof(LocationEmployee.ManageInvoices)}";
+
+            foreach (string fleetSecurityField in fleet.FleetSecurity.SecurityFields)
+            {
+                yield return $"{nameof(FleetSecurity)}.{fleetSecurityField}";
+            }
         }
 
         #region Relationships

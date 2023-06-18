@@ -13,7 +13,6 @@ namespace FleetTracking.Models
         public string Description { get; set; }
         public bool HasTrainInProgress { get; set; }
 
-        public List<TrainSymbolRate> TrainSymbolRates { get; set; }
         public List<Train> Trains { get; set; }
     }
 }

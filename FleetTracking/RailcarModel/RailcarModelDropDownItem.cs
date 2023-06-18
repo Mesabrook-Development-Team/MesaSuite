@@ -45,7 +45,7 @@ namespace FleetTracking.RailcarModel
             lblName.Text = model.Name;
             lblType.Text = model.Type.ToString().ToDisplayName();
 
-            get.Resource = $"RailcarModel/GetImage/{RailcarModelID}";
+            get.Resource = $"RailcarModel/GetImageThumbnail/{RailcarModelID}";
             byte[] imageData = await get.GetObject<byte[]>();
 
             if (imageData != null)

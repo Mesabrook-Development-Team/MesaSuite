@@ -54,6 +54,9 @@
             this.fButtonCancel = new MCSync.FancyButton();
             this.fButtonSave = new MCSync.FancyButton();
             this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtSignPacksDirectory = new System.Windows.Forms.TextBox();
+            this.cmdBrowseSignPacks = new MCSync.FancyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -86,7 +89,7 @@
             this.cmdBrowseOResources.Location = new System.Drawing.Point(454, 273);
             this.cmdBrowseOResources.Name = "cmdBrowseOResources";
             this.cmdBrowseOResources.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseOResources.TabIndex = 37;
+            this.cmdBrowseOResources.TabIndex = 10;
             this.cmdBrowseOResources.Text = "Browse";
             this.cmdBrowseOResources.TextColor = System.Drawing.Color.White;
             this.cmdBrowseOResources.UseVisualStyleBackColor = false;
@@ -110,7 +113,7 @@
             this.cmdBrowseConfig.Location = new System.Drawing.Point(454, 247);
             this.cmdBrowseConfig.Name = "cmdBrowseConfig";
             this.cmdBrowseConfig.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseConfig.TabIndex = 36;
+            this.cmdBrowseConfig.TabIndex = 8;
             this.cmdBrowseConfig.Text = "Browse";
             this.cmdBrowseConfig.TextColor = System.Drawing.Color.White;
             this.cmdBrowseConfig.UseVisualStyleBackColor = false;
@@ -134,7 +137,7 @@
             this.cmdBrowseResourcePacks.Location = new System.Drawing.Point(454, 220);
             this.cmdBrowseResourcePacks.Name = "cmdBrowseResourcePacks";
             this.cmdBrowseResourcePacks.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseResourcePacks.TabIndex = 35;
+            this.cmdBrowseResourcePacks.TabIndex = 6;
             this.cmdBrowseResourcePacks.Text = "Browse";
             this.cmdBrowseResourcePacks.TextColor = System.Drawing.Color.White;
             this.cmdBrowseResourcePacks.UseVisualStyleBackColor = false;
@@ -158,7 +161,7 @@
             this.cmdBrowseMods.Location = new System.Drawing.Point(454, 194);
             this.cmdBrowseMods.Name = "cmdBrowseMods";
             this.cmdBrowseMods.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseMods.TabIndex = 34;
+            this.cmdBrowseMods.TabIndex = 4;
             this.cmdBrowseMods.Text = "Browse";
             this.cmdBrowseMods.TextColor = System.Drawing.Color.White;
             this.cmdBrowseMods.UseVisualStyleBackColor = false;
@@ -182,7 +185,7 @@
             this.cmdMinecraftFolder.Location = new System.Drawing.Point(454, 123);
             this.cmdMinecraftFolder.Name = "cmdMinecraftFolder";
             this.cmdMinecraftFolder.Size = new System.Drawing.Size(75, 23);
-            this.cmdMinecraftFolder.TabIndex = 33;
+            this.cmdMinecraftFolder.TabIndex = 1;
             this.cmdMinecraftFolder.Text = "Browse";
             this.cmdMinecraftFolder.TextColor = System.Drawing.Color.White;
             this.cmdMinecraftFolder.UseVisualStyleBackColor = false;
@@ -212,7 +215,7 @@
             this.txtMinecraftFolder.Name = "txtMinecraftFolder";
             this.txtMinecraftFolder.ReadOnly = true;
             this.txtMinecraftFolder.Size = new System.Drawing.Size(238, 22);
-            this.txtMinecraftFolder.TabIndex = 32;
+            this.txtMinecraftFolder.TabIndex = 0;
             this.txtMinecraftFolder.TextChanged += new System.EventHandler(this.txtMinecraftFolder_TextChanged);
             // 
             // overrideFoldersCheckBox
@@ -225,7 +228,7 @@
             this.overrideFoldersCheckBox.Location = new System.Drawing.Point(239, 160);
             this.overrideFoldersCheckBox.Name = "overrideFoldersCheckBox";
             this.overrideFoldersCheckBox.Size = new System.Drawing.Size(118, 17);
-            this.overrideFoldersCheckBox.TabIndex = 30;
+            this.overrideFoldersCheckBox.TabIndex = 2;
             this.overrideFoldersCheckBox.Text = "Use Custom Paths";
             this.overrideFoldersCheckBox.UseVisualStyleBackColor = false;
             this.overrideFoldersCheckBox.CheckedChanged += new System.EventHandler(this.overrideFoldersCheckBox_CheckedChanged);
@@ -267,7 +270,7 @@
             this.txtModsDirectory.Name = "txtModsDirectory";
             this.txtModsDirectory.ReadOnly = true;
             this.txtModsDirectory.Size = new System.Drawing.Size(241, 22);
-            this.txtModsDirectory.TabIndex = 21;
+            this.txtModsDirectory.TabIndex = 3;
             // 
             // txtOResourcesDirectory
             // 
@@ -280,7 +283,7 @@
             this.txtOResourcesDirectory.Name = "txtOResourcesDirectory";
             this.txtOResourcesDirectory.ReadOnly = true;
             this.txtOResourcesDirectory.Size = new System.Drawing.Size(241, 22);
-            this.txtOResourcesDirectory.TabIndex = 25;
+            this.txtOResourcesDirectory.TabIndex = 9;
             // 
             // txtResourcePacksDirectory
             // 
@@ -293,7 +296,7 @@
             this.txtResourcePacksDirectory.Name = "txtResourcePacksDirectory";
             this.txtResourcePacksDirectory.ReadOnly = true;
             this.txtResourcePacksDirectory.Size = new System.Drawing.Size(241, 22);
-            this.txtResourcePacksDirectory.TabIndex = 23;
+            this.txtResourcePacksDirectory.TabIndex = 5;
             // 
             // txtConfigDirectory
             // 
@@ -306,7 +309,7 @@
             this.txtConfigDirectory.Name = "txtConfigDirectory";
             this.txtConfigDirectory.ReadOnly = true;
             this.txtConfigDirectory.Size = new System.Drawing.Size(241, 22);
-            this.txtConfigDirectory.TabIndex = 24;
+            this.txtConfigDirectory.TabIndex = 7;
             // 
             // label6
             // 
@@ -341,10 +344,10 @@
             this.rbServer.BackColor = System.Drawing.Color.Transparent;
             this.rbServer.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rbServer.ForeColor = System.Drawing.Color.White;
-            this.rbServer.Location = new System.Drawing.Point(265, 331);
+            this.rbServer.Location = new System.Drawing.Point(265, 357);
             this.rbServer.Name = "rbServer";
             this.rbServer.Size = new System.Drawing.Size(56, 17);
-            this.rbServer.TabIndex = 29;
+            this.rbServer.TabIndex = 16;
             this.rbServer.TabStop = true;
             this.rbServer.Text = "Server";
             this.rbServer.UseVisualStyleBackColor = false;
@@ -356,10 +359,10 @@
             this.rbClient.BackColor = System.Drawing.Color.Transparent;
             this.rbClient.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rbClient.ForeColor = System.Drawing.Color.White;
-            this.rbClient.Location = new System.Drawing.Point(206, 331);
+            this.rbClient.Location = new System.Drawing.Point(206, 357);
             this.rbClient.Name = "rbClient";
             this.rbClient.Size = new System.Drawing.Size(55, 17);
-            this.rbClient.TabIndex = 28;
+            this.rbClient.TabIndex = 15;
             this.rbClient.TabStop = true;
             this.rbClient.Text = "Player";
             this.rbClient.UseVisualStyleBackColor = false;
@@ -371,7 +374,7 @@
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(166, 333);
+            this.label5.Location = new System.Drawing.Point(166, 359);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(40, 13);
             this.label5.TabIndex = 38;
@@ -395,7 +398,7 @@
             this.cmdBrowseAnimation.Location = new System.Drawing.Point(454, 299);
             this.cmdBrowseAnimation.Name = "cmdBrowseAnimation";
             this.cmdBrowseAnimation.Size = new System.Drawing.Size(75, 23);
-            this.cmdBrowseAnimation.TabIndex = 41;
+            this.cmdBrowseAnimation.TabIndex = 12;
             this.cmdBrowseAnimation.Text = "Browse";
             this.cmdBrowseAnimation.TextColor = System.Drawing.Color.White;
             this.cmdBrowseAnimation.UseVisualStyleBackColor = false;
@@ -412,7 +415,7 @@
             this.txtAnimationDirectory.Name = "txtAnimationDirectory";
             this.txtAnimationDirectory.ReadOnly = true;
             this.txtAnimationDirectory.Size = new System.Drawing.Size(241, 22);
-            this.txtAnimationDirectory.TabIndex = 39;
+            this.txtAnimationDirectory.TabIndex = 11;
             // 
             // label8
             // 
@@ -445,7 +448,7 @@
             this.fButtonCancel.Location = new System.Drawing.Point(221, 421);
             this.fButtonCancel.Name = "fButtonCancel";
             this.fButtonCancel.Size = new System.Drawing.Size(75, 23);
-            this.fButtonCancel.TabIndex = 43;
+            this.fButtonCancel.TabIndex = 18;
             this.fButtonCancel.Text = "Cancel";
             this.fButtonCancel.TextColor = System.Drawing.Color.White;
             this.fButtonCancel.UseVisualStyleBackColor = false;
@@ -469,7 +472,7 @@
             this.fButtonSave.Location = new System.Drawing.Point(302, 421);
             this.fButtonSave.Name = "fButtonSave";
             this.fButtonSave.Size = new System.Drawing.Size(75, 23);
-            this.fButtonSave.TabIndex = 42;
+            this.fButtonSave.TabIndex = 17;
             this.fButtonSave.Text = "Save";
             this.fButtonSave.TextColor = System.Drawing.Color.White;
             this.fButtonSave.UseVisualStyleBackColor = false;
@@ -487,6 +490,56 @@
             this.label9.TabIndex = 44;
             this.label9.Text = "Tell MCSync where you want the modpack\'s files to\r\nbe downloaded.";
             // 
+            // label10
+            // 
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(24, 329);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(182, 13);
+            this.label10.TabIndex = 40;
+            this.label10.Text = "Traffic Control Signpack Directory:";
+            // 
+            // txtSignPacksDirectory
+            // 
+            this.txtSignPacksDirectory.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtSignPacksDirectory.BackColor = System.Drawing.Color.Gray;
+            this.txtSignPacksDirectory.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtSignPacksDirectory.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSignPacksDirectory.ForeColor = System.Drawing.Color.White;
+            this.txtSignPacksDirectory.Location = new System.Drawing.Point(206, 326);
+            this.txtSignPacksDirectory.Name = "txtSignPacksDirectory";
+            this.txtSignPacksDirectory.ReadOnly = true;
+            this.txtSignPacksDirectory.Size = new System.Drawing.Size(241, 22);
+            this.txtSignPacksDirectory.TabIndex = 13;
+            // 
+            // cmdBrowseSignPacks
+            // 
+            this.cmdBrowseSignPacks.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cmdBrowseSignPacks.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.cmdBrowseSignPacks.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.cmdBrowseSignPacks.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.cmdBrowseSignPacks.BorderColor1 = System.Drawing.Color.PaleVioletRed;
+            this.cmdBrowseSignPacks.BorderRadius = 0;
+            this.cmdBrowseSignPacks.BorderRadius1 = 0;
+            this.cmdBrowseSignPacks.BorderSize = 0;
+            this.cmdBrowseSignPacks.BorderSize1 = 0;
+            this.cmdBrowseSignPacks.FlatAppearance.BorderSize = 0;
+            this.cmdBrowseSignPacks.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmdBrowseSignPacks.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmdBrowseSignPacks.ForeColor = System.Drawing.Color.White;
+            this.cmdBrowseSignPacks.Location = new System.Drawing.Point(454, 326);
+            this.cmdBrowseSignPacks.Name = "cmdBrowseSignPacks";
+            this.cmdBrowseSignPacks.Size = new System.Drawing.Size(75, 23);
+            this.cmdBrowseSignPacks.TabIndex = 14;
+            this.cmdBrowseSignPacks.Text = "Browse";
+            this.cmdBrowseSignPacks.TextColor = System.Drawing.Color.White;
+            this.cmdBrowseSignPacks.UseVisualStyleBackColor = false;
+            this.cmdBrowseSignPacks.Click += new System.EventHandler(this.cmdBrowseSignPacks_Click);
+            // 
             // frmPaths
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -497,7 +550,10 @@
             this.Controls.Add(this.label9);
             this.Controls.Add(this.fButtonCancel);
             this.Controls.Add(this.fButtonSave);
+            this.Controls.Add(this.cmdBrowseSignPacks);
+            this.Controls.Add(this.txtSignPacksDirectory);
             this.Controls.Add(this.cmdBrowseAnimation);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.txtAnimationDirectory);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label5);
@@ -564,5 +620,8 @@
         private FancyButton fButtonCancel;
         private FancyButton fButtonSave;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtSignPacksDirectory;
+        private FancyButton cmdBrowseSignPacks;
     }
 }

@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Conditions;
@@ -18,6 +22,7 @@ namespace WebModels.fleet
     [Table("9882F85A-BF24-4DA9-96A3-4DE7028ED44A")]
     public class Railcar : DataObject
     {
+        public const decimal THUMBNAIL_WIDTH = 64M;
         protected Railcar() : base() { }
 
         private long? _railcarID;
@@ -137,6 +142,14 @@ namespace WebModels.fleet
             set { CheckSet(); _imageOverride = value; }
         }
 
+        private byte[] _imageOverrideThumbnail;
+        [Field("69A4233C-6E0B-4389-8E81-6CB1C1C6B15E")]
+        public byte[] ImageOverrideThumbnail
+        {
+            get { CheckGet(); return _imageOverrideThumbnail; }
+            set { CheckSet(); _imageOverrideThumbnail = value; }
+        }
+
         private long? _trackIDDestination;
         [Field("F6BB5870-968F-4926-A4B9-094ED05799DA")]
         public long? TrackIDDestination
@@ -219,6 +232,24 @@ namespace WebModels.fleet
             if (IsFieldDirty(nameof(CompanyIDPossessor)) || IsFieldDirty(nameof(GovernmentIDPossessor)))
             {
                 TrackIDStrategic = null;
+            }
+
+            if (IsFieldDirty(nameof(ImageOverride)))
+            {
+                using (MemoryStream inputStream = new MemoryStream(ImageOverride))
+                using (Image image = Image.FromStream(inputStream))
+                {
+                    int height = (int)(image.Height * (THUMBNAIL_WIDTH / image.Width));
+                    using (Image thumbnail = image.GetThumbnailImage((int)THUMBNAIL_WIDTH, height, () => false, IntPtr.Zero))
+                    using (MemoryStream outputStream = new MemoryStream())
+                    {
+                        thumbnail.Save(outputStream, ImageFormat.Png);
+                        outputStream.Position = 0;
+
+                        ImageOverrideThumbnail = new byte[outputStream.Length];
+                        outputStream.Read(ImageOverrideThumbnail, 0, (int)outputStream.Length);
+                    }
+                }
             }
 
             return base.PreSave(transaction);

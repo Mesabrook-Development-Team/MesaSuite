@@ -52,30 +52,17 @@ namespace FleetTracking.Interop
 
         internal Form OpenForm(IFleetTrackingControl control, OpenFormOptions formOptions, IWin32Window parent)
         {
-            bool closeFormImmediately = false;
             if (control.GetType().GetCustomAttribute<SecuredControlAttribute>() != null)
             {
                 SecuredControlAttribute securedControl = control.GetType().GetCustomAttribute<SecuredControlAttribute>();
                 if (!securedControl.OptionalPermissions.Any(p => SecurityPermissionCheck(p.ToString())))
                 {
                     MessageBox.Show("You do not have permission to open this", "Forbidden", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                    closeFormImmediately = true;
+                    return new Form();
                 }
             }
 
-            OpenFormOptions localOptions = formOptions;
-            if (closeFormImmediately)
-            {
-                localOptions &= ~OpenFormOptions.Dialog;
-            }
-
-            Form response = GetCallback<CallbackDelegates.OpenForm>().Invoke(control, localOptions, parent);
-            if (closeFormImmediately)
-            {
-                response.Close();
-            }
-
-            return response;
+            return GetCallback<CallbackDelegates.OpenForm>().Invoke(control, formOptions, parent);
         }
 
         internal Form OpenForm(IFleetTrackingControl control, OpenFormOptions formOptions)
@@ -166,16 +153,6 @@ namespace FleetTracking.Interop
             MassUpdateRailcars(true);
         }
 
-        public void ManageCarHandlingRates()
-        {
-            Rates.CarHandlingRateList list = new Rates.CarHandlingRateList()
-            {
-                Application = this
-            };
-            Form rates = OpenForm(list);
-            rates.Text = "Car Handling Rates";
-        }
-
         public void ManageMiscSetup()
         {
             Misc.MiscellaneousSettings settings = new Misc.MiscellaneousSettings()
@@ -226,6 +203,15 @@ namespace FleetTracking.Interop
                 Application = this
             };
             OpenForm(select, OpenFormOptions.Popout);
+        }
+
+        public void PrintRailActivity()
+        {
+            Reports.RailActivity.RailActivityWizard entry = new Reports.RailActivity.RailActivityWizard()
+            {
+                Application = this
+            };
+            OpenForm(entry, OpenFormOptions.Popout | OpenFormOptions.ResizeToControl);
         }
 
         private ToolStripMenuItem toolStrip = null;
@@ -370,7 +356,6 @@ namespace FleetTracking.Interop
                             new MainNavigationItem("Railcar Models", BrowseRailcarModels, Properties.Resources.train_car, nameof(FleetSecurity.AllowSetup)),
                             new MainNavigationItem("Train Symbols", BrowseTrainSymbols, Properties.Resources.paste_plain, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster)),
                             new MainNavigationItem("Track Districts", BrowseRailDistricts, Properties.Resources.sitemap, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster)),
-                            new MainNavigationItem("Car Handling Rates", ManageCarHandlingRates, Properties.Resources.coins, nameof(FleetSecurity.AllowSetup)),
                             new MainNavigationItem("Misc Setup", ManageMiscSetup, Properties.Resources.cog, nameof(FleetSecurity.AllowSetup))
                         }
                     },
@@ -399,7 +384,8 @@ namespace FleetTracking.Interop
                         SubItems = new List<MainNavigationItem>()
                         {
                             new MainNavigationItem("Track Listing", PrintTracks, Properties.Resources.tracks, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
-                            new MainNavigationItem("Train Manifest", PrintTrainManifests, Properties.Resources.train, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew))
+                            new MainNavigationItem("Train Manifest", PrintTrainManifests, Properties.Resources.train, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew)),
+                            new MainNavigationItem("Rail Activity", PrintRailActivity, Properties.Resources.moving, nameof(FleetSecurity.IsYardmaster))
                         }
                     }
                 }

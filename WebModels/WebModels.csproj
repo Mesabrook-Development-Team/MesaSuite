@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,7 +50,11 @@
     <Compile Include="account\WireTransferHistory.cs" />
     <Compile Include="auth\Client.cs" />
     <Compile Include="auth\Code.cs" />
+    <Compile Include="auth\DeviceCode.cs" />
+    <Compile Include="auth\PersonalAccessToken.cs" />
     <Compile Include="auth\Token.cs" />
+    <Compile Include="auth\UserClient.cs" />
+    <Compile Include="auth\Validation\ClientValidationDefinition.cs" />
     <Compile Include="company\Company.cs" />
     <Compile Include="company\Employee.cs" />
     <Compile Include="company\Location.cs" />
@@ -57,7 +62,6 @@
     <Compile Include="company\LocationGovernment.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
-    <Compile Include="fleet\CarHandlingRate.cs" />
     <Compile Include="fleet\FleetSecurity.cs" />
     <Compile Include="fleet\LiveLoad.cs" />
     <Compile Include="fleet\LiveLoadSession.cs" />
@@ -79,7 +83,6 @@
     <Compile Include="fleet\TrainDutyTransaction.cs" />
     <Compile Include="fleet\TrainFuelRecord.cs" />
     <Compile Include="fleet\TrainSymbol.cs" />
-    <Compile Include="fleet\TrainSymbolRate.cs" />
     <Compile Include="fleet\Validations\TrainSymbolValidationDefinition.cs" />
     <Compile Include="fleet\Validations\TrackValidationDefinition.cs" />
     <Compile Include="fleet\Validations\RailLocationValidationDefinition.cs" />
@@ -96,8 +99,8 @@
     <Compile Include="fleet\Validations\ReportingMarkUniqueCondition.cs" />
     <Compile Include="fleet\Validations\TrainValidationDefinition.cs" />
     <Compile Include="fleet\Validations\XOrPresenceCondition.cs" />
-    <Compile Include="fleet\Validations\CarHandlingRateValidationDefinition.cs" />
     <Compile Include="gov\Government.cs" />
+    <Compile Include="gov\InterestConfiguration.cs" />
     <Compile Include="gov\Official.cs" />
     <Compile Include="gov\SalesTax.cs" />
     <Compile Include="gov\Validations\OfficialValidationDefinition.cs" />
@@ -143,6 +146,12 @@
     <Compile Include="Migrations\Migration000016.cs" />
     <Compile Include="Migrations\Migration000017.cs" />
     <Compile Include="Migrations\Migration000018.cs" />
+    <Compile Include="Migrations\Migration000019.cs" />
+    <Compile Include="Migrations\Migration000020.cs" />
+    <Compile Include="Migrations\Migration000021.cs" />
+    <Compile Include="Migrations\Migration000022.cs" />
+    <Compile Include="Migrations\Migration000023.cs" />
+    <Compile Include="Migrations\Migration000024.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="netprint\Printer.cs" />
     <Compile Include="netprint\PrintJob.cs" />

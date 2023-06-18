@@ -34,6 +34,7 @@ namespace API_Government.Controllers
             nameof(Official.CanMintCurrency),
             nameof(Official.ManageInvoices),
             nameof(Official.IssueWireTransfers),
+            nameof(Official.CanConfigureInterest),
             $"{nameof(Official.FleetSecurity)}.{nameof(FleetSecurity.AllowSetup)}",
             $"{nameof(Official.FleetSecurity)}.{nameof(FleetSecurity.AllowLeasingManagement)}",
             $"{nameof(Official.FleetSecurity)}.{nameof(FleetSecurity.IsYardmaster)}",
@@ -42,7 +43,7 @@ namespace API_Government.Controllers
         };
 
         [HttpGet]
-        [GovernmentAccess(OptionalPermissions = new string[] { nameof(Official.ManageOfficials), nameof(Official.ManageAccounts) })]
+        [GovernmentAccess(OptionalPermissions = new string[] { nameof(Official.ManageOfficials), nameof(Official.ManageAccounts), "FleetSecurity.IsTrainCrew", "FleetSecurity.IsYardmaster" })]
         public List<Official> GetAllForGovernment()
         {
             long govID = long.Parse(Request.Headers.GetValues("GovernmentID").First());

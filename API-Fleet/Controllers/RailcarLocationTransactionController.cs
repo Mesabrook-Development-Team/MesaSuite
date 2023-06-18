@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Permissions;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ using WebModels.fleet;
 namespace API_Fleet.Controllers
 {
     [MesabrookAuthorization]
-    [ProgramAccess(new[] { "gov", "government" })]
+    [ProgramAccess(new[] { "gov", "company" })]
     public class RailcarLocationTransactionController : DataObjectController<RailcarLocationTransaction>
     {
         public override IEnumerable<string> DefaultRetrievedFields => FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>()
@@ -27,31 +28,60 @@ namespace API_Fleet.Controllers
             rlt.TrackIDNew,
             rlt.TrackNew.TrackID,
             rlt.TrackNew.Name,
+            rlt.TrackNew.RailDistrictID,
+            rlt.TrackNew.RailDistrict.RailDistrictID,
+            rlt.TrackNew.RailDistrict.Name,
             rlt.TrainIDNew,
             rlt.TrainNew.TrainID,
             rlt.TrainNew.TrainSymbolID,
             rlt.TrainNew.TrainSymbol.TrainSymbolID,
             rlt.TrainNew.TrainSymbol.Name,
+            rlt.TrainNew.TrainFuelRecords.First().TrainFuelRecordID,
+            rlt.TrainNew.TrainFuelRecords.First().FuelStart,
+            rlt.TrainNew.TrainFuelRecords.First().FuelEnd,
+            rlt.TrainNew.TrainDutyTransactions.First().TrainDutyTransactionID,
+            rlt.TrainNew.TrainDutyTransactions.First().TimeOnDuty,
+            rlt.TrainNew.TrainDutyTransactions.First().TimeOffDuty,
             rlt.PreviousTransaction.TrackIDNew,
             rlt.PreviousTransaction.TrackNew.TrackID,
             rlt.PreviousTransaction.TrackNew.Name,
+            rlt.PreviousTransaction.TrackNew.RailDistrictID,
+            rlt.PreviousTransaction.TrackNew.RailDistrict.RailDistrictID,
+            rlt.PreviousTransaction.TrackNew.RailDistrict.Name,
             rlt.PreviousTransaction.TrainIDNew,
             rlt.PreviousTransaction.TrainNew.TrainID,
             rlt.PreviousTransaction.TrainNew.TrainSymbolID,
             rlt.PreviousTransaction.TrainNew.TrainSymbol.TrainSymbolID,
             rlt.PreviousTransaction.TrainNew.TrainSymbol.Name,
+            rlt.PreviousTransaction.TrainNew.TrainFuelRecords.First().TrainFuelRecordID,
+            rlt.PreviousTransaction.TrainNew.TrainFuelRecords.First().FuelStart,
+            rlt.PreviousTransaction.TrainNew.TrainFuelRecords.First().FuelEnd,
+            rlt.PreviousTransaction.TrainNew.TrainDutyTransactions.First().TrainDutyTransactionID,
+            rlt.PreviousTransaction.TrainNew.TrainDutyTransactions.First().TimeOnDuty,
+            rlt.PreviousTransaction.TrainNew.TrainDutyTransactions.First().TimeOffDuty,
             rlt.NextTransaction.TrackIDNew,
             rlt.NextTransaction.TrackNew.TrackID,
             rlt.NextTransaction.TrackNew.Name,
+            rlt.NextTransaction.TrackNew.RailDistrictID,
+            rlt.NextTransaction.TrackNew.RailDistrict.RailDistrictID,
+            rlt.NextTransaction.TrackNew.RailDistrict.Name,
             rlt.NextTransaction.TrainIDNew,
             rlt.NextTransaction.TrainNew.TrainID,
             rlt.NextTransaction.TrainNew.TrainSymbolID,
             rlt.NextTransaction.TrainNew.TrainSymbol.TrainSymbolID,
             rlt.NextTransaction.TrainNew.TrainSymbol.Name,
+            rlt.NextTransaction.TrainNew.TrainFuelRecords.First().TrainFuelRecordID,
+            rlt.NextTransaction.TrainNew.TrainFuelRecords.First().FuelStart,
+            rlt.NextTransaction.TrainNew.TrainFuelRecords.First().FuelEnd,
+            rlt.NextTransaction.TrainNew.TrainDutyTransactions.First().TrainDutyTransactionID,
+            rlt.NextTransaction.TrainNew.TrainDutyTransactions.First().TimeOnDuty,
+            rlt.NextTransaction.TrainNew.TrainDutyTransactions.First().TimeOffDuty,
+            rlt.PossessedByCompany.CompanyID,
+            rlt.PossessedByCompany.Name,
+            rlt.PossessedByGovernment.GovernmentID,
+            rlt.PossessedByGovernment.Name,
             rlt.IsPartialTrainTrip,
-            rlt.TransactionTime,
-            rlt.InvoiceID,
-            rlt.WillNotCharge
+            rlt.TransactionTime
         });
 
         public RailcarLocationTransactionController() : base()
@@ -152,6 +182,80 @@ namespace API_Fleet.Controllers
                 remaining,
                 railcarLocationTransactions = transactionSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList()
             });
+        }
+
+        [HttpGet]
+        public async Task<List<RailcarLocationTransaction>> GetByDates(DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate == null || endDate == null)
+            {
+                return null;
+            }
+
+            Search<RailcarLocationTransaction> transactionSearch = new Search<RailcarLocationTransaction>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new DateTimeSearchCondition<RailcarLocationTransaction>()
+                {
+                    Field = nameof(RailcarLocationTransaction.TransactionTime),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.GreaterEquals,
+                    Value = startDate
+                },
+                new DateTimeSearchCondition<RailcarLocationTransaction>()
+                {
+                    Field = nameof(RailcarLocationTransaction.TransactionTime),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.LessEquals,
+                    Value = endDate.Value.AddDays(1).AddSeconds(-1)
+                },
+                new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.PreviousTransaction.TrainNew.TrainSymbol.CompanyIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.CompanyID() == null ? -99 : this.CompanyID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.PreviousTransaction.TrackNew.RailDistrict.CompanyIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.CompanyID() == null ? -99 : this.CompanyID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.TrainNew.TrainSymbol.CompanyIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.CompanyID() == null ? -99 : this.CompanyID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.TrackNew.RailDistrict.CompanyIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.CompanyID() == null ? -99 : this.CompanyID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.PreviousTransaction.TrainNew.TrainSymbol.GovernmentIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.GovernmentID() == null ? -99 : this.GovernmentID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.PreviousTransaction.TrackNew.RailDistrict.GovernmentIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.GovernmentID() == null ? -99 : this.GovernmentID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.TrainNew.TrainSymbol.GovernmentIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.GovernmentID() == null ? -99 : this.GovernmentID()
+                    },
+                    new LongSearchCondition<RailcarLocationTransaction>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<RailcarLocationTransaction>(rlt => new List<object>() { rlt.TrackNew.RailDistrict.GovernmentIDOperator }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = this.GovernmentID() == null ? -99 : this.GovernmentID()
+                    })));
+
+            return transactionSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
         }
     }
 }

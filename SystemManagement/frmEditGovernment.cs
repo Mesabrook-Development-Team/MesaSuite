@@ -41,6 +41,7 @@ namespace SystemManagement
             Government government = await getData.GetObject<Government>();
             txtName.Text = government.Name;
             chkMintCurrency.Checked = government.CanMintCurrency;
+            chkInterest.Checked = government.CanConfigureInterest;
 
             getData = new GetData(DataAccess.APIs.SystemManagement, "Domain/GetAll");
             List<Domain> domains = await getData.GetObject<List<Domain>>();
@@ -92,7 +93,8 @@ namespace SystemManagement
                 GovernmentID = GovernmentID,
                 Name = txtName.Text,
                 EmailDomain = cboDomain.Text,
-                CanMintCurrency = chkMintCurrency.Checked
+                CanMintCurrency = chkMintCurrency.Checked,
+                CanConfigureInterest = chkInterest.Checked
             };
 
             PutData put = new PutData(DataAccess.APIs.SystemManagement, "Government/Put", government);

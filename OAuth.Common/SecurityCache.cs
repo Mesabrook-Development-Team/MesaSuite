@@ -53,12 +53,18 @@ namespace API.Common
                 return null;
             }
 
-            Search<Token> tokenSearch = new Search<Token>(new GuidSearchCondition<Token>()
-            {
-                Field = "AccessToken",
-                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = token
-            });
+            Search<Token> tokenSearch = new Search<Token>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new GuidSearchCondition<Token>()
+                {
+                    Field = "AccessToken",
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = token
+                },
+                new DateTimeSearchCondition<Token>()
+                {
+                    Field = nameof(Token.RevokeTime),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                }));
 
             Token dbToken = await Task.Run(() => tokenSearch.GetReadOnly(null, new string[] { "UserID", "Expiration", "AccessToken" }));
 

@@ -54,6 +54,14 @@ namespace WebModels.gov
             set { CheckSet(); _canMintCurrency = value; }
         }
 
+        private bool _canConfigureInterest;
+        [Field("3D8BFF1D-29DE-4B49-AF5E-EA6FBA106E1E")]
+        public bool CanConfigureInterest
+        {
+            get { CheckGet(); return _canConfigureInterest; }
+            set { CheckSet(); _canConfigureInterest = value; }
+        }
+
         private string _invoiceNumberPrefix;
         [Field("0F5A0F5F-A6D1-46E8-95ED-634E9A6931CE", DataSize = 3)]
         public string InvoiceNumberPrefix
@@ -258,13 +266,6 @@ namespace WebModels.gov
         public IReadOnlyCollection<fleet.TrainSymbol> TrainSymbols
         {
             get { CheckGet(); return _trainSymbols; }
-        }
-
-        private List<fleet.CarHandlingRate> _carHandlingRates = new List<fleet.CarHandlingRate>();
-        [RelationshipList("F363B668-6CEC-450C-A4B6-8CF9C5B6CD8C", nameof(fleet.CarHandlingRate.GovernmentID))]
-        public IReadOnlyCollection<fleet.CarHandlingRate> CarHandlingRates
-        {
-            get { CheckGet(); return _carHandlingRates; }
         }
 
         private List<fleet.LiveLoadSession> _liveLoadSessions = new List<fleet.LiveLoadSession>();

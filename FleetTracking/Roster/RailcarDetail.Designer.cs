@@ -35,6 +35,7 @@
             this.pboxImage = new System.Windows.Forms.PictureBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.cmdUpdateImage = new System.Windows.Forms.Button();
+            this.lnkLocation = new System.Windows.Forms.LinkLabel();
             this.label6 = new System.Windows.Forms.Label();
             this.txtLessee = new System.Windows.Forms.TextBox();
             this.txtCurrentLocation = new System.Windows.Forms.TextBox();
@@ -62,14 +63,11 @@
             this.cmdPrevious = new System.Windows.Forms.Button();
             this.cmdFirst = new System.Windows.Forms.Button();
             this.dgvHistory = new System.Windows.Forms.DataGridView();
+            this.loaderHistory = new FleetTracking.Loader();
+            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
             this.colTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTrain = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTrack = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colInvoiced = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colNoCharge = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.loaderHistory = new FleetTracking.Loader();
-            this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
-            this.lnkLocation = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pboxImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -84,7 +82,7 @@
             // cmdReset
             // 
             this.cmdReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdReset.Location = new System.Drawing.Point(287, 257);
+            this.cmdReset.Location = new System.Drawing.Point(286, 257);
             this.cmdReset.Name = "cmdReset";
             this.cmdReset.Size = new System.Drawing.Size(75, 23);
             this.cmdReset.TabIndex = 12;
@@ -95,7 +93,7 @@
             // cmdSave
             // 
             this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSave.Location = new System.Drawing.Point(368, 257);
+            this.cmdSave.Location = new System.Drawing.Point(367, 257);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 11;
@@ -119,7 +117,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pboxImage.Location = new System.Drawing.Point(-1, 0);
             this.pboxImage.Name = "pboxImage";
-            this.pboxImage.Size = new System.Drawing.Size(285, 251);
+            this.pboxImage.Size = new System.Drawing.Size(284, 251);
             this.pboxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pboxImage.TabIndex = 0;
             this.pboxImage.TabStop = false;
@@ -161,7 +159,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.txtContents);
             this.splitContainer1.Panel2.Controls.Add(this.cboCurrentLocation);
             this.splitContainer1.Size = new System.Drawing.Size(735, 283);
-            this.splitContainer1.SplitterDistance = 285;
+            this.splitContainer1.SplitterDistance = 284;
             this.splitContainer1.TabIndex = 0;
             // 
             // cmdUpdateImage
@@ -170,11 +168,22 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdUpdateImage.Location = new System.Drawing.Point(-1, 257);
             this.cmdUpdateImage.Name = "cmdUpdateImage";
-            this.cmdUpdateImage.Size = new System.Drawing.Size(285, 23);
+            this.cmdUpdateImage.Size = new System.Drawing.Size(284, 23);
             this.cmdUpdateImage.TabIndex = 0;
             this.cmdUpdateImage.Text = "Update Image";
             this.cmdUpdateImage.UseVisualStyleBackColor = true;
             this.cmdUpdateImage.Click += new System.EventHandler(this.cmdUpdateImage_Click);
+            // 
+            // lnkLocation
+            // 
+            this.lnkLocation.AutoSize = true;
+            this.lnkLocation.Location = new System.Drawing.Point(3, 139);
+            this.lnkLocation.Name = "lnkLocation";
+            this.lnkLocation.Size = new System.Drawing.Size(88, 13);
+            this.lnkLocation.TabIndex = 6;
+            this.lnkLocation.TabStop = true;
+            this.lnkLocation.Text = "Current Location:";
+            this.lnkLocation.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkLocation_LinkClicked);
             // 
             // label6
             // 
@@ -192,7 +201,7 @@
             this.txtLessee.Location = new System.Drawing.Point(96, 83);
             this.txtLessee.Name = "txtLessee";
             this.txtLessee.ReadOnly = true;
-            this.txtLessee.Size = new System.Drawing.Size(347, 20);
+            this.txtLessee.Size = new System.Drawing.Size(346, 20);
             this.txtLessee.TabIndex = 4;
             // 
             // txtCurrentLocation
@@ -202,7 +211,7 @@
             this.txtCurrentLocation.Location = new System.Drawing.Point(96, 136);
             this.txtCurrentLocation.Name = "txtCurrentLocation";
             this.txtCurrentLocation.ReadOnly = true;
-            this.txtCurrentLocation.Size = new System.Drawing.Size(347, 20);
+            this.txtCurrentLocation.Size = new System.Drawing.Size(346, 20);
             this.txtCurrentLocation.TabIndex = 7;
             // 
             // cboModel
@@ -213,7 +222,7 @@
             this.cboModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboModel.Location = new System.Drawing.Point(96, 3);
             this.cboModel.Name = "cboModel";
-            this.cboModel.Size = new System.Drawing.Size(347, 21);
+            this.cboModel.Size = new System.Drawing.Size(346, 21);
             this.cboModel.TabIndex = 0;
             // 
             // label1
@@ -241,7 +250,7 @@
             this.cboStrategicTrack.FormattingEnabled = true;
             this.cboStrategicTrack.Location = new System.Drawing.Point(96, 189);
             this.cboStrategicTrack.Name = "cboStrategicTrack";
-            this.cboStrategicTrack.Size = new System.Drawing.Size(347, 21);
+            this.cboStrategicTrack.Size = new System.Drawing.Size(346, 21);
             this.cboStrategicTrack.Sorted = true;
             this.cboStrategicTrack.TabIndex = 9;
             // 
@@ -254,7 +263,7 @@
             this.cboDestination.FormattingEnabled = true;
             this.cboDestination.Location = new System.Drawing.Point(96, 162);
             this.cboDestination.Name = "cboDestination";
-            this.cboDestination.Size = new System.Drawing.Size(347, 21);
+            this.cboDestination.Size = new System.Drawing.Size(346, 21);
             this.cboDestination.Sorted = true;
             this.cboDestination.TabIndex = 8;
             // 
@@ -275,7 +284,7 @@
             this.cboPossessor.FormattingEnabled = true;
             this.cboPossessor.Location = new System.Drawing.Point(96, 109);
             this.cboPossessor.Name = "cboPossessor";
-            this.cboPossessor.Size = new System.Drawing.Size(347, 21);
+            this.cboPossessor.Size = new System.Drawing.Size(346, 21);
             this.cboPossessor.Sorted = true;
             this.cboPossessor.TabIndex = 5;
             // 
@@ -296,7 +305,7 @@
             this.cboOwner.FormattingEnabled = true;
             this.cboOwner.Location = new System.Drawing.Point(96, 56);
             this.cboOwner.Name = "cboOwner";
-            this.cboOwner.Size = new System.Drawing.Size(347, 21);
+            this.cboOwner.Size = new System.Drawing.Size(346, 21);
             this.cboOwner.Sorted = true;
             this.cboOwner.TabIndex = 3;
             this.cboOwner.SelectedIndexChanged += new System.EventHandler(this.cboOwner_SelectedIndexChanged);
@@ -342,7 +351,7 @@
             this.txtContents.Location = new System.Drawing.Point(96, 216);
             this.txtContents.Name = "txtContents";
             this.txtContents.ReadOnly = true;
-            this.txtContents.Size = new System.Drawing.Size(347, 20);
+            this.txtContents.Size = new System.Drawing.Size(346, 20);
             this.txtContents.TabIndex = 10;
             // 
             // cboCurrentLocation
@@ -353,7 +362,8 @@
             this.cboCurrentLocation.FormattingEnabled = true;
             this.cboCurrentLocation.Location = new System.Drawing.Point(96, 136);
             this.cboCurrentLocation.Name = "cboCurrentLocation";
-            this.cboCurrentLocation.Size = new System.Drawing.Size(347, 21);
+            this.cboCurrentLocation.Size = new System.Drawing.Size(346, 21);
+            this.cboCurrentLocation.Sorted = true;
             this.cboCurrentLocation.TabIndex = 7;
             this.cboCurrentLocation.Visible = false;
             this.cboCurrentLocation.SelectedIndexChanged += new System.EventHandler(this.cboCurrentLocation_SelectedIndexChanged);
@@ -364,7 +374,7 @@
             this.tabGeneral.Controls.Add(this.loaderGeneral);
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
-            this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
+            this.tabGeneral.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.tabGeneral.Size = new System.Drawing.Size(741, 289);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
@@ -405,7 +415,7 @@
             this.tabHistory.Controls.Add(this.loaderHistory);
             this.tabHistory.Location = new System.Drawing.Point(4, 22);
             this.tabHistory.Name = "tabHistory";
-            this.tabHistory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabHistory.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.tabHistory.Size = new System.Drawing.Size(741, 289);
             this.tabHistory.TabIndex = 1;
             this.tabHistory.Text = "Location History";
@@ -472,43 +482,12 @@
             this.dgvHistory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colTime,
             this.colTrain,
-            this.colTrack,
-            this.colInvoiced,
-            this.colNoCharge});
+            this.colTrack});
             this.dgvHistory.Location = new System.Drawing.Point(3, 3);
             this.dgvHistory.Name = "dgvHistory";
+            this.dgvHistory.RowHeadersWidth = 62;
             this.dgvHistory.Size = new System.Drawing.Size(735, 254);
             this.dgvHistory.TabIndex = 0;
-            // 
-            // colTime
-            // 
-            this.colTime.HeaderText = "Time";
-            this.colTime.Name = "colTime";
-            this.colTime.Width = 150;
-            // 
-            // colTrain
-            // 
-            this.colTrain.HeaderText = "Moved To Train";
-            this.colTrain.Name = "colTrain";
-            this.colTrain.Width = 150;
-            // 
-            // colTrack
-            // 
-            this.colTrack.HeaderText = "Moved To Track";
-            this.colTrack.Name = "colTrack";
-            this.colTrack.Width = 150;
-            // 
-            // colInvoiced
-            // 
-            this.colInvoiced.HeaderText = "Invoiced";
-            this.colInvoiced.Name = "colInvoiced";
-            this.colInvoiced.Width = 70;
-            // 
-            // colNoCharge
-            // 
-            this.colNoCharge.HeaderText = "Will Not Charge";
-            this.colNoCharge.Name = "colNoCharge";
-            this.colNoCharge.Width = 105;
             // 
             // loaderHistory
             // 
@@ -517,21 +496,32 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.loaderHistory.BackColor = System.Drawing.Color.Transparent;
             this.loaderHistory.Location = new System.Drawing.Point(0, 0);
+            this.loaderHistory.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.loaderHistory.Name = "loaderHistory";
             this.loaderHistory.Size = new System.Drawing.Size(742, 290);
             this.loaderHistory.TabIndex = 1;
             this.loaderHistory.Visible = false;
             // 
-            // lnkLocation
+            // colTime
             // 
-            this.lnkLocation.AutoSize = true;
-            this.lnkLocation.Location = new System.Drawing.Point(3, 139);
-            this.lnkLocation.Name = "lnkLocation";
-            this.lnkLocation.Size = new System.Drawing.Size(88, 13);
-            this.lnkLocation.TabIndex = 6;
-            this.lnkLocation.TabStop = true;
-            this.lnkLocation.Text = "Current Location:";
-            this.lnkLocation.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkLocation_LinkClicked);
+            this.colTime.HeaderText = "Time";
+            this.colTime.MinimumWidth = 8;
+            this.colTime.Name = "colTime";
+            this.colTime.Width = 150;
+            // 
+            // colTrain
+            // 
+            this.colTrain.HeaderText = "Moved To Train";
+            this.colTrain.MinimumWidth = 8;
+            this.colTrain.Name = "colTrain";
+            this.colTrain.Width = 150;
+            // 
+            // colTrack
+            // 
+            this.colTrack.HeaderText = "Moved To Track";
+            this.colTrack.MinimumWidth = 8;
+            this.colTrack.Name = "colTrack";
+            this.colTrack.Width = 150;
             // 
             // RailcarDetail
             // 
@@ -579,17 +569,12 @@
         private System.Windows.Forms.TextBox txtLessee;
         private System.Windows.Forms.TabPage tabHistory;
         private System.Windows.Forms.DataGridView dgvHistory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTrain;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTrack;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colInvoiced;
         private Loader loaderHistory;
         private DataGridViewStylizer dataGridViewStylizer;
         private System.Windows.Forms.Button cmdNext;
         private System.Windows.Forms.Button cmdLast;
         private System.Windows.Forms.Button cmdPrevious;
         private System.Windows.Forms.Button cmdFirst;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colNoCharge;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtContents;
         private System.Windows.Forms.ComboBox cboStrategicTrack;
@@ -598,5 +583,8 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox cboCurrentLocation;
         private System.Windows.Forms.LinkLabel lnkLocation;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTrain;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTrack;
     }
 }

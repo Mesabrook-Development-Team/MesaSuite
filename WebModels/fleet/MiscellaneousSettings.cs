@@ -56,36 +56,6 @@ namespace WebModels.fleet
             get { CheckGet(); return _government; }
         }
 
-        private long? _locationIDInvoicePayee;
-        [Field("D32CF264-4482-4FC9-9120-5B4801FD385D")]
-        public long? LocationIDInvoicePayee
-        {
-            get { CheckGet(); return _locationIDInvoicePayee; }
-            set { CheckSet(); _locationIDInvoicePayee = value; }
-        }
-
-        private Location _locationInvoicePayee = null;
-        [Relationship("37A73798-9BE2-4B9A-9B99-FBB813AF30AE", ForeignKeyField = nameof(LocationIDInvoicePayee))]
-        public Location LocationInvoicePayee
-        {
-            get { CheckGet(); return _locationInvoicePayee; }
-        }
-
-        private long? _locationIDInvoicePayor;
-        [Field("C0636646-8964-4578-BCD2-BF60D7022DDA")]
-        public long? LocationIDInvoicePayor
-        {
-            get { CheckGet(); return _locationIDInvoicePayor; }
-            set { CheckSet(); _locationIDInvoicePayor = value; }
-        }
-
-        private Location _locationInvoicePayor = null;
-        [Relationship("87EA3B44-2D17-4121-AE33-5593D233B4C3", ForeignKeyField = nameof(LocationIDInvoicePayor))]
-        public Location LocationInvoicePayor
-        {
-            get { CheckGet(); return _locationInvoicePayor; }
-        }
-
         private long? _emailImplementationIDCarReleased;
         [Field("F14652D7-FB58-4C0A-8D18-E94B3B39F54D")]
         public long? EmailImplementationIDCarReleased

@@ -42,6 +42,7 @@
             this.cboDomain = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.chkMintCurrency = new System.Windows.Forms.CheckBox();
+            this.chkInterest = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -79,7 +80,7 @@
             this.lstOfficials.Name = "lstOfficials";
             this.lstOfficials.Size = new System.Drawing.Size(369, 139);
             this.lstOfficials.SmallImageList = this.imlSmall;
-            this.lstOfficials.TabIndex = 3;
+            this.lstOfficials.TabIndex = 4;
             this.lstOfficials.UseCompatibleStateImageBehavior = false;
             this.lstOfficials.View = System.Windows.Forms.View.Details;
             // 
@@ -100,7 +101,7 @@
             this.cmdCancel.Location = new System.Drawing.Point(208, 275);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(85, 23);
-            this.cmdCancel.TabIndex = 6;
+            this.cmdCancel.TabIndex = 7;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -110,7 +111,7 @@
             this.cmdSave.Location = new System.Drawing.Point(299, 275);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(85, 23);
-            this.cmdSave.TabIndex = 5;
+            this.cmdSave.TabIndex = 6;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -120,7 +121,7 @@
             this.cmdSelectOfficials.Location = new System.Drawing.Point(299, 246);
             this.cmdSelectOfficials.Name = "cmdSelectOfficials";
             this.cmdSelectOfficials.Size = new System.Drawing.Size(85, 23);
-            this.cmdSelectOfficials.TabIndex = 4;
+            this.cmdSelectOfficials.TabIndex = 5;
             this.cmdSelectOfficials.Text = "Select Officials";
             this.cmdSelectOfficials.UseVisualStyleBackColor = true;
             this.cmdSelectOfficials.Click += new System.EventHandler(this.cmdSelectOfficials_Click);
@@ -145,12 +146,22 @@
             // chkMintCurrency
             // 
             this.chkMintCurrency.AutoSize = true;
-            this.chkMintCurrency.Location = new System.Drawing.Point(144, 65);
+            this.chkMintCurrency.Location = new System.Drawing.Point(75, 65);
             this.chkMintCurrency.Name = "chkMintCurrency";
             this.chkMintCurrency.Size = new System.Drawing.Size(113, 17);
             this.chkMintCurrency.TabIndex = 2;
             this.chkMintCurrency.Text = "Can Mint Currency";
             this.chkMintCurrency.UseVisualStyleBackColor = true;
+            // 
+            // chkInterest
+            // 
+            this.chkInterest.AutoSize = true;
+            this.chkInterest.Location = new System.Drawing.Point(194, 65);
+            this.chkInterest.Name = "chkInterest";
+            this.chkInterest.Size = new System.Drawing.Size(131, 17);
+            this.chkInterest.TabIndex = 3;
+            this.chkInterest.Text = "Can Configure Interest";
+            this.chkInterest.UseVisualStyleBackColor = true;
             // 
             // frmEditGovernment
             // 
@@ -159,6 +170,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(400, 309);
+            this.Controls.Add(this.chkInterest);
             this.Controls.Add(this.chkMintCurrency);
             this.Controls.Add(this.cboDomain);
             this.Controls.Add(this.label3);
@@ -196,5 +208,6 @@
         private System.Windows.Forms.ComboBox cboDomain;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chkMintCurrency;
+        private System.Windows.Forms.CheckBox chkInterest;
     }
 }

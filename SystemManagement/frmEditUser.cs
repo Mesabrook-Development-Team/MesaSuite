@@ -2,6 +2,7 @@
 using MesaSuite.Common.Data;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,6 +13,8 @@ namespace SystemManagement
     public partial class frmEditUser : Form
     {
         public long? UserID { get; set; }
+        private bool _inactivityWarningServed = false;
+        private bool _inactivityDOINotificationServed = false;
         public frmEditUser()
         {
             InitializeComponent();
@@ -45,6 +48,18 @@ namespace SystemManagement
             txtEmail.Text = user.Email;
             txtFirstName.Text = user.FirstName;
             txtLastName.Text = user.LastName;
+            txtDiscordID.Text = user.DiscordID;
+            txtLastActivity.Text = user.LastActivity?.ToString("MM/dd/yyyy HH:mm");
+            txtLastActivity.Tag = user.LastActivity;
+            txtLastActivityReason.Text = user.LastActivityReason;
+
+            _inactivityWarningServed = user.InactivityWarningServed;
+            _inactivityDOINotificationServed = user.InactivityDOINotificationServed;
+
+            if (user.LastActivity != null && user.LastActivity.Value.AddMonths(1).AddDays(-2) < DateTime.Now)
+            {
+                txtLastActivity.BackColor = Color.Yellow;
+            }
 
             await LoadPrograms();
             await LoadSecurityGroups(user);
@@ -130,13 +145,19 @@ namespace SystemManagement
                 Username = txtUsername.Text,
                 Email = txtEmail.Text,
                 FirstName = txtFirstName.Text,
-                LastName = txtLastName.Text
+                LastName = txtLastName.Text,
+                DiscordID = txtDiscordID.Text,
+                LastActivity = (DateTime?)txtLastActivity.Tag,
+                LastActivityReason = txtLastActivityReason.Text,
+                InactivityWarningServed = _inactivityWarningServed,
+                InactivityDOINotificationServed = _inactivityDOINotificationServed
             };
 
             PutData data = new PutData(DataAccess.APIs.SystemManagement, "User/UpdateUser", user);
             await data.ExecuteNoResult();
             if (!data.RequestSuccessful)
             {
+                Enabled = true;
                 return;
             }
 

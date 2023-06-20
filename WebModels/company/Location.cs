@@ -150,6 +150,27 @@ namespace WebModels.company
         {
             get { CheckGet(); return _locationGovernments; }
         }
+
+        private List<Register> _registers = new List<Register>();
+        [RelationshipList("56573B92-10FB-4ACF-BFB4-3B6B167D904B", nameof(Register.LocationID))]
+        public IReadOnlyCollection<Register> Registers
+        {
+            get { CheckGet(); return _registers; }
+        }
+
+        private List<LocationItem> _locationItems = new List<LocationItem>();
+        [RelationshipList("9BA0848D-68DC-4A88-ADFE-E782D15AEC77", nameof(LocationItem.LocationID))]
+        public IReadOnlyCollection<LocationItem> LocationItems
+        {
+            get { CheckGet(); return _locationItems; }
+        }
+
+        private List<Promotion> _promotions = new List<Promotion>();
+        [RelationshipList("90853C4A-31F5-4A46-BC4E-8A93FBE0ED42", nameof(Promotion.LocationID))]
+        public IReadOnlyCollection<Promotion> Promotions
+        {
+            get { CheckGet(); return _promotions; }
+        }
         #endregion
         #region fleet
         private List<LeaseRequest> _leaseRequests = new List<LeaseRequest>();

@@ -75,6 +75,14 @@ namespace WebModels.security
             set { CheckSet(); _lastActivityReason = value; }
         }
 
+        private bool _isStoreRegister = false;
+        [Field("06DA4324-BE89-4995-836A-BE813C519F50")]
+        public bool IsStoreRegister
+        {
+            get { CheckGet(); return _isStoreRegister; }
+            set { CheckSet(); _isStoreRegister = value; }
+        }
+
         #region Relationships
         #region auth
         private List<Client> _clientsOwned = new List<Client>();

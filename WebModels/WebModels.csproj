@@ -60,6 +60,11 @@
     <Compile Include="company\Location.cs" />
     <Compile Include="company\LocationEmployee.cs" />
     <Compile Include="company\LocationGovernment.cs" />
+    <Compile Include="company\LocationItem.cs" />
+    <Compile Include="company\Promotion.cs" />
+    <Compile Include="company\PromotionLocationItem.cs" />
+    <Compile Include="company\Register.cs" />
+    <Compile Include="company\StoreSale.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
     <Compile Include="fleet\FleetSecurity.cs" />
@@ -152,6 +157,7 @@
     <Compile Include="Migrations\Migration000022.cs" />
     <Compile Include="Migrations\Migration000023.cs" />
     <Compile Include="Migrations\Migration000024.cs" />
+    <Compile Include="Migrations\Migration000025.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="netprint\Printer.cs" />
     <Compile Include="netprint\PrintJob.cs" />

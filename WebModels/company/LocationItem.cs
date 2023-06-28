@@ -77,14 +77,14 @@ namespace WebModels.company
         #region Relationships
         #region company
         private List<StoreSale> _storeSales = new List<StoreSale>();
-        [RelationshipList("EB7FD6EA-69A8-4CBC-8D1B-36A92F97991C", nameof(StoreSale.LocationItemID))]
+        [RelationshipList("EB7FD6EA-69A8-4CBC-8D1B-36A92F97991C", nameof(StoreSale.LocationItemID), AutoRemoveReferences = true)]
         public IReadOnlyCollection<StoreSale> StoreSales
         {
             get { CheckGet(); return _storeSales; }
         }
 
         private List<PromotionLocationItem> _promotionLocationItems = new List<PromotionLocationItem>();
-        [RelationshipList("44428622-5CF6-47A0-804F-89871CD57952", nameof(PromotionLocationItem.LocationItemID))]
+        [RelationshipList("44428622-5CF6-47A0-804F-89871CD57952", nameof(PromotionLocationItem.LocationItemID), AutoRemoveReferences = true)]
         public IReadOnlyCollection<PromotionLocationItem> PromotionLocationItems
         {
             get { CheckGet(); return _promotionLocationItems; }

@@ -35,6 +35,10 @@
             this.companyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCompanyExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLocationExplorer = new System.Windows.Forms.ToolStripMenuItem();
+            this.storeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRegisters = new System.Windows.Forms.ToolStripMenuItem();
+            this.priceManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.promotionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEmailExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.employeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,6 +101,7 @@
             this.mnuBanner.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.mnuBanner.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.companyToolStripMenuItem,
+            this.storeToolStripMenuItem,
             this.emailToolStripMenuItem,
             this.employeesToolStripMenuItem,
             this.financeToolStripMenuItem,
@@ -137,6 +142,36 @@
             this.mnuLocationExplorer.Size = new System.Drawing.Size(172, 22);
             this.mnuLocationExplorer.Text = "Location Explorer";
             this.mnuLocationExplorer.Click += new System.EventHandler(this.mnuLocationExplorer_Click);
+            // 
+            // storeToolStripMenuItem
+            // 
+            this.storeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuRegisters,
+            this.priceManagerToolStripMenuItem,
+            this.promotionsToolStripMenuItem});
+            this.storeToolStripMenuItem.Name = "storeToolStripMenuItem";
+            this.storeToolStripMenuItem.Size = new System.Drawing.Size(46, 22);
+            this.storeToolStripMenuItem.Text = "Store";
+            this.storeToolStripMenuItem.Visible = false;
+            // 
+            // mnuRegisters
+            // 
+            this.mnuRegisters.Name = "mnuRegisters";
+            this.mnuRegisters.Size = new System.Drawing.Size(180, 22);
+            this.mnuRegisters.Text = "Registers";
+            this.mnuRegisters.Click += new System.EventHandler(this.mnuRegisters_Click);
+            // 
+            // priceManagerToolStripMenuItem
+            // 
+            this.priceManagerToolStripMenuItem.Name = "priceManagerToolStripMenuItem";
+            this.priceManagerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.priceManagerToolStripMenuItem.Text = "Price Manager";
+            // 
+            // promotionsToolStripMenuItem
+            // 
+            this.promotionsToolStripMenuItem.Name = "promotionsToolStripMenuItem";
+            this.promotionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.promotionsToolStripMenuItem.Text = "Promotions";
             // 
             // emailToolStripMenuItem
             // 
@@ -537,6 +572,10 @@
         private System.Windows.Forms.ToolStripMenuItem mnuInvoicingEmailReceivableReady;
         private Loader loader;
         private StudioFormExtender studioFormExtender;
+        private System.Windows.Forms.ToolStripMenuItem storeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuRegisters;
+        private System.Windows.Forms.ToolStripMenuItem priceManagerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem promotionsToolStripMenuItem;
     }
 }
 

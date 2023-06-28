@@ -29,6 +29,18 @@ namespace WebModels.Migrations
             createTable.Execute(transaction);
             CreateForeignKey(createTable, transaction, "company", "Location");
 
+            createTable.TableName = "RegisterStatus";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "RegisterStatusID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "RegisterID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "ChangeTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
+                { "Status", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "Initiator", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(createTable, transaction, "company", "Register");
+
             createTable.TableName = "LocationItem";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
             {
@@ -39,7 +51,7 @@ namespace WebModels.Migrations
                 { "BasePrice", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) }
             };
             createTable.Execute(transaction);
-            CreateForeignKey(createTable, transaction, "company", "LocationID");
+            CreateForeignKey(createTable, transaction, "company", "Location");
             CreateForeignKey(createTable, transaction, "mesasys", "Item");
 
             createTable.TableName = "StoreSale";
@@ -85,7 +97,7 @@ namespace WebModels.Migrations
         {
             IAlterTable alterTable = SQLProviderFactory.GetAlterTableQuery();
             alterTable.Schema = "company";
-            alterTable.Table = "Employee";
+            alterTable.Table = "LocationEmployee";
             alterTable.AddColumn("ManagePrices", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false });
             alterTable.AddColumn("ManageRegisters", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false });
             alterTable.AddColumn("ManageInventory", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false });

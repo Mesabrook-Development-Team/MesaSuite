@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 
@@ -57,13 +62,82 @@ namespace WebModels.company
             set { CheckSet(); _name = value; }
         }
 
+        protected override void PreValidate()
+        {
+            base.PreValidate();
+
+            if (IsInsert)
+            {
+                Identifier = Guid.NewGuid();
+            }
+        }
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (IsInsert)
+            {
+                RegisterStatus registerStatus = DataObjectFactory.Create<RegisterStatus>();
+                registerStatus.RegisterID = RegisterID;
+                registerStatus.ChangeTime = DateTime.Now;
+                registerStatus.Status = RegisterStatus.Statuses.Offline;
+                registerStatus.Initiator = "Automatic";
+                if (!registerStatus.Save(transaction))
+                {
+                    Errors.AddRange(registerStatus.Errors.ToArray());
+                    return false;
+                }
+            }
+
+            return base.PostSave(transaction);
+        }
+
+        private RegisterStatus _currentStatus = null;
+        [Relationship("4EE2E293-4693-4980-ACE5-F0F795AB693A", HasForeignKey = false)]
+        public RegisterStatus CurrentStatus
+        {
+            get { CheckGet(); return _currentStatus; }
+        }
+
+        public override ICondition GetRelationshipCondition(Relationship relationship, string myAlias, string otherAlias)
+        {
+            switch(relationship.RelationshipName)
+            {
+                case nameof(CurrentStatus):
+                    return GetCurrentStatusCondition(myAlias, otherAlias);
+                default:
+                    return base.GetRelationshipCondition(relationship, myAlias, otherAlias);
+
+            }
+        }
+
+        private ICondition GetCurrentStatusCondition(string myAlias, string otherAlias)
+        {
+            ISelectQuery selectQuery = SQLProviderFactory.GetSelectQuery();
+            selectQuery.SelectList = new List<Select>() { new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)nameof(RegisterStatus.RegisterStatusID) } };
+            selectQuery.Table = new Table("company", "RegisterStatus", "currentRS");
+            selectQuery.PageSize = 1;
+            selectQuery.WhereCondition = new Condition() { Left = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.{nameof(RegisterID)}", ConditionType = Condition.ConditionTypes.Equal, Right = (ClussPro.Base.Data.Operand.Field)$"currentRS.{nameof(RegisterStatus.RegisterID)}" };
+            selectQuery.OrderByList = new List<Order>()
+            {
+                new Order() { Field = $"currentRS.{nameof(RegisterStatus.ChangeTime)}", OrderDirection = Order.OrderDirections.Descending }
+            };
+            return new Condition() { Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.{nameof(RegisterStatus.RegisterStatusID)}", ConditionType = Condition.ConditionTypes.Equal, Right = new SubQuery(selectQuery) };
+        }
+
         #region Relationships
         #region company
         private List<StoreSale> _storeSales = new List<StoreSale>();
-        [RelationshipList("DCACD1BC-88E3-4834-8492-256E8E5FFF98", nameof(StoreSale.RegisterID))]
+        [RelationshipList("DCACD1BC-88E3-4834-8492-256E8E5FFF98", nameof(StoreSale.RegisterID), AutoDeleteReferences = true)]
         public IReadOnlyCollection<StoreSale> StoreSales
         {
             get { CheckGet(); return _storeSales; }
+        }
+
+        private List<RegisterStatus> _registerStatuses = new List<RegisterStatus>();
+        [RelationshipList("546C040F-C108-4918-9E6B-E89AC867C8DA", nameof(RegisterStatus.RegisterID), AutoRemoveReferences = true)]
+        public IReadOnlyCollection<RegisterStatus> RegisterStatuses
+        {
+            get { CheckGet(); return _registerStatuses; }
         }
         #endregion
         #endregion

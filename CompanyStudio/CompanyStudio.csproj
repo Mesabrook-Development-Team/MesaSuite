@@ -250,6 +250,8 @@
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LocationEmployee.cs" />
     <Compile Include="Models\LocationGovernment.cs" />
+    <Compile Include="Models\Register.cs" />
+    <Compile Include="Models\RegisterStatus.cs" />
     <Compile Include="Models\SalesTax.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
@@ -261,6 +263,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Store\frmRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Store\frmRegister.Designer.cs">
+      <DependentUpon>frmRegister.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Store\frmRegisters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Store\frmRegisters.Designer.cs">
+      <DependentUpon>frmRegisters.cs</DependentUpon>
     </Compile>
     <Compile Include="StudioFormExtender.cs">
       <SubType>Component</SubType>
@@ -370,6 +384,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Store\frmRegister.resx">
+      <DependentUpon>frmRegister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Store\frmRegisters.resx">
+      <DependentUpon>frmRegisters.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WireTransfers\frmSendWireTransfer.resx">
       <DependentUpon>frmSendWireTransfer.cs</DependentUpon>
@@ -3496,6 +3516,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\zoom_out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cash_register.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -138,35 +138,35 @@ namespace WebModels.company
         #region Relationships
         #region company
         private List<LocationEmployee> _locationEmployees = new List<LocationEmployee>();
-        [RelationshipList("04569132-78B1-42E6-BD47-5729B5B392ED", "LocationID")]
+        [RelationshipList("04569132-78B1-42E6-BD47-5729B5B392ED", "LocationID", AutoRemoveReferences = true)]
         public IReadOnlyCollection<LocationEmployee> LocationEmployees
         {
             get { CheckGet(); return _locationEmployees; }
         }
 
         private List<LocationGovernment> _locationGovernments = new List<LocationGovernment>();
-        [RelationshipList("5C8358F5-676C-468E-A745-EBAF6754C67E", "LocationID")]
+        [RelationshipList("5C8358F5-676C-468E-A745-EBAF6754C67E", "LocationID", AutoRemoveReferences = true)]
         public IReadOnlyCollection<LocationGovernment> LocationGovernments
         {
             get { CheckGet(); return _locationGovernments; }
         }
 
         private List<Register> _registers = new List<Register>();
-        [RelationshipList("56573B92-10FB-4ACF-BFB4-3B6B167D904B", nameof(Register.LocationID))]
+        [RelationshipList("56573B92-10FB-4ACF-BFB4-3B6B167D904B", nameof(Register.LocationID), AutoRemoveReferences = true)]
         public IReadOnlyCollection<Register> Registers
         {
             get { CheckGet(); return _registers; }
         }
 
         private List<LocationItem> _locationItems = new List<LocationItem>();
-        [RelationshipList("9BA0848D-68DC-4A88-ADFE-E782D15AEC77", nameof(LocationItem.LocationID))]
+        [RelationshipList("9BA0848D-68DC-4A88-ADFE-E782D15AEC77", nameof(LocationItem.LocationID), AutoRemoveReferences = true)]
         public IReadOnlyCollection<LocationItem> LocationItems
         {
             get { CheckGet(); return _locationItems; }
         }
 
         private List<Promotion> _promotions = new List<Promotion>();
-        [RelationshipList("90853C4A-31F5-4A46-BC4E-8A93FBE0ED42", nameof(Promotion.LocationID))]
+        [RelationshipList("90853C4A-31F5-4A46-BC4E-8A93FBE0ED42", nameof(Promotion.LocationID), AutoRemoveReferences = true)]
         public IReadOnlyCollection<Promotion> Promotions
         {
             get { CheckGet(); return _promotions; }

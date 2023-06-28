@@ -97,6 +97,7 @@ namespace CompanyStudio
 
                 invoicingToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices);
                 mnuWireTransfers.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
+                storeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageRegisters);
             }
         }
 
@@ -857,6 +858,20 @@ namespace CompanyStudio
         private async void mnuWireTransferEmailConfiguration_Click(object sender, EventArgs e)
         {
             await OpenCompanyBasedEmailEditor(nameof(Company.EmailImplementationIDWireTransferHistory), "Wire Transfer Received", "WireTransferHistory/SetWireTransferEmailImplementationID/{0}");
+        }
+
+        private void mnuRegisters_Click(object sender, EventArgs e)
+        {
+            Store.frmRegisters registers = dockPanel.Contents.OfType<Store.frmRegisters>().FirstOrDefault(r => r.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (registers != null)
+            {
+                registers.BringToFront();
+                return;
+            }
+
+            registers = new Store.frmRegisters();
+            DecorateStudioContent(registers);
+            registers.Show(dockPanel, DockState.Document);
         }
     }
 }

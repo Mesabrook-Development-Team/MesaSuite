@@ -64,7 +64,9 @@
     <Compile Include="company\Promotion.cs" />
     <Compile Include="company\PromotionLocationItem.cs" />
     <Compile Include="company\Register.cs" />
+    <Compile Include="company\RegisterStatus.cs" />
     <Compile Include="company\StoreSale.cs" />
+    <Compile Include="company\Validation\RegisterValidations.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
     <Compile Include="fleet\FleetSecurity.cs" />

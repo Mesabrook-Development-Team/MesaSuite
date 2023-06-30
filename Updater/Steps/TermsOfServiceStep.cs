@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Updater.UpdateWorkflow;
 
 namespace Updater.Steps
@@ -12,7 +13,7 @@ namespace Updater.Steps
     {
         public TermsOfServiceStep() : base() 
         {
-            NextAvailable = InstallationConfiguration.AcceptedToS;
+
         }
 
         public override IStepUserControl StepUserControl => new TermsOfServiceStepControl()
@@ -23,6 +24,16 @@ namespace Updater.Steps
         protected override Bitmap GetInitialBanner()
         {
             return Properties.Resources.bannerGreen;
+        }
+
+        public async override Task<bool> NextClicked()
+        {
+            if (!InstallationConfiguration.AcceptedToS)
+            {
+                MessageBox.Show("You must accept the Terms of Service to proceed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Updater.Steps
 
         private void TermsOfServiceStepControl_Load(object sender, EventArgs e)
         {
-            chkBoxAccept.Checked = Step.InstallationConfiguration.AcceptedToS;
+
         }
 
         private void chkBoxAccept_CheckedChanged(object sender, EventArgs e)

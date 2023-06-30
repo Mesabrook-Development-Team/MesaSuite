@@ -78,6 +78,13 @@
     <Compile Include="Steps\AdditionalOptionsStepControl.Designer.cs">
       <DependentUpon>AdditionalOptionsStepControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Steps\TermsOfServiceStep.cs" />
+    <Compile Include="Steps\TermsOfServiceStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\TermsOfServiceStepControl.Designer.cs">
+      <DependentUpon>TermsOfServiceStepControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Steps\UninstallCompleteStep.cs" />
     <Compile Include="Steps\InstallationCompleteStep.cs" />
     <Compile Include="Steps\UninstallCompleteStepControl.cs">
@@ -164,6 +171,9 @@
     </Compile>
     <EmbeddedResource Include="Steps\AdditionalOptionsStepControl.resx">
       <DependentUpon>AdditionalOptionsStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\TermsOfServiceStepControl.resx">
+      <DependentUpon>TermsOfServiceStepControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Steps\UninstallCompleteStepControl.resx">
       <DependentUpon>UninstallCompleteStepControl.cs</DependentUpon>

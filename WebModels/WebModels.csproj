@@ -101,6 +101,8 @@
     <Compile Include="fleet\Validations\XOrPresenceCondition.cs" />
     <Compile Include="gov\Government.cs" />
     <Compile Include="gov\InterestConfiguration.cs" />
+    <Compile Include="gov\Law.cs" />
+    <Compile Include="gov\LawSection.cs" />
     <Compile Include="gov\Official.cs" />
     <Compile Include="gov\SalesTax.cs" />
     <Compile Include="gov\Validations\OfficialValidationDefinition.cs" />
@@ -152,6 +154,7 @@
     <Compile Include="Migrations\Migration000022.cs" />
     <Compile Include="Migrations\Migration000023.cs" />
     <Compile Include="Migrations\Migration000024.cs" />
+    <Compile Include="Migrations\Migration000025.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="netprint\Printer.cs" />
     <Compile Include="netprint\PrintJob.cs" />

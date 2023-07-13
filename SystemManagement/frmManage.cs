@@ -75,7 +75,7 @@ namespace SystemManagement
             }
 
             getData = new GetData(DataAccess.APIs.SystemManagement, "Domain/GetAll");
-            domains = await getData.GetObject<List<Domain>>();
+            domains = await getData.GetObject<List<Domain>>() ?? new List<Domain>();
 
             foreach(Domain domain in domains)
             {

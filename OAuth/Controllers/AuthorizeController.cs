@@ -83,7 +83,7 @@ namespace OAuth.Controllers
             Search<Client> clientSearch = new Search<Client>(new StringSearchCondition<Client>()
             {
                 Field = "ClientIdentifier",
-                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                SearchConditionType = string.IsNullOrEmpty(clientID) ? SearchCondition.SearchConditionTypes.Null : SearchCondition.SearchConditionTypes.Equals,
                 Value = clientID
             });
 

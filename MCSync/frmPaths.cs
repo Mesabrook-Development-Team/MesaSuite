@@ -37,6 +37,7 @@ namespace MCSync
             UserPreferences userPreferences = UserPreferences.Get();
             Dictionary<string, object> configValues = userPreferences.Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
 
+            configValues["minecraftDirectory"] = txtMinecraftFolder.Text;
             configValues["modsDirectory"] = txtMinecraftFolder.Text + "\\mods";
             configValues["resourcePackDirectory"] = txtMinecraftFolder.Text + "\\resourcepacks";
             configValues["configFilesDirectory"] = txtMinecraftFolder.Text + "\\config";

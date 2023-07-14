@@ -78,6 +78,13 @@
     <Compile Include="Steps\AdditionalOptionsStepControl.Designer.cs">
       <DependentUpon>AdditionalOptionsStepControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Steps\SetMCSyncPathStep.cs" />
+    <Compile Include="Steps\SetMCSyncPathStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\SetMCSyncPathStepControl.Designer.cs">
+      <DependentUpon>SetMCSyncPathStepControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Steps\UninstallCompleteStep.cs" />
     <Compile Include="Steps\InstallationCompleteStep.cs" />
     <Compile Include="Steps\UninstallCompleteStepControl.cs">
@@ -164,6 +171,9 @@
     </Compile>
     <EmbeddedResource Include="Steps\AdditionalOptionsStepControl.resx">
       <DependentUpon>AdditionalOptionsStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Steps\SetMCSyncPathStepControl.resx">
+      <DependentUpon>SetMCSyncPathStepControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Steps\UninstallCompleteStepControl.resx">
       <DependentUpon>UninstallCompleteStepControl.cs</DependentUpon>

@@ -76,7 +76,7 @@ namespace MCSync
             {
                 ProcessStartInfo psi = new ProcessStartInfo
                 {
-                    Arguments = "%APPDATA%",
+                    Arguments = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     FileName = "explorer.exe"
                 };
                 Process.Start(psi);

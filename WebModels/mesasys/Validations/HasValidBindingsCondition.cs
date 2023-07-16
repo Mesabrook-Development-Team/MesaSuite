@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Validation.Conditions;
@@ -19,7 +20,7 @@ namespace WebModels.mesasys.Validations
 
         public override IEnumerable<string> AdditionalDataObjectFields => new [] { SemiColonDelimitedAllowedFieldListFieldName };
 
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             string semiColonDelimitedFieldList = GetSemiColonDelimitedFieldList(dataObject);
             string[] validBindings = semiColonDelimitedFieldList.Split(';');

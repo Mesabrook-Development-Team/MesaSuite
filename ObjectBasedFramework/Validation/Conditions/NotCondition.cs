@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClussPro.Base.Data.Query;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,9 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 
         public override IEnumerable<string> AdditionalDataObjectFields => BaseCondition.AdditionalDataObjectFields;
 
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
-            return !BaseCondition.Evaluate(dataObject);
+            return !BaseCondition.Evaluate(dataObject, transaction);
         }
     }
 }

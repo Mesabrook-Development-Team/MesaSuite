@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework.Schema;
 
 namespace ClussPro.ObjectBasedFramework.Validation.Conditions
@@ -20,7 +21,7 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
             Value = value;
         }
 
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             SchemaObject schemaObject = Schema.Schema.GetSchemaObject(dataObject.GetType());
             Field field = schemaObject.GetField(Field);

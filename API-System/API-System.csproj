@@ -141,6 +141,7 @@
     <Compile Include="Controllers\PrintPageController.cs" />
     <Compile Include="Controllers\ProgramController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\TermsOfServiceController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

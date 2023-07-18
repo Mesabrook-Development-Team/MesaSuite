@@ -148,6 +148,12 @@
     <Compile Include="frmSelectUsers.Designer.cs">
       <DependentUpon>frmSelectUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmTOSEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTOSEditor.Designer.cs">
+      <DependentUpon>frmTOSEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Loader.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -163,6 +169,7 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Government.cs" />
     <Compile Include="Models\Program.cs" />
+    <Compile Include="Models\TermsOfService.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserProgram.cs" />
     <Compile Include="Program.cs" />
@@ -224,6 +231,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSelectUsers.resx">
       <DependentUpon>frmSelectUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTOSEditor.resx">
+      <DependentUpon>frmTOSEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>

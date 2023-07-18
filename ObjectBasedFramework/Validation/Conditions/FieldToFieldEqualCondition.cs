@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework.Schema;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework.Schema;
 
 namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 {
@@ -13,7 +14,7 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
             _otherField = otherField;
         }
 
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             SchemaObject schemaObject = Schema.Schema.GetSchemaObject(dataObject.GetType());
             Field field = schemaObject.GetField(_otherField);
@@ -39,7 +40,7 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
                 otherFieldValue = field.GetValue(dataObject);
             }
 
-            return new EqualCondition(_myField, otherFieldValue).Evaluate(dataObject);
+            return new EqualCondition(_myField, otherFieldValue).Evaluate(dataObject, transaction);
         }
     }
 }

@@ -29,8 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLawEditor));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.cmdMoveDown = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.cmdMoveUp = new System.Windows.Forms.Button();
             this.treLaws = new System.Windows.Forms.TreeView();
             this.ctxLaws = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addLawToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,8 +43,6 @@
             this.deleteSectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loaderLaws = new GovernmentPortal.Loader();
             this.pnlSection = new System.Windows.Forms.Panel();
-            this.cmdMoveDown = new System.Windows.Forms.Button();
-            this.cmdMoveUp = new System.Windows.Forms.Button();
             this.cmdReset = new System.Windows.Forms.Button();
             this.cmdSave = new System.Windows.Forms.Button();
             this.txtDetails = new System.Windows.Forms.TextBox();
@@ -79,6 +80,17 @@
             this.splitContainer1.SplitterDistance = 195;
             this.splitContainer1.TabIndex = 0;
             // 
+            // cmdMoveDown
+            // 
+            this.cmdMoveDown.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.cmdMoveDown.Image = global::GovernmentPortal.Properties.Resources.arrow_down;
+            this.cmdMoveDown.Location = new System.Drawing.Point(169, 228);
+            this.cmdMoveDown.Name = "cmdMoveDown";
+            this.cmdMoveDown.Size = new System.Drawing.Size(23, 23);
+            this.cmdMoveDown.TabIndex = 6;
+            this.cmdMoveDown.UseVisualStyleBackColor = true;
+            this.cmdMoveDown.Click += new System.EventHandler(this.cmdMoveDown_Click);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -88,6 +100,17 @@
             this.label1.Size = new System.Drawing.Size(44, 19);
             this.label1.TabIndex = 1;
             this.label1.Text = "Laws";
+            // 
+            // cmdMoveUp
+            // 
+            this.cmdMoveUp.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.cmdMoveUp.Image = global::GovernmentPortal.Properties.Resources.arrow_up;
+            this.cmdMoveUp.Location = new System.Drawing.Point(169, 199);
+            this.cmdMoveUp.Name = "cmdMoveUp";
+            this.cmdMoveUp.Size = new System.Drawing.Size(23, 23);
+            this.cmdMoveUp.TabIndex = 6;
+            this.cmdMoveUp.UseVisualStyleBackColor = true;
+            this.cmdMoveUp.Click += new System.EventHandler(this.cmdMoveUp_Click);
             // 
             // treLaws
             // 
@@ -113,39 +136,39 @@
             this.addSectionToolStripMenuItem,
             this.deleteSectionsToolStripMenuItem});
             this.ctxLaws.Name = "ctxLaws";
-            this.ctxLaws.Size = new System.Drawing.Size(150, 98);
+            this.ctxLaws.Size = new System.Drawing.Size(144, 98);
             this.ctxLaws.Opening += new System.ComponentModel.CancelEventHandler(this.ctxLaws_Opening);
             // 
             // addLawToolStripMenuItem
             // 
             this.addLawToolStripMenuItem.Name = "addLawToolStripMenuItem";
-            this.addLawToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.addLawToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.addLawToolStripMenuItem.Text = "Add Law";
             this.addLawToolStripMenuItem.Click += new System.EventHandler(this.addLawToolStripMenuItem_Click);
             // 
             // deleteLawsToolStripMenuItem
             // 
             this.deleteLawsToolStripMenuItem.Name = "deleteLawsToolStripMenuItem";
-            this.deleteLawsToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.deleteLawsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.deleteLawsToolStripMenuItem.Text = "Delete Law";
             this.deleteLawsToolStripMenuItem.Click += new System.EventHandler(this.deleteLawsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(146, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(140, 6);
             // 
             // addSectionToolStripMenuItem
             // 
             this.addSectionToolStripMenuItem.Name = "addSectionToolStripMenuItem";
-            this.addSectionToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.addSectionToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.addSectionToolStripMenuItem.Text = "Add Section";
             this.addSectionToolStripMenuItem.Click += new System.EventHandler(this.addSectionToolStripMenuItem_Click);
             // 
             // deleteSectionsToolStripMenuItem
             // 
             this.deleteSectionsToolStripMenuItem.Name = "deleteSectionsToolStripMenuItem";
-            this.deleteSectionsToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.deleteSectionsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.deleteSectionsToolStripMenuItem.Text = "Delete Section";
             this.deleteSectionsToolStripMenuItem.Click += new System.EventHandler(this.deleteSectionsToolStripMenuItem_Click);
             // 
@@ -178,31 +201,10 @@
             this.pnlSection.TabIndex = 0;
             this.pnlSection.Visible = false;
             // 
-            // cmdMoveDown
-            // 
-            this.cmdMoveDown.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.cmdMoveDown.Image = global::GovernmentPortal.Properties.Resources.arrow_down;
-            this.cmdMoveDown.Location = new System.Drawing.Point(169, 228);
-            this.cmdMoveDown.Name = "cmdMoveDown";
-            this.cmdMoveDown.Size = new System.Drawing.Size(23, 23);
-            this.cmdMoveDown.TabIndex = 6;
-            this.cmdMoveDown.UseVisualStyleBackColor = true;
-            this.cmdMoveDown.Click += new System.EventHandler(this.cmdMoveDown_Click);
-            // 
-            // cmdMoveUp
-            // 
-            this.cmdMoveUp.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.cmdMoveUp.Image = global::GovernmentPortal.Properties.Resources.arrow_up;
-            this.cmdMoveUp.Location = new System.Drawing.Point(169, 199);
-            this.cmdMoveUp.Name = "cmdMoveUp";
-            this.cmdMoveUp.Size = new System.Drawing.Size(23, 23);
-            this.cmdMoveUp.TabIndex = 6;
-            this.cmdMoveUp.UseVisualStyleBackColor = true;
-            this.cmdMoveUp.Click += new System.EventHandler(this.cmdMoveUp_Click);
-            // 
             // cmdReset
             // 
             this.cmdReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdReset.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdReset.Location = new System.Drawing.Point(433, 415);
             this.cmdReset.Name = "cmdReset";
             this.cmdReset.Size = new System.Drawing.Size(75, 23);
@@ -294,6 +296,7 @@
             this.CancelButton = this.cmdReset;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLawEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Laws";

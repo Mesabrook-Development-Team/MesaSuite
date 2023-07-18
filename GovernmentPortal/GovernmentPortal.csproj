@@ -172,6 +172,9 @@
     <Compile Include="Law\frmLawEditor.Designer.cs">
       <DependentUpon>frmLawEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Law\frmLawEditor.Designer.cs">
+      <DependentUpon>frmLawEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\EmailImplementation.cs" />
     <Compile Include="Models\EmailTemplate.cs" />

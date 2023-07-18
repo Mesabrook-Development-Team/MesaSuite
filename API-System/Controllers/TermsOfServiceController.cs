@@ -4,18 +4,19 @@ using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using WebModels.mesasys;
 
 namespace API_System.Controllers
 {
     public class TermsOfServiceController : ApiController
     {
+#if DEBUG
+        [EnableCors("*", "*", "*")]
+#else
+        [EnableCors("https://mesabrook.com,https://www.mesabrook.com", "*", "*")]
+#endif
         [HttpGet]
         public string Get(string id)
         {

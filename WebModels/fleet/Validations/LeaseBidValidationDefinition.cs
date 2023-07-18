@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Validation;
 using ClussPro.ObjectBasedFramework.Validation.Conditions;
@@ -46,7 +47,7 @@ namespace WebModels.fleet.Validations
 
         public class LocationInvoiceDestinationRequiredCondition : Condition
         {
-            public override bool Evaluate(DataObject dataObject)
+            public override bool Evaluate(DataObject dataObject, ITransaction transaction)
             {
                 if (!(dataObject is LeaseBid bid))
                 {

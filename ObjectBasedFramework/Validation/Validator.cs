@@ -86,7 +86,7 @@ namespace ClussPro.ObjectBasedFramework.Validation
                                                                                                     return false;
                                                                                                 })))
             {
-                bool result = validationRule.Condition.Evaluate(objectToValidate);
+                bool result = validationRule.Condition.Evaluate(objectToValidate, transaction);
                 if (!result)
                 {
                     dataObject.Errors.Add(validationRule.Field, validationRule.Message);

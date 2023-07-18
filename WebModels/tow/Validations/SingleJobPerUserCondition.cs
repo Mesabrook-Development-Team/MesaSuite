@@ -1,4 +1,5 @@
 ﻿using System;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Validation.Conditions;
@@ -7,7 +8,7 @@ namespace WebModels.tow.Validations
 {
     internal class SingleJobPerUserCondition : Condition
     {
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             if (!(dataObject is TowTicket towTicket))
             {

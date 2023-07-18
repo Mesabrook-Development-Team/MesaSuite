@@ -1,8 +1,6 @@
-﻿using System;
+﻿using ClussPro.Base.Data.Query;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 {
@@ -10,6 +8,6 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
     {
         public virtual IEnumerable<string> AdditionalDataObjectFields { get; } = Enumerable.Empty<string>();
 
-        public abstract bool Evaluate(DataObject dataObject);
+        public abstract bool Evaluate(DataObject dataObject, ITransaction transaction);
     }
 }

@@ -17,7 +17,8 @@ namespace WebModels.Migrations
             {
                 { "LawID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "GovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 30) }
+                { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 30) },
+                { "DisplayOrder", new FieldSpecification(FieldSpecification.FieldTypes.TinyInt) }
             };
             table.Execute(transaction);
             IAlterTable alterTable = SQLProviderFactory.GetAlterTableQuery();
@@ -31,11 +32,15 @@ namespace WebModels.Migrations
                 { "LawSectionID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary= true } },
                 { "LawID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "Title", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 30) },
-                { "Detail", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, -1) }
+                { "Detail", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, -1) },
+                { "DisplayOrder", new FieldSpecification(FieldSpecification.FieldTypes.TinyInt) }
             };
             table.Execute(transaction);
             alterTable.Table = "LawSection";
             alterTable.AddForeignKey("FKLawSection_Law_LawID", "LawID", "gov", "Law", "LawID", transaction);
+
+            alterTable.Table = "Official";
+            alterTable.AddColumn("ManageLaws", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
         }
     }
 }

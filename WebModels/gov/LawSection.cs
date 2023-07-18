@@ -1,4 +1,9 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 
@@ -46,6 +51,116 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _detail; }
             set { CheckSet(); _detail = value; }
+        }
+
+        private byte? _displayOrder;
+        [Field("511B6A36-EBE3-4B62-9575-D5EE49CC6E95")]
+        public byte? DisplayOrder
+        {
+            get { CheckGet(); return _displayOrder; }
+            set { CheckSet(); _displayOrder = value; }
+        }
+
+        protected override void PreValidate()
+        {
+            base.PreValidate();
+
+            if (IsInsert)
+            {
+                if (LawID == null)
+                {
+                    DisplayOrder = byte.MaxValue;
+                }
+                else
+                {
+                    Search<LawSection> lawSectionSearch = new Search<LawSection>(new LongSearchCondition<LawSection>()
+                    {
+                        Field = nameof(LawID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = LawID
+                    });
+                    lawSectionSearch.SearchOrders.Add(new SearchOrder() { OrderField = nameof(DisplayOrder), OrderDirection = SearchOrder.OrderDirections.Descending });
+                    LawSection maxLawSection = lawSectionSearch.GetReadOnly(null, new[] { nameof(DisplayOrder) });
+                    if (maxLawSection == null)
+                    {
+                        DisplayOrder = 1;
+                    }
+                    else
+                    {
+                        DisplayOrder = (byte?)(maxLawSection.DisplayOrder + 1);
+                    }
+                }
+            }
+        }
+
+       protected override bool PostSave(ITransaction transaction)
+        {
+            if (!IsInsert && IsFieldDirty(nameof(DisplayOrder)) && !IsSaveFlagSet(SaveFlags.SkipDisplayOrderSwapUpdate))
+            {
+                Search<LawSection> lawSectionSearch = new Search<LawSection>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<LawSection>()
+                    {
+                        Field = nameof(LawID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = LawID
+                    },
+                    new LongSearchCondition<LawSection>()
+                    {
+                        Field = nameof(LawSectionID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.NotEquals,
+                        Value = LawSectionID
+                    },
+                    new ByteSearchCondition<LawSection>()
+                    {
+                        Field = nameof(DisplayOrder),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = DisplayOrder
+                    }));
+
+                LawSection existingLawSection = lawSectionSearch.GetEditable(transaction);
+                existingLawSection.DisplayOrder = (byte?)GetDirtyValue(nameof(DisplayOrder));
+                if (!existingLawSection.Save(transaction, new List<Guid>() { SaveFlags.SkipDisplayOrderSwapUpdate }))
+                {
+                    Errors.AddRange(existingLawSection.Errors.ToArray());
+                    return false;
+                }
+            }
+
+            return base.PostSave(transaction) && !Errors.Any();
+        }
+
+        protected override bool PostDelete(ITransaction transaction)
+        {
+            Search<LawSection> lawSectionSearch = new Search<LawSection>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<LawSection>()
+                {
+                    Field = nameof(LawID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = LawID
+                },
+                new ByteSearchCondition<LawSection>()
+                {
+                    Field = nameof(DisplayOrder),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Greater,
+                    Value = DisplayOrder
+                }));
+
+            foreach(LawSection laterLawSection in lawSectionSearch.GetEditableReader(transaction))
+            {
+                laterLawSection.DisplayOrder--;
+                if (!laterLawSection.Save(transaction, new List<Guid>() { SaveFlags.SkipDisplayOrderSwapUpdate }))
+                {
+                    Errors.AddRange(laterLawSection.Errors.ToArray());
+                    return false;
+                }
+            }
+
+            return base.PostDelete(transaction);
+        }
+
+        public static class SaveFlags
+        {
+            public static readonly Guid SkipDisplayOrderSwapUpdate = new Guid("192589ED-8767-4FEA-8532-776A3A95A20F");
         }
     }
 }

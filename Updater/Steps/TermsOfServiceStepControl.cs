@@ -29,7 +29,7 @@ namespace Updater.Steps
 
         private async void LoadTermsOfService()
         {
-            HttpWebRequest webRequest = WebRequest.CreateHttp("http://localhost:58480/system/TermsOfService/Get/MesaSuite");
+            HttpWebRequest webRequest = WebRequest.CreateHttp("https://api.mesabrook.com/system/TermsOfService/Get/MesaSuite");
             webRequest.Method = WebRequestMethods.Http.Get;
             
             try

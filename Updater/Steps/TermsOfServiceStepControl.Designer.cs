@@ -53,7 +53,7 @@
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(496, 179);
             this.richTextBox1.TabIndex = 6;
-            this.richTextBox1.Text = "Adam pls put terms here thx uwu <3";
+            this.richTextBox1.Text = "Fetching Terms Of Service...";
             // 
             // chkBoxAccept
             // 

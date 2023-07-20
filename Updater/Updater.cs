@@ -246,13 +246,13 @@ namespace Updater
                     rootObject.Add("sections", new JObject());
                 }
 
-                JObject sections = rootObject.Property("sections").Value.ToObject<JObject>();
+                JObject sections = rootObject.Property("sections").Value as JObject;
                 if (!sections.ContainsKey("mcsync"))
                 {
                     sections.Add("mcsync", new JObject());
                 }
 
-                JObject mcsync = sections.Property("mcsync").Value.ToObject<JObject>();
+                JObject mcsync = sections.Property("mcsync").Value as JObject;
                 JProperty minecraftDirectory;
                 if (!mcsync.ContainsKey("minecraftDirectory"))
                 {

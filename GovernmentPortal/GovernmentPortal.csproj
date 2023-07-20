@@ -166,6 +166,15 @@
     <Compile Include="ItemSelector.Designer.cs">
       <DependentUpon>ItemSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="Law\frmLawEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Law\frmLawEditor.Designer.cs">
+      <DependentUpon>frmLawEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Law\frmLawEditor.Designer.cs">
+      <DependentUpon>frmLawEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\EmailImplementation.cs" />
     <Compile Include="Models\EmailTemplate.cs" />
@@ -194,6 +203,8 @@
     <Compile Include="Models\Government.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\ItemNamespace.cs" />
+    <Compile Include="Models\Law.cs" />
+    <Compile Include="Models\LawSection.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Official.cs" />
     <Compile Include="Models\SalesTax.cs" />
@@ -283,6 +294,9 @@
     <EmbeddedResource Include="ItemSelector.resx">
       <DependentUpon>ItemSelector.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Law\frmLawEditor.resx">
+      <DependentUpon>frmLawEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>
     </EmbeddedResource>
@@ -334,6 +348,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icn_govt.ico" />
+    <None Include="Resources\scales.png" />
     <None Include="Resources\icn_book.ico" />
     <None Include="Resources\icn_user.ico" />
     <None Include="Resources\icn_money_delete.ico" />

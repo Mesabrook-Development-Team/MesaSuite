@@ -126,6 +126,14 @@ namespace WebModels.gov
             set { CheckSet(); _canConfigureInterest = value; }
         }
 
+        private bool _manageLaws;
+        [Field("91D9DC2C-421C-4D55-B1B5-E260F2AD515A")]
+        public bool ManageLaws
+        {
+            get { CheckGet(); return _manageLaws; }
+            set { CheckSet(); _manageLaws = value; }
+        }
+
         private fleet.FleetSecurity _fleetSecurity = null;
         [Relationship("FED1EFD8-73ED-4E3F-88D9-C71E67D63725", OneToOneByForeignKey = true)]
         public fleet.FleetSecurity FleetSecurity
@@ -166,6 +174,7 @@ namespace WebModels.gov
             yield return nameof(ManageInvoices);
             yield return nameof(IssueWireTransfers);
             yield return nameof(CanConfigureInterest);
+            yield return nameof(ManageLaws);
 
             foreach(string fleetField in fleet.FleetSecurity.SecurityFields)
             {

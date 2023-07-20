@@ -46,14 +46,15 @@ namespace GovernmentPortal.Officials
             this.chkManageInvoices = new System.Windows.Forms.CheckBox();
             this.chkIssueWireTransfers = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkInterest = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chkFleetLoadUnload = new System.Windows.Forms.CheckBox();
             this.chkFleetTrainCrew = new System.Windows.Forms.CheckBox();
             this.chkFleetYardmaster = new System.Windows.Forms.CheckBox();
             this.chkFleetLeasing = new System.Windows.Forms.CheckBox();
             this.chkFleetSetup = new System.Windows.Forms.CheckBox();
-            this.chkInterest = new System.Windows.Forms.CheckBox();
             this.loader = new GovernmentPortal.Loader();
+            this.chkManageLaws = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -168,6 +169,7 @@ namespace GovernmentPortal.Officials
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.chkEmails);
+            this.groupBox1.Controls.Add(this.chkManageLaws);
             this.groupBox1.Controls.Add(this.chkIssueWireTransfers);
             this.groupBox1.Controls.Add(this.chkOfficials);
             this.groupBox1.Controls.Add(this.chkManageInvoices);
@@ -177,10 +179,21 @@ namespace GovernmentPortal.Officials
             this.groupBox1.Controls.Add(this.chkMintCurrency);
             this.groupBox1.Location = new System.Drawing.Point(3, 43);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 204);
-            this.groupBox1.TabIndex = 1;
+            this.groupBox1.Size = new System.Drawing.Size(200, 227);
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General";
+            // 
+            // chkInterest
+            // 
+            this.chkInterest.AutoSize = true;
+            this.chkInterest.Location = new System.Drawing.Point(6, 111);
+            this.chkInterest.Name = "chkInterest";
+            this.chkInterest.Size = new System.Drawing.Size(109, 17);
+            this.chkInterest.TabIndex = 4;
+            this.chkInterest.Text = "Configure Interest";
+            this.chkInterest.UseVisualStyleBackColor = true;
+            this.chkInterest.CheckedChanged += new System.EventHandler(this.FormValueChanged);
             // 
             // groupBox2
             // 
@@ -191,8 +204,8 @@ namespace GovernmentPortal.Officials
             this.groupBox2.Controls.Add(this.chkFleetSetup);
             this.groupBox2.Location = new System.Drawing.Point(212, 43);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 204);
-            this.groupBox2.TabIndex = 2;
+            this.groupBox2.Size = new System.Drawing.Size(200, 227);
+            this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Fleet Tracking";
             // 
@@ -251,17 +264,6 @@ namespace GovernmentPortal.Officials
             this.chkFleetSetup.UseVisualStyleBackColor = true;
             this.chkFleetSetup.CheckedChanged += new System.EventHandler(this.FormValueChanged);
             // 
-            // chkInterest
-            // 
-            this.chkInterest.AutoSize = true;
-            this.chkInterest.Location = new System.Drawing.Point(6, 111);
-            this.chkInterest.Name = "chkInterest";
-            this.chkInterest.Size = new System.Drawing.Size(109, 17);
-            this.chkInterest.TabIndex = 4;
-            this.chkInterest.Text = "Configure Interest";
-            this.chkInterest.UseVisualStyleBackColor = true;
-            this.chkInterest.CheckedChanged += new System.EventHandler(this.FormValueChanged);
-            // 
             // loader
             // 
             this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -270,9 +272,20 @@ namespace GovernmentPortal.Officials
             this.loader.BackColor = System.Drawing.Color.Transparent;
             this.loader.Location = new System.Drawing.Point(0, 0);
             this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(448, 256);
+            this.loader.Size = new System.Drawing.Size(448, 284);
             this.loader.TabIndex = 0;
             this.loader.Visible = false;
+            // 
+            // chkManageLaws
+            // 
+            this.chkManageLaws.AutoSize = true;
+            this.chkManageLaws.Location = new System.Drawing.Point(6, 203);
+            this.chkManageLaws.Name = "chkManageLaws";
+            this.chkManageLaws.Size = new System.Drawing.Size(93, 17);
+            this.chkManageLaws.TabIndex = 8;
+            this.chkManageLaws.Text = "Manage Laws";
+            this.chkManageLaws.UseVisualStyleBackColor = true;
+            this.chkManageLaws.CheckedChanged += new System.EventHandler(this.FormValueChanged);
             // 
             // OfficialExplorerControl
             // 
@@ -285,7 +298,7 @@ namespace GovernmentPortal.Officials
             this.Controls.Add(this.cboUsers);
             this.Controls.Add(this.loader);
             this.Name = "OfficialExplorerControl";
-            this.Size = new System.Drawing.Size(448, 256);
+            this.Size = new System.Drawing.Size(448, 284);
             this.Load += new System.EventHandler(this.OfficialExplorerControl_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -317,5 +330,6 @@ namespace GovernmentPortal.Officials
         private System.Windows.Forms.CheckBox chkFleetLeasing;
         private System.Windows.Forms.CheckBox chkFleetSetup;
         private System.Windows.Forms.CheckBox chkInterest;
+        private System.Windows.Forms.CheckBox chkManageLaws;
     }
 }

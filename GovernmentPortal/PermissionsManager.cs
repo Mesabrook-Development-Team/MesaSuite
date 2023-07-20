@@ -140,7 +140,8 @@ namespace GovernmentPortal
             CanMintCurrency,
             ManageInvoices,
             IssueWireTransfers,
-            CanConfigureInterest
+            CanConfigureInterest,
+            ManageLaws
         }
 
         public class PermissionChangeEventArgs : EventArgs

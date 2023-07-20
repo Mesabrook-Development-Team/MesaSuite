@@ -6,5 +6,6 @@
         public bool MakeStartMenuIcon { get; set; }
         public bool MakeDesktopIcon { get; set; }
         public string MinecraftDirectory { get; set; }
+        public bool AcceptedToS { get; set; }
     }
 }

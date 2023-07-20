@@ -98,7 +98,7 @@ namespace MCSync
                 List<string> handledFiles = new List<string>();
 
                 // Mod Files
-                IEnumerable<MCSyncFile> modSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.mods);
+                IEnumerable<MCSyncFile> modSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.mods && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(modsDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, modsDirectory);
@@ -130,7 +130,7 @@ namespace MCSync
 
                 bool resourcePackChanges = false;
                 // Resource Pack Files
-                IEnumerable<MCSyncFile> resourcePackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.resourcepacks);
+                IEnumerable<MCSyncFile> resourcePackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.resourcepacks && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(resourcePackDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, resourcePackDirectory);
@@ -163,7 +163,7 @@ namespace MCSync
                 }
 
                 // Config
-                IEnumerable<MCSyncFile> configSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.config);
+                IEnumerable<MCSyncFile> configSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.config && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
                 foreach(MCSyncFile configFile in configSyncFiles)
                 {
                     if (File.Exists(configFilesDirectory + "\\" + configFile.Filename))
@@ -181,7 +181,7 @@ namespace MCSync
                 }
 
                 // Custom Loading Screen Files
-                IEnumerable<MCSyncFile> animationSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.animation);
+                IEnumerable<MCSyncFile> animationSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.animation && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(animationDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, animationDirectory);
@@ -209,7 +209,7 @@ namespace MCSync
                 }
 
                 // OResources Files
-                IEnumerable<MCSyncFile> oResourcesSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.oresources);
+                IEnumerable<MCSyncFile> oResourcesSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.oresources && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(oResourcesDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, oResourcesDirectory);
@@ -237,7 +237,7 @@ namespace MCSync
                 }
 
                 // Sign Pack Files
-                IEnumerable<MCSyncFile> signPackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.tc_signpacks);
+                IEnumerable<MCSyncFile> signPackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.tc_signpacks && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(signPacksDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, signPacksDirectory);

@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Validation.Conditions;
 using System;
@@ -38,7 +39,7 @@ namespace WebModels.hMailServer.Validations.Conditions
             }
         }
 
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             SchemaObject schemaObject = Schema.GetSchemaObject(dataObject.GetType());
             Field field = schemaObject.GetField(Field);

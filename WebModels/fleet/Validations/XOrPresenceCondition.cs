@@ -1,4 +1,5 @@
 ﻿using System;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Validation.Conditions;
@@ -16,7 +17,7 @@ namespace WebModels.fleet.Validations
             Field2 = field2;
         }
 
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             SchemaObject schemaObject = Schema.GetSchemaObject(dataObject.GetType());
             Field field1 = schemaObject.GetField(Field1);

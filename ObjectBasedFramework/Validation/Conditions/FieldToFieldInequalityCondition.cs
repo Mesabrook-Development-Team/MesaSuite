@@ -1,4 +1,6 @@
-﻿namespace ClussPro.ObjectBasedFramework.Validation.Conditions
+﻿using ClussPro.Base.Data.Query;
+
+namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 {
     public class FieldToFieldInequalityCondition : InequalityCondition
     {
@@ -8,11 +10,11 @@
             OtherField = otherField;
         }
 
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             Value = dataObject.GetValue(OtherField);
 
-            return base.Evaluate(dataObject);
+            return base.Evaluate(dataObject, transaction);
         }
     }
 }

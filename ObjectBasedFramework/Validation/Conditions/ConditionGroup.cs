@@ -1,4 +1,5 @@
 ﻿using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,14 +32,14 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 
         public override IEnumerable<string> AdditionalDataObjectFields => Conditions.SelectMany(condition => condition.AdditionalDataObjectFields);
 
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             switch(ConditionGroupType)
             {
                 case ConditionGroupTypes.And:
-                    return Conditions.TrueForAll(condition => condition.Evaluate(dataObject));
+                    return Conditions.TrueForAll(condition => condition.Evaluate(dataObject, transaction));
                 case ConditionGroupTypes.Or:
-                    return Conditions.Any(condition => condition.Evaluate(dataObject));
+                    return Conditions.Any(condition => condition.Evaluate(dataObject, transaction));
                 default:
                     return true;
             }

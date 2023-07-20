@@ -63,6 +63,7 @@
             this.txtMinecraftDirectory.Name = "txtMinecraftDirectory";
             this.txtMinecraftDirectory.Size = new System.Drawing.Size(404, 20);
             this.txtMinecraftDirectory.TabIndex = 7;
+            this.txtMinecraftDirectory.TextChanged += new System.EventHandler(this.txtMinecraftDirectory_TextChanged);
             // 
             // btnBrowse
             // 

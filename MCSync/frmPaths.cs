@@ -30,6 +30,16 @@ namespace MCSync
 
             Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", () => new Dictionary<string, object>());
             txtMinecraftFolder.Text = configValues.GetOrSetDefault("minecraftDirectory", string.Empty).Cast<string>();
+
+            // Legacy loading
+            if (string.IsNullOrEmpty(txtMinecraftFolder.Text))
+            {
+                txtMinecraftFolder.Text = configValues.GetOrSetDefault("modsDirectory", string.Empty).Cast<string>();
+                if (txtMinecraftFolder.Text.Contains("\\"))
+                {
+                    txtMinecraftFolder.Text = txtMinecraftFolder.Text.Substring(0, txtMinecraftFolder.Text.LastIndexOf("\\"));
+                }
+            }
         }
 
         private void fButtonSave_Click(object sender, EventArgs e)
@@ -38,12 +48,6 @@ namespace MCSync
             Dictionary<string, object> configValues = userPreferences.Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
 
             configValues["minecraftDirectory"] = txtMinecraftFolder.Text;
-            configValues["modsDirectory"] = txtMinecraftFolder.Text + "\\mods";
-            configValues["resourcePackDirectory"] = txtMinecraftFolder.Text + "\\resourcepacks";
-            configValues["configFilesDirectory"] = txtMinecraftFolder.Text + "\\config";
-            configValues["oResourcesDirectory"] = txtMinecraftFolder.Text + "\\oresources";
-            configValues["animationDirectory"] = txtMinecraftFolder.Text + "\\config\\customloadingscreen";
-            configValues["signPacksDirectory"] = txtMinecraftFolder.Text + "\\tc_signpacks";
             userPreferences.Save();
 
             DialogResult = DialogResult.OK;

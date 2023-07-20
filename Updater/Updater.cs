@@ -1,12 +1,12 @@
 ﻿using IWshRuntimeLibrary;
 using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -53,6 +53,8 @@ namespace Updater
             }
 
             AddIcons();
+
+            UpdateMinecraftDirectory();
 
             UpdateSucceeded?.Invoke(this, new EventArgs());
         }
@@ -103,7 +105,7 @@ namespace Updater
                     }
                 }
 
-                NumberOfTasks?.Invoke(this, counter + 2); // Adding 2 - one for registry, one for icons
+                NumberOfTasks?.Invoke(this, counter + 3); // Adding 3 - one for registry, one for icons, one for MC directory
             }
 
             NonTaskExecuting?.Invoke(this, "Creating directories");
@@ -211,6 +213,63 @@ namespace Updater
                 shortcut.TargetPath = Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe");
                 shortcut.WorkingDirectory = InstallationConfiguration.InstallDirectory;
                 shortcut.Save();
+            }
+
+            return true;
+        }
+
+        private bool UpdateMinecraftDirectory()
+        {
+            TaskExecuting?.Invoke(this, "Updating Minecraft directory...");
+
+            if (string.IsNullOrEmpty(InstallationConfiguration.MinecraftDirectory))
+            {
+                return true;
+            }
+
+            try
+            {
+                if (!System.IO.File.Exists(Path.Combine(InstallationConfiguration.InstallDirectory, "userpreferences.json")))
+                {
+                    using (FileStream stream = System.IO.File.Create(Path.Combine(InstallationConfiguration.InstallDirectory, "userpreferences.json"))) { }
+                }
+
+                string fileData = System.IO.File.ReadAllText(Path.Combine(InstallationConfiguration.InstallDirectory, "userpreferences.json"));
+                if (string.IsNullOrEmpty(fileData))
+                {
+                    fileData = "{}";
+                }
+
+                JObject rootObject = JObject.Parse(fileData);
+                if (!rootObject.ContainsKey("sections"))
+                {
+                    rootObject.Add("sections", new JObject());
+                }
+
+                JObject sections = rootObject.Property("sections").Value.ToObject<JObject>();
+                if (!sections.ContainsKey("mcsync"))
+                {
+                    sections.Add("mcsync", new JObject());
+                }
+
+                JObject mcsync = sections.Property("mcsync").Value.ToObject<JObject>();
+                JProperty minecraftDirectory;
+                if (!mcsync.ContainsKey("minecraftDirectory"))
+                {
+                    minecraftDirectory = new JProperty("minecraftDirectory", "");
+                    mcsync.Add(minecraftDirectory);
+                }
+                else
+                {
+                    minecraftDirectory = mcsync.Property("minecraftDirectory");
+                }
+                minecraftDirectory.Value = InstallationConfiguration.MinecraftDirectory;
+
+                System.IO.File.WriteAllText(Path.Combine(InstallationConfiguration.InstallDirectory, "userpreferences.json"), rootObject.ToString());
+            }
+            catch
+            {
+                return false;
             }
 
             return true;

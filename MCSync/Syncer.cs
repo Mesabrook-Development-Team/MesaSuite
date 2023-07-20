@@ -52,20 +52,31 @@ namespace MCSync
 
                 // Load config
                 Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
+                string minecraftDirectory = configValues.GetOrDefault("minecraftDirectory", string.Empty).Cast<string>();
 
-                if (!configValues.ContainsKey("minecraftDirectory"))
+                // Legacy loading
+                if (string.IsNullOrEmpty(minecraftDirectory) && configValues.ContainsKey("modsDirectory"))
                 {
-                    Task.Errors.Add("Configuration file not setup");
+                    string legacyModsDirectory = configValues["modsDirectory"].Cast<string>();
+                    if (!string.IsNullOrEmpty(legacyModsDirectory) && legacyModsDirectory.Contains("\\"))
+                    {
+                        minecraftDirectory = legacyModsDirectory.Substring(0, legacyModsDirectory.LastIndexOf("\\"));
+                    }
+                }
+
+                if (string.IsNullOrEmpty(minecraftDirectory))
+                {
+                    Task.Errors.Add("Minecraft Directory has not been setup. In MCSync, please click the Options button, click Minecraft Directory, and select a Minecraft Directory.");
                     SyncComplete?.Invoke(this, new EventArgs());
                     return;
                 }
 
-                string modsDirectory = configValues["minecraftDirectory"].Cast<string>() + "\\mods";
-                string resourcePackDirectory = configValues["minecraftDirectory"].Cast<string>() + "\\resourcepacks";
-                string configFilesDirectory = configValues["minecraftDirectory"].Cast<string>() + "\\config";
-                string oResourcesDirectory = configValues["minecraftDirectory"].Cast<string>() + "\\oresources";
-                string animationDirectory = configValues["minecraftDirectory"].Cast<string>() + "\\config\\customloadingscreen";
-                string signPacksDirectory = configValues["minecraftDirectory"].Cast<string>() + "\\tc_signpacks";
+                string modsDirectory = minecraftDirectory + "\\mods";
+                string resourcePackDirectory = minecraftDirectory + "\\resourcepacks";
+                string configFilesDirectory = minecraftDirectory + "\\config";
+                string oResourcesDirectory = minecraftDirectory + "\\oresources";
+                string animationDirectory = minecraftDirectory + "\\config\\customloadingscreen";
+                string signPacksDirectory = minecraftDirectory + "\\tc_signpacks";
 
                 string[] clientSideWhiteListMods = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("mods_whitelist")?.Cast<string[]>() ?? new string[0];
                 string[] clientSideWhiteListResourcePacks = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("resourcepacks_whitelist")?.Cast<string[]>() ?? new string[0];

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,11 +25,6 @@ namespace Updater.Steps
         protected override Bitmap GetInitialBanner()
         {
             return Properties.Resources.bannerGreen;
-        }
-
-        public async override Task<bool> NextClicked()
-        {
-            return true;
         }
     }
 }

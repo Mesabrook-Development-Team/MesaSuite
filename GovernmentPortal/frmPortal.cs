@@ -32,7 +32,8 @@ namespace GovernmentPortal
                 { PermissionsManager.Permissions.CanConfigureInterest, tsbInterestRates },
                 { PermissionsManager.Permissions.ManageTaxes, tsmiTaxes },
                 { PermissionsManager.Permissions.ManageInvoices, mnuInvoices },
-                { PermissionsManager.Permissions.IssueWireTransfers, mnuWireTransfers }
+                { PermissionsManager.Permissions.IssueWireTransfers, mnuWireTransfers },
+                { PermissionsManager.Permissions.ManageLaws, toolLaws }
             };
         }
 
@@ -415,6 +416,14 @@ namespace GovernmentPortal
             manageInterest.MdiParent = this;
             manageInterest.GovernmentID = _government.GovernmentID;
             manageInterest.Show();
+        }
+
+        private void toolLaws_Click(object sender, EventArgs e)
+        {
+            Law.frmLawEditor lawEditor = new Law.frmLawEditor();
+            lawEditor.MdiParent = this;
+            lawEditor.GovernmentID = _government.GovernmentID;
+            lawEditor.Show();
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Updater.Steps
         private void PreviewStepControl_Load(object sender, EventArgs e)
         {
             txtDirectory.Text = Step.InstallationConfiguration.InstallDirectory;
+            txtMinecraftFolder.Text = Step.InstallationConfiguration.MinecraftDirectory;
             chkDesktop.Checked = Step.InstallationConfiguration.MakeDesktopIcon;
             chkStartMenu.Checked = Step.InstallationConfiguration.MakeStartMenuIcon;
         }

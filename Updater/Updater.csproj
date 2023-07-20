@@ -42,6 +42,10 @@
       <Private>False</Private>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -77,6 +81,16 @@
     </Compile>
     <Compile Include="Steps\AdditionalOptionsStepControl.Designer.cs">
       <DependentUpon>AdditionalOptionsStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\PreviewStepControl.Designer.cs">
+      <DependentUpon>PreviewStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\SetMCSyncPathStep.cs" />
+    <Compile Include="Steps\SetMCSyncPathStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\SetMCSyncPathStepControl.Designer.cs">
+      <DependentUpon>SetMCSyncPathStepControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Steps\TermsOfServiceStep.cs" />
     <Compile Include="Steps\TermsOfServiceStepControl.cs">
@@ -172,6 +186,9 @@
     <EmbeddedResource Include="Steps\AdditionalOptionsStepControl.resx">
       <DependentUpon>AdditionalOptionsStepControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Steps\SetMCSyncPathStepControl.resx">
+      <DependentUpon>SetMCSyncPathStepControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Steps\TermsOfServiceStepControl.resx">
       <DependentUpon>TermsOfServiceStepControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -232,6 +249,7 @@
     <None Include="Resources\bannerGreen.png" />
     <None Include="Resources\bannerRed.png" />
     <EmbeddedResource Include="BetterFolderBrowser.dll" />
+    <EmbeddedResource Include="Newtonsoft.Json.dll" />
     <Content Include="updater.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

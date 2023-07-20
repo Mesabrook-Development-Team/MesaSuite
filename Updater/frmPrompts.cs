@@ -28,8 +28,11 @@ namespace Updater
             AdditionalOptionsStep additionalOptions = new AdditionalOptionsStep();
             workflow.ConnectSteps(termsOfServiceStep, additionalOptions);
 
+            SetMCSyncPathStep mCSyncPathStep = new SetMCSyncPathStep();
+            workflow.ConnectSteps(additionalOptions, mCSyncPathStep);
+
             PreviewStep preview = new PreviewStep();
-            workflow.ConnectSteps(additionalOptions, preview);
+            workflow.ConnectSteps(mCSyncPathStep, preview);
 
             InstallationStep install = new InstallationStep();
             workflow.ConnectSteps(preview, install);

@@ -296,6 +296,13 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _salesTaxes; }
         }
+
+        private List<Law> _laws = new List<Law>();
+        [RelationshipList("F75BFDBB-29D4-480D-997F-61A702BDEB26", nameof(Law.GovernmentID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<Law> Laws
+        {
+            get { CheckGet(); return _laws; }
+        }
         #endregion
         #region invoicing
         private List<Invoice> _invoicesFrom = new List<Invoice>();

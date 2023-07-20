@@ -27,6 +27,7 @@ namespace ClussPro.ObjectBasedFramework
         protected bool IsInsert => isInsert;
 
         private HashSet<string> retrievedPaths = new HashSet<string>();
+        private List<Guid> saveFlags = null;
 
         [JsonIgnore]
         public Errors Errors { get; } = new Errors();
@@ -56,50 +57,59 @@ namespace ClussPro.ObjectBasedFramework
                 throw new System.Data.ReadOnlyException("Attempt to call Save on a Read Only Data Object");
             }
 
-            PreValidate();
-            Validate(isInsert ? Validator.SaveModes.Insert : Validator.SaveModes.Update, saveFlags, transaction);
-
-            if (Errors.Any())
-            {
-                return false;
-            }
-
-            SchemaObject thisObject = Schema.Schema.GetSchemaObject(GetType());
-            ITransaction localTransaction = transaction == null ? SQLProviderFactory.GenerateTransaction(thisObject.ConnectionName ?? "_default") : transaction;
             try
             {
-                if (!PreSave(localTransaction))
+                this.saveFlags = saveFlags;
+
+                PreValidate();
+                Validate(isInsert ? Validator.SaveModes.Insert : Validator.SaveModes.Update, saveFlags, transaction);
+
+                if (Errors.Any())
                 {
                     return false;
                 }
 
-                if (!(isInsert ? SaveInsert(localTransaction) : SaveUpdate(localTransaction)))
+                SchemaObject thisObject = Schema.Schema.GetSchemaObject(GetType());
+                ITransaction localTransaction = transaction == null ? SQLProviderFactory.GenerateTransaction(thisObject.ConnectionName ?? "_default") : transaction;
+                try
                 {
-                    return false;
-                }
+                    if (!PreSave(localTransaction))
+                    {
+                        return false;
+                    }
 
-                if (!PostSave(localTransaction))
-                {
-                    return false;
-                }
-                isInsert = false;
+                    if (!(isInsert ? SaveInsert(localTransaction) : SaveUpdate(localTransaction)))
+                    {
+                        return false;
+                    }
 
-                foreach (Schema.Field field in Schema.Schema.GetSchemaObject(GetType()).GetFields().Where(f => !f.HasOperation))
-                {
-                    originalValues[field.FieldName] = field.GetValue(this);
-                }
+                    if (!PostSave(localTransaction))
+                    {
+                        return false;
+                    }
+                    isInsert = false;
 
-                if (transaction == null)
+                    foreach (Schema.Field field in Schema.Schema.GetSchemaObject(GetType()).GetFields().Where(f => !f.HasOperation))
+                    {
+                        originalValues[field.FieldName] = field.GetValue(this);
+                    }
+
+                    if (transaction == null)
+                    {
+                        localTransaction.Commit();
+                    }
+                }
+                finally
                 {
-                    localTransaction.Commit();
+                    if (transaction == null && localTransaction.IsActive)
+                    {
+                        localTransaction.Rollback();
+                    }
                 }
             }
             finally
             {
-                if (transaction == null && localTransaction.IsActive)
-                {
-                    localTransaction.Rollback();
-                }
+                this.saveFlags = null;
             }
 
             return true;
@@ -112,6 +122,7 @@ namespace ClussPro.ObjectBasedFramework
 
             try
             {
+                this.saveFlags = saveFlags;
                 if (!isEditable)
                 {
                     throw new System.Data.ReadOnlyException("Attempt to call Delete on a Read Only Data Object");
@@ -165,6 +176,7 @@ namespace ClussPro.ObjectBasedFramework
             }
             finally
             {
+                this.saveFlags = null;
                 if (transaction == null && localTransaction.IsActive)
                 {
                     localTransaction.Rollback();
@@ -172,6 +184,13 @@ namespace ClussPro.ObjectBasedFramework
             }
 
             return true;
+        }
+
+        public bool IsSaveFlagSet(Guid saveFlag)
+        {
+            if (saveFlags == null) { return false; }
+
+            return saveFlags.Contains(saveFlag);
         }
 
         protected virtual List<FKConstraintConflict> GetFKConstraintConflicts(ITransaction transaction)

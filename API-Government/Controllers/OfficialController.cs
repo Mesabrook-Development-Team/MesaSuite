@@ -35,6 +35,7 @@ namespace API_Government.Controllers
             nameof(Official.ManageInvoices),
             nameof(Official.IssueWireTransfers),
             nameof(Official.CanConfigureInterest),
+            nameof(Official.ManageLaws),
             $"{nameof(Official.FleetSecurity)}.{nameof(FleetSecurity.AllowSetup)}",
             $"{nameof(Official.FleetSecurity)}.{nameof(FleetSecurity.AllowLeasingManagement)}",
             $"{nameof(Official.FleetSecurity)}.{nameof(FleetSecurity.IsYardmaster)}",

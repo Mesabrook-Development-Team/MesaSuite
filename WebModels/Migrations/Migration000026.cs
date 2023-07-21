@@ -6,7 +6,7 @@ namespace WebModels.Migrations
 {
     public class Migration000026 : IMigration
     {
-        public int MigrationNumber => 25;
+        public int MigrationNumber => 26;
 
         public void Execute(ITransaction transaction)
         {

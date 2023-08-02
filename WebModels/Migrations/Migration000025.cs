@@ -104,7 +104,7 @@ namespace WebModels.Migrations
 
             alterTable.Schema = "security";
             alterTable.Table = "User";
-            alterTable.AddColumn("IsStoreRegister", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false });
+            alterTable.AddColumn("IsImmersibrook", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false });
         }
 
         private void CreateForeignKey(ICreateTable createTable, ITransaction transaction, string schema, string table)

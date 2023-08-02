@@ -7,7 +7,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using WebModels.company;
 using static API_Company.App_Code.EmployeeCache;
-using static API_Company.App_Code.RegisterUserCache;
+using static API_Company.App_Code.RegisterCache;
 
 public class RegisterAdministrativeAction : ActionFilterAttribute
 {
@@ -23,7 +23,7 @@ public class RegisterAdministrativeAction : ActionFilterAttribute
             return;
         }
 
-        CachedRegister cachedRegister = RegisterUserCache.GetRegisterByIdentifier(registerIdentifier);
+        CachedRegister cachedRegister = RegisterCache.GetRegisterByIdentifier(registerIdentifier);
         if (cachedRegister == null)
         {
             actionContext.Response = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Forbidden);

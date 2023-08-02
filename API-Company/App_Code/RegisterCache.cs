@@ -8,25 +8,11 @@ using WebModels.security;
 
 namespace API_Company.App_Code
 {
-    internal class RegisterUserCache
+    internal class RegisterCache
     {
         private static DateTime? _cacheRefresh = DateTime.Now.AddSeconds(-1);
-        private static HashSet<long?> _registerUserIDs = new HashSet<long?>();
         private static Dictionary<Guid?, CachedRegister> _registersByIdentifier = new Dictionary<Guid?, CachedRegister>();
         private static object _refreshLock = new object();
-
-        public static bool IsUserARegister(long? userID)
-        {
-            lock (_refreshLock)
-            {
-                if (_cacheRefresh < DateTime.Now)
-                {
-                    RefreshCache();
-                }
-            }
-
-            return _registerUserIDs.Contains(userID);
-        }
 
         public static CachedRegister GetRegisterByIdentifier(Guid? identifier)
         {
@@ -43,21 +29,7 @@ namespace API_Company.App_Code
 
         private static void RefreshCache()
         {
-            _registerUserIDs = new HashSet<long?>();
             _registersByIdentifier = new Dictionary<Guid?, CachedRegister>();
-
-            Search<User> userSearch = new Search<User>(new BooleanSearchCondition<User>()
-            {
-                Field = nameof(User.IsStoreRegister),
-                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = true
-            });
-
-            foreach (User user in userSearch.GetReadOnlyReader(null, new[] { nameof(User.UserID) }))
-            {
-                _registerUserIDs.Add(user.UserID);
-            }
-
             Search<Register> registerSearch = new Search<Register>();
             List<string> registerFields = FieldPathUtility.CreateFieldPathsAsList<Register>(r => new List<object>()
             {

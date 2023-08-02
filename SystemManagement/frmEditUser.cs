@@ -52,7 +52,7 @@ namespace SystemManagement
             txtLastActivity.Text = user.LastActivity?.ToString("MM/dd/yyyy HH:mm");
             txtLastActivity.Tag = user.LastActivity;
             txtLastActivityReason.Text = user.LastActivityReason;
-            chkStoreRegister.Checked = user.IsStoreRegister;
+            chkStoreRegister.Checked = user.IsImmersibrook;
 
             _inactivityWarningServed = user.InactivityWarningServed;
             _inactivityDOINotificationServed = user.InactivityDOINotificationServed;
@@ -152,7 +152,7 @@ namespace SystemManagement
                 LastActivityReason = txtLastActivityReason.Text,
                 InactivityWarningServed = _inactivityWarningServed,
                 InactivityDOINotificationServed = _inactivityDOINotificationServed,
-                IsStoreRegister = chkStoreRegister.Checked
+                IsImmersibrook = chkStoreRegister.Checked
             };
 
             PutData data = new PutData(DataAccess.APIs.SystemManagement, "User/UpdateUser", user);

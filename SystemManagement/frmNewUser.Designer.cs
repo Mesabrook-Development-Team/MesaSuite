@@ -287,11 +287,11 @@
             // chkStoreRegister
             // 
             this.chkStoreRegister.AutoSize = true;
-            this.chkStoreRegister.Location = new System.Drawing.Point(175, 436);
+            this.chkStoreRegister.Location = new System.Drawing.Point(178, 436);
             this.chkStoreRegister.Name = "chkStoreRegister";
-            this.chkStoreRegister.Size = new System.Drawing.Size(104, 17);
+            this.chkStoreRegister.Size = new System.Drawing.Size(99, 17);
             this.chkStoreRegister.TabIndex = 4;
-            this.chkStoreRegister.Text = "Is Store Register";
+            this.chkStoreRegister.Text = "Is Immersibrook";
             this.chkStoreRegister.UseVisualStyleBackColor = true;
             // 
             // frmNewUser

@@ -25,12 +25,6 @@ namespace API_Company.Attributes
 
                 actionContext.Request.Properties["RegisterIdentifier"] = registerIdentifier;
             }
-
-            SecurityProfile securityProfile = actionContext.Request.Properties["SecurityProfile"] as SecurityProfile;
-            if (securityProfile == null || !RegisterUserCache.IsUserARegister(securityProfile.UserID))
-            {
-                actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.Forbidden);
-            }
         }
     }
 }

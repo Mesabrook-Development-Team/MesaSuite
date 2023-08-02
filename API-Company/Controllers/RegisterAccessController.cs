@@ -15,6 +15,7 @@ using WebModels.company;
 namespace API_Company.Controllers
 {
     [MesabrookAuthorization]
+    [ImmersibrookAccess]
     [RegisterAccess]
     public class RegisterAccessController : DataObjectController<Register>
     {

@@ -75,12 +75,12 @@ namespace WebModels.security
             set { CheckSet(); _lastActivityReason = value; }
         }
 
-        private bool _isStoreRegister = false;
+        private bool _isImmersibrook = false;
         [Field("06DA4324-BE89-4995-836A-BE813C519F50")]
-        public bool IsStoreRegister
+        public bool IsImmersibrook
         {
-            get { CheckGet(); return _isStoreRegister; }
-            set { CheckSet(); _isStoreRegister = value; }
+            get { CheckGet(); return _isImmersibrook; }
+            set { CheckSet(); _isImmersibrook = value; }
         }
 
         #region Relationships

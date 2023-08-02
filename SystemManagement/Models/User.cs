@@ -12,7 +12,7 @@ namespace SystemManagement.Models
         public bool InactivityDOINotificationServed { get; set; }
         public DateTime? LastActivity { get; set; }
         public string LastActivityReason { get; set; }
-        public bool IsStoreRegister { get; set; }
+        public bool IsImmersibrook { get; set; }
 
         /// <summary>
         /// Only used during insert - this field is obviously never retrieved

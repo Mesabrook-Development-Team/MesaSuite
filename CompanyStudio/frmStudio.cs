@@ -97,7 +97,8 @@ namespace CompanyStudio
 
                 invoicingToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices);
                 mnuWireTransfers.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
-                storeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageRegisters);
+                storeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageRegisters) ||
+                                                 PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManagePrices);
             }
         }
 
@@ -872,6 +873,26 @@ namespace CompanyStudio
             registers = new Store.frmRegisters();
             DecorateStudioContent(registers);
             registers.Show(dockPanel, DockState.Document);
+        }
+
+        private void mnuStorePriceManager_Click(object sender, EventArgs e)
+        {
+            Store.frmStoreItems storeItems = dockPanel.Contents.OfType<Store.frmStoreItems>().FirstOrDefault(r => r.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (storeItems != null)
+            {
+                storeItems.BringToFront();
+                return;
+            }
+
+            storeItems = new Store.frmStoreItems();
+            DecorateStudioContent(storeItems);
+            storeItems.Show(dockPanel, DockState.Document);
+        }
+
+        private void storeToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            mnuRegisters.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManageRegisters);
+            mnuStorePriceManager.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManagePrices);
         }
     }
 }

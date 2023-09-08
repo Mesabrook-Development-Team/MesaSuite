@@ -53,7 +53,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.chkStoreRegister = new System.Windows.Forms.CheckBox();
+            this.chkImmersibrook = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -284,15 +284,15 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Username:";
             // 
-            // chkStoreRegister
+            // chkImmersibrook
             // 
-            this.chkStoreRegister.AutoSize = true;
-            this.chkStoreRegister.Location = new System.Drawing.Point(178, 436);
-            this.chkStoreRegister.Name = "chkStoreRegister";
-            this.chkStoreRegister.Size = new System.Drawing.Size(99, 17);
-            this.chkStoreRegister.TabIndex = 4;
-            this.chkStoreRegister.Text = "Is Immersibrook";
-            this.chkStoreRegister.UseVisualStyleBackColor = true;
+            this.chkImmersibrook.AutoSize = true;
+            this.chkImmersibrook.Location = new System.Drawing.Point(178, 436);
+            this.chkImmersibrook.Name = "chkImmersibrook";
+            this.chkImmersibrook.Size = new System.Drawing.Size(99, 17);
+            this.chkImmersibrook.TabIndex = 4;
+            this.chkImmersibrook.Text = "Is Immersibrook";
+            this.chkImmersibrook.UseVisualStyleBackColor = true;
             // 
             // frmNewUser
             // 
@@ -301,7 +301,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(444, 487);
-            this.Controls.Add(this.chkStoreRegister);
+            this.Controls.Add(this.chkImmersibrook);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cmdCancel);
@@ -348,6 +348,6 @@
         private System.Windows.Forms.ImageList imlList;
         private System.Windows.Forms.TextBox txtDiscordID;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.CheckBox chkStoreRegister;
+        private System.Windows.Forms.CheckBox chkImmersibrook;
     }
 }

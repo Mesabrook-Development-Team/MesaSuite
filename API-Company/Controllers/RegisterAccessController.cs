@@ -24,6 +24,7 @@ namespace API_Company.Controllers
         public override IEnumerable<string> DefaultRetrievedFields => FieldPathUtility.CreateFieldPathsAsList<Register>(r => new List<object>()
         {
             r.RegisterID,
+            r.LocationID,
             r.Name,
             r.Identifier,
             r.CurrentStatus.RegisterStatusID,

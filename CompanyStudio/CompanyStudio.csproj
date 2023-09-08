@@ -224,6 +224,12 @@
     <Compile Include="ItemSelector.Designer.cs">
       <DependentUpon>ItemSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="ItemSelectorInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ItemSelectorInput.Designer.cs">
+      <DependentUpon>ItemSelectorInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="Loader.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -250,6 +256,7 @@
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LocationEmployee.cs" />
     <Compile Include="Models\LocationGovernment.cs" />
+    <Compile Include="Models\LocationItem.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\RegisterStatus.cs" />
     <Compile Include="Models\SalesTax.cs" />
@@ -275,6 +282,12 @@
     </Compile>
     <Compile Include="Store\frmRegisters.Designer.cs">
       <DependentUpon>frmRegisters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Store\frmStoreItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Store\frmStoreItems.Designer.cs">
+      <DependentUpon>frmStoreItems.cs</DependentUpon>
     </Compile>
     <Compile Include="StudioFormExtender.cs">
       <SubType>Component</SubType>
@@ -377,6 +390,9 @@
     <EmbeddedResource Include="ItemSelector.resx">
       <DependentUpon>ItemSelector.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ItemSelectorInput.resx">
+      <DependentUpon>ItemSelectorInput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Loader.resx">
       <DependentUpon>Loader.cs</DependentUpon>
     </EmbeddedResource>
@@ -390,6 +406,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Store\frmRegisters.resx">
       <DependentUpon>frmRegisters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Store\frmStoreItems.resx">
+      <DependentUpon>frmStoreItems.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WireTransfers\frmSendWireTransfer.resx">
       <DependentUpon>frmSendWireTransfer.cs</DependentUpon>

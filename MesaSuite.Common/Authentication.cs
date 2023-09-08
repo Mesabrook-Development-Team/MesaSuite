@@ -1,4 +1,5 @@
-﻿using MesaSuite.Common.Data;
+﻿using CefSharp;
+using MesaSuite.Common.Data;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
@@ -438,6 +439,8 @@ namespace MesaSuite.Common
 
         public static void Initialize()
         {
+            CefRuntime.SubscribeAnyCpuAssemblyResolver();
+
             RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
             string strExpirationEncoded = key.GetValue("Expiration") as string;
 

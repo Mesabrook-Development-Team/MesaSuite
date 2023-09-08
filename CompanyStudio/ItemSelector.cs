@@ -77,7 +77,10 @@ namespace CompanyStudio
 
         private void ItemSelector_Load(object sender, EventArgs e)
         {
-            LoadInitialData();
+            if (!DesignMode)
+            {
+                LoadInitialData();
+            }
 
             if (ReadOnlyMode)
             {
@@ -86,7 +89,7 @@ namespace CompanyStudio
                 panel1.BackColor = SystemColors.Control;
                 pictureBox1.BackColor = SystemColors.Control;
             }
-            else
+            else if (!DesignMode)
             {
                 LoadData();
             }

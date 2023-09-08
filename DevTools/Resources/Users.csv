@@ -1,3 +1,4 @@
 #Username, Password, First Name, Last Name, Email, Is Active, Member Of (semi-colon separated)
 CSX8600,password,CSX,8600,csx8600@mesabrook.com,True,MesaSuite Users
 StarVicVader,password,Ravenholm,Zombie,ravenholmzombie@mesabrook.com,True,MesaSuite Users
+ibserver,password,ib,server,ibserver@mesabrook.com,True,MesaSuite Users

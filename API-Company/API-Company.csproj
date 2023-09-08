@@ -154,6 +154,8 @@
     <Compile Include="Controllers\LocationEmployeeController.cs" />
     <Compile Include="Controllers\LocationGovernmentController.cs" />
     <Compile Include="Controllers\LocationEmployeeIBAccessController.cs" />
+    <Compile Include="Controllers\LocationItemController.cs" />
+    <Compile Include="Controllers\LocationItemIBAccessController.cs" />
     <Compile Include="Controllers\RegisterAccessController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\RegisterStatusController.cs" />

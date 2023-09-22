@@ -27,6 +27,7 @@ namespace API_Company.Controllers
             r.LocationID,
             r.Name,
             r.Identifier,
+            r.CurrentTaxRate,
             r.CurrentStatus.RegisterStatusID,
             r.CurrentStatus.ChangeTime,
             r.CurrentStatus.Status,

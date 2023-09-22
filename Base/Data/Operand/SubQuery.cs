@@ -2,7 +2,7 @@
 
 namespace ClussPro.Base.Data.Operand
 {
-    public class SubQuery : IOperand
+    public class SubQuery : IOperand, ISelectable
     {
         public SubQuery() { }
         public SubQuery(ISelectQuery selectSubQuery)
@@ -10,5 +10,6 @@ namespace ClussPro.Base.Data.Operand
             this.SelectSubQuery = selectSubQuery;
         }
         public ISelectQuery SelectSubQuery { get; set; }
+        public string Alias { get; set; }
     }
 }

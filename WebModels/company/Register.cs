@@ -62,6 +62,107 @@ namespace WebModels.company
             set { CheckSet(); _name = value; }
         }
 
+        private decimal? _currentTaxRate;
+        [Field("C294C307-F0DC-4B0B-ACB1-73F210A09F4C", HasOperation = true)]
+        public decimal? CurrentTaxRate
+        {
+            get { CheckGet(); return _currentTaxRate; }
+            set { CheckSet(); _currentTaxRate = value; }
+        }
+
+        public static OperationDelegate CurrentTaxRateOperation
+        {
+            /*
+             select SUM(ST.Rate) from company.Register R
+            inner join company.Location L on R.LocationID = L.LocationID
+            inner join company.LocationGovernment LG on LG.LocationID = L.LocationID
+            inner join (
+	            select GovernmentID, Rate 
+	            from gov.SalesTax ST 
+	            where ST.SalesTaxID = 
+		            (select top 1 InnerST.SalesTaxID 
+		            from gov.SalesTax InnerST
+		            where ST.GovernmentID = InnerST.GovernmentID and InnerST.EffectiveDate < [today's date]
+		            order by EffectiveDate desc)
+            ) ST on ST.GovernmentID = LG.GovernmentID
+            where RegisterID=[this register id]
+             */
+            get => (alias) =>
+            {
+                ISelectQuery innerST = SQLProviderFactory.GetSelectQuery();
+                innerST.PageSize = 1;
+                innerST.SelectList = new List<Select>() { new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)"InnerST.SalesTaxID" } };
+                innerST.Table = new Table("gov", "SalesTax", "InnerST");
+                innerST.WhereCondition = new ConditionGroup()
+                {
+                    ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                    Conditions = new List<ICondition>()
+                    {
+                        new Condition()
+                        {
+                            Left = (ClussPro.Base.Data.Operand.Field)"ST.GovernmentID",
+                            ConditionType = Condition.ConditionTypes.Equal,
+                            Right = (ClussPro.Base.Data.Operand.Field)"InnerST.GovernmentID"
+                        },
+                        new Condition()
+                        {
+                            Left = (ClussPro.Base.Data.Operand.Field)"InnerST.EffectiveDate",
+                            ConditionType = Condition.ConditionTypes.LessEqual,
+                            Right = new Literal(DateTime.Today)
+                        }
+                    }
+                };
+                innerST.OrderByList = new List<Order>() { new Order() { Field = (ClussPro.Base.Data.Operand.Field)"InnerST.EffectiveDate", OrderDirection = Order.OrderDirections.Descending } };
+
+                ISelectQuery st = SQLProviderFactory.GetSelectQuery();
+                st.SelectList = new List<Select>()
+                {
+                    new Select()
+                    {
+                        SelectOperand = (ClussPro.Base.Data.Operand.Field)"ST.GovernmentID"
+                    },
+                    new Select()
+                    {
+                        SelectOperand = (ClussPro.Base.Data.Operand.Field)"ST.Rate"
+                    }
+                };
+                st.Table = new Table("gov", "SalesTax", "ST");
+                st.WhereCondition = new Condition()
+                {
+                    Left = (ClussPro.Base.Data.Operand.Field)"ST.SalesTaxID",
+                    ConditionType = Condition.ConditionTypes.Equal,
+                    Right = new SubQuery(innerST)
+                };
+
+                ISelectQuery salesTaxQuery = SQLProviderFactory.GetSelectQuery();
+                salesTaxQuery.SelectList = new List<Select>() { new Select() { SelectOperand = new Sum((ClussPro.Base.Data.Operand.Field)"ST.Rate") } };
+                salesTaxQuery.Table = new Table("company", "Register", "R");
+                salesTaxQuery.JoinList = new List<Join>()
+                {
+                    new Join()
+                    {
+                        JoinType = Join.JoinTypes.Inner,
+                        Table = new Table("company", "Location", "L"),
+                        Condition = new Condition() { Left = (ClussPro.Base.Data.Operand.Field)"L.LocationID", ConditionType = Condition.ConditionTypes.Equal, Right = (ClussPro.Base.Data.Operand.Field)"R.LocationID" }
+                    },
+                    new Join()
+                    {
+                        JoinType = Join.JoinTypes.Inner,
+                        Table = new Table("company", "LocationGovernment", "LG"),
+                        Condition = new Condition() { Left = (ClussPro.Base.Data.Operand.Field)"LG.LocationID", ConditionType = Condition.ConditionTypes.Equal, Right = (ClussPro.Base.Data.Operand.Field)"L.LocationID" }
+                    },
+                    new Join()
+                    {
+                        JoinType = Join.JoinTypes.Inner,
+                        Table = new SubQuery(st) { Alias = "ST" },
+                        Condition = new Condition() { Left = (ClussPro.Base.Data.Operand.Field)"ST.GovernmentID", ConditionType = Condition.ConditionTypes.Equal, Right = (ClussPro.Base.Data.Operand.Field)"LG.GovernmentID" }
+                    }
+                };
+                salesTaxQuery.WhereCondition = new Condition() { Left = (ClussPro.Base.Data.Operand.Field)"R.RegisterID", ConditionType = Condition.ConditionTypes.Equal, Right = (ClussPro.Base.Data.Operand.Field)$"{alias}.RegisterID" };
+                return new SubQuery(salesTaxQuery);
+            };
+        }
+
         protected override void PreValidate()
         {
             base.PreValidate();

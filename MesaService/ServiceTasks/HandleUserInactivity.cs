@@ -17,8 +17,10 @@ namespace MesaService.ServiceTasks
 
         public bool Run()
         {
+            SendDiscordMessage("171373018285735936", "Gamearoo", "Hello Gamearoo This is a message from MesaSuite sent to the bot's api. \n I am just letting you know i ran and if you see this message from the bot it works <:green:1123707359232020520> .");
             WarnUpcomingExpiration();
             NotifyDOI();
+
 
             _nextRunTime = DateTime.Now.AddHours(1);
             return true;
@@ -69,11 +71,13 @@ namespace MesaService.ServiceTasks
 
             foreach(User user in userSearch.GetEditableReader())
             {
+                
                 string message = $"***Mesabrook Department of Internal Affairs***\r\n**User Inactivity Notification**\r\n\r\n*User:* {user.Username}\r\n*Last Active:* {user.LastActivity?.ToString("MM/dd/yyyy HH:mm:ss")}\r\n*Last Active Reason:* {user.LastActivityReason}\r\n\r\nThis user has been inactive for a month or longer. An investigation may be necessary for action up to and including dismissal.";
                 string[] doiUsers = ConfigurationManager.AppSettings.Get("DiscordIDsUserExpired").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 bool atLeastOneSucceeded = false;
                 foreach(string doiUser in doiUsers)
                 {
+                   
                     atLeastOneSucceeded |= SendDiscordMessage(doiUser, $"DOIA Member {doiUser}", message);
                 }
 

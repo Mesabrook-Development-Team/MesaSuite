@@ -17,7 +17,7 @@ namespace MesaService.ServiceTasks
 
         public bool Run()
         {
-            SendDiscordMessage("171373018285735936", "Gamearoo", "Hello Gamearoo This is a message from MesaSuite sent to the bot's api. \n I am just letting you know i ran and if you see this message from the bot it works <:green:1123707359232020520> .");
+            
             WarnUpcomingExpiration();
             NotifyDOI();
 
@@ -41,6 +41,8 @@ namespace MesaService.ServiceTasks
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                 Value = false
                             }));
+
+                        SendDiscordMessage(ConfigurationManager.AppSettings.Get("GamearooUserID"), "Gamearoo", "Hello Gamearoo This is a message from MesaSuite sent to the bot's api. \n I am just letting you know i ran and if you see this message from the bot it works <:green:1123707359232020520> .");
 
             foreach (User user in userSearch.GetEditableReader())
             {
@@ -68,6 +70,7 @@ namespace MesaService.ServiceTasks
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = false
                 }));
+                SendDiscordMessage(ConfigurationManager.AppSettings.Get("GamearooUserID"), "Gamearoo", "Hello Gamearoo This is a message from MesaSuite sent to the bot's api. \n I am just letting you know i ran and if you see this message from the bot it works <:green:1123707359232020520> .");
 
             foreach(User user in userSearch.GetEditableReader())
             {

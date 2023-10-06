@@ -17,11 +17,9 @@ namespace MesaService.ServiceTasks
 
         public bool Run()
         {
-            
             WarnUpcomingExpiration();
             NotifyDOI();
-
-
+            
             _nextRunTime = DateTime.Now.AddHours(1);
             return true;
         }
@@ -41,8 +39,6 @@ namespace MesaService.ServiceTasks
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                 Value = false
                             }));
-
-                        
 
             foreach (User user in userSearch.GetEditableReader())
             {
@@ -70,17 +66,14 @@ namespace MesaService.ServiceTasks
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = false
                 }));
-                
 
             foreach(User user in userSearch.GetEditableReader())
             {
-                
                 string message = $"***Mesabrook Department of Internal Affairs***\r\n**User Inactivity Notification**\r\n\r\n*User:* {user.Username}\r\n*Last Active:* {user.LastActivity?.ToString("MM/dd/yyyy HH:mm:ss")}\r\n*Last Active Reason:* {user.LastActivityReason}\r\n\r\nThis user has been inactive for a month or longer. An investigation may be necessary for action up to and including dismissal.";
                 string[] doiUsers = ConfigurationManager.AppSettings.Get("DiscordIDsUserExpired").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 bool atLeastOneSucceeded = false;
                 foreach(string doiUser in doiUsers)
                 {
-                   
                     atLeastOneSucceeded |= SendDiscordMessage(doiUser, $"DOIA Member {doiUser}", message);
                 }
 

@@ -66,8 +66,8 @@ namespace MesaService.ServiceTasks
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred sending inactivity message: {ex.Message}");
-                HandleDiscordError($"An error occurred attempting to notify '{usernameRecipient}' of their upcoming inactivity period: {ex.Message}");
+                Console.WriteLine($"An error occurred sending  message: {ex.Message}");
+                HandleDiscordError($"An error occurred attempting to notify '{usernameRecipient}' of working api: {ex.Message}");
 
                 return false;
             }

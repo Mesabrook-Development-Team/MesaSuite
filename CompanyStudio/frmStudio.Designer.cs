@@ -39,6 +39,8 @@
             this.mnuRegisters = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuStorePriceManager = new System.Windows.Forms.ToolStripMenuItem();
             this.promotionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuStoreConfiguration = new System.Windows.Forms.ToolStripMenuItem();
             this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEmailExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.employeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,6 +80,7 @@
             this.tmrLocationUpdater = new System.Windows.Forms.Timer(this.components);
             this.loader = new CompanyStudio.Loader();
             this.studioFormExtender = new CompanyStudio.StudioFormExtender(this.components);
+            this.mnuStoreSalesReport = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuBanner.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -148,7 +151,10 @@
             this.storeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuRegisters,
             this.mnuStorePriceManager,
-            this.promotionsToolStripMenuItem});
+            this.promotionsToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.mnuStoreConfiguration,
+            this.mnuStoreSalesReport});
             this.storeToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.basket;
             this.storeToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.storeToolStripMenuItem.Name = "storeToolStripMenuItem";
@@ -176,6 +182,18 @@
             this.promotionsToolStripMenuItem.Name = "promotionsToolStripMenuItem";
             this.promotionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.promotionsToolStripMenuItem.Text = "Promotions";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            // 
+            // mnuStoreConfiguration
+            // 
+            this.mnuStoreConfiguration.Name = "mnuStoreConfiguration";
+            this.mnuStoreConfiguration.Size = new System.Drawing.Size(180, 22);
+            this.mnuStoreConfiguration.Text = "Configuration";
+            this.mnuStoreConfiguration.Click += new System.EventHandler(this.mnuStoreConfiguration_Click);
             // 
             // emailToolStripMenuItem
             // 
@@ -241,7 +259,7 @@
             this.accountsToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.money;
             this.accountsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.accountsToolStripMenuItem.Name = "accountsToolStripMenuItem";
-            this.accountsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.accountsToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.accountsToolStripMenuItem.Text = "Accounts";
             // 
             // mnuAccountExplorer
@@ -272,7 +290,7 @@
             this.invoicingToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.page;
             this.invoicingToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.invoicingToolStripMenuItem.Name = "invoicingToolStripMenuItem";
-            this.invoicingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.invoicingToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.invoicingToolStripMenuItem.Text = "Invoicing";
             // 
             // mnuInvoicePayables
@@ -332,7 +350,7 @@
             this.mnuWireTransfers.Image = global::CompanyStudio.Properties.Resources.arrow_turn_right;
             this.mnuWireTransfers.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuWireTransfers.Name = "mnuWireTransfers";
-            this.mnuWireTransfers.Size = new System.Drawing.Size(180, 22);
+            this.mnuWireTransfers.Size = new System.Drawing.Size(145, 22);
             this.mnuWireTransfers.Text = "Wire Transfers";
             this.mnuWireTransfers.Visible = false;
             // 
@@ -504,6 +522,13 @@
             this.loader.TabIndex = 7;
             this.loader.Visible = false;
             // 
+            // mnuStoreSalesReport
+            // 
+            this.mnuStoreSalesReport.Name = "mnuStoreSalesReport";
+            this.mnuStoreSalesReport.Size = new System.Drawing.Size(180, 22);
+            this.mnuStoreSalesReport.Text = "Store Sales Report";
+            this.mnuStoreSalesReport.Click += new System.EventHandler(this.mnuStoreSalesReport_Click);
+            // 
             // frmStudio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -580,6 +605,9 @@
         private System.Windows.Forms.ToolStripMenuItem mnuRegisters;
         private System.Windows.Forms.ToolStripMenuItem mnuStorePriceManager;
         private System.Windows.Forms.ToolStripMenuItem promotionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem mnuStoreConfiguration;
+        private System.Windows.Forms.ToolStripMenuItem mnuStoreSalesReport;
     }
 }
 

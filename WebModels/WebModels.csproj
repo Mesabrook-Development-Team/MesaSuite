@@ -66,6 +66,7 @@
     <Compile Include="company\Register.cs" />
     <Compile Include="company\RegisterStatus.cs" />
     <Compile Include="company\StoreSale.cs" />
+    <Compile Include="company\StoreSaleItem.cs" />
     <Compile Include="company\Validation\RegisterValidations.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />

@@ -23,7 +23,10 @@ namespace API_Company.Attributes
                     return;
                 }
 
+                RegisterCache.CachedRegister cachedRegister = RegisterCache.GetRegisterByIdentifier(registerIdentifier);
+
                 actionContext.Request.Properties["RegisterIdentifier"] = registerIdentifier;
+                actionContext.Request.Properties["CachedRegister"] = cachedRegister;
             }
         }
     }

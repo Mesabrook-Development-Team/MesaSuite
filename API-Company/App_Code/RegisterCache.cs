@@ -33,17 +33,21 @@ namespace API_Company.App_Code
             Search<Register> registerSearch = new Search<Register>();
             List<string> registerFields = FieldPathUtility.CreateFieldPathsAsList<Register>(r => new List<object>()
             {
+                r.RegisterID,
                 r.Identifier,
                 r.LocationID,
-                r.Location.CompanyID
+                r.Location.CompanyID,
+                r.Name
             });
             foreach(Register register in registerSearch.GetReadOnlyReader(null, registerFields))
             {
                 CachedRegister cachedRegister = new CachedRegister()
                 {
+                    RegisterID = register.RegisterID,
                     Identifier = register.Identifier,
                     LocationID = register.LocationID,
-                    CompanyID = register.Location?.CompanyID
+                    CompanyID = register.Location?.CompanyID,
+                    Name = register.Name
                 };
 
                 _registersByIdentifier.Add(register.Identifier, cachedRegister);
@@ -54,9 +58,11 @@ namespace API_Company.App_Code
 
         public class CachedRegister
         {
+            public long? RegisterID { get; set; }
             public long? CompanyID { get; set; }
             public long? LocationID { get; set; }
             public Guid? Identifier { get; set; }
+            public string Name { get; set; }
         }
     }
 }

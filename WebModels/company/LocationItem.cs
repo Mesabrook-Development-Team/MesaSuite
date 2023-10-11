@@ -76,9 +76,9 @@ namespace WebModels.company
 
         #region Relationships
         #region company
-        private List<StoreSale> _storeSales = new List<StoreSale>();
-        [RelationshipList("EB7FD6EA-69A8-4CBC-8D1B-36A92F97991C", nameof(StoreSale.LocationItemID), AutoRemoveReferences = true)]
-        public IReadOnlyCollection<StoreSale> StoreSales
+        private List<StoreSaleItem> _storeSales = new List<StoreSaleItem>();
+        [RelationshipList("EB7FD6EA-69A8-4CBC-8D1B-36A92F97991C", nameof(StoreSaleItem.LocationItemID), AutoRemoveReferences = true)]
+        public IReadOnlyCollection<StoreSaleItem> StoreSales
         {
             get { CheckGet(); return _storeSales; }
         }

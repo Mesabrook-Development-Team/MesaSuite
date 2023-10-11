@@ -7,6 +7,7 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
 using WebModels.company;
 using WebModels.gov;
 
@@ -85,7 +86,8 @@ namespace WebModels.mesasys
         {
             WireTransferHistory,
             Invoicing,
-            FleetTracking
+            FleetTracking,
+            StoreRegister
         }
 
         private SecurityCheckTypes _securityCheckType;
@@ -104,6 +106,8 @@ namespace WebModels.mesasys
                     return CheckWireTransferHistorySecurity(userID, companyID, governmentID);
                 case SecurityCheckTypes.Invoicing:
                     return CheckInvoicingSecurity(userID, locationID, governmentID);
+                case SecurityCheckTypes.StoreRegister:
+                    return CheckRegisterSecurity(userID, locationID);
             }
 
             return true;
@@ -201,6 +205,30 @@ namespace WebModels.mesasys
             }
 
             return false;
+        }
+
+        private bool CheckRegisterSecurity(long? userID, long? locationID)
+        {
+            if (userID == null || locationID == null)
+            {
+                return false;
+            }
+
+            Search<LocationEmployee> locEmplSearch = new Search<LocationEmployee>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<LocationEmployee>()
+                {
+                    Field = FieldPathUtility.CreateFieldPathsAsList<LocationEmployee>(le => new List<object>() { le.Employee.UserID }).First(),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = userID
+                },
+                new LongSearchCondition<LocationEmployee>()
+                {
+                    Field = nameof(LocationEmployee.LocationID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = locationID
+                }));
+
+            return locEmplSearch.GetReadOnly(null, new[] { nameof(LocationEmployee.ManageRegisters)} )?.ManageRegisters ?? false;
         }
 
         #region Relationships

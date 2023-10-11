@@ -4,6 +4,7 @@ using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using WebModels.account;
 using WebModels.fleet;
 using WebModels.invoicing;
 using WebModels.mesasys;
@@ -63,6 +64,36 @@ namespace WebModels.company
         {
             get { CheckGet(); return _nextInvoiceNumber; }
             set { CheckSet(); _nextInvoiceNumber = value; }
+        }
+
+        private long? _accountIDStoreRevenue;
+        [Field("55022849-0C01-4BDC-9023-DA46E19EB696")]
+        public long? AccountIDStoreRevenue
+        {
+            get { CheckGet(); return _accountIDStoreRevenue; }
+            set { CheckSet(); _accountIDStoreRevenue = value; }
+        }
+
+        private Account _accountStoreRevenue = null;
+        [Relationship("77075B0F-D43C-4417-8262-C76481901811", ForeignKeyField = nameof(AccountIDStoreRevenue))]
+        public Account AccountStoreRevenue
+        {
+            get { CheckGet(); return _accountStoreRevenue; }
+        }
+
+        private long? _emailImplementationIDRegisterOffline;
+        [Field("EDE175FF-CBD6-42C0-921D-673E1B51F52E")]
+        public long? EmailImplementationIDRegisterOffline
+        {
+            get { CheckGet(); return _emailImplementationIDRegisterOffline; }
+            set { CheckSet(); _emailImplementationIDRegisterOffline = value; }
+        }
+
+        private EmailImplementation _emailImplementationRegisterOffline = null;
+        [Relationship("E4C68449-500A-49CB-8FBB-3418ABB5645D", ForeignKeyField = nameof(EmailImplementationIDRegisterOffline))]
+        public EmailImplementation EmailImplementationRegisterOffline
+        {
+            get { CheckGet(); return _emailImplementationRegisterOffline; }
         }
 
         private long? _emailImplementationIDPayableInvoice;

@@ -161,6 +161,8 @@
     <Compile Include="Controllers\RegisterStatusController.cs" />
     <Compile Include="Controllers\SalesTaxController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\StoreSaleItemController.cs" />
+    <Compile Include="Controllers\StoreSaleItemIBAccessController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Controllers\WireTransferHistoryController.cs" />
     <Compile Include="Global.asax.cs">

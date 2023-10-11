@@ -39,6 +39,24 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1537.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1537.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1537.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1537.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1537.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -186,6 +204,12 @@
     <Compile Include="frmEmailEditor.Designer.cs">
       <DependentUpon>frmEmailEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmReportViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReportViewer.Designer.cs">
+      <DependentUpon>frmReportViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmStudio.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -260,6 +284,8 @@
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\RegisterStatus.cs" />
     <Compile Include="Models\SalesTax.cs" />
+    <Compile Include="Models\StoreSale.cs" />
+    <Compile Include="Models\StoreSaleItem.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\WireTransferHistory.cs" />
@@ -271,6 +297,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Store\frmRegister.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -283,12 +310,31 @@
     <Compile Include="Store\frmRegisters.Designer.cs">
       <DependentUpon>frmRegisters.cs</DependentUpon>
     </Compile>
+    <Compile Include="Store\frmStoreConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Store\frmStoreConfiguration.Designer.cs">
+      <DependentUpon>frmStoreConfiguration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Store\frmStoreItems.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Store\frmStoreItems.Designer.cs">
       <DependentUpon>frmStoreItems.cs</DependentUpon>
     </Compile>
+    <Compile Include="Store\frmStoreSales.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Store\frmStoreSales.Designer.cs">
+      <DependentUpon>frmStoreSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Store\frmStoreSales.Designer.cs">
+      <DependentUpon>frmStoreSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Store\frmStoreSales.Designer.cs">
+      <DependentUpon>frmStoreSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Store\Reports\MonthlySummary.cs" />
     <Compile Include="StudioFormExtender.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -372,6 +418,9 @@
     <EmbeddedResource Include="frmEmailEditor.resx">
       <DependentUpon>frmEmailEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmReportViewer.resx">
+      <DependentUpon>frmReportViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmStudio.resx">
       <DependentUpon>frmStudio.cs</DependentUpon>
     </EmbeddedResource>
@@ -407,9 +456,19 @@
     <EmbeddedResource Include="Store\frmRegisters.resx">
       <DependentUpon>frmRegisters.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Store\frmStoreConfiguration.resx">
+      <DependentUpon>frmStoreConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Store\frmStoreItems.resx">
       <DependentUpon>frmStoreItems.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Store\frmStoreSales.resx">
+      <DependentUpon>frmStoreSales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Store\Reports\SalesByItem.rdlc" />
+    <EmbeddedResource Include="Store\Reports\SalesByRegister.rdlc" />
+    <EmbeddedResource Include="Store\Reports\SalesGraph.rdlc" />
+    <EmbeddedResource Include="Store\Reports\StoreSalesReport.rdlc" />
     <EmbeddedResource Include="WireTransfers\frmSendWireTransfer.resx">
       <DependentUpon>frmSendWireTransfer.cs</DependentUpon>
     </EmbeddedResource>
@@ -417,6 +476,9 @@
       <DependentUpon>frmWireTransferHistoryExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\CompanyStudio.Models.StoreSale.datasource" />
+    <None Include="Properties\DataSources\CompanyStudio.Models.StoreSaleItem.datasource" />
+    <None Include="Properties\DataSources\CompanyStudio.Store.Reports.MonthlySummary.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -3538,6 +3600,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\cash_register.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

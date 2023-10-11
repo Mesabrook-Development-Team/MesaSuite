@@ -283,7 +283,7 @@ namespace WebModels.account
             FiscalQuarter fiscalQuarter;
             try
             {
-                fiscalQuarter = FiscalQuarter.FindOrCreate(AccountID.Value, DateTime.Now);
+                fiscalQuarter = FiscalQuarter.FindOrCreate(AccountID.Value, DateTime.Now, transaction);
             }
             catch (Exception ex)
             {
@@ -358,6 +358,14 @@ namespace WebModels.account
         public IReadOnlyCollection<FiscalQuarter> FiscalQuarters
         {
             get { CheckGet(); return _fiscalQuarters; }
+        }
+        #endregion
+        #region company
+        private List<Location> _locationStoreRevenues = new List<Location>();
+        [RelationshipList("2468CD4E-5C93-44E3-AEEE-3BC681AE29B7", nameof(Location.AccountIDStoreRevenue))]
+        public IReadOnlyCollection<Location> LocationStoreRevenues
+        {
+            get { CheckGet(); return _locationStoreRevenues;  }
         }
         #endregion
         #region gov

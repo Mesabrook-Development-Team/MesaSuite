@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
 using API.Common;
 using API.Common.Attributes;
 using API_Company.Attributes;
@@ -28,6 +30,13 @@ namespace API_Company.Controllers
         });
 
         public override bool AllowGetAll => true;
+
+        [HttpGet]
+        [LocationAccess(OptionalPermissions = new[] { nameof(LocationEmployee.ManageRegisters), nameof(LocationEmployee.ManagePrices) })]
+        public override Task<IHttpActionResult> GetAll()
+        {
+            return base.GetAll();
+        }
 
         public override ISearchCondition GetBaseSearchCondition()
         {

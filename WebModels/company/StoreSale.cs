@@ -1,41 +1,25 @@
-﻿using System;
+﻿using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ClussPro.ObjectBasedFramework;
-using ClussPro.ObjectBasedFramework.Schema.Attributes;
-using ClussPro.ObjectBasedFramework.Validation.Attributes;
 
 namespace WebModels.company
 {
-    [Table("FAF0C51A-ACB1-43D7-ADA2-AD55F9B07679")]
+    [Table("C5D1C4D1-B01E-43DD-94C6-DF38D1CBF208")]
     public class StoreSale : DataObject
     {
         protected StoreSale() : base() { }
 
         private long? _storeSaleID;
-        [Field("361A2BA9-F764-45A3-AF7F-1C678C489549")]
+        [Field("BEBB36B7-2298-4491-93B6-B480B8618BEE")]
         public long? StoreSaleID
         {
             get { CheckGet(); return _storeSaleID; }
             set { CheckSet(); _storeSaleID = value; }
-        }
-
-        private long? _locationItemID;
-        [Field("A2614A69-909C-48A9-BCAF-9B2F86CA4C4E")]
-        [Required]
-        public long? LocationItemID
-        {
-            get { CheckGet(); return _locationItemID; }
-            set { CheckSet(); _locationItemID = value; }
-        }
-
-        private LocationItem _locationItem;
-        [Relationship("894B85EE-F1FE-44F9-A499-C27DB0F1CC9A")]
-        public LocationItem LocationItem
-        {
-            get { CheckGet(); return _locationItem; }
         }
 
         private long? _registerID;
@@ -54,29 +38,23 @@ namespace WebModels.company
             get { CheckGet(); return _register; }
         }
 
-        private decimal? _ringPrice;
-        [Field("213AE82A-9C9E-47A2-990A-4E53359056EA", DataSize = 9, DataScale = 2)]
-        [Required]
-        public decimal? RingPrice
+        private DateTime? _saleTime;
+        [Field("82A73C60-9E6E-4749-975D-FA98E80EFFBF", DataSize = 7)]
+        public DateTime? SaleTime
         {
-            get { CheckGet(); return _ringPrice; }
-            set { CheckSet(); _ringPrice = value; }
+            get { CheckGet(); return _saleTime; }
+            set { CheckSet(); _saleTime = value; }
         }
 
-        private decimal? _soldPrice;
-        [Field("C7512844-2765-4A70-AC71-ABBEE9990DD8", DataSize = 9, DataScale = 2)]
-        public decimal? SoldPrice
+        #region Relationships
+        #region company
+        private List<StoreSaleItem> _storeSaleItems = new List<StoreSaleItem>();
+        [RelationshipList("8190A96E-D58A-4A5E-8A62-F3520CA6999C", nameof(StoreSaleItem.StoreSaleID))]
+        public IReadOnlyCollection<StoreSaleItem> StoreSaleItems
         {
-            get { CheckGet(); return _soldPrice; }
-            set { CheckSet(); _soldPrice = value; }
+            get { CheckGet(); return _storeSaleItems; }
         }
-
-        private string _discountReason;
-        [Field("10CD78A7-8999-4811-99C5-E587C6479BBC", DataSize = 100)]
-        public string DiscountReason
-        {
-            get { CheckGet(); return _discountReason; }
-            set { CheckSet(); _discountReason = value; }
-        }
+        #endregion
+        #endregion
     }
 }

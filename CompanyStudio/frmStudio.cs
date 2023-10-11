@@ -109,6 +109,7 @@ namespace CompanyStudio
         {
             InitializeComponent();
             InitializeThemeLookup();
+            SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
         }
 
         private void InitializeFleetTracking(FleetTrackingApplication fleetTrackingApplication)
@@ -893,6 +894,31 @@ namespace CompanyStudio
         {
             mnuRegisters.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManageRegisters);
             mnuStorePriceManager.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManagePrices);
+            mnuStoreConfiguration.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManagePrices);
+            mnuStoreSalesReport.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManagePrices);
+        }
+
+        private void mnuStoreConfiguration_Click(object sender, EventArgs e)
+        {
+            Store.frmStoreConfiguration configuration = dockPanel.Contents.OfType<Store.frmStoreConfiguration>().FirstOrDefault(r => r.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (configuration != null)
+            {
+                configuration.BringToFront();
+                return;
+            }
+
+            configuration = new Store.frmStoreConfiguration();
+            DecorateStudioContent(configuration);
+            configuration.Show(dockPanel, DockState.Document);
+        }
+
+        private void mnuStoreSalesReport_Click(object sender, EventArgs e)
+        {
+            Store.frmStoreSales salesWizard = new Store.frmStoreSales();
+            salesWizard.Company = ActiveCompany;
+            salesWizard.Location = ActiveLocation;
+            salesWizard.StudioForm = this;
+            salesWizard.ShowDialog();
         }
     }
 }

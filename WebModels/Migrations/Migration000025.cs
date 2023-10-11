@@ -58,15 +58,25 @@ namespace WebModels.Migrations
             createTable.Columns = new Dictionary<string, FieldSpecification>()
             {
                 { "StoreSaleID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
-                { "LocationItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "RegisterID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "SaleTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(createTable, transaction, "company", "Register");
+
+            createTable.TableName = "StoreSaleItem";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "StoreSaleItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "StoreSaleID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocationItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "RingPrice", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
                 { "SoldPrice", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
                 { "DiscountReason", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 100) }
             };
             createTable.Execute(transaction);
+            CreateForeignKey(createTable, transaction, "company", "StoreSale");
             CreateForeignKey(createTable, transaction, "company", "LocationItem");
-            CreateForeignKey(createTable, transaction, "company", "Register");
 
             createTable.TableName = "Promotion";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
@@ -98,13 +108,19 @@ namespace WebModels.Migrations
             IAlterTable alterTable = SQLProviderFactory.GetAlterTableQuery();
             alterTable.Schema = "company";
             alterTable.Table = "LocationEmployee";
-            alterTable.AddColumn("ManagePrices", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false });
-            alterTable.AddColumn("ManageRegisters", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false });
-            alterTable.AddColumn("ManageInventory", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false });
+            alterTable.AddColumn("ManagePrices", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
+            alterTable.AddColumn("ManageRegisters", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
+            alterTable.AddColumn("ManageInventory", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
+
+            alterTable.Table = "Location";
+            alterTable.AddColumn("AccountIDStoreRevenue", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
+            alterTable.AddColumn("EmailImplementationIDRegisterOffline", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
+            alterTable.AddForeignKey("FKLocation_Account_AccountIDStoreRevenue", "AccountIDStoreRevenue", "account", "Account", "AccountID", transaction);
+            alterTable.AddForeignKey("FKLocation_EmailImplementation_EmailImplementationIDRegisterOffline", "EmailImplementationIDRegisterOffline", "mesasys", "EmailImplementation", "EmailImplementationIDRegisterOffline", transaction);
 
             alterTable.Schema = "security";
             alterTable.Table = "User";
-            alterTable.AddColumn("IsImmersibrook", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false });
+            alterTable.AddColumn("IsImmersibrook", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
         }
 
         private void CreateForeignKey(ICreateTable createTable, ITransaction transaction, string schema, string table)

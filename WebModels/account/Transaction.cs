@@ -64,10 +64,12 @@ namespace WebModels.account
             public const string INVOICE_PAYMENT = "Accounts payable invoice payment: {0}";
             public const string TAX_PAYMENT = "Tax payment on invoice {0} to government {1}";
             public const string INVOICE_COLLECTED = "Accounts receivable invoice collection: {0}";
-            public const string TAX_COLLECTED = "Tax collection on invoice {0}";
+            public const string TAX_COLLECTED_INVOICE = "Tax collection on invoice {0}";
+            public const string TAX_COLLECTED_STORE = "Tax collection during store sale from {0}";
             public const string WIRE_TRANSFER_OUT = "Wire Transfer sent to {0}";
             public const string WIRE_TRANSFER_IN = "Wire Transfer received from {0}";
             public const string INTEREST_PAYMENT = "Federal interest payment";
+            public const string STORE_SALE = "Store sale at register: {0}";
         }
     }
 }

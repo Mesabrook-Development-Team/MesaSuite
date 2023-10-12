@@ -77,6 +77,7 @@ namespace MCSync
                 string oResourcesDirectory = minecraftDirectory + "\\oresources";
                 string animationDirectory = minecraftDirectory + "\\config\\customloadingscreen";
                 string signPacksDirectory = minecraftDirectory + "\\tc_signpacks";
+                string craftTweakerScriptsDirectory = minecraftDirectory + "\\scripts";
 
                 string[] clientSideWhiteListMods = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("mods_whitelist")?.Cast<string[]>() ?? new string[0];
                 string[] clientSideWhiteListResourcePacks = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("resourcepacks_whitelist")?.Cast<string[]>() ?? new string[0];
@@ -90,6 +91,7 @@ namespace MCSync
                 Directory.CreateDirectory(configFilesDirectory);
                 Directory.CreateDirectory(oResourcesDirectory);
                 Directory.CreateDirectory(signPacksDirectory);
+                Directory.CreateDirectory(craftTweakerScriptsDirectory);
 
                 // Load database stuff
                 List<MCSyncFile> syncFiles = await MCSyncFile.GetMCSyncFiles();
@@ -264,6 +266,34 @@ namespace MCSync
                     handledFiles.Add(strippedFile);
                 }
 
+                // CraftTweaker Script Files
+                IEnumerable<MCSyncFile> craftTweakerScriptFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.ct_scripts && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
+                foreach (string file in Directory.EnumerateFiles(craftTweakerScriptsDirectory, "*", SearchOption.AllDirectories))
+                {
+                    string strippedFile = StripDirectory(file, craftTweakerScriptsDirectory);
+                    byte[] fileHash = CalculateHash(file);
+                    MCSyncFile syncFile = craftTweakerScriptFiles.FirstOrDefault(f => f.Filename == strippedFile);
+                    if (syncFile == null)
+                    {
+                        // Extrinsic, delete
+                        Task deleteTask = new Task($"Delete CraftTweaker script file {strippedFile}", () =>
+                        {
+                            File.Delete(file);
+                            return true;
+                        });
+                        tasks.Add(deleteTask);
+                        TaskAdded?.Invoke(this, deleteTask);
+                    }
+                    else if (!syncFile.Checksum.SequenceEqual(fileHash))
+                    {
+                        Task updateTask = new Task($"Update CraftTweaker script file {strippedFile}", () => DownloadFile(syncFile.FileType, craftTweakerScriptsDirectory, strippedFile, syncFile.DownloadType));
+                        tasks.Add(updateTask);
+                        TaskAdded?.Invoke(this, updateTask);
+                    }
+
+                    handledFiles.Add(strippedFile);
+                }
+
                 // Missing Files
                 IEnumerable<MCSyncFile> missingFiles = syncFiles.Where(f => IsDownloadTypeValid(SyncMode.Client, f.DownloadType) && !handledFiles.Contains(f.Filename));
                 foreach (MCSyncFile missingFile in missingFiles)
@@ -294,6 +324,9 @@ namespace MCSync
                             break;
                         case MCSyncFile.FileTypes.tc_signpacks:
                             directory = signPacksDirectory;
+                            break;
+                        case MCSyncFile.FileTypes.ct_scripts:
+                            directory = craftTweakerScriptsDirectory;
                             break;
                     }
 

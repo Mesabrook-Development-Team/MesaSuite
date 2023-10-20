@@ -19,7 +19,7 @@ namespace MesaService.ServiceTasks
         {
             WarnUpcomingExpiration();
             NotifyDOI();
-
+            
             _nextRunTime = DateTime.Now.AddHours(1);
             return true;
         }

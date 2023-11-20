@@ -101,6 +101,21 @@ namespace WebModels.Migrations
             createTable.Execute(transaction);
             CreateForeignKey(createTable, transaction, "company", "Promotion");
             CreateForeignKey(createTable, transaction, "company", "LocationItem");
+
+            createTable.SchemaName = "account";
+            createTable.TableName = "DebitCard";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "DebitCardID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "AccountID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CardNumber", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 16) },
+                { "Pin", new FieldSpecification(FieldSpecification.FieldTypes.SmallInt) },
+                { "IssuedTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
+                { "UserIDIssuedBy", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(createTable, transaction, "account", "Account");
+            CreateForeignKey(createTable, transaction, "security", "User", "IssuedBy");
         }
 
         private void UpdateTables(ITransaction transaction)
@@ -123,12 +138,12 @@ namespace WebModels.Migrations
             alterTable.AddColumn("IsImmersibrook", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
         }
 
-        private void CreateForeignKey(ICreateTable createTable, ITransaction transaction, string schema, string table)
+        private void CreateForeignKey(ICreateTable createTable, ITransaction transaction, string schema, string table, string foreignKeySuffix = "")
         {
             IAlterTable alterTable = SQLProviderFactory.GetAlterTableQuery();
             alterTable.Schema = createTable.SchemaName;
             alterTable.Table = createTable.TableName;
-            alterTable.AddForeignKey($"FK{createTable.TableName}_{table}_{table}ID", $"{table}ID", schema, table, $"{table}ID", transaction);
+            alterTable.AddForeignKey($"FK{createTable.TableName}_{table}_{table}ID{foreignKeySuffix}", $"{table}ID{foreignKeySuffix}", schema, table, $"{table}ID", transaction);
         }
     }
 }

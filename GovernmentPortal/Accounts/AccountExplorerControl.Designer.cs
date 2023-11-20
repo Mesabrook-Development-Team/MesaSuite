@@ -57,6 +57,13 @@
             this.colEndBalance = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNetChange = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNetPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabDebitCards = new System.Windows.Forms.TabPage();
+            this.dgvDebitCards = new System.Windows.Forms.DataGridView();
+            this.colCardNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIssuedTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIssuedTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tsbDeleteDebitCard = new System.Windows.Forms.ToolStripButton();
             this.tabAccess = new System.Windows.Forms.TabPage();
             this.dgvAccess = new System.Windows.Forms.DataGridView();
             this.colAccess = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -70,6 +77,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransactions)).BeginInit();
             this.tabFiscalQuarters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiscalQuarters)).BeginInit();
+            this.tabDebitCards.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDebitCards)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.tabAccess.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccess)).BeginInit();
             this.SuspendLayout();
@@ -82,6 +92,7 @@
             this.tabControl.Controls.Add(this.tabDetails);
             this.tabControl.Controls.Add(this.tabTransactions);
             this.tabControl.Controls.Add(this.tabFiscalQuarters);
+            this.tabControl.Controls.Add(this.tabDebitCards);
             this.tabControl.Controls.Add(this.tabAccess);
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
@@ -323,7 +334,7 @@
             this.colYear.HeaderText = "Year";
             this.colYear.Name = "colYear";
             this.colYear.ReadOnly = true;
-            this.colYear.Width = 54;
+            this.colYear.Width = 52;
             // 
             // colQuarter
             // 
@@ -368,6 +379,73 @@
             this.colNetPercent.Name = "colNetPercent";
             this.colNetPercent.ReadOnly = true;
             this.colNetPercent.Width = 90;
+            // 
+            // tabDebitCards
+            // 
+            this.tabDebitCards.Controls.Add(this.dgvDebitCards);
+            this.tabDebitCards.Controls.Add(this.toolStrip1);
+            this.tabDebitCards.Location = new System.Drawing.Point(4, 22);
+            this.tabDebitCards.Name = "tabDebitCards";
+            this.tabDebitCards.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDebitCards.Size = new System.Drawing.Size(583, 236);
+            this.tabDebitCards.TabIndex = 4;
+            this.tabDebitCards.Text = "Debit Cards";
+            this.tabDebitCards.UseVisualStyleBackColor = true;
+            // 
+            // dgvDebitCards
+            // 
+            this.dgvDebitCards.AllowUserToAddRows = false;
+            this.dgvDebitCards.AllowUserToDeleteRows = false;
+            this.dgvDebitCards.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDebitCards.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colCardNumber,
+            this.colIssuedTo,
+            this.colIssuedTime});
+            this.dgvDebitCards.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvDebitCards.Location = new System.Drawing.Point(3, 34);
+            this.dgvDebitCards.Name = "dgvDebitCards";
+            this.dgvDebitCards.RowHeadersVisible = false;
+            this.dgvDebitCards.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvDebitCards.Size = new System.Drawing.Size(577, 199);
+            this.dgvDebitCards.TabIndex = 4;
+            // 
+            // colCardNumber
+            // 
+            this.colCardNumber.HeaderText = "Card Number";
+            this.colCardNumber.Name = "colCardNumber";
+            this.colCardNumber.Width = 200;
+            // 
+            // colIssuedTo
+            // 
+            this.colIssuedTo.HeaderText = "Issued To";
+            this.colIssuedTo.Name = "colIssuedTo";
+            this.colIssuedTo.Width = 200;
+            // 
+            // colIssuedTime
+            // 
+            this.colIssuedTime.HeaderText = "Issued Time";
+            this.colIssuedTime.Name = "colIssuedTime";
+            this.colIssuedTime.Width = 200;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbDeleteDebitCard});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 3);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(577, 31);
+            this.toolStrip1.TabIndex = 5;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // tsbDeleteDebitCard
+            // 
+            this.tsbDeleteDebitCard.Image = global::GovernmentPortal.Properties.Resources.vcard_delete;
+            this.tsbDeleteDebitCard.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbDeleteDebitCard.Name = "tsbDeleteDebitCard";
+            this.tsbDeleteDebitCard.Size = new System.Drawing.Size(120, 28);
+            this.tsbDeleteDebitCard.Text = "Delete Debit Card";
+            this.tsbDeleteDebitCard.Click += new System.EventHandler(this.tsbDeleteDebitCard_Click);
             // 
             // tabAccess
             // 
@@ -463,6 +541,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransactions)).EndInit();
             this.tabFiscalQuarters.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiscalQuarters)).EndInit();
+            this.tabDebitCards.ResumeLayout(false);
+            this.tabDebitCards.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDebitCards)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.tabAccess.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccess)).EndInit();
             this.ResumeLayout(false);
@@ -507,5 +590,12 @@
         private System.Windows.Forms.DataGridView dgvAccess;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colAccess;
         private System.Windows.Forms.DataGridViewTextBoxColumn colOfficial;
+        private System.Windows.Forms.TabPage tabDebitCards;
+        private System.Windows.Forms.DataGridView dgvDebitCards;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCardNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIssuedTo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIssuedTime;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton tsbDeleteDebitCard;
     }
 }

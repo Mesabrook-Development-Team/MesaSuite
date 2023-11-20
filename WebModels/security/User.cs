@@ -128,6 +128,13 @@ namespace WebModels.security
         {
             get { CheckGet(); return _accountClearances; }
         }
+
+        private List<DebitCard> _debitCardsIssued = new List<DebitCard>();
+        [RelationshipList("4F6B9B2F-5F6B-4B1D-BFC2-71C87AD5EA4C", "UserIDIssuedBy", AutoDeleteReferences = true)]
+        public IReadOnlyCollection<DebitCard> DebitCardsIssued
+        {
+            get { CheckGet(); return _debitCardsIssued; }
+        }
         #endregion
         #region fleet
         private List<fleet.TrainDutyTransaction> _trainDutyTransactions = new List<fleet.TrainDutyTransaction>();

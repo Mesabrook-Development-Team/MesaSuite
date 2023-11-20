@@ -359,6 +359,13 @@ namespace WebModels.account
         {
             get { CheckGet(); return _fiscalQuarters; }
         }
+
+        private List<DebitCard> _debitCards = new List<DebitCard>();
+        [RelationshipList("E5D1F9E6-8D6F-4B9A-9C4E-0E1C0E0A0E0A", "AccountID", AutoDeleteReferences = true)]
+        public IReadOnlyCollection<DebitCard> DebitCards
+        {
+            get { CheckGet(); return _debitCards; }
+        }
         #endregion
         #region company
         private List<Location> _locationStoreRevenues = new List<Location>();

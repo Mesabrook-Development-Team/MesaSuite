@@ -136,9 +136,12 @@
     <Compile Include="Attributes\RegisterAccessAttribute.cs" />
     <Compile Include="Attributes\RegisterAdministrativeAction.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccountIBAccessController.cs" />
     <Compile Include="Controllers\AliasController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\DebitCardController.cs" />
+    <Compile Include="Controllers\DebitCardIBAccessController.cs" />
     <Compile Include="Controllers\DistributionListController.cs" />
     <Compile Include="Controllers\DistributionListRecipientController.cs" />
     <Compile Include="Controllers\DomainController.cs" />

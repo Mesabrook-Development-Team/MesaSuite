@@ -45,6 +45,7 @@
     <Compile Include="account\Account.cs" />
     <Compile Include="account\AccountClearance.cs" />
     <Compile Include="account\Category.cs" />
+    <Compile Include="account\DebitCard.cs" />
     <Compile Include="account\FiscalQuarter.cs" />
     <Compile Include="account\Transaction.cs" />
     <Compile Include="account\WireTransferHistory.cs" />

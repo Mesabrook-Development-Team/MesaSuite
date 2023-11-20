@@ -106,6 +106,9 @@
     <Compile Include="Accounts\frmTransferFunds.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Accounts\frmTransferFunds.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Accounts\frmTransferFunds.Designer.cs">
       <DependentUpon>frmTransferFunds.cs</DependentUpon>
     </Compile>
@@ -264,6 +267,7 @@
     <Compile Include="Models\Alias.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\DebitCard.cs" />
     <Compile Include="Models\DistributionList.cs" />
     <Compile Include="Models\DistributionListRecipient.cs" />
     <Compile Include="Models\Domain.cs" />

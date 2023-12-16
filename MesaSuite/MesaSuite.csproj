@@ -38,7 +38,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Mesabrook Icon.ico</ApplicationIcon>
+    <ApplicationIcon>new_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CefSharp, Version=106.0.290.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
@@ -316,6 +316,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Mesabrook Icon.ico" />
+    <Content Include="new_icon.ico" />
+    <None Include="Resources\icn_govt_portal_hov.png" />
+    <None Include="Resources\icn_govt_portal.png" />
+    <None Include="Resources\logo_new_9.png" />
+    <None Include="Resources\logo_new_8.png" />
+    <None Include="Resources\logo_new_7.png" />
+    <None Include="Resources\new seal.png" />
+    <None Include="Resources\logo_new_6.png" />
+    <None Include="Resources\logo_new_5.png" />
+    <None Include="Resources\logo_new_4.png" />
+    <None Include="Resources\logo_new_3.png" />
+    <None Include="Resources\logo_new_2.png" />
+    <None Include="Resources\logo_new_1.png" />
+    <None Include="Resources\new logo.png" />
+    <None Include="Resources\new_mcsync.png" />
     <None Include="Resources\Mesabrook Icon.png" />
     <None Include="Resources\icn_dynmap.png" />
     <None Include="Resources\image2.png" />
@@ -1355,8 +1370,6 @@
     <None Include="Resources\icn_theme.png" />
     <None Include="Resources\icn_sysmgt_normal.png" />
     <None Include="Resources\icn_sysmgt_hover.png" />
-    <None Include="Resources\icn_govt_portal_hov.png" />
-    <None Include="Resources\icn_govt_portal.png" />
     <None Include="Resources\icn_cstudio_normal.png" />
     <None Include="Resources\icn_cstudio_hover.png" />
     <None Include="Resources\tile_sb.jpg" />

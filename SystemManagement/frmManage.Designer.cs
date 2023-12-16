@@ -58,10 +58,10 @@
             this.mnuDetails = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolItemManager = new System.Windows.Forms.ToolStripMenuItem();
-            this.loader1 = new SystemManagement.Loader();
             this.termsOfServiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTOSServer = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTOSMesaSuite = new System.Windows.Forms.ToolStripMenuItem();
+            this.loader1 = new SystemManagement.Loader();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -163,7 +163,7 @@
             this.newToolStripMenuItem,
             this.mnuDelete});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
@@ -174,41 +174,41 @@
             this.mnuNewCompany,
             this.mnuNewDomain});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // mnuNewUser
             // 
             this.mnuNewUser.Name = "mnuNewUser";
-            this.mnuNewUser.Size = new System.Drawing.Size(133, 22);
+            this.mnuNewUser.Size = new System.Drawing.Size(140, 22);
             this.mnuNewUser.Text = "User";
             this.mnuNewUser.Click += new System.EventHandler(this.mnuNewUser_Click);
             // 
             // mnuNewGovernment
             // 
             this.mnuNewGovernment.Name = "mnuNewGovernment";
-            this.mnuNewGovernment.Size = new System.Drawing.Size(133, 22);
+            this.mnuNewGovernment.Size = new System.Drawing.Size(140, 22);
             this.mnuNewGovernment.Text = "Government";
             this.mnuNewGovernment.Click += new System.EventHandler(this.mnuNewGovernment_Click);
             // 
             // mnuNewCompany
             // 
             this.mnuNewCompany.Name = "mnuNewCompany";
-            this.mnuNewCompany.Size = new System.Drawing.Size(133, 22);
+            this.mnuNewCompany.Size = new System.Drawing.Size(140, 22);
             this.mnuNewCompany.Text = "Company";
             this.mnuNewCompany.Click += new System.EventHandler(this.mnuNewCompany_Click);
             // 
             // mnuNewDomain
             // 
             this.mnuNewDomain.Name = "mnuNewDomain";
-            this.mnuNewDomain.Size = new System.Drawing.Size(133, 22);
+            this.mnuNewDomain.Size = new System.Drawing.Size(140, 22);
             this.mnuNewDomain.Text = "Domain";
             this.mnuNewDomain.Click += new System.EventHandler(this.mnuNewDomain_Click);
             // 
             // mnuDelete
             // 
             this.mnuDelete.Name = "mnuDelete";
-            this.mnuDelete.Size = new System.Drawing.Size(105, 22);
+            this.mnuDelete.Size = new System.Drawing.Size(107, 22);
             this.mnuDelete.Text = "Delete";
             this.mnuDelete.Click += new System.EventHandler(this.mnuDelete_Click);
             // 
@@ -221,13 +221,13 @@
             this.mnuList,
             this.mnuDetails});
             this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(41, 20);
+            this.mnuView.Size = new System.Drawing.Size(44, 20);
             this.mnuView.Text = "View";
             // 
             // mnuLargeIcon
             // 
             this.mnuLargeIcon.Name = "mnuLargeIcon";
-            this.mnuLargeIcon.Size = new System.Drawing.Size(125, 22);
+            this.mnuLargeIcon.Size = new System.Drawing.Size(129, 22);
             this.mnuLargeIcon.Text = "Large Icon";
             this.mnuLargeIcon.Click += new System.EventHandler(this.ListViewTypeUpdate);
             // 
@@ -236,44 +236,67 @@
             this.mnuSmallIcon.Checked = true;
             this.mnuSmallIcon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuSmallIcon.Name = "mnuSmallIcon";
-            this.mnuSmallIcon.Size = new System.Drawing.Size(125, 22);
+            this.mnuSmallIcon.Size = new System.Drawing.Size(129, 22);
             this.mnuSmallIcon.Text = "Small Icon";
             this.mnuSmallIcon.Click += new System.EventHandler(this.ListViewTypeUpdate);
             // 
             // mnuTile
             // 
             this.mnuTile.Name = "mnuTile";
-            this.mnuTile.Size = new System.Drawing.Size(125, 22);
+            this.mnuTile.Size = new System.Drawing.Size(129, 22);
             this.mnuTile.Text = "Tile";
             this.mnuTile.Click += new System.EventHandler(this.ListViewTypeUpdate);
             // 
             // mnuList
             // 
             this.mnuList.Name = "mnuList";
-            this.mnuList.Size = new System.Drawing.Size(125, 22);
+            this.mnuList.Size = new System.Drawing.Size(129, 22);
             this.mnuList.Text = "List";
             this.mnuList.Click += new System.EventHandler(this.ListViewTypeUpdate);
             // 
             // mnuDetails
             // 
             this.mnuDetails.Name = "mnuDetails";
-            this.mnuDetails.Size = new System.Drawing.Size(125, 22);
+            this.mnuDetails.Size = new System.Drawing.Size(129, 22);
             this.mnuDetails.Text = "Details";
             this.mnuDetails.Click += new System.EventHandler(this.ListViewTypeUpdate);
             // 
             // refreshToolStripMenuItem
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // toolItemManager
             // 
             this.toolItemManager.Name = "toolItemManager";
-            this.toolItemManager.Size = new System.Drawing.Size(86, 20);
+            this.toolItemManager.Size = new System.Drawing.Size(93, 20);
             this.toolItemManager.Text = "Item Manager";
             this.toolItemManager.Click += new System.EventHandler(this.toolItemManager_Click);
+            // 
+            // termsOfServiceToolStripMenuItem
+            // 
+            this.termsOfServiceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuTOSServer,
+            this.mnuTOSMesaSuite});
+            this.termsOfServiceToolStripMenuItem.Name = "termsOfServiceToolStripMenuItem";
+            this.termsOfServiceToolStripMenuItem.Size = new System.Drawing.Size(106, 20);
+            this.termsOfServiceToolStripMenuItem.Text = "Terms Of Service";
+            // 
+            // mnuTOSServer
+            // 
+            this.mnuTOSServer.Name = "mnuTOSServer";
+            this.mnuTOSServer.Size = new System.Drawing.Size(168, 22);
+            this.mnuTOSServer.Text = "Mesabrook Server";
+            this.mnuTOSServer.Click += new System.EventHandler(this.mnuTOSServer_Click);
+            // 
+            // mnuTOSMesaSuite
+            // 
+            this.mnuTOSMesaSuite.Name = "mnuTOSMesaSuite";
+            this.mnuTOSMesaSuite.Size = new System.Drawing.Size(168, 22);
+            this.mnuTOSMesaSuite.Text = "MesaSuite";
+            this.mnuTOSMesaSuite.Click += new System.EventHandler(this.mnuTOSMesaSuite_Click);
             // 
             // loader1
             // 
@@ -282,29 +305,6 @@
             this.loader1.Name = "loader1";
             this.loader1.Size = new System.Drawing.Size(196, 101);
             this.loader1.TabIndex = 5;
-            // 
-            // termsOfServiceToolStripMenuItem
-            // 
-            this.termsOfServiceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuTOSServer,
-            this.mnuTOSMesaSuite});
-            this.termsOfServiceToolStripMenuItem.Name = "termsOfServiceToolStripMenuItem";
-            this.termsOfServiceToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
-            this.termsOfServiceToolStripMenuItem.Text = "Terms Of Service";
-            // 
-            // mnuTOSServer
-            // 
-            this.mnuTOSServer.Name = "mnuTOSServer";
-            this.mnuTOSServer.Size = new System.Drawing.Size(180, 22);
-            this.mnuTOSServer.Text = "Mesabrook Server";
-            this.mnuTOSServer.Click += new System.EventHandler(this.mnuTOSServer_Click);
-            // 
-            // mnuTOSMesaSuite
-            // 
-            this.mnuTOSMesaSuite.Name = "mnuTOSMesaSuite";
-            this.mnuTOSMesaSuite.Size = new System.Drawing.Size(180, 22);
-            this.mnuTOSMesaSuite.Text = "MesaSuite";
-            this.mnuTOSMesaSuite.Click += new System.EventHandler(this.mnuTOSMesaSuite_Click);
             // 
             // frmManage
             // 

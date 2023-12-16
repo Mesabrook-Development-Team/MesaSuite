@@ -40,10 +40,10 @@
             this.openFolder = new WK.Libraries.BetterFolderBrowserNS.BetterFolderBrowser(this.components);
             this.loader = new SystemManagement.Loader();
             this.pnlUpload = new System.Windows.Forms.Panel();
-            this.lblNamespace = new System.Windows.Forms.Label();
+            this.prgItem = new System.Windows.Forms.ProgressBar();
             this.prgNamespace = new System.Windows.Forms.ProgressBar();
             this.lblItem = new System.Windows.Forms.Label();
-            this.prgItem = new System.Windows.Forms.ProgressBar();
+            this.lblNamespace = new System.Windows.Forms.Label();
             this.grpPreview.SuspendLayout();
             this.pnlUpload.SuspendLayout();
             this.SuspendLayout();
@@ -152,14 +152,12 @@
             this.pnlUpload.TabIndex = 6;
             this.pnlUpload.Visible = false;
             // 
-            // lblNamespace
+            // prgItem
             // 
-            this.lblNamespace.AutoSize = true;
-            this.lblNamespace.Location = new System.Drawing.Point(3, 2);
-            this.lblNamespace.Name = "lblNamespace";
-            this.lblNamespace.Size = new System.Drawing.Size(67, 13);
-            this.lblNamespace.TabIndex = 0;
-            this.lblNamespace.Text = "Namespace:";
+            this.prgItem.Location = new System.Drawing.Point(3, 60);
+            this.prgItem.Name = "prgItem";
+            this.prgItem.Size = new System.Drawing.Size(433, 23);
+            this.prgItem.TabIndex = 1;
             // 
             // prgNamespace
             // 
@@ -177,12 +175,14 @@
             this.lblItem.TabIndex = 0;
             this.lblItem.Text = "Item:";
             // 
-            // prgItem
+            // lblNamespace
             // 
-            this.prgItem.Location = new System.Drawing.Point(3, 60);
-            this.prgItem.Name = "prgItem";
-            this.prgItem.Size = new System.Drawing.Size(433, 23);
-            this.prgItem.TabIndex = 1;
+            this.lblNamespace.AutoSize = true;
+            this.lblNamespace.Location = new System.Drawing.Point(3, 2);
+            this.lblNamespace.Name = "lblNamespace";
+            this.lblNamespace.Size = new System.Drawing.Size(67, 13);
+            this.lblNamespace.TabIndex = 0;
+            this.lblNamespace.Text = "Namespace:";
             // 
             // frmItemImporter
             // 

@@ -53,6 +53,7 @@
             this.personalizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.soundEffectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dynamicSplashScreensToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLoginHistoryApps = new System.Windows.Forms.ToolStripMenuItem();
             this.myAppsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,7 +61,6 @@
             this.mnuRegister = new System.Windows.Forms.ToolStripMenuItem();
             this.pboxLoginStatus = new System.Windows.Forms.PictureBox();
             this.lblLoginStatus = new System.Windows.Forms.Label();
-            this.dynamicSplashScreensToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSync)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSyncLogo)).BeginInit();
             this.pnlMCSync.SuspendLayout();
@@ -101,7 +101,7 @@
             // pboxMCSyncLogo
             // 
             this.pboxMCSyncLogo.BackColor = System.Drawing.Color.Transparent;
-            this.pboxMCSyncLogo.BackgroundImage = global::MesaSuite.Properties.Resources.logo_MCSync;
+            this.pboxMCSyncLogo.BackgroundImage = global::MesaSuite.Properties.Resources.new_mcsync;
             this.pboxMCSyncLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pboxMCSyncLogo.Location = new System.Drawing.Point(6, 118);
             this.pboxMCSyncLogo.Name = "pboxMCSyncLogo";
@@ -242,7 +242,7 @@
             this.pboxGovernmentPortal.BackColor = System.Drawing.Color.Transparent;
             this.pboxGovernmentPortal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pboxGovernmentPortal.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pboxGovernmentPortal.Image = global::MesaSuite.Properties.Resources.icn_govt_portal;
+            this.pboxGovernmentPortal.Image = global::MesaSuite.Properties.Resources.new_seal;
             this.pboxGovernmentPortal.Location = new System.Drawing.Point(26, 19);
             this.pboxGovernmentPortal.Name = "pboxGovernmentPortal";
             this.pboxGovernmentPortal.Size = new System.Drawing.Size(80, 97);
@@ -364,6 +364,15 @@
             this.soundEffectToolStripMenuItem.Text = "Click Sound Effect";
             this.soundEffectToolStripMenuItem.Click += new System.EventHandler(this.soundEffectToolStripMenuItem_Click);
             // 
+            // dynamicSplashScreensToolStripMenuItem
+            // 
+            this.dynamicSplashScreensToolStripMenuItem.Checked = true;
+            this.dynamicSplashScreensToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.dynamicSplashScreensToolStripMenuItem.Name = "dynamicSplashScreensToolStripMenuItem";
+            this.dynamicSplashScreensToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.dynamicSplashScreensToolStripMenuItem.Text = "Dynamic Splash Screens";
+            this.dynamicSplashScreensToolStripMenuItem.Click += new System.EventHandler(this.dynamicSplashScreensToolStripMenuItem_Click);
+            // 
             // mnuProfile
             // 
             this.mnuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -397,12 +406,12 @@
             this.ctxSignIn.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuRegister});
             this.ctxSignIn.Name = "ctxSignIn";
-            this.ctxSignIn.Size = new System.Drawing.Size(167, 26);
+            this.ctxSignIn.Size = new System.Drawing.Size(174, 26);
             // 
             // mnuRegister
             // 
             this.mnuRegister.Name = "mnuRegister";
-            this.mnuRegister.Size = new System.Drawing.Size(166, 22);
+            this.mnuRegister.Size = new System.Drawing.Size(173, 22);
             this.mnuRegister.Text = "Register MesaSuite";
             this.mnuRegister.Click += new System.EventHandler(this.mnuRegister_Click);
             // 
@@ -430,15 +439,6 @@
             this.lblLoginStatus.Size = new System.Drawing.Size(84, 15);
             this.lblLoginStatus.TabIndex = 9;
             this.lblLoginStatus.Text = "Not Logged In";
-            // 
-            // dynamicSplashScreensToolStripMenuItem
-            // 
-            this.dynamicSplashScreensToolStripMenuItem.Checked = true;
-            this.dynamicSplashScreensToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.dynamicSplashScreensToolStripMenuItem.Name = "dynamicSplashScreensToolStripMenuItem";
-            this.dynamicSplashScreensToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.dynamicSplashScreensToolStripMenuItem.Text = "Dynamic Splash Screens";
-            this.dynamicSplashScreensToolStripMenuItem.Click += new System.EventHandler(this.dynamicSplashScreensToolStripMenuItem_Click);
             // 
             // frmMain
             // 

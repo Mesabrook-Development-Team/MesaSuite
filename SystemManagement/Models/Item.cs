@@ -11,6 +11,7 @@ namespace SystemManagement.Models
         public string Name { get; set; }
         public byte[] Image { get; set; }
         public byte[] Hash { get; set; }
+        public bool IsFluid { get; set; }
 
         public Image GetImage()
         {

@@ -21,7 +21,8 @@ namespace API_Company.Controllers
             li.Quantity,
             li.BasePrice,
             li.Item.ItemID,
-            li.Item.Name
+            li.Item.Name,
+            li.Item.IsFluid
         });
 
         [HttpGet]

@@ -65,6 +65,14 @@ namespace WebModels.mesasys
             set { CheckSet(); _hash = value; }
         }
 
+        private bool _isFluid;
+        [Field("EFD09E0E-F965-4B10-8ED0-5A4488A1C758")]
+        public bool IsFluid
+        {
+            get { CheckGet(); return _isFluid; }
+            set { CheckSet(); _isFluid = value; }
+        }
+
         protected override bool PreSave(ITransaction transaction)
         {
             if (IsFieldDirty(nameof(ItemNamespaceID)) || IsFieldDirty(nameof(Image)))

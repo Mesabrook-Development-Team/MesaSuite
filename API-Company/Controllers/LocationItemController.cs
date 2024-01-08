@@ -28,6 +28,7 @@ namespace API_Company.Controllers
             li.Quantity,
             li.Item.ItemID,
             li.Item.Name,
+            li.Item.IsFluid,
             li.Item.Image
         });
 

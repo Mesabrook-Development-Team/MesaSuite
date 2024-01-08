@@ -31,6 +31,7 @@ namespace API_Company.Controllers
             ssi.LocationItem.ItemID,
             ssi.LocationItem.Item.ItemID,
             ssi.LocationItem.Item.Name,
+            ssi.LocationItem.Item.IsFluid,
             ssi.StoreSale.StoreSaleID,
             ssi.StoreSale.RegisterID,
             ssi.StoreSale.Register.Name,

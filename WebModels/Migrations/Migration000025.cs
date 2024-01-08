@@ -136,6 +136,10 @@ namespace WebModels.Migrations
             alterTable.Schema = "security";
             alterTable.Table = "User";
             alterTable.AddColumn("IsImmersibrook", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
+
+            alterTable.Schema = "mesasys";
+            alterTable.Table = "Item";
+            alterTable.AddColumn("IsFluid", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
         }
 
         private void CreateForeignKey(ICreateTable createTable, ITransaction transaction, string schema, string table, string foreignKeySuffix = "")

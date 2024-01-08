@@ -25,7 +25,7 @@ namespace API_Company.Controllers
     public class StoreSaleItemIBAccessController : ApiController
     {
         [HttpPost]
-        public IHttpActionResult Post(StoreItem[] items)
+        public IHttpActionResult Post(StoreSaleParameter storeSaleParameter)
         {
             RegisterCache.CachedRegister cachedRegister = (RegisterCache.CachedRegister)Request.Properties["CachedRegister"];
             if (cachedRegister == null)
@@ -47,6 +47,40 @@ namespace API_Company.Controllers
                 return new BadRequestErrorMessageResult("Store Location Accounting not set up", this);
             }
 
+            DebitCard debitCard = null;
+
+            if (storeSaleParameter.DebitCardInformation != null)
+            {
+                Search<DebitCard> debitCardSearch = new Search<DebitCard>(new StringSearchCondition<DebitCard>()
+                {
+                    Field = nameof(DebitCard.CardNumber),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = storeSaleParameter.DebitCardInformation.CardNumber
+                });
+
+                debitCard = debitCardSearch.GetReadOnly(null, FieldPathUtility.CreateFieldPathsAsList<DebitCard>(dc => new List<object>()
+                {
+                    dc.Pin,
+                    dc.AccountID,
+                    dc.Account.Balance
+                }));
+
+                if (debitCard == null || !short.TryParse(storeSaleParameter.DebitCardInformation.PIN, out short pin))
+                {
+                    return new BadRequestErrorMessageResult("Card Declined: Number not found", this);
+                }
+
+                if (debitCard.Pin != pin)
+                {
+                    return new BadRequestErrorMessageResult("Card Declined: Incorrect PIN", this);
+                }
+
+                if (debitCard.Account?.Balance < storeSaleParameter.DebitCardInformation.AuthorizedAmount)
+                {
+                    return new BadRequestErrorMessageResult("Card Declined: Insufficient Funds", this);
+                }
+            }
+
             StoreSale sale = null;
             using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
@@ -61,7 +95,7 @@ namespace API_Company.Controllers
 
                 decimal totalRevenue = 0;
                 Dictionary<string, LocationItem> locationItemsByNameQuantity = new Dictionary<string, LocationItem>();
-                foreach(StoreItem storeItem in items)
+                foreach(StoreItem storeItem in storeSaleParameter.StoreItems)
                 {
                     string locationItemLookupKey = string.Format("{0}-{1}", storeItem.Name, storeItem.Amount);
                     if (!locationItemsByNameQuantity.ContainsKey(locationItemLookupKey))
@@ -137,6 +171,15 @@ namespace API_Company.Controllers
                     }
                 }
 
+                if (storeSaleParameter.DebitCardInformation != null)
+                {
+                    Account debitCardSourceAccount = DataObject.GetEditableByPrimaryKey<Account>(debitCard.AccountID, transaction, null);
+                    if (!debitCardSourceAccount.Deposit(-storeSaleParameter.DebitCardInformation.AuthorizedAmount, string.Format(Transaction.DescriptionFormats.STORE_SALE, cachedRegister.Name), transaction))
+                    {
+                        return debitCardSourceAccount.HandleFailedValidation(this);
+                    }
+                }
+
                 transaction.Commit();
             }
 
@@ -148,6 +191,20 @@ namespace API_Company.Controllers
             public string Name { get; set; }
             public int Amount { get; set; }
             public decimal SaleAmount { get; set; }
+        }
+
+        public class DebitCardInformation
+        {
+            public string CardNumber { get; set; }
+            public string PIN { get; set; }
+            public decimal AuthorizedAmount { get; set; }
+            public decimal PaymentAmount { get; set; }
+        }
+
+        public class StoreSaleParameter
+        {
+            public StoreItem[] StoreItems { get; set; }
+            public DebitCardInformation DebitCardInformation { get; set; }
         }
     }
 }

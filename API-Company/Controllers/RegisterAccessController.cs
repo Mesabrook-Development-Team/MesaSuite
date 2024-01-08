@@ -1,6 +1,8 @@
 ﻿using API.Common;
 using API.Common.Attributes;
+using API.Common.Extensions;
 using API_Company.Attributes;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
 using System;
@@ -87,6 +89,22 @@ namespace API_Company.Controllers
 
             Register register = registerSearch.GetReadOnly(null, await FieldsToRetrieve());
             return register == null ? (IHttpActionResult)NotFound() : Ok(register);
+        }
+
+        [HttpPost]
+        public IHttpActionResult SetStatus(RegisterStatus status)
+        {
+            Register register = new Search<Register>(GetBaseSearchCondition()).GetReadOnly(null, new[] { nameof(Register.RegisterID) });
+
+            status.RegisterID = register.RegisterID;
+            status.ChangeTime = DateTime.Now;
+
+            if (!status.Save())
+            {
+                return status.HandleFailedValidation(this);
+            }
+
+            return Created("RegisterStatus/Get/" + status.RegisterStatusID, status);
         }
     }
 }

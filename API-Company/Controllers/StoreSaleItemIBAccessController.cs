@@ -4,6 +4,7 @@ using API_Company.App_Code;
 using API_Company.Attributes;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
+using ClussPro.Base.Extensions;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
@@ -16,6 +17,7 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using WebModels.account;
 using WebModels.company;
+using WebModels.mesasys;
 
 namespace API_Company.Controllers
 {
@@ -95,10 +97,11 @@ namespace API_Company.Controllers
 
                 decimal totalRevenue = 0;
                 Dictionary<string, LocationItem> locationItemsByNameQuantity = new Dictionary<string, LocationItem>();
+                Dictionary<string, LocationItem> fluidLocationItemsByName = new Dictionary<string, LocationItem>();
                 foreach(StoreItem storeItem in storeSaleParameter.StoreItems)
                 {
                     string locationItemLookupKey = string.Format("{0}-{1}", storeItem.Name, storeItem.Amount);
-                    if (!locationItemsByNameQuantity.ContainsKey(locationItemLookupKey))
+                    if (!locationItemsByNameQuantity.ContainsKey(locationItemLookupKey) && !fluidLocationItemsByName.ContainsKey(storeItem.Name))
                     {
                         Search<LocationItem> locationItemSearch = new Search<LocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                             new LongSearchCondition<LocationItem>()
@@ -109,7 +112,7 @@ namespace API_Company.Controllers
                             },
                             new StringSearchCondition<LocationItem>()
                             {
-                                Field = $"{nameof(LocationItem.Item)}.{nameof(WebModels.mesasys.Item.Name)}",
+                                Field = $"{nameof(LocationItem.Item)}.{nameof(Item.Name)}",
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                 Value = storeItem.Name
                             },
@@ -118,6 +121,12 @@ namespace API_Company.Controllers
                                 Field = nameof(LocationItem.Quantity),
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                 Value = storeItem.Amount
+                            },
+                            new BooleanSearchCondition<LocationItem>()
+                            {
+                                Field = nameof(LocationItem.Item) + "." + nameof(Item.IsFluid),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = false
                             }));
 
                         LocationItem item = locationItemSearch.GetReadOnly(null, new[] 
@@ -128,18 +137,52 @@ namespace API_Company.Controllers
 
                         if (item == null)
                         {
-                            continue;
-                        }
+                            locationItemSearch = new Search<LocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                                new LongSearchCondition<LocationItem>()
+                                {
+                                    Field = nameof(LocationItem.LocationID),
+                                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                    Value = cachedRegister.LocationID
+                                },
+                                new StringSearchCondition<LocationItem>()
+                                {
+                                    Field = $"{nameof(LocationItem.Item)}.{nameof(Item.Name)}",
+                                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                    Value = storeItem.Name
+                                },
+                                new BooleanSearchCondition<LocationItem>()
+                                {
+                                    Field = nameof(LocationItem.Item) + "." + nameof(Item.IsFluid),
+                                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                    Value = true
+                                }));
 
-                        locationItemsByNameQuantity.Add(locationItemLookupKey, item);
+                            item = locationItemSearch.GetReadOnly(null, new[]
+                            {
+                                nameof(LocationItem.LocationItemID),
+                                nameof(LocationItem.BasePrice)
+                            });
+
+                            if (item == null)
+                            {
+                                continue;
+                            }
+
+                            fluidLocationItemsByName.Add(storeItem.Name, item);
+                        }
+                        else
+                        {
+                            locationItemsByNameQuantity.Add(locationItemLookupKey, item);
+                        }
                     }
 
-                    LocationItem locationItem = locationItemsByNameQuantity[locationItemLookupKey];
+                    LocationItem locationItem = locationItemsByNameQuantity.GetOrDefault(locationItemLookupKey) ??
+                                                    fluidLocationItemsByName[storeItem.Name];
 
                     StoreSaleItem saleItem = DataObjectFactory.Create<StoreSaleItem>();
                     saleItem.StoreSaleID = sale.StoreSaleID;
                     saleItem.LocationItemID = locationItem.LocationItemID;
-                    saleItem.RingPrice = locationItem.BasePrice;
+                    saleItem.RingPrice = fluidLocationItemsByName.ContainsKey(storeItem.Name) ? storeItem.SaleAmount : locationItem.BasePrice;
                     saleItem.SoldPrice = storeItem.SaleAmount;
                     if (!saleItem.Save(transaction))
                     {

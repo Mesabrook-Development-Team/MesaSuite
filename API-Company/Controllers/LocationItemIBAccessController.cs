@@ -33,7 +33,14 @@ namespace API_Company.Controllers
                 return BadRequest();
             }
 
-            Search<LocationItem> locationItemSearch = new Search<LocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+            Item itemLookup = new Search<Item>(new StringSearchCondition<Item>()
+            {
+                Field = nameof(Item.Name),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = name
+            }).GetReadOnly(null, new[] { nameof(Item.IsFluid) });
+
+            SearchConditionGroup searchConditionGroup = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 new LongSearchCondition<LocationItem>()
                 {
                     Field = nameof(LocationItem.LocationID),
@@ -45,13 +52,20 @@ namespace API_Company.Controllers
                     Field = $"{nameof(LocationItem.Item)}.{nameof(Item.Name)}",
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = name
-                },
+                });
+
+            if (!(itemLookup?.IsFluid ?? false))
+            {
+                searchConditionGroup.SearchConditions.Add(
                 new ShortSearchCondition<LocationItem>()
                 {
                     Field = nameof(LocationItem.Quantity),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = quantity
-                }));
+                });
+            }
+
+            Search<LocationItem> locationItemSearch = new Search<LocationItem>(searchConditionGroup);
 
             LocationItem item = locationItemSearch.GetReadOnly(null, FIELDS);
             return item == null ? (IHttpActionResult)NotFound() : Ok(item);

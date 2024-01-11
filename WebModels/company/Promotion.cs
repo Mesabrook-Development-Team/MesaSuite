@@ -68,7 +68,7 @@ namespace WebModels.company
         #region Relationships
         #region company
         private List<PromotionLocationItem> _promotionLocationItems = new List<PromotionLocationItem>();
-        [RelationshipList("AABCC2DF-0EEF-4773-AEAD-E3653AE55DCE", nameof(PromotionLocationItem.PromotionID), AutoRemoveReferences = true)]
+        [RelationshipList("AABCC2DF-0EEF-4773-AEAD-E3653AE55DCE", nameof(PromotionLocationItem.PromotionID), AutoDeleteReferences = true)]
         public IReadOnlyCollection<PromotionLocationItem> PromotionLocationItems
         {
             get { CheckGet(); return _promotionLocationItems; }

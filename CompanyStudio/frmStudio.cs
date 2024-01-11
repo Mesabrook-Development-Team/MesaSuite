@@ -920,5 +920,19 @@ namespace CompanyStudio
             salesWizard.StudioForm = this;
             salesWizard.ShowDialog();
         }
+
+        private void mnuPromotions_Click(object sender, EventArgs e)
+        {
+            Store.frmPromotionExplorer promotionExplorer = dockPanel.Contents.OfType<Store.frmPromotionExplorer>().FirstOrDefault(r => r.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (promotionExplorer != null)
+            {
+                promotionExplorer.BringToFront();
+                return;
+            }
+
+            promotionExplorer = new Store.frmPromotionExplorer();
+            DecorateStudioContent(promotionExplorer);
+            promotionExplorer.Show(dockPanel, DockState.DockRight);
+        }
     }
 }

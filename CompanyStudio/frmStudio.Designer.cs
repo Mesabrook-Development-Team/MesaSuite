@@ -38,9 +38,10 @@
             this.storeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRegisters = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuStorePriceManager = new System.Windows.Forms.ToolStripMenuItem();
-            this.promotionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuPromotions = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuStoreConfiguration = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuStoreSalesReport = new System.Windows.Forms.ToolStripMenuItem();
             this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEmailExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.employeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,7 +81,6 @@
             this.tmrLocationUpdater = new System.Windows.Forms.Timer(this.components);
             this.loader = new CompanyStudio.Loader();
             this.studioFormExtender = new CompanyStudio.StudioFormExtender(this.components);
-            this.mnuStoreSalesReport = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuBanner.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -133,7 +133,7 @@
             this.mnuCompanyExplorer.Image = global::CompanyStudio.Properties.Resources.building;
             this.mnuCompanyExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuCompanyExplorer.Name = "mnuCompanyExplorer";
-            this.mnuCompanyExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuCompanyExplorer.Size = new System.Drawing.Size(162, 22);
             this.mnuCompanyExplorer.Text = "Company Explorer";
             this.mnuCompanyExplorer.Click += new System.EventHandler(this.mnuCompanyExplorer_Click);
             // 
@@ -142,7 +142,7 @@
             this.mnuLocationExplorer.Image = global::CompanyStudio.Properties.Resources.world;
             this.mnuLocationExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuLocationExplorer.Name = "mnuLocationExplorer";
-            this.mnuLocationExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuLocationExplorer.Size = new System.Drawing.Size(162, 22);
             this.mnuLocationExplorer.Text = "Location Explorer";
             this.mnuLocationExplorer.Click += new System.EventHandler(this.mnuLocationExplorer_Click);
             // 
@@ -151,7 +151,7 @@
             this.storeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuRegisters,
             this.mnuStorePriceManager,
-            this.promotionsToolStripMenuItem,
+            this.mnuPromotions,
             this.toolStripMenuItem3,
             this.mnuStoreConfiguration,
             this.mnuStoreSalesReport});
@@ -177,11 +177,12 @@
             this.mnuStorePriceManager.Text = "Price Manager";
             this.mnuStorePriceManager.Click += new System.EventHandler(this.mnuStorePriceManager_Click);
             // 
-            // promotionsToolStripMenuItem
+            // mnuPromotions
             // 
-            this.promotionsToolStripMenuItem.Name = "promotionsToolStripMenuItem";
-            this.promotionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.promotionsToolStripMenuItem.Text = "Promotions";
+            this.mnuPromotions.Name = "mnuPromotions";
+            this.mnuPromotions.Size = new System.Drawing.Size(180, 22);
+            this.mnuPromotions.Text = "Promotions";
+            this.mnuPromotions.Click += new System.EventHandler(this.mnuPromotions_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -194,6 +195,13 @@
             this.mnuStoreConfiguration.Size = new System.Drawing.Size(180, 22);
             this.mnuStoreConfiguration.Text = "Configuration";
             this.mnuStoreConfiguration.Click += new System.EventHandler(this.mnuStoreConfiguration_Click);
+            // 
+            // mnuStoreSalesReport
+            // 
+            this.mnuStoreSalesReport.Name = "mnuStoreSalesReport";
+            this.mnuStoreSalesReport.Size = new System.Drawing.Size(180, 22);
+            this.mnuStoreSalesReport.Text = "Store Sales Report";
+            this.mnuStoreSalesReport.Click += new System.EventHandler(this.mnuStoreSalesReport_Click);
             // 
             // emailToolStripMenuItem
             // 
@@ -212,7 +220,7 @@
             this.mnuEmailExplorer.Image = global::CompanyStudio.Properties.Resources.email;
             this.mnuEmailExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuEmailExplorer.Name = "mnuEmailExplorer";
-            this.mnuEmailExplorer.Size = new System.Drawing.Size(180, 22);
+            this.mnuEmailExplorer.Size = new System.Drawing.Size(141, 22);
             this.mnuEmailExplorer.Text = "Email Explorer";
             this.mnuEmailExplorer.Click += new System.EventHandler(this.mnuEmailExplorer_Click);
             // 
@@ -396,7 +404,7 @@
             this.mnuThemes.Image = global::CompanyStudio.Properties.Resources.paintbrush;
             this.mnuThemes.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuThemes.Name = "mnuThemes";
-            this.mnuThemes.Size = new System.Drawing.Size(106, 22);
+            this.mnuThemes.Size = new System.Drawing.Size(180, 22);
             this.mnuThemes.Text = "Theme";
             // 
             // mnuLightTheme
@@ -522,13 +530,6 @@
             this.loader.TabIndex = 7;
             this.loader.Visible = false;
             // 
-            // mnuStoreSalesReport
-            // 
-            this.mnuStoreSalesReport.Name = "mnuStoreSalesReport";
-            this.mnuStoreSalesReport.Size = new System.Drawing.Size(180, 22);
-            this.mnuStoreSalesReport.Text = "Store Sales Report";
-            this.mnuStoreSalesReport.Click += new System.EventHandler(this.mnuStoreSalesReport_Click);
-            // 
             // frmStudio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -604,7 +605,7 @@
         private System.Windows.Forms.ToolStripMenuItem storeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuRegisters;
         private System.Windows.Forms.ToolStripMenuItem mnuStorePriceManager;
-        private System.Windows.Forms.ToolStripMenuItem promotionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuPromotions;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem mnuStoreConfiguration;
         private System.Windows.Forms.ToolStripMenuItem mnuStoreSalesReport;

@@ -285,6 +285,8 @@
     <Compile Include="Models\LocationEmployee.cs" />
     <Compile Include="Models\LocationGovernment.cs" />
     <Compile Include="Models\LocationItem.cs" />
+    <Compile Include="Models\Promotion.cs" />
+    <Compile Include="Models\PromotionLocationItem.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\RegisterStatus.cs" />
     <Compile Include="Models\SalesTax.cs" />
@@ -302,6 +304,18 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="Store\frmPromotion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Store\frmPromotion.Designer.cs">
+      <DependentUpon>frmPromotion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Store\frmPromotionExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Store\frmPromotionExplorer.Designer.cs">
+      <DependentUpon>frmPromotionExplorer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Store\frmRegister.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -453,6 +467,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Store\frmPromotion.resx">
+      <DependentUpon>frmPromotion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Store\frmPromotionExplorer.resx">
+      <DependentUpon>frmPromotionExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Store\frmRegister.resx">
       <DependentUpon>frmRegister.cs</DependentUpon>

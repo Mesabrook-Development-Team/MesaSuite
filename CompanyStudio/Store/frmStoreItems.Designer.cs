@@ -28,20 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmStoreItems));
             this.label1 = new System.Windows.Forms.Label();
             this.grpCurrentItems = new System.Windows.Forms.GroupBox();
             this.dgvItems = new System.Windows.Forms.DataGridView();
-            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.mnuAddItem = new System.Windows.Forms.ToolStripButton();
             this.mnuDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuMarkupSelected = new System.Windows.Forms.ToolStripButton();
             this.itmSelector = new CompanyStudio.ItemSelectorInput();
+            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPromo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grpCurrentItems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -79,7 +81,8 @@
             this.colImage,
             this.colItem,
             this.colQty,
-            this.colCost});
+            this.colCost,
+            this.colPromo});
             this.dgvItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvItems.Location = new System.Drawing.Point(3, 41);
             this.dgvItems.Name = "dgvItems";
@@ -88,33 +91,6 @@
             this.dgvItems.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItems_CellEndEdit);
             this.dgvItems.RowValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItems_RowValidated);
             this.dgvItems.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvItems_RowValidating);
-            // 
-            // colImage
-            // 
-            this.colImage.HeaderText = "";
-            this.colImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colImage.Name = "colImage";
-            this.colImage.ReadOnly = true;
-            this.colImage.Width = 40;
-            // 
-            // colItem
-            // 
-            this.colItem.HeaderText = "Item";
-            this.colItem.Name = "colItem";
-            this.colItem.ReadOnly = true;
-            this.colItem.Width = 200;
-            // 
-            // colQty
-            // 
-            this.colQty.HeaderText = "Quantity";
-            this.colQty.Name = "colQty";
-            this.colQty.Width = 85;
-            // 
-            // colCost
-            // 
-            this.colCost.HeaderText = "Base Price";
-            this.colCost.Name = "colCost";
-            this.colCost.Width = 85;
             // 
             // toolStrip1
             // 
@@ -172,6 +148,44 @@
             this.itmSelector.TabIndex = 3;
             this.itmSelector.ItemSelected += new System.EventHandler(this.itmSelector_ItemSelected);
             // 
+            // colImage
+            // 
+            this.colImage.HeaderText = "";
+            this.colImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colImage.Name = "colImage";
+            this.colImage.ReadOnly = true;
+            this.colImage.Width = 40;
+            // 
+            // colItem
+            // 
+            this.colItem.HeaderText = "Item";
+            this.colItem.Name = "colItem";
+            this.colItem.ReadOnly = true;
+            this.colItem.Width = 200;
+            // 
+            // colQty
+            // 
+            this.colQty.HeaderText = "Quantity";
+            this.colQty.Name = "colQty";
+            this.colQty.Width = 85;
+            // 
+            // colCost
+            // 
+            this.colCost.HeaderText = "Base Price";
+            this.colCost.Name = "colCost";
+            this.colCost.Width = 85;
+            // 
+            // colPromo
+            // 
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.GrayText;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.GrayText;
+            this.colPromo.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colPromo.HeaderText = "Current Promotion";
+            this.colPromo.Name = "colPromo";
+            this.colPromo.ReadOnly = true;
+            this.colPromo.Width = 300;
+            // 
             // frmStoreItems
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -203,11 +217,12 @@
         private System.Windows.Forms.ToolStripButton mnuDeleteItem;
         private System.Windows.Forms.DataGridView dgvItems;
         private ItemSelectorInput itmSelector;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton mnuMarkupSelected;
         private System.Windows.Forms.DataGridViewImageColumn colImage;
         private System.Windows.Forms.DataGridViewTextBoxColumn colItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn colQty;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCost;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton mnuMarkupSelected;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPromo;
     }
 }

@@ -29,7 +29,15 @@ namespace API_Company.Controllers
             li.Item.ItemID,
             li.Item.Name,
             li.Item.IsFluid,
-            li.Item.Image
+            li.Item.Image,
+            li.CurrentPromotionLocationItem.PromotionLocationItemID,
+            li.CurrentPromotionLocationItem.PromotionID,
+            li.CurrentPromotionLocationItem.LocationItemID,
+            li.CurrentPromotionLocationItem.PromotionPrice,
+            li.CurrentPromotionLocationItem.Promotion.PromotionID,
+            li.CurrentPromotionLocationItem.Promotion.Name,
+            li.CurrentPromotionLocationItem.Promotion.StartTime,
+            li.CurrentPromotionLocationItem.Promotion.EndTime
         });
 
         public override ISearchCondition GetBaseSearchCondition()

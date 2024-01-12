@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.mesasys;
@@ -72,6 +77,86 @@ namespace WebModels.company
         {
             get { CheckGet(); return _basePrice; }
             set { CheckSet(); _basePrice = value; }
+        }
+
+        private PromotionLocationItem _currentPromotionLocationItem = null;
+        [Relationship("63123D3C-4FC2-4EFB-B8F0-0F79181F4572", HasForeignKey = false)]
+        public PromotionLocationItem CurrentPromotionLocationItem
+        {
+            get { CheckGet(); return _currentPromotionLocationItem; }
+        }
+
+        public override ICondition GetRelationshipCondition(Relationship relationship, string myAlias, string otherAlias)
+        {
+            switch(relationship.RelationshipName)
+            {
+                case nameof(CurrentPromotionLocationItem):
+                    return CurrentPromotionLocationItemRelationshipCondition(myAlias, otherAlias);
+                default:
+                    return base.GetRelationshipCondition(relationship, myAlias, otherAlias);
+            }
+        }
+
+        private ICondition CurrentPromotionLocationItemRelationshipCondition(string myAlias, string otherAlias)
+        {
+            ISelectQuery promotionLocationItemQuery = SQLProviderFactory.GetSelectQuery();
+            promotionLocationItemQuery.SelectList = new List<Select>() { new Select() { SelectOperand = (ClussPro.Base.Data.Operand.Field)nameof(PromotionLocationItem.PromotionLocationItemID) } };
+            promotionLocationItemQuery.Table = new Table("company", "PromotionLocationItem", "currentPLI");
+            promotionLocationItemQuery.JoinList = new List<Join>()
+            {
+                new Join()
+                {
+                    JoinType = Join.JoinTypes.Inner,
+                    Table = new Table("company", "Promotion", "currentP"),
+                    Condition = new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"currentP.{nameof(Promotion.PromotionID)}",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"currentPLI.{nameof(PromotionLocationItem.PromotionID)}"
+                    }
+                }
+            };
+            promotionLocationItemQuery.WhereCondition = new ConditionGroup()
+            {
+                ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                Conditions = new List<ICondition>()
+                {
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"currentPLI.{nameof(PromotionLocationItem.LocationItemID)}",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.{nameof(LocationItemID)}"
+                    },
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"currentP.{nameof(Promotion.StartTime)}",
+                        ConditionType = Condition.ConditionTypes.LessEqual,
+                        Right = new Literal(DateTime.Now)
+                    },
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"currentP.{nameof(Promotion.EndTime)}",
+                        ConditionType = Condition.ConditionTypes.GreaterEqual,
+                        Right = new Literal(DateTime.Now)
+                    }
+                }
+            };
+            promotionLocationItemQuery.OrderByList = new List<Order>()
+            {
+                new Order()
+                {
+                    Field = (ClussPro.Base.Data.Operand.Field)$"currentP.{nameof(Promotion.StartTime)}",
+                    OrderDirection = Order.OrderDirections.Descending
+                }
+            };
+            promotionLocationItemQuery.PageSize = 1;
+
+            return new Condition()
+            {
+                Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.{nameof(PromotionLocationItem.PromotionLocationItemID)}",
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = new SubQuery(promotionLocationItemQuery)
+            };
         }
 
         #region Relationships

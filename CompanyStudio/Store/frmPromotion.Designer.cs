@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPromotion));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dtpEnd = new System.Windows.Forms.DateTimePicker();
@@ -46,6 +48,9 @@
             this.colCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPromoPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.txtSearch = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuMarkdown = new System.Windows.Forms.ToolStripButton();
             this.mnuSetPrice = new System.Windows.Forms.ToolStripButton();
             this.mnuClearPrices = new System.Windows.Forms.ToolStripButton();
@@ -176,6 +181,7 @@
             this.dgvItems.Name = "dgvItems";
             this.dgvItems.Size = new System.Drawing.Size(770, 211);
             this.dgvItems.TabIndex = 2;
+            this.dgvItems.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItems_CellValueChanged);
             // 
             // colImage
             // 
@@ -194,6 +200,10 @@
             // 
             // colQty
             // 
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.GrayText;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.GrayText;
+            this.colQty.DefaultCellStyle = dataGridViewCellStyle1;
             this.colQty.HeaderText = "Quantity";
             this.colQty.Name = "colQty";
             this.colQty.ReadOnly = true;
@@ -201,6 +211,10 @@
             // 
             // colCost
             // 
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.GrayText;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.GrayText;
+            this.colCost.DefaultCellStyle = dataGridViewCellStyle2;
             this.colCost.HeaderText = "Base Price";
             this.colCost.Name = "colCost";
             this.colCost.ReadOnly = true;
@@ -208,8 +222,8 @@
             // 
             // colPromoPrice
             // 
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.colPromoPrice.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.colPromoPrice.DefaultCellStyle = dataGridViewCellStyle3;
             this.colPromoPrice.HeaderText = "Promo Price";
             this.colPromoPrice.Name = "colPromoPrice";
             this.colPromoPrice.Width = 90;
@@ -218,6 +232,9 @@
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.txtSearch,
+            this.toolStripSeparator1,
             this.mnuMarkdown,
             this.mnuSetPrice,
             this.mnuClearPrices});
@@ -226,6 +243,24 @@
             this.toolStrip1.Size = new System.Drawing.Size(770, 31);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(44, 28);
+            this.toolStripLabel1.Text = "Search:";
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(100, 31);
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // mnuMarkdown
             // 
@@ -349,11 +384,14 @@
         private System.Windows.Forms.ToolStripButton mnuMarkdown;
         private System.Windows.Forms.ToolStripButton mnuSetPrice;
         private Loader loader;
+        private System.Windows.Forms.ToolStripButton mnuClearPrices;
         private System.Windows.Forms.DataGridViewImageColumn colImage;
         private System.Windows.Forms.DataGridViewTextBoxColumn colItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn colQty;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCost;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPromoPrice;
-        private System.Windows.Forms.ToolStripButton mnuClearPrices;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripTextBox txtSearch;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }

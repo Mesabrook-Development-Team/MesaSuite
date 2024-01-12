@@ -15,6 +15,9 @@ namespace CompanyStudio.Store
     public partial class frmPromotion : BaseCompanyStudioContent, ILocationScoped, ISaveable
     {
         public long? PromotionID { get; set; }
+        private List<LocationItem> locationItems = new List<LocationItem>();
+        private HashSet<PromotionLocationItem> promotionLocationItems = new HashSet<PromotionLocationItem>();
+        private bool isLoading = false;
 
         public frmPromotion()
         {
@@ -72,49 +75,22 @@ namespace CompanyStudio.Store
 
                 if (promoSaveSuccess)
                 {
-                    foreach(DataGridViewRow row in dgvItems.Rows)
+                    foreach(PromotionLocationItem promotionLocationItem in promotionLocationItems)
                     {
-                        DataGridViewCell promoPriceCell = row.Cells[colPromoPrice.Name];
-                        if (string.IsNullOrEmpty(promoPriceCell.Value?.ToString()) || !decimal.TryParse(promoPriceCell.Value.ToString(), out decimal promoPrice))
+                        if (promotionLocationItem.PromotionPrice == null && promotionLocationItem.PromotionLocationItemID != null)
                         {
-                            if (promoPriceCell.Tag is PromotionLocationItem promotionLocationItemToDelete)
-                            {
-                                DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, $"PromotionLocationItem/Delete/{promotionLocationItemToDelete.PromotionLocationItemID}");
-                                delete.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-                                await delete.Execute();
-                                promoSaveSuccess &= delete.RequestSuccessful;
+                            DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, $"PromotionLocationItem/Delete/{promotionLocationItem.PromotionLocationItemID}");
+                            delete.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                            await delete.Execute();
+                            promoSaveSuccess &= delete.RequestSuccessful;
 
-                                if (!promoSaveSuccess)
-                                {
-                                    break;
-                                }
+                            if (!promoSaveSuccess)
+                            {
+                                break;
                             }
 
                             continue;
                         }
-
-                        PromotionLocationItem promotionLocationItem;
-                        decimal? previousPromoPrice = null;
-                        if (promoPriceCell.Tag is PromotionLocationItem storedPromotionLocationItem)
-                        {
-                            promotionLocationItem = storedPromotionLocationItem;
-                            previousPromoPrice = promotionLocationItem.PromotionPrice;
-                        }
-                        else
-                        {
-                            LocationItem locationItem = (LocationItem)row.Tag;
-
-                            promotionLocationItem = new PromotionLocationItem();
-                            promotionLocationItem.PromotionID = PromotionID;
-                            promotionLocationItem.LocationItemID = locationItem.LocationItemID;
-                        }
-
-                        if (promotionLocationItem.PromotionLocationItemID != null && previousPromoPrice == promotionLocationItem.PromotionPrice)
-                        {
-                            continue;
-                        }
-
-                        promotionLocationItem.PromotionPrice = promoPrice;
 
                         if (promotionLocationItem.PromotionLocationItemID == null)
                         {
@@ -160,22 +136,9 @@ namespace CompanyStudio.Store
                 loader.BringToFront();
                 loader.Visible = true;
 
-                CleanupImages(dgvItems.Rows.OfType<DataGridViewRow>());
-                dgvItems.Rows.Clear();
-
                 GetData get = new GetData(DataAccess.APIs.CompanyStudio, "LocationItem/GetAll");
                 get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-                List<LocationItem> locationItems = await get.GetObject<List<LocationItem>>() ?? new List<LocationItem>();
-                foreach (LocationItem item in locationItems)
-                {
-                    int rowIndex = dgvItems.Rows.Add();
-                    DataGridViewRow row = dgvItems.Rows[rowIndex];
-                    row.Cells[colImage.Name].Value = item.Item?.GetImage();
-                    row.Cells[colItem.Name].Value = item.Item?.Name;
-                    row.Cells[colQty.Name].Value = item.Quantity ?? 0;
-                    row.Cells[colCost.Name].Value = item.BasePrice ?? 0;
-                    row.Tag = item;
-                }
+                locationItems = await get.GetObject<List<LocationItem>>() ?? new List<LocationItem>();
 
                 if (PromotionID != null)
                 {
@@ -191,15 +154,7 @@ namespace CompanyStudio.Store
                     dtpStart.Value = promotion.StartTime ?? DateTime.Now;
                     dtpEnd.Value = promotion.EndTime ?? DateTime.Now;
 
-                    foreach(PromotionLocationItem promotionLocationItem in promotion.PromotionLocationItems)
-                    {
-                        DataGridViewRow row = dgvItems.Rows.OfType<DataGridViewRow>().FirstOrDefault(r => r.Tag is LocationItem locationItem && locationItem.LocationItemID == promotionLocationItem.LocationItemID);
-                        if (row != null)
-                        {
-                            row.Cells[colPromoPrice.Name].Value = promotionLocationItem.PromotionPrice;
-                            row.Cells[colPromoPrice.Name].Tag = promotionLocationItem;
-                        }
-                    }
+                    promotionLocationItems = promotion.PromotionLocationItems.ToHashSet();
 
                     Text = promotion.Name + " - Promotion";
 
@@ -209,10 +164,45 @@ namespace CompanyStudio.Store
                     mnuSetPrice.Enabled = true;
                     mnuClearPrices.Enabled = true;
                 }
+
+                FillDataGrid();
             }
             finally
             {
                 loader.Visible = false;
+            }
+        }
+
+        private void FillDataGrid()
+        {
+            try
+            {
+                isLoading = true;
+
+                CleanupImages(dgvItems.Rows.OfType<DataGridViewRow>());
+                dgvItems.Rows.Clear();
+
+                foreach (LocationItem item in locationItems.Where(li => string.IsNullOrEmpty(txtSearch.Text) || (li.Item?.Name != null && li.Item.Name.Contains(txtSearch.Text))).OrderBy(li => li.Item?.Name))
+                {
+                    int rowIndex = dgvItems.Rows.Add();
+                    DataGridViewRow row = dgvItems.Rows[rowIndex];
+                    row.Cells[colImage.Name].Value = item.Item?.GetImage();
+                    row.Cells[colItem.Name].Value = item.Item?.Name;
+                    row.Cells[colQty.Name].Value = item.Quantity ?? 0;
+                    row.Cells[colCost.Name].Value = item.BasePrice ?? 0;
+                    row.Tag = item;
+
+                    PromotionLocationItem promotionLocationItem = promotionLocationItems.FirstOrDefault(pli => pli.LocationItemID == item.LocationItemID);
+                    if (promotionLocationItem != null)
+                    {
+                        row.Cells[colPromoPrice.Name].Value = promotionLocationItem.PromotionPrice?.ToString("N2");
+                        row.Cells[colPromoPrice.Name].Tag = promotionLocationItem;
+                    }
+                }
+            }
+            finally
+            {
+                isLoading = false;
             }
         }
 
@@ -406,6 +396,40 @@ namespace CompanyStudio.Store
 
             OnSave?.Invoke(this, new EventArgs());
             LoadData();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            FillDataGrid();
+        }
+
+        private void dgvItems_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvItems.Rows.Count || e.ColumnIndex != colPromoPrice.Index || isLoading)
+            {
+                return;
+            }
+
+            DataGridViewCell promoCell = dgvItems[colPromoPrice.Index, e.RowIndex];
+
+            LocationItem locationItem = dgvItems.Rows[e.RowIndex].Tag as LocationItem;
+            PromotionLocationItem promotionLocationItem = promoCell.Tag as PromotionLocationItem;
+            if (promotionLocationItem == null)
+            {
+                promotionLocationItem = new PromotionLocationItem();
+                promotionLocationItem.PromotionID = PromotionID;
+                promotionLocationItem.LocationItemID = locationItem.LocationItemID;
+                promoCell.Tag = promotionLocationItem;
+            }
+
+            decimal? newPromoAmount = null;
+            if (!string.IsNullOrEmpty(promoCell.Value?.ToString()) && decimal.TryParse(promoCell.Value.ToString(), out decimal promoAmount))
+            {
+                newPromoAmount = promoAmount;
+            }
+
+            promotionLocationItem.PromotionPrice = newPromoAmount;
+            promotionLocationItems.Add(promotionLocationItem);
         }
     }
 }

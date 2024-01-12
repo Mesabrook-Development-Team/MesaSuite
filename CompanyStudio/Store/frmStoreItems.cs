@@ -18,6 +18,7 @@ namespace CompanyStudio.Store
     public partial class frmStoreItems : BaseCompanyStudioContent, ILocationScoped
     {
         private ItemThenQuantityComparer colComparer;
+        private bool isLoading = false;
 
         public frmStoreItems()
         {
@@ -37,32 +38,41 @@ namespace CompanyStudio.Store
 
         private async Task LoadData()
         {
-            CleanupImages(dgvItems.Rows.OfType<DataGridViewRow>());
-            dgvItems.Rows.Clear();
-
-            grpCurrentItems.Enabled = true;
-
-            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "LocationItem/GetAll");
-            get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-            List<LocationItem> locationItems = await get.GetObject<List<LocationItem>>() ?? new List<LocationItem>();
-            dgvItems.CausesValidation = false;
-            foreach(LocationItem item in locationItems)
+            try
             {
-                int rowIndex = dgvItems.Rows.Add();
-                DataGridViewRow row = dgvItems.Rows[rowIndex];
-                row.Cells[colImage.Name].Value = item.Item?.GetImage();
-                row.Cells[colItem.Name].Value = item.Item?.Name;
-                row.Cells[colQty.Name].Value = item.Quantity ?? 0;
-                row.Cells[colCost.Name].Value = item.BasePrice ?? 0;
-                row.Tag = item;
-            }
+                isLoading = true;
+                CleanupImages(dgvItems.Rows.OfType<DataGridViewRow>());
+                dgvItems.Rows.Clear();
 
-            dgvItems.Sort(colComparer);
-            if (dgvItems.Rows.Count > 0)
-            {
-                dgvItems.CurrentCell = dgvItems[0, 0];
+                grpCurrentItems.Enabled = true;
+
+                GetData get = new GetData(DataAccess.APIs.CompanyStudio, "LocationItem/GetAll");
+                get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                List<LocationItem> locationItems = await get.GetObject<List<LocationItem>>() ?? new List<LocationItem>();
+                dgvItems.CausesValidation = false;
+                foreach (LocationItem item in locationItems)
+                {
+                    int rowIndex = dgvItems.Rows.Add();
+                    DataGridViewRow row = dgvItems.Rows[rowIndex];
+                    row.Cells[colImage.Name].Value = item.Item?.GetImage();
+                    row.Cells[colItem.Name].Value = item.Item?.Name;
+                    row.Cells[colQty.Name].Value = item.Quantity ?? 0;
+                    row.Cells[colCost.Name].Value = item.BasePrice ?? 0;
+                    row.Cells[colPromo.Name].Value = item.CurrentPromotionLocationItem?.PromotionLocationItemID != null ? item.CurrentPromotionLocationItem.PromotionPrice?.ToString("N2") + " (" + item.CurrentPromotionLocationItem.Promotion?.Name + ")" : "No Current Promotion";
+                    row.Tag = item;
+                }
+
+                dgvItems.Sort(colComparer);
+                if (dgvItems.Rows.Count > 0)
+                {
+                    dgvItems.CurrentCell = dgvItems[0, 0];
+                }
+                dgvItems.CausesValidation = true;
             }
-            dgvItems.CausesValidation = true;
+            finally
+            {
+                isLoading = false;
+            }
         }
 
         private void CleanupImages(IEnumerable<DataGridViewRow> rows)
@@ -155,11 +165,19 @@ namespace CompanyStudio.Store
                     dgvItems.BeginEdit(true);
                 }
             }
+            else
+            {
+                this.ShowError("You must first select an Item from the dropdown above");
+            }
         }
 
         private async void dgvItems_RowValidated(object sender, DataGridViewCellEventArgs e)
         {
-            Console.WriteLine("row validated");
+            if (isLoading)
+            {
+                return;
+            }
+
             DataGridViewRow row = dgvItems.Rows[e.RowIndex];
             if (!(row.Tag is LocationItem locationItem))
             {

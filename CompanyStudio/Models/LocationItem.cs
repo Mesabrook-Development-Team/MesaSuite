@@ -15,6 +15,7 @@ namespace CompanyStudio.Models
         public Item Item { get; set; }
         public short? Quantity { get; set; }
         public decimal? BasePrice { get; set; }
+        public PromotionLocationItem CurrentPromotionLocationItem { get; set; }
 
     }
 }

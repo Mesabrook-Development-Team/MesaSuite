@@ -22,7 +22,9 @@ namespace API_Company.Controllers
             li.BasePrice,
             li.Item.ItemID,
             li.Item.Name,
-            li.Item.IsFluid
+            li.Item.IsFluid,
+            li.CurrentPromotionLocationItem.PromotionLocationItemID,
+            li.CurrentPromotionLocationItem.PromotionPrice
         });
 
         [HttpGet]

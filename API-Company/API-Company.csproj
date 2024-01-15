@@ -159,6 +159,7 @@
     <Compile Include="Controllers\LocationEmployeeIBAccessController.cs" />
     <Compile Include="Controllers\LocationItemController.cs" />
     <Compile Include="Controllers\LocationItemIBAccessController.cs" />
+    <Compile Include="Controllers\PriceCheckController.cs" />
     <Compile Include="Controllers\PromotionController.cs" />
     <Compile Include="Controllers\PromotionLocationItemController.cs" />
     <Compile Include="Controllers\RegisterAccessController.cs" />

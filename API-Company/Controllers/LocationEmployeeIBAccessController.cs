@@ -33,8 +33,8 @@ namespace API_Company.Controllers
             {
                 Field = FieldPathUtility.CreateFieldPathsAsList<LocationEmployee>(le => new List<object>() { le.Employee.User.Username }).First(),
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                //Value = id
-                Value = "CSX8600"
+                Value = id
+                //Value = "CSX8600"
             });
 
             return employeeLocationSearch.GetReadOnlyReader(null, LocationFields).ToList();
@@ -54,8 +54,8 @@ namespace API_Company.Controllers
                 {
                     Field = FieldPathUtility.CreateFieldPathsAsList<LocationEmployee>(le => new List<object>() { le.Employee.User.Username }).First(),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    //Value = player
-                    Value = "CSX8600"
+                    Value = player
+                    //Value = "CSX8600"
                 }));
 
             return locEmpSearch.GetReadOnly(null, LocationFields);

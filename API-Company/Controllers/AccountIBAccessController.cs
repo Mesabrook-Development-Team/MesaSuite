@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using WebModels.account;
+using WebModels.company;
 
 namespace API_Company.Controllers
 {
@@ -63,6 +64,7 @@ namespace API_Company.Controllers
         {
             public long? AccountID { get; set; }
             public decimal? Amount { get; set; }
+            public long? CompanyIDOwner { get; set; }
         }
 
         [HttpPost]
@@ -101,9 +103,22 @@ namespace API_Company.Controllers
                 return account.HandleFailedValidation(this);
             }
 
+            string companyName = "";
+            if (parameter.CompanyIDOwner != null)
+            {
+                Company company = DataObject.GetEditableByPrimaryKey<Company>(parameter.CompanyIDOwner, null, new[] { nameof(Company.Name) });
+                companyName = company?.Name;
+            }
+
             using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
-                if (!account.Deposit(-(parameter.Amount ?? 0M), "Withdraw from ATM", transaction))
+                string depositDescription = "Withdraw at ATM";
+                if (!string.IsNullOrEmpty(companyName))
+                {
+                    depositDescription += $" at {companyName}";
+                }
+
+                if (!account.Deposit(-(parameter.Amount ?? 0M), depositDescription, transaction))
                 {
                     transaction.Rollback();
                     return account.HandleFailedValidation(this);
@@ -121,6 +136,7 @@ namespace API_Company.Controllers
         {
             public long? AccountID { get; set; }
             public decimal? Amount { get; set; }
+            public long? CompanyIDOwner { get; set; }
         }
 
         [HttpPost]
@@ -154,9 +170,22 @@ namespace API_Company.Controllers
 
             Account account = DataObject.GetEditableByPrimaryKey<Account>(parameter.AccountID, null, null);
 
+            string companyName = "";
+            if (parameter.CompanyIDOwner != null)
+            {
+                Company company = DataObject.GetEditableByPrimaryKey<Company>(parameter.CompanyIDOwner, null, new[] { nameof(Company.Name) });
+                companyName = company?.Name;
+            }
+
             using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
-                if (!account.Deposit(parameter.Amount ?? 0M, "Deposit at ATM", transaction))
+                string depositDescription = "Deposit at ATM";
+                if (!string.IsNullOrEmpty(companyName))
+                {
+                    depositDescription += $" at {companyName}";
+                }
+
+                if (!account.Deposit(parameter.Amount ?? 0M, depositDescription, transaction))
                 {
                     transaction.Rollback();
                     return account.HandleFailedValidation(this);

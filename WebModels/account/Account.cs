@@ -5,6 +5,7 @@ using System.Text;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
@@ -288,6 +289,11 @@ namespace WebModels.account
             catch (Exception ex)
             {
                 throw new Exception("Failed to find current Fiscal Quarter\r\n\r\n" + ex.Message, ex);
+            }
+
+            if (description.Length > Schema.GetSchemaObject<Transaction>().GetField(nameof(Transaction.Description)).DataSize)
+            {
+                description = description.Substring(0, Schema.GetSchemaObject<Transaction>().GetField(nameof(Transaction.Description)).DataSize);
             }
 
             Transaction depositTransaction = DataObjectFactory.Create<Transaction>();

@@ -193,7 +193,7 @@ namespace API_Company.Controllers
                 }
 
                 Account revenueAccount = DataObject.GetEditableByPrimaryKey<Account>(location.AccountIDStoreRevenue, transaction, new string[0]);
-                if (!revenueAccount.Deposit(totalRevenue, string.Format(Transaction.DescriptionFormats.STORE_SALE, cachedRegister.Name), transaction))
+                if (!revenueAccount.Deposit(totalRevenue, string.Format(Transaction.DescriptionFormats.STORE_SALE, $"{location.Company?.Name} ({location.Name})", cachedRegister.Name), transaction))
                 {
                     return revenueAccount.HandleFailedValidation(this);
                 }
@@ -217,7 +217,7 @@ namespace API_Company.Controllers
                 if (storeSaleParameter.DebitCardInformation != null)
                 {
                     Account debitCardSourceAccount = DataObject.GetEditableByPrimaryKey<Account>(debitCard.AccountID, transaction, null);
-                    if (!debitCardSourceAccount.Deposit(-storeSaleParameter.DebitCardInformation.AuthorizedAmount, string.Format(Transaction.DescriptionFormats.STORE_SALE, cachedRegister.Name), transaction))
+                    if (!debitCardSourceAccount.Deposit(-storeSaleParameter.DebitCardInformation.AuthorizedAmount, string.Format(Transaction.DescriptionFormats.STORE_SALE, $"{location.Company?.Name} ({location.Name})", cachedRegister.Name), transaction))
                     {
                         return debitCardSourceAccount.HandleFailedValidation(this);
                     }

@@ -13,6 +13,7 @@ using WebModels.security;
 using API.Common.Extensions;
 using ClussPro.Base.Data.Query;
 using ClussPro.Base.Data;
+using WebModels.company;
 
 namespace API_Company.Controllers
 {
@@ -116,12 +117,22 @@ namespace API_Company.Controllers
 
                     if (sourceAccount != null || feeAccount != null)
                     {
-                        if (!sourceAccount.Deposit(-parameter.CardFeeAmount.Value, "New Debit Card Fee", transaction))
+                        string debitCardFeeDescription = "New Debit Card Fee";
+                        string debitCardFeeRevenueDescription = "New Debit Card Fee Revenue";
+
+                        Company company = DataObject.GetReadOnlyByPrimaryKey<Company>(parameter.CompanyIDOwner, null, new[] { nameof(Company.Name) });
+                        if (!string.IsNullOrEmpty(company?.Name))
+                        {
+                            debitCardFeeDescription += $" at {company.Name}";
+                            debitCardFeeRevenueDescription += $" at {company.Name}";
+                        }
+
+                        if (!sourceAccount.Deposit(-parameter.CardFeeAmount.Value, debitCardFeeDescription, transaction))
                         {
                             return sourceAccount.HandleFailedValidation(this);
                         }
 
-                        if (!feeAccount.Deposit(parameter.CardFeeAmount.Value, "New Debit Card Fee Revenue", transaction))
+                        if (!feeAccount.Deposit(parameter.CardFeeAmount.Value, debitCardFeeRevenueDescription, transaction))
                         {
                             return feeAccount.HandleFailedValidation(this);
                         }
@@ -155,6 +166,7 @@ namespace API_Company.Controllers
             public string PIN;
             public string CardFeeAccount;
             public decimal? CardFeeAmount;
+            public long? CompanyIDOwner;
         }
     }
 }

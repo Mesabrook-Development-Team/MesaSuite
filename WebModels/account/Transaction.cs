@@ -69,7 +69,7 @@ namespace WebModels.account
             public const string WIRE_TRANSFER_OUT = "Wire Transfer sent to {0}";
             public const string WIRE_TRANSFER_IN = "Wire Transfer received from {0}";
             public const string INTEREST_PAYMENT = "Federal interest payment";
-            public const string STORE_SALE = "Store sale at register: {0}";
+            public const string STORE_SALE = "Point Of Sale - {0} - {1}";
         }
     }
 }

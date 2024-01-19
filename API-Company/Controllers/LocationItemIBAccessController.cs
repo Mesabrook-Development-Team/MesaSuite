@@ -1,5 +1,7 @@
 ﻿using API.Common.Attributes;
+using API.Common.Extensions;
 using API_Company.Attributes;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
 using System.Collections.Generic;
@@ -71,6 +73,45 @@ namespace API_Company.Controllers
 
             LocationItem item = locationItemSearch.GetReadOnly(null, FIELDS);
             return item == null ? (IHttpActionResult)NotFound() : Ok(item);
+        }
+
+        [HttpPost]
+        public IHttpActionResult Post(PostParameter parameter)
+        {
+            Search<Item> itemSearch = new Search<Item>(new StringSearchCondition<Item>()
+            {
+                Field = nameof(Item.Name),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = parameter.ItemName
+            });
+
+            Item item = itemSearch.GetReadOnly(null, new[] { nameof(Item.ItemID) });
+
+            if (item == null)
+            {
+                return BadRequest("Supplied Item Name was not found");
+            }
+
+            LocationItem locationItem = DataObjectFactory.Create<LocationItem>();
+            locationItem.LocationID = parameter.LocationID;
+            locationItem.ItemID = item.ItemID;
+            locationItem.Quantity = parameter.Quantity;
+            locationItem.BasePrice = parameter.Price;
+
+            if (!locationItem.Save())
+            {
+                return locationItem.HandleFailedValidation(this);
+            }
+
+            return Created("LocationItemIBAccess/Get?locationID=" + locationItem.LocationID + "&name=" + parameter.ItemName + "&quantity=" + parameter.Quantity, DataObject.GetReadOnlyByPrimaryKey<LocationItem>(locationItem.LocationItemID, null, FIELDS));
+        }
+
+        public class PostParameter
+        {
+            public long? LocationID { get; set; }
+            public string ItemName { get; set; }
+            public short Quantity { get; set; }
+            public decimal? Price { get; set; }
         }
     }
 }

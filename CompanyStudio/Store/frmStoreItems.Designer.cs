@@ -33,17 +33,18 @@
             this.label1 = new System.Windows.Forms.Label();
             this.grpCurrentItems = new System.Windows.Forms.GroupBox();
             this.dgvItems = new System.Windows.Forms.DataGridView();
+            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPromo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.mnuAddItem = new System.Windows.Forms.ToolStripButton();
             this.mnuDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuMarkupSelected = new System.Windows.Forms.ToolStripButton();
             this.itmSelector = new CompanyStudio.ItemSelectorInput();
-            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPromo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mnuImportExportPrices = new System.Windows.Forms.ToolStripButton();
             this.grpCurrentItems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -92,13 +93,52 @@
             this.dgvItems.RowValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItems_RowValidated);
             this.dgvItems.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvItems_RowValidating);
             // 
+            // colImage
+            // 
+            this.colImage.HeaderText = "";
+            this.colImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colImage.Name = "colImage";
+            this.colImage.ReadOnly = true;
+            this.colImage.Width = 40;
+            // 
+            // colItem
+            // 
+            this.colItem.HeaderText = "Item";
+            this.colItem.Name = "colItem";
+            this.colItem.ReadOnly = true;
+            this.colItem.Width = 200;
+            // 
+            // colQty
+            // 
+            this.colQty.HeaderText = "Quantity";
+            this.colQty.Name = "colQty";
+            this.colQty.Width = 85;
+            // 
+            // colCost
+            // 
+            this.colCost.HeaderText = "Base Price";
+            this.colCost.Name = "colCost";
+            this.colCost.Width = 85;
+            // 
+            // colPromo
+            // 
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.GrayText;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.GrayText;
+            this.colPromo.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colPromo.HeaderText = "Current Promotion";
+            this.colPromo.Name = "colPromo";
+            this.colPromo.ReadOnly = true;
+            this.colPromo.Width = 300;
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuAddItem,
             this.mnuDeleteItem,
             this.toolStripSeparator1,
-            this.mnuMarkupSelected});
+            this.mnuMarkupSelected,
+            this.mnuImportExportPrices});
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(770, 25);
@@ -148,43 +188,14 @@
             this.itmSelector.TabIndex = 3;
             this.itmSelector.ItemSelected += new System.EventHandler(this.itmSelector_ItemSelected);
             // 
-            // colImage
+            // mnuImportExportPrices
             // 
-            this.colImage.HeaderText = "";
-            this.colImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colImage.Name = "colImage";
-            this.colImage.ReadOnly = true;
-            this.colImage.Width = 40;
-            // 
-            // colItem
-            // 
-            this.colItem.HeaderText = "Item";
-            this.colItem.Name = "colItem";
-            this.colItem.ReadOnly = true;
-            this.colItem.Width = 200;
-            // 
-            // colQty
-            // 
-            this.colQty.HeaderText = "Quantity";
-            this.colQty.Name = "colQty";
-            this.colQty.Width = 85;
-            // 
-            // colCost
-            // 
-            this.colCost.HeaderText = "Base Price";
-            this.colCost.Name = "colCost";
-            this.colCost.Width = 85;
-            // 
-            // colPromo
-            // 
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.GrayText;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.GrayText;
-            this.colPromo.DefaultCellStyle = dataGridViewCellStyle1;
-            this.colPromo.HeaderText = "Current Promotion";
-            this.colPromo.Name = "colPromo";
-            this.colPromo.ReadOnly = true;
-            this.colPromo.Width = 300;
+            this.mnuImportExportPrices.Image = global::CompanyStudio.Properties.Resources.link;
+            this.mnuImportExportPrices.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuImportExportPrices.Name = "mnuImportExportPrices";
+            this.mnuImportExportPrices.Size = new System.Drawing.Size(126, 22);
+            this.mnuImportExportPrices.Text = "Import/Export Prices";
+            this.mnuImportExportPrices.Click += new System.EventHandler(this.mnuImportExportPrices_Click);
             // 
             // frmStoreItems
             // 
@@ -224,5 +235,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colQty;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCost;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPromo;
+        private System.Windows.Forms.ToolStripButton mnuImportExportPrices;
     }
 }

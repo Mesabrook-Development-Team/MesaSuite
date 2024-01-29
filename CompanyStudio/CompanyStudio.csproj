@@ -304,6 +304,52 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="Store\ClonePrices\ClonePricesWizardController.cs" />
+    <Compile Include="Store\ClonePrices\ClonePricesWizardData.cs" />
+    <Compile Include="Store\ClonePrices\ConfirmationStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Store\ClonePrices\ConfirmationStep.Designer.cs">
+      <DependentUpon>ConfirmationStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Store\ClonePrices\DestinationsStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Store\ClonePrices\DestinationsStep.Designer.cs">
+      <DependentUpon>DestinationsStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Store\ClonePrices\OriginStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Store\ClonePrices\OriginStep.Designer.cs">
+      <DependentUpon>OriginStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Store\ClonePrices\VerifyItems.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Store\ClonePrices\VerifyItems.Designer.cs">
+      <DependentUpon>VerifyItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Store\ClonePrices\WelcomeStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Store\ClonePrices\WelcomeStep.Designer.cs">
+      <DependentUpon>WelcomeStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\DemoWizard\AgeStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\DemoWizard\AgeStep.Designer.cs">
+      <DependentUpon>AgeStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\DemoWizard\NameStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\DemoWizard\NameStep.Designer.cs">
+      <DependentUpon>NameStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\DemoWizard\WhatsYourNameController.cs" />
+    <Compile Include="Wizard\DemoWizard\WhatsYourNameData.cs" />
     <Compile Include="Store\frmPromotion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -371,6 +417,16 @@
     <Compile Include="WireTransfers\frmWireTransferHistoryExplorer.Designer.cs">
       <DependentUpon>frmWireTransferHistoryExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Wizard\EndStep.cs" />
+    <Compile Include="Wizard\frmWizardShell.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizard\frmWizardShell.Designer.cs">
+      <DependentUpon>frmWizardShell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\IUsesWizardLoader.cs" />
+    <Compile Include="Wizard\IWizardStep.cs" />
+    <Compile Include="Wizard\WizardController.cs" />
     <EmbeddedResource Include="Accounts\frmAccount.resx">
       <DependentUpon>frmAccount.cs</DependentUpon>
     </EmbeddedResource>
@@ -468,6 +524,27 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Store\ClonePrices\ConfirmationStep.resx">
+      <DependentUpon>ConfirmationStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Store\ClonePrices\DestinationsStep.resx">
+      <DependentUpon>DestinationsStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Store\ClonePrices\OriginStep.resx">
+      <DependentUpon>OriginStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Store\ClonePrices\VerifyItems.resx">
+      <DependentUpon>VerifyItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Store\ClonePrices\WelcomeStep.resx">
+      <DependentUpon>WelcomeStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\DemoWizard\AgeStep.resx">
+      <DependentUpon>AgeStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\DemoWizard\NameStep.resx">
+      <DependentUpon>NameStep.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Store\frmPromotion.resx">
       <DependentUpon>frmPromotion.cs</DependentUpon>
     </EmbeddedResource>
@@ -498,6 +575,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WireTransfers\frmWireTransferHistoryExplorer.resx">
       <DependentUpon>frmWireTransferHistoryExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\frmWizardShell.resx">
+      <DependentUpon>frmWizardShell.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\CompanyStudio.Models.StoreSale.datasource" />

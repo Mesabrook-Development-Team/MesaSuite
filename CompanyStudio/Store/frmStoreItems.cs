@@ -1,5 +1,6 @@
 ﻿using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using CompanyStudio.Store.ClonePrices;
 using MesaSuite.Common;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
@@ -323,6 +324,12 @@ namespace CompanyStudio.Store
                 row.Cells[colCost.Name].Value = Math.Round(price, 2, MidpointRounding.AwayFromZero);
                 dgvItems_RowValidated(dgvItems, new DataGridViewCellEventArgs(colCost.Index, row.Index));
             }
+        }
+
+        private void mnuImportExportPrices_Click(object sender, EventArgs e)
+        {
+            ClonePricesWizardController clonePricesWizard = new ClonePricesWizardController(LocationModel.LocationID);
+            clonePricesWizard.StartWizard();
         }
     }
 }

@@ -24,6 +24,8 @@ namespace API_Company.Controllers
         {
             nameof(Location.LocationID),
             nameof(Location.CompanyID),
+            nameof(Location.Company) + "." + nameof(Company.CompanyID),
+            nameof(Location.Company) + "." + nameof(Company.Name),
             nameof(Location.Name),
             nameof(Location.InvoiceNumberPrefix),
             nameof(Location.NextInvoiceNumber)

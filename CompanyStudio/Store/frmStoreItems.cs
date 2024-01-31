@@ -331,5 +331,15 @@ namespace CompanyStudio.Store
             ClonePricesWizardController clonePricesWizard = new ClonePricesWizardController(LocationModel.LocationID);
             clonePricesWizard.StartWizard();
         }
+
+        private void mnuAutomation_Click(object sender, EventArgs e)
+        {
+            frmPricingAutomation automation = new frmPricingAutomation();
+            automation.Location = toolStrip1.PointToScreen(new Point(mnuAutomation.Bounds.X + mnuAutomation.Bounds.Width, mnuAutomation.Bounds.Y));
+            automation.Theme = Theme;
+            automation.CompanyID = Company.CompanyID;
+            automation.LocationID = LocationModel.LocationID;
+            automation.ShowDialog();
+        }
     }
 }

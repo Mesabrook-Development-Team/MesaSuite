@@ -102,6 +102,30 @@ namespace WebModels.Migrations
             CreateForeignKey(createTable, transaction, "company", "Promotion");
             CreateForeignKey(createTable, transaction, "company", "LocationItem");
 
+            createTable.TableName = "StorePricingAutomation";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "StorePricingAutomationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "LocationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "IsEnabled", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false  } },
+                { "PushAdd", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } },
+                { "PushUpdate", new FieldSpecification(FieldSpecification.FieldTypes.Bit)  { DefaultValue = false } },
+                { "PushDelete", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(createTable, transaction, "company", "Location");
+
+            createTable.TableName = "StorePricingAutomationLocation";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "StorePricingAutomationLocationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "StorePricingAutomationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocationIDDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+            };
+            createTable.Execute(transaction);
+            CreateForeignKey(createTable, transaction, "company", "StorePricingAutomation");
+            CreateForeignKey(createTable, transaction, "company", "Location", "Destination");
+
             createTable.SchemaName = "account";
             createTable.TableName = "DebitCard";
             createTable.Columns = new Dictionary<string, FieldSpecification>()

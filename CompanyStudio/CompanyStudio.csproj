@@ -290,6 +290,8 @@
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\RegisterStatus.cs" />
     <Compile Include="Models\SalesTax.cs" />
+    <Compile Include="Models\StorePricingAutomation.cs" />
+    <Compile Include="Models\StorePricingAutomationLocation.cs" />
     <Compile Include="Models\StoreSale.cs" />
     <Compile Include="Models\StoreSaleItem.cs" />
     <Compile Include="Models\Transaction.cs" />
@@ -335,6 +337,12 @@
     </Compile>
     <Compile Include="Store\ClonePrices\WelcomeStep.Designer.cs">
       <DependentUpon>WelcomeStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Store\frmPricingAutomation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Store\frmPricingAutomation.Designer.cs">
+      <DependentUpon>frmPricingAutomation.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizard\DemoWizard\AgeStep.cs">
       <SubType>UserControl</SubType>
@@ -538,6 +546,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Store\ClonePrices\WelcomeStep.resx">
       <DependentUpon>WelcomeStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Store\frmPricingAutomation.resx">
+      <DependentUpon>frmPricingAutomation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\DemoWizard\AgeStep.resx">
       <DependentUpon>AgeStep.cs</DependentUpon>

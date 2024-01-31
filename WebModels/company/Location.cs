@@ -2,6 +2,7 @@
 using System.Linq;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.account;
@@ -126,6 +127,13 @@ namespace WebModels.company
             get { CheckGet(); return _emailImplementationReadyForReceipt; }
         }
 
+        private StorePricingAutomation _storePricingAutomation = null;
+        [Relationship("99239E57-9024-4226-96F5-BD3B976C1701", OneToOneByForeignKey = true)]
+        public StorePricingAutomation StorePricingAutomation
+        {
+            get { CheckGet(); return _storePricingAutomation; }
+        }
+
         protected override bool PostSave(ITransaction transaction)
         {
             if (!IsInsert)
@@ -202,36 +210,43 @@ namespace WebModels.company
         {
             get { CheckGet(); return _promotions; }
         }
+
+        private List<StorePricingAutomationLocation> _storePricingAutomationLocations = new List<StorePricingAutomationLocation>();
+        [RelationshipList("E3C485FA-C706-4172-ACEC-718B8D016E55", nameof(StorePricingAutomationLocation.LocationIDDestination), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<StorePricingAutomationLocation> StorePricingAutomationLocations
+        {
+            get { CheckGet(); return _storePricingAutomationLocations; }
+        }
         #endregion
         #region fleet
         private List<LeaseRequest> _leaseRequests = new List<LeaseRequest>();
-        [RelationshipList("CC3820D7-F975-44D3-B22C-69FC070A7704", nameof(LeaseRequest.LocationIDChargeTo))]
-        public IReadOnlyCollection<LeaseRequest> LeaseRequests
-        {
-            get { CheckGet(); return _leaseRequests; }
-        }
+            [RelationshipList("CC3820D7-F975-44D3-B22C-69FC070A7704", nameof(LeaseRequest.LocationIDChargeTo))]
+            public IReadOnlyCollection<LeaseRequest> LeaseRequests
+            {
+                get { CheckGet(); return _leaseRequests; }
+            }
 
-        private List<LeaseBid> _leaseBidRecurringDestinations = new List<LeaseBid>();
-        [RelationshipList("F084805B-8F14-45EA-940B-646F97AF9268", nameof(LeaseBid.LocationIDInvoiceDestination))]
-        public IReadOnlyCollection<LeaseBid> LeaseBidRecurringDestinations
-        {
-            get { CheckGet(); return _leaseBidRecurringDestinations; }
-        }
+            private List<LeaseBid> _leaseBidRecurringDestinations = new List<LeaseBid>();
+            [RelationshipList("F084805B-8F14-45EA-940B-646F97AF9268", nameof(LeaseBid.LocationIDInvoiceDestination))]
+            public IReadOnlyCollection<LeaseBid> LeaseBidRecurringDestinations
+            {
+                get { CheckGet(); return _leaseBidRecurringDestinations; }
+            }
 
-        private List<LeaseContract> _leaseContractRecurringSources = new List<LeaseContract>();
-        [RelationshipList("1B601D65-BFF5-40D0-8E11-A1624D12E3A3", nameof(LeaseContract.LocationIDRecurringAmountSource))]
-        public IReadOnlyCollection<LeaseContract> LeaseContractRecurringSources
-        {
-            get { CheckGet(); return _leaseContractRecurringSources; }
-        }
+            private List<LeaseContract> _leaseContractRecurringSources = new List<LeaseContract>();
+            [RelationshipList("1B601D65-BFF5-40D0-8E11-A1624D12E3A3", nameof(LeaseContract.LocationIDRecurringAmountSource))]
+            public IReadOnlyCollection<LeaseContract> LeaseContractRecurringSources
+            {
+                get { CheckGet(); return _leaseContractRecurringSources; }
+            }
 
-        private List<LeaseContract> _leaseContractRecurringDestinations = new List<LeaseContract>();
-        [RelationshipList("DF30485C-668A-4686-B512-F7B15EC6B3E9", nameof(LeaseContract.LocationIDRecurringAmountDestination))]
-        public IReadOnlyCollection<LeaseContract> LeaseContractRecurringDestinations
-        {
-            get { CheckGet(); return _leaseContractRecurringDestinations; }
-        }
-        #endregion
+            private List<LeaseContract> _leaseContractRecurringDestinations = new List<LeaseContract>();
+            [RelationshipList("DF30485C-668A-4686-B512-F7B15EC6B3E9", nameof(LeaseContract.LocationIDRecurringAmountDestination))]
+            public IReadOnlyCollection<LeaseContract> LeaseContractRecurringDestinations
+            {
+                get { CheckGet(); return _leaseContractRecurringDestinations; }
+            }
+            #endregion
         #region invoicing
         private List<Invoice> _invoicesFrom = new List<Invoice>();
         [RelationshipList("6DD822E0-7449-4F56-AF7C-559C44E94EA0", "LocationIDFrom")]

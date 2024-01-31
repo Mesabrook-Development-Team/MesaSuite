@@ -43,8 +43,9 @@
             this.mnuDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuMarkupSelected = new System.Windows.Forms.ToolStripButton();
-            this.itmSelector = new CompanyStudio.ItemSelectorInput();
             this.mnuImportExportPrices = new System.Windows.Forms.ToolStripButton();
+            this.mnuAutomation = new System.Windows.Forms.ToolStripButton();
+            this.itmSelector = new CompanyStudio.ItemSelectorInput();
             this.grpCurrentItems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -138,7 +139,8 @@
             this.mnuDeleteItem,
             this.toolStripSeparator1,
             this.mnuMarkupSelected,
-            this.mnuImportExportPrices});
+            this.mnuImportExportPrices,
+            this.mnuAutomation});
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(770, 25);
@@ -177,6 +179,24 @@
             this.mnuMarkupSelected.Text = "Markup Selected";
             this.mnuMarkupSelected.Click += new System.EventHandler(this.mnuMarkupSelected_Click);
             // 
+            // mnuImportExportPrices
+            // 
+            this.mnuImportExportPrices.Image = global::CompanyStudio.Properties.Resources.link;
+            this.mnuImportExportPrices.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuImportExportPrices.Name = "mnuImportExportPrices";
+            this.mnuImportExportPrices.Size = new System.Drawing.Size(126, 22);
+            this.mnuImportExportPrices.Text = "Import/Export Prices";
+            this.mnuImportExportPrices.Click += new System.EventHandler(this.mnuImportExportPrices_Click);
+            // 
+            // mnuAutomation
+            // 
+            this.mnuAutomation.Image = global::CompanyStudio.Properties.Resources.lightning;
+            this.mnuAutomation.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuAutomation.Name = "mnuAutomation";
+            this.mnuAutomation.Size = new System.Drawing.Size(82, 22);
+            this.mnuAutomation.Text = "Automation";
+            this.mnuAutomation.Click += new System.EventHandler(this.mnuAutomation_Click);
+            // 
             // itmSelector
             // 
             this.itmSelector.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -187,15 +207,6 @@
             this.itmSelector.Size = new System.Drawing.Size(740, 20);
             this.itmSelector.TabIndex = 3;
             this.itmSelector.ItemSelected += new System.EventHandler(this.itmSelector_ItemSelected);
-            // 
-            // mnuImportExportPrices
-            // 
-            this.mnuImportExportPrices.Image = global::CompanyStudio.Properties.Resources.link;
-            this.mnuImportExportPrices.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuImportExportPrices.Name = "mnuImportExportPrices";
-            this.mnuImportExportPrices.Size = new System.Drawing.Size(126, 22);
-            this.mnuImportExportPrices.Text = "Import/Export Prices";
-            this.mnuImportExportPrices.Click += new System.EventHandler(this.mnuImportExportPrices_Click);
             // 
             // frmStoreItems
             // 
@@ -236,5 +247,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colCost;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPromo;
         private System.Windows.Forms.ToolStripButton mnuImportExportPrices;
+        private System.Windows.Forms.ToolStripButton mnuAutomation;
     }
 }

@@ -167,6 +167,8 @@
     <Compile Include="Controllers\RegisterStatusController.cs" />
     <Compile Include="Controllers\SalesTaxController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\StorePricingAutomationController.cs" />
+    <Compile Include="Controllers\StorePricingAutomationLocationController.cs" />
     <Compile Include="Controllers\StoreSaleItemController.cs" />
     <Compile Include="Controllers\StoreSaleItemIBAccessController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />

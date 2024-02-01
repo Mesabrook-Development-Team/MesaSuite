@@ -897,6 +897,7 @@ namespace CompanyStudio
         {
             mnuRegisters.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManageRegisters);
             mnuStorePriceManager.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManagePrices);
+            mnuPromotions.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManagePrices);
             mnuStoreConfiguration.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManagePrices);
             mnuStoreSalesReport.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManagePrices);
         }

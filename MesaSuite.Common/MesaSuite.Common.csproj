@@ -74,6 +74,7 @@
     <Compile Include="Data\DebugResourceWriter.cs" />
     <Compile Include="Data\DeleteData.cs" />
     <Compile Include="Data\GetData.cs" />
+    <Compile Include="Data\InternalEditionResourceWriter.cs" />
     <Compile Include="Data\PatchData.cs" />
     <Compile Include="Data\PatchInfo.cs" />
     <Compile Include="Data\PostData.cs" />
@@ -114,6 +115,7 @@
       <DependentUpon>frmRegister.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\IResourceWriter.cs" />
+    <Compile Include="GlobalSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

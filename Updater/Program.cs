@@ -10,6 +10,8 @@ namespace Updater
 {
     static class Program
     {
+        public const bool InternalEdition = true;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>

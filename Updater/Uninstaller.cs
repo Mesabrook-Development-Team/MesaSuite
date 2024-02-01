@@ -58,7 +58,8 @@ namespace Updater
         {
             try
             {
-                HttpWebRequest webRequest = WebRequest.CreateHttp("http://mcsync.api.mesabrook.com/Version/GetLatest");
+                string apiPrefix = Program.InternalEdition ? "internalapi" : "api";
+                HttpWebRequest webRequest = WebRequest.CreateHttp($"http://{apiPrefix}.mesabrook.com/mcsync/Version/GetLatest");
                 //HttpWebRequest webRequest = WebRequest.CreateHttp("http://localhost:23895/Version/GetLatest");
                 webRequest.Method = WebRequestMethods.Http.Get;
                 HttpWebResponse response = (HttpWebResponse)await webRequest.GetResponseAsync();
@@ -88,7 +89,8 @@ namespace Updater
             List<string> files = new List<string>();
             try
             {
-                FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create("ftp://www.clussmanproductions.com/support/MCSyncNew/updates/" + version);
+                string updateFolder = Program.InternalEdition ? "MesaSuiteInternal" : "MCSyncNew";
+                FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create($"ftp://www.clussmanproductions.com/support/{updateFolder}/updates/" + version);
                 ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
                 ftpRequest.Credentials = new NetworkCredential("Reporting", "NetLogon");
                 FtpWebResponse response = (FtpWebResponse)await ftpRequest.GetResponseAsync();
@@ -147,7 +149,8 @@ namespace Updater
                         return;
                     }
 
-                    uninstallKey.DeleteSubKeyTree("MesaSuite");
+                    string subKey = Program.InternalEdition ? "MesaSuiteInternalEdition" : "MesaSuite";
+                    uninstallKey.DeleteSubKeyTree(subKey);
                     uninstallKey.Close();
                 }
                 catch(Exception ex)

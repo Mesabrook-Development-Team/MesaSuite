@@ -2,6 +2,7 @@
 using CompanyStudio.Models;
 using FleetTracking;
 using FleetTracking.Interop;
+using MesaSuite.Common;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -236,7 +237,8 @@ namespace CompanyStudio
 
         private void frmStudio_Load(object sender, EventArgs e)
         {
-            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
+            string subKey = GlobalSettings.InternalEditionMode ? "MesaSuiteInternalEdition" : "MesaSuite";
+            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\" + subKey);
             string theme = key.GetValue("CStudioTheme") as string;
             if (string.IsNullOrEmpty(theme) || !themes.ContainsKey(theme))
             {
@@ -395,7 +397,8 @@ namespace CompanyStudio
             string theme = (string)menu.Tag;
 
             currentTheme = themes[theme];
-            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
+            string subKey = GlobalSettings.InternalEditionMode ? "MesaSuiteInternalEdition" : "MesaSuite";
+            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\" + subKey);
             key.SetValue("CStudioTheme", theme);
 
             SetThemeMenuChecked();

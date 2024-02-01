@@ -53,7 +53,8 @@ namespace MesaSuite.Common
             {
                 if (_clientID == null)
                 {
-                    RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
+                    string subKey = GlobalSettings.InternalEditionMode ? "MesaSuiteInternalEdition" : "MesaSuite";
+                    RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\" + subKey);
                     string clientIDKey;
 
 #if DEBUG
@@ -73,7 +74,8 @@ namespace MesaSuite.Common
             }
             set
             {
-                RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
+                string subKey = GlobalSettings.InternalEditionMode ? "MesaSuiteInternalEdition" : "MesaSuite";
+                RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\" + subKey);
                 string clientIDKey;
 
 #if DEBUG
@@ -309,7 +311,8 @@ namespace MesaSuite.Common
                 RefreshToken = successObject.refresh_token;
                 Expiration = DateTime.Now.AddSeconds(successObject.expires_in);
 
-                RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
+                string subKey = GlobalSettings.InternalEditionMode ? "MesaSuiteInternalEdition" : "MesaSuite";
+                RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\" + subKey);
                 key.SetValue("AuthToken", AuthToken);
                 key.SetValue("RefreshToken", RefreshToken);
                 key.SetValue("Expiration", Expiration.ToBinary());
@@ -378,7 +381,8 @@ namespace MesaSuite.Common
                 RefreshToken = successObject.refresh_token;
                 Expiration = DateTime.Now.AddSeconds(successObject.expires_in);
 
-                RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
+                string subKey = GlobalSettings.InternalEditionMode ? "MesaSuiteInternalEdition" : "MesaSuite";
+                RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\" + subKey);
                 key.SetValue("AuthToken", AuthToken);
                 key.SetValue("RefreshToken", RefreshToken);
                 key.SetValue("Expiration", Expiration.ToBinary());
@@ -441,7 +445,8 @@ namespace MesaSuite.Common
         {
             CefRuntime.SubscribeAnyCpuAssemblyResolver();
 
-            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
+            string subKey = GlobalSettings.InternalEditionMode ? "MesaSuiteInternalEdition" : "MesaSuite";
+            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\" + subKey);
             string strExpirationEncoded = key.GetValue("Expiration") as string;
 
             if (!string.IsNullOrEmpty(strExpirationEncoded) && long.TryParse(strExpirationEncoded, out long expirationEncoded))
@@ -568,7 +573,8 @@ namespace MesaSuite.Common
             RefreshToken = null;
             Expiration = DateTime.Now;
 
-            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
+            string subKey = GlobalSettings.InternalEditionMode ? "MesaSuiteInternalEdition" : "MesaSuite";
+            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\" + subKey);
             if (key.GetValue("AuthToken") != null) { key.DeleteValue("AuthToken"); }
             if (key.GetValue("RefreshToken") != null) { key.DeleteValue("RefreshToken"); }
 

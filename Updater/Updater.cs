@@ -68,7 +68,8 @@ namespace Updater
 
             NonTaskExecuting?.Invoke(this, "Discovering download manifest");
             NetworkCredential ftpCredentials = new NetworkCredential("Reporting", "NetLogon");
-            FtpWebRequest webRequest = (FtpWebRequest)WebRequest.Create($"ftp://www.clussmanproductions.com/support/MCSyncNew/updates/{StartupArguments.VersionToDownload}/manifest");
+            string updateFolder = Program.InternalEdition ? "MesaSuiteInternal" : "MCSyncNew";
+            FtpWebRequest webRequest = (FtpWebRequest)WebRequest.Create($"ftp://www.clussmanproductions.com/support/{updateFolder}/updates/{StartupArguments.VersionToDownload}/manifest");
             webRequest.Method = WebRequestMethods.Ftp.DownloadFile;
             webRequest.Credentials = ftpCredentials;
 
@@ -119,7 +120,7 @@ namespace Updater
                 {
                     TaskExecuting?.Invoke(this, "Downloading " + file);
 
-                    webRequest = (FtpWebRequest)WebRequest.Create($"ftp://www.clussmanproductions.com/support/MCSyncNew/updates/{StartupArguments.VersionToDownload}/{file}");
+                    webRequest = (FtpWebRequest)WebRequest.Create($"ftp://www.clussmanproductions.com/support/{updateFolder}/updates/{StartupArguments.VersionToDownload}/{file}");
                     webRequest.Credentials = ftpCredentials;
                     webRequest.Method = WebRequestMethods.Ftp.DownloadFile;
 
@@ -164,8 +165,9 @@ namespace Updater
             TaskExecuting?.Invoke(this, "Registering MesaSuite...");
             try
             {
-                RegistryKey mesasuiteKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MesaSuite", true);
-                mesasuiteKey.SetValue("DisplayName", "MesaSuite");
+                string subKey = Program.InternalEdition ? "MesaSuiteInternalEdition" : "MesaSuite";
+                RegistryKey mesasuiteKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + subKey, true);
+                mesasuiteKey.SetValue("DisplayName", "MesaSuite (Internal Edition)");
                 mesasuiteKey.SetValue("ApplicationVersion", StartupArguments.VersionToDownload);
                 mesasuiteKey.SetValue("Publisher", "Clussman Productions");
                 mesasuiteKey.SetValue("DisplayIcon", Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe"));

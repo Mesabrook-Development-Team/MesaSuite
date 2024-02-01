@@ -133,7 +133,7 @@
             this.mnuCompanyExplorer.Image = global::CompanyStudio.Properties.Resources.building;
             this.mnuCompanyExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuCompanyExplorer.Name = "mnuCompanyExplorer";
-            this.mnuCompanyExplorer.Size = new System.Drawing.Size(162, 22);
+            this.mnuCompanyExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuCompanyExplorer.Text = "Company Explorer";
             this.mnuCompanyExplorer.Click += new System.EventHandler(this.mnuCompanyExplorer_Click);
             // 
@@ -142,7 +142,7 @@
             this.mnuLocationExplorer.Image = global::CompanyStudio.Properties.Resources.world;
             this.mnuLocationExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuLocationExplorer.Name = "mnuLocationExplorer";
-            this.mnuLocationExplorer.Size = new System.Drawing.Size(162, 22);
+            this.mnuLocationExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuLocationExplorer.Text = "Location Explorer";
             this.mnuLocationExplorer.Click += new System.EventHandler(this.mnuLocationExplorer_Click);
             // 
@@ -165,6 +165,8 @@
             // 
             // mnuRegisters
             // 
+            this.mnuRegisters.Image = global::CompanyStudio.Properties.Resources.cash_register_small;
+            this.mnuRegisters.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuRegisters.Name = "mnuRegisters";
             this.mnuRegisters.Size = new System.Drawing.Size(180, 22);
             this.mnuRegisters.Text = "Registers";
@@ -172,6 +174,8 @@
             // 
             // mnuStorePriceManager
             // 
+            this.mnuStorePriceManager.Image = global::CompanyStudio.Properties.Resources.money;
+            this.mnuStorePriceManager.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuStorePriceManager.Name = "mnuStorePriceManager";
             this.mnuStorePriceManager.Size = new System.Drawing.Size(180, 22);
             this.mnuStorePriceManager.Text = "Price Manager";
@@ -179,6 +183,8 @@
             // 
             // mnuPromotions
             // 
+            this.mnuPromotions.Image = global::CompanyStudio.Properties.Resources.tag_red;
+            this.mnuPromotions.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuPromotions.Name = "mnuPromotions";
             this.mnuPromotions.Size = new System.Drawing.Size(180, 22);
             this.mnuPromotions.Text = "Promotions";
@@ -191,6 +197,8 @@
             // 
             // mnuStoreConfiguration
             // 
+            this.mnuStoreConfiguration.Image = global::CompanyStudio.Properties.Resources.cog;
+            this.mnuStoreConfiguration.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuStoreConfiguration.Name = "mnuStoreConfiguration";
             this.mnuStoreConfiguration.Size = new System.Drawing.Size(180, 22);
             this.mnuStoreConfiguration.Text = "Configuration";
@@ -198,6 +206,8 @@
             // 
             // mnuStoreSalesReport
             // 
+            this.mnuStoreSalesReport.Image = global::CompanyStudio.Properties.Resources.report;
+            this.mnuStoreSalesReport.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuStoreSalesReport.Name = "mnuStoreSalesReport";
             this.mnuStoreSalesReport.Size = new System.Drawing.Size(180, 22);
             this.mnuStoreSalesReport.Text = "Store Sales Report";
@@ -220,7 +230,7 @@
             this.mnuEmailExplorer.Image = global::CompanyStudio.Properties.Resources.email;
             this.mnuEmailExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuEmailExplorer.Name = "mnuEmailExplorer";
-            this.mnuEmailExplorer.Size = new System.Drawing.Size(141, 22);
+            this.mnuEmailExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuEmailExplorer.Text = "Email Explorer";
             this.mnuEmailExplorer.Click += new System.EventHandler(this.mnuEmailExplorer_Click);
             // 
@@ -404,7 +414,7 @@
             this.mnuThemes.Image = global::CompanyStudio.Properties.Resources.paintbrush;
             this.mnuThemes.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuThemes.Name = "mnuThemes";
-            this.mnuThemes.Size = new System.Drawing.Size(180, 22);
+            this.mnuThemes.Size = new System.Drawing.Size(106, 22);
             this.mnuThemes.Text = "Theme";
             // 
             // mnuLightTheme

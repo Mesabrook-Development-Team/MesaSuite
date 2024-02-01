@@ -11,5 +11,12 @@ namespace Updater.Steps
         }
 
         public Step Step { get; set; }
+
+        private void PreconditionStepControl_Load(object sender, System.EventArgs e)
+        {
+            lblHeader.Text = Program.InternalEdition ?
+                "Welcome to the MesaSuite Internal Edition Installer!" :
+                "Welcome to the MesaSuite Installer!";
+        }
     }
 }

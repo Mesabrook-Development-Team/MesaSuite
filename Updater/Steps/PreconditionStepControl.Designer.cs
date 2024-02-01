@@ -31,7 +31,7 @@ namespace Updater.Steps
         {
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblHeader = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // progressBar1
@@ -53,26 +53,26 @@ namespace Updater.Steps
             this.label1.TabIndex = 1;
             this.label1.Text = "We\'re just getting a few things ready, and then we\'ll begin the install!";
             // 
-            // label2
+            // lblHeader
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(17, 26);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(311, 25);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Welcome to the Mesasuite Installer!";
+            this.lblHeader.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblHeader.AutoSize = true;
+            this.lblHeader.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHeader.Location = new System.Drawing.Point(17, 26);
+            this.lblHeader.Name = "lblHeader";
+            this.lblHeader.Size = new System.Drawing.Size(0, 25);
+            this.lblHeader.TabIndex = 2;
             // 
             // PreconditionStepControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblHeader);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar1);
             this.Name = "PreconditionStepControl";
             this.Size = new System.Drawing.Size(538, 318);
+            this.Load += new System.EventHandler(this.PreconditionStepControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -82,6 +82,6 @@ namespace Updater.Steps
 
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblHeader;
     }
 }

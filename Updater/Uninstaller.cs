@@ -167,21 +167,22 @@ namespace Updater
                 TaskExecuting?.Invoke(this, "Removing shortcuts");
                 try
                 {
+                    string shortcutName = Program.InternalEdition ? "MesaSuite (Internal Edition).lnk" : "MesaSuite.lnk";
                     if (InstallationConfiguration.MakeDesktopIcon)
                     {
                         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-                        if (File.Exists(Path.Combine(desktopPath, "MesaSuite.lnk")))
+                        if (File.Exists(Path.Combine(desktopPath, shortcutName)))
                         {
-                            File.Delete(Path.Combine(desktopPath, "MesaSuite.lnk"));
+                            File.Delete(Path.Combine(desktopPath, shortcutName));
                         }
                     }
 
                     if (InstallationConfiguration.MakeStartMenuIcon)
                     {
                         string startMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
-                        if (File.Exists(Path.Combine(startMenuPath, "Programs", "MesaSuite.lnk")))
+                        if (File.Exists(Path.Combine(startMenuPath, "Programs", shortcutName)))
                         {
-                            File.Delete(Path.Combine(startMenuPath, "Programs", "MesaSuite.lnk"));
+                            File.Delete(Path.Combine(startMenuPath, "Programs", shortcutName));
                         }
                     }
                 }

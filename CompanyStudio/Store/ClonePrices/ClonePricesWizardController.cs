@@ -19,6 +19,21 @@ namespace CompanyStudio.Store.ClonePrices
         public ClonePricesWizardController(long? locationID)
         {
             _locationID = locationID;
+            WizardStarting += ClonePricesWizardController_WizardStarting;
+        }
+
+        private void ClonePricesWizardController_WizardStarting(object sender, EventArgs e)
+        {
+            PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
+        }
+
+        private void PermissionsManager_OnLocationPermissionChange(object sender, PermissionsManager.LocationWidePermissionChangeEventArgs e)
+        {
+            if (e.LocationID == _locationID && e.Permission == PermissionsManager.LocationWidePermissions.ManagePrices && !e.Value)
+            {
+                ForceCloseWizard();
+                PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
+            }
         }
 
         protected override string WindowTitle => "Import/Export Price Wizard";

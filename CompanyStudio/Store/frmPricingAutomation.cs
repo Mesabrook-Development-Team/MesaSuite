@@ -36,6 +36,8 @@ namespace CompanyStudio.Store
                 studioFormExtender.ApplyStyle(this, Theme);
             }
 
+            PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
+
             loader.BringToFront();
             loader.Visible = true;
             try
@@ -98,6 +100,14 @@ namespace CompanyStudio.Store
             finally
             {
                 loader.Visible = false;
+            }
+        }
+
+        private void PermissionsManager_OnLocationPermissionChange(object sender, PermissionsManager.LocationWidePermissionChangeEventArgs e)
+        {
+            if (e.LocationID == LocationID && e.Permission == PermissionsManager.LocationWidePermissions.ManagePrices && !e.Value)
+            {
+                Close();
             }
         }
 
@@ -164,6 +174,11 @@ namespace CompanyStudio.Store
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void frmPricingAutomation_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
         }
     }
 }

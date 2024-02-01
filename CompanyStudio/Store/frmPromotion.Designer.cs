@@ -352,6 +352,7 @@
             this.Name = "frmPromotion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Promotion";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmPromotion_FormClosed);
             this.Load += new System.EventHandler(this.frmPromotion_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

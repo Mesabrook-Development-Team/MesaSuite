@@ -131,6 +131,7 @@
             this.Name = "frmStoreConfiguration";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Store Configuration";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmStoreConfiguration_FormClosed);
             this.Load += new System.EventHandler(this.frmStoreConfiguration_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);

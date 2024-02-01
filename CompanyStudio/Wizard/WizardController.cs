@@ -13,6 +13,8 @@ namespace CompanyStudio.Wizard
 {
     public abstract class WizardController<TData> where TData : class, new()
     {
+        protected event EventHandler WizardStarting;
+
         private frmWizardShell _shell;
         private MultiMap<IWizardStep<TData>, StepConnection> _connections = new MultiMap<IWizardStep<TData>, StepConnection>();
         private IWizardStep<TData> _currentStep;
@@ -209,6 +211,18 @@ namespace CompanyStudio.Wizard
         private void CmdCancel_Click(object sender, EventArgs e)
         {
             _shell.Close();
+        }
+
+        protected void ForceCloseWizard()
+        {
+            if (_shell.InvokeRequired)
+            {
+                _shell.Invoke(new MethodInvoker(() => _shell.Close()));
+            }
+            else
+            {
+                _shell.Close();
+            }
         }
     }
 }

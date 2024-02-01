@@ -25,6 +25,8 @@ namespace CompanyStudio.Store
 
         private void frmPromotionExplorer_Load(object sender, EventArgs e)
         {
+            PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
+
             dgvPromotions.DefaultCellStyle.BackColor = dgvPromotions.BackgroundColor;
             dgvPromotions.GridColor = dgvPromotions.BackgroundColor;
 
@@ -34,6 +36,15 @@ namespace CompanyStudio.Store
             preferences.Save();
 
             LoadData();
+        }
+
+        private void PermissionsManager_OnLocationPermissionChange(object sender, PermissionsManager.LocationWidePermissionChangeEventArgs e)
+        {
+            if (e.LocationID == LocationModel.LocationID && e.Permission == PermissionsManager.LocationWidePermissions.ManagePrices && !e.Value)
+            {
+                this.ShowError("You no longer have permission to view Promotions for this Location");
+                Close();
+            }
         }
 
         private async void LoadData()
@@ -202,6 +213,11 @@ namespace CompanyStudio.Store
         private void dgvPromotions_SelectionChanged(object sender, EventArgs e)
         {
             mnuDelete.Enabled = (dgvPromotions.SelectedRows.Count > 0);
+        }
+
+        private void frmPromotionExplorer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
         }
     }
 }

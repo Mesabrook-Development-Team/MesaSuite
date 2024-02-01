@@ -184,6 +184,7 @@
             this.Name = "frmPricingAutomation";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Automation";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmPricingAutomation_FormClosed);
             this.Load += new System.EventHandler(this.frmPricingAutomation_Load);
             this.grpProperties.ResumeLayout(false);
             this.grpProperties.PerformLayout();

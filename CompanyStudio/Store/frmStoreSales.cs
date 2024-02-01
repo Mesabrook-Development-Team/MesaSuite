@@ -23,7 +23,7 @@ namespace CompanyStudio.Store
         private StepConfigurationCollection Steps;
 
         public Company Company { get; set; }
-        public Location Location { get; set; }
+        public Location LocationModel { get; set; }
 
         public frmStudio StudioForm { get; set; }
 
@@ -63,6 +63,8 @@ namespace CompanyStudio.Store
         private bool _isLoading;
         private async void frmStoreSales_Load(object sender, EventArgs e)
         {
+            PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
+
             imageList.Images.Add("cancel", Properties.Resources.cancel);
             imageList.Images.Add("accept", Properties.Resources.accept);
 
@@ -93,7 +95,7 @@ namespace CompanyStudio.Store
             try
             {
                 GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Register/GetAll");
-                get.AddLocationHeader(Company.CompanyID, Location.LocationID);
+                get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
                 List<Register> registers = await get.GetObject<List<Register>>() ?? new List<Register>();
                 foreach(Register register in registers)
                 {
@@ -102,6 +104,14 @@ namespace CompanyStudio.Store
                 }
             }
             catch { }
+        }
+
+        private void PermissionsManager_OnLocationPermissionChange(object sender, PermissionsManager.LocationWidePermissionChangeEventArgs e)
+        {
+            if (e.LocationID == LocationModel.LocationID && e.Permission == PermissionsManager.LocationWidePermissions.ManagePrices && !e.Value)
+            {
+                Close();
+            }
         }
 
         private async void cmdAddItem_Click(object sender, EventArgs e)
@@ -194,7 +204,7 @@ namespace CompanyStudio.Store
 
                 get.QueryString.Add("startdate", dtpStart.Value.Ticks.ToString());
                 get.QueryString.Add("enddate", dtpEnd.Value.Ticks.ToString());
-                get.AddLocationHeader(Company.CompanyID, Location.LocationID);
+                get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
                 List<StoreSaleItem> storeSaleItems = await get.GetObject<List<StoreSaleItem>>() ?? new List<StoreSaleItem>();
 
                 MultiMap<DateTime, StoreSaleItem> salesByMonth = new MultiMap<DateTime, StoreSaleItem>();
@@ -361,5 +371,10 @@ namespace CompanyStudio.Store
             cmdNext.Enabled = currentConfiguration.AllowNext;
         }
         #endregion
+
+        private void frmStoreSales_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
+        }
     }
 }

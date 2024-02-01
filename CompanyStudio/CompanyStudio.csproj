@@ -400,12 +400,6 @@
     <Compile Include="Store\frmStoreSales.Designer.cs">
       <DependentUpon>frmStoreSales.cs</DependentUpon>
     </Compile>
-    <Compile Include="Store\frmStoreSales.Designer.cs">
-      <DependentUpon>frmStoreSales.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Store\frmStoreSales.Designer.cs">
-      <DependentUpon>frmStoreSales.cs</DependentUpon>
-    </Compile>
     <Compile Include="Store\Reports\MonthlySummary.cs" />
     <Compile Include="StudioFormExtender.cs">
       <SubType>Component</SubType>

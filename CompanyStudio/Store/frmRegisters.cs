@@ -21,8 +21,18 @@ namespace CompanyStudio.Store
 
         private void frmRegisters_Load(object sender, EventArgs e)
         {
+            PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
             imageList.Images.Add(registerIconName, Properties.Resources.cash_register);
             LoadList();
+        }
+
+        private void PermissionsManager_OnLocationPermissionChange(object sender, PermissionsManager.LocationWidePermissionChangeEventArgs e)
+        {
+            if (e.LocationID == LocationModel.LocationID && e.Permission == PermissionsManager.LocationWidePermissions.ManageRegisters && !e.Value)
+            {
+                this.ShowError("You no longer have permission to view Registers for this Location.");
+                Close();
+            }
         }
 
         private async Task LoadList()
@@ -159,6 +169,11 @@ namespace CompanyStudio.Store
             PostData post = new PostData(DataAccess.APIs.CompanyStudio, "RegisterStatus/Post", registerStatus);
             post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
             await post.ExecuteNoResult();
+        }
+
+        private void frmRegisters_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
         }
     }
 }

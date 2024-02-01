@@ -220,6 +220,7 @@
             this.Name = "frmStoreItems";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Store Items";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmStoreItems_FormClosed);
             this.Load += new System.EventHandler(this.frmStoreItems_Load);
             this.grpCurrentItems.ResumeLayout(false);
             this.grpCurrentItems.PerformLayout();

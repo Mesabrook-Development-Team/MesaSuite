@@ -916,7 +916,7 @@ namespace CompanyStudio
         {
             Store.frmStoreSales salesWizard = new Store.frmStoreSales();
             salesWizard.Company = ActiveCompany;
-            salesWizard.Location = ActiveLocation;
+            salesWizard.LocationModel = ActiveLocation;
             salesWizard.StudioForm = this;
             salesWizard.ShowDialog();
         }

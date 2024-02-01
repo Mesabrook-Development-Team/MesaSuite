@@ -31,10 +31,21 @@ namespace CompanyStudio.Store
 
         private void frmStoreItems_Load(object sender, EventArgs e)
         {
+            PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
+
             colQty.ValueType = typeof(short);
             colCost.ValueType = typeof(decimal);
 
             LoadData();
+        }
+
+        private void PermissionsManager_OnLocationPermissionChange(object sender, PermissionsManager.LocationWidePermissionChangeEventArgs e)
+        {
+            if (e.LocationID == LocationModel.LocationID && e.Permission == PermissionsManager.LocationWidePermissions.ManagePrices && !e.Value)
+            {
+                this.ShowError("You do not have permission to manage prices in this location.");
+                Close();
+            }
         }
 
         private async Task LoadData()
@@ -340,6 +351,11 @@ namespace CompanyStudio.Store
             automation.CompanyID = Company.CompanyID;
             automation.LocationID = LocationModel.LocationID;
             automation.ShowDialog();
+        }
+
+        private void frmStoreItems_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
         }
     }
 }

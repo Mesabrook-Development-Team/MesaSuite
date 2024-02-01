@@ -87,7 +87,7 @@
             this.toolAdd.Image = global::CompanyStudio.Properties.Resources.add;
             this.toolAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAdd.Name = "toolAdd";
-            this.toolAdd.Size = new System.Drawing.Size(94, 22);
+            this.toolAdd.Size = new System.Drawing.Size(89, 22);
             this.toolAdd.Text = "Add Register";
             this.toolAdd.Click += new System.EventHandler(this.toolAdd_Click);
             // 
@@ -96,7 +96,7 @@
             this.toolDelete.Image = global::CompanyStudio.Properties.Resources.delete;
             this.toolDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolDelete.Name = "toolDelete";
-            this.toolDelete.Size = new System.Drawing.Size(105, 22);
+            this.toolDelete.Size = new System.Drawing.Size(101, 22);
             this.toolDelete.Text = "Delete Register";
             this.toolDelete.Click += new System.EventHandler(this.toolDelete_Click);
             // 
@@ -113,14 +113,14 @@
             this.toolStripDropDownButton1.Image = global::CompanyStudio.Properties.Resources.cog;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(112, 22);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(107, 22);
             this.toolStripDropDownButton1.Text = "Status Change";
             // 
             // toolOnline
             // 
             this.toolOnline.Image = global::CompanyStudio.Properties.Resources.accept;
             this.toolOnline.Name = "toolOnline";
-            this.toolOnline.Size = new System.Drawing.Size(180, 22);
+            this.toolOnline.Size = new System.Drawing.Size(132, 22);
             this.toolOnline.Text = "Bring Online";
             this.toolOnline.Click += new System.EventHandler(this.toolOnline_Click);
             // 
@@ -128,7 +128,7 @@
             // 
             this.toolOffline.Image = global::CompanyStudio.Properties.Resources.stop;
             this.toolOffline.Name = "toolOffline";
-            this.toolOffline.Size = new System.Drawing.Size(180, 22);
+            this.toolOffline.Size = new System.Drawing.Size(132, 22);
             this.toolOffline.Text = "Take Offline";
             this.toolOffline.Click += new System.EventHandler(this.toolOffline_Click);
             // 
@@ -156,6 +156,7 @@
             this.Name = "frmRegisters";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registers";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmRegisters_FormClosed);
             this.Load += new System.EventHandler(this.frmRegisters_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

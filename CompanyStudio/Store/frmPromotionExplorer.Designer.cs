@@ -195,6 +195,7 @@
             this.Name = "frmPromotionExplorer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Promotion Explorer";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmPromotionExplorer_FormClosed);
             this.Load += new System.EventHandler(this.frmPromotionExplorer_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

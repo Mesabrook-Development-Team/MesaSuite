@@ -56,6 +56,9 @@
             this.itmSelector = new CompanyStudio.ItemSelectorInput();
             this.label5 = new System.Windows.Forms.Label();
             this.dgvItems = new System.Windows.Forms.DataGridView();
+            this.colItemImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colRemove = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label6 = new System.Windows.Forms.Label();
             this.pnlTimeRange = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
@@ -65,9 +68,6 @@
             this.pnlReview = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.txtReview = new System.Windows.Forms.TextBox();
-            this.colItemImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colRemove = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlWelcome.SuspendLayout();
             this.pnlSelectRegisters.SuspendLayout();
@@ -294,6 +294,28 @@
             this.dgvItems.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItems_CellContentClick);
             this.dgvItems.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvItems_CellPainting);
             // 
+            // colItemImage
+            // 
+            this.colItemImage.HeaderText = "Image";
+            this.colItemImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.colItemImage.Name = "colItemImage";
+            this.colItemImage.ReadOnly = true;
+            this.colItemImage.Width = 40;
+            // 
+            // colItem
+            // 
+            this.colItem.HeaderText = "Item";
+            this.colItem.Name = "colItem";
+            this.colItem.ReadOnly = true;
+            this.colItem.Width = 250;
+            // 
+            // colRemove
+            // 
+            this.colRemove.HeaderText = "Remove";
+            this.colRemove.Name = "colRemove";
+            this.colRemove.ReadOnly = true;
+            this.colRemove.Width = 60;
+            // 
             // label6
             // 
             this.label6.Location = new System.Drawing.Point(2, 4);
@@ -379,28 +401,6 @@
             this.txtReview.Size = new System.Drawing.Size(388, 304);
             this.txtReview.TabIndex = 0;
             // 
-            // colItemImage
-            // 
-            this.colItemImage.HeaderText = "Image";
-            this.colItemImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.colItemImage.Name = "colItemImage";
-            this.colItemImage.ReadOnly = true;
-            this.colItemImage.Width = 40;
-            // 
-            // colItem
-            // 
-            this.colItem.HeaderText = "Item";
-            this.colItem.Name = "colItem";
-            this.colItem.ReadOnly = true;
-            this.colItem.Width = 250;
-            // 
-            // colRemove
-            // 
-            this.colRemove.HeaderText = "Remove";
-            this.colRemove.Name = "colRemove";
-            this.colRemove.ReadOnly = true;
-            this.colRemove.Width = 60;
-            // 
             // frmStoreSales
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -423,6 +423,7 @@
             this.Name = "frmStoreSales";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Store Sales Parameters";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmStoreSales_FormClosed);
             this.Load += new System.EventHandler(this.frmStoreSales_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnlWelcome.ResumeLayout(false);

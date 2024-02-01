@@ -27,7 +27,16 @@ namespace CompanyStudio.Store
 
         private void frmRegister_Load(object sender, EventArgs e)
         {
+            PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
             LoadForm();
+        }
+
+        private void PermissionsManager_OnLocationPermissionChange(object sender, PermissionsManager.LocationWidePermissionChangeEventArgs e)
+        {
+            if (e.LocationID == LocationModel.LocationID && e.Permission == PermissionsManager.LocationWidePermissions.ManageRegisters && !e.Value)
+            {
+                Close();
+            }
         }
 
         private async Task LoadForm()
@@ -154,6 +163,11 @@ namespace CompanyStudio.Store
         private async void cmdOffline_Click(object sender, EventArgs e)
         {
             await SetStatus(RegisterStatus.Statuses.Offline);
+        }
+
+        private void frmRegister_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
         }
     }
 }

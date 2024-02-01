@@ -42,7 +42,7 @@
             this.colInitiator = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblCurrentStatus = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.loader = new Loader();
+            this.loader = new CompanyStudio.Loader();
             this.label3 = new System.Windows.Forms.Label();
             this.txtIdentifier = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
@@ -238,6 +238,7 @@
             this.Name = "frmRegister";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Register";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmRegister_FormClosed);
             this.Load += new System.EventHandler(this.frmRegister_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

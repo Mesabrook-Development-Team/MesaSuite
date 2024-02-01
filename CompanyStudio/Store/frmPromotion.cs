@@ -126,7 +126,16 @@ namespace CompanyStudio.Store
 
         private void frmPromotion_Load(object sender, EventArgs e)
         {
+            PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
             LoadData();
+        }
+
+        private void PermissionsManager_OnLocationPermissionChange(object sender, PermissionsManager.LocationWidePermissionChangeEventArgs e)
+        {
+            if (e.LocationID == LocationModel.LocationID && e.Permission == PermissionsManager.LocationWidePermissions.ManagePrices && !e.Value)
+            {
+                Close();
+            }
         }
 
         private async void LoadData()
@@ -430,6 +439,11 @@ namespace CompanyStudio.Store
 
             promotionLocationItem.PromotionPrice = newPromoAmount;
             promotionLocationItems.Add(promotionLocationItem);
+        }
+
+        private void frmPromotion_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
         }
     }
 }

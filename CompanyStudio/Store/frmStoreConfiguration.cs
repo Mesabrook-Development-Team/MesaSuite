@@ -26,6 +26,8 @@ namespace CompanyStudio.Store
 
         private async void frmStoreConfiguration_Load(object sender, EventArgs e)
         {
+            PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
+
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, $"Location/Get/{LocationModel.LocationID}");
             get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
             get.RequestFields.Add(nameof(Models.Location.AccountIDStoreRevenue));
@@ -49,6 +51,13 @@ namespace CompanyStudio.Store
             }
         }
 
+        private void PermissionsManager_OnLocationPermissionChange(object sender, PermissionsManager.LocationWidePermissionChangeEventArgs e)
+        {
+            if (e.LocationID == LocationModel.LocationID && e.Permission == PermissionsManager.LocationWidePermissions.ManagePrices && !e.Value)
+            {
+                Close();
+            }
+        }
 
         public async void Save()
         {
@@ -104,6 +113,11 @@ namespace CompanyStudio.Store
                     cmdRegOffline.Tag = emailEditor.EmailImplementationID;
                 }
             }
+        }
+
+        private void frmStoreConfiguration_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
         }
     }
 }

@@ -196,8 +196,8 @@ namespace Updater
             if (InstallationConfiguration.MakeDesktopIcon)
             {
                 WshShell shell = new WshShell();
-                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "MesaSuite.lnk"));
-                shortcut.Description = "Launches MesaSuite";
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "MesaSuite" + (Program.InternalEdition ? " (Internal Edition)" : "") + ".lnk"));
+                shortcut.Description = "Launches MesaSuite" + (Program.InternalEdition ? " Internal Edition" : "");
                 shortcut.IconLocation = Path.Combine(InstallationConfiguration.InstallDirectory, "icon.ico");
                 shortcut.TargetPath = Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe");
                 shortcut.WorkingDirectory = InstallationConfiguration.InstallDirectory;
@@ -207,8 +207,8 @@ namespace Updater
             if (InstallationConfiguration.MakeStartMenuIcon)
             {
                 WshShell shell = new WshShell();
-                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs", "MesaSuite.lnk"));
-                shortcut.Description = "Launches MesaSuite";
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs", "MesaSuite" + (Program.InternalEdition ? " (Internal Edition)" : "") + ".lnk"));
+                shortcut.Description = "Launches MesaSuite" + (Program.InternalEdition ? " Internal Edition" : "");
                 shortcut.IconLocation = Path.Combine(InstallationConfiguration.InstallDirectory, "icon.ico");
                 shortcut.TargetPath = Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe");
                 shortcut.WorkingDirectory = InstallationConfiguration.InstallDirectory;

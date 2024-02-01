@@ -35,7 +35,7 @@ namespace ClussPro.ObjectBasedFramework.Validation
             IEnumerable<string> extraFields = validationDefinitionsForObject.SelectMany(def => def.ValidationRules.Where(validRulesDelegate).SelectMany(vr => vr.Condition.AdditionalDataObjectFields));
             if (extraFields.Any())
             {
-                objectToValidate = DataObject.GetEditableByPrimaryKey(dataObject.GetType(), ConvertUtility.GetNullableLong(objectToValidate.PrimaryKeyField.GetValue(objectToValidate)), null, extraFields);
+                objectToValidate = DataObject.GetEditableByPrimaryKey(dataObject.GetType(), ConvertUtility.GetNullableLong(objectToValidate.PrimaryKeyField.GetValue(objectToValidate)), transaction, extraFields);
                 if (objectToValidate == null)
                 {
                     foreach(IGrouping<string, string> extraFieldsByPrefix in extraFields.GroupBy(field => field.Contains(".") ? field.Substring(0, field.IndexOf(".")) : string.Empty))
@@ -86,7 +86,7 @@ namespace ClussPro.ObjectBasedFramework.Validation
                                                                                                     return false;
                                                                                                 })))
             {
-                bool result = validationRule.Condition.Evaluate(objectToValidate);
+                bool result = validationRule.Condition.Evaluate(objectToValidate, transaction);
                 if (!result)
                 {
                     dataObject.Errors.Add(validationRule.Field, validationRule.Message);

@@ -56,6 +56,9 @@ namespace ClussPro.ObjectBasedFramework
                 throw new System.Data.ReadOnlyException("Attempt to call Save on a Read Only Data Object");
             }
 
+
+            SchemaObject thisObject = Schema.Schema.GetSchemaObject(GetType());
+            ITransaction localTransaction = transaction == null ? SQLProviderFactory.GenerateTransaction(thisObject.ConnectionName ?? "_default") : transaction;
             PreValidate();
             Validate(isInsert ? Validator.SaveModes.Insert : Validator.SaveModes.Update, saveFlags, transaction);
 
@@ -63,9 +66,6 @@ namespace ClussPro.ObjectBasedFramework
             {
                 return false;
             }
-
-            SchemaObject thisObject = Schema.Schema.GetSchemaObject(GetType());
-            ITransaction localTransaction = transaction == null ? SQLProviderFactory.GenerateTransaction(thisObject.ConnectionName ?? "_default") : transaction;
             try
             {
                 if (!PreSave(localTransaction))

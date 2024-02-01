@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Validation;
 using ClussPro.ObjectBasedFramework.Validation.Conditions;
@@ -32,7 +33,7 @@ namespace WebModels.fleet.Validations
 
         public class TrainSymbolActiveCondition : Condition
         {
-            public override bool Evaluate(DataObject dataObject)
+            public override bool Evaluate(DataObject dataObject, ITransaction transaction)
             {
                 if (!(dataObject is Train train))
                 {
@@ -69,7 +70,7 @@ namespace WebModels.fleet.Validations
                 }
 
                 Search<Train> existsSearch = new Search<Train>(searchConditionGroup);
-                return !existsSearch.ExecuteExists(null);
+                return !existsSearch.ExecuteExists(transaction);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework.DataSearch;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
             this.uniqueFields = uniqueFields;
         }
 
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             bool shouldRunRule = false;
             foreach(string uniqueField in uniqueFields)
@@ -71,7 +72,7 @@ namespace ClussPro.ObjectBasedFramework.Validation.Conditions
             }
             search.SearchCondition = conditionGroup;
 
-            return !search.ExecuteExists(null);
+            return !search.ExecuteExists(transaction);
         }
     }
 }

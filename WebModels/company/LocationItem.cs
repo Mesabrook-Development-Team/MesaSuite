@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ClussPro.Base.Data;
+﻿using ClussPro.Base.Data;
 using ClussPro.Base.Data.Conditions;
 using ClussPro.Base.Data.Operand;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using WebModels.mesasys;
 
 namespace WebModels.company
@@ -20,6 +20,8 @@ namespace WebModels.company
     public class LocationItem : DataObject
     {
         protected LocationItem() : base() { }
+
+        public bool SkipAutomaticPriceUpdate { get; set; }
 
         private long? _locationItemID;
         [Field("970E72FC-53CB-481B-B53D-989B78C7C7D7")]
@@ -88,7 +90,7 @@ namespace WebModels.company
 
         public override ICondition GetRelationshipCondition(Relationship relationship, string myAlias, string otherAlias)
         {
-            switch(relationship.RelationshipName)
+            switch (relationship.RelationshipName)
             {
                 case nameof(CurrentPromotionLocationItem):
                     return CurrentPromotionLocationItemRelationshipCondition(myAlias, otherAlias);
@@ -159,6 +161,131 @@ namespace WebModels.company
             };
         }
 
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (!SkipAutomaticPriceUpdate)
+            {
+                StorePricingAutomation storePricingAutomation = new Search<StorePricingAutomation>(new LongSearchCondition<StorePricingAutomation>()
+                {
+                    Field = nameof(StorePricingAutomation.LocationID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = LocationID
+                }).GetReadOnly(transaction, FieldPathUtility.CreateFieldPathsAsList<StorePricingAutomation>(spa => new List<object>()
+                {
+                    spa.IsEnabled,
+                    spa.PushAdd,
+                    spa.PushUpdate,
+                    spa.StorePricingAutomationLocations.First().LocationIDDestination
+                }));
+
+                if (storePricingAutomation != null && storePricingAutomation.IsEnabled && (storePricingAutomation.PushAdd || storePricingAutomation.PushUpdate))
+                {
+                    short? oldQuantity = (short?)GetDirtyValue(nameof(Quantity));
+                    oldQuantity = oldQuantity ?? Quantity;
+
+                    foreach (StorePricingAutomationLocation storePricingAutomationLocation in storePricingAutomation.StorePricingAutomationLocations)
+                    {
+                        Search<LocationItem> locationItemExistsSearch = new Search<LocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                            new LongSearchCondition<LocationItem>()
+                            {
+                                Field = nameof(LocationID),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = storePricingAutomationLocation.LocationIDDestination
+                            },
+                            new LongSearchCondition<LocationItem>()
+                            {
+                                Field = nameof(ItemID),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = ItemID
+                            },
+                            new ShortSearchCondition<LocationItem>()
+                            {
+                                Field = nameof(Quantity),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = oldQuantity
+                            }));
+
+                        if (storePricingAutomation.PushAdd && IsInsert && !locationItemExistsSearch.ExecuteExists(transaction))
+                        {
+                            LocationItem newLocationItem = DataObjectFactory.Create<LocationItem>();
+                            Copy(newLocationItem);
+                            newLocationItem.LocationID = storePricingAutomationLocation.LocationIDDestination;
+                            newLocationItem.SkipAutomaticPriceUpdate = true;
+                            newLocationItem.Save(transaction); // We'll just eat the errors I guess...
+                        }
+                        else if (storePricingAutomation.PushUpdate && !IsInsert && locationItemExistsSearch.ExecuteExists(transaction))
+                        {
+                            LocationItem otherLocationItem = locationItemExistsSearch.GetEditable(transaction);
+                            if (otherLocationItem.BasePrice != BasePrice || otherLocationItem.Quantity != Quantity)
+                            {
+                                otherLocationItem.Quantity = Quantity;
+                                otherLocationItem.BasePrice = BasePrice;
+                                otherLocationItem.SkipAutomaticPriceUpdate = true;
+                                otherLocationItem.Save(transaction); // We'll just eat the errors I guess...
+                            }
+                        }
+                    }
+                }
+            }
+            return base.PostSave(transaction);
+        }
+
+        protected override bool PostDelete(ITransaction transaction)
+        {
+            if (!SkipAutomaticPriceUpdate)
+            {
+                StorePricingAutomation storePricingAutomation = new Search<StorePricingAutomation>(new LongSearchCondition<StorePricingAutomation>()
+                {
+                    Field = nameof(StorePricingAutomation.LocationID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = LocationID
+                }).GetReadOnly(transaction, FieldPathUtility.CreateFieldPathsAsList<StorePricingAutomation>(spa => new List<object>()
+                {
+                    spa.IsEnabled,
+                    spa.PushDelete,
+                    spa.StorePricingAutomationLocations.First().LocationIDDestination
+                }));
+
+                if (storePricingAutomation != null && storePricingAutomation.IsEnabled && storePricingAutomation.PushDelete)
+                {
+                    foreach (StorePricingAutomationLocation storePricingAutomationLocation in storePricingAutomation.StorePricingAutomationLocations)
+                    {
+                        Search<LocationItem> locationItemExistsSearch = new Search<LocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                            new LongSearchCondition<LocationItem>()
+                            {
+                                Field = nameof(LocationID),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = storePricingAutomationLocation.LocationIDDestination
+                            },
+                            new LongSearchCondition<LocationItem>()
+                            {
+                                Field = nameof(ItemID),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = ItemID
+                            },
+                            new ShortSearchCondition<LocationItem>()
+                            {
+                                Field = nameof(Quantity),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = Quantity
+                            }));
+
+                        LocationItem otherLocationItem = locationItemExistsSearch.GetEditable(transaction);
+                        if (otherLocationItem != null)
+                        {
+                            otherLocationItem.SkipAutomaticPriceUpdate = true;
+                            if (!otherLocationItem.Delete(transaction))
+                            {
+                                Errors.AddRange(otherLocationItem.Errors.ToArray());
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return base.PostDelete(transaction);
+        }
+
         #region Relationships
         #region company
         private List<StoreSaleItem> _storeSales = new List<StoreSaleItem>();
@@ -176,5 +303,10 @@ namespace WebModels.company
         }
         #endregion
         #endregion
+
+        public static class SaveFlags
+        {
+            public static readonly Guid SkipAutomaticPricingUpdates = new Guid("5E6E3F9B-7B6D-4F3F-8F3F-1F6E3F9B7B6D");
+        }
     }
 }

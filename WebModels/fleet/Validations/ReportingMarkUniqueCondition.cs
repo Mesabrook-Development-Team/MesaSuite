@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Validation.Conditions;
@@ -11,7 +12,7 @@ namespace WebModels.fleet.Validations
 {
     public class ReportingMarkUniqueCondition : Condition
     {
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             if (!(dataObject is Railcar railcar) && !(dataObject is Locomotive locomotive))
             {
@@ -45,7 +46,7 @@ namespace WebModels.fleet.Validations
             }
 
             Search<Railcar> duplicateRailcarSearch = new Search<Railcar>(railcarSearchCondition);
-            if (duplicateRailcarSearch.ExecuteExists(null))
+            if (duplicateRailcarSearch.ExecuteExists(transaction))
             {
                 return false;
             }
@@ -75,7 +76,7 @@ namespace WebModels.fleet.Validations
             }
 
             Search<Locomotive> duplicateLocomotiveSearch = new Search<Locomotive>(locomotiveSearchCondition);
-            if (duplicateLocomotiveSearch.ExecuteExists(null))
+            if (duplicateLocomotiveSearch.ExecuteExists(transaction))
             {
                 return false;
             }

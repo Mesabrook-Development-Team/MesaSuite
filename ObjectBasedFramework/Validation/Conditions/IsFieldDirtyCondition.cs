@@ -1,4 +1,6 @@
-﻿namespace ClussPro.ObjectBasedFramework.Validation.Conditions
+﻿using ClussPro.Base.Data.Query;
+
+namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 {
     public class IsFieldDirtyCondition : Condition
     {
@@ -8,7 +10,7 @@
             _field = field;
         }
 
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             return dataObject.IsFieldDirty(_field);
         }

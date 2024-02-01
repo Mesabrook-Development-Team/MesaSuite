@@ -70,6 +70,7 @@ namespace CompanyStudio.Store
                 }
 
                 int hiddenCount = 0;
+                lstLocations.ClearSelected();
                 foreach (StorePricingAutomationLocation location in Locations)
                 {
                     DropDownItem<Location> ddi = lstLocations.Items.OfType<DropDownItem<Location>>().FirstOrDefault(x => x.Object.LocationID == location.LocationIDDestination);

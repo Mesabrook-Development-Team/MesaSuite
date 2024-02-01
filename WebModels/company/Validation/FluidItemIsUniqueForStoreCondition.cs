@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Validation.Conditions;
 using System;
@@ -11,7 +12,7 @@ namespace WebModels.company.Validation
 {
     public class FluidItemIsUniqueForStoreCondition : Condition
     {
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             if (!(dataObject is LocationItem locationItem))
             {
@@ -49,7 +50,7 @@ namespace WebModels.company.Validation
                 });
             }
 
-            return !new Search<LocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And, andConditions.ToArray())).ExecuteExists(null);
+            return !new Search<LocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And, andConditions.ToArray())).ExecuteExists(transaction);
         }
     }
 }

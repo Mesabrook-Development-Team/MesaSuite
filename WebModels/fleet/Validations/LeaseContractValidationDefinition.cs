@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Validation;
 using ClussPro.ObjectBasedFramework.Validation.Conditions;
@@ -77,7 +78,7 @@ namespace WebModels.fleet.Validations
 
         public class LocationRecurringDestinationRequiredCondition : Condition
         {
-            public override bool Evaluate(DataObject dataObject)
+            public override bool Evaluate(DataObject dataObject, ITransaction transaction)
             {
                 if (!(dataObject is LeaseContract contract))
                 {
@@ -87,12 +88,12 @@ namespace WebModels.fleet.Validations
                 long? companyID;
                 if (contract.RailcarID != null)
                 {
-                    Railcar railcar = DataObject.GetReadOnlyByPrimaryKey<Railcar>(contract.RailcarID, null, new[] { nameof(Railcar.CompanyIDOwner) });
+                    Railcar railcar = DataObject.GetReadOnlyByPrimaryKey<Railcar>(contract.RailcarID, transaction, new[] { nameof(Railcar.CompanyIDOwner) });
                     companyID = railcar?.CompanyIDOwner;
                 }
                 else if (contract.LocomotiveID != null)
                 {
-                    Locomotive locomotive = DataObject.GetReadOnlyByPrimaryKey<Locomotive>(contract.LocomotiveID, null, new[] { nameof(Locomotive.CompanyIDOwner) });
+                    Locomotive locomotive = DataObject.GetReadOnlyByPrimaryKey<Locomotive>(contract.LocomotiveID, transaction, new[] { nameof(Locomotive.CompanyIDOwner) });
                     companyID = locomotive?.CompanyIDOwner;
                 }
                 else

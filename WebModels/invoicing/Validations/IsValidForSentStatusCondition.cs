@@ -1,4 +1,5 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Validation.Conditions;
 
@@ -6,7 +7,7 @@ namespace WebModels.invoicing.Validations
 {
     public class IsValidForSentStatusCondition : Condition
     {
-        public override bool Evaluate(DataObject dataObject)
+        public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             if (!(dataObject is Invoice invoice))
             {
@@ -25,7 +26,7 @@ namespace WebModels.invoicing.Validations
                 Value = invoice.InvoiceID
             });
 
-            if (!invoiceLineSearch.ExecuteExists(null))
+            if (!invoiceLineSearch.ExecuteExists(transaction))
             {
                 return false;
             }

@@ -191,7 +191,7 @@ namespace WebModels.Loaders.mesasys
 
         private IEnumerable<LoaderObject> GetStoreEmails()
         {
-            yield return new EmailTemplateLoaderObject<RegisterStatus>(new Guid("BE8CC96C-5E19-409E-858E-2B0F397C3B94"),
+            yield return new EmailTemplateLoaderObject<RegisterStatus>(EmailTemplate.EmailTemplates.RegisterOffline,
                 "Register Offline",
                 "The register {Register.Name} at {Register.Location.Company.Name} - {Register.Location.Name} has stopped working unexpectedly.\r\n\r\nReported Status: {Status}\r\nInitiated By: {Initiator}",
                 EmailTemplate.SecurityCheckTypes.StoreRegister,

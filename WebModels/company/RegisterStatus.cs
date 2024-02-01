@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
+using WebModels.mesasys;
 
 namespace WebModels.company
 {
@@ -65,6 +68,24 @@ namespace WebModels.company
         {
             get { CheckGet(); return _initiator; }
             set { CheckSet(); _initiator = value; }
+        }
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (Status != Statuses.Online)
+            {
+                Register register = DataObject.GetReadOnlyByPrimaryKey<Register>(RegisterID, transaction, FieldPathUtility.CreateFieldPathsAsList<Register>(r => new List<object>()
+                {
+                    r.Location.EmailImplementationIDRegisterOffline
+                }));
+
+                if (register?.Location?.EmailImplementationIDRegisterOffline != null)
+                {
+                    EmailImplementation emailImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(register.Location.EmailImplementationIDRegisterOffline.Value, transaction, new string[0]);
+                    emailImplementation.SendEmail<RegisterStatus>(RegisterStatusID, transaction);
+                }
+            }
+            return base.PostSave(transaction);
         }
     }
 }

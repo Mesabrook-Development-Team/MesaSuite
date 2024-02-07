@@ -47,7 +47,7 @@ namespace WebModels.Migrations
                 { "LocationItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "LocationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "ItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "Quantity", new FieldSpecification(FieldSpecification.FieldTypes.SmallInt) },
+                { "Quantity", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
                 { "BasePrice", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) }
             };
             createTable.Execute(transaction);

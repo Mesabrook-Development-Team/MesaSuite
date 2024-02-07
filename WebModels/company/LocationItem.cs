@@ -63,10 +63,10 @@ namespace WebModels.company
             get { CheckGet(); return _item; }
         }
 
-        private short? _quantity;
+        private int? _quantity;
         [Field("9425016B-54DB-495C-8078-A43484FFE39C")]
         [Required]
-        public short? Quantity
+        public int? Quantity
         {
             get { CheckGet(); return _quantity; }
             set { CheckSet(); _quantity = value; }
@@ -180,7 +180,7 @@ namespace WebModels.company
 
                 if (storePricingAutomation != null && storePricingAutomation.IsEnabled && (storePricingAutomation.PushAdd || storePricingAutomation.PushUpdate))
                 {
-                    short? oldQuantity = (short?)GetDirtyValue(nameof(Quantity));
+                    int? oldQuantity = (int?)GetDirtyValue(nameof(Quantity));
                     oldQuantity = oldQuantity ?? Quantity;
 
                     foreach (StorePricingAutomationLocation storePricingAutomationLocation in storePricingAutomation.StorePricingAutomationLocations)
@@ -198,7 +198,7 @@ namespace WebModels.company
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                 Value = ItemID
                             },
-                            new ShortSearchCondition<LocationItem>()
+                            new IntSearchCondition<LocationItem>()
                             {
                                 Field = nameof(Quantity),
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
@@ -263,7 +263,7 @@ namespace WebModels.company
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                 Value = ItemID
                             },
-                            new ShortSearchCondition<LocationItem>()
+                            new IntSearchCondition<LocationItem>()
                             {
                                 Field = nameof(Quantity),
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,

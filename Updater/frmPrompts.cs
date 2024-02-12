@@ -22,11 +22,17 @@ namespace Updater
             InstallationDirectoryStep installationDirectory = new InstallationDirectoryStep();
             workflow.ConnectSteps(preconditionStep, installationDirectory, () => !StartupArguments.Uninstall && !StartupArguments.UninstallQuietly);
 
+            TermsOfServiceStep termsOfServiceStep = new TermsOfServiceStep();
+            workflow.ConnectSteps(installationDirectory, termsOfServiceStep);
+
             AdditionalOptionsStep additionalOptions = new AdditionalOptionsStep();
-            workflow.ConnectSteps(installationDirectory, additionalOptions);
+            workflow.ConnectSteps(termsOfServiceStep, additionalOptions);
+
+            SetMCSyncPathStep mCSyncPathStep = new SetMCSyncPathStep();
+            workflow.ConnectSteps(additionalOptions, mCSyncPathStep);
 
             PreviewStep preview = new PreviewStep();
-            workflow.ConnectSteps(additionalOptions, preview);
+            workflow.ConnectSteps(mCSyncPathStep, preview);
 
             InstallationStep install = new InstallationStep();
             workflow.ConnectSteps(preview, install);

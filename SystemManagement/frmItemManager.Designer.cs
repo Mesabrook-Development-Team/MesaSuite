@@ -45,10 +45,10 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.txtSearch = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.loader = new SystemManagement.Loader();
             this.toolAddNamespace = new System.Windows.Forms.ToolStripButton();
             this.toolAddItem = new System.Windows.Forms.ToolStripButton();
             this.toolImportItems = new System.Windows.Forms.ToolStripButton();
+            this.loader = new SystemManagement.Loader();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -197,15 +197,6 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // loader
-            // 
-            this.loader.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(254, 121);
-            this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(196, 101);
-            this.loader.TabIndex = 2;
-            // 
             // toolAddNamespace
             // 
             this.toolAddNamespace.Image = global::SystemManagement.Properties.Resources.asterisk_orange;
@@ -232,6 +223,15 @@
             this.toolImportItems.Size = new System.Drawing.Size(95, 22);
             this.toolImportItems.Text = "Import Items";
             this.toolImportItems.Click += new System.EventHandler(this.toolImportItems_Click);
+            // 
+            // loader
+            // 
+            this.loader.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(254, 121);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(196, 101);
+            this.loader.TabIndex = 2;
             // 
             // frmItemManager
             // 

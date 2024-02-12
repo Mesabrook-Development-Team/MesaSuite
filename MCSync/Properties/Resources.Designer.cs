@@ -243,6 +243,16 @@ namespace MCSync.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap newlogo {
+            get {
+                object obj = ResourceManager.GetObject("newlogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap tile_transparent {
             get {
                 object obj = ResourceManager.GetObject("tile_transparent", resourceCulture);

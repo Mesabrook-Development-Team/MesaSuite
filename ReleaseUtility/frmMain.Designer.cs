@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.lstSteps = new System.Windows.Forms.TreeView();
             this.ctxSteps = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuNewStep = new System.Windows.Forms.ToolStripMenuItem();
@@ -266,6 +267,7 @@
             this.Controls.Add(this.cmdRun);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lstSteps);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

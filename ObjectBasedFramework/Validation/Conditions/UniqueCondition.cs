@@ -1,11 +1,6 @@
 ﻿using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClussPro.ObjectBasedFramework.Validation.Conditions
 {

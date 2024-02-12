@@ -35,12 +35,14 @@ namespace Updater.Steps
             this.chkStartMenu = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtMinecraftFolder = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 144);
+            this.label1.Location = new System.Drawing.Point(19, 115);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(145, 13);
             this.label1.TabIndex = 0;
@@ -48,17 +50,17 @@ namespace Updater.Steps
             // 
             // txtDirectory
             // 
-            this.txtDirectory.Location = new System.Drawing.Point(22, 173);
+            this.txtDirectory.Location = new System.Drawing.Point(22, 144);
             this.txtDirectory.Name = "txtDirectory";
             this.txtDirectory.ReadOnly = true;
             this.txtDirectory.Size = new System.Drawing.Size(474, 20);
-            this.txtDirectory.TabIndex = 1;
+            this.txtDirectory.TabIndex = 0;
             // 
             // chkDesktop
             // 
             this.chkDesktop.AutoSize = true;
             this.chkDesktop.Enabled = false;
-            this.chkDesktop.Location = new System.Drawing.Point(22, 220);
+            this.chkDesktop.Location = new System.Drawing.Point(22, 263);
             this.chkDesktop.Name = "chkDesktop";
             this.chkDesktop.Size = new System.Drawing.Size(247, 17);
             this.chkDesktop.TabIndex = 2;
@@ -69,10 +71,10 @@ namespace Updater.Steps
             // 
             this.chkStartMenu.AutoSize = true;
             this.chkStartMenu.Enabled = false;
-            this.chkStartMenu.Location = new System.Drawing.Point(22, 255);
+            this.chkStartMenu.Location = new System.Drawing.Point(22, 298);
             this.chkStartMenu.Name = "chkStartMenu";
             this.chkStartMenu.Size = new System.Drawing.Size(258, 17);
-            this.chkStartMenu.TabIndex = 2;
+            this.chkStartMenu.TabIndex = 3;
             this.chkStartMenu.Text = "A start menu shortcut will be made for MesaSuite.";
             this.chkStartMenu.UseVisualStyleBackColor = true;
             // 
@@ -96,6 +98,23 @@ namespace Updater.Steps
             this.label3.TabIndex = 5;
             this.label3.Text = "Please verify that everything below is correct before continuing.";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(19, 186);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(193, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Your Minecraft folder will be mapped to:";
+            // 
+            // txtMinecraftFolder
+            // 
+            this.txtMinecraftFolder.Location = new System.Drawing.Point(22, 215);
+            this.txtMinecraftFolder.Name = "txtMinecraftFolder";
+            this.txtMinecraftFolder.ReadOnly = true;
+            this.txtMinecraftFolder.Size = new System.Drawing.Size(474, 20);
+            this.txtMinecraftFolder.TabIndex = 1;
+            // 
             // PreviewStepControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -104,7 +123,9 @@ namespace Updater.Steps
             this.Controls.Add(this.label2);
             this.Controls.Add(this.chkStartMenu);
             this.Controls.Add(this.chkDesktop);
+            this.Controls.Add(this.txtMinecraftFolder);
             this.Controls.Add(this.txtDirectory);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
             this.Name = "PreviewStepControl";
             this.Size = new System.Drawing.Size(538, 318);
@@ -122,5 +143,7 @@ namespace Updater.Steps
         private System.Windows.Forms.CheckBox chkStartMenu;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtMinecraftFolder;
     }
 }

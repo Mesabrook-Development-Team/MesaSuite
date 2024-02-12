@@ -36,29 +36,29 @@
             this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colExpiration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.pnlDetail = new System.Windows.Forms.Panel();
+            this.cmdReset = new System.Windows.Forms.Button();
+            this.cmdSave = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.chkNeverExpires = new System.Windows.Forms.CheckBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.chkInactivity = new System.Windows.Forms.CheckBox();
+            this.chkNetworkPrinting = new System.Windows.Forms.CheckBox();
+            this.dtpExpiration = new System.Windows.Forms.DateTimePicker();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.mnuAddPAT = new System.Windows.Forms.ToolStripButton();
             this.mnuDeletePAT = new System.Windows.Forms.ToolStripButton();
-            this.pnlDetail = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.dtpExpiration = new System.Windows.Forms.DateTimePicker();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.chkInactivity = new System.Windows.Forms.CheckBox();
-            this.chkNetworkPrinting = new System.Windows.Forms.CheckBox();
-            this.chkNeverExpires = new System.Windows.Forms.CheckBox();
-            this.cmdSave = new System.Windows.Forms.Button();
-            this.cmdReset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPATs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.pnlDetail.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvPATs
@@ -136,6 +136,138 @@
             this.splitContainer1.SplitterDistance = 204;
             this.splitContainer1.TabIndex = 1;
             // 
+            // pnlDetail
+            // 
+            this.pnlDetail.Controls.Add(this.cmdReset);
+            this.pnlDetail.Controls.Add(this.cmdSave);
+            this.pnlDetail.Controls.Add(this.label3);
+            this.pnlDetail.Controls.Add(this.chkNeverExpires);
+            this.pnlDetail.Controls.Add(this.flowLayoutPanel1);
+            this.pnlDetail.Controls.Add(this.dtpExpiration);
+            this.pnlDetail.Controls.Add(this.label2);
+            this.pnlDetail.Controls.Add(this.txtName);
+            this.pnlDetail.Controls.Add(this.label1);
+            this.pnlDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlDetail.Location = new System.Drawing.Point(0, 0);
+            this.pnlDetail.Name = "pnlDetail";
+            this.pnlDetail.Size = new System.Drawing.Size(380, 322);
+            this.pnlDetail.TabIndex = 0;
+            this.pnlDetail.Visible = false;
+            // 
+            // cmdReset
+            // 
+            this.cmdReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(62)))), ((int)(((byte)(64)))));
+            this.cmdReset.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cmdReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmdReset.Location = new System.Drawing.Point(221, 296);
+            this.cmdReset.Name = "cmdReset";
+            this.cmdReset.Size = new System.Drawing.Size(75, 23);
+            this.cmdReset.TabIndex = 4;
+            this.cmdReset.Text = "Reset";
+            this.cmdReset.UseVisualStyleBackColor = false;
+            this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);
+            // 
+            // cmdSave
+            // 
+            this.cmdSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(62)))), ((int)(((byte)(64)))));
+            this.cmdSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cmdSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmdSave.Location = new System.Drawing.Point(302, 296);
+            this.cmdSave.Name = "cmdSave";
+            this.cmdSave.Size = new System.Drawing.Size(75, 23);
+            this.cmdSave.TabIndex = 4;
+            this.cmdSave.Text = "Save";
+            this.cmdSave.UseVisualStyleBackColor = false;
+            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 75);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(267, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "What permissions do you want to grant with this token?";
+            // 
+            // chkNeverExpires
+            // 
+            this.chkNeverExpires.AutoSize = true;
+            this.chkNeverExpires.Location = new System.Drawing.Point(53, 55);
+            this.chkNeverExpires.Name = "chkNeverExpires";
+            this.chkNeverExpires.Size = new System.Drawing.Size(92, 17);
+            this.chkNeverExpires.TabIndex = 2;
+            this.chkNeverExpires.Text = "Never Expires";
+            this.chkNeverExpires.UseVisualStyleBackColor = true;
+            this.chkNeverExpires.CheckedChanged += new System.EventHandler(this.chkNeverExpires_CheckedChanged);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(55)))));
+            this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flowLayoutPanel1.Controls.Add(this.chkInactivity);
+            this.flowLayoutPanel1.Controls.Add(this.chkNetworkPrinting);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(6, 91);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(371, 199);
+            this.flowLayoutPanel1.TabIndex = 3;
+            // 
+            // chkInactivity
+            // 
+            this.chkInactivity.AutoSize = true;
+            this.chkInactivity.Location = new System.Drawing.Point(3, 3);
+            this.chkInactivity.Name = "chkInactivity";
+            this.chkInactivity.Size = new System.Drawing.Size(137, 17);
+            this.chkInactivity.TabIndex = 0;
+            this.chkInactivity.Text = "Reset Inactivity Periods";
+            this.chkInactivity.UseVisualStyleBackColor = true;
+            // 
+            // chkNetworkPrinting
+            // 
+            this.chkNetworkPrinting.AutoSize = true;
+            this.chkNetworkPrinting.Location = new System.Drawing.Point(3, 26);
+            this.chkNetworkPrinting.Name = "chkNetworkPrinting";
+            this.chkNetworkPrinting.Size = new System.Drawing.Size(143, 17);
+            this.chkNetworkPrinting.TabIndex = 1;
+            this.chkNetworkPrinting.Text = "Perform Network Printing";
+            this.chkNetworkPrinting.UseVisualStyleBackColor = true;
+            // 
+            // dtpExpiration
+            // 
+            this.dtpExpiration.CustomFormat = "dddd MMM dd\',\' yyyy \'@\' HH:mm";
+            this.dtpExpiration.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpExpiration.Location = new System.Drawing.Point(53, 29);
+            this.dtpExpiration.Name = "dtpExpiration";
+            this.dtpExpiration.Size = new System.Drawing.Size(324, 20);
+            this.dtpExpiration.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 32);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(44, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Expires:";
+            // 
+            // txtName
+            // 
+            this.txtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(55)))));
+            this.txtName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(241)))), ((int)(((byte)(241)))));
+            this.txtName.Location = new System.Drawing.Point(53, 3);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(324, 20);
+            this.txtName.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Name:";
+            // 
             // toolStrip1
             // 
             this.toolStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
@@ -169,138 +301,6 @@
             this.mnuDeletePAT.Text = "Delete PAT";
             this.mnuDeletePAT.Click += new System.EventHandler(this.mnuDeletePAT_Click);
             // 
-            // pnlDetail
-            // 
-            this.pnlDetail.Controls.Add(this.cmdReset);
-            this.pnlDetail.Controls.Add(this.cmdSave);
-            this.pnlDetail.Controls.Add(this.label3);
-            this.pnlDetail.Controls.Add(this.chkNeverExpires);
-            this.pnlDetail.Controls.Add(this.flowLayoutPanel1);
-            this.pnlDetail.Controls.Add(this.dtpExpiration);
-            this.pnlDetail.Controls.Add(this.label2);
-            this.pnlDetail.Controls.Add(this.txtName);
-            this.pnlDetail.Controls.Add(this.label1);
-            this.pnlDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlDetail.Location = new System.Drawing.Point(0, 0);
-            this.pnlDetail.Name = "pnlDetail";
-            this.pnlDetail.Size = new System.Drawing.Size(380, 322);
-            this.pnlDetail.TabIndex = 0;
-            this.pnlDetail.Visible = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Name:";
-            // 
-            // txtName
-            // 
-            this.txtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(55)))));
-            this.txtName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(241)))), ((int)(((byte)(241)))));
-            this.txtName.Location = new System.Drawing.Point(53, 3);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(324, 20);
-            this.txtName.TabIndex = 0;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 32);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Expires:";
-            // 
-            // dtpExpiration
-            // 
-            this.dtpExpiration.CustomFormat = "dddd MMM dd\',\' yyyy \'@\' HH:mm";
-            this.dtpExpiration.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpExpiration.Location = new System.Drawing.Point(53, 29);
-            this.dtpExpiration.Name = "dtpExpiration";
-            this.dtpExpiration.Size = new System.Drawing.Size(324, 20);
-            this.dtpExpiration.TabIndex = 1;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(55)))));
-            this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.flowLayoutPanel1.Controls.Add(this.chkInactivity);
-            this.flowLayoutPanel1.Controls.Add(this.chkNetworkPrinting);
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(6, 91);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(371, 199);
-            this.flowLayoutPanel1.TabIndex = 3;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 75);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(267, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "What permissions do you want to grant with this token?";
-            // 
-            // chkInactivity
-            // 
-            this.chkInactivity.AutoSize = true;
-            this.chkInactivity.Location = new System.Drawing.Point(3, 3);
-            this.chkInactivity.Name = "chkInactivity";
-            this.chkInactivity.Size = new System.Drawing.Size(137, 17);
-            this.chkInactivity.TabIndex = 0;
-            this.chkInactivity.Text = "Reset Inactivity Periods";
-            this.chkInactivity.UseVisualStyleBackColor = true;
-            // 
-            // chkNetworkPrinting
-            // 
-            this.chkNetworkPrinting.AutoSize = true;
-            this.chkNetworkPrinting.Location = new System.Drawing.Point(3, 26);
-            this.chkNetworkPrinting.Name = "chkNetworkPrinting";
-            this.chkNetworkPrinting.Size = new System.Drawing.Size(143, 17);
-            this.chkNetworkPrinting.TabIndex = 1;
-            this.chkNetworkPrinting.Text = "Perform Network Printing";
-            this.chkNetworkPrinting.UseVisualStyleBackColor = true;
-            // 
-            // chkNeverExpires
-            // 
-            this.chkNeverExpires.AutoSize = true;
-            this.chkNeverExpires.Location = new System.Drawing.Point(53, 55);
-            this.chkNeverExpires.Name = "chkNeverExpires";
-            this.chkNeverExpires.Size = new System.Drawing.Size(92, 17);
-            this.chkNeverExpires.TabIndex = 2;
-            this.chkNeverExpires.Text = "Never Expires";
-            this.chkNeverExpires.UseVisualStyleBackColor = true;
-            this.chkNeverExpires.CheckedChanged += new System.EventHandler(this.chkNeverExpires_CheckedChanged);
-            // 
-            // cmdSave
-            // 
-            this.cmdSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(62)))), ((int)(((byte)(64)))));
-            this.cmdSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cmdSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmdSave.Location = new System.Drawing.Point(302, 296);
-            this.cmdSave.Name = "cmdSave";
-            this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 4;
-            this.cmdSave.Text = "Save";
-            this.cmdSave.UseVisualStyleBackColor = false;
-            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
-            // 
-            // cmdReset
-            // 
-            this.cmdReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(62)))), ((int)(((byte)(64)))));
-            this.cmdReset.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cmdReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmdReset.Location = new System.Drawing.Point(221, 296);
-            this.cmdReset.Name = "cmdReset";
-            this.cmdReset.Size = new System.Drawing.Size(75, 23);
-            this.cmdReset.TabIndex = 4;
-            this.cmdReset.Text = "Reset";
-            this.cmdReset.UseVisualStyleBackColor = false;
-            this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);
-            // 
             // frmPersonalAccessTokens
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -321,12 +321,12 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.pnlDetail.ResumeLayout(false);
             this.pnlDetail.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

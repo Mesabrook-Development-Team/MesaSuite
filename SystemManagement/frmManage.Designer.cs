@@ -57,8 +57,11 @@
             this.mnuList = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDetails = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loader1 = new SystemManagement.Loader();
             this.toolItemManager = new System.Windows.Forms.ToolStripMenuItem();
+            this.termsOfServiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuTOSServer = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuTOSMesaSuite = new System.Windows.Forms.ToolStripMenuItem();
+            this.loader1 = new SystemManagement.Loader();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -146,7 +149,8 @@
             this.fileToolStripMenuItem,
             this.mnuView,
             this.refreshToolStripMenuItem,
-            this.toolItemManager});
+            this.toolItemManager,
+            this.termsOfServiceToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(753, 24);
@@ -264,6 +268,36 @@
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
+            // toolItemManager
+            // 
+            this.toolItemManager.Name = "toolItemManager";
+            this.toolItemManager.Size = new System.Drawing.Size(93, 20);
+            this.toolItemManager.Text = "Item Manager";
+            this.toolItemManager.Click += new System.EventHandler(this.toolItemManager_Click);
+            // 
+            // termsOfServiceToolStripMenuItem
+            // 
+            this.termsOfServiceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuTOSServer,
+            this.mnuTOSMesaSuite});
+            this.termsOfServiceToolStripMenuItem.Name = "termsOfServiceToolStripMenuItem";
+            this.termsOfServiceToolStripMenuItem.Size = new System.Drawing.Size(106, 20);
+            this.termsOfServiceToolStripMenuItem.Text = "Terms Of Service";
+            // 
+            // mnuTOSServer
+            // 
+            this.mnuTOSServer.Name = "mnuTOSServer";
+            this.mnuTOSServer.Size = new System.Drawing.Size(168, 22);
+            this.mnuTOSServer.Text = "Mesabrook Server";
+            this.mnuTOSServer.Click += new System.EventHandler(this.mnuTOSServer_Click);
+            // 
+            // mnuTOSMesaSuite
+            // 
+            this.mnuTOSMesaSuite.Name = "mnuTOSMesaSuite";
+            this.mnuTOSMesaSuite.Size = new System.Drawing.Size(168, 22);
+            this.mnuTOSMesaSuite.Text = "MesaSuite";
+            this.mnuTOSMesaSuite.Click += new System.EventHandler(this.mnuTOSMesaSuite_Click);
+            // 
             // loader1
             // 
             this.loader1.BackColor = System.Drawing.Color.Transparent;
@@ -271,13 +305,6 @@
             this.loader1.Name = "loader1";
             this.loader1.Size = new System.Drawing.Size(196, 101);
             this.loader1.TabIndex = 5;
-            // 
-            // toolItemManager
-            // 
-            this.toolItemManager.Name = "toolItemManager";
-            this.toolItemManager.Size = new System.Drawing.Size(93, 20);
-            this.toolItemManager.Text = "Item Manager";
-            this.toolItemManager.Click += new System.EventHandler(this.toolItemManager_Click);
             // 
             // frmManage
             // 
@@ -328,5 +355,8 @@
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private Loader loader1;
         private System.Windows.Forms.ToolStripMenuItem toolItemManager;
+        private System.Windows.Forms.ToolStripMenuItem termsOfServiceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuTOSServer;
+        private System.Windows.Forms.ToolStripMenuItem mnuTOSMesaSuite;
     }
 }

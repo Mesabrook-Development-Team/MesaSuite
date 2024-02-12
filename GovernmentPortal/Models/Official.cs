@@ -14,6 +14,7 @@
         public bool CanConfigureInterest { get; set; }
         public bool ManageInvoices { get; set; }
         public bool IssueWireTransfers { get; set; }
+        public bool ManageLaws { get; set; }
         public FleetTracking.Models.FleetSecurity FleetSecurity { get; set; }
     }
 }

@@ -52,13 +52,14 @@ namespace GovernmentPortal
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuWireTransfersEmailConfiguration = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbMintCurrency = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsbInterestRates = new System.Windows.Forms.ToolStripMenuItem();
             this.toolOfficials = new System.Windows.Forms.ToolStripButton();
             this.tsbSwitchGovernment = new System.Windows.Forms.ToolStripButton();
             this.toolEmail = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiAliases = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDistributionLists = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolLaws = new System.Windows.Forms.ToolStripButton();
             this.loader = new GovernmentPortal.Loader();
-            this.tsbInterestRates = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,7 +70,8 @@ namespace GovernmentPortal
             this.toolFinance,
             this.toolOfficials,
             this.tsbSwitchGovernment,
-            this.toolEmail});
+            this.toolEmail,
+            this.toolLaws});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
@@ -103,7 +105,7 @@ namespace GovernmentPortal
             this.toolAccounts.Image = global::GovernmentPortal.Properties.Resources.group;
             this.toolAccounts.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolAccounts.Name = "toolAccounts";
-            this.toolAccounts.Size = new System.Drawing.Size(180, 22);
+            this.toolAccounts.Size = new System.Drawing.Size(150, 22);
             this.toolAccounts.Text = "Accounts";
             // 
             // tsmiAccountList
@@ -135,7 +137,7 @@ namespace GovernmentPortal
             this.mnuInvoices.Image = global::GovernmentPortal.Properties.Resources.book;
             this.mnuInvoices.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuInvoices.Name = "mnuInvoices";
-            this.mnuInvoices.Size = new System.Drawing.Size(180, 22);
+            this.mnuInvoices.Size = new System.Drawing.Size(150, 22);
             this.mnuInvoices.Text = "Invoices";
             // 
             // mnuInvoiceReceivable
@@ -203,7 +205,7 @@ namespace GovernmentPortal
             this.tsmiTaxes.Image = global::GovernmentPortal.Properties.Resources.money_add;
             this.tsmiTaxes.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsmiTaxes.Name = "tsmiTaxes";
-            this.tsmiTaxes.Size = new System.Drawing.Size(180, 22);
+            this.tsmiTaxes.Size = new System.Drawing.Size(150, 22);
             this.tsmiTaxes.Text = "Taxes";
             // 
             // tsmiSalesTax
@@ -233,7 +235,7 @@ namespace GovernmentPortal
             this.mnuWireTransfers.Image = global::GovernmentPortal.Properties.Resources.money_delete;
             this.mnuWireTransfers.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuWireTransfers.Name = "mnuWireTransfers";
-            this.mnuWireTransfers.Size = new System.Drawing.Size(180, 22);
+            this.mnuWireTransfers.Size = new System.Drawing.Size(150, 22);
             this.mnuWireTransfers.Text = "Wire Transfers";
             // 
             // mnuIssueWireTransfer
@@ -273,9 +275,18 @@ namespace GovernmentPortal
             this.tsbMintCurrency.Image = global::GovernmentPortal.Properties.Resources.coins_add;
             this.tsbMintCurrency.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsbMintCurrency.Name = "tsbMintCurrency";
-            this.tsbMintCurrency.Size = new System.Drawing.Size(180, 22);
+            this.tsbMintCurrency.Size = new System.Drawing.Size(150, 22);
             this.tsbMintCurrency.Text = "Mint Currency";
             this.tsbMintCurrency.Click += new System.EventHandler(this.tsbMintCurrency_Click);
+            // 
+            // tsbInterestRates
+            // 
+            this.tsbInterestRates.Image = global::GovernmentPortal.Properties.Resources.chart_curve;
+            this.tsbInterestRates.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tsbInterestRates.Name = "tsbInterestRates";
+            this.tsbInterestRates.Size = new System.Drawing.Size(150, 22);
+            this.tsbInterestRates.Text = "Interest Rates";
+            this.tsbInterestRates.Click += new System.EventHandler(this.tsbInterestRates_Click);
             // 
             // toolOfficials
             // 
@@ -330,6 +341,17 @@ namespace GovernmentPortal
             this.tsmiDistributionLists.Text = "Distribution Lists";
             this.tsmiDistributionLists.Click += new System.EventHandler(this.tsmiDistributionLists_Click);
             // 
+            // toolLaws
+            // 
+            this.toolLaws.Image = global::GovernmentPortal.Properties.Resources.scales;
+            this.toolLaws.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolLaws.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolLaws.Name = "toolLaws";
+            this.toolLaws.Size = new System.Drawing.Size(53, 22);
+            this.toolLaws.Text = "Laws";
+            this.toolLaws.Visible = false;
+            this.toolLaws.Click += new System.EventHandler(this.toolLaws_Click);
+            // 
             // loader
             // 
             this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -342,15 +364,6 @@ namespace GovernmentPortal
             this.loader.Size = new System.Drawing.Size(659, 372);
             this.loader.TabIndex = 3;
             this.loader.Visible = false;
-            // 
-            // tsbInterestRates
-            // 
-            this.tsbInterestRates.Image = global::GovernmentPortal.Properties.Resources.chart_curve;
-            this.tsbInterestRates.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.tsbInterestRates.Name = "tsbInterestRates";
-            this.tsbInterestRates.Size = new System.Drawing.Size(180, 22);
-            this.tsbInterestRates.Text = "Interest Rates";
-            this.tsbInterestRates.Click += new System.EventHandler(this.tsbInterestRates_Click);
             // 
             // frmPortal
             // 
@@ -406,6 +419,7 @@ namespace GovernmentPortal
         private System.Windows.Forms.ToolStripMenuItem mnuWireTransfersEmailConfiguration;
         private Loader loader;
         private System.Windows.Forms.ToolStripMenuItem tsbInterestRates;
+        private System.Windows.Forms.ToolStripButton toolLaws;
     }
 }
 

@@ -27,17 +27,26 @@ namespace Updater
 
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            if (!string.Equals(args.Name, "BetterFolderBrowser, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null"))
+            if (string.Equals(args.Name, "BetterFolderBrowser, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null"))
             {
-                return null;
+                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Updater.BetterFolderBrowser.dll"))
+                {
+                    byte[] assemblyData = new byte[stream.Length];
+                    stream.Read(assemblyData, 0, (int)stream.Length);
+                    return Assembly.Load(assemblyData);
+                }
+            }
+            else if (string.Equals(args.Name, "Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed"))
+            {
+                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Updater.Newtonsoft.Json.dll"))
+                {
+                    byte[] assemblyData = new byte[stream.Length];
+                    stream.Read(assemblyData, 0, (int)stream.Length);
+                    return Assembly.Load(assemblyData);
+                }
             }
 
-            using(Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Updater.BetterFolderBrowser.dll"))
-            {
-                byte[] assemblyData = new byte[stream.Length];
-                stream.Read(assemblyData, 0, (int)stream.Length);
-                return Assembly.Load(assemblyData);
-            }
+            return null;
         }
     }
 }

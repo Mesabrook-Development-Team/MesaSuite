@@ -117,4 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Note: This also applies to forks of MultiMC such as PolyMC and
+Prism Launcher.
+
+Create a new 1.12.2 instance and install Forge, then point MCSync
+at the .minecraft folder for it.
+
+Example:
+instances/&lt;instance_name&gt;/.minecraft</value>
+  </data>
 </root>

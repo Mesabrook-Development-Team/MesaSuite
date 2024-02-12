@@ -27,6 +27,7 @@ namespace ClussPro.ObjectBasedFramework
         protected bool IsInsert => isInsert;
 
         private HashSet<string> retrievedPaths = new HashSet<string>();
+        private List<Guid> saveFlags = null;
 
         [JsonIgnore]
         public Errors Errors { get; } = new Errors();
@@ -59,15 +60,18 @@ namespace ClussPro.ObjectBasedFramework
 
             SchemaObject thisObject = Schema.Schema.GetSchemaObject(GetType());
             ITransaction localTransaction = transaction == null ? SQLProviderFactory.GenerateTransaction(thisObject.ConnectionName ?? "_default") : transaction;
-            PreValidate();
-            Validate(isInsert ? Validator.SaveModes.Insert : Validator.SaveModes.Update, saveFlags, transaction);
-
-            if (Errors.Any())
-            {
-                return false;
-            }
             try
             {
+                this.saveFlags = saveFlags;
+
+                PreValidate();
+                Validate(isInsert ? Validator.SaveModes.Insert : Validator.SaveModes.Update, saveFlags, localTransaction);
+
+                if (Errors.Any())
+                {
+                    return false;
+                }
+
                 if (!PreSave(localTransaction))
                 {
                     return false;
@@ -96,6 +100,8 @@ namespace ClussPro.ObjectBasedFramework
             }
             finally
             {
+                this.saveFlags = null;
+
                 if (transaction == null && localTransaction.IsActive)
                 {
                     localTransaction.Rollback();
@@ -112,6 +118,7 @@ namespace ClussPro.ObjectBasedFramework
 
             try
             {
+                this.saveFlags = saveFlags;
                 if (!isEditable)
                 {
                     throw new System.Data.ReadOnlyException("Attempt to call Delete on a Read Only Data Object");
@@ -165,6 +172,7 @@ namespace ClussPro.ObjectBasedFramework
             }
             finally
             {
+                this.saveFlags = null;
                 if (transaction == null && localTransaction.IsActive)
                 {
                     localTransaction.Rollback();
@@ -172,6 +180,13 @@ namespace ClussPro.ObjectBasedFramework
             }
 
             return true;
+        }
+
+        public bool IsSaveFlagSet(Guid saveFlag)
+        {
+            if (saveFlags == null) { return false; }
+
+            return saveFlags.Contains(saveFlag);
         }
 
         protected virtual List<FKConstraintConflict> GetFKConstraintConflicts(ITransaction transaction)

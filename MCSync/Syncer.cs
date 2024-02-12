@@ -52,26 +52,32 @@ namespace MCSync
 
                 // Load config
                 Dictionary<string, object> configValues = UserPreferences.Get().Sections.GetOrSetDefault("mcsync", new Dictionary<string, object>());
+                string minecraftDirectory = configValues.GetOrDefault("minecraftDirectory", string.Empty).Cast<string>();
 
-                if (!configValues.ContainsKey("modsDirectory") || !configValues.ContainsKey("resourcePackDirectory") || !configValues.ContainsKey("configFilesDirectory") || !configValues.ContainsKey("mode") ||
-                    string.IsNullOrEmpty(configValues.GetOrDefault("modsDirectory", string.Empty).Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("resourcePackDirectory", "").Cast<string>()) || 
-                    string.IsNullOrEmpty(configValues.GetOrDefault("configFilesDirectory", "").Cast<string>()) || string.IsNullOrEmpty(configValues.GetOrDefault("signPacksDirectory", "").Cast<string>()) || !Enum.TryParse(configValues["mode"].Cast<string>(), true, out SyncMode configSyncMode) ||
-                    (configSyncMode == SyncMode.Client && 
-                        (!configValues.ContainsKey("oResourcesDirectory") || string.IsNullOrEmpty(configValues["oResourcesDirectory"].Cast<string>()) ||
-                        !configValues.ContainsKey("animationDirectory") || string.IsNullOrEmpty(configValues["animationDirectory"].Cast<string>()) ||
-                        !configValues.ContainsKey("signPacksDirectory") || string.IsNullOrEmpty(configValues["signPacksDirectory"].Cast<string>()))))
+                // Legacy loading
+                if (string.IsNullOrEmpty(minecraftDirectory) && configValues.ContainsKey("modsDirectory"))
                 {
-                    Task.Errors.Add("Configuration file not setup");
+                    string legacyModsDirectory = configValues["modsDirectory"].Cast<string>();
+                    if (!string.IsNullOrEmpty(legacyModsDirectory) && legacyModsDirectory.Contains("\\"))
+                    {
+                        minecraftDirectory = legacyModsDirectory.Substring(0, legacyModsDirectory.LastIndexOf("\\"));
+                    }
+                }
+
+                if (string.IsNullOrEmpty(minecraftDirectory))
+                {
+                    Task.Errors.Add("Minecraft Directory has not been setup. In MCSync, please click the Options button, click Minecraft Directory, and select a Minecraft Directory.");
                     SyncComplete?.Invoke(this, new EventArgs());
                     return;
                 }
 
-                string modsDirectory = configValues["modsDirectory"].Cast<string>();
-                string resourcePackDirectory = configValues["resourcePackDirectory"].Cast<string>();
-                string configFilesDirectory = configValues["configFilesDirectory"].Cast<string>();
-                string oResourcesDirectory = configValues["oResourcesDirectory"].Cast<string>();
-                string animationDirectory = configValues["animationDirectory"].Cast<string>();
-                string signPacksDirectory = configValues["signPacksDirectory"].Cast<string>();
+                string modsDirectory = minecraftDirectory + "\\mods";
+                string resourcePackDirectory = minecraftDirectory + "\\resourcepacks";
+                string configFilesDirectory = minecraftDirectory + "\\config";
+                string oResourcesDirectory = minecraftDirectory + "\\oresources";
+                string animationDirectory = minecraftDirectory + "\\config\\customloadingscreen";
+                string signPacksDirectory = minecraftDirectory + "\\tc_signpacks";
+                string craftTweakerScriptsDirectory = minecraftDirectory + "\\scripts";
 
                 string[] clientSideWhiteListMods = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("mods_whitelist")?.Cast<string[]>() ?? new string[0];
                 string[] clientSideWhiteListResourcePacks = UserPreferences.Get().Sections.GetOrDefault("mcsync", new Dictionary<string, object>()).GetOrDefault("resourcepacks_whitelist")?.Cast<string[]>() ?? new string[0];
@@ -85,6 +91,7 @@ namespace MCSync
                 Directory.CreateDirectory(configFilesDirectory);
                 Directory.CreateDirectory(oResourcesDirectory);
                 Directory.CreateDirectory(signPacksDirectory);
+                Directory.CreateDirectory(craftTweakerScriptsDirectory);
 
                 // Load database stuff
                 List<MCSyncFile> syncFiles = await MCSyncFile.GetMCSyncFiles();
@@ -93,7 +100,7 @@ namespace MCSync
                 List<string> handledFiles = new List<string>();
 
                 // Mod Files
-                IEnumerable<MCSyncFile> modSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.mods && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                IEnumerable<MCSyncFile> modSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.mods && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(modsDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, modsDirectory);
@@ -125,7 +132,7 @@ namespace MCSync
 
                 bool resourcePackChanges = false;
                 // Resource Pack Files
-                IEnumerable<MCSyncFile> resourcePackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.resourcepacks && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                IEnumerable<MCSyncFile> resourcePackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.resourcepacks && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(resourcePackDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, resourcePackDirectory);
@@ -158,7 +165,7 @@ namespace MCSync
                 }
 
                 // Config
-                IEnumerable<MCSyncFile> configSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.config && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                IEnumerable<MCSyncFile> configSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.config && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
                 foreach(MCSyncFile configFile in configSyncFiles)
                 {
                     if (File.Exists(configFilesDirectory + "\\" + configFile.Filename))
@@ -176,7 +183,7 @@ namespace MCSync
                 }
 
                 // Custom Loading Screen Files
-                IEnumerable<MCSyncFile> animationSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.animation && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                IEnumerable<MCSyncFile> animationSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.animation && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(animationDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, animationDirectory);
@@ -204,7 +211,7 @@ namespace MCSync
                 }
 
                 // OResources Files
-                IEnumerable<MCSyncFile> oResourcesSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.oresources && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                IEnumerable<MCSyncFile> oResourcesSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.oresources && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(oResourcesDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, oResourcesDirectory);
@@ -232,7 +239,7 @@ namespace MCSync
                 }
 
                 // Sign Pack Files
-                IEnumerable<MCSyncFile> signPackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.tc_signpacks && IsDownloadTypeValid(configSyncMode, f.DownloadType));
+                IEnumerable<MCSyncFile> signPackSyncFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.tc_signpacks && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
                 foreach (string file in Directory.EnumerateFiles(signPacksDirectory, "*", SearchOption.AllDirectories))
                 {
                     string strippedFile = StripDirectory(file, signPacksDirectory);
@@ -259,8 +266,36 @@ namespace MCSync
                     handledFiles.Add(strippedFile);
                 }
 
+                // CraftTweaker Script Files
+                IEnumerable<MCSyncFile> craftTweakerScriptFiles = syncFiles.Where(f => f.FileType == MCSyncFile.FileTypes.ct_scripts && IsDownloadTypeValid(SyncMode.Client, f.DownloadType));
+                foreach (string file in Directory.EnumerateFiles(craftTweakerScriptsDirectory, "*", SearchOption.AllDirectories))
+                {
+                    string strippedFile = StripDirectory(file, craftTweakerScriptsDirectory);
+                    byte[] fileHash = CalculateHash(file);
+                    MCSyncFile syncFile = craftTweakerScriptFiles.FirstOrDefault(f => f.Filename == strippedFile);
+                    if (syncFile == null)
+                    {
+                        // Extrinsic, delete
+                        Task deleteTask = new Task($"Delete CraftTweaker script file {strippedFile}", () =>
+                        {
+                            File.Delete(file);
+                            return true;
+                        });
+                        tasks.Add(deleteTask);
+                        TaskAdded?.Invoke(this, deleteTask);
+                    }
+                    else if (!syncFile.Checksum.SequenceEqual(fileHash))
+                    {
+                        Task updateTask = new Task($"Update CraftTweaker script file {strippedFile}", () => DownloadFile(syncFile.FileType, craftTweakerScriptsDirectory, strippedFile, syncFile.DownloadType));
+                        tasks.Add(updateTask);
+                        TaskAdded?.Invoke(this, updateTask);
+                    }
+
+                    handledFiles.Add(strippedFile);
+                }
+
                 // Missing Files
-                IEnumerable<MCSyncFile> missingFiles = syncFiles.Where(f => IsDownloadTypeValid(configSyncMode, f.DownloadType) && !handledFiles.Contains(f.Filename));
+                IEnumerable<MCSyncFile> missingFiles = syncFiles.Where(f => IsDownloadTypeValid(SyncMode.Client, f.DownloadType) && !handledFiles.Contains(f.Filename));
                 foreach (MCSyncFile missingFile in missingFiles)
                 {
                     if (missingFile.FileType == MCSyncFile.FileTypes.resourcepacks)
@@ -289,6 +324,9 @@ namespace MCSync
                             break;
                         case MCSyncFile.FileTypes.tc_signpacks:
                             directory = signPacksDirectory;
+                            break;
+                        case MCSyncFile.FileTypes.ct_scripts:
+                            directory = craftTweakerScriptsDirectory;
                             break;
                     }
 

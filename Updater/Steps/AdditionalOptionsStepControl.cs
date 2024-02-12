@@ -24,6 +24,8 @@ namespace Updater.Steps
         {
             chkDesktop.Checked = Step.InstallationConfiguration.MakeDesktopIcon;
             chkStartMenu.Checked = Step.InstallationConfiguration.MakeStartMenuIcon;
+
+            Step.InstallationConfiguration.AcceptedToS = false;
         }
 
         private void chkDesktop_CheckedChanged(object sender, EventArgs e)

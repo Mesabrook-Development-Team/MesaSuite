@@ -32,20 +32,20 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConfig));
             this.fadeTimer = new System.Windows.Forms.Timer(this.components);
             this.pnlWhitelist = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.fButtonCancel = new MCSync.FancyButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pnlPaths = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
             this.pnlWhitelists = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pnlPaths = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.fButtonCancel = new MCSync.FancyButton();
             this.pnlWhitelist.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.pnlPaths.SuspendLayout();
             this.pnlWhitelists.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.pnlPaths.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // fadeTimer
@@ -68,6 +68,84 @@
             this.pnlWhitelist.Size = new System.Drawing.Size(598, 471);
             this.pnlWhitelist.TabIndex = 15;
             this.pnlWhitelist.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlWhitelist_Paint);
+            // 
+            // pnlWhitelists
+            // 
+            this.pnlWhitelists.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pnlWhitelists.BackColor = System.Drawing.Color.Transparent;
+            this.pnlWhitelists.Controls.Add(this.label3);
+            this.pnlWhitelists.Controls.Add(this.pictureBox2);
+            this.pnlWhitelists.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pnlWhitelists.Location = new System.Drawing.Point(309, 142);
+            this.pnlWhitelists.Name = "pnlWhitelists";
+            this.pnlWhitelists.Size = new System.Drawing.Size(159, 187);
+            this.pnlWhitelists.TabIndex = 49;
+            this.pnlWhitelists.Click += new System.EventHandler(this.pnlWhitelists_Click);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(44, 161);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(70, 17);
+            this.label3.TabIndex = 48;
+            this.label3.Text = "Whitelists";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.pictureBox2.Image = global::MCSync.Properties.Resources.icn_clipboard;
+            this.pictureBox2.Location = new System.Drawing.Point(5, 3);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(150, 150);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 47;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
+            // pnlPaths
+            // 
+            this.pnlPaths.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pnlPaths.BackColor = System.Drawing.Color.Transparent;
+            this.pnlPaths.Controls.Add(this.label2);
+            this.pnlPaths.Controls.Add(this.pictureBox1);
+            this.pnlPaths.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pnlPaths.Location = new System.Drawing.Point(131, 142);
+            this.pnlPaths.Name = "pnlPaths";
+            this.pnlPaths.Size = new System.Drawing.Size(159, 187);
+            this.pnlPaths.TabIndex = 48;
+            this.pnlPaths.Click += new System.EventHandler(this.pnlPaths_Click);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(15, 161);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(129, 17);
+            this.label2.TabIndex = 48;
+            this.label2.Text = "Minecraft Directory";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.pictureBox1.Image = global::MCSync.Properties.Resources.icn_folder;
+            this.pictureBox1.Location = new System.Drawing.Point(5, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(150, 150);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 47;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // label9
             // 
@@ -114,88 +192,10 @@
             this.fButtonCancel.Name = "fButtonCancel";
             this.fButtonCancel.Size = new System.Drawing.Size(75, 23);
             this.fButtonCancel.TabIndex = 14;
-            this.fButtonCancel.Text = "Cancel";
+            this.fButtonCancel.Text = "Close";
             this.fButtonCancel.TextColor = System.Drawing.Color.White;
             this.fButtonCancel.UseVisualStyleBackColor = false;
             this.fButtonCancel.Click += new System.EventHandler(this.fButtonCancel_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.pictureBox1.Image = global::MCSync.Properties.Resources.icn_folder;
-            this.pictureBox1.Location = new System.Drawing.Point(5, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(150, 150);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 47;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // pnlPaths
-            // 
-            this.pnlPaths.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pnlPaths.BackColor = System.Drawing.Color.Transparent;
-            this.pnlPaths.Controls.Add(this.label2);
-            this.pnlPaths.Controls.Add(this.pictureBox1);
-            this.pnlPaths.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pnlPaths.Location = new System.Drawing.Point(131, 142);
-            this.pnlPaths.Name = "pnlPaths";
-            this.pnlPaths.Size = new System.Drawing.Size(159, 187);
-            this.pnlPaths.TabIndex = 48;
-            this.pnlPaths.Click += new System.EventHandler(this.pnlPaths_Click);
-            // 
-            // label2
-            // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(11, 161);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(138, 17);
-            this.label2.TabIndex = 48;
-            this.label2.Text = "Minecraft Directories";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
-            // 
-            // pnlWhitelists
-            // 
-            this.pnlWhitelists.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pnlWhitelists.BackColor = System.Drawing.Color.Transparent;
-            this.pnlWhitelists.Controls.Add(this.label3);
-            this.pnlWhitelists.Controls.Add(this.pictureBox2);
-            this.pnlWhitelists.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pnlWhitelists.Location = new System.Drawing.Point(309, 142);
-            this.pnlWhitelists.Name = "pnlWhitelists";
-            this.pnlWhitelists.Size = new System.Drawing.Size(159, 187);
-            this.pnlWhitelists.TabIndex = 49;
-            this.pnlWhitelists.Click += new System.EventHandler(this.pnlWhitelists_Click);
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(44, 161);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 17);
-            this.label3.TabIndex = 48;
-            this.label3.Text = "Whitelists";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.pictureBox2.Image = global::MCSync.Properties.Resources.icn_clipboard;
-            this.pictureBox2.Location = new System.Drawing.Point(5, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(150, 150);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 47;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // frmConfig
             // 
@@ -222,12 +222,12 @@
             this.Load += new System.EventHandler(this.frmConfig_Load);
             this.pnlWhitelist.ResumeLayout(false);
             this.pnlWhitelist.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.pnlPaths.ResumeLayout(false);
-            this.pnlPaths.PerformLayout();
             this.pnlWhitelists.ResumeLayout(false);
             this.pnlWhitelists.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.pnlPaths.ResumeLayout(false);
+            this.pnlPaths.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

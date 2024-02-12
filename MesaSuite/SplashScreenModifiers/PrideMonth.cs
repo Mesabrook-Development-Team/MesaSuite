@@ -9,7 +9,7 @@ namespace MesaSuite.SplashScreenModifiers
 
         public void Modify(frmSplash splash)
         {
-            splash.pBoxLogo.Image = Properties.Resources.logo_MS_teal;
+            splash.pBoxLogo.Image = Properties.Resources.logo_new_6;
             splash.BackgroundImage = Properties.Resources.bg_prideflag;
             splash.lblMessage.Text = "Mesabrook stands with the LGBTQIA+ Community!";
             splash.pboxHat.Visible = false;

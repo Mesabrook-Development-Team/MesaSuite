@@ -9,6 +9,7 @@ namespace API_Government
         {
             // Web API configuration and services
             config.Services.Clear(typeof(ModelValidatorProvider));
+            config.EnableCors();
 
             // Web API routes
             config.MapHttpAttributeRoutes();

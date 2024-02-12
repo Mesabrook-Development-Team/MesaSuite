@@ -65,7 +65,7 @@ namespace MesaSuite
                     BackgroundImage = Properties.Resources.bg1;
                 }
 
-                pBoxLogo.Image = Properties.Resources.logoMS;
+                pBoxLogo.Image = Properties.Resources.logo_new_1;
                 lblMessage.Text = "";
                 pboxHat.Visible = false;
             }

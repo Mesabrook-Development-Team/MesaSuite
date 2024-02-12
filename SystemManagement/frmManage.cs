@@ -439,5 +439,21 @@ namespace SystemManagement
         {
             new frmItemManager().ShowDialog();
         }
+
+        private void mnuTOSServer_Click(object sender, EventArgs e)
+        {
+            new frmTOSEditor()
+            {
+                Type = TermsOfService.Types.MesabrookServer
+            }.Show();
+        }
+
+        private void mnuTOSMesaSuite_Click(object sender, EventArgs e)
+        {
+            new frmTOSEditor()
+            {
+                Type = TermsOfService.Types.MesaSuite
+            }.Show();
+        }
     }
 }

@@ -111,6 +111,7 @@ namespace GovernmentPortal.Officials
                 Model.ManageTaxes = chkManageTaxes.Checked;
                 Model.ManageInvoices = chkManageInvoices.Checked;
                 Model.IssueWireTransfers = chkIssueWireTransfers.Checked;
+                Model.ManageLaws = chkManageLaws.Checked;
 
                 bool saveSuccess;
                 Official returnedOfficial;
@@ -199,6 +200,7 @@ namespace GovernmentPortal.Officials
                 chkManageTaxes.Checked = Model.ManageTaxes;
                 chkManageInvoices.Checked = Model.ManageInvoices;
                 chkIssueWireTransfers.Checked = Model.IssueWireTransfers;
+                chkManageLaws.Checked = Model.ManageLaws;
 
                 chkFleetSetup.Checked = Model.FleetSecurity.AllowSetup;
                 chkFleetLeasing.Checked = Model.FleetSecurity.AllowLeasingManagement;

@@ -20,7 +20,7 @@ namespace MesaSuite.SplashScreenModifiers
 
         public void Modify(frmSplash splash)
         {
-            splash.pBoxLogo.Image = Properties.Resources.logo_MS_Orange;
+            splash.pBoxLogo.Image = Properties.Resources.logo_new_5;
             splash.BackgroundImage = Properties.Resources.bg_thanksgiving;
             splash.lblMessage.Text = "Happy Thanksgiving (Canada) from the Mesabrook Development Team!";
             splash.lblMessage.ForeColor = Color.Black;

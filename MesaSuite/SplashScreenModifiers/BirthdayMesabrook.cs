@@ -9,7 +9,7 @@ namespace MesaSuite.SplashScreenModifiers
 
         public void Modify(frmSplash splash)
         {
-            splash.pBoxLogo.Image = Properties.Resources.logo_MS_Gold;
+            splash.pBoxLogo.Image = Properties.Resources.logo_new_4;
             splash.BackgroundImage = Properties.Resources.bg_ms;
             splash.lblMessage.Text = "Happy Anniversary, Mesabrook!";
             splash.pboxHat.Visible = true;

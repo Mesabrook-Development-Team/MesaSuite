@@ -348,6 +348,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icn_govt.ico" />
+    <None Include="Resources\icn_govt.ico" />
     <None Include="Resources\scales.png" />
     <None Include="Resources\icn_book.ico" />
     <None Include="Resources\icn_user.ico" />

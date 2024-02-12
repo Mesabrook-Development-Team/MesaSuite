@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>updater.ico</ApplicationIcon>
+    <ApplicationIcon>Sign025.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
@@ -246,10 +246,11 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\bannerGreen.png" />
     <None Include="Resources\bannerRed.png" />
     <EmbeddedResource Include="BetterFolderBrowser.dll" />
     <EmbeddedResource Include="Newtonsoft.Json.dll" />
+    <None Include="Resources\bannerGreen.png" />
+    <Content Include="Sign025.ico" />
     <Content Include="updater.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

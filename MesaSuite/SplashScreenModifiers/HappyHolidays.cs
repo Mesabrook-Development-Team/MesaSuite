@@ -8,7 +8,7 @@ namespace MesaSuite.SplashScreenModifiers
 
         public void Modify(frmSplash splash)
         {
-            splash.pBoxLogo.Image = Properties.Resources.logo_MS_Ice;
+            splash.pBoxLogo.Image = Properties.Resources.logo_new_7;
             splash.BackgroundImage = Properties.Resources.bg_xmas;
             splash.lblMessage.Text = "Happy Holidays from the Mesabrook Development Team!";
             splash.pboxHat.Visible = true;

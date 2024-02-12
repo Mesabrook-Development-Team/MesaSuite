@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmStepProperties));
             this.layout = new System.Windows.Forms.TableLayoutPanel();
             this.lblName = new System.Windows.Forms.Label();
             this.cmdSave = new System.Windows.Forms.Button();
@@ -95,6 +96,7 @@
             this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.layout);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmStepProperties";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Step Properties";

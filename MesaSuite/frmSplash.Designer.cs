@@ -42,7 +42,7 @@
             // pBoxLogo
             // 
             this.pBoxLogo.BackColor = System.Drawing.Color.Transparent;
-            this.pBoxLogo.Image = global::MesaSuite.Properties.Resources.logoMS;
+            this.pBoxLogo.Image = global::MesaSuite.Properties.Resources.logo_new_1;
             this.pBoxLogo.Location = new System.Drawing.Point(72, 127);
             this.pBoxLogo.Name = "pBoxLogo";
             this.pBoxLogo.Size = new System.Drawing.Size(440, 73);

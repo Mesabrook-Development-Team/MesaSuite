@@ -2,8 +2,10 @@
 using System.Linq;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
+using WebModels.account;
 using WebModels.fleet;
 using WebModels.invoicing;
 using WebModels.mesasys;
@@ -65,6 +67,36 @@ namespace WebModels.company
             set { CheckSet(); _nextInvoiceNumber = value; }
         }
 
+        private long? _accountIDStoreRevenue;
+        [Field("55022849-0C01-4BDC-9023-DA46E19EB696")]
+        public long? AccountIDStoreRevenue
+        {
+            get { CheckGet(); return _accountIDStoreRevenue; }
+            set { CheckSet(); _accountIDStoreRevenue = value; }
+        }
+
+        private Account _accountStoreRevenue = null;
+        [Relationship("77075B0F-D43C-4417-8262-C76481901811", ForeignKeyField = nameof(AccountIDStoreRevenue))]
+        public Account AccountStoreRevenue
+        {
+            get { CheckGet(); return _accountStoreRevenue; }
+        }
+
+        private long? _emailImplementationIDRegisterOffline;
+        [Field("EDE175FF-CBD6-42C0-921D-673E1B51F52E")]
+        public long? EmailImplementationIDRegisterOffline
+        {
+            get { CheckGet(); return _emailImplementationIDRegisterOffline; }
+            set { CheckSet(); _emailImplementationIDRegisterOffline = value; }
+        }
+
+        private EmailImplementation _emailImplementationRegisterOffline = null;
+        [Relationship("E4C68449-500A-49CB-8FBB-3418ABB5645D", ForeignKeyField = nameof(EmailImplementationIDRegisterOffline))]
+        public EmailImplementation EmailImplementationRegisterOffline
+        {
+            get { CheckGet(); return _emailImplementationRegisterOffline; }
+        }
+
         private long? _emailImplementationIDPayableInvoice;
         [Field("EC680184-ADE4-4F81-8DA8-47BAA42E9647")]
         public long? EmailImplementationIDPayableInvoice
@@ -93,6 +125,13 @@ namespace WebModels.company
         public EmailImplementation EmailImplementationReadyForReceipt
         {
             get { CheckGet(); return _emailImplementationReadyForReceipt; }
+        }
+
+        private StorePricingAutomation _storePricingAutomation = null;
+        [Relationship("99239E57-9024-4226-96F5-BD3B976C1701", OneToOneByForeignKey = true)]
+        public StorePricingAutomation StorePricingAutomation
+        {
+            get { CheckGet(); return _storePricingAutomation; }
         }
 
         protected override bool PostSave(ITransaction transaction)
@@ -138,48 +177,76 @@ namespace WebModels.company
         #region Relationships
         #region company
         private List<LocationEmployee> _locationEmployees = new List<LocationEmployee>();
-        [RelationshipList("04569132-78B1-42E6-BD47-5729B5B392ED", "LocationID")]
+        [RelationshipList("04569132-78B1-42E6-BD47-5729B5B392ED", "LocationID", AutoRemoveReferences = true)]
         public IReadOnlyCollection<LocationEmployee> LocationEmployees
         {
             get { CheckGet(); return _locationEmployees; }
         }
 
         private List<LocationGovernment> _locationGovernments = new List<LocationGovernment>();
-        [RelationshipList("5C8358F5-676C-468E-A745-EBAF6754C67E", "LocationID")]
+        [RelationshipList("5C8358F5-676C-468E-A745-EBAF6754C67E", "LocationID", AutoRemoveReferences = true)]
         public IReadOnlyCollection<LocationGovernment> LocationGovernments
         {
             get { CheckGet(); return _locationGovernments; }
         }
+
+        private List<Register> _registers = new List<Register>();
+        [RelationshipList("56573B92-10FB-4ACF-BFB4-3B6B167D904B", nameof(Register.LocationID), AutoRemoveReferences = true)]
+        public IReadOnlyCollection<Register> Registers
+        {
+            get { CheckGet(); return _registers; }
+        }
+
+        private List<LocationItem> _locationItems = new List<LocationItem>();
+        [RelationshipList("9BA0848D-68DC-4A88-ADFE-E782D15AEC77", nameof(LocationItem.LocationID), AutoRemoveReferences = true)]
+        public IReadOnlyCollection<LocationItem> LocationItems
+        {
+            get { CheckGet(); return _locationItems; }
+        }
+
+        private List<Promotion> _promotions = new List<Promotion>();
+        [RelationshipList("90853C4A-31F5-4A46-BC4E-8A93FBE0ED42", nameof(Promotion.LocationID), AutoRemoveReferences = true)]
+        public IReadOnlyCollection<Promotion> Promotions
+        {
+            get { CheckGet(); return _promotions; }
+        }
+
+        private List<StorePricingAutomationLocation> _storePricingAutomationLocations = new List<StorePricingAutomationLocation>();
+        [RelationshipList("E3C485FA-C706-4172-ACEC-718B8D016E55", nameof(StorePricingAutomationLocation.LocationIDDestination), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<StorePricingAutomationLocation> StorePricingAutomationLocations
+        {
+            get { CheckGet(); return _storePricingAutomationLocations; }
+        }
         #endregion
         #region fleet
         private List<LeaseRequest> _leaseRequests = new List<LeaseRequest>();
-        [RelationshipList("CC3820D7-F975-44D3-B22C-69FC070A7704", nameof(LeaseRequest.LocationIDChargeTo))]
-        public IReadOnlyCollection<LeaseRequest> LeaseRequests
-        {
-            get { CheckGet(); return _leaseRequests; }
-        }
+            [RelationshipList("CC3820D7-F975-44D3-B22C-69FC070A7704", nameof(LeaseRequest.LocationIDChargeTo))]
+            public IReadOnlyCollection<LeaseRequest> LeaseRequests
+            {
+                get { CheckGet(); return _leaseRequests; }
+            }
 
-        private List<LeaseBid> _leaseBidRecurringDestinations = new List<LeaseBid>();
-        [RelationshipList("F084805B-8F14-45EA-940B-646F97AF9268", nameof(LeaseBid.LocationIDInvoiceDestination))]
-        public IReadOnlyCollection<LeaseBid> LeaseBidRecurringDestinations
-        {
-            get { CheckGet(); return _leaseBidRecurringDestinations; }
-        }
+            private List<LeaseBid> _leaseBidRecurringDestinations = new List<LeaseBid>();
+            [RelationshipList("F084805B-8F14-45EA-940B-646F97AF9268", nameof(LeaseBid.LocationIDInvoiceDestination))]
+            public IReadOnlyCollection<LeaseBid> LeaseBidRecurringDestinations
+            {
+                get { CheckGet(); return _leaseBidRecurringDestinations; }
+            }
 
-        private List<LeaseContract> _leaseContractRecurringSources = new List<LeaseContract>();
-        [RelationshipList("1B601D65-BFF5-40D0-8E11-A1624D12E3A3", nameof(LeaseContract.LocationIDRecurringAmountSource))]
-        public IReadOnlyCollection<LeaseContract> LeaseContractRecurringSources
-        {
-            get { CheckGet(); return _leaseContractRecurringSources; }
-        }
+            private List<LeaseContract> _leaseContractRecurringSources = new List<LeaseContract>();
+            [RelationshipList("1B601D65-BFF5-40D0-8E11-A1624D12E3A3", nameof(LeaseContract.LocationIDRecurringAmountSource))]
+            public IReadOnlyCollection<LeaseContract> LeaseContractRecurringSources
+            {
+                get { CheckGet(); return _leaseContractRecurringSources; }
+            }
 
-        private List<LeaseContract> _leaseContractRecurringDestinations = new List<LeaseContract>();
-        [RelationshipList("DF30485C-668A-4686-B512-F7B15EC6B3E9", nameof(LeaseContract.LocationIDRecurringAmountDestination))]
-        public IReadOnlyCollection<LeaseContract> LeaseContractRecurringDestinations
-        {
-            get { CheckGet(); return _leaseContractRecurringDestinations; }
-        }
-        #endregion
+            private List<LeaseContract> _leaseContractRecurringDestinations = new List<LeaseContract>();
+            [RelationshipList("DF30485C-668A-4686-B512-F7B15EC6B3E9", nameof(LeaseContract.LocationIDRecurringAmountDestination))]
+            public IReadOnlyCollection<LeaseContract> LeaseContractRecurringDestinations
+            {
+                get { CheckGet(); return _leaseContractRecurringDestinations; }
+            }
+            #endregion
         #region invoicing
         private List<Invoice> _invoicesFrom = new List<Invoice>();
         [RelationshipList("6DD822E0-7449-4F56-AF7C-559C44E94EA0", "LocationIDFrom")]

@@ -25,6 +25,7 @@ namespace API_Fleet.Controllers
             rl.ItemID,
             rl.Item.ItemID,
             rl.Item.Name,
+            rl.Item.IsFluid,
             rl.Item.Image,
             rl.Quantity
         });

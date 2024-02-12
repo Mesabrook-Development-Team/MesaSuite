@@ -94,7 +94,7 @@
             // cmdSave
             // 
             this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSave.Location = new System.Drawing.Point(344, 192);
+            this.cmdSave.Location = new System.Drawing.Point(344, 197);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 3;
@@ -106,7 +106,7 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(263, 192);
+            this.cmdCancel.Location = new System.Drawing.Point(263, 197);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 4;
@@ -132,7 +132,7 @@
             this.loader.Dock = System.Windows.Forms.DockStyle.Fill;
             this.loader.Location = new System.Drawing.Point(0, 0);
             this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(431, 228);
+            this.loader.Size = new System.Drawing.Size(431, 233);
             this.loader.TabIndex = 5;
             this.loader.Visible = false;
             // 
@@ -258,7 +258,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(431, 228);
+            this.ClientSize = new System.Drawing.Size(431, 233);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cboEmployees);

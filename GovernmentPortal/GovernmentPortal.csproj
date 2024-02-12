@@ -176,6 +176,7 @@
       <DependentUpon>frmLawEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\DebitCard.cs" />
     <Compile Include="Models\EmailImplementation.cs" />
     <Compile Include="Models\EmailTemplate.cs" />
     <Compile Include="Models\InterestConfiguration.cs" />

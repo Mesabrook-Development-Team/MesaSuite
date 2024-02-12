@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using WebModels.company;
 using WebModels.fleet;
 using WebModels.invoicing;
 
@@ -64,6 +65,14 @@ namespace WebModels.mesasys
             set { CheckSet(); _hash = value; }
         }
 
+        private bool _isFluid;
+        [Field("EFD09E0E-F965-4B10-8ED0-5A4488A1C758")]
+        public bool IsFluid
+        {
+            get { CheckGet(); return _isFluid; }
+            set { CheckSet(); _isFluid = value; }
+        }
+
         protected override bool PreSave(ITransaction transaction)
         {
             if (IsFieldDirty(nameof(ItemNamespaceID)) || IsFieldDirty(nameof(Image)))
@@ -85,6 +94,14 @@ namespace WebModels.mesasys
         }
 
         #region Relationships
+        #region company
+        private List<LocationItem> _locationItems = new List<LocationItem>();
+        [RelationshipList("AA37942A-10A0-4985-97D7-FD6FC2BCFF17", nameof(LocationItem.ItemID))]
+        public IReadOnlyCollection<LocationItem> LocationItems
+        {
+            get { CheckGet(); return _locationItems; }
+        }
+        #endregion
         #region fleet
         private List<RailcarLoad> _railcarLoads = new List<RailcarLoad>();
         [RelationshipList("7B69B73F-36B2-4C22-B9DF-8A992415AF26", nameof(RailcarLoad.ItemID))]

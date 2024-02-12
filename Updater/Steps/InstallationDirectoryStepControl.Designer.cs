@@ -32,7 +32,7 @@ namespace Updater.Steps
             this.label1 = new System.Windows.Forms.Label();
             this.txtInstallDirectory = new System.Windows.Forms.TextBox();
             this.cmdBrowse = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblHeader = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -66,16 +66,15 @@ namespace Updater.Steps
             this.cmdBrowse.UseVisualStyleBackColor = true;
             this.cmdBrowse.Click += new System.EventHandler(this.cmdBrowse_Click);
             // 
-            // label2
+            // lblHeader
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(17, 26);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(311, 25);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Welcome to the Mesasuite Installer!";
+            this.lblHeader.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblHeader.AutoSize = true;
+            this.lblHeader.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHeader.Location = new System.Drawing.Point(17, 26);
+            this.lblHeader.Name = "lblHeader";
+            this.lblHeader.Size = new System.Drawing.Size(0, 25);
+            this.lblHeader.TabIndex = 3;
             // 
             // label3
             // 
@@ -93,7 +92,7 @@ namespace Updater.Steps
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblHeader);
             this.Controls.Add(this.cmdBrowse);
             this.Controls.Add(this.txtInstallDirectory);
             this.Controls.Add(this.label1);
@@ -110,7 +109,7 @@ namespace Updater.Steps
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button cmdBrowse;
         private System.Windows.Forms.TextBox txtInstallDirectory;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.Label label3;
     }
 }

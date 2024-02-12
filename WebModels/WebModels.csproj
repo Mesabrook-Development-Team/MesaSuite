@@ -45,6 +45,7 @@
     <Compile Include="account\Account.cs" />
     <Compile Include="account\AccountClearance.cs" />
     <Compile Include="account\Category.cs" />
+    <Compile Include="account\DebitCard.cs" />
     <Compile Include="account\FiscalQuarter.cs" />
     <Compile Include="account\Transaction.cs" />
     <Compile Include="account\WireTransferHistory.cs" />
@@ -60,6 +61,17 @@
     <Compile Include="company\Location.cs" />
     <Compile Include="company\LocationEmployee.cs" />
     <Compile Include="company\LocationGovernment.cs" />
+    <Compile Include="company\LocationItem.cs" />
+    <Compile Include="company\Promotion.cs" />
+    <Compile Include="company\PromotionLocationItem.cs" />
+    <Compile Include="company\Register.cs" />
+    <Compile Include="company\RegisterStatus.cs" />
+    <Compile Include="company\StorePricingAutomation.cs" />
+    <Compile Include="company\StorePricingAutomationLocation.cs" />
+    <Compile Include="company\StoreSale.cs" />
+    <Compile Include="company\StoreSaleItem.cs" />
+    <Compile Include="company\Validation\FluidItemIsUniqueForStoreCondition.cs" />
+    <Compile Include="company\Validation\RegisterValidations.cs" />
     <Compile Include="dbo\MCSyncFile.cs" />
     <Compile Include="dbo\MCSyncVersion.cs" />
     <Compile Include="fleet\FleetSecurity.cs" />
@@ -132,6 +144,7 @@
     <Compile Include="mesasys\TermsOfService.cs" />
     <Compile Include="mesasys\Validations\EmailImplementationValidations.cs" />
     <Compile Include="mesasys\Validations\HasValidBindingsCondition.cs" />
+    <Compile Include="company\Validation\LocationItemValidations.cs" />
     <Compile Include="Migrations\IMigration.cs" />
     <Compile Include="Migrations\Migration000001.cs" />
     <Compile Include="Migrations\Migration000002.cs" />
@@ -157,6 +170,7 @@
     <Compile Include="Migrations\Migration000024.cs" />
     <Compile Include="Migrations\Migration000025.cs" />
     <Compile Include="Migrations\Migration000026.cs" />
+    <Compile Include="Migrations\Migration000027.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="netprint\Printer.cs" />
     <Compile Include="netprint\PrintJob.cs" />

@@ -17,6 +17,7 @@ namespace API_Company.Controllers
             nameof(Company.CompanyID),
             nameof(Company.Name),
             nameof(Company.EmailDomain),
+            "Locations.CompanyID",
             "Locations.LocationID",
             "Locations.Name"
         };

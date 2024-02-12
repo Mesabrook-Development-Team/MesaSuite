@@ -2,6 +2,7 @@
 using CompanyStudio.Models;
 using FleetTracking;
 using FleetTracking.Interop;
+using MesaSuite.Common;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -97,6 +98,8 @@ namespace CompanyStudio
 
                 invoicingToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices);
                 mnuWireTransfers.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
+                storeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageRegisters) ||
+                                                 PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManagePrices);
             }
         }
 
@@ -107,6 +110,7 @@ namespace CompanyStudio
         {
             InitializeComponent();
             InitializeThemeLookup();
+            SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
         }
 
         private void InitializeFleetTracking(FleetTrackingApplication fleetTrackingApplication)
@@ -233,7 +237,8 @@ namespace CompanyStudio
 
         private void frmStudio_Load(object sender, EventArgs e)
         {
-            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
+            string subKey = GlobalSettings.InternalEditionMode ? "MesaSuiteInternalEdition" : "MesaSuite";
+            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\" + subKey);
             string theme = key.GetValue("CStudioTheme") as string;
             if (string.IsNullOrEmpty(theme) || !themes.ContainsKey(theme))
             {
@@ -392,7 +397,8 @@ namespace CompanyStudio
             string theme = (string)menu.Tag;
 
             currentTheme = themes[theme];
-            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\MesaSuite");
+            string subKey = GlobalSettings.InternalEditionMode ? "MesaSuiteInternalEdition" : "MesaSuite";
+            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\" + subKey);
             key.SetValue("CStudioTheme", theme);
 
             SetThemeMenuChecked();
@@ -857,6 +863,80 @@ namespace CompanyStudio
         private async void mnuWireTransferEmailConfiguration_Click(object sender, EventArgs e)
         {
             await OpenCompanyBasedEmailEditor(nameof(Company.EmailImplementationIDWireTransferHistory), "Wire Transfer Received", "WireTransferHistory/SetWireTransferEmailImplementationID/{0}");
+        }
+
+        private void mnuRegisters_Click(object sender, EventArgs e)
+        {
+            Store.frmRegisters registers = dockPanel.Contents.OfType<Store.frmRegisters>().FirstOrDefault(r => r.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (registers != null)
+            {
+                registers.BringToFront();
+                return;
+            }
+
+            registers = new Store.frmRegisters();
+            DecorateStudioContent(registers);
+            registers.Show(dockPanel, DockState.Document);
+        }
+
+        private void mnuStorePriceManager_Click(object sender, EventArgs e)
+        {
+            Store.frmStoreItems storeItems = dockPanel.Contents.OfType<Store.frmStoreItems>().FirstOrDefault(r => r.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (storeItems != null)
+            {
+                storeItems.BringToFront();
+                return;
+            }
+
+            storeItems = new Store.frmStoreItems();
+            DecorateStudioContent(storeItems);
+            storeItems.Show(dockPanel, DockState.Document);
+        }
+
+        private void storeToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            mnuRegisters.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManageRegisters);
+            mnuStorePriceManager.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManagePrices);
+            mnuPromotions.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManagePrices);
+            mnuStoreConfiguration.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManagePrices);
+            mnuStoreSalesReport.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? 0, PermissionsManager.LocationWidePermissions.ManagePrices);
+        }
+
+        private void mnuStoreConfiguration_Click(object sender, EventArgs e)
+        {
+            Store.frmStoreConfiguration configuration = dockPanel.Contents.OfType<Store.frmStoreConfiguration>().FirstOrDefault(r => r.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (configuration != null)
+            {
+                configuration.BringToFront();
+                return;
+            }
+
+            configuration = new Store.frmStoreConfiguration();
+            DecorateStudioContent(configuration);
+            configuration.Show(dockPanel, DockState.Document);
+        }
+
+        private void mnuStoreSalesReport_Click(object sender, EventArgs e)
+        {
+            Store.frmStoreSales salesWizard = new Store.frmStoreSales();
+            salesWizard.Company = ActiveCompany;
+            salesWizard.LocationModel = ActiveLocation;
+            salesWizard.StudioForm = this;
+            salesWizard.ShowDialog();
+        }
+
+        private void mnuPromotions_Click(object sender, EventArgs e)
+        {
+            Store.frmPromotionExplorer promotionExplorer = dockPanel.Contents.OfType<Store.frmPromotionExplorer>().FirstOrDefault(r => r.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (promotionExplorer != null)
+            {
+                promotionExplorer.BringToFront();
+                return;
+            }
+
+            promotionExplorer = new Store.frmPromotionExplorer();
+            DecorateStudioContent(promotionExplorer);
+            promotionExplorer.Show(dockPanel, DockState.DockRight);
         }
     }
 }

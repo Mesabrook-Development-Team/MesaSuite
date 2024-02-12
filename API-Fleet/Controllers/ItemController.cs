@@ -23,6 +23,7 @@ namespace API_Fleet.Controllers
             i.ItemNamespace.Namespace,
             i.ItemNamespace.FriendlyName,
             i.Name,
+            i.IsFluid,
             i.Image
         });
 

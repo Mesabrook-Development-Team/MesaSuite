@@ -57,59 +57,55 @@ namespace ClussPro.ObjectBasedFramework
                 throw new System.Data.ReadOnlyException("Attempt to call Save on a Read Only Data Object");
             }
 
+
+            SchemaObject thisObject = Schema.Schema.GetSchemaObject(GetType());
+            ITransaction localTransaction = transaction == null ? SQLProviderFactory.GenerateTransaction(thisObject.ConnectionName ?? "_default") : transaction;
             try
             {
                 this.saveFlags = saveFlags;
 
                 PreValidate();
-                Validate(isInsert ? Validator.SaveModes.Insert : Validator.SaveModes.Update, saveFlags, transaction);
+                Validate(isInsert ? Validator.SaveModes.Insert : Validator.SaveModes.Update, saveFlags, localTransaction);
 
                 if (Errors.Any())
                 {
                     return false;
                 }
 
-                SchemaObject thisObject = Schema.Schema.GetSchemaObject(GetType());
-                ITransaction localTransaction = transaction == null ? SQLProviderFactory.GenerateTransaction(thisObject.ConnectionName ?? "_default") : transaction;
-                try
+                if (!PreSave(localTransaction))
                 {
-                    if (!PreSave(localTransaction))
-                    {
-                        return false;
-                    }
-
-                    if (!(isInsert ? SaveInsert(localTransaction) : SaveUpdate(localTransaction)))
-                    {
-                        return false;
-                    }
-
-                    if (!PostSave(localTransaction))
-                    {
-                        return false;
-                    }
-                    isInsert = false;
-
-                    foreach (Schema.Field field in Schema.Schema.GetSchemaObject(GetType()).GetFields().Where(f => !f.HasOperation))
-                    {
-                        originalValues[field.FieldName] = field.GetValue(this);
-                    }
-
-                    if (transaction == null)
-                    {
-                        localTransaction.Commit();
-                    }
+                    return false;
                 }
-                finally
+
+                if (!(isInsert ? SaveInsert(localTransaction) : SaveUpdate(localTransaction)))
                 {
-                    if (transaction == null && localTransaction.IsActive)
-                    {
-                        localTransaction.Rollback();
-                    }
+                    return false;
+                }
+
+                if (!PostSave(localTransaction))
+                {
+                    return false;
+                }
+                isInsert = false;
+
+                foreach (Schema.Field field in Schema.Schema.GetSchemaObject(GetType()).GetFields().Where(f => !f.HasOperation))
+                {
+                    originalValues[field.FieldName] = field.GetValue(this);
+                }
+
+                if (transaction == null)
+                {
+                    localTransaction.Commit();
                 }
             }
             finally
             {
                 this.saveFlags = null;
+
+                if (transaction == null && localTransaction.IsActive)
+                {
+                    localTransaction.Rollback();
+                }
             }
 
             return true;

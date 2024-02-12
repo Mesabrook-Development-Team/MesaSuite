@@ -55,6 +55,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.txtLastActivityReason = new System.Windows.Forms.TextBox();
+            this.chkStoreRegister = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -141,7 +142,7 @@
             // 
             // cmdSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(513, 357);
+            this.cmdSave.Location = new System.Drawing.Point(506, 371);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 11;
@@ -152,7 +153,7 @@
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(432, 357);
+            this.cmdCancel.Location = new System.Drawing.Point(425, 371);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 12;
@@ -280,13 +281,24 @@
             this.txtLastActivityReason.TabIndex = 6;
             this.txtLastActivityReason.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
             // 
+            // chkStoreRegister
+            // 
+            this.chkStoreRegister.AutoSize = true;
+            this.chkStoreRegister.Location = new System.Drawing.Point(253, 357);
+            this.chkStoreRegister.Name = "chkStoreRegister";
+            this.chkStoreRegister.Size = new System.Drawing.Size(99, 17);
+            this.chkStoreRegister.TabIndex = 13;
+            this.chkStoreRegister.Text = "Is Immersibrook";
+            this.chkStoreRegister.UseVisualStyleBackColor = true;
+            // 
             // frmEditUser
             // 
             this.AcceptButton = this.cmdSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(593, 392);
+            this.ClientSize = new System.Drawing.Size(593, 404);
+            this.Controls.Add(this.chkStoreRegister);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.cmdSelectSecurityGroups);
@@ -348,5 +360,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtLastActivityReason;
+        private System.Windows.Forms.CheckBox chkStoreRegister;
     }
 }

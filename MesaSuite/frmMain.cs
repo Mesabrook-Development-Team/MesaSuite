@@ -63,6 +63,11 @@ namespace MesaSuite
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            if (GlobalSettings.InternalEditionMode)
+            {
+                Text += " (INTERNAL EDITION)";
+            }
+
             foreach(Panel panel in flow.Controls.OfType<Panel>())
             {
                 panel.Visible = false;

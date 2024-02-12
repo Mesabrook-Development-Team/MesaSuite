@@ -53,6 +53,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.chkImmersibrook = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -78,7 +79,7 @@
             // 
             // cmdSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(355, 436);
+            this.cmdSave.Location = new System.Drawing.Point(355, 455);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 2;
@@ -89,7 +90,7 @@
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(274, 436);
+            this.cmdCancel.Location = new System.Drawing.Point(274, 455);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 3;
@@ -283,13 +284,24 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Username:";
             // 
+            // chkImmersibrook
+            // 
+            this.chkImmersibrook.AutoSize = true;
+            this.chkImmersibrook.Location = new System.Drawing.Point(178, 436);
+            this.chkImmersibrook.Name = "chkImmersibrook";
+            this.chkImmersibrook.Size = new System.Drawing.Size(99, 17);
+            this.chkImmersibrook.TabIndex = 4;
+            this.chkImmersibrook.Text = "Is Immersibrook";
+            this.chkImmersibrook.UseVisualStyleBackColor = true;
+            // 
             // frmNewUser
             // 
             this.AcceptButton = this.cmdSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(444, 472);
+            this.ClientSize = new System.Drawing.Size(444, 487);
+            this.Controls.Add(this.chkImmersibrook);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cmdCancel);
@@ -307,6 +319,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -335,5 +348,6 @@
         private System.Windows.Forms.ImageList imlList;
         private System.Windows.Forms.TextBox txtDiscordID;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox chkImmersibrook;
     }
 }

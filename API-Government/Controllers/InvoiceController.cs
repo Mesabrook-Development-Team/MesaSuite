@@ -57,6 +57,7 @@ namespace API_Government.Controllers
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.ItemID)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Item)}.{nameof(Item.ItemID)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Item)}.{nameof(Item.Name)}",
+            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Item)}.{nameof(Item.IsFluid)}"
         };
 
         public override ISearchCondition GetBaseSearchCondition() => new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,

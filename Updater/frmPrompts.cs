@@ -69,6 +69,11 @@ namespace Updater
 
         private void frmPrompts_Load(object sender, EventArgs e)
         {
+            if (Program.InternalEdition)
+            {
+                Text += " (INTERNAL EDITION)";
+            }
+
             workflow = new Workflow();
             SetupWorkflowSteps();
             workflow.StartWorkflow(new Workflow.ScreenElements()

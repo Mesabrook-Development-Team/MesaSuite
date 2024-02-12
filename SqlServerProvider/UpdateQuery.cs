@@ -32,7 +32,7 @@ namespace ClussPro.SqlServerProvider
         private string GetSQL(SqlParameterCollection parameters)
         {
             StringBuilder sqlBuilder = new StringBuilder("UPDATE ");
-            sqlBuilder.Append(ScriptWriters.SelectableWriter.WriteSelectable(Table));
+            sqlBuilder.Append(ScriptWriters.SelectableWriter.WriteSelectable(Table, parameters));
             sqlBuilder.Append(" SET ");
 
             bool first = true;

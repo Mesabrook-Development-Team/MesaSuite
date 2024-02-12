@@ -71,7 +71,7 @@ namespace ClussPro.SqlServerProvider
 
             if (Table != null)
             {
-                sqlBuilder.Append($"FROM {ScriptWriters.SelectableWriter.WriteSelectable(Table)} ");
+                sqlBuilder.Append($"FROM {ScriptWriters.SelectableWriter.WriteSelectable(Table, parameters)} ");
             }
 
             WriteJoinList(sqlBuilder, parameters);
@@ -140,7 +140,7 @@ namespace ClussPro.SqlServerProvider
                 }
 
                 sqlBuilder.Append("JOIN ");
-                sqlBuilder.Append(ScriptWriters.SelectableWriter.WriteSelectable(join.Table));
+                sqlBuilder.Append(ScriptWriters.SelectableWriter.WriteSelectable(join.Table, parameters));
                 sqlBuilder.Append(" ON ");
                 sqlBuilder.Append(ScriptWriters.ConditionWriter.WriteCondition(join.Condition, parameters));
                 sqlBuilder.Append(" ");

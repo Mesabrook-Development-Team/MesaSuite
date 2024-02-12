@@ -81,6 +81,7 @@ namespace API_Fleet.Controllers
             rl.Railcar.RailcarLoads.First().Quantity,
             rl.Railcar.RailcarLoads.First().Item.ItemID,
             rl.Railcar.RailcarLoads.First().Item.Name,
+            rl.Railcar.RailcarLoads.First().Item.IsFluid,
             rl.Railcar.RailcarLoads.First().Item.Image,
             rl.Locomotive.LocomotiveID,
             rl.Locomotive.ReportingMark,

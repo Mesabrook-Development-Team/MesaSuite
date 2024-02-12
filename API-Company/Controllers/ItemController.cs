@@ -24,6 +24,7 @@ namespace API_Company.Controllers
             i.ItemNamespace.Namespace,
             i.ItemNamespace.FriendlyName,
             i.Name,
+            i.IsFluid,
             i.Image
         });
 
@@ -34,10 +35,11 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
-        public List<Item> GetByQuery([FromUri]string q = "", [FromUri]int t = 50)
+        public List<Item> GetByQuery([FromUri]string q = "", [FromUri]int t = 50, [FromUri]int s = 0)
         {
             Search<Item> itemSearch = new Search<Item>();
             itemSearch.Take = t;
+            itemSearch.Skip = s;
             itemSearch.SearchOrders = new List<SearchOrder>()
             {
                 new SearchOrder()

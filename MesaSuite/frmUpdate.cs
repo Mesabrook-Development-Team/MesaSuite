@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MesaSuite.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -34,6 +35,11 @@ namespace MesaSuite
 
         private void frmUpdate_Load(object sender, EventArgs e)
         {
+            if (GlobalSettings.InternalEditionMode)
+            {
+                Text += " (INTERNAL EDITION)";
+            }
+
             PlayExclamation();
             StringBuilder sb = new StringBuilder();
 

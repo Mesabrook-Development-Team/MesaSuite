@@ -35,6 +35,11 @@ namespace MesaSuite.Common.Data
 
         protected string GetResourceURI()
         {
+            if (GlobalSettings.InternalEditionMode)
+            {
+                return new InternalEditionResourceWriter().Write(this);
+            }
+
             string resourceWriterClass = ConfigurationManager.AppSettings.Get("MesaSuite.Common.ResourceWriter." + API.ToString());
             if (string.IsNullOrEmpty(resourceWriterClass))
             {

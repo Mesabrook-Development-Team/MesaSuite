@@ -75,6 +75,14 @@ namespace WebModels.security
             set { CheckSet(); _lastActivityReason = value; }
         }
 
+        private bool _isImmersibrook = false;
+        [Field("06DA4324-BE89-4995-836A-BE813C519F50")]
+        public bool IsImmersibrook
+        {
+            get { CheckGet(); return _isImmersibrook; }
+            set { CheckSet(); _isImmersibrook = value; }
+        }
+
         #region Relationships
         #region auth
         private List<Client> _clientsOwned = new List<Client>();
@@ -119,6 +127,13 @@ namespace WebModels.security
         public IReadOnlyCollection<AccountClearance> AccountClearances
         {
             get { CheckGet(); return _accountClearances; }
+        }
+
+        private List<DebitCard> _debitCardsIssued = new List<DebitCard>();
+        [RelationshipList("4F6B9B2F-5F6B-4B1D-BFC2-71C87AD5EA4C", "UserIDIssuedBy", AutoDeleteReferences = true)]
+        public IReadOnlyCollection<DebitCard> DebitCardsIssued
+        {
+            get { CheckGet(); return _debitCardsIssued; }
         }
         #endregion
         #region fleet

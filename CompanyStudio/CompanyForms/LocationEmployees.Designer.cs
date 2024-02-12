@@ -33,6 +33,9 @@
             this.colLocationEmployeeID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEmployee = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.colManageInvoices = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colManagePrices = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colManageRegisters = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colManageInventory = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmployees)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,7 +48,10 @@
             this.dgvEmployees.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colLocationEmployeeID,
             this.colEmployee,
-            this.colManageInvoices});
+            this.colManageInvoices,
+            this.colManagePrices,
+            this.colManageRegisters,
+            this.colManageInventory});
             this.dgvEmployees.Location = new System.Drawing.Point(0, 0);
             this.dgvEmployees.Name = "dgvEmployees";
             this.dgvEmployees.RowHeadersWidth = 62;
@@ -84,7 +90,21 @@
             this.colManageInvoices.HeaderText = "Manage Invoices";
             this.colManageInvoices.MinimumWidth = 8;
             this.colManageInvoices.Name = "colManageInvoices";
-            this.colManageInvoices.Width = 150;
+            // 
+            // colManagePrices
+            // 
+            this.colManagePrices.HeaderText = "Manage Prices";
+            this.colManagePrices.Name = "colManagePrices";
+            // 
+            // colManageRegisters
+            // 
+            this.colManageRegisters.HeaderText = "Manage Registers";
+            this.colManageRegisters.Name = "colManageRegisters";
+            // 
+            // colManageInventory
+            // 
+            this.colManageInventory.HeaderText = "ManageInventory";
+            this.colManageInventory.Name = "colManageInventory";
             // 
             // LocationEmployees
             // 
@@ -107,5 +127,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colLocationEmployeeID;
         private System.Windows.Forms.DataGridViewComboBoxColumn colEmployee;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colManageInvoices;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colManagePrices;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colManageRegisters;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colManageInventory;
     }
 }

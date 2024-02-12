@@ -62,7 +62,6 @@ namespace CompanyStudio.CompanyForms
                 {
                     LocationModel = locationToSave;
                     _isDirty = false;
-                    OnSave?.Invoke(this, new EventArgs());
                     saveSuccessful = true;
                 }
             }
@@ -77,7 +76,6 @@ namespace CompanyStudio.CompanyForms
                 {
                     LocationModel = locationToSave;
                     _isDirty = false;
-                    OnSave?.Invoke(this, new EventArgs());
                     saveSuccessful = true;
                 }
             }
@@ -91,6 +89,7 @@ namespace CompanyStudio.CompanyForms
                 await _locationGovernments.Save();
             }
 
+            OnSave?.Invoke(this, new EventArgs());
             Text = LocationModel?.Name ?? "New Location";
             loader.Visible = false;
         }

@@ -40,7 +40,7 @@ namespace WebModels.tow.Validations
                     Value = towTicket.TowTicketID
                 }));
 
-            return !duplicateSearch.ExecuteExists(null);
+            return !duplicateSearch.ExecuteExists(transaction);
         }
     }
 }

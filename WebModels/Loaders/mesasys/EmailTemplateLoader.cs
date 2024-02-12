@@ -9,6 +9,7 @@ using ClussPro.ObjectBasedFramework.Loader;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Utility;
 using WebModels.account;
+using WebModels.company;
 using WebModels.fleet;
 using WebModels.mesasys;
 
@@ -21,6 +22,7 @@ namespace WebModels.Loaders.mesasys
             List<LoaderObject> loaderObjects = new List<LoaderObject>();
             loaderObjects.AddRange(GetInvoicingEmails());
             loaderObjects.AddRange(GetFleetTrackingEmails());
+            loaderObjects.AddRange(GetStoreEmails());
 
             return loaderObjects;
         }
@@ -185,6 +187,23 @@ namespace WebModels.Loaders.mesasys
                                                                     lb.Locomotive.RailLocation.Train.TrainSymbol.Name,
                                                                     lb.Locomotive.RailLocation.Train.TimeOnDuty
                                                                 });
+        }
+
+        private IEnumerable<LoaderObject> GetStoreEmails()
+        {
+            yield return new EmailTemplateLoaderObject<RegisterStatus>(EmailTemplate.EmailTemplates.RegisterOffline,
+                "Register Offline",
+                "The register {Register.Name} at {Register.Location.Company.Name} - {Register.Location.Name} has stopped working unexpectedly.\r\n\r\nReported Status: {Status}\r\nInitiated By: {Initiator}",
+                EmailTemplate.SecurityCheckTypes.StoreRegister,
+                rs => new List<object>()
+                {
+                    rs.ChangeTime,
+                    rs.Status,
+                    rs.Initiator,
+                    rs.Register.Name,
+                    rs.Register.Location.Name,
+                    rs.Register.Location.Company.Name
+                });
         }
 
         private class EmailTemplateLoaderObject<TTemplateObject> : LoaderObject where TTemplateObject : DataObject

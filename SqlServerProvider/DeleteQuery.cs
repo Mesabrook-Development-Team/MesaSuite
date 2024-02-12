@@ -26,7 +26,7 @@ namespace ClussPro.SqlServerProvider
         private string GetSQL(SqlParameterCollection parameters)
         {
             StringBuilder sqlBuilder = new StringBuilder("DELETE FROM ");
-            sqlBuilder.Append(ScriptWriters.SelectableWriter.WriteSelectable(Table));
+            sqlBuilder.Append(ScriptWriters.SelectableWriter.WriteSelectable(Table, parameters));
 
             if (Condition != null)
             {

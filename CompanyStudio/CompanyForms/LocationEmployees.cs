@@ -64,6 +64,9 @@ namespace CompanyStudio.CompanyForms
                     DataGridViewComboBoxCell comboBoxCell = (DataGridViewComboBoxCell)row.Cells["colEmployee"];
                     comboBoxCell.Value = locationEmployee.EmployeeID;
                     row.Cells["colManageInvoices"].Value = locationEmployee.ManageInvoices;
+                    row.Cells[colManagePrices.Name].Value = locationEmployee.ManagePrices;
+                    row.Cells[colManageRegisters.Name].Value = locationEmployee.ManageRegisters;
+                    row.Cells[colManageInventory.Name].Value = locationEmployee.ManageInventory;
                 }
             }
 
@@ -106,7 +109,10 @@ namespace CompanyStudio.CompanyForms
                     LocationEmployeeID = locationEmployee.LocationEmployeeID,
                     EmployeeID = (long)existingRow.Cells["colEmployee"].Value,
                     LocationID = locationEmployee.LocationID,
-                    ManageInvoices = (bool)(existingRow.Cells["colManageInvoices"].Value ?? false)
+                    ManageInvoices = (bool)(existingRow.Cells["colManageInvoices"].Value ?? false),
+                    ManagePrices = (bool)(existingRow.Cells[colManagePrices.Name].Value ?? false),
+                    ManageRegisters = (bool)(existingRow.Cells[colManageRegisters.Name].Value ?? false),
+                    ManageInventory = (bool)(existingRow.Cells[colManageInventory.Name].Value ?? false)
                 };
                 locationEmployeesToSave.Add(savingLocationEmployee);
             }
@@ -123,7 +129,10 @@ namespace CompanyStudio.CompanyForms
                 {
                     LocationID = LocationModel.LocationID,
                     EmployeeID = (long)newRow.Cells["colEmployee"].Value,
-                    ManageInvoices = (bool)(newRow.Cells["colManageInvoices"].Value ?? false)
+                    ManageInvoices = (bool)(newRow.Cells["colManageInvoices"].Value ?? false),
+                    ManagePrices = (bool)(newRow.Cells[colManagePrices.Name].Value ?? false),
+                    ManageRegisters = (bool)(newRow.Cells[colManageRegisters.Name].Value ?? false),
+                    ManageInventory = (bool)(newRow.Cells[colManageInventory.Name].Value ?? false)
                 };
 
                 locationEmployeesToCreate.Add(newLocationEmployee);

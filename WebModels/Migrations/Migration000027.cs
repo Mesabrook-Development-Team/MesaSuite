@@ -155,7 +155,7 @@ namespace WebModels.Migrations
             alterTable.AddColumn("AccountIDStoreRevenue", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
             alterTable.AddColumn("EmailImplementationIDRegisterOffline", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
             alterTable.AddForeignKey("FKLocation_Account_AccountIDStoreRevenue", "AccountIDStoreRevenue", "account", "Account", "AccountID", transaction);
-            alterTable.AddForeignKey("FKLocation_EmailImplementation_EmailImplementationIDRegisterOffline", "EmailImplementationIDRegisterOffline", "mesasys", "EmailImplementation", "EmailImplementationIDRegisterOffline", transaction);
+            alterTable.AddForeignKey("FKLocation_EmailImplementation_EmailImplementationIDRegisterOffline", "EmailImplementationIDRegisterOffline", "mesasys", "EmailImplementation", "EmailImplementationID", transaction);
 
             alterTable.Schema = "security";
             alterTable.Table = "User";

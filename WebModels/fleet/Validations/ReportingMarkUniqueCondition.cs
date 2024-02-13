@@ -46,7 +46,7 @@ namespace WebModels.fleet.Validations
             }
 
             Search<Railcar> duplicateRailcarSearch = new Search<Railcar>(railcarSearchCondition);
-            if (duplicateRailcarSearch.ExecuteExists(null))
+            if (duplicateRailcarSearch.ExecuteExists(transaction))
             {
                 return false;
             }
@@ -76,7 +76,7 @@ namespace WebModels.fleet.Validations
             }
 
             Search<Locomotive> duplicateLocomotiveSearch = new Search<Locomotive>(locomotiveSearchCondition);
-            if (duplicateLocomotiveSearch.ExecuteExists(null))
+            if (duplicateLocomotiveSearch.ExecuteExists(transaction))
             {
                 return false;
             }

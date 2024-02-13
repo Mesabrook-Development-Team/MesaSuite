@@ -53,6 +53,7 @@ namespace API_Company.Controllers
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.ItemID)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Item)}.{nameof(Item.ItemID)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Item)}.{nameof(Item.Name)}",
+            $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Item)}.{nameof(Item.IsFluid)}",
             $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.InvoiceSalesTaxID)}",
             $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.InvoiceID)}",
             $"{nameof(Invoice.InvoiceSalesTaxes)}.{nameof(InvoiceSalesTax.Municipality)}",

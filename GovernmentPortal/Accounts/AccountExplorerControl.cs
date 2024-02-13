@@ -258,6 +258,10 @@ namespace GovernmentPortal.Accounts
             {
                 LoadFiscalQuarters();
             }
+            else if (tabControl.SelectedTab == tabDebitCards)
+            {
+                LoadDebitCards();
+            }
         }
 
         private async void LoadFiscalQuarters()
@@ -312,6 +316,37 @@ namespace GovernmentPortal.Accounts
             loader.Visible = false;
         }
 
+        public async void LoadDebitCards()
+        {
+            if (Model == null)
+            {
+                return;
+            }
+
+            loader.BringToFront();
+            loader.Visible = true;
+
+            dgvDebitCards.Rows.Clear();
+
+            GetData get = new GetData(DataAccess.APIs.GovernmentPortal, "DebitCard/GetForAccount");
+            get.Headers.Add("GovernmentID", _governmentID.ToString());
+            get.QueryString.Add("AccountID", Model.AccountID.ToString());
+
+            List<DebitCard> debitCards = await get.GetObject<List<DebitCard>>() ?? new List<DebitCard>();
+
+            foreach (DebitCard card in debitCards)
+            {
+                int row = dgvDebitCards.Rows.Add();
+
+                dgvDebitCards[colCardNumber.Index, row].Value = new string('X', 12) + card.CardNumber.Substring(12);
+                dgvDebitCards[colIssuedTo.Index, row].Value = card.UserIssuedBy?.Username;
+                dgvDebitCards[colIssuedTime.Index, row].Value = card.IssuedTime?.ToString("MM/dd/yyyy HH:mm");
+                dgvDebitCards.Rows[row].Tag = card.DebitCardID;
+            }
+
+            loader.Visible = false;
+        }
+
         private void cmdClose_Click(object sender, EventArgs e)
         {
             if (Model == null)
@@ -346,6 +381,29 @@ namespace GovernmentPortal.Accounts
             }
 
             _explorer.LoadAllItems(true, Model.Description);
+        }
+
+        private async void tsbDeleteDebitCard_Click(object sender, EventArgs e)
+        {
+            if (!this.Confirm("Are you sure you want to delete these Debit Cards?"))
+            {
+                return;
+            }
+
+            loader.BringToFront();
+            loader.Visible = true;
+
+            foreach(DataGridViewRow row in dgvDebitCards.SelectedRows)
+            {
+                long? debitCardID = (long?)row.Tag;
+
+                DeleteData delete = new DeleteData(DataAccess.APIs.GovernmentPortal, $"DebitCard/Delete/{debitCardID}");
+                delete.AddGovHeader(_governmentID);
+                await delete.Execute();
+            }
+
+            LoadDebitCards();
+            loader.Visible = false;
         }
     }
 }

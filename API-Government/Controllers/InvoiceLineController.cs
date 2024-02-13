@@ -31,7 +31,8 @@ namespace API_Government.Controllers
             nameof(InvoiceLine.Total),
             nameof(InvoiceLine.ItemID),
             $"{nameof(InvoiceLine.Item)}.{nameof(Item.ItemID)}",
-            $"{nameof(InvoiceLine.Item)}.{nameof(Item.Name)}"
+            $"{nameof(InvoiceLine.Item)}.{nameof(Item.Name)}",
+            $"{nameof(InvoiceLine.Item)}.{nameof(Item.IsFluid)}"
         };
 
         public override ISearchCondition GetBaseSearchCondition()

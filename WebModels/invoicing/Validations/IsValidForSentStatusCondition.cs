@@ -26,7 +26,7 @@ namespace WebModels.invoicing.Validations
                 Value = invoice.InvoiceID
             });
 
-            if (!invoiceLineSearch.ExecuteExists(null))
+            if (!invoiceLineSearch.ExecuteExists(transaction))
             {
                 return false;
             }

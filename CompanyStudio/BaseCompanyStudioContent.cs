@@ -1,6 +1,7 @@
 ﻿using CompanyStudio.Models;
 using Newtonsoft.Json.Linq;
 using System;
+using System.ComponentModel;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace CompanyStudio
@@ -15,6 +16,8 @@ namespace CompanyStudio
         protected StudioFormExtender studioFormExtender;
 
         private Company _company;
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Company Company
         {
             get { return _company; }
@@ -34,6 +37,8 @@ namespace CompanyStudio
         }
 
         private ThemeBase _theme;
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ThemeBase Theme
         {
             protected get { return _theme; }
@@ -46,6 +51,8 @@ namespace CompanyStudio
         }
 
         private frmStudio _frmStudio;
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public frmStudio Studio
         {
             get { return _frmStudio; }
@@ -69,6 +76,8 @@ namespace CompanyStudio
         }
 
         private bool _isDirty;
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDirty
         {
             get { return _isDirty; }
@@ -91,6 +100,7 @@ namespace CompanyStudio
 
         public BaseCompanyStudioContent()
         {
+            InitializeComponent();
             studioFormExtender = new StudioFormExtender();
         }
 

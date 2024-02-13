@@ -65,7 +65,8 @@ namespace SystemManagement
                 Email = $"{user}@mesabrook.com",
                 DiscordID = txtDiscordID.Text,
                 LastActivity = DateTime.Now,
-                LastActivityReason = "New user created"
+                LastActivityReason = "New user created",
+                IsImmersibrook = chkImmersibrook.Checked
             };
 
             PostData post = new PostData(DataAccess.APIs.SystemManagement, "User/PostUserExisting", userObject);
@@ -101,6 +102,7 @@ namespace SystemManagement
                 DiscordID = txtDiscordID.Text,
                 LastActivity = DateTime.Now,
                 LastActivityReason = "New user created",
+                IsImmersibrook = chkImmersibrook.Checked,
                 InactivityDOINotificationServed = false,
                 InactivityWarningServed = false
             };

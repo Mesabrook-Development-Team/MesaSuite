@@ -20,6 +20,10 @@ namespace MesaSuite.Common
             Application.ThreadException += Application_ThreadException;
             MainForm = createMainForm();
             _contextMainForm = MainForm;
+            if (GlobalSettings.InternalEditionMode)
+            {
+                _contextMainForm.Text += " (INTERNAL EDITION)";
+            }
             _programName = programName;
             _displayName = programDisplayName;
             _restartApplicationDelegate = restartApplicationDelegate;

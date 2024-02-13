@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using CompanyStudio.Extensions;
 using CompanyStudio.Models;
 using MesaSuite.Common.Data;
+using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
 
 namespace CompanyStudio.Accounts
@@ -335,6 +336,37 @@ namespace CompanyStudio.Accounts
             }
         }
 
+        public async void LoadDebitCards()
+        {
+            if (Account == null)
+            {
+                return;
+            }
+
+            loaderDebitCards.BringToFront();
+            loaderDebitCards.Visible = true;
+
+            dgvDebitCards.Rows.Clear();
+
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "DebitCard/GetForAccount");
+            get.Headers.Add("CompanyID", Company.CompanyID.ToString());
+            get.QueryString.Add("AccountID", Account.AccountID.ToString());
+
+            List<DebitCard> debitCards = await get.GetObject<List<DebitCard>>() ?? new List<DebitCard>();
+
+            foreach(DebitCard card in debitCards)
+            {
+                int row = dgvDebitCards.Rows.Add();
+
+                dgvDebitCards[colCardNumber.Index, row].Value = new string('X', 12) + card.CardNumber.Substring(12);
+                dgvDebitCards[colIssuedTo.Index, row].Value = card.UserIssuedBy?.Username;
+                dgvDebitCards[colIssuedTime.Index, row].Value = card.IssuedTime?.ToString("MM/dd/yyyy HH:mm");
+                dgvDebitCards.Rows[row].Tag = card.DebitCardID;
+            }
+
+            loaderDebitCards.Visible = false;
+        }
+
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             transactionPage = 1;
@@ -346,6 +378,10 @@ namespace CompanyStudio.Accounts
             else if (tctrlInfo.SelectedTab == tabFiscalQuarters)
             {
                 LoadFiscalQuarters();
+            }
+            else if (tctrlInfo.SelectedTab == tabDebitCards)
+            {
+                LoadDebitCards();
             }
         }
 
@@ -395,6 +431,29 @@ namespace CompanyStudio.Accounts
             {
                 PopulateForm(true);
             }
+        }
+
+        private async void tsbDeleteDebitCards_Click(object sender, EventArgs e)
+        {
+            if (!this.Confirm("Are you sure you want to delete these Debit Cards?"))
+            {
+                return;
+            }
+
+            loader.BringToFront();
+            loader.Visible = true;
+
+            foreach (DataGridViewRow row in dgvDebitCards.SelectedRows)
+            {
+                long? debitCardID = (long?)row.Tag;
+
+                DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, $"DebitCard/Delete/{debitCardID}");
+                delete.AddCompanyHeader(Company.CompanyID);
+                await delete.Execute();
+            }
+
+            LoadDebitCards();
+            loader.Visible = false;
         }
     }
 }

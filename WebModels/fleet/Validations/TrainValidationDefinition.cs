@@ -70,7 +70,7 @@ namespace WebModels.fleet.Validations
                 }
 
                 Search<Train> existsSearch = new Search<Train>(searchConditionGroup);
-                return !existsSearch.ExecuteExists(null);
+                return !existsSearch.ExecuteExists(transaction);
             }
         }
     }

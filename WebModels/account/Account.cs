@@ -5,6 +5,7 @@ using System.Text;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
@@ -283,11 +284,16 @@ namespace WebModels.account
             FiscalQuarter fiscalQuarter;
             try
             {
-                fiscalQuarter = FiscalQuarter.FindOrCreate(AccountID.Value, DateTime.Now);
+                fiscalQuarter = FiscalQuarter.FindOrCreate(AccountID.Value, DateTime.Now, transaction);
             }
             catch (Exception ex)
             {
                 throw new Exception("Failed to find current Fiscal Quarter\r\n\r\n" + ex.Message, ex);
+            }
+
+            if (description.Length > Schema.GetSchemaObject<Transaction>().GetField(nameof(Transaction.Description)).DataSize)
+            {
+                description = description.Substring(0, Schema.GetSchemaObject<Transaction>().GetField(nameof(Transaction.Description)).DataSize);
             }
 
             Transaction depositTransaction = DataObjectFactory.Create<Transaction>();
@@ -358,6 +364,21 @@ namespace WebModels.account
         public IReadOnlyCollection<FiscalQuarter> FiscalQuarters
         {
             get { CheckGet(); return _fiscalQuarters; }
+        }
+
+        private List<DebitCard> _debitCards = new List<DebitCard>();
+        [RelationshipList("E5D1F9E6-8D6F-4B9A-9C4E-0E1C0E0A0E0A", "AccountID", AutoDeleteReferences = true)]
+        public IReadOnlyCollection<DebitCard> DebitCards
+        {
+            get { CheckGet(); return _debitCards; }
+        }
+        #endregion
+        #region company
+        private List<Location> _locationStoreRevenues = new List<Location>();
+        [RelationshipList("2468CD4E-5C93-44E3-AEEE-3BC681AE29B7", nameof(Location.AccountIDStoreRevenue))]
+        public IReadOnlyCollection<Location> LocationStoreRevenues
+        {
+            get { CheckGet(); return _locationStoreRevenues;  }
         }
         #endregion
         #region gov

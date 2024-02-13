@@ -38,6 +38,9 @@ namespace Updater.Steps
 
         private void InstallationDirectoryStepControl_Load(object sender, EventArgs e)
         {
+            lblHeader.Text = Program.InternalEdition ?
+                "Welcome to the MesaSuite Internal Edition Installer!" :
+                "Welcome to the MesaSuite Installer!";
             txtInstallDirectory.Text = Step.InstallationConfiguration.InstallDirectory;
         }
     }

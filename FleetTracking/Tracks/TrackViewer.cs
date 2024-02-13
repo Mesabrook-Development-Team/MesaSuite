@@ -19,7 +19,7 @@ using MesaSuite.Common.Utility;
 
 namespace FleetTracking.Tracks
 {
-    [SecuredControl(SecuredControlAttribute.Permissions.AllowSetup, SecuredControlAttribute.Permissions.IsYardmaster)]
+    [SecuredControl(SecuredControlAttribute.Permissions.AllowSetup, SecuredControlAttribute.Permissions.IsYardmaster, SecuredControlAttribute.Permissions.AllowLoadUnload)]
     public partial class TrackViewer : UserControl, IFleetTrackingControl
     {
         public TrackViewer()

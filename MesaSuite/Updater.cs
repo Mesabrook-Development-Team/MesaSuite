@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MesaSuite.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -43,7 +44,8 @@ namespace MesaSuite
             using (WebClient client = new WebClient())
             {
                 client.Credentials = new NetworkCredential("Reporting", "NetLogon");
-                data = client.DownloadData(new Uri("ftp://www.clussmanproductions.com/support/MCSyncNew/updater.exe"));
+                string updateDirectory = GlobalSettings.InternalEditionMode ? "MesaSuiteInternal" : "MCSyncNew";
+                data = client.DownloadData(new Uri($"ftp://www.clussmanproductions.com/support/{updateDirectory}/updater.exe"));
             }
 
             File.WriteAllBytes($"Updater.exe", data);

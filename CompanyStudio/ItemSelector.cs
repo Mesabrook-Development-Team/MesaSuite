@@ -19,6 +19,7 @@ namespace CompanyStudio
     {
         private CancellationTokenSource _loadDataSource;
         private const int TAKE = 15;
+        private int lastRetrievedCount = 0;
 
         public event EventHandler ItemSelected;
         
@@ -39,6 +40,22 @@ namespace CompanyStudio
         public ItemSelector()
         {
             InitializeComponent();
+            VScrollBar scrollBar = dgvList.Controls.OfType<VScrollBar>().FirstOrDefault();
+            if (scrollBar != null)
+            {
+                scrollBar.ValueChanged += dgvList_Scroll;
+            }
+        }
+
+        private void dgvList_Scroll(object sender, EventArgs e)
+        {
+            VScrollBar scrollBar = sender as VScrollBar;
+            if (scrollBar == null || scrollBar.Value + scrollBar.Height < scrollBar.Maximum - 10 || lastRetrievedCount < TAKE || loader.Visible)
+            {
+                return;
+            }
+
+            LoadData(true);
         }
 
         #region Fancy UI Stuff
@@ -77,7 +94,10 @@ namespace CompanyStudio
 
         private void ItemSelector_Load(object sender, EventArgs e)
         {
-            LoadInitialData();
+            if (!DesignMode)
+            {
+                LoadInitialData();
+            }
 
             if (ReadOnlyMode)
             {
@@ -86,7 +106,7 @@ namespace CompanyStudio
                 panel1.BackColor = SystemColors.Control;
                 pictureBox1.BackColor = SystemColors.Control;
             }
-            else
+            else if (!DesignMode)
             {
                 LoadData();
             }
@@ -110,7 +130,7 @@ namespace CompanyStudio
             }
         }
 
-        private async void LoadData()
+        private async void LoadData(bool append = false)
         {
             if (_loadDataSource != null)
             {
@@ -123,16 +143,25 @@ namespace CompanyStudio
             _loadDataSource = new CancellationTokenSource();
             CancellationToken token = _loadDataSource.Token;
 
+            if (!append)
+            {
+                dgvList.Rows.Clear();
+            }
+
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Item/GetByQuery");
             get.QueryString.Add("q", txtSearch.Text);
             get.QueryString.Add("t", TAKE.ToString());
+            get.QueryString.Add("s", dgvList.Rows.Count.ToString());
             List<Item> items = await get.GetObject<List<Item>>() ?? new List<Item>();
 
             if (token.IsCancellationRequested) return;
 
-            dgvList.Rows.Clear();
+            if (!append)
+            {
+                dgvList.Rows.Clear();
+            }
 
-            foreach(Item item in items)
+            foreach (Item item in items)
             {
                 if (token.IsCancellationRequested) return;
 
@@ -149,6 +178,8 @@ namespace CompanyStudio
                 row.Cells[colName.Name].Value = string.Format("{0}\r\n({1})", item.Name, item.ItemNamespace.FriendlyName);
                 row.Tag = item;
             }
+
+            lastRetrievedCount = items.Count;
 
             loader.Visible = false;
         }

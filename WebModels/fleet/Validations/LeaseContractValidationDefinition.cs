@@ -88,12 +88,12 @@ namespace WebModels.fleet.Validations
                 long? companyID;
                 if (contract.RailcarID != null)
                 {
-                    Railcar railcar = DataObject.GetReadOnlyByPrimaryKey<Railcar>(contract.RailcarID, null, new[] { nameof(Railcar.CompanyIDOwner) });
+                    Railcar railcar = DataObject.GetReadOnlyByPrimaryKey<Railcar>(contract.RailcarID, transaction, new[] { nameof(Railcar.CompanyIDOwner) });
                     companyID = railcar?.CompanyIDOwner;
                 }
                 else if (contract.LocomotiveID != null)
                 {
-                    Locomotive locomotive = DataObject.GetReadOnlyByPrimaryKey<Locomotive>(contract.LocomotiveID, null, new[] { nameof(Locomotive.CompanyIDOwner) });
+                    Locomotive locomotive = DataObject.GetReadOnlyByPrimaryKey<Locomotive>(contract.LocomotiveID, transaction, new[] { nameof(Locomotive.CompanyIDOwner) });
                     companyID = locomotive?.CompanyIDOwner;
                 }
                 else

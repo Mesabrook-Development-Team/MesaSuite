@@ -66,6 +66,7 @@ namespace API_Fleet.Controllers
             $"{nameof(Railcar.RailcarLoads)}.{nameof(RailcarLoad.ItemID)}",
             $"{nameof(Railcar.RailcarLoads)}.{nameof(RailcarLoad.Item)}.{nameof(Item.ItemID)}",
             $"{nameof(Railcar.RailcarLoads)}.{nameof(RailcarLoad.Item)}.{nameof(Item.Name)}",
+            $"{nameof(Railcar.RailcarLoads)}.{nameof(RailcarLoad.Item)}.{nameof(Item.IsFluid)}",
             $"{nameof(Railcar.RailcarLoads)}.{nameof(RailcarLoad.Item)}.{nameof(Item.Image)}",
             $"{nameof(Railcar.RailcarLoads)}.{nameof(RailcarLoad.Quantity)}",
             nameof(Railcar.ReportingMark),

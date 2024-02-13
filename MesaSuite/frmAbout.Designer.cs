@@ -152,7 +152,7 @@ namespace MesaSuite
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Image = global::MesaSuite.Properties.Resources.Mesabrook_Icon;
+            this.pictureBox4.Image = global::MesaSuite.Properties.Resources.new_logo;
             this.pictureBox4.Location = new System.Drawing.Point(8, 3);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(57, 57);
@@ -457,7 +457,7 @@ namespace MesaSuite
             // pboxLogo
             // 
             this.pboxLogo.BackColor = System.Drawing.Color.Transparent;
-            this.pboxLogo.BackgroundImage = global::MesaSuite.Properties.Resources.logoMS;
+            this.pboxLogo.BackgroundImage = global::MesaSuite.Properties.Resources.logo_new_1;
             this.pboxLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pboxLogo.Location = new System.Drawing.Point(33, 41);
             this.pboxLogo.Name = "pboxLogo";

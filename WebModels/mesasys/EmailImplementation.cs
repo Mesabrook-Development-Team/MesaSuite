@@ -102,6 +102,13 @@ namespace WebModels.mesasys
         {
             get { CheckGet(); return _locationReadyForReceipts; }
         }
+
+        private List<Location> _locationRegisterOfflines = new List<Location>();
+        [RelationshipList("5934A09C-4C26-4826-A8E7-A25DD0812F94", nameof(Location.EmailImplementationIDRegisterOffline))]
+        public IReadOnlyCollection<Location> LocationRegisterOfflines
+        {
+            get { CheckGet(); return _locationRegisterOfflines; }
+        }
         #endregion
         #region fleet
         private List<MiscellaneousSettings> _miscellaneousSettingsCarReleased = new List<MiscellaneousSettings>();

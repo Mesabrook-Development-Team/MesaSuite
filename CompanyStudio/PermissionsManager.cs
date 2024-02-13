@@ -248,7 +248,10 @@ namespace CompanyStudio
 
         public enum LocationWidePermissions
         {
-            ManageInvoices
+            ManageInvoices,
+            ManagePrices,
+            ManageRegisters,
+            ManageInventory
         }
 
         public class CompanyWidePermissionChangeEventArgs : EventArgs

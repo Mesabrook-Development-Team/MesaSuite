@@ -32,11 +32,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.pnlMain = new System.Windows.Forms.Panel();
             this.lblVersion = new System.Windows.Forms.Label();
+            this.fButtonSync = new MCSync.FancyButton();
+            this.fButtonOptions = new MCSync.FancyButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlForm = new System.Windows.Forms.Panel();
             this.pnlMainTimer = new System.Windows.Forms.Timer(this.components);
-            this.fButtonSync = new MCSync.FancyButton();
-            this.fButtonOptions = new MCSync.FancyButton();
             this.pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -67,31 +67,6 @@
             this.lblVersion.TabIndex = 3;
             this.lblVersion.Text = "Version 0.0.0.0";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.BackgroundImage = global::MCSync.Properties.Resources.main_logo;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(88, 58);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(225, 50);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pnlForm
-            // 
-            this.pnlForm.BackColor = System.Drawing.Color.Transparent;
-            this.pnlForm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlForm.Location = new System.Drawing.Point(0, 0);
-            this.pnlForm.Name = "pnlForm";
-            this.pnlForm.Size = new System.Drawing.Size(902, 522);
-            this.pnlForm.TabIndex = 13;
-            // 
-            // pnlMainTimer
-            // 
-            this.pnlMainTimer.Tick += new System.EventHandler(this.pnlMainTimer_Tick);
             // 
             // fButtonSync
             // 
@@ -141,6 +116,32 @@
             this.fButtonOptions.UseCompatibleTextRendering = true;
             this.fButtonOptions.UseVisualStyleBackColor = false;
             this.fButtonOptions.Click += new System.EventHandler(this.fancyButton1_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Image = global::MCSync.Properties.Resources.newlogo;
+            this.pictureBox1.Location = new System.Drawing.Point(88, 58);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(225, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pnlForm
+            // 
+            this.pnlForm.BackColor = System.Drawing.Color.Transparent;
+            this.pnlForm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlForm.Location = new System.Drawing.Point(0, 0);
+            this.pnlForm.Name = "pnlForm";
+            this.pnlForm.Size = new System.Drawing.Size(902, 522);
+            this.pnlForm.TabIndex = 13;
+            // 
+            // pnlMainTimer
+            // 
+            this.pnlMainTimer.Tick += new System.EventHandler(this.pnlMainTimer_Tick);
             // 
             // frmMain
             // 

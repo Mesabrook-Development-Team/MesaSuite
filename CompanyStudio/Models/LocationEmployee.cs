@@ -13,5 +13,8 @@ namespace CompanyStudio.Models
         public long? EmployeeID { get; set; }
         public Employee Employee { get; set; }
         public bool ManageInvoices { get; set; }
+        public bool ManagePrices { get; set; }
+        public bool ManageRegisters { get; set; }
+        public bool ManageInventory { get; set; }
     }
 }

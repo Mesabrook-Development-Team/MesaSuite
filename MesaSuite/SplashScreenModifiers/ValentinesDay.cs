@@ -9,7 +9,7 @@ namespace MesaSuite.SplashScreenModifiers
 
         public void Modify(frmSplash splash)
         {
-            splash.pBoxLogo.Image = Properties.Resources.logo_MS_pink;
+            splash.pBoxLogo.Image = Properties.Resources.logo_new_9;
             splash.BackgroundImage = Properties.Resources.bg_hearts;
             splash.lblMessage.Text = "Happy Valentine's / Singles Awareness Day";
             splash.pboxHat.Visible = false;

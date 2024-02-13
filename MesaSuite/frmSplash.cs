@@ -37,6 +37,11 @@ namespace MesaSuite
 
         private void frmSplash_Load(object sender, EventArgs e)
         {
+            if (GlobalSettings.InternalEditionMode)
+            {
+                Text += " (INTERNAL EDITION)";
+            }
+
             fadeTimer.Start();
             lblVersion.Text = "Version " + Application.ProductVersion;
             bool useDyanmicSplashScreens = UserPreferences.Get().GetPreferencesForSection("mcsync").GetOrSetDefault("dynamicSplashScreen", true).Cast(true);
@@ -60,7 +65,7 @@ namespace MesaSuite
                     BackgroundImage = Properties.Resources.bg1;
                 }
 
-                pBoxLogo.Image = Properties.Resources.logoMS;
+                pBoxLogo.Image = Properties.Resources.logo_new_1;
                 lblMessage.Text = "";
                 pboxHat.Visible = false;
             }

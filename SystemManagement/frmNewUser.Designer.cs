@@ -42,7 +42,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.cmdSelectPrograms = new System.Windows.Forms.Button();
             this.cmdSelectSG = new System.Windows.Forms.Button();
+            this.txtDiscordID = new System.Windows.Forms.TextBox();
             this.txtLastName = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.txtFirstName = new System.Windows.Forms.TextBox();
@@ -51,8 +53,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtDiscordID = new System.Windows.Forms.TextBox();
+            this.chkImmersibrook = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -78,7 +79,7 @@
             // 
             // cmdSave
             // 
-            this.cmdSave.Location = new System.Drawing.Point(355, 436);
+            this.cmdSave.Location = new System.Drawing.Point(355, 455);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 2;
@@ -89,7 +90,7 @@
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(274, 436);
+            this.cmdCancel.Location = new System.Drawing.Point(274, 455);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 3;
@@ -190,6 +191,14 @@
             this.cmdSelectSG.UseVisualStyleBackColor = true;
             this.cmdSelectSG.Click += new System.EventHandler(this.cmdSelectSG_Click);
             // 
+            // txtDiscordID
+            // 
+            this.txtDiscordID.Location = new System.Drawing.Point(73, 123);
+            this.txtDiscordID.Name = "txtDiscordID";
+            this.txtDiscordID.Size = new System.Drawing.Size(345, 20);
+            this.txtDiscordID.TabIndex = 4;
+            this.txtDiscordID.TextChanged += new System.EventHandler(this.DetectExistingOrNew);
+            // 
             // txtLastName
             // 
             this.txtLastName.Location = new System.Drawing.Point(73, 97);
@@ -197,6 +206,15 @@
             this.txtLastName.Size = new System.Drawing.Size(345, 20);
             this.txtLastName.TabIndex = 3;
             this.txtLastName.TextChanged += new System.EventHandler(this.DetectExistingOrNew);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 126);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(60, 13);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Discord ID:";
             // 
             // label6
             // 
@@ -266,22 +284,15 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Username:";
             // 
-            // label8
+            // chkImmersibrook
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 126);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(60, 13);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "Discord ID:";
-            // 
-            // txtDiscordID
-            // 
-            this.txtDiscordID.Location = new System.Drawing.Point(73, 123);
-            this.txtDiscordID.Name = "txtDiscordID";
-            this.txtDiscordID.Size = new System.Drawing.Size(345, 20);
-            this.txtDiscordID.TabIndex = 4;
-            this.txtDiscordID.TextChanged += new System.EventHandler(this.DetectExistingOrNew);
+            this.chkImmersibrook.AutoSize = true;
+            this.chkImmersibrook.Location = new System.Drawing.Point(178, 436);
+            this.chkImmersibrook.Name = "chkImmersibrook";
+            this.chkImmersibrook.Size = new System.Drawing.Size(99, 17);
+            this.chkImmersibrook.TabIndex = 4;
+            this.chkImmersibrook.Text = "Is Immersibrook";
+            this.chkImmersibrook.UseVisualStyleBackColor = true;
             // 
             // frmNewUser
             // 
@@ -289,7 +300,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(444, 472);
+            this.ClientSize = new System.Drawing.Size(444, 487);
+            this.Controls.Add(this.chkImmersibrook);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cmdCancel);
@@ -307,6 +319,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -335,5 +348,6 @@
         private System.Windows.Forms.ImageList imlList;
         private System.Windows.Forms.TextBox txtDiscordID;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox chkImmersibrook;
     }
 }

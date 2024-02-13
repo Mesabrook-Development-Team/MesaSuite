@@ -112,7 +112,7 @@ namespace SystemManagement
                         string[] nameParts = directory.Split('_');
                         if (nameParts.Length < 3)
                         {
-                            this.ShowWarning("The following directory is not in the expected format of yyyy-MM-dd_HH:mm:ss_namespace:\r\n\r\n" + directory + "\r\n\r\nIt will be skipped.");
+                            CtrlMthd(() => this.ShowWarning("The following directory is not in the expected format of yyyy-MM-dd_HH:mm:ss_namespace:\r\n\r\n" + directory + "\r\n\r\nIt will be skipped."));
                             continue;
                         }
 

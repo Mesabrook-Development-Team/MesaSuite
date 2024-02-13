@@ -83,7 +83,7 @@ namespace OAuth.Controllers
             Search<Client> clientSearch = new Search<Client>(new StringSearchCondition<Client>()
             {
                 Field = "ClientIdentifier",
-                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                SearchConditionType = string.IsNullOrEmpty(clientID) ? SearchCondition.SearchConditionTypes.Null : SearchCondition.SearchConditionTypes.Equals,
                 Value = clientID
             });
 
@@ -194,12 +194,12 @@ namespace OAuth.Controllers
             User dbUser = userSearch.GetReadOnly(null, new string[] { "UserID" });
             if (dbUser == null)
             {
-                dbUser = DataObjectFactory.Create<User>();
-                dbUser.Username = user.Contains("@") ? user.Substring(0, user.IndexOf('@')) : user;
-                if (!dbUser.Save())
-                {
-                    return OAuthErrorRedirect("server_error", "An unexpected error occurred on the server.", state, redirectUri);
-                }
+                ModelState.SetModelValue("client_id", new ValueProviderResult(clientID, clientID, CultureInfo.CurrentCulture));
+                ModelState.SetModelValue("redirect_uri", new ValueProviderResult(redirectUri, redirectUri, CultureInfo.CurrentCulture));
+                ModelState.SetModelValue("state", new ValueProviderResult(state, state, CultureInfo.CurrentCulture));
+                ModelState.SetModelValue("user", new ValueProviderResult(collection["user"], collection["user"], CultureInfo.CurrentCulture));
+                ModelState.AddModelError("user", "Incorrect username/password");
+                return View(collection);
             }
 
             if (!client.UserClients?.Any(uc => uc.UserID == dbUser.UserID) ?? false)

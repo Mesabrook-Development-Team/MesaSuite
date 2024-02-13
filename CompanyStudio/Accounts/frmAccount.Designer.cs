@@ -62,19 +62,30 @@ namespace CompanyStudio.Accounts
             this.colNetChange = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNetPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loaderFQ = new CompanyStudio.Loader();
+            this.tabDebitCards = new System.Windows.Forms.TabPage();
+            this.dgvDebitCards = new System.Windows.Forms.DataGridView();
+            this.colCardNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIssuedTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIssuedTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tsbDeleteDebitCards = new System.Windows.Forms.ToolStripButton();
+            this.loaderDebitCards = new CompanyStudio.Loader();
             this.tabAccess = new System.Windows.Forms.TabPage();
             this.dgvAccess = new System.Windows.Forms.DataGridView();
+            this.colAccess = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colEmployee = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loaderAccess = new CompanyStudio.Loader();
             this.loader = new CompanyStudio.Loader();
             this.cmdTransfer = new System.Windows.Forms.Button();
             this.cmdClose = new System.Windows.Forms.Button();
-            this.colAccess = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colEmployee = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tctrlInfo.SuspendLayout();
             this.tabTransactions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransactions)).BeginInit();
             this.tabFiscalQuarters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiscalQuarters)).BeginInit();
+            this.tabDebitCards.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDebitCards)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.tabAccess.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccess)).BeginInit();
             this.SuspendLayout();
@@ -186,6 +197,7 @@ namespace CompanyStudio.Accounts
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tctrlInfo.Controls.Add(this.tabTransactions);
             this.tctrlInfo.Controls.Add(this.tabFiscalQuarters);
+            this.tctrlInfo.Controls.Add(this.tabDebitCards);
             this.tctrlInfo.Controls.Add(this.tabAccess);
             this.tctrlInfo.Location = new System.Drawing.Point(6, 146);
             this.tctrlInfo.Name = "tctrlInfo";
@@ -352,7 +364,7 @@ namespace CompanyStudio.Accounts
             this.colYear.HeaderText = "Year";
             this.colYear.Name = "colYear";
             this.colYear.ReadOnly = true;
-            this.colYear.Width = 54;
+            this.colYear.Width = 52;
             // 
             // colQuarter
             // 
@@ -407,6 +419,83 @@ namespace CompanyStudio.Accounts
             this.loaderFQ.TabIndex = 7;
             this.loaderFQ.Visible = false;
             // 
+            // tabDebitCards
+            // 
+            this.tabDebitCards.Controls.Add(this.dgvDebitCards);
+            this.tabDebitCards.Controls.Add(this.toolStrip1);
+            this.tabDebitCards.Controls.Add(this.loaderDebitCards);
+            this.tabDebitCards.Location = new System.Drawing.Point(4, 22);
+            this.tabDebitCards.Name = "tabDebitCards";
+            this.tabDebitCards.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDebitCards.Size = new System.Drawing.Size(774, 266);
+            this.tabDebitCards.TabIndex = 3;
+            this.tabDebitCards.Text = "Debit Cards";
+            this.tabDebitCards.UseVisualStyleBackColor = true;
+            // 
+            // dgvDebitCards
+            // 
+            this.dgvDebitCards.AllowUserToAddRows = false;
+            this.dgvDebitCards.AllowUserToDeleteRows = false;
+            this.dgvDebitCards.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDebitCards.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colCardNumber,
+            this.colIssuedTo,
+            this.colIssuedTime});
+            this.dgvDebitCards.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvDebitCards.Location = new System.Drawing.Point(3, 34);
+            this.dgvDebitCards.Name = "dgvDebitCards";
+            this.dgvDebitCards.RowHeadersVisible = false;
+            this.dgvDebitCards.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvDebitCards.Size = new System.Drawing.Size(768, 229);
+            this.dgvDebitCards.TabIndex = 2;
+            // 
+            // colCardNumber
+            // 
+            this.colCardNumber.HeaderText = "Card Number";
+            this.colCardNumber.Name = "colCardNumber";
+            this.colCardNumber.Width = 200;
+            // 
+            // colIssuedTo
+            // 
+            this.colIssuedTo.HeaderText = "Issued To";
+            this.colIssuedTo.Name = "colIssuedTo";
+            this.colIssuedTo.Width = 200;
+            // 
+            // colIssuedTime
+            // 
+            this.colIssuedTime.HeaderText = "Issued Time";
+            this.colIssuedTime.Name = "colIssuedTime";
+            this.colIssuedTime.Width = 200;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbDeleteDebitCards});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 3);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(768, 31);
+            this.toolStrip1.TabIndex = 3;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // tsbDeleteDebitCards
+            // 
+            this.tsbDeleteDebitCards.Image = global::CompanyStudio.Properties.Resources.vcard_delete;
+            this.tsbDeleteDebitCards.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbDeleteDebitCards.Name = "tsbDeleteDebitCards";
+            this.tsbDeleteDebitCards.Size = new System.Drawing.Size(120, 28);
+            this.tsbDeleteDebitCards.Text = "Delete Debit Card";
+            this.tsbDeleteDebitCards.Click += new System.EventHandler(this.tsbDeleteDebitCards_Click);
+            // 
+            // loaderDebitCards
+            // 
+            this.loaderDebitCards.BackColor = System.Drawing.Color.Transparent;
+            this.loaderDebitCards.Location = new System.Drawing.Point(0, 0);
+            this.loaderDebitCards.Name = "loaderDebitCards";
+            this.loaderDebitCards.Size = new System.Drawing.Size(774, 266);
+            this.loaderDebitCards.TabIndex = 4;
+            this.loaderDebitCards.Visible = false;
+            // 
             // tabAccess
             // 
             this.tabAccess.Controls.Add(this.dgvAccess);
@@ -434,6 +523,19 @@ namespace CompanyStudio.Accounts
             this.dgvAccess.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAccess.Size = new System.Drawing.Size(768, 260);
             this.dgvAccess.TabIndex = 1;
+            // 
+            // colAccess
+            // 
+            this.colAccess.HeaderText = "Access?";
+            this.colAccess.Name = "colAccess";
+            this.colAccess.Width = 60;
+            // 
+            // colEmployee
+            // 
+            this.colEmployee.HeaderText = "Employee";
+            this.colEmployee.Name = "colEmployee";
+            this.colEmployee.ReadOnly = true;
+            this.colEmployee.Width = 300;
             // 
             // loaderAccess
             // 
@@ -475,19 +577,6 @@ namespace CompanyStudio.Accounts
             this.cmdClose.UseVisualStyleBackColor = true;
             this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
             // 
-            // colAccess
-            // 
-            this.colAccess.HeaderText = "Access?";
-            this.colAccess.Name = "colAccess";
-            this.colAccess.Width = 60;
-            // 
-            // colEmployee
-            // 
-            this.colEmployee.HeaderText = "Employee";
-            this.colEmployee.Name = "colEmployee";
-            this.colEmployee.ReadOnly = true;
-            this.colEmployee.Width = 300;
-            // 
             // frmAccount
             // 
             this.AcceptButton = this.cmdSave;
@@ -522,6 +611,11 @@ namespace CompanyStudio.Accounts
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransactions)).EndInit();
             this.tabFiscalQuarters.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiscalQuarters)).EndInit();
+            this.tabDebitCards.ResumeLayout(false);
+            this.tabDebitCards.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDebitCards)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.tabAccess.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccess)).EndInit();
             this.ResumeLayout(false);
@@ -571,5 +665,13 @@ namespace CompanyStudio.Accounts
         private Loader loaderAccess;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colAccess;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEmployee;
+        private System.Windows.Forms.TabPage tabDebitCards;
+        private System.Windows.Forms.DataGridView dgvDebitCards;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCardNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIssuedTo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIssuedTime;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton tsbDeleteDebitCards;
+        private Loader loaderDebitCards;
     }
 }

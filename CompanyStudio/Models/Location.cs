@@ -12,6 +12,8 @@ namespace CompanyStudio.Models
         public string NextInvoiceNumber { get; set; }
         public long? EmailImplementationIDPayableInvoice { get; set; }
         public long? EmailImplementationIDReadyForReceipt { get; set; }
+        public long? EmailImplementationIDRegisterOffline { get; set; }
+        public long? AccountIDStoreRevenue { get; set; }
 
         public List<LocationEmployee> LocationEmployees { get; set; }
         public List<LocationGovernment> LocationGovernments { get; set; }

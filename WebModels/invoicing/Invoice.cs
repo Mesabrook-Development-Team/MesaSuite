@@ -529,7 +529,7 @@ namespace WebModels.invoicing
                         cashTransaction = DataObjectFactory.Create<Transaction>();
                         cashTransaction.FiscalQuarterID = govAccountFQ.FiscalQuarterID;
                         cashTransaction.TransactionTime = DateTime.Now;
-                        cashTransaction.Description = string.Format(Transaction.DescriptionFormats.TAX_COLLECTED, InvoiceNumber);
+                        cashTransaction.Description = string.Format(Transaction.DescriptionFormats.TAX_COLLECTED_INVOICE, InvoiceNumber);
                         cashTransaction.Amount = taxAmount;
                         if (!cashTransaction.Save(transaction))
                         {

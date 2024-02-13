@@ -57,5 +57,29 @@ namespace WebModels.company
             get { CheckGet(); return _manageInvoices; }
             set { CheckSet(); _manageInvoices = value; }
         }
+
+        private bool _managePrices = false;
+        [Field("ADFB278E-D9DD-47C0-9F6E-B2C6794F3AFF")]
+        public bool ManagePrices
+        {
+            get { CheckGet(); return _managePrices; }
+            set { CheckSet(); _managePrices = value; }
+        }
+
+        private bool _manageRegisters = false;
+        [Field("1B0D110F-3913-445D-AC2F-6BD093847BE7")]
+        public bool ManageRegisters
+        {
+            get { CheckGet(); return _manageRegisters; }
+            set { CheckSet(); _manageRegisters = value; }
+        }
+
+        private bool _manageInventory = false;
+        [Field("38F0E4F2-B50E-4ED2-AB5D-E867DA3EA5D0")]
+        public bool ManageInventory
+        {
+            get { CheckGet(); return _manageInventory; }
+            set { CheckSet(); _manageInventory = value; }
+        }
     }
 }

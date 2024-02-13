@@ -106,6 +106,9 @@
     <Compile Include="frmEditUser.Designer.cs">
       <DependentUpon>frmEditUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmManage.Designer.cs">
+      <DependentUpon>frmManage.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmNewCompany.cs">
       <SubType>Form</SubType>
     </Compile>

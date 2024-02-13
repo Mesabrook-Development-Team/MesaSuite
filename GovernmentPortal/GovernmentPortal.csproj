@@ -176,6 +176,7 @@
       <DependentUpon>frmLawEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\DebitCard.cs" />
     <Compile Include="Models\EmailImplementation.cs" />
     <Compile Include="Models\EmailTemplate.cs" />
     <Compile Include="Models\InterestConfiguration.cs" />
@@ -348,6 +349,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icn_govt.ico" />
+    <None Include="Resources\icn_govt.ico" />
     <None Include="Resources\scales.png" />
     <None Include="Resources\icn_book.ico" />
     <None Include="Resources\icn_user.ico" />

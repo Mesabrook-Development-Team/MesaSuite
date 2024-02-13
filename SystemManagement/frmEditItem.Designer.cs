@@ -40,6 +40,7 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.loader = new SystemManagement.Loader();
             this.openImage = new System.Windows.Forms.OpenFileDialog();
+            this.chkIsFluid = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pboxImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,7 +62,7 @@
             this.cboNamespace.FormattingEnabled = true;
             this.cboNamespace.Location = new System.Drawing.Point(85, 12);
             this.cboNamespace.Name = "cboNamespace";
-            this.cboNamespace.Size = new System.Drawing.Size(269, 21);
+            this.cboNamespace.Size = new System.Drawing.Size(270, 21);
             this.cboNamespace.TabIndex = 0;
             // 
             // txtName
@@ -70,8 +71,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.Location = new System.Drawing.Point(85, 39);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(269, 20);
-            this.txtName.TabIndex = 2;
+            this.txtName.Size = new System.Drawing.Size(270, 20);
+            this.txtName.TabIndex = 1;
             // 
             // label2
             // 
@@ -97,7 +98,7 @@
             this.cmdBrowse.Location = new System.Drawing.Point(85, 319);
             this.cmdBrowse.Name = "cmdBrowse";
             this.cmdBrowse.Size = new System.Drawing.Size(269, 23);
-            this.cmdBrowse.TabIndex = 3;
+            this.cmdBrowse.TabIndex = 2;
             this.cmdBrowse.Text = "Browse...";
             this.cmdBrowse.UseVisualStyleBackColor = true;
             this.cmdBrowse.Click += new System.EventHandler(this.cmdBrowse_Click);
@@ -105,7 +106,7 @@
             // cmdSave
             // 
             this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSave.Location = new System.Drawing.Point(279, 348);
+            this.cmdSave.Location = new System.Drawing.Point(280, 370);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 4;
@@ -128,7 +129,7 @@
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(198, 348);
+            this.cmdCancel.Location = new System.Drawing.Point(199, 370);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 5;
@@ -139,7 +140,7 @@
             // 
             this.loader.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(90, 141);
+            this.loader.Location = new System.Drawing.Point(90, 152);
             this.loader.Name = "loader";
             this.loader.Size = new System.Drawing.Size(196, 101);
             this.loader.TabIndex = 5;
@@ -150,13 +151,25 @@
             this.openImage.Filter = "PNG Files|*.png";
             this.openImage.Title = "Select Image File...";
             // 
+            // chkIsFluid
+            // 
+            this.chkIsFluid.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.chkIsFluid.AutoSize = true;
+            this.chkIsFluid.Location = new System.Drawing.Point(164, 348);
+            this.chkIsFluid.Name = "chkIsFluid";
+            this.chkIsFluid.Size = new System.Drawing.Size(109, 17);
+            this.chkIsFluid.TabIndex = 3;
+            this.chkIsFluid.Text = "This item is a fluid";
+            this.chkIsFluid.UseVisualStyleBackColor = true;
+            // 
             // frmEditItem
             // 
             this.AcceptButton = this.cmdSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(376, 383);
+            this.ClientSize = new System.Drawing.Size(377, 405);
+            this.Controls.Add(this.chkIsFluid);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.cmdBrowse);
@@ -193,5 +206,6 @@
         private System.Windows.Forms.Button cmdCancel;
         private Loader loader;
         private System.Windows.Forms.OpenFileDialog openImage;
+        private System.Windows.Forms.CheckBox chkIsFluid;
     }
 }

@@ -7,6 +7,7 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
 using WebModels.company;
 using WebModels.gov;
 
@@ -85,7 +86,8 @@ namespace WebModels.mesasys
         {
             WireTransferHistory,
             Invoicing,
-            FleetTracking
+            FleetTracking,
+            StoreRegister
         }
 
         private SecurityCheckTypes _securityCheckType;
@@ -104,6 +106,8 @@ namespace WebModels.mesasys
                     return CheckWireTransferHistorySecurity(userID, companyID, governmentID);
                 case SecurityCheckTypes.Invoicing:
                     return CheckInvoicingSecurity(userID, locationID, governmentID);
+                case SecurityCheckTypes.StoreRegister:
+                    return CheckRegisterSecurity(userID, locationID);
             }
 
             return true;
@@ -203,6 +207,30 @@ namespace WebModels.mesasys
             return false;
         }
 
+        private bool CheckRegisterSecurity(long? userID, long? locationID)
+        {
+            if (userID == null || locationID == null)
+            {
+                return false;
+            }
+
+            Search<LocationEmployee> locEmplSearch = new Search<LocationEmployee>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<LocationEmployee>()
+                {
+                    Field = FieldPathUtility.CreateFieldPathsAsList<LocationEmployee>(le => new List<object>() { le.Employee.UserID }).First(),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = userID
+                },
+                new LongSearchCondition<LocationEmployee>()
+                {
+                    Field = nameof(LocationEmployee.LocationID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = locationID
+                }));
+
+            return locEmplSearch.GetReadOnly(null, new[] { nameof(LocationEmployee.ManageRegisters)} )?.ManageRegisters ?? false;
+        }
+
         #region Relationships
         private List<EmailImplementation> _emailImplementations = new List<EmailImplementation>();
         [RelationshipList("5A7A20F8-7301-4AAB-90E3-BCD5697234FA", nameof(EmailImplementation.EmailTemplateID))]
@@ -224,6 +252,9 @@ namespace WebModels.mesasys
             public static readonly Guid LocomotiveReleasedReceived = new Guid("B4F7CBDA-AA69-42B2-A683-A305D59E7A3D");
             public static readonly Guid NewLeaseRequestAvailable = new Guid("11F1DB20-A81A-4E89-81E0-47660CD66F1C");
             public static readonly Guid LeaseBidReceived = new Guid("3B22A796-0C6A-4079-92C3-A3971E8DC526");
+
+            // STORE
+            public static readonly Guid RegisterOffline = new Guid("BE8CC96C-5E19-409E-858E-2B0F397C3B94");
         }
     }
 }

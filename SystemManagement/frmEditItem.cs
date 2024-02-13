@@ -53,6 +53,7 @@ namespace SystemManagement
                         DropDownItem<ItemNamespace> ddi = cboNamespace.Items.OfType<DropDownItem<ItemNamespace>>().FirstOrDefault(ins => ins.Object.ItemNamespaceID == item.ItemNamespaceID);
                         cboNamespace.SelectedItem = ddi;
                         txtName.Text = item.Name;
+                        chkIsFluid.Checked = item.IsFluid;
                         if (item.Image != null)
                         {
                             using (MemoryStream stream = new MemoryStream(item.Image))
@@ -123,7 +124,8 @@ namespace SystemManagement
                 ItemID = ItemID,
                 ItemNamespaceID = cboNamespace.SelectedItem.Cast<DropDownItem<ItemNamespace>>().Object.ItemNamespaceID,
                 Name = txtName.Text,
-                Image = image
+                Image = image,
+                IsFluid = chkIsFluid.Checked
             };
 
             try

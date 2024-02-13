@@ -7,6 +7,7 @@ using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.mesasys;
@@ -135,11 +136,39 @@ namespace WebModels.fleet
         {
             if (IsInsert)
             {
-                Search<MiscellaneousSettings> settingsSearch = new Search<MiscellaneousSettings>(new LongSearchCondition<MiscellaneousSettings>()
+                LeaseRequest request = DataObject.GetEditableByPrimaryKey<LeaseRequest>(LeaseRequestID, transaction, new[] { nameof(LeaseRequest.CompanyIDRequester), nameof(LeaseRequest.GovernmentIDRequester) });
+                if (request == null || (request.CompanyIDRequester == null && request.GovernmentIDRequester == null))
                 {
-                    Field = nameof(MiscellaneousSettings.EmailImplementationIDLeaseBidReceived),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
-                });
+                    return base.PostSave(transaction);
+                }
+
+                LongSearchCondition<MiscellaneousSettings> entityCondition;
+                if (request.CompanyIDRequester != null)
+                {
+                    entityCondition = new LongSearchCondition<MiscellaneousSettings>()
+                    {
+                        Field = nameof(MiscellaneousSettings.CompanyID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = request.CompanyIDRequester
+                    };
+                }
+                else
+                {
+                    entityCondition = new LongSearchCondition<MiscellaneousSettings>()
+                    {
+                        Field = nameof(MiscellaneousSettings.GovernmentID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = request.GovernmentIDRequester
+                    };
+                }
+
+                Search<MiscellaneousSettings> settingsSearch = new Search<MiscellaneousSettings>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    entityCondition,
+                    new LongSearchCondition<MiscellaneousSettings>()
+                    {
+                        Field = nameof(MiscellaneousSettings.EmailImplementationIDLeaseBidReceived),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
+                    }));
 
                 foreach (MiscellaneousSettings settings in settingsSearch.GetReadOnlyReader(transaction, new[] { nameof(MiscellaneousSettings.EmailImplementationIDLeaseBidReceived) }))
                 {

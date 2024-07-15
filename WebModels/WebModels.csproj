@@ -137,10 +137,15 @@
     <Compile Include="mesasys\CrashReport.cs" />
     <Compile Include="mesasys\Item.cs" />
     <Compile Include="mesasys\ItemNamespace.cs" />
+    <Compile Include="mesasys\Notification.cs" />
+    <Compile Include="mesasys\NotificationEvent.cs" />
+    <Compile Include="mesasys\NotificationSubscriber.cs" />
     <Compile Include="mesasys\OutboundEmail.cs" />
     <Compile Include="mesasys\EmailImplementation.cs" />
     <Compile Include="mesasys\EmailTemplate.cs" />
     <Compile Include="mesasys\MigrationHistory.cs" />
+    <Compile Include="mesasys\TaskEvent.cs" />
+    <Compile Include="mesasys\TaskSubscriber.cs" />
     <Compile Include="mesasys\TermsOfService.cs" />
     <Compile Include="mesasys\Validations\EmailImplementationValidations.cs" />
     <Compile Include="mesasys\Validations\HasValidBindingsCondition.cs" />

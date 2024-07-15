@@ -7,6 +7,7 @@ using WebModels.account;
 using WebModels.auth;
 using WebModels.company;
 using WebModels.gov;
+using WebModels.mesasys;
 using WebModels.tow;
 
 namespace WebModels.security
@@ -157,6 +158,21 @@ namespace WebModels.security
         public IReadOnlyCollection<Official> Officials
         {
             get { CheckGet(); return _officials; }
+        }
+        #endregion
+        #region mesasys
+        private List<NotificationSubscriber> _notificationSubscribers = new List<NotificationSubscriber>();
+        [RelationshipList("AC55CF16-D3E1-498D-8689-66E40738693C", nameof(NotificationSubscriber.UserID))]
+        public IReadOnlyCollection<NotificationSubscriber> NotificationSubscribers
+        {
+            get { CheckGet(); return _notificationSubscribers; }
+        }
+
+        private List<TaskSubscriber> _taskSubscribers = new List<TaskSubscriber>();
+        [RelationshipList("626EEE07-99C6-4EDD-89A1-6B1866781D82", nameof(TaskSubscriber.UserID))]
+        public IReadOnlyCollection<TaskSubscriber> TaskSubscribers
+        {
+            get { CheckGet(); return _taskSubscribers; }
         }
         #endregion
         #region security

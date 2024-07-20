@@ -371,43 +371,37 @@ namespace WebModels.invoicing
                     Statuses oldStatus = (Statuses)GetDirtyValue(nameof(Status));
                     if (oldStatus == Statuses.WorkInProgress && Status == Statuses.Sent)
                     {
-                        long? emailImpID;
-
                         if (GovernmentIDTo != null)
                         {
-                            emailImpID = DataObject.GetReadOnlyByPrimaryKey<Government>(GovernmentIDTo, transaction, new[] { nameof(Government.EmailImplementationIDPayableInvoice) }).EmailImplementationIDPayableInvoice;
+                            NotificationEvent.SendSystemNotification<Invoice>(NotificationEvent.NotificationEvents.GovernmentAccountsPayableInvoiceReceived,
+                                InvoiceID.Value, 
+                                new NotificationEvent.NotificationEntityScope() { GovernmentID = GovernmentIDTo },
+                                transaction);
                         }
                         else
                         {
-                            emailImpID = DataObject.GetReadOnlyByPrimaryKey<Location>(LocationIDTo, transaction, new[] { nameof(Location.EmailImplementationIDPayableInvoice) }).EmailImplementationIDPayableInvoice;
-                        }
-
-                        EmailImplementation emailImp = DataObject.GetReadOnlyByPrimaryKey<EmailImplementation>(emailImpID, transaction, ClussPro.ObjectBasedFramework.Schema.Schema.GetSchemaObject<EmailImplementation>().GetFields().Select(f => f.FieldName));
-
-                        if (emailImp != null)
-                        {
-                            emailImp.SendEmail<Invoice>(InvoiceID, transaction);
+                            NotificationEvent.SendSystemNotification<Invoice>(NotificationEvent.NotificationEvents.LocationAccountsPayableInvoiceReceived,
+                                InvoiceID.Value,
+                                new NotificationEvent.NotificationEntityScope() { LocationID = LocationIDTo },
+                                transaction);
                         }
                     }
 
                     if (oldStatus == Statuses.Sent && Status == Statuses.ReadyForReceipt)
                     {
-                        long? emailImpID;
-
                         if (GovernmentIDFrom != null)
                         {
-                            emailImpID = DataObject.GetReadOnlyByPrimaryKey<Government>(GovernmentIDFrom, transaction, new[] { nameof(Government.EmailImplementationIDReadyForReceipt) }).EmailImplementationIDReadyForReceipt;
+                            NotificationEvent.SendSystemNotification<Invoice>(NotificationEvent.NotificationEvents.GovernmentAccountsReceivableInvoiceReadyForReceipt,
+                                InvoiceID.Value,
+                                new NotificationEvent.NotificationEntityScope() { GovernmentID = GovernmentIDFrom },
+                                transaction);
                         }
                         else
                         {
-                            emailImpID = DataObject.GetReadOnlyByPrimaryKey<Location>(LocationIDFrom, transaction, new[] { nameof(Location.EmailImplementationIDReadyForReceipt) }).EmailImplementationIDReadyForReceipt;
-                        }
-
-                        EmailImplementation emailImp = DataObject.GetReadOnlyByPrimaryKey<EmailImplementation>(emailImpID, transaction, ClussPro.ObjectBasedFramework.Schema.Schema.GetSchemaObject<EmailImplementation>().GetFields().Select(f => f.FieldName));
-
-                        if (emailImp != null)
-                        {
-                            emailImp.SendEmail<Invoice>(InvoiceID, transaction);
+                            NotificationEvent.SendSystemNotification<Invoice>(NotificationEvent.NotificationEvents.LocationAccountsReceivableInvoiceReadyForReceipt,
+                                InvoiceID.Value,
+                                new NotificationEvent.NotificationEntityScope() { LocationID = LocationIDFrom },
+                                transaction);
                         }
                     }
                 }

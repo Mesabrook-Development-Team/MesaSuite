@@ -107,12 +107,6 @@
     <Compile Include="Fleet\frmFleetForm.Designer.cs">
       <DependentUpon>frmFleetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmEmailEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmEmailEditor.Designer.cs">
-      <DependentUpon>frmEmailEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmGenericExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,8 +172,6 @@
     </Compile>
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DebitCard.cs" />
-    <Compile Include="Models\EmailImplementation.cs" />
-    <Compile Include="Models\EmailTemplate.cs" />
     <Compile Include="Models\InterestConfiguration.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceLine.cs" />
@@ -263,9 +255,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Fleet\frmFleetForm.resx">
       <DependentUpon>frmFleetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmEmailEditor.resx">
-      <DependentUpon>frmEmailEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGenericExplorer.resx">
       <DependentUpon>frmGenericExplorer.cs</DependentUpon>

@@ -161,15 +161,22 @@ namespace WebModels.security
         }
         #endregion
         #region mesasys
+        private List<NotificationEvent> _notificationEvents = new List<NotificationEvent>();
+        [RelationshipList("FEE6F3B5-740D-43A0-8562-A69F9B31393E", nameof(NotificationEvent.UserIDOwner), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<NotificationEvent> NotificationEvents
+        {
+            get { CheckGet(); return _notificationEvents; }
+        }
+
         private List<NotificationSubscriber> _notificationSubscribers = new List<NotificationSubscriber>();
-        [RelationshipList("AC55CF16-D3E1-498D-8689-66E40738693C", nameof(NotificationSubscriber.UserID))]
+        [RelationshipList("AC55CF16-D3E1-498D-8689-66E40738693C", nameof(NotificationSubscriber.UserID), AutoDeleteReferences = true)]
         public IReadOnlyCollection<NotificationSubscriber> NotificationSubscribers
         {
             get { CheckGet(); return _notificationSubscribers; }
         }
 
         private List<TaskSubscriber> _taskSubscribers = new List<TaskSubscriber>();
-        [RelationshipList("626EEE07-99C6-4EDD-89A1-6B1866781D82", nameof(TaskSubscriber.UserID))]
+        [RelationshipList("626EEE07-99C6-4EDD-89A1-6B1866781D82", nameof(TaskSubscriber.UserID), AutoDeleteReferences = true)]
         public IReadOnlyCollection<TaskSubscriber> TaskSubscribers
         {
             get { CheckGet(); return _taskSubscribers; }

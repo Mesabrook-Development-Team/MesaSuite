@@ -10,9 +10,6 @@ namespace CompanyStudio.Models
         public string Name { get; set; }
         public string InvoiceNumberPrefix { get; set; }
         public string NextInvoiceNumber { get; set; }
-        public long? EmailImplementationIDPayableInvoice { get; set; }
-        public long? EmailImplementationIDReadyForReceipt { get; set; }
-        public long? EmailImplementationIDRegisterOffline { get; set; }
         public long? AccountIDStoreRevenue { get; set; }
 
         public List<LocationEmployee> LocationEmployees { get; set; }

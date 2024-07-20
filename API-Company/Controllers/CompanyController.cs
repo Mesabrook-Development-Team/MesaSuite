@@ -22,11 +22,6 @@ namespace API_Company.Controllers
             "Locations.Name"
         };
 
-        protected override IEnumerable<string> RequestableFields => new[]
-        {
-            nameof(Company.EmailImplementationIDWireTransferHistory)
-        };
-
         public override bool AllowGetAll => true;
 
         [HttpGet]

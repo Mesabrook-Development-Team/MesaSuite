@@ -196,20 +196,12 @@
     <Compile Include="LocomotiveModel\LocomotiveModelList.Designer.cs">
       <DependentUpon>LocomotiveModelList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Misc\EmailEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Misc\EmailEditor.Designer.cs">
-      <DependentUpon>EmailEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="Misc\MiscellaneousSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Misc\MiscellaneousSettings.Designer.cs">
       <DependentUpon>MiscellaneousSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\EmailImplementation.cs" />
-    <Compile Include="Models\EmailTemplate.cs" />
     <Compile Include="Models\FleetSecurity.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\ItemNamespace.cs" />
@@ -530,9 +522,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LocomotiveModel\LocomotiveModelList.resx">
       <DependentUpon>LocomotiveModelList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Misc\EmailEditor.resx">
-      <DependentUpon>EmailEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\MiscellaneousSettings.resx">
       <DependentUpon>MiscellaneousSettings.cs</DependentUpon>

@@ -55,6 +55,14 @@ namespace WebModels.mesasys
             set { CheckSet(); _isRead = value; }
         }
 
+        private bool _isReportableInGame;
+        [Field("9E38069A-80DD-44C9-8B16-E9C329EA743E")]
+        public bool IsReportableInGame
+        {
+            get { CheckGet(); return _isReportableInGame; }
+            set { CheckSet(); _isReportableInGame = value; }
+        }
+
         private string _message;
         [Field("B6C5F8D6-1F9C-4A3E-9E8E-9F5B5F8D6B6C", DataSize = 1000)]
         [Required]

@@ -272,32 +272,18 @@ namespace WebModels.fleet
             {
                 if (IsFieldDirty(nameof(CompanyIDPossessor)) && CompanyIDPossessor != null)
                 {
-                    MiscellaneousSettings settings = new Search<MiscellaneousSettings>(new LongSearchCondition<MiscellaneousSettings>()
-                    {
-                        Field = nameof(MiscellaneousSettings.CompanyID),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = CompanyIDPossessor
-                    }).GetReadOnly(transaction, new[] { nameof(MiscellaneousSettings.EmailImplementationIDCarReleased) });
-                    if (settings?.EmailImplementationIDCarReleased != null)
-                    {
-                        EmailImplementation emailImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(settings.EmailImplementationIDCarReleased, transaction, null);
-                        emailImplementation.SendEmail<Railcar>(RailcarID, transaction);
-                    }
+                    NotificationEvent.SendSystemNotification<Locomotive>(NotificationEvent.NotificationEvents.RailcarReleasedReceived,
+                        RailcarID.Value,
+                        new NotificationEvent.NotificationEntityScope() { CompanyID = CompanyIDPossessor },
+                        transaction);
                 }
 
                 if (IsFieldDirty(nameof(GovernmentIDPossessor)) && GovernmentIDPossessor != null)
                 {
-                    MiscellaneousSettings settings = new Search<MiscellaneousSettings>(new LongSearchCondition<MiscellaneousSettings>()
-                    {
-                        Field = nameof(MiscellaneousSettings.GovernmentID),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = GovernmentIDPossessor
-                    }).GetReadOnly(transaction, new[] { nameof(MiscellaneousSettings.EmailImplementationIDCarReleased) });
-                    if (settings?.EmailImplementationIDCarReleased != null)
-                    {
-                        EmailImplementation emailImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(settings.EmailImplementationIDCarReleased, transaction, null);
-                        emailImplementation.SendEmail<Railcar>(RailcarID, transaction);
-                    }
+                    NotificationEvent.SendSystemNotification<Locomotive>(NotificationEvent.NotificationEvents.RailcarReleasedReceived,
+                        RailcarID.Value,
+                        new NotificationEvent.NotificationEntityScope() { GovernmentID = GovernmentIDPossessor },
+                        transaction);
                 }
             }
             return base.PostSave(transaction);

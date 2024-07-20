@@ -174,6 +174,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
                         };
                     }
                     field.ReturnType = propertyInfo.PropertyType;
+                    field.ValidationAttributes = propertyInfo.GetCustomAttributes(typeof(IValidationAttribute), true).OfType<IValidationAttribute>().ToList();
                     fields.Add(field);
                     fieldsByName.Add(field.FieldName, field);
                 }

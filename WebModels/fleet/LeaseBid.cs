@@ -142,39 +142,14 @@ namespace WebModels.fleet
                     return base.PostSave(transaction);
                 }
 
-                LongSearchCondition<MiscellaneousSettings> entityCondition;
-                if (request.CompanyIDRequester != null)
-                {
-                    entityCondition = new LongSearchCondition<MiscellaneousSettings>()
+                NotificationEvent.SendSystemNotification<LeaseBid>(NotificationEvent.NotificationEvents.LeaseBidReceived,
+                    LeaseBidID.Value,
+                    new NotificationEvent.NotificationEntityScope()
                     {
-                        Field = nameof(MiscellaneousSettings.CompanyID),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = request.CompanyIDRequester
-                    };
-                }
-                else
-                {
-                    entityCondition = new LongSearchCondition<MiscellaneousSettings>()
-                    {
-                        Field = nameof(MiscellaneousSettings.GovernmentID),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = request.GovernmentIDRequester
-                    };
-                }
-
-                Search<MiscellaneousSettings> settingsSearch = new Search<MiscellaneousSettings>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
-                    entityCondition,
-                    new LongSearchCondition<MiscellaneousSettings>()
-                    {
-                        Field = nameof(MiscellaneousSettings.EmailImplementationIDLeaseBidReceived),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
-                    }));
-
-                foreach (MiscellaneousSettings settings in settingsSearch.GetReadOnlyReader(transaction, new[] { nameof(MiscellaneousSettings.EmailImplementationIDLeaseBidReceived) }))
-                {
-                    EmailImplementation implementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(settings.EmailImplementationIDLeaseBidReceived, transaction, null);
-                    implementation.SendEmail<LeaseBid>(LeaseBidID, transaction);
-                }
+                        CompanyID = request.CompanyIDRequester,
+                        GovernmentID = request.GovernmentIDRequester
+                    },
+                    transaction);
             }
             return base.PostSave(transaction);
         }

@@ -76,14 +76,13 @@ namespace WebModels.company
             {
                 Register register = DataObject.GetReadOnlyByPrimaryKey<Register>(RegisterID, transaction, FieldPathUtility.CreateFieldPathsAsList<Register>(r => new List<object>()
                 {
-                    r.Location.EmailImplementationIDRegisterOffline
+                    r.LocationID
                 }));
 
-                if (register?.Location?.EmailImplementationIDRegisterOffline != null)
-                {
-                    EmailImplementation emailImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(register.Location.EmailImplementationIDRegisterOffline.Value, transaction, new string[0]);
-                    emailImplementation.SendEmail<RegisterStatus>(RegisterStatusID, transaction);
-                }
+                NotificationEvent.SendSystemNotification<RegisterStatus>(NotificationEvent.NotificationEvents.RegisterOffline,
+                    RegisterStatusID.Value,
+                    new NotificationEvent.NotificationEntityScope() { LocationID = register?.LocationID },
+                    transaction);
             }
             return base.PostSave(transaction);
         }

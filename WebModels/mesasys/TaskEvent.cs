@@ -28,6 +28,14 @@ namespace WebModels.mesasys
             set { CheckSet(); _systemID = value; }
         }
 
+        private byte[] _systemHash;
+        [Field("3E141045-904F-47B7-896C-0EB01899DE26", IsSystemLoaded = true)]
+        public byte[] SystemHash
+        {
+            get { CheckGet(); return _systemHash; }
+            set { CheckSet(); _systemHash = value; }
+        }
+
         public enum ScopeTypes
         {
             Global,
@@ -48,7 +56,6 @@ namespace WebModels.mesasys
 
         private string _scopePermissions;
         [Field("B1B02A33-F729-48E0-A36D-615D8DB01CBE", DataSize = -1, IsSystemLoaded = true)]
-        [Required]
         public string ScopePermissions
         {
             get { CheckGet(); return _scopePermissions; }
@@ -67,7 +74,7 @@ namespace WebModels.mesasys
         #region Relationships
         #region mesasys
         private List<TaskSubscriber> _taskSubscribers = new List<TaskSubscriber>();
-        [RelationshipList("8266540F-B6ED-4A6F-895C-4FB2C11CE5B3", nameof(TaskSubscriber.TaskEventID))]
+        [RelationshipList("8266540F-B6ED-4A6F-895C-4FB2C11CE5B3", nameof(TaskSubscriber.TaskEventID), AutoDeleteReferences = true)]
         public List<TaskSubscriber> TaskSubscribers
         {
             get { CheckGet(); return _taskSubscribers; }

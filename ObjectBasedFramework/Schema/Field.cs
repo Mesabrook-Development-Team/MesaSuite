@@ -1,6 +1,8 @@
 ﻿using ClussPro.Base.Data;
 using ClussPro.Base.Data.Operand;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace ClussPro.ObjectBasedFramework.Schema
 {
@@ -31,5 +33,7 @@ namespace ClussPro.ObjectBasedFramework.Schema
         {
             return GetPrivateDataCallback(dataObject);
         }
+
+        public List<IValidationAttribute> ValidationAttributes { get; internal set; } = new List<IValidationAttribute>();
     }
 }

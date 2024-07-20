@@ -9,8 +9,5 @@
         public bool CanConfigureInterest { get; set; }
         public string InvoiceNumberPrefix { get; set; }
         public string NextInvoiceNumber { get; set; }
-        public long? EmailImplementationIDPayableInvoice { get; set; }
-        public long? EmailImplementationIDReadyForReceipt { get; set; }
-        public long? EmailImplementationIDWireTransferHistory { get; set; }
     }
 }

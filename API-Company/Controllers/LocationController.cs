@@ -33,9 +33,6 @@ namespace API_Company.Controllers
 
         protected override IEnumerable<string> RequestableFields => new string[]
         {
-            nameof(Location.EmailImplementationIDPayableInvoice),
-            nameof(Location.EmailImplementationIDReadyForReceipt),
-            nameof(Location.EmailImplementationIDRegisterOffline),
             nameof(Location.AccountIDStoreRevenue),
             $"{nameof(Location.LocationEmployees)}.{nameof(LocationEmployee.LocationEmployeeID)}",
             $"{nameof(Location.LocationEmployees)}.{nameof(LocationEmployee.LocationID)}",
@@ -85,8 +82,7 @@ namespace API_Company.Controllers
             bool requireManageLocations = false;
             bool optionalManageRegisters = false;
 
-            if (fields.Remove(nameof(Location.AccountIDStoreRevenue)) ||
-                fields.Remove(nameof(Location.EmailImplementationIDRegisterOffline)))
+            if (fields.Remove(nameof(Location.AccountIDStoreRevenue)))
             {
                 optionalManageRegisters = true;
             }

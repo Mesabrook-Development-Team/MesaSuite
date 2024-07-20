@@ -20,11 +20,7 @@ namespace API_Fleet.Controllers
         {
             ms.MiscellaneousSettingsID,
             ms.CompanyID,
-            ms.GovernmentID,
-            ms.EmailImplementationIDCarReleased,
-            ms.EmailImplementationIDLocomotiveReleased,
-            ms.EmailImplementationIDLeaseRequestAvailable,
-            ms.EmailImplementationIDLeaseBidReceived
+            ms.GovernmentID
         });
 
         public override ISearchCondition GetBaseSearchCondition()

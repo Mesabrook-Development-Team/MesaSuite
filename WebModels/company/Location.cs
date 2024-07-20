@@ -82,96 +82,11 @@ namespace WebModels.company
             get { CheckGet(); return _accountStoreRevenue; }
         }
 
-        private long? _emailImplementationIDRegisterOffline;
-        [Field("EDE175FF-CBD6-42C0-921D-673E1B51F52E")]
-        public long? EmailImplementationIDRegisterOffline
-        {
-            get { CheckGet(); return _emailImplementationIDRegisterOffline; }
-            set { CheckSet(); _emailImplementationIDRegisterOffline = value; }
-        }
-
-        private EmailImplementation _emailImplementationRegisterOffline = null;
-        [Relationship("E4C68449-500A-49CB-8FBB-3418ABB5645D", ForeignKeyField = nameof(EmailImplementationIDRegisterOffline))]
-        public EmailImplementation EmailImplementationRegisterOffline
-        {
-            get { CheckGet(); return _emailImplementationRegisterOffline; }
-        }
-
-        private long? _emailImplementationIDPayableInvoice;
-        [Field("EC680184-ADE4-4F81-8DA8-47BAA42E9647")]
-        public long? EmailImplementationIDPayableInvoice
-        {
-            get { CheckGet(); return _emailImplementationIDPayableInvoice; }
-            set { CheckSet(); _emailImplementationIDPayableInvoice = value; }
-        }
-
-        private EmailImplementation _emailImplementationPayableInvoice = null;
-        [Relationship("8524C29D-6CA0-47FD-84AE-D742DB329090", ForeignKeyField = nameof(EmailImplementationIDPayableInvoice))]
-        public EmailImplementation EmailImplementationPayableInvoice
-        {
-            get { CheckGet(); return _emailImplementationPayableInvoice; }
-        }
-
-        private long? _emailImplementationIDReadyForReceipt;
-        [Field("EC680184-ADE4-4F81-8DA8-47BAA42E9647")]
-        public long? EmailImplementationIDReadyForReceipt
-        {
-            get { CheckGet(); return _emailImplementationIDReadyForReceipt; }
-            set { CheckSet(); _emailImplementationIDReadyForReceipt = value; }
-        }
-
-        private EmailImplementation _emailImplementationReadyForReceipt = null;
-        [Relationship("8524C29D-6CA0-47FD-84AE-D742DB329090", ForeignKeyField = nameof(EmailImplementationIDReadyForReceipt))]
-        public EmailImplementation EmailImplementationReadyForReceipt
-        {
-            get { CheckGet(); return _emailImplementationReadyForReceipt; }
-        }
-
         private StorePricingAutomation _storePricingAutomation = null;
         [Relationship("99239E57-9024-4226-96F5-BD3B976C1701", OneToOneByForeignKey = true)]
         public StorePricingAutomation StorePricingAutomation
         {
             get { CheckGet(); return _storePricingAutomation; }
-        }
-
-        protected override bool PostSave(ITransaction transaction)
-        {
-            if (!IsInsert)
-            {
-                bool deleteSuccessful = true;
-                if (IsFieldDirty(nameof(EmailImplementationIDPayableInvoice)))
-                {
-                    long? previousEmailImpID = GetDirtyValue(nameof(EmailImplementationIDPayableInvoice)) as long?;
-                    if (previousEmailImpID != null)
-                    {
-                        EmailImplementation oldImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(previousEmailImpID, transaction, null);
-                        if (!oldImplementation.Delete(transaction))
-                        {
-                            Errors.AddRange(oldImplementation.Errors.ToArray());
-                            deleteSuccessful = false;
-                        }
-                    }
-                }
-
-
-                if (IsFieldDirty(nameof(EmailImplementationIDReadyForReceipt)))
-                {
-                    long? previousEmailImpID = GetDirtyValue(nameof(EmailImplementationIDReadyForReceipt)) as long?;
-                    if (previousEmailImpID != null)
-                    {
-                        EmailImplementation oldImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(previousEmailImpID, transaction, null);
-                        if (!oldImplementation.Delete(transaction))
-                        {
-                            Errors.AddRange(oldImplementation.Errors.ToArray());
-                            deleteSuccessful = false;
-                        }
-                    }
-                }
-
-                return deleteSuccessful;
-            }
-
-            return base.PostSave(transaction);
         }
 
         #region Relationships
@@ -260,6 +175,14 @@ namespace WebModels.company
         public IReadOnlyCollection<Invoice> InvoicesTo
         {
             get { CheckGet(); return _invoicesTo; }
+        }
+        #endregion
+        #region mesasys
+        private List<NotificationSubscriberEntity> _notificationSubscriberEntities = new List<NotificationSubscriberEntity>();
+        [RelationshipList("C558A461-C3B9-471E-9D8E-24B0114E665A", nameof(NotificationSubscriberEntity.LocationID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<NotificationSubscriberEntity> NotificationSubscriberEntities
+        {
+            get { CheckGet(); return _notificationSubscriberEntities; }
         }
         #endregion
         #endregion

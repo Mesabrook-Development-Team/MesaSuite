@@ -75,15 +75,65 @@ namespace ClussPro.ObjectBasedFramework.Loader
 
             foreach(ElementInit elementInit in listInitExpression.Initializers.OfType<ElementInit>())
             {
-                if (elementInit.Arguments.Count != 2 ||
-                    !(elementInit.Arguments[0] is MemberExpression memberExpression) ||
-                    !(elementInit.Arguments[1] is ConstantExpression constantExpression) ||
-                    !(memberExpression.Member is PropertyInfo propertyInfo))
+                if (elementInit.Arguments.Count != 2)
                 {
                     continue;
                 }
 
-                returnValue[propertyInfo.Name] = constantExpression.Value;
+                MemberExpression loadedObjectProperty = null;
+                ConstantExpression loadedObjectValueAsConstant = null;
+                MemberExpression loadedObjectValueAsProperty = null;
+
+                if (elementInit.Arguments[0] is UnaryExpression arg0UnaryExpression && arg0UnaryExpression.Operand is MemberExpression)
+                {
+                    loadedObjectProperty = (MemberExpression)arg0UnaryExpression.Operand;
+                }
+                else if (elementInit.Arguments[0] is MemberExpression)
+                {
+                    loadedObjectProperty = (MemberExpression)elementInit.Arguments[0];
+                }
+
+                if (elementInit.Arguments[1] is UnaryExpression arg1UnaryExpression)
+                {
+                    if (arg1UnaryExpression.Operand is ConstantExpression)
+                    {
+                        loadedObjectValueAsConstant = (ConstantExpression)arg1UnaryExpression.Operand;
+                    }
+                    else if (arg1UnaryExpression.Operand is MemberExpression)
+                    {
+                        loadedObjectValueAsProperty = (MemberExpression)arg1UnaryExpression.Operand;
+                    }
+                }
+                else if (elementInit.Arguments[1] is ConstantExpression)
+                {
+                    loadedObjectValueAsConstant = (ConstantExpression)elementInit.Arguments[1];
+                }
+                else if (elementInit.Arguments[1] is MemberExpression)
+                {
+                    loadedObjectValueAsProperty = (MemberExpression)elementInit.Arguments[1];
+                }
+
+                if (elementInit.Arguments.Count != 2 ||
+                    loadedObjectProperty == null ||
+                    (loadedObjectValueAsConstant == null && loadedObjectValueAsProperty == null) ||
+                    !(loadedObjectProperty.Member is PropertyInfo propertyInfo) ||
+                    (loadedObjectValueAsProperty != null && !(loadedObjectValueAsProperty.Member is PropertyInfo)))
+                {
+                    continue;
+                }
+
+                if (loadedObjectValueAsConstant != null)
+                {
+                    returnValue[propertyInfo.Name] = loadedObjectValueAsConstant.Value;
+                }
+                else
+                {
+                    UnaryExpression objectMember = Expression.Convert(loadedObjectValueAsProperty, typeof(object));
+                    LambdaExpression getterLambda = Expression.Lambda<Func<object>>(objectMember);
+                    Delegate getter = getterLambda.Compile();
+
+                    returnValue[propertyInfo.Name] = getter.DynamicInvoke();
+                }
             }
 
             return returnValue;

@@ -158,6 +158,16 @@ namespace ClussPro.ObjectBasedFramework.Validation
                         };
                         attributeDefinition.InternalValidationRules.Add(validationRule);
                     }
+
+                    foreach(IValidationAttribute validationAttribute in field.ValidationAttributes)
+                    {
+                        attributeDefinition.InternalValidationRules.Add(new ValidationRule()
+                        {
+                            Field = field.FieldName,
+                            Message = validationAttribute.GetMessage(field),
+                            Condition = validationAttribute.GetCondition(field)
+                        });
+                    }
                 }
 
                 UniqueAttribute uniqueAttribute = schemaObject.DataObjectType.GetCustomAttributes(typeof(UniqueAttribute), true).FirstOrDefault() as UniqueAttribute;

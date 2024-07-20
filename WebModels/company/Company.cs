@@ -43,21 +43,6 @@ namespace WebModels.company
             set { CheckSet(); _emailDomain = value; }
         }
 
-        private long? _emailImplementationIDWireTransferHistory;
-        [Field("ADCD5F15-B180-4BEC-9CFD-E8FDB72BC51B")]
-        public long? EmailImplementationIDWireTransferHistory
-        {
-            get { CheckGet(); return _emailImplementationIDWireTransferHistory; }
-            set { CheckSet();_emailImplementationIDWireTransferHistory = value; }
-        }
-
-        private EmailImplementation _emailImplementationWireTransferHistory = null;
-        [Relationship("E57BB310-8467-4963-AE74-0D7CDFD76E07", ForeignKeyField = nameof(EmailImplementationIDWireTransferHistory))]
-        public EmailImplementation EmailImplementationWireTransferHistory
-        {
-            get { CheckGet(); return _emailImplementationWireTransferHistory; }
-        }
-
         private fleet.MiscellaneousSettings _fleetMiscSettings = null;
         [Relationship("0307C719-B4CD-4F99-9704-E1C20A5950BF", OneToOneByForeignKey = true)]
         public fleet.MiscellaneousSettings FleetMiscSettings
@@ -73,20 +58,6 @@ namespace WebModels.company
                 if (IsFieldDirty("EmailDomain") && !string.IsNullOrEmpty(EmailDomain))
                 {
                     savesSuccessful &= UpdateEmailInfo();
-                }
-
-                if (IsFieldDirty(nameof(EmailImplementationIDWireTransferHistory)))
-                {
-                    long? previousEmailImpID = GetDirtyValue(nameof(EmailImplementationIDWireTransferHistory)) as long?;
-                    if (previousEmailImpID != null)
-                    {
-                        EmailImplementation oldImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(previousEmailImpID, transaction, null);
-                        if (!oldImplementation.Delete(transaction))
-                        {
-                            Errors.AddRange(oldImplementation.Errors.ToArray());
-                            savesSuccessful = false;
-                        }
-                    }
                 }
 
                 return savesSuccessful;
@@ -258,6 +229,14 @@ namespace WebModels.company
         public IReadOnlyCollection<Location> Locations
         {
             get { CheckGet(); return _locations; }
+        }
+        #endregion
+        #region mesasys
+        private List<NotificationSubscriberEntity> _notificationSubscriberEntities = new List<NotificationSubscriberEntity>();
+        [RelationshipList("5F0C2636-56E1-483B-A6AF-A2D744E298F2", nameof(NotificationSubscriberEntity.CompanyID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<NotificationSubscriberEntity> NotificationSubscriberEntities
+        {
+            get { CheckGet(); return _notificationSubscriberEntities; }
         }
         #endregion
         #endregion

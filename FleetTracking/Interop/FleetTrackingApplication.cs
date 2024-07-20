@@ -153,16 +153,6 @@ namespace FleetTracking.Interop
             MassUpdateRailcars(true);
         }
 
-        public void ManageMiscSetup()
-        {
-            Misc.MiscellaneousSettings settings = new Misc.MiscellaneousSettings()
-            {
-                Application = this
-            };
-            Form settingsForm = OpenForm(settings);
-            settingsForm.Text = "Miscellaneous Setup";
-        }
-
         public void StartLiveLoading()
         {
             InputBox input = new InputBox()
@@ -355,8 +345,7 @@ namespace FleetTracking.Interop
                             new MainNavigationItem("Locomotive Models", BrowseLocomotiveModels, Properties.Resources.train, nameof(FleetSecurity.AllowSetup)),
                             new MainNavigationItem("Railcar Models", BrowseRailcarModels, Properties.Resources.train_car, nameof(FleetSecurity.AllowSetup)),
                             new MainNavigationItem("Train Symbols", BrowseTrainSymbols, Properties.Resources.paste_plain, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster)),
-                            new MainNavigationItem("Track Districts", BrowseRailDistricts, Properties.Resources.sitemap, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster)),
-                            new MainNavigationItem("Misc Setup", ManageMiscSetup, Properties.Resources.cog, nameof(FleetSecurity.AllowSetup))
+                            new MainNavigationItem("Track Districts", BrowseRailDistricts, Properties.Resources.sitemap, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsYardmaster))
                         }
                     },
                     new MainNavigationItem("Leasing", ManageLeasing, Properties.Resources.basket, nameof(FleetSecurity.AllowLeasingManagement)),

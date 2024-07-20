@@ -1,17 +1,8 @@
 ﻿using FleetTracking.Attributes;
 using FleetTracking.Interop;
-using FleetTracking.Models;
 using MesaSuite.Common.Data;
-using MesaSuite.Common.Extensions;
-using MesaSuite.Common.Utility;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FleetTracking.Misc
@@ -51,15 +42,6 @@ namespace FleetTracking.Misc
                 }
 
                 MiscellaneousSettingsID = settings.MiscellaneousSettingsID;
-
-                chkCarsReleased.Checked = settings.EmailImplementationIDCarReleased != null;
-                chkCarsReleased.Tag = settings.EmailImplementationIDCarReleased;
-                chkLocomotivesReleased.Checked = settings.EmailImplementationIDLocomotiveReleased != null;
-                chkLocomotivesReleased.Tag = settings.EmailImplementationIDLocomotiveReleased;
-                chkNewLeaseRequests.Checked = settings.EmailImplementationIDLeaseRequestAvailable != null;
-                chkNewLeaseRequests.Tag = settings.EmailImplementationIDLeaseRequestAvailable;
-                chkLeaseBidsReceived.Checked = settings.EmailImplementationIDLeaseBidReceived != null;
-                chkLeaseBidsReceived.Tag = settings.EmailImplementationIDLeaseBidReceived;
             }
             finally
             {
@@ -85,11 +67,7 @@ namespace FleetTracking.Misc
                 {
                     MiscellaneousSettingsID = MiscellaneousSettingsID,
                     CompanyID = companyIDGovernmentID.Item1,
-                    GovernmentID = companyIDGovernmentID.Item2,
-                    EmailImplementationIDCarReleased = chkCarsReleased.Tag as long?,
-                    EmailImplementationIDLocomotiveReleased = chkLocomotivesReleased.Tag as long?,
-                    EmailImplementationIDLeaseRequestAvailable = chkNewLeaseRequests.Tag as long?,
-                    EmailImplementationIDLeaseBidReceived = chkLeaseBidsReceived.Tag as long?
+                    GovernmentID = companyIDGovernmentID.Item2
                 };
 
                 PutData put = _application.GetAccess<PutData>();
@@ -114,65 +92,6 @@ namespace FleetTracking.Misc
         {
             ParentForm?.Close();
             Dispose();
-        }
-
-        private void chkCarsReleased_CheckedChanged(object sender, EventArgs e)
-        {
-            cmdEditCarsReleased.Enabled = chkCarsReleased.Checked;
-        }
-
-        private void cmdEditCarsReleased_Click(object sender, EventArgs e)
-        {
-            OpenEmailEditor(chkCarsReleased, "Railcar Release Received");
-        }
-
-        private void OpenEmailEditor(CheckBox relatedCheckbox, string emailName)
-        {
-            long? implementationID = relatedCheckbox.Tag as long?;
-            EmailEditor emailEditor = new EmailEditor()
-            {
-                Application = _application,
-                EmailName = emailName,
-                EmailImplementationID = implementationID
-            };
-
-            Form dialog = _application.OpenForm(emailEditor, FleetTrackingApplication.OpenFormOptions.Dialog);
-            if (dialog.DialogResult != DialogResult.OK)
-            {
-                return;
-            }
-
-            relatedCheckbox.Tag = emailEditor.EmailImplementationID;
-        }
-
-        private void chkLocomotivesReleased_CheckedChanged(object sender, EventArgs e)
-        {
-            cmdEditLocomotivesReleased.Enabled = chkLocomotivesReleased.Checked;
-        }
-
-        private void cmdEditLocomotivesReleased_Click(object sender, EventArgs e)
-        {
-            OpenEmailEditor(chkLocomotivesReleased, "Locomotive Release Received");
-        }
-
-        private void chkNewLeaseRequests_CheckedChanged(object sender, EventArgs e)
-        {
-            cmdNewLeaseRequests.Enabled = chkNewLeaseRequests.Checked;
-        }
-
-        private void chkLeaseBidsReceived_CheckedChanged(object sender, EventArgs e)
-        {
-            cmdLeaseBidsReceived.Enabled = chkLeaseBidsReceived.Checked;
-        }
-
-        private void cmdNewLeaseRequests_Click(object sender, EventArgs e)
-        {
-            OpenEmailEditor(chkNewLeaseRequests, "New Lease Request Available");
-        }
-
-        private void cmdLeaseBidsReceived_Click(object sender, EventArgs e)
-        {
-            OpenEmailEditor(chkLeaseBidsReceived, "Lease Bid Received");
         }
     }
 }

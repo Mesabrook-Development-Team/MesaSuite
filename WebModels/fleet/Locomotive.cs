@@ -238,32 +238,18 @@ namespace WebModels.fleet
             {
                 if (IsFieldDirty(nameof(CompanyIDPossessor)) && CompanyIDPossessor != null)
                 {
-                    MiscellaneousSettings settings = new Search<MiscellaneousSettings>(new LongSearchCondition<MiscellaneousSettings>()
-                    {
-                        Field = nameof(MiscellaneousSettings.CompanyID),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = CompanyIDPossessor
-                    }).GetReadOnly(transaction, new[] { nameof(MiscellaneousSettings.EmailImplementationIDLocomotiveReleased) });
-                    if (settings?.EmailImplementationIDLocomotiveReleased != null)
-                    {
-                        EmailImplementation emailImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(settings.EmailImplementationIDLocomotiveReleased, transaction, null);
-                        emailImplementation.SendEmail<Locomotive>(LocomotiveID, transaction);
-                    }
+                    NotificationEvent.SendSystemNotification<Locomotive>(NotificationEvent.NotificationEvents.LocomotiveReleasedReceived,
+                        LocomotiveID.Value,
+                        new NotificationEvent.NotificationEntityScope() { CompanyID = CompanyIDPossessor },
+                        transaction);
                 }
 
                 if (IsFieldDirty(nameof(GovernmentIDPossessor)) && GovernmentIDPossessor != null)
                 {
-                    MiscellaneousSettings settings = new Search<MiscellaneousSettings>(new LongSearchCondition<MiscellaneousSettings>()
-                    {
-                        Field = nameof(MiscellaneousSettings.GovernmentID),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = GovernmentIDPossessor
-                    }).GetReadOnly(transaction, new[] { nameof(MiscellaneousSettings.EmailImplementationIDLocomotiveReleased) });
-                    if (settings?.EmailImplementationIDLocomotiveReleased != null)
-                    {
-                        EmailImplementation emailImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(settings.EmailImplementationIDLocomotiveReleased, transaction, null);
-                        emailImplementation.SendEmail<Locomotive>(LocomotiveID, transaction);
-                    }
+                    NotificationEvent.SendSystemNotification<Locomotive>(NotificationEvent.NotificationEvents.LocomotiveReleasedReceived,
+                        LocomotiveID.Value,
+                        new NotificationEvent.NotificationEntityScope() { GovernmentID = GovernmentIDPossessor },
+                        transaction);
                 }
             }
             return base.PostSave(transaction);

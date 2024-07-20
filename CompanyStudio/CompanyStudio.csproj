@@ -202,12 +202,6 @@
     <Compile Include="frmCompanyExplorer.Designer.cs">
       <DependentUpon>frmCompanyExplorer.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmEmailEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmEmailEditor.Designer.cs">
-      <DependentUpon>frmEmailEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmReportViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -272,8 +266,6 @@
     <Compile Include="Models\DistributionList.cs" />
     <Compile Include="Models\DistributionListRecipient.cs" />
     <Compile Include="Models\Domain.cs" />
-    <Compile Include="Models\EmailImplementation.cs" />
-    <Compile Include="Models\EmailTemplate.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\FiscalQuarter.cs" />
     <Compile Include="Models\Government.cs" />
@@ -491,9 +483,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmCompanyExplorer.resx">
       <DependentUpon>frmCompanyExplorer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmEmailEditor.resx">
-      <DependentUpon>frmEmailEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmReportViewer.resx">
       <DependentUpon>frmReportViewer.cs</DependentUpon>

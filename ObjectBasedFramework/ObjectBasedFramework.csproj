@@ -79,7 +79,9 @@
     <Compile Include="Utility\ConvertUtility.cs" />
     <Compile Include="Utility\FieldPathUtility.cs" />
     <Compile Include="Validation\Attributes\RequiredAttribute.cs" />
+    <Compile Include="Validation\Attributes\RequiredWhenAttribute.cs" />
     <Compile Include="Validation\Attributes\UniqueAttribute.cs" />
+    <Compile Include="Validation\Attributes\IValidationAttribute.cs" />
     <Compile Include="Validation\Conditions\Condition.cs" />
     <Compile Include="Validation\Conditions\ConditionGroup.cs" />
     <Compile Include="Validation\Conditions\EqualCondition.cs" />

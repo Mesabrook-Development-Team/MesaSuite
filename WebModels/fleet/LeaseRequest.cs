@@ -141,29 +141,14 @@ namespace WebModels.fleet
         {
             if (IsInsert)
             {
-                Search<MiscellaneousSettings> settingsSearch = new Search<MiscellaneousSettings>(new LongSearchCondition<MiscellaneousSettings>()
-                {
-                    Field = nameof(MiscellaneousSettings.EmailImplementationIDLeaseRequestAvailable),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
-                });
-
-                List<string> fields = FieldPathUtility.CreateFieldPathsAsList<MiscellaneousSettings>(ms => new List<object>()
-                {
-                    ms.EmailImplementationIDLeaseRequestAvailable,
-                    ms.CompanyID,
-                    ms.GovernmentID
-                });
-
-                foreach(MiscellaneousSettings settings in settingsSearch.GetReadOnlyReader(transaction, fields))
-                {
-                    if (settings.CompanyID == CompanyIDRequester || settings.GovernmentID == GovernmentIDRequester)
+                NotificationEvent.SendSystemNotification<LeaseRequest>(NotificationEvent.NotificationEvents.NewLeaseRequestAvailable,
+                    LeaseRequestID.Value,
+                    new NotificationEvent.NotificationEntityScope()
                     {
-                        continue;
-                    }
-
-                    EmailImplementation implementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(settings.EmailImplementationIDLeaseRequestAvailable, transaction, null);
-                    implementation.SendEmail<LeaseRequest>(LeaseRequestID, transaction);
-                }
+                        CompanyID = CompanyIDRequester,
+                        GovernmentID = GovernmentIDRequester
+                    },
+                    transaction);
             }
             return base.PostSave(transaction);
         }

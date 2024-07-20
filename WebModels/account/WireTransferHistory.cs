@@ -144,24 +144,21 @@ namespace WebModels.account
 
         protected override bool PostSave(ITransaction transaction)
         {
-            long? emailImpID;
             if (GovernmentIDTo != null)
             {
-                emailImpID = DataObject.GetReadOnlyByPrimaryKey<Government>(GovernmentIDTo, transaction, new[] { nameof(Government.EmailImplementationIDWireTransferHistory) }).EmailImplementationIDWireTransferHistory;
+                NotificationEvent.SendSystemNotification<WireTransferHistory>(NotificationEvent.NotificationEvents.GovernmentWireTransferReceived,
+                    WireTransferHistoryID.Value,
+                    new NotificationEvent.NotificationEntityScope() { GovernmentID = GovernmentIDTo },
+                    transaction);
             }
             else
             {
-                emailImpID = DataObject.GetReadOnlyByPrimaryKey<Company>(CompanyIDTo, transaction, new[] { nameof(Company.EmailImplementationIDWireTransferHistory) }).EmailImplementationIDWireTransferHistory;
+                NotificationEvent.SendSystemNotification<WireTransferHistory>(NotificationEvent.NotificationEvents.CompanyWireTransferReceived,
+                    WireTransferHistoryID.Value,
+                    new NotificationEvent.NotificationEntityScope() { CompanyID = CompanyIDTo },
+                    transaction);
             }
 
-            if (emailImpID != null)
-            {
-                EmailImplementation emailImplementation = DataObject.GetReadOnlyByPrimaryKey<EmailImplementation>(emailImpID, transaction, Schema.GetSchemaObject<EmailImplementation>().GetFields().Select(f => f.FieldName));
-                if (emailImplementation != null)
-                {
-                    emailImplementation.SendEmail<WireTransferHistory>(WireTransferHistoryID, transaction);
-                }
-            }
             return base.PostSave(transaction);
         }
     }

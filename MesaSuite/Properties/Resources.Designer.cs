@@ -5183,6 +5183,16 @@ namespace MesaSuite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icn_clipboard {
+            get {
+                object obj = ResourceManager.GetObject("icn_clipboard", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icn_cstudio_hover {
             get {
                 object obj = ResourceManager.GetObject("icn_cstudio_hover", resourceCulture);
@@ -5246,6 +5256,16 @@ namespace MesaSuite.Properties {
         internal static System.Drawing.Bitmap icn_information {
             get {
                 object obj = ResourceManager.GetObject("icn_information", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icn_notification {
+            get {
+                object obj = ResourceManager.GetObject("icn_notification", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -10724,6 +10744,16 @@ namespace MesaSuite.Properties {
         internal static System.Drawing.Bitmap wheeze {
             get {
                 object obj = ResourceManager.GetObject("wheeze", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap wizard_hat {
+            get {
+                object obj = ResourceManager.GetObject("wizard-hat", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

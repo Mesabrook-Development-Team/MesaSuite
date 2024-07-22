@@ -61,6 +61,10 @@
             this.mnuRegister = new System.Windows.Forms.ToolStripMenuItem();
             this.pboxLoginStatus = new System.Windows.Forms.PictureBox();
             this.lblLoginStatus = new System.Windows.Forms.Label();
+            this.pboxNotifs = new System.Windows.Forms.PictureBox();
+            this.pboxTasks = new System.Windows.Forms.PictureBox();
+            this.badge1 = new ReaLTaiizor.Controls.Badge();
+            this.badge2 = new ReaLTaiizor.Controls.Badge();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSync)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSyncLogo)).BeginInit();
             this.pnlMCSync.SuspendLayout();
@@ -80,6 +84,8 @@
             this.menuStrip1.SuspendLayout();
             this.ctxSignIn.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxLoginStatus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxNotifs)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxTasks)).BeginInit();
             this.SuspendLayout();
             // 
             // pboxMCSync
@@ -440,12 +446,76 @@
             this.lblLoginStatus.TabIndex = 9;
             this.lblLoginStatus.Text = "Not Logged In";
             // 
+            // pboxNotifs
+            // 
+            this.pboxNotifs.BackColor = System.Drawing.Color.Transparent;
+            this.pboxNotifs.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxNotifs.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pboxNotifs.Image = global::MesaSuite.Properties.Resources.icn_notification;
+            this.pboxNotifs.Location = new System.Drawing.Point(530, 393);
+            this.pboxNotifs.Name = "pboxNotifs";
+            this.pboxNotifs.Size = new System.Drawing.Size(40, 40);
+            this.pboxNotifs.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pboxNotifs.TabIndex = 10;
+            this.pboxNotifs.TabStop = false;
+            this.pboxNotifs.Click += new System.EventHandler(this.pboxNotifs_Click);
+            // 
+            // pboxTasks
+            // 
+            this.pboxTasks.BackColor = System.Drawing.Color.Transparent;
+            this.pboxTasks.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pboxTasks.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pboxTasks.Image = global::MesaSuite.Properties.Resources.icn_clipboard;
+            this.pboxTasks.Location = new System.Drawing.Point(485, 393);
+            this.pboxTasks.Name = "pboxTasks";
+            this.pboxTasks.Size = new System.Drawing.Size(30, 40);
+            this.pboxTasks.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pboxTasks.TabIndex = 11;
+            this.pboxTasks.TabStop = false;
+            this.pboxTasks.Click += new System.EventHandler(this.pboxTasks_Click);
+            // 
+            // badge1
+            // 
+            this.badge1.BackColor = System.Drawing.Color.Transparent;
+            this.badge1.BGColorA = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(69)))), ((int)(((byte)(68)))));
+            this.badge1.BGColorB = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.badge1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(70)))), ((int)(((byte)(66)))));
+            this.badge1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
+            this.badge1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(253)))));
+            this.badge1.Location = new System.Drawing.Point(550, 393);
+            this.badge1.Maximum = 9;
+            this.badge1.Name = "badge1";
+            this.badge1.Size = new System.Drawing.Size(20, 20);
+            this.badge1.TabIndex = 12;
+            this.badge1.Text = "3";
+            this.badge1.Value = 3;
+            // 
+            // badge2
+            // 
+            this.badge2.BackColor = System.Drawing.Color.Transparent;
+            this.badge2.BGColorA = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(69)))), ((int)(((byte)(68)))));
+            this.badge2.BGColorB = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(52)))), ((int)(((byte)(52)))));
+            this.badge2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(70)))), ((int)(((byte)(66)))));
+            this.badge2.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
+            this.badge2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(253)))));
+            this.badge2.Location = new System.Drawing.Point(495, 393);
+            this.badge2.Maximum = 9;
+            this.badge2.Name = "badge2";
+            this.badge2.Size = new System.Drawing.Size(20, 20);
+            this.badge2.TabIndex = 13;
+            this.badge2.Text = "badge2";
+            this.badge2.Value = 3;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::MesaSuite.Properties.Resources.bg;
             this.ClientSize = new System.Drawing.Size(735, 445);
+            this.Controls.Add(this.badge2);
+            this.Controls.Add(this.badge1);
+            this.Controls.Add(this.pboxTasks);
+            this.Controls.Add(this.pboxNotifs);
             this.Controls.Add(this.lblLoginStatus);
             this.Controls.Add(this.pboxLoginStatus);
             this.Controls.Add(this.flow);
@@ -478,6 +548,8 @@
             this.menuStrip1.PerformLayout();
             this.ctxSignIn.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pboxLoginStatus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxNotifs)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxTasks)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -515,5 +587,9 @@
         private System.Windows.Forms.ToolStripMenuItem mnuLoginHistoryApps;
         private System.Windows.Forms.ToolStripMenuItem myAppsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dynamicSplashScreensToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pboxNotifs;
+        private System.Windows.Forms.PictureBox pboxTasks;
+        private ReaLTaiizor.Controls.Badge badge1;
+        private ReaLTaiizor.Controls.Badge badge2;
     }
 }

@@ -51,12 +51,17 @@
     <Reference Include="CefSharp.WinForms, Version=116.0.150.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
       <HintPath>..\packages\CefSharp.WinForms.116.0.150\lib\net462\CefSharp.WinForms.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ReaLTaiizor, Version=3.8.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReaLTaiizor.3.8.0.5\lib\net48\ReaLTaiizor.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -87,6 +92,12 @@
     <Compile Include="frmClients.Designer.cs">
       <DependentUpon>frmClients.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCreateNotification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCreateNotification.Designer.cs">
+      <DependentUpon>frmCreateNotification.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLoginHistory.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +109,12 @@
     </Compile>
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNotificationsCenter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNotificationsCenter.Designer.cs">
+      <DependentUpon>frmNotificationsCenter.cs</DependentUpon>
     </Compile>
     <Compile Include="frmPersonalAccessTokens.cs">
       <SubType>Form</SubType>
@@ -116,6 +133,12 @@
     </Compile>
     <Compile Include="frmSplash.Designer.cs">
       <DependentUpon>frmSplash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTaskDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTaskDetails.Designer.cs">
+      <DependentUpon>frmTaskDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="frmUpdate.cs">
       <SubType>Form</SubType>
@@ -150,11 +173,17 @@
     <EmbeddedResource Include="frmClients.resx">
       <DependentUpon>frmClients.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmCreateNotification.resx">
+      <DependentUpon>frmCreateNotification.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLoginHistory.resx">
       <DependentUpon>frmLoginHistory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNotificationsCenter.resx">
+      <DependentUpon>frmNotificationsCenter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPersonalAccessTokens.resx">
       <DependentUpon>frmPersonalAccessTokens.cs</DependentUpon>
@@ -164,6 +193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSplash.resx">
       <DependentUpon>frmSplash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTaskDetails.resx">
+      <DependentUpon>frmTaskDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmUpdate.resx">
       <DependentUpon>frmUpdate.cs</DependentUpon>
@@ -317,6 +349,7 @@
     <Content Include="icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\wizard-hat.png" />
     <None Include="Resources\icn_govt_portal_hov.png" />
     <None Include="Resources\icn_govt_portal.png" />
     <None Include="Resources\logo_new_9.png" />

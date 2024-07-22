@@ -437,5 +437,17 @@ namespace MesaSuite
             userPreferences.GetPreferencesForSection("mcsync")["dynamicSplashScreen"] = dynamicSplashScreensToolStripMenuItem.Checked;
             userPreferences.Save();
         }
+
+        private void pboxNotifs_Click(object sender, EventArgs e)
+        {
+            frmNotificationsCenter frm = new frmNotificationsCenter();
+            frm.ShowDialog();
+        }
+
+        private void pboxTasks_Click(object sender, EventArgs e)
+        {
+            frmNotificationsCenter frm = new frmNotificationsCenter();
+            frm.ShowDialog();
+        }
     }
 }

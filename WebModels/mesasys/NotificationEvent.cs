@@ -9,9 +9,11 @@ using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebModels.company;
 using WebModels.fleet;
 using WebModels.gov;
+using WebModels.security;
 
 namespace WebModels.mesasys
 {
@@ -114,12 +116,25 @@ namespace WebModels.mesasys
             set { CheckSet(); _scopeType = value; }
         }
 
+        private string _category;
+        [Field("F235558D-EA25-420A-A8DE-BA55B4549982", DataSize = 50, IsSystemLoaded = true)]
+        public string Category
+        {
+            get { CheckGet(); return _category; }
+            set { CheckSet(); _category = value; }
+        }
+
         private string _scopePermissions;
         [Field("AC02D1C9-B244-40A8-AE2B-1C1B65356FA2", DataSize = -1, IsSystemLoaded = true)]
         public string ScopePermissions
         {
             get { CheckGet(); return _scopePermissions; }
             set { CheckSet(); _scopePermissions = value; }
+        }
+
+        public string[] GetScopePermissionArray()
+        {
+            return ScopePermissions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         private string _name;
@@ -153,6 +168,21 @@ namespace WebModels.mesasys
         {
             get { CheckGet(); return _userIDOwner; }
             set { CheckSet(); _userIDOwner = value; }
+        }
+
+        private string _defaultNotificationText;
+        [Field("BE49C1FF-3977-42CE-A5AB-9E39DE2034C2", DataSize = 1000, IsSystemLoaded = true)]
+        public string DefaultNotificationText
+        {
+            get { CheckGet(); return _defaultNotificationText; }
+            set { CheckSet(); _defaultNotificationText = value; }
+        }
+
+        private User _userOwner;
+        [Relationship("B96CE2CE-96AE-4C6B-8C81-688C16402141", ForeignKeyField = nameof(UserIDOwner))]
+        public User UserOwner
+        {
+            get { CheckGet(); return _userOwner; }
         }
 
         private Guid? _userSecret;
@@ -361,6 +391,249 @@ namespace WebModels.mesasys
                         Value = entityScope.LocationID
                     });
                     break;
+            }
+        }
+
+        public static async Task<List<NotificationEvent>> GetNotificationEventsForUserID(long? userID, IEnumerable<string> fields)
+        {
+            List<string> userFields = FieldPathUtility.CreateFieldPathsAsList<User>(u => new List<object>()
+            {
+                u.UserPrograms.First().Program.Key,
+            });
+
+            userFields.AddRange(Schema.GetSchemaObject<Employee>().GetFields().Select(f => nameof(User.Employees) + "." + f.FieldName));
+            userFields.AddRange(Schema.GetSchemaObject<LocationEmployee>().GetFields().Select(f => nameof(User.Employees) + "." + nameof(Employee.LocationEmployees) + "." + f.FieldName));
+            userFields.AddRange(Schema.GetSchemaObject<Official>().GetFields().Select(f => nameof(User.Officials) + "." + f.FieldName));
+            userFields.AddRange(Schema.GetSchemaObject<FleetSecurity>().GetFields().Select(f => nameof(User.Employees) + "." + nameof(Employee.FleetSecurity) + "." + f.FieldName));
+            userFields.AddRange(Schema.GetSchemaObject<FleetSecurity>().GetFields().Select(f => nameof(User.Officials) + "." + nameof(Official.FleetSecurity) + "." + f.FieldName));
+
+            User user = await Task.Run(() => DataObject.GetReadOnlyByPrimaryKey<User>(userID, null, userFields));
+            List<NotificationEvent> notificationEvents = await Task.Run(() => new Search<NotificationEvent>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                new GuidSearchCondition<NotificationEvent>()
+                {
+                    Field = nameof(SystemID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
+                },
+                new BooleanSearchCondition<NotificationEvent>()
+                {
+                    Field = nameof(IsPublished),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = true
+                })).GetReadOnlyReader(null, fields.Append(nameof(ScopePermissions))).ToList());
+
+            List<NotificationEvent> validForUser = new List<NotificationEvent>();
+            foreach(NotificationEvent notificationEvent in notificationEvents)
+            {
+                switch(notificationEvent.ScopeType)
+                {
+                    case ScopeTypes.Global:
+                        validForUser.Add(notificationEvent);
+                        break;
+                    case ScopeTypes.Company:
+                        if (!user.UserPrograms.Any(up => "company".Equals(up.Program.Key, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            continue;
+                        }
+
+                        bool hasAllRequiredPermissionsInAtLeastOneCompany = false;
+                        foreach(Employee employee in user.Employees ?? new List<Employee>())
+                        {
+                            bool hasAllRequiredPermissions = true;
+                            foreach(string requiredPermission in notificationEvent.GetScopePermissionArray())
+                            {
+                                try
+                                {
+                                    hasAllRequiredPermissions &= employee.GetValue<bool>(requiredPermission);
+                                }
+                                catch(Exception ex)
+                                {
+                                    #if DEBUG
+                                    throw ex;
+                                    #endif
+                                }
+                            }
+
+                            if (hasAllRequiredPermissions)
+                            {
+                                hasAllRequiredPermissionsInAtLeastOneCompany = true;
+                                break;
+                            }
+                        }
+
+                        if (hasAllRequiredPermissionsInAtLeastOneCompany)
+                        {
+                            validForUser.Add(notificationEvent);
+                        }
+                        break;
+                    case ScopeTypes.Fleet:
+                        if (!user.UserPrograms.Any(up => "company".Equals(up.Program.Key, StringComparison.OrdinalIgnoreCase) || "gov".Equals(up.Program.Key, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            continue;
+                        }
+
+                        bool hasAllRequiredPermissionInAtLeastOneEntity = false;
+                        foreach (Employee employee in user.Employees ?? new List<Employee>())
+                        {
+                            if (employee.FleetSecurity == null)
+                            {
+                                continue;
+                            }
+
+                            bool hasAllRequiredPermissions = true;
+                            foreach (string requiredPermission in notificationEvent.GetScopePermissionArray())
+                            {
+                                try
+                                {
+                                    hasAllRequiredPermissions &= employee.FleetSecurity.GetValue<bool>(requiredPermission);
+                                }
+                                catch (Exception ex)
+                                {
+                                    #if DEBUG
+                                    throw ex;
+                                    #endif
+                                }
+                            }
+
+                            if (hasAllRequiredPermissions)
+                            {
+                                hasAllRequiredPermissionInAtLeastOneEntity = true;
+                                break;
+                            }
+                        }
+
+                        if (!hasAllRequiredPermissionInAtLeastOneEntity)
+                        {
+                            foreach (Official official in user.Officials ?? new List<Official>())
+                            {
+                                if (official.FleetSecurity == null)
+                                {
+                                    continue;
+                                }
+
+                                bool hasAllRequiredPermissions = true;
+                                foreach (string requiredPermission in notificationEvent.GetScopePermissionArray())
+                                {
+                                    try
+                                    {
+                                        hasAllRequiredPermissions &= official.FleetSecurity.GetValue<bool>(requiredPermission);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        #if DEBUG
+                                        throw ex;
+                                        #endif
+                                    }
+                                }
+
+                                if (hasAllRequiredPermissions)
+                                {
+                                    hasAllRequiredPermissionInAtLeastOneEntity = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if(hasAllRequiredPermissionInAtLeastOneEntity)
+                        {
+                            validForUser.Add(notificationEvent);
+                        }
+                        break;
+                    case ScopeTypes.Government:
+                        if (!user.UserPrograms.Any(up => "gov".Equals(up.Program.Key, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            continue;
+                        }
+
+
+                        bool hasAllRequiredPermissionsInAtLeastOneGovernment = false;
+                        foreach (Official official in user.Officials ?? new List<Official>())
+                        {
+                            bool hasAllRequiredPermissions = true;
+                            foreach (string requiredPermission in notificationEvent.GetScopePermissionArray())
+                            {
+                                try
+                                {
+                                    hasAllRequiredPermissions &= official.GetValue<bool>(requiredPermission);
+                                }
+                                catch (Exception ex)
+                                {
+                                    #if DEBUG
+                                    throw ex;
+                                    #endif
+                                }
+                            }
+
+                            if (hasAllRequiredPermissions)
+                            {
+                                hasAllRequiredPermissionsInAtLeastOneGovernment = true;
+                                break;
+                            }
+                        }
+
+                        if (hasAllRequiredPermissionsInAtLeastOneGovernment)
+                        {
+                            validForUser.Add(notificationEvent);
+                        }
+                        break;
+                    case ScopeTypes.Location:
+                        if (!user.UserPrograms.Any(up => "company".Equals(up.Program.Key, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            continue;
+                        }
+
+                        bool hasAllRequiredPermissionsInAtLeastOneLocation = false;
+                        foreach (LocationEmployee locationEmployee in user.Employees?.SelectMany(e => e.LocationEmployees) ?? new List<LocationEmployee>())
+                        {
+                            bool hasAllRequiredPermissions = true;
+                            foreach (string requiredPermission in notificationEvent.GetScopePermissionArray())
+                            {
+                                try
+                                {
+                                    hasAllRequiredPermissions &= locationEmployee.GetValue<bool>(requiredPermission);
+                                }
+                                catch (Exception ex)
+                                {
+                                    #if DEBUG
+                                    throw ex;
+                                    #endif
+                                }
+                            }
+
+                            if (hasAllRequiredPermissions)
+                            {
+                                hasAllRequiredPermissionsInAtLeastOneLocation = true;
+                                break;
+                            }
+                        }
+
+                        if (hasAllRequiredPermissionsInAtLeastOneLocation)
+                        {
+                            validForUser.Add(notificationEvent);
+                        }
+                        break;
+                }
+            }
+
+            return validForUser;
+        }
+
+        public static class Categories
+        {
+            public static class Company
+            {
+                public static string Finance = "Finance";
+                public static string StoreFront = "Store Alerts";
+            }
+
+            public static class Government
+            {
+                public static string Finance = "Finance";
+            }
+
+            public static class FleetTracking
+            {
+                public static string EquipmentRelease = "Equipment Releases";
+                public static string Leasing = "Leasing Alerts";
             }
         }
 

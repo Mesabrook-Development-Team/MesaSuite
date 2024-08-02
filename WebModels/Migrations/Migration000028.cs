@@ -81,10 +81,12 @@ namespace WebModels.Migrations
             {
                 { "NotificationEventID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "ScopeType", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "Category", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) },
                 { "ScopePermissions", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, -1) },
                 { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 50) },
                 { "IsPublished", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } },
                 { "Parameters", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, -1) },
+                { "DefaultNotificationText", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 1000) },
                 { "UserIDOwner", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "UserSecret", new FieldSpecification(FieldSpecification.FieldTypes.UniqueIdentifier) },
                 { "SystemID", new FieldSpecification(FieldSpecification.FieldTypes.UniqueIdentifier) },

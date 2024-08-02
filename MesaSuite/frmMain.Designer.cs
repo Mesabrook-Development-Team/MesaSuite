@@ -61,6 +61,13 @@
             this.mnuRegister = new System.Windows.Forms.ToolStripMenuItem();
             this.pboxLoginStatus = new System.Windows.Forms.PictureBox();
             this.lblLoginStatus = new System.Windows.Forms.Label();
+            this.tmrNotificationChecker = new System.Windows.Forms.Timer(this.components);
+            this.pnlNotifications = new System.Windows.Forms.Panel();
+            this.lblNotificationCount = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lblTaskCount = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSync)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxMCSyncLogo)).BeginInit();
             this.pnlMCSync.SuspendLayout();
@@ -80,6 +87,10 @@
             this.menuStrip1.SuspendLayout();
             this.ctxSignIn.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxLoginStatus)).BeginInit();
+            this.pnlNotifications.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // pboxMCSync
@@ -304,13 +315,14 @@
             // menuStrip1
             // 
             this.menuStrip1.BackgroundImage = global::MesaSuite.Properties.Resources.bg_grass;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem,
             this.personalizeToolStripMenuItem,
             this.mnuProfile});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(735, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(735, 32);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -325,7 +337,7 @@
             this.aboutToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.information;
             this.aboutToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(69, 28);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // aboutMesaSuiteToolStripMenuItem
@@ -344,7 +356,7 @@
             this.personalizeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.personalizeToolStripMenuItem.Image = global::MesaSuite.Properties.Resources.paintbrush;
             this.personalizeToolStripMenuItem.Name = "personalizeToolStripMenuItem";
-            this.personalizeToolStripMenuItem.Size = new System.Drawing.Size(98, 20);
+            this.personalizeToolStripMenuItem.Size = new System.Drawing.Size(106, 28);
             this.personalizeToolStripMenuItem.Text = "Personalize";
             // 
             // backgroundToolStripMenuItem
@@ -381,7 +393,7 @@
             this.mnuProfile.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mnuProfile.Image = global::MesaSuite.Properties.Resources.user;
             this.mnuProfile.Name = "mnuProfile";
-            this.mnuProfile.Size = new System.Drawing.Size(72, 20);
+            this.mnuProfile.Size = new System.Drawing.Size(80, 28);
             this.mnuProfile.Text = "Profile";
             this.mnuProfile.Visible = false;
             // 
@@ -403,15 +415,16 @@
             // 
             // ctxSignIn
             // 
+            this.ctxSignIn.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.ctxSignIn.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuRegister});
             this.ctxSignIn.Name = "ctxSignIn";
-            this.ctxSignIn.Size = new System.Drawing.Size(174, 26);
+            this.ctxSignIn.Size = new System.Drawing.Size(167, 26);
             // 
             // mnuRegister
             // 
             this.mnuRegister.Name = "mnuRegister";
-            this.mnuRegister.Size = new System.Drawing.Size(173, 22);
+            this.mnuRegister.Size = new System.Drawing.Size(166, 22);
             this.mnuRegister.Text = "Register MesaSuite";
             this.mnuRegister.Click += new System.EventHandler(this.mnuRegister_Click);
             // 
@@ -440,12 +453,87 @@
             this.lblLoginStatus.TabIndex = 9;
             this.lblLoginStatus.Text = "Not Logged In";
             // 
+            // tmrNotificationChecker
+            // 
+            this.tmrNotificationChecker.Enabled = true;
+            this.tmrNotificationChecker.Interval = 5000;
+            this.tmrNotificationChecker.Tick += new System.EventHandler(this.tmrNotificationChecker_Tick);
+            // 
+            // pnlNotifications
+            // 
+            this.pnlNotifications.BackColor = System.Drawing.Color.Transparent;
+            this.pnlNotifications.Controls.Add(this.lblNotificationCount);
+            this.pnlNotifications.Controls.Add(this.pictureBox1);
+            this.pnlNotifications.Location = new System.Drawing.Point(541, 393);
+            this.pnlNotifications.Name = "pnlNotifications";
+            this.pnlNotifications.Size = new System.Drawing.Size(40, 40);
+            this.pnlNotifications.TabIndex = 10;
+            this.pnlNotifications.Click += new System.EventHandler(this.pnlNotifications_Click);
+            // 
+            // lblNotificationCount
+            // 
+            this.lblNotificationCount.BackColor = System.Drawing.Color.Red;
+            this.lblNotificationCount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(254)))));
+            this.lblNotificationCount.Location = new System.Drawing.Point(24, 0);
+            this.lblNotificationCount.Name = "lblNotificationCount";
+            this.lblNotificationCount.Size = new System.Drawing.Size(16, 16);
+            this.lblNotificationCount.TabIndex = 1;
+            this.lblNotificationCount.Text = "0";
+            this.lblNotificationCount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblNotificationCount.Visible = false;
+            this.lblNotificationCount.TextChanged += new System.EventHandler(this.lblBadgeTextChanged);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::MesaSuite.Properties.Resources.email;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox1.Location = new System.Drawing.Point(4, 4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.lblTaskCount);
+            this.panel1.Controls.Add(this.pictureBox2);
+            this.panel1.Location = new System.Drawing.Point(495, 393);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(40, 40);
+            this.panel1.TabIndex = 11;
+            // 
+            // lblTaskCount
+            // 
+            this.lblTaskCount.BackColor = System.Drawing.Color.Red;
+            this.lblTaskCount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(254)))));
+            this.lblTaskCount.Location = new System.Drawing.Point(24, 0);
+            this.lblTaskCount.Name = "lblTaskCount";
+            this.lblTaskCount.Size = new System.Drawing.Size(16, 16);
+            this.lblTaskCount.TabIndex = 1;
+            this.lblTaskCount.Text = "0";
+            this.lblTaskCount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblTaskCount.Visible = false;
+            this.lblTaskCount.TextChanged += new System.EventHandler(this.lblBadgeTextChanged);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackgroundImage = global::MesaSuite.Properties.Resources.script;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox2.Location = new System.Drawing.Point(4, 4);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox2.TabIndex = 0;
+            this.pictureBox2.TabStop = false;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::MesaSuite.Properties.Resources.bg;
             this.ClientSize = new System.Drawing.Size(735, 445);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pnlNotifications);
             this.Controls.Add(this.lblLoginStatus);
             this.Controls.Add(this.pboxLoginStatus);
             this.Controls.Add(this.flow);
@@ -478,6 +566,10 @@
             this.menuStrip1.PerformLayout();
             this.ctxSignIn.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pboxLoginStatus)).EndInit();
+            this.pnlNotifications.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -515,5 +607,12 @@
         private System.Windows.Forms.ToolStripMenuItem mnuLoginHistoryApps;
         private System.Windows.Forms.ToolStripMenuItem myAppsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dynamicSplashScreensToolStripMenuItem;
+        private System.Windows.Forms.Timer tmrNotificationChecker;
+        private System.Windows.Forms.Panel pnlNotifications;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblNotificationCount;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lblTaskCount;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

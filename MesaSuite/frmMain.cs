@@ -1,5 +1,6 @@
 ﻿using MesaSuite.Common;
 using MesaSuite.Common.Extensions;
+using MesaSuite.NotificationsAndTasks;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -436,6 +437,26 @@ namespace MesaSuite
             UserPreferences userPreferences = UserPreferences.Get();
             userPreferences.GetPreferencesForSection("mcsync")["dynamicSplashScreen"] = dynamicSplashScreensToolStripMenuItem.Checked;
             userPreferences.Save();
+        }
+
+        private void tmrNotificationChecker_Tick(object sender, EventArgs e)
+        {
+            if (Authentication.AuthenticationStatus != Authentication.AuthenticationStatuses.LoggedIn)
+            {
+                return;
+            }
+        }
+
+        private void lblBadgeTextChanged(object sender, EventArgs e)
+        {
+            Label label = (Label)sender;
+            label.Visible = !string.IsNullOrEmpty(label.Text) && label.Text != "0";
+        }
+
+        private void pnlNotifications_Click(object sender, EventArgs e)
+        {
+            frmNotificationCenter notificationCenter = new frmNotificationCenter();
+            notificationCenter.Show();
         }
     }
 }

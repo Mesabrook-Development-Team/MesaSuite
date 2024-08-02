@@ -51,12 +51,17 @@
     <Reference Include="CefSharp.WinForms, Version=116.0.150.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
       <HintPath>..\packages\CefSharp.WinForms.116.0.150\lib\net462\CefSharp.WinForms.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ReaLTaiizor, Version=3.8.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReaLTaiizor.3.8.0.5\lib\net48\ReaLTaiizor.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -123,6 +128,39 @@
     <Compile Include="frmUpdate.Designer.cs">
       <DependentUpon>frmUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\company\Company.cs" />
+    <Compile Include="Models\company\Location.cs" />
+    <Compile Include="Models\gov\Government.cs" />
+    <Compile Include="Models\mesasys\DiscordEmbed.cs" />
+    <Compile Include="Models\mesasys\DiscordEmbedField.cs" />
+    <Compile Include="Models\mesasys\NotificationEvent.cs" />
+    <Compile Include="Models\mesasys\NotificationSubscriber.cs" />
+    <Compile Include="Models\mesasys\NotificationSubscriberEntity.cs" />
+    <Compile Include="Models\security\User.cs" />
+    <Compile Include="NotificationsAndTasks\DiscordEmbedFieldControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\DiscordEmbedFieldControl.Designer.cs">
+      <DependentUpon>DiscordEmbedFieldControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\frmCustomizeNotification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\frmCustomizeNotification.Designer.cs">
+      <DependentUpon>frmCustomizeNotification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\frmNotificationCenter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\frmNotificationCenter.Designer.cs">
+      <DependentUpon>frmNotificationCenter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\NotificationOptionRow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\NotificationOptionRow.Designer.cs">
+      <DependentUpon>NotificationOptionRow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplashScreenModifiers\AprilFoolsDay.cs" />
@@ -167,6 +205,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmUpdate.resx">
       <DependentUpon>frmUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotificationsAndTasks\DiscordEmbedFieldControl.resx">
+      <DependentUpon>DiscordEmbedFieldControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotificationsAndTasks\frmCustomizeNotification.resx">
+      <DependentUpon>frmCustomizeNotification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotificationsAndTasks\frmNotificationCenter.resx">
+      <DependentUpon>frmNotificationCenter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotificationsAndTasks\NotificationOptionRow.resx">
+      <DependentUpon>NotificationOptionRow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

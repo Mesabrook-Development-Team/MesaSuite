@@ -25,7 +25,7 @@ namespace WebModels.mesasys.Validations
             }
 
             List<string> validPermissions = NotificationEvent.ValidFieldsByScopeType.GetOrDefault(notificationEvent.ScopeType, new List<string>());
-            string[] selectedPermissions = notificationEvent.ScopePermissions.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] selectedPermissions = notificationEvent.ScopePermissions?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries) ?? new string[0];
             return selectedPermissions.All(p => validPermissions.Contains(p));
         }
     }

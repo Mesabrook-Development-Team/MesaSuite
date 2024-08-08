@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MesaSuite.Common
+namespace CompanyStudio
 {
     public partial class Loader : UserControl
     {

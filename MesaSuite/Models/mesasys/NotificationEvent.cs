@@ -13,6 +13,7 @@ namespace MesaSuite.Models.mesasys
         public string[] ParametersArray => Parameters?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries) ?? new string[0];
         public ScopeTypes ScopeType { get; set; }
         public string DefaultNotificationText { get; set; }
+        public bool IsPublished { get; set; }
         public Guid? SystemID { get; set; }
         public long? UserIDOwner { get; set; }
         public User UserOwner { get; set; }

@@ -43,6 +43,12 @@
             this.tbtnFleet = new System.Windows.Forms.TabPage();
             this.tabFleetTracking = new ReaLTaiizor.Controls.AirTabPage();
             this.tpgWizard = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.cmdAddCustomNotification = new ReaLTaiizor.Controls.LostButton();
+            this.customNotificationsLoader = new ReaLTaiizor.Controls.ProgressIndicator();
+            this.pnlCustomNotifications = new System.Windows.Forms.Panel();
+            this.lblNoCustomNotifications2 = new ReaLTaiizor.Controls.SmallLabel();
+            this.lblNoCustomNotifications = new ReaLTaiizor.Controls.BigLabel();
             this.tabTaskCenterNav.SuspendLayout();
             this.tpgOptions.SuspendLayout();
             this.tabScopes.SuspendLayout();
@@ -50,6 +56,9 @@
             this.tbtnCompany.SuspendLayout();
             this.tbtnGovernment.SuspendLayout();
             this.tbtnFleet.SuspendLayout();
+            this.tpgWizard.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.pnlCustomNotifications.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabTaskCenterNav
@@ -63,7 +72,7 @@
             this.tabTaskCenterNav.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tabTaskCenterNav.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabTaskCenterNav.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabTaskCenterNav.ItemSize = new System.Drawing.Size(30, 115);
+            this.tabTaskCenterNav.ItemSize = new System.Drawing.Size(35, 115);
             this.tabTaskCenterNav.Location = new System.Drawing.Point(0, 0);
             this.tabTaskCenterNav.Multiline = true;
             this.tabTaskCenterNav.Name = "tabTaskCenterNav";
@@ -276,12 +285,98 @@
             // tpgWizard
             // 
             this.tpgWizard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tpgWizard.Controls.Add(this.panel1);
+            this.tpgWizard.Controls.Add(this.customNotificationsLoader);
+            this.tpgWizard.Controls.Add(this.pnlCustomNotifications);
             this.tpgWizard.Cursor = System.Windows.Forms.Cursors.Default;
+            this.tpgWizard.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tpgWizard.Location = new System.Drawing.Point(119, 4);
             this.tpgWizard.Name = "tpgWizard";
             this.tpgWizard.Size = new System.Drawing.Size(651, 375);
             this.tpgWizard.TabIndex = 3;
-            this.tpgWizard.Text = "Wizard";
+            this.tpgWizard.Text = "Custom Notifications";
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.cmdAddCustomNotification);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(651, 30);
+            this.panel1.TabIndex = 4;
+            // 
+            // cmdAddCustomNotification
+            // 
+            this.cmdAddCustomNotification.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdAddCustomNotification.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.cmdAddCustomNotification.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmdAddCustomNotification.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cmdAddCustomNotification.ForeColor = System.Drawing.Color.White;
+            this.cmdAddCustomNotification.HoverColor = System.Drawing.Color.DodgerBlue;
+            this.cmdAddCustomNotification.Image = null;
+            this.cmdAddCustomNotification.Location = new System.Drawing.Point(544, 0);
+            this.cmdAddCustomNotification.Name = "cmdAddCustomNotification";
+            this.cmdAddCustomNotification.Size = new System.Drawing.Size(107, 30);
+            this.cmdAddCustomNotification.TabIndex = 0;
+            this.cmdAddCustomNotification.Text = "Add Notification";
+            this.cmdAddCustomNotification.Click += new System.EventHandler(this.cmdAddCustomNotification_Click);
+            // 
+            // customNotificationsLoader
+            // 
+            this.customNotificationsLoader.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.customNotificationsLoader.Location = new System.Drawing.Point(285, 147);
+            this.customNotificationsLoader.MinimumSize = new System.Drawing.Size(50, 50);
+            this.customNotificationsLoader.Name = "customNotificationsLoader";
+            this.customNotificationsLoader.P_AnimationColor = System.Drawing.Color.DimGray;
+            this.customNotificationsLoader.P_AnimationSpeed = 100;
+            this.customNotificationsLoader.P_BaseColor = System.Drawing.Color.DarkGray;
+            this.customNotificationsLoader.Size = new System.Drawing.Size(80, 80);
+            this.customNotificationsLoader.TabIndex = 2;
+            this.customNotificationsLoader.Text = "progressIndicator1";
+            this.customNotificationsLoader.Visible = false;
+            // 
+            // pnlCustomNotifications
+            // 
+            this.pnlCustomNotifications.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlCustomNotifications.AutoScroll = true;
+            this.pnlCustomNotifications.Controls.Add(this.lblNoCustomNotifications2);
+            this.pnlCustomNotifications.Controls.Add(this.lblNoCustomNotifications);
+            this.pnlCustomNotifications.Location = new System.Drawing.Point(0, 36);
+            this.pnlCustomNotifications.Name = "pnlCustomNotifications";
+            this.pnlCustomNotifications.Size = new System.Drawing.Size(651, 339);
+            this.pnlCustomNotifications.TabIndex = 3;
+            // 
+            // lblNoCustomNotifications2
+            // 
+            this.lblNoCustomNotifications2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblNoCustomNotifications2.AutoSize = true;
+            this.lblNoCustomNotifications2.BackColor = System.Drawing.Color.Transparent;
+            this.lblNoCustomNotifications2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNoCustomNotifications2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.lblNoCustomNotifications2.Location = new System.Drawing.Point(229, 158);
+            this.lblNoCustomNotifications2.Name = "lblNoCustomNotifications2";
+            this.lblNoCustomNotifications2.Size = new System.Drawing.Size(179, 13);
+            this.lblNoCustomNotifications2.TabIndex = 1;
+            this.lblNoCustomNotifications2.Text = "Click Add Notification to get started";
+            this.lblNoCustomNotifications2.Visible = false;
+            // 
+            // lblNoCustomNotifications
+            // 
+            this.lblNoCustomNotifications.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblNoCustomNotifications.AutoSize = true;
+            this.lblNoCustomNotifications.BackColor = System.Drawing.Color.Transparent;
+            this.lblNoCustomNotifications.Font = new System.Drawing.Font("Segoe UI", 25F);
+            this.lblNoCustomNotifications.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
+            this.lblNoCustomNotifications.Location = new System.Drawing.Point(18, 95);
+            this.lblNoCustomNotifications.Name = "lblNoCustomNotifications";
+            this.lblNoCustomNotifications.Size = new System.Drawing.Size(615, 46);
+            this.lblNoCustomNotifications.TabIndex = 0;
+            this.lblNoCustomNotifications.Text = "You don\'t have any custom notifications";
+            this.lblNoCustomNotifications.Visible = false;
             // 
             // frmNotificationCenter
             // 
@@ -303,6 +398,10 @@
             this.tbtnCompany.ResumeLayout(false);
             this.tbtnGovernment.ResumeLayout(false);
             this.tbtnFleet.ResumeLayout(false);
+            this.tpgWizard.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.pnlCustomNotifications.ResumeLayout(false);
+            this.pnlCustomNotifications.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -324,5 +423,11 @@
         private ReaLTaiizor.Controls.AirTabPage tabGovernment;
         private ReaLTaiizor.Controls.AirTabPage tabFleetTracking;
         private ReaLTaiizor.Controls.ProgressIndicator optionsLoader;
+        private ReaLTaiizor.Controls.ProgressIndicator customNotificationsLoader;
+        private System.Windows.Forms.Panel pnlCustomNotifications;
+        private System.Windows.Forms.Panel panel1;
+        private ReaLTaiizor.Controls.LostButton cmdAddCustomNotification;
+        private ReaLTaiizor.Controls.SmallLabel lblNoCustomNotifications2;
+        private ReaLTaiizor.Controls.BigLabel lblNoCustomNotifications;
     }
 }

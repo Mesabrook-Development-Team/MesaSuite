@@ -1,5 +1,5 @@
 ﻿
-namespace MesaSuite.Common
+namespace CompanyStudio
 {
     partial class Loader
     {
@@ -37,7 +37,7 @@ namespace MesaSuite.Common
             // pictureBox2
             // 
             this.pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBox2.Image = global::CompanyStudio.Properties.Resources.gif_loader;
+            this.pictureBox2.Image = global::MesaSuite.Common.Properties.Resources.gif_loader;
             this.pictureBox2.Location = new System.Drawing.Point(0, 0);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(100, 100);

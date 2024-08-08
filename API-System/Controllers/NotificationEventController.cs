@@ -4,6 +4,7 @@ using API.Common.Cache;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebModels.mesasys;
@@ -22,6 +23,7 @@ namespace API_System.Controllers
             ne.Name,
             ne.Parameters,
             ne.DefaultNotificationText,
+            ne.IsPublished,
             ne.SystemID,
             ne.UserIDOwner,
             ne.UserOwner.Username
@@ -32,6 +34,20 @@ namespace API_System.Controllers
         {
             SecurityProfile securityProfile = (SecurityProfile)Request.Properties["SecurityProfile"];
             return await NotificationEvent.GetNotificationEventsForUserID(securityProfile.UserID, DefaultRetrievedFields);
+        }
+
+        [HttpGet]
+        public async Task<List<NotificationEvent>> GetCustomNotificationsForUser()
+        {
+            SecurityProfile securityProfile = (SecurityProfile)Request.Properties["SecurityProfile"];
+            Search<NotificationEvent> notificationEventSearch = new Search<NotificationEvent>(new LongSearchCondition<NotificationEvent>()
+            {
+                Field = nameof(NotificationEvent.UserIDOwner),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = securityProfile.UserID
+            });
+
+            return await Task.Run(() => notificationEventSearch.GetReadOnlyReader(null, DefaultRetrievedFields).ToList());
         }
     }
 }

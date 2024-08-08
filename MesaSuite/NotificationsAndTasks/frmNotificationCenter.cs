@@ -24,6 +24,7 @@ namespace MesaSuite.NotificationsAndTasks
         private async void frmNotificationCenter_Load(object sender, EventArgs e)
         {
             await ReloadOptions();
+            await ReloadCustomNotifications();
         }
 
         private async Task ReloadOptions()
@@ -108,6 +109,41 @@ namespace MesaSuite.NotificationsAndTasks
             optionsLoader.Visible = false;
         }
 
+        private async Task ReloadCustomNotifications()
+        {
+            try
+            {
+                customNotificationsLoader.BringToFront();
+                customNotificationsLoader.Visible = true;
+
+                GetData get = new GetData(DataAccess.APIs.SystemManagement, "NotificationEvent/GetCustomNotificationsForUser");
+                List<NotificationEvent> customNotifications = await get.GetObject<List<NotificationEvent>>() ?? new List<NotificationEvent>();
+
+                foreach (NotificationEvent notificationEvent in customNotifications)
+                {
+                    CustomNotificationRow row = new CustomNotificationRow()
+                    {
+                        NotificationEvent = notificationEvent,
+                        BorderStyle = BorderStyle.FixedSingle,
+                        Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right
+                    };
+                    pnlCustomNotifications.Controls.Add(row);
+                    row.Top = pnlCustomNotifications.Controls.OfType<CustomNotificationRow>().Where(ctrl => ctrl != row).Any() ? pnlCustomNotifications.Controls.OfType<CustomNotificationRow>().Where(ctrl => ctrl != row).Max(ctrl => ctrl.Bottom) : 0;
+                    row.Width = pnlCustomNotifications.Width - 2;
+                }
+
+                if (customNotifications.Count == 0)
+                {
+                    lblNoCustomNotifications.Visible = true;
+                    lblNoCustomNotifications2.Visible = true;
+                }
+            }
+            finally
+            {
+                customNotificationsLoader.Visible = false;
+            }
+        }
+
         private void NotificationOptionRow_ClientSizeChanged(object sender, EventArgs e)
         {
             NotificationOptionRow row = sender as NotificationOptionRow;
@@ -118,6 +154,12 @@ namespace MesaSuite.NotificationsAndTasks
                 ctrl.Top = previousRow.Bottom;
                 previousRow = ctrl;
             }
+        }
+
+        private void cmdAddCustomNotification_Click(object sender, EventArgs e)
+        {
+            NotificationEventWizard.NotificationEventWizardController notificationEventWizard = new NotificationEventWizard.NotificationEventWizardController();
+            notificationEventWizard.StartWizard();
         }
     }
 }

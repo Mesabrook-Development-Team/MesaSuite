@@ -137,6 +137,12 @@
     <Compile Include="Models\mesasys\NotificationSubscriber.cs" />
     <Compile Include="Models\mesasys\NotificationSubscriberEntity.cs" />
     <Compile Include="Models\security\User.cs" />
+    <Compile Include="NotificationsAndTasks\CustomNotificationRow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\CustomNotificationRow.Designer.cs">
+      <DependentUpon>CustomNotificationRow.cs</DependentUpon>
+    </Compile>
     <Compile Include="NotificationsAndTasks\DiscordEmbedFieldControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -154,6 +160,31 @@
     </Compile>
     <Compile Include="NotificationsAndTasks\frmNotificationCenter.Designer.cs">
       <DependentUpon>frmNotificationCenter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\NotificationEventWizard\CollectingInfoStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\NotificationEventWizard\CollectingInfoStep.Designer.cs">
+      <DependentUpon>CollectingInfoStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\NotificationEventWizard\FinishStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\NotificationEventWizard\FinishStep.Designer.cs">
+      <DependentUpon>FinishStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\NotificationEventWizard\frmNotificationEventWizardShell.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\NotificationEventWizard\frmNotificationEventWizardShell.Designer.cs">
+      <DependentUpon>frmNotificationEventWizardShell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\NotificationEventWizard\NotificationEventWizardController.cs" />
+    <Compile Include="NotificationsAndTasks\NotificationEventWizard\WelcomeStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NotificationsAndTasks\NotificationEventWizard\WelcomeStep.Designer.cs">
+      <DependentUpon>WelcomeStep.cs</DependentUpon>
     </Compile>
     <Compile Include="NotificationsAndTasks\NotificationOptionRow.cs">
       <SubType>UserControl</SubType>
@@ -206,6 +237,9 @@
     <EmbeddedResource Include="frmUpdate.resx">
       <DependentUpon>frmUpdate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NotificationsAndTasks\CustomNotificationRow.resx">
+      <DependentUpon>CustomNotificationRow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NotificationsAndTasks\DiscordEmbedFieldControl.resx">
       <DependentUpon>DiscordEmbedFieldControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -214,6 +248,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NotificationsAndTasks\frmNotificationCenter.resx">
       <DependentUpon>frmNotificationCenter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotificationsAndTasks\NotificationEventWizard\CollectingInfoStep.resx">
+      <DependentUpon>CollectingInfoStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotificationsAndTasks\NotificationEventWizard\FinishStep.resx">
+      <DependentUpon>FinishStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotificationsAndTasks\NotificationEventWizard\frmNotificationEventWizardShell.resx">
+      <DependentUpon>frmNotificationEventWizardShell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotificationsAndTasks\NotificationEventWizard\WelcomeStep.resx">
+      <DependentUpon>WelcomeStep.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NotificationsAndTasks\NotificationOptionRow.resx">
       <DependentUpon>NotificationOptionRow.cs</DependentUpon>

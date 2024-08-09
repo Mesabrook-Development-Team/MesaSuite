@@ -16,6 +16,7 @@ using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
 using WebModels.mesasys;
+using WebModels.purchasing;
 
 namespace WebModels.fleet
 {
@@ -452,6 +453,21 @@ namespace WebModels.fleet
         public IReadOnlyCollection<RailcarLoad> RailcarLoads
         {
             get { CheckGet(); return _railcarLoads; }
+        }
+
+        private List<RailcarRoute> _railcarRoutes = new List<RailcarRoute>();
+        [RelationshipList("FF06FFCD-873C-4EAE-9DAC-FC06139E05AB", nameof(RailcarRoute.RailcarID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<RailcarRoute> RailcarRoutes
+        {
+            get { CheckGet(); return _railcarRoutes; }
+        }
+        #endregion
+        #region purchasing
+        private List<FulfillmentPlan> _fulfillmentPlans = new List<FulfillmentPlan>();
+        [RelationshipList("D529289D-CD90-43F1-BDFA-F55A6889CC1A", nameof(FulfillmentPlan.RailcarID))]
+        public IReadOnlyCollection<FulfillmentPlan> FulfillmentPlans
+        {
+            get { CheckGet(); return _fulfillmentPlans; }
         }
         #endregion
         #endregion

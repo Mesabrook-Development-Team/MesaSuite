@@ -5,6 +5,7 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.mesasys;
+using WebModels.purchasing;
 
 namespace WebModels.invoicing
 {
@@ -85,6 +86,21 @@ namespace WebModels.invoicing
         public Item Item
         {
             get { CheckGet(); return _item; }
+        }
+
+        private long? _purchaseOrderLineID;
+        [Field("652351BD-3E6A-4D68-BC0F-BA28205E1BCE")]
+        public long? PurchaseOrderLineID
+        {
+            get { CheckGet(); return _purchaseOrderLineID; }
+            set { CheckSet(); _purchaseOrderLineID = value; }
+        }
+
+        private PurchaseOrderLine _purchaseOrderLine = null;
+        [Relationship("D405FE2F-B756-434E-9350-20C5BD277714")]
+        public PurchaseOrderLine PurchaseOrderLine
+        {
+            get { CheckGet(); return _purchaseOrderLine; }
         }
 
         protected override void PreValidate()

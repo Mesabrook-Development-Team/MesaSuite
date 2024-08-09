@@ -13,6 +13,7 @@ using WebModels.company;
 using WebModels.hMailServer.dbo;
 using WebModels.invoicing;
 using WebModels.mesasys;
+using WebModels.purchasing;
 
 namespace WebModels.gov
 {
@@ -331,6 +332,21 @@ namespace WebModels.gov
         public IReadOnlyCollection<WireTransferHistory> WireTransferHistoryTos
         {
             get { CheckGet(); return _wireTransferHistoryTos; }
+        }
+        #endregion
+        #region purchasing
+        private List<PurchaseOrder> _purchaseOrderOrigins = new List<PurchaseOrder>();
+        [RelationshipList("12E0AD91-8D91-421A-934B-7A94504223BA", nameof(PurchaseOrder.GovernmentIDOrigin))]
+        public IReadOnlyCollection<PurchaseOrder> PurchaseOrderOrigins
+        {
+            get { CheckGet(); return _purchaseOrderOrigins; }
+        }
+
+        private List<PurchaseOrder> _purchaseOrderDestinations = new List<PurchaseOrder>();
+        [RelationshipList("01263366-5F10-428F-A707-4D14486A9540", nameof(PurchaseOrder.GovernmentIDDestination))]
+        public IReadOnlyCollection<PurchaseOrder> PurchaseOrderDestinations
+        {
+            get { CheckGet(); return _purchaseOrderDestinations; }
         }
         #endregion
         #endregion

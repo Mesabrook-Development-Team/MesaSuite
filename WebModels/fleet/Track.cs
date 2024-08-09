@@ -12,6 +12,7 @@ using ClussPro.ObjectBasedFramework.Validation;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
+using WebModels.purchasing;
 
 namespace WebModels.fleet
 {
@@ -187,6 +188,35 @@ namespace WebModels.fleet
         public IReadOnlyCollection<Railcar> RailcarStrategics
         {
             get { CheckGet(); return _railcarStrategics; }
+        }
+        #endregion
+        #region purchasing
+        private List<FulfillmentPlan> _fulfillmentPlanLoadings = new List<FulfillmentPlan>();
+        [RelationshipList("7F41DD64-F6E0-4DD5-A5F6-17E69C293422", nameof(FulfillmentPlan.TrackIDLoading))]
+        public IReadOnlyCollection<FulfillmentPlan> FulfillmentPlanLoadings
+        {
+            get { CheckGet(); return _fulfillmentPlanLoadings; }
+        }
+
+        private List<FulfillmentPlan> _fulfillmentPlanDestinations = new List<FulfillmentPlan>();
+        [RelationshipList("BC4AF18B-993C-4938-B786-F5A2BBABE5EA", nameof(FulfillmentPlan.TrackIDDestination))]
+        public IReadOnlyCollection<FulfillmentPlan> FulfillmentPlanDestinations
+        {
+            get { CheckGet(); return _fulfillmentPlanDestinations; }
+        }
+
+        private List<FulfillmentPlan> _fulfillmentPlanStrategicDestinations = new List<FulfillmentPlan>();
+        [RelationshipList("387BACFC-EDE0-4232-84AB-43270848F472", nameof(FulfillmentPlan.TrackIDStrategicDestination))]
+        public IReadOnlyCollection<FulfillmentPlan> FulfillmentPlanStrategicDestinations
+        {
+            get { CheckGet(); return _fulfillmentPlanStrategicDestinations; }
+        }
+
+        private List<FulfillmentPlan> _fulfillmentPlanPostFulfillments = new List<FulfillmentPlan>();
+        [RelationshipList("6E97F804-B665-43CD-9F12-CA7C0951E0B0", nameof(FulfillmentPlan.TrackIDPostFulfillment))]
+        public IReadOnlyCollection<FulfillmentPlan> FulfillmentPlanPostFulfillments
+        {
+            get { CheckGet(); return _fulfillmentPlanPostFulfillments; }
         }
         #endregion
         #endregion

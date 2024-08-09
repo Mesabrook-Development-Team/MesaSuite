@@ -10,6 +10,7 @@ using System.Linq;
 using WebModels.account;
 using WebModels.hMailServer.dbo;
 using WebModels.mesasys;
+using WebModels.purchasing;
 
 namespace WebModels.company
 {
@@ -251,6 +252,20 @@ namespace WebModels.company
         {
             get { CheckGet(); return _railDistricts; }
         }
+
+        private List<fleet.RailcarRoute> _railcarRouteFroms = new List<fleet.RailcarRoute>();
+        [RelationshipList("072BD4B3-81C1-4A4E-8BB2-98CDEC88FD7B", nameof(fleet.RailcarRoute.CompanyIDFrom))]
+        public IReadOnlyCollection<fleet.RailcarRoute> RailcarRouteFroms
+        {
+            get { CheckGet(); return _railcarRouteFroms; }
+        }
+
+        private List<fleet.RailcarRoute> _railcarRouteTos = new List<fleet.RailcarRoute>();
+        [RelationshipList("51D74C31-8373-48BD-A85F-720C2FC847A4", nameof(fleet.RailcarRoute.CompanyIDTo))]
+        public IReadOnlyCollection<fleet.RailcarRoute> RailcarRouteTos
+        {
+            get { CheckGet(); return _railcarRouteTos; }
+        }
         #endregion
         #region gov
         private List<Location> _locations = new List<Location>();
@@ -258,6 +273,35 @@ namespace WebModels.company
         public IReadOnlyCollection<Location> Locations
         {
             get { CheckGet(); return _locations; }
+        }
+        #endregion
+        #region purchasing
+        private List<PurchaseOrder> _purchaseOrderOrigins = new List<PurchaseOrder>();
+        [RelationshipList("B6F7A8F8-8E8C-4B9F-8C8F-4A9C8C8C8C8C", nameof(PurchaseOrder.CompanyIDOrigin))]
+        public IReadOnlyCollection<PurchaseOrder> PurchaseOrderOrigins
+        {
+            get { CheckGet(); return _purchaseOrderOrigins; }
+        }
+
+        private List<PurchaseOrder> _purchaseOrderDestinations = new List<PurchaseOrder>();
+        [RelationshipList("CE9D354F-D707-4511-9700-F47A1C8793E3", nameof(PurchaseOrder.CompanyIDDestination))]
+        public IReadOnlyCollection<PurchaseOrder> PurchaseOrderDestinations
+        {
+            get { CheckGet(); return _purchaseOrderDestinations; }
+        }
+
+        private List<FulfillmentPlanRoute> _fulfillmentPlanRouteFroms = new List<FulfillmentPlanRoute>();
+        [RelationshipList("F440E77F-D9E7-4453-BAD4-83ACA83C8A3A", nameof(FulfillmentPlanRoute.CompanyIDFrom))]
+        public IReadOnlyCollection<FulfillmentPlanRoute> FulfillmentPlanRouteFroms
+        {
+            get { CheckGet(); return _fulfillmentPlanRouteFroms; }
+        }
+
+        private List<FulfillmentPlanRoute> _fulfillmentPlanRouteTos = new List<FulfillmentPlanRoute>();
+        [RelationshipList("5E276A59-1BDE-4423-A691-F26672E8998D", nameof(FulfillmentPlanRoute.CompanyIDTo))]
+        public IReadOnlyCollection<FulfillmentPlanRoute> FulfillmentPlanRouteTos
+        {
+            get { CheckGet(); return _fulfillmentPlanRouteTos; }
         }
         #endregion
         #endregion

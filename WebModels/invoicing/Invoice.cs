@@ -15,6 +15,7 @@ using WebModels.company;
 using WebModels.gov;
 using WebModels.invoicing.Attributes;
 using WebModels.mesasys;
+using WebModels.purchasing;
 
 namespace WebModels.invoicing
 {
@@ -93,6 +94,21 @@ namespace WebModels.invoicing
         public Location LocationTo
         {
             get { CheckGet(); return _locationTo; }
+        }
+
+        private long? _purchaseOrderID;
+        [Field("4FB5C1D5-4FCF-4CE6-8787-2E31E1C9DF0D")]
+        public long? PurchaseOrderID
+        {
+            get { CheckGet(); return _purchaseOrderID; }
+            set { CheckSet(); _purchaseOrderID = value; }
+        }
+
+        private PurchaseOrder _purchaseOrder = null;
+        [Relationship("363B082A-AB35-4901-9190-BD0D72BA0DE9")]
+        public PurchaseOrder PurchaseOrder
+        {
+            get { CheckGet(); return _purchaseOrder; }
         }
 
         private string _invoiceNumber;

@@ -9,6 +9,7 @@ using System.Text;
 using WebModels.company;
 using WebModels.fleet;
 using WebModels.invoicing;
+using WebModels.purchasing;
 
 namespace WebModels.mesasys
 {
@@ -116,6 +117,14 @@ namespace WebModels.mesasys
         public IReadOnlyCollection<InvoiceLine> InvoiceLines
         {
             get { CheckGet(); return _invoiceLines; }
+        }
+        #endregion
+        #region purchasing
+        private List<PurchaseOrderLine> _purchaseOrderLines = new List<PurchaseOrderLine>();
+        [RelationshipList("C1986DB7-9394-435F-BCD9-9718D17C03F6", nameof(PurchaseOrderLine.ItemID))]
+        public IReadOnlyCollection<PurchaseOrderLine> PurchaseOrderLines
+        {
+            get { CheckGet(); return _purchaseOrderLines; }
         }
         #endregion
         #endregion

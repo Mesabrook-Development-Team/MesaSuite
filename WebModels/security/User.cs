@@ -59,7 +59,7 @@ namespace WebModels.security
         }
 
         private string _discordID;
-        [Field("469CBF2C-253C-46F3-B4D2-12FF2358428A", DataSize = 18)]
+        [Field("469CBF2C-253C-46F3-B4D2-12FF2358428A", DataSize = 20)]
         public string DiscordID
         {
             get { CheckGet(); return _discordID; }

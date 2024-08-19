@@ -172,6 +172,7 @@
     <Compile Include="Migrations\Migration000025.cs" />
     <Compile Include="Migrations\Migration000026.cs" />
     <Compile Include="Migrations\Migration000027.cs" />
+    <Compile Include="Migrations\Migration000028.cs" />
     <Compile Include="Migrations\Migration000029.cs" />
     <Compile Include="Migrations\MigrationController.cs" />
     <Compile Include="netprint\Printer.cs" />

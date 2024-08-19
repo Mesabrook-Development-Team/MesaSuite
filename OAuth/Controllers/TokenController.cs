@@ -203,10 +203,21 @@ namespace OAuth.Controllers
 
         private ActionResult ErrorResponse(string error, string error_description)
         {
-            string json = JsonConvert.SerializeObject(new { error, error_description });
+            string json;
+            int responseCode;
+            if (Request.Headers.AllKeys.Contains("X-OK-Only") && bool.TrueString.Equals(Request.Headers["X-OK-Only"], StringComparison.OrdinalIgnoreCase))
+            {
+                responseCode = 200;
+                json = JsonConvert.SerializeObject(new { status = "400", error, error_description });
+            }
+            else
+            {
+                responseCode = 400;
+                json = JsonConvert.SerializeObject(new { error, error_description });
+            }
 
             Response.Output.Write(json);
-            return new HttpStatusCodeResult(400);
+            return new HttpStatusCodeResult(responseCode);
         }
 
         private ActionResult CheckDeviceCode(string client_id, string code)

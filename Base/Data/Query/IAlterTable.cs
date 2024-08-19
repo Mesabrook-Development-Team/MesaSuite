@@ -10,5 +10,6 @@
         void DropConstraint(string constraintName, ITransaction transaction = null);
         void AddColumn(string columnName, FieldSpecification fieldSpecification, ITransaction transaction = null);
         void DropColumn(string columnName, ITransaction transaction);
+        void AlterColumn(string columnName, FieldSpecification fieldSpecification, ITransaction transaction = null);
     }
 }

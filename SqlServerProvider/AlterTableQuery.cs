@@ -73,5 +73,18 @@ namespace ClussPro.SqlServerProvider
                 }
             });
         }
+
+        public void AlterColumn(string columnName, FieldSpecification fieldSpecification, ITransaction transaction = null)
+        {
+            CheckedTransactionExecute(transaction, trans =>
+            {
+                string query = $"ALTER TABLE [{Schema}].[{Table}] ALTER COLUMN [{columnName}] {fieldSpecification.ToSqlDataType()}";
+
+                using (SqlCommand command = new SqlCommand(query, trans.SQLTransaction.Connection, trans.SQLTransaction))
+                {
+                    command.ExecuteNonQuery();
+                }
+            });
+        }
     }
 }

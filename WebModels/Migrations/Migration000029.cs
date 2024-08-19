@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebModels.Migrations
 {
-    public class Migration000028 : IMigration
+    public class Migration000029 : IMigration
     {
         public int MigrationNumber => 28;
 
@@ -16,6 +16,7 @@ namespace WebModels.Migrations
         {
             CreatePurchasingTables(transaction);
             CreateFleetTables(transaction);
+            UpdateTables(transaction);
         }
 
         private void CreatePurchasingTables(ITransaction transaction)
@@ -30,9 +31,9 @@ namespace WebModels.Migrations
             createTable.Columns = new Dictionary<string, FieldSpecification>()
             {
                 { "PurchaseOrderID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
-                { "CompanyIDOrigin", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocationIDOrigin", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "GovernmentIDOrigin", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "CompanyIDDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocationIDDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "GovernmentIDDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "PurchaseOrderDate", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
                 { "Status", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
@@ -42,8 +43,8 @@ namespace WebModels.Migrations
             IAlterTable alter = SQLProviderFactory.GetAlterTableQuery();
             alter.Schema = "purchasing";
             alter.Table = "PurchaseOrder";
-            alter.AddForeignKey("FKPurchaseOrder_Company_CompanyIDOrigin", "CompanyIDOrigin", "company", "Company", "CompanyID", transaction);
-            alter.AddForeignKey("FKPurchaseOrder_Company_CompanyIDDestination", "CompanyIDDestination", "company", "Company", "CompanyID", transaction);
+            alter.AddForeignKey("FKPurchaseOrder_Location_LocationIDOrigin", "LocationIDOrigin", "company", "Location", "LocationID", transaction);
+            alter.AddForeignKey("FKPurchaseOrder_Location_LocationIDDestination", "LocationIDDestination", "company", "Location", "LocationID", transaction);
             alter.AddForeignKey("FKPurchaseOrder_Government_GovernmentIDOrigin", "GovernmentIDOrigin", "gov", "Government", "GovernmentID", transaction);
             alter.AddForeignKey("FKPurchaseOrder_Government_GovernmentIDDestination", "GovernmentIDDestination", "gov", "Government", "GovernmentID", transaction);
 
@@ -149,6 +150,14 @@ namespace WebModels.Migrations
             alterTable.Table = "InvoiceLine";
             alterTable.AddColumn("PurchaseOrderLine", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
             alterTable.AddForeignKey("FKInvoiceLine_PurchaseOrderLine_PurchaseOrderLineID", "PurchaseOrderLineID", "purchasing", "PurchaseOrderLine", "PurchaseOrderLineID", transaction);
+
+            alterTable.Schema = "company";
+            alterTable.Table = "LocationEmployee";
+            alterTable.AddColumn("ManagePurchaseOrders", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
+
+            alterTable.Schema = "gov";
+            alterTable.Table = "Official";
+            alterTable.AddColumn("ManagePurchaseOrders", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
         }
     }
 }

@@ -217,6 +217,13 @@ namespace WebModels.mesasys
         {
             get { CheckGet(); return _notificationSubscribers; }
         }
+
+        private List<NotificationEventEntity> _notificationEventEntities = new List<NotificationEventEntity>();
+        [RelationshipList("EB4A4054-A763-462A-A953-2BDF67A46871", nameof(NotificationEventEntity.NotificationEventID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<NotificationEventEntity> NotificationEventEntities
+        {
+            get { CheckGet(); return _notificationEventEntities; }
+        }
         #endregion
         #endregion
 

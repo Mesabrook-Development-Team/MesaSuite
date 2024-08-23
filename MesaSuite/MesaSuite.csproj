@@ -134,6 +134,7 @@
     <Compile Include="Models\mesasys\DiscordEmbed.cs" />
     <Compile Include="Models\mesasys\DiscordEmbedField.cs" />
     <Compile Include="Models\mesasys\NotificationEvent.cs" />
+    <Compile Include="Models\mesasys\NotificationEventEntity.cs" />
     <Compile Include="Models\mesasys\NotificationSubscriber.cs" />
     <Compile Include="Models\mesasys\NotificationSubscriberEntity.cs" />
     <Compile Include="Models\security\User.cs" />

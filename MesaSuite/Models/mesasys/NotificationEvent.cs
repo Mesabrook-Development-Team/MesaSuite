@@ -1,6 +1,6 @@
-﻿using MesaSuite.Models.security;
-using System;
-using Towing.History;
+﻿using System;
+using System.Collections.Generic;
+using MesaSuite.Models.security;
 
 namespace MesaSuite.Models.mesasys
 {
@@ -17,6 +17,8 @@ namespace MesaSuite.Models.mesasys
         public Guid? SystemID { get; set; }
         public long? UserIDOwner { get; set; }
         public User UserOwner { get; set; }
+
+        public List<NotificationEventEntity> NotificationEventEntities { get; set; } = new List<NotificationEventEntity>();
 
         public enum ScopeTypes
         {

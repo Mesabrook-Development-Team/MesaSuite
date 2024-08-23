@@ -142,6 +142,7 @@
     <Compile Include="mesasys\Notification.cs" />
     <Compile Include="mesasys\NotificationEvent.cs" />
     <Compile Include="mesasys\NotificationSubscriber.cs" />
+    <Compile Include="mesasys\NotificationEventEntity.cs" />
     <Compile Include="mesasys\NotificationSubscriberEntity.cs" />
     <Compile Include="mesasys\OutboundDiscord.cs" />
     <Compile Include="mesasys\OutboundEmail.cs" />

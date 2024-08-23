@@ -184,6 +184,13 @@ namespace WebModels.company
         {
             get { CheckGet(); return _notificationSubscriberEntities; }
         }
+
+        private List<NotificationEventEntity> _notificationEventEntities = new List<NotificationEventEntity>();
+        [RelationshipList("3A3292FC-B5FA-469A-9DDB-678DC5D2A9ED", nameof(NotificationEventEntity.LocationID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<NotificationEventEntity> NotificationEventEntities
+        {
+            get { CheckGet(); return _notificationEventEntities; }
+        }
         #endregion
         #endregion
     }

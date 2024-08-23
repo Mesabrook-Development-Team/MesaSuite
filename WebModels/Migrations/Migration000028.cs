@@ -98,6 +98,22 @@ namespace WebModels.Migrations
             alterTable.Table = "NotificationEvent";
             alterTable.AddForeignKey("FKNotificationEvent_User_UserIDOwner", "UserIDOwner", "security", "User", "UserID", transaction);
 
+            createTable.TableName = "NotificationEventEntity";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "NotificationEventEntityID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "NotificationEventID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+            };
+            createTable.Execute(transaction);
+            alterTable.Table = "NotificationEventEntity";
+            alterTable.AddForeignKey("FKNotificationEventEntity_NotificationEvent_NotificationEventID", "NotificationEventID", "mesasys", "NotificationEvent", "NotificationEventID", transaction);
+            alterTable.AddForeignKey("FKNotificationEventEntity_Company_CompanyID", "CompanyID", "company", "Company", "CompanyID", transaction);
+            alterTable.AddForeignKey("FKNotificationEventEntity_Location_LocationID", "LocationID", "company", "Location", "LocationID", transaction);
+            alterTable.AddForeignKey("FKNotificationEventEntity_Government_GovernmentID", "GovernmentID", "gov", "Government", "GovernmentID", transaction);
+
             createTable.TableName = "NotificationSubscriber";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
             {

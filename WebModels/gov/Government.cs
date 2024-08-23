@@ -295,6 +295,13 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _notificationSubscriberEntities; }
         }
+
+        private List<NotificationEventEntity> _notificationEventEntities = new List<NotificationEventEntity>();
+        [RelationshipList("0E57CA7A-1B2B-4840-A94A-DC18141FA25E", nameof(NotificationEventEntity.GovernmentID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<NotificationEventEntity> NotificationEventEntities
+        {
+            get { CheckGet(); return _notificationEventEntities; }
+        }
         #endregion
         #endregion
     }

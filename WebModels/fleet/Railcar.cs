@@ -333,6 +333,10 @@ namespace WebModels.fleet
                     return CompanyLeasedToCondition(myAlias, otherAlias);
                 case nameof(GovernmentLeasedTo):
                     return GovernmentLeasedToCondition(myAlias, otherAlias);
+                case nameof(BillOfLadingCurrent):
+                    return BillOfLadingCurrentCondition(myAlias, otherAlias);
+                case nameof(FulfillmentCurrent):
+                    return FulfillmentCurrentCondition(myAlias, otherAlias);
             }
 
             return base.GetRelationshipCondition(relationship, myAlias, otherAlias);
@@ -423,6 +427,65 @@ namespace WebModels.fleet
                 Right = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.GovernmentID"
             };
         }
+
+        private BillOfLading _billOfLadingCurrent;
+        [Relationship("724A8653-5AF9-491F-8C3F-BB4E3613BBDF", HasForeignKey = false)]
+        public BillOfLading BillOfLadingCurrent
+        {
+            get { CheckGet(); return _billOfLadingCurrent; }
+        }
+
+        private ICondition BillOfLadingCurrentCondition(string myAlias, string otherAlias)
+        {
+            return new ConditionGroup()
+            {
+                ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                Conditions = new List<ICondition>()
+                {
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.{nameof(BillOfLading.RailcarID)}",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.{nameof(RailcarID)}"
+                    },
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.{nameof(BillOfLading.DeliveredDate)}",
+                        ConditionType = Condition.ConditionTypes.Null
+                    }
+                }
+            };
+        }
+
+        private Fulfillment _fulfillmentCurrent;
+        [Relationship("B09CA979-16C6-49DA-9485-7F79611A9B3F", HasForeignKey = false)]
+        public Fulfillment FulfillmentCurrent
+        {
+            get { CheckGet(); return _fulfillmentCurrent; }
+        }
+
+        private ICondition FulfillmentCurrentCondition(string myAlias, string otherAlias)
+        {
+            return new ConditionGroup()
+            {
+                ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
+                Conditions = new List<ICondition>()
+                {
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.{nameof(Fulfillment.RailcarID)}",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.{nameof(RailcarID)}"
+                    },
+                    new Condition()
+                    {
+                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.{nameof(Fulfillment.IsComplete)}",
+                        ConditionType = Condition.ConditionTypes.Equal,
+                        Right = new Literal(false)
+                    }
+                }
+            };
+        }
         #endregion
 
         #region Relationships
@@ -468,6 +531,13 @@ namespace WebModels.fleet
         public IReadOnlyCollection<FulfillmentPlan> FulfillmentPlans
         {
             get { CheckGet(); return _fulfillmentPlans; }
+        }
+
+        private List<BillOfLading> _billsOfLading = new List<BillOfLading>();
+        [RelationshipList("134EBF5C-C067-4C35-9A68-9BC69D9D4790", nameof(BillOfLading.RailcarID))]
+        public IReadOnlyCollection<BillOfLading> BillsOfLading
+        {
+            get { CheckGet(); return _billsOfLading; }
         }
         #endregion
         #endregion

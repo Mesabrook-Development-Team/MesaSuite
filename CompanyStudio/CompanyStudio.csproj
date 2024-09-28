@@ -266,6 +266,8 @@
     </Compile>
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Alias.cs" />
+    <Compile Include="Models\BillOfLading.cs" />
+    <Compile Include="Models\BillOfLadingItem.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DebitCard.cs" />
@@ -276,18 +278,30 @@
     <Compile Include="Models\EmailTemplate.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\FiscalQuarter.cs" />
+    <Compile Include="Models\Fulfillment.cs" />
+    <Compile Include="Models\FulfillmentPlan.cs" />
+    <Compile Include="Models\FulfillmentPlanPurchaseOrderLine.cs" />
+    <Compile Include="Models\FulfillmentPlanRoute.cs" />
     <Compile Include="Models\Government.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceLine.cs" />
     <Compile Include="Models\InvoiceSalesTax.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\ItemNamespace.cs" />
+    <Compile Include="Models\LeaseBid.cs" />
+    <Compile Include="Models\LeaseRequest.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LocationEmployee.cs" />
     <Compile Include="Models\LocationGovernment.cs" />
     <Compile Include="Models\LocationItem.cs" />
     <Compile Include="Models\Promotion.cs" />
     <Compile Include="Models\PromotionLocationItem.cs" />
+    <Compile Include="Models\PurchaseOrder.cs" />
+    <Compile Include="Models\PurchaseOrderApproval.cs" />
+    <Compile Include="Models\PurchaseOrderLine.cs" />
+    <Compile Include="Models\Railcar.cs" />
+    <Compile Include="Models\RailcarModel.cs" />
+    <Compile Include="Models\RailLocation.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\RegisterStatus.cs" />
     <Compile Include="Models\SalesTax.cs" />
@@ -295,6 +309,9 @@
     <Compile Include="Models\StorePricingAutomationLocation.cs" />
     <Compile Include="Models\StoreSale.cs" />
     <Compile Include="Models\StoreSaleItem.cs" />
+    <Compile Include="Models\Track.cs" />
+    <Compile Include="Models\Train.cs" />
+    <Compile Include="Models\TrainSymbol.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\WireTransferHistory.cs" />
@@ -305,6 +322,158 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\ApprovalViewer\ApprovalControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\ApprovalViewer\ApprovalControl.Designer.cs">
+      <DependentUpon>ApprovalControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\ApprovalViewer\frmApprovalViewerApprover.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\ApprovalViewer\frmApprovalViewerApprover.Designer.cs">
+      <DependentUpon>frmApprovalViewerApprover.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\ApprovalViewer\frmApprovalViewerSubmitter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\ApprovalViewer\frmApprovalViewerSubmitter.Designer.cs">
+      <DependentUpon>frmApprovalViewerSubmitter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\ApprovalViewer\MissingRailcar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\ApprovalViewer\MissingRailcar.Designer.cs">
+      <DependentUpon>MissingRailcar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\ApprovalViewer\OutstandingLeaseRequests.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\ApprovalViewer\OutstandingLeaseRequests.Designer.cs">
+      <DependentUpon>OutstandingLeaseRequests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\Arrow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\Arrow.Designer.cs">
+      <DependentUpon>Arrow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\frmLeaseRequestSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\frmLeaseRequestSelect.Designer.cs">
+      <DependentUpon>frmLeaseRequestSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\frmPurchaseOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\frmPurchaseOrder.Designer.cs">
+      <DependentUpon>frmPurchaseOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\frmRailcarSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\frmRailcarSelect.Designer.cs">
+      <DependentUpon>frmRailcarSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\FulfillmentPlanControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\FulfillmentPlanControl.Designer.cs">
+      <DependentUpon>FulfillmentPlanControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\RouteControlEntity.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\RouteControlEntity.Designer.cs">
+      <DependentUpon>RouteControlEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\RouteControlEnd.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\RouteControlEnd.Designer.cs">
+      <DependentUpon>RouteControlEnd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\RouteControlStart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\RouteControlStart.Designer.cs">
+      <DependentUpon>RouteControlStart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\frmPurchaseOrderExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\frmPurchaseOrderExplorer.Designer.cs">
+      <DependentUpon>frmPurchaseOrderExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\PurchaseOrderLineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\PurchaseOrderLineControl.Designer.cs">
+      <DependentUpon>PurchaseOrderLineControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Fulfillment\AdditionalTasksStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Fulfillment\AdditionalTasksStepControl.Designer.cs">
+      <DependentUpon>AdditionalTasksStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Fulfillment\FulfillmentEntryPOLine.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Fulfillment\FulfillmentEntryPOLine.Designer.cs">
+      <DependentUpon>FulfillmentEntryPOLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Fulfillment\FulfillmentEntryPurchaseOrder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Fulfillment\FulfillmentEntryPurchaseOrder.Designer.cs">
+      <DependentUpon>FulfillmentEntryPurchaseOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Fulfillment\FulfillmentEntryStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Fulfillment\FulfillmentEntryStepControl.Designer.cs">
+      <DependentUpon>FulfillmentEntryStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Fulfillment\FulfillmentWizardController.cs" />
+    <Compile Include="Purchasing\Fulfillment\FulfillmentWizardData.cs" />
+    <Compile Include="Purchasing\Fulfillment\InboundCarStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Fulfillment\InboundCarStepControl.Designer.cs">
+      <DependentUpon>InboundCarStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Fulfillment\ReviewStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Fulfillment\ReviewStepControl.Designer.cs">
+      <DependentUpon>ReviewStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\OpenMaintenance\frmOpenPurchaseOrderReceiver.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\OpenMaintenance\frmOpenPurchaseOrderReceiver.Designer.cs">
+      <DependentUpon>frmOpenPurchaseOrderReceiver.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\OpenMaintenance\frmOpenViewerSubmitter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\OpenMaintenance\frmOpenViewerSubmitter.Designer.cs">
+      <DependentUpon>frmOpenViewerSubmitter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\OpenMaintenance\PurchaseOrderLineReadOnly.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\OpenMaintenance\PurchaseOrderLineReadOnly.Designer.cs">
+      <DependentUpon>PurchaseOrderLineReadOnly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\OpenMaintenance\PurchaseOrderLineUnfulfilled.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\OpenMaintenance\PurchaseOrderLineUnfulfilled.Designer.cs">
+      <DependentUpon>PurchaseOrderLineUnfulfilled.cs</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Store\ClonePrices\ClonePricesWizardController.cs" />
@@ -526,6 +695,81 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\ApprovalViewer\ApprovalControl.resx">
+      <DependentUpon>ApprovalControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\ApprovalViewer\frmApprovalViewerApprover.resx">
+      <DependentUpon>frmApprovalViewerApprover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\ApprovalViewer\frmApprovalViewerSubmitter.resx">
+      <DependentUpon>frmApprovalViewerSubmitter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\ApprovalViewer\MissingRailcar.resx">
+      <DependentUpon>MissingRailcar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\ApprovalViewer\OutstandingLeaseRequests.resx">
+      <DependentUpon>OutstandingLeaseRequests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\DraftEntry\Arrow.resx">
+      <DependentUpon>Arrow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\DraftEntry\frmLeaseRequestSelect.resx">
+      <DependentUpon>frmLeaseRequestSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\DraftEntry\frmPurchaseOrder.resx">
+      <DependentUpon>frmPurchaseOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\DraftEntry\frmRailcarSelect.resx">
+      <DependentUpon>frmRailcarSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\DraftEntry\FulfillmentPlanControl.resx">
+      <DependentUpon>FulfillmentPlanControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\DraftEntry\RouteControlEntity.resx">
+      <DependentUpon>RouteControlEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\DraftEntry\RouteControlEnd.resx">
+      <DependentUpon>RouteControlEnd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\DraftEntry\RouteControlStart.resx">
+      <DependentUpon>RouteControlStart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\frmPurchaseOrderExplorer.resx">
+      <DependentUpon>frmPurchaseOrderExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\DraftEntry\PurchaseOrderLineControl.resx">
+      <DependentUpon>PurchaseOrderLineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Fulfillment\AdditionalTasksStepControl.resx">
+      <DependentUpon>AdditionalTasksStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Fulfillment\FulfillmentEntryPOLine.resx">
+      <DependentUpon>FulfillmentEntryPOLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Fulfillment\FulfillmentEntryPurchaseOrder.resx">
+      <DependentUpon>FulfillmentEntryPurchaseOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Fulfillment\FulfillmentEntryStepControl.resx">
+      <DependentUpon>FulfillmentEntryStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Fulfillment\InboundCarStepControl.resx">
+      <DependentUpon>InboundCarStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Fulfillment\ReviewStepControl.resx">
+      <DependentUpon>ReviewStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\OpenMaintenance\frmOpenPurchaseOrderReceiver.resx">
+      <DependentUpon>frmOpenPurchaseOrderReceiver.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\OpenMaintenance\frmOpenViewerSubmitter.resx">
+      <DependentUpon>frmOpenViewerSubmitter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\OpenMaintenance\PurchaseOrderLineReadOnly.resx">
+      <DependentUpon>PurchaseOrderLineReadOnly.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\OpenMaintenance\PurchaseOrderLineUnfulfilled.resx">
+      <DependentUpon>PurchaseOrderLineUnfulfilled.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Store\ClonePrices\ConfirmationStep.resx">
       <DependentUpon>ConfirmationStep.cs</DependentUpon>
@@ -3727,5 +3971,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

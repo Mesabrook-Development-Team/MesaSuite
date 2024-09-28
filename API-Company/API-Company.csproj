@@ -149,10 +149,15 @@
     <Compile Include="Controllers\EmailTemplateController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\FiscalQuarterController.cs" />
+    <Compile Include="Controllers\FulfillmentController.cs" />
+    <Compile Include="Controllers\FulfillmentPlanController.cs" />
+    <Compile Include="Controllers\FulfillmentPlanPurchaseOrderLineController.cs" />
+    <Compile Include="Controllers\FulfillmentPlanRouteController.cs" />
     <Compile Include="Controllers\GovernmentController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\InvoiceLineController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
+    <Compile Include="Controllers\LeaseRequestController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\LocationEmployeeController.cs" />
     <Compile Include="Controllers\LocationGovernmentController.cs" />
@@ -162,6 +167,10 @@
     <Compile Include="Controllers\PriceCheckController.cs" />
     <Compile Include="Controllers\PromotionController.cs" />
     <Compile Include="Controllers\PromotionLocationItemController.cs" />
+    <Compile Include="Controllers\PurchaseOrderApprovalController.cs" />
+    <Compile Include="Controllers\PurchaseOrderController.cs" />
+    <Compile Include="Controllers\PurchaseOrderLineController.cs" />
+    <Compile Include="Controllers\RailcarController.cs" />
     <Compile Include="Controllers\RegisterAccessController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\RegisterStatusController.cs" />
@@ -171,6 +180,7 @@
     <Compile Include="Controllers\StorePricingAutomationLocationController.cs" />
     <Compile Include="Controllers\StoreSaleItemController.cs" />
     <Compile Include="Controllers\StoreSaleItemIBAccessController.cs" />
+    <Compile Include="Controllers\TrackController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Controllers\WireTransferHistoryController.cs" />
     <Compile Include="Global.asax.cs">

@@ -83,8 +83,10 @@
     <Compile Include="Data\ReleaseResourceWriter.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ControlExtensions.cs" />
+    <Compile Include="Extensions\HashSetExtensions.cs" />
     <Compile Include="Extensions\ListBoxDrawItemEventArgsExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\SelectedListViewItemCollectionExtensions.cs" />

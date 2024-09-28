@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebModels.company;
+using WebModels.gov;
 
 namespace WebModels.purchasing
 {
@@ -73,6 +74,36 @@ namespace WebModels.purchasing
         public Company CompanyTo
         {
             get { CheckGet(); return _companyTo; }
+        }
+
+        private long? _governmentIDFrom;
+        [Field("6C478576-1E8B-4C6C-AD0F-42293B6F9FD7")]
+        public long? GovernmentIDFrom
+        {
+            get { CheckGet(); return _governmentIDFrom; }
+            set { CheckSet(); _governmentIDFrom = value; }
+        }
+
+        private Government _governmentFrom = null;
+        [Relationship("E341E112-0EBE-458B-8E57-40C7EA96A9B3", ForeignKeyField = nameof(GovernmentIDFrom))]
+        public Government GovernmentFrom
+        {
+            get { CheckGet(); return _governmentFrom; }
+        }
+
+        private long? _governmentIDTo;
+        [Field("AEB3B1FF-EF73-4D00-9D97-FDB2B45ACCAF")]
+        public long? GovernmentIDTo
+        {
+            get { CheckGet(); return _governmentIDTo; }
+            set { CheckSet(); _governmentIDTo = value; }
+        }
+
+        private Government _governmentTo = null;
+        [Relationship("E025235D-0C2A-40D4-B316-46DCF2584FC7", ForeignKeyField = nameof(GovernmentIDTo))]
+        public Government GovernmentTo
+        {
+            get { CheckGet(); return _governmentTo; }
         }
     }
 }

@@ -65,6 +65,25 @@ namespace MesaSuite.Common.Data
                 }
             }
 
+            if (AdditionalFields != null)
+            {
+                foreach(string field in AdditionalFields)
+                {
+                    if (first)
+                    {
+                        uriBuilder.Append("?");
+                        first = false;
+                    }
+                    else
+                    {
+                        uriBuilder.Append("&");
+                    }
+
+                    uriBuilder.Append("additionalField=");
+                    uriBuilder.Append(Uri.EscapeDataString(field));
+                }
+            }
+
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uriBuilder.ToString());
             request.Method = WebRequestMethods.Http.Get;
 

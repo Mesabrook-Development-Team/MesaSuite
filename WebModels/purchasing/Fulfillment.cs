@@ -1,5 +1,8 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -75,6 +78,134 @@ namespace WebModels.purchasing
         {
             get { CheckGet(); return _isComplete; }
             set { CheckSet(); _isComplete = value; }
+        }
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (IsInsert && RailcarID != null)
+            {
+                // Automation for railcar track and route assignments
+                Search<FulfillmentPlan> fulfillmentPlanSearch = new Search<FulfillmentPlan>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<FulfillmentPlan>()
+                    {
+                        Field = nameof(FulfillmentPlan.RailcarID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = RailcarID
+                    },
+                    new ExistsSearchCondition<FulfillmentPlan>()
+                    {
+                        RelationshipName = nameof(FulfillmentPlan.FulfillmentPlanPurchaseOrderLines),
+                        ExistsType = ExistsSearchCondition<FulfillmentPlan>.ExistsTypes.Exists,
+                        Condition = new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                        {
+                            Field = nameof(FulfillmentPlanPurchaseOrderLine.PurchaseOrderLineID),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = PurchaseOrderLineID
+                        }
+                    }));
+
+                List<string> fields = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlan>(fp => new List<object>()
+                {
+                    fp.TrackIDDestination,
+                    fp.TrackIDStrategicAfterLoad,
+                    fp.FulfillmentPlanRoutes.First().SortOrder,
+                    fp.FulfillmentPlanRoutes.First().CompanyIDFrom,
+                    fp.FulfillmentPlanRoutes.First().CompanyIDTo,
+                    fp.FulfillmentPlanRoutes.First().GovernmentIDFrom,
+                    fp.FulfillmentPlanRoutes.First().GovernmentIDTo
+                });
+                FulfillmentPlan plan = fulfillmentPlanSearch.GetReadOnly(transaction, fields);
+                if (plan != null)
+                {
+                    Railcar railcar = DataObject.GetEditableByPrimaryKey<Railcar>(RailcarID, transaction, null);
+                    railcar.TrackIDDestination = plan.TrackIDDestination;
+                    railcar.TrackIDStrategic = plan.TrackIDStrategicAfterLoad;
+                    if (!railcar.Save(transaction))
+                    {
+                        Errors.AddRange(railcar.Errors.ToArray());
+                        return false;
+                    }
+
+                    Search<RailcarRoute> railcarRouteSearch = new Search<RailcarRoute>(new LongSearchCondition<RailcarRoute>()
+                    {
+                        Field = nameof(RailcarRoute.RailcarID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = RailcarID
+                    });
+                    foreach(RailcarRoute railcarRoute in railcarRouteSearch.GetEditableReader(transaction))
+                    {
+                        if (!railcarRoute.Delete(transaction))
+                        {
+                            Errors.AddRange(railcarRoute.Errors.ToArray());
+                            return false;
+                        }
+                    }
+
+                    foreach(FulfillmentPlanRoute planRoute in (plan.FulfillmentPlanRoutes ?? new List<FulfillmentPlanRoute>()).OrderBy(rr => rr.SortOrder))
+                    {
+                        RailcarRoute railcarRoute = DataObjectFactory.Create<RailcarRoute>();
+                        railcarRoute.RailcarID = RailcarID;
+                        railcarRoute.CompanyIDFrom = planRoute.CompanyIDFrom;
+                        railcarRoute.CompanyIDTo = planRoute.CompanyIDTo;
+                        railcarRoute.GovernmentIDFrom = planRoute.GovernmentIDFrom;
+                        railcarRoute.GovernmentIDTo = planRoute.GovernmentIDTo;
+                        railcarRoute.SortOrder = planRoute.SortOrder;
+                        if (!railcarRoute.Save(transaction))
+                        {
+                            Errors.AddRange(railcarRoute.Errors.ToArray());
+                            return false;
+                        }
+                    }
+                }
+
+                // Add fulfillment load to railcar
+                PurchaseOrderLine purchaseOrderLine = DataObject.GetReadOnlyByPrimaryKey<PurchaseOrderLine>(PurchaseOrderLineID, transaction, new[] { nameof(PurchaseOrderLine.ItemID) });
+                if (purchaseOrderLine != null && purchaseOrderLine.ItemID != null)
+                {
+                    RailcarLoad railcarLoad = DataObjectFactory.Create<RailcarLoad>();
+                    railcarLoad.RailcarID = RailcarID;
+                    railcarLoad.Quantity = Quantity;
+                    railcarLoad.ItemID = purchaseOrderLine.ItemID;
+                    if (!railcarLoad.Save(transaction))
+                    {
+                        Errors.AddRange(railcarLoad.Errors.ToArray());
+                        return false;
+                    }
+                }
+
+
+                // Update Purchase Order status, if necessary
+                Search<PurchaseOrder> purchaseOrderSearch = new Search<PurchaseOrder>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new ExistsSearchCondition<PurchaseOrder>()
+                    {
+                        RelationshipName = nameof(PurchaseOrder.PurchaseOrderLines),
+                        ExistsType = ExistsSearchCondition<PurchaseOrder>.ExistsTypes.Exists,
+                        Condition = new LongSearchCondition<PurchaseOrderLine>()
+                        {
+                            Field = nameof(PurchaseOrderLine.PurchaseOrderLineID),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = PurchaseOrderLineID
+                        }
+                    },
+                    new IntSearchCondition<PurchaseOrder>()
+                    {
+                        Field = nameof(PurchaseOrder.Status),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = (int)PurchaseOrder.Statuses.Accepted
+                    }));
+
+                PurchaseOrder purchaseOrder = purchaseOrderSearch.GetEditable(transaction);
+                if (purchaseOrder != null)
+                {
+                    purchaseOrder.Status = PurchaseOrder.Statuses.InProgress;
+                    if (!purchaseOrder.Save(transaction, new List<Guid>() { PurchaseOrder.SaveFlags.V_StatusChange }))
+                    {
+                        Errors.AddRange(purchaseOrder.Errors.ToArray());
+                        return false;
+                    }
+                }
+            }
+            return base.PostSave(transaction);
         }
     }
 }

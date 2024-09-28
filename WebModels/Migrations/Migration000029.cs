@@ -37,7 +37,8 @@ namespace WebModels.Migrations
                 { "GovernmentIDDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "PurchaseOrderDate", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
                 { "Status", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
-                { "Description", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 250) }
+                { "Description", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 250) },
+                { "InvoiceSchedule", new FieldSpecification(FieldSpecification.FieldTypes.Int) }
             };
             createTable.Execute(transaction);
             IAlterTable alter = SQLProviderFactory.GetAlterTableQuery();
@@ -47,6 +48,24 @@ namespace WebModels.Migrations
             alter.AddForeignKey("FKPurchaseOrder_Location_LocationIDDestination", "LocationIDDestination", "company", "Location", "LocationID", transaction);
             alter.AddForeignKey("FKPurchaseOrder_Government_GovernmentIDOrigin", "GovernmentIDOrigin", "gov", "Government", "GovernmentID", transaction);
             alter.AddForeignKey("FKPurchaseOrder_Government_GovernmentIDDestination", "GovernmentIDDestination", "gov", "Government", "GovernmentID", transaction);
+
+            createTable.TableName = "PurchaseOrderApproval";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "PurchaseOrderApprovalID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "PurchaseOrderID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyIDApprover", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDApprover", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "ApprovalStatus", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "ApprovalPurpose", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 200) },
+                { "RejectionReason", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 200) },
+                { "FutureAutoApprove", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } }
+            };
+            createTable.Execute(transaction);
+            alter.Table = "PurchaseOrderApproval";
+            alter.AddForeignKey("FKPurchaseOrderApproval_PurchaseOrder_PurchaseOrderID", "PurchaseOrderID", "purchasing", "PurchaseOrder", "PurchaseOrderID", transaction);
+            alter.AddForeignKey("FKPurchaseOrderApproval_Company_CompanyIDApprover", "CompanyIDApprover", "company", "Company", "CompanyID", transaction);
+            alter.AddForeignKey("FKPurchaseOrderApproval_Government_GovernmentIDApprover", "GovernmentIDApprover", "gov", "Government", "GovernmentID", transaction);
 
             createTable.TableName = "PurchaseOrderLine";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
@@ -69,24 +88,35 @@ namespace WebModels.Migrations
             createTable.Columns = new Dictionary<string, FieldSpecification>()
             {
                 { "FulfillmentPlanID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
-                { "PurchaseOrderLineID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "RailcarID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "LeaseRequestID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "TrackIDLoading", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "TrackIDDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "TrackIDStrategicDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "TrackIDStrategicAfterLoad", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "TrackIDStrategicAfterDestination", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "TrackIDPostFulfillment", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
             };
             createTable.Execute(transaction);
 
             alter.Table = "FulfillmentPlan";
-            alter.AddForeignKey("FKFulfillmentPlan_PurchaseOrderLine_PurchaseOrderLineID", "PurchaseOrderLineID", "purchasing", "PurchaseOrderLine", "PurchaseOrderLineID", transaction);
             alter.AddForeignKey("FKFulfillmentPlan_Railcar_RailcarID", "RailcarID", "fleet", "Railcar", "RailcarID", transaction);
             alter.AddForeignKey("FKFulfillmentPlan_LeaseRequest_LeaseRequestID", "LeaseRequestID", "fleet", "LeaseRequest", "LeaseRequestID", transaction);
             alter.AddForeignKey("FKFulfillmentPlan_Track_TrackIDLoading", "TrackIDLoading", "fleet", "Track", "TrackID", transaction);
             alter.AddForeignKey("FKFulfillmentPlan_Track_TrackIDDestination", "TrackIDDestination", "fleet", "Track", "TrackID", transaction);
-            alter.AddForeignKey("FKFulfillmentPlan_Track_TrackIDStrategicDestination", "TrackIDStrategicDestination", "fleet", "Track", "TrackID", transaction);
+            alter.AddForeignKey("FKFulfillmentPlan_Track_TrackIDStrategicDestination", "TrackIDStrategicAfterLoad", "fleet", "Track", "TrackID", transaction);
             alter.AddForeignKey("FKFulfillmentPlan_Track_TrackIDPostFulfillment", "TrackIDPostFulfillment", "fleet", "Track", "TrackID", transaction);
+
+            createTable.TableName = "FulfillmentPlanPurchaseOrderLine";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "FulfillmentPlanPurchaseOrderLineID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "FulfillmentPlanID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "PurchaseOrderLineID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+            };
+            createTable.Execute(transaction);
+            alter.Table = "FulfillmentPlanPurchaseOrderLine";
+            alter.AddForeignKey("FKFulfillmentPlanPurchaseOrderLine_FulfillmentPlan_FulfillmentPlanID", "FulfillmentPlanID", "purchasing", "FulfillmentPlan", "FulfillmentPlanID", transaction);
+            alter.AddForeignKey("FKFulfillmentPlanPurchaseOrderLine_PurchaseOrderLine_PurchaseOrderLineID", "PurchaseOrderLineID", "purchasing", "PurchaseOrderLine", "PurchaseOrderLineID", transaction);
 
             createTable.TableName = "FulfillmentPlanRoute";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
@@ -95,7 +125,9 @@ namespace WebModels.Migrations
                 { "FulfillmentPlanID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "SortOrder", new FieldSpecification(FieldSpecification.FieldTypes.TinyInt) },
                 { "CompanyIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "CompanyIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+                { "CompanyIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
             };
             createTable.Execute(transaction);
 
@@ -103,6 +135,8 @@ namespace WebModels.Migrations
             alter.AddForeignKey("FKFulfillmentPlanRoute_FulfillmentPlan_FulfillmentPlanID", "FulfillmentPlanID", "purchasing", "FulfillmentPlan", "FulfillmentPlanID", transaction);
             alter.AddForeignKey("FKFulfillmentPlanRoute_Company_CompanyIDFrom", "CompanyIDFrom", "company", "Company", "CompanyID", transaction);
             alter.AddForeignKey("FKFulfillmentPlanRoute_Company_CompanyIDTo", "CompanyIDTo", "company", "Company", "CompanyID", transaction);
+            alter.AddForeignKey("FKFulfillmentPlanRoute_Government_GovernmentIDFrom", "GovernmentIDFrom", "gov", "Government", "GovernmentID", transaction);
+            alter.AddForeignKey("FKFulfillmentPlanRoute_Government_GovernmentIDTo", "GovernmentIDTo", "gov", "Government", "GovernmentID", transaction);
 
             createTable.TableName = "Fulfillment";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
@@ -114,6 +148,48 @@ namespace WebModels.Migrations
                 { "Quantity", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
                 { "IsComplete", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } }
             };
+
+            createTable.TableName = "BillOfLading";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "BillOfLadingID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "PurchaseOrderID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyIDShipper", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDShipper", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyIDConsignee", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDConsignee", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyIDCarrier", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDCarrier", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "RailcarID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "IssuedDate", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
+                { "DeliveredDate", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) },
+                { "Type", new FieldSpecification(FieldSpecification.FieldTypes.Int) }
+            };
+            createTable.Execute(transaction);
+            alter.Table = "BillOfLading";
+            alter.AddForeignKey("FKBillOfLading_PurchaseOrder_PurchaseOrderID", "PurchaseOrderID", "purchasing", "PurchaseOrder", "PurchaseOrderID", transaction);
+            alter.AddForeignKey("FKBillOfLading_Company_CompanyIDShipper", "CompanyIDShipper", "company", "Company", "CompanyID", transaction);
+            alter.AddForeignKey("FKBillOfLading_Government_GovernmentIDShipper", "GovernmentIDShipper", "gov", "Government", "GovernmentID", transaction);
+            alter.AddForeignKey("FKBillOfLading_Company_CompanyIDConsignee", "CompanyIDConsignee", "company", "Company", "CompanyID", transaction);
+            alter.AddForeignKey("FKBillOfLading_Government_GovernmentIDConsignee", "GovernmentIDConsignee", "gov", "Government", "GovernmentID", transaction);
+            alter.AddForeignKey("FKBillOfLading_Company_CompanyIDCarrier", "CompanyIDCarrier", "company", "Company", "CompanyID", transaction);
+            alter.AddForeignKey("FKBillOfLading_Government_GovernmentIDCarrier", "GovernmentIDCarrier", "gov", "Government", "GovernmentID", transaction);
+            alter.AddForeignKey("FKBillOfLading_Railcar_RailcarID", "RailcarID", "fleet", "Railcar", "RailcarID", transaction);
+
+            createTable.TableName = "BillOfLadingItem";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "BillOfLadingItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "BillOfLadingID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "ItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "ItemDescription", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 100) },
+                { "Quantity", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
+                { "UnitCost", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) }
+            };
+            createTable.Execute(transaction);
+            alter.Table = "BillOfLadingItem";
+            alter.AddForeignKey("FKBillOfLadingItem_BillOfLading_BillOfLadingID", "BillOfLadingID", "purchasing", "BillOfLading", "BillOfLadingID", transaction);
+            alter.AddForeignKey("FKBillOfLadingItem_Item_ItemID", "ItemID", "mesasys", "Item", "ItemID", transaction);
         }
 
         private void CreateFleetTables(ITransaction transaction)
@@ -127,7 +203,9 @@ namespace WebModels.Migrations
                 { "RailcarID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "SortOrder", new FieldSpecification(FieldSpecification.FieldTypes.TinyInt) },
                 { "CompanyIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "CompanyIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+                { "CompanyIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
             };
             createTable.Execute(transaction);
 
@@ -137,6 +215,8 @@ namespace WebModels.Migrations
             alterTable.AddForeignKey("FKRailcarRoute_Railcar_RailcarID", "RailcarID", "fleet", "Railcar", "RailcarID", transaction);
             alterTable.AddForeignKey("FKRailcarRoute_Company_CompanyIDFrom", "CompanyIDFrom", "company", "Company", "CompanyID", transaction);
             alterTable.AddForeignKey("FKRailcarRoute_Company_CompanyIDTo", "CompanyIDTo", "company", "Company", "CompanyID", transaction);
+            alterTable.AddForeignKey("FKRailcarRoute_Government_GovernmentIDFrom", "GovernmentIDFrom", "gov", "Government", "GovernmentID", transaction);
+            alterTable.AddForeignKey("FKRailcarRoute_Government_GovernmentIDTo", "GovernmentIDTo", "gov", "Government", "GovernmentID", transaction);
         }
 
         private void UpdateTables(ITransaction transaction)

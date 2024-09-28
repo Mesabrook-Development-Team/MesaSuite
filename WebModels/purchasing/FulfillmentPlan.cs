@@ -22,21 +22,6 @@ namespace WebModels.purchasing
             set { CheckSet(); _fulfillmentPlanID = value; }
         }
 
-        private long? _purchaseOrderLineID;
-        [Field("A42DB2D4-0BF8-45EE-8594-96A9CD06AC58")]
-        public long? PurchaseOrderLineID
-        {
-            get { CheckGet(); return _purchaseOrderLineID; }
-            set { CheckSet(); _purchaseOrderLineID = value; }
-        }
-
-        private PurchaseOrderLine _purchaseOrderLine = null;
-        [Relationship("FFAA0FC5-61F1-4C0E-8803-A75B7A5CCFA5")]
-        public PurchaseOrderLine PurchaseOrderLine
-        {
-            get { CheckGet(); return _purchaseOrderLine; }
-        }
-
         private long? _railcarID;
         [Field("09B2BB59-5D64-48D3-92F3-CA8460DFE6BF")]
         public long? RailcarID
@@ -97,19 +82,34 @@ namespace WebModels.purchasing
             get { CheckGet(); return _trackDestination; }
         }
 
-        private long? _trackIDStrategicDestination;
+        private long? _trackIDStrategicAfterLoad;
         [Field("69B99F3D-8E5B-4F69-A4E1-DA4B01736C27")]
-        public long? TrackIDStrategicDestination
+        public long? TrackIDStrategicAfterLoad
         {
-            get { CheckGet(); return _trackIDStrategicDestination; }
-            set { CheckSet(); _trackIDStrategicDestination = value; }
+            get { CheckGet(); return _trackIDStrategicAfterLoad; }
+            set { CheckSet(); _trackIDStrategicAfterLoad = value; }
         }
 
-        private Track _trackStrategicDestination = null;
-        [Relationship("DD54C7F4-2A4D-493D-AB2C-BE33F5D7B42F", ForeignKeyField = nameof(TrackIDStrategicDestination))]
-        public Track TrackStrategicDestination
+        private Track _trackStrategicAfterLoad = null;
+        [Relationship("DD54C7F4-2A4D-493D-AB2C-BE33F5D7B42F", ForeignKeyField = nameof(TrackIDStrategicAfterLoad))]
+        public Track TrackStrategicAfterLoad
         {
-            get { CheckGet(); return _trackStrategicDestination; }
+            get { CheckGet(); return _trackStrategicAfterLoad; }
+        }
+
+        private long? _trackIDStrategicAfterDestination;
+        [Field("8434D78E-A526-4CD8-9147-2E62BD4B7C98")]
+        public long? TrackIDStrategicAfterDestination
+        {
+            get { CheckGet(); return _trackIDStrategicAfterDestination; }
+            set { CheckSet(); _trackIDStrategicAfterDestination = value; }
+        }
+
+        private Track _trackStrategicAfterDestination = null;
+        [Relationship("8427A8E1-D172-4106-B4EE-DDB2C69F7A83", ForeignKeyField = nameof(TrackIDStrategicAfterDestination))]
+        public Track TrackStrategicAfterDestination
+        {
+            get { CheckGet(); return _trackStrategicAfterDestination; }
         }
 
         private long? _trackIDPostFulfillment;
@@ -134,6 +134,13 @@ namespace WebModels.purchasing
         public IReadOnlyCollection<FulfillmentPlanRoute> FulfillmentPlanRoutes
         {
             get { CheckGet(); return _fulfillmentPlanRoutes; }
+        }
+
+        private List<FulfillmentPlanPurchaseOrderLine> _fulfillmentPlanPurchaseOrderLines = new List<FulfillmentPlanPurchaseOrderLine>();
+        [RelationshipList("79F614DF-98B1-4AB2-A25D-0384B1B520A2", nameof(FulfillmentPlanPurchaseOrderLine.FulfillmentPlanID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<FulfillmentPlanPurchaseOrderLine> FulfillmentPlanPurchaseOrderLines
+        {
+            get { CheckGet(); return _fulfillmentPlanPurchaseOrderLines; }
         }
         #endregion
         #endregion

@@ -103,10 +103,27 @@ namespace FleetTracking.Interop
             parentForm.Text = "Browse Equipment Roster";
         }
 
+        public void OpenRailcarDetail(long? railcarID)
+        {
+            OpenForm(new Roster.RailcarDetail() { Application = this, RailcarID = railcarID });
+        }
+
         public void ManageLeasing()
         {
             Form parentForm = OpenForm(new Leasing.LeaseManagement() { Application = this });
             parentForm.Text = "Manage Leasing";
+        }
+
+        public long? CreateNewLease()
+        {
+            Leasing.LeaseRequestDetail leaseRequest = new Leasing.LeaseRequestDetail() { Application = this, CloseOnSave = true };
+            OpenForm(leaseRequest, OpenFormOptions.Dialog);
+            return leaseRequest.LeaseRequestID;
+        }
+
+        public void OpenLeaseRequestDetail(long? leaseRequestID)
+        {
+            OpenForm(new Leasing.LeaseRequestDetail() { Application = this, LeaseRequestID = leaseRequestID }, OpenFormOptions.Popout);
         }
 
         public void BrowseTrainSymbols()

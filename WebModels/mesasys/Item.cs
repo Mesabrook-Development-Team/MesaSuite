@@ -126,6 +126,13 @@ namespace WebModels.mesasys
         {
             get { CheckGet(); return _purchaseOrderLines; }
         }
+
+        private List<BillOfLadingItem> _billOfLadingItems = new List<BillOfLadingItem>();
+        [RelationshipList("EF1D2423-77F4-4DF8-9D9D-012CE93C2D44", nameof(BillOfLadingItem.ItemID))]
+        public IReadOnlyCollection<BillOfLadingItem> BillOfLadingItems
+        {
+            get { CheckGet(); return _billOfLadingItems; }
+        }
         #endregion
         #endregion
     }

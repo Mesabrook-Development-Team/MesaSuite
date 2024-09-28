@@ -276,20 +276,6 @@ namespace WebModels.company
         }
         #endregion
         #region purchasing
-        private List<PurchaseOrder> _purchaseOrderOrigins = new List<PurchaseOrder>();
-        [RelationshipList("B6F7A8F8-8E8C-4B9F-8C8F-4A9C8C8C8C8C", nameof(PurchaseOrder.CompanyIDOrigin))]
-        public IReadOnlyCollection<PurchaseOrder> PurchaseOrderOrigins
-        {
-            get { CheckGet(); return _purchaseOrderOrigins; }
-        }
-
-        private List<PurchaseOrder> _purchaseOrderDestinations = new List<PurchaseOrder>();
-        [RelationshipList("CE9D354F-D707-4511-9700-F47A1C8793E3", nameof(PurchaseOrder.CompanyIDDestination))]
-        public IReadOnlyCollection<PurchaseOrder> PurchaseOrderDestinations
-        {
-            get { CheckGet(); return _purchaseOrderDestinations; }
-        }
-
         private List<FulfillmentPlanRoute> _fulfillmentPlanRouteFroms = new List<FulfillmentPlanRoute>();
         [RelationshipList("F440E77F-D9E7-4453-BAD4-83ACA83C8A3A", nameof(FulfillmentPlanRoute.CompanyIDFrom))]
         public IReadOnlyCollection<FulfillmentPlanRoute> FulfillmentPlanRouteFroms
@@ -302,6 +288,34 @@ namespace WebModels.company
         public IReadOnlyCollection<FulfillmentPlanRoute> FulfillmentPlanRouteTos
         {
             get { CheckGet(); return _fulfillmentPlanRouteTos; }
+        }
+
+        private List<PurchaseOrderApproval> _purchaseOrderApprovals = new List<PurchaseOrderApproval>();
+        [RelationshipList("94B116B9-46D3-45B2-87EB-6E30D75E9BE9", nameof(PurchaseOrderApproval.CompanyIDApprover), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<PurchaseOrderApproval> PurchaseOrderApprovals
+        {
+            get { CheckGet(); return _purchaseOrderApprovals; }
+        }
+
+        private List<BillOfLading> _billsOfLadingShipper = new List<BillOfLading>();
+        [RelationshipList("711B2CCA-5EE5-4779-A0C3-C94A5B1033E3", nameof(BillOfLading.CompanyIDShipper))]
+        public IReadOnlyCollection<BillOfLading> BillsOfLadingShipper
+        {
+            get { CheckGet(); return _billsOfLadingShipper; }
+        }
+
+        private List<BillOfLading> _billsOfLadingConsignee = new List<BillOfLading>();
+        [RelationshipList("D24794A5-135A-4BE3-B64F-69DBEC7FBED8", nameof(BillOfLading.CompanyIDConsignee))]
+        public IReadOnlyCollection<BillOfLading> BillsOfLadingConsignee
+        {
+            get { CheckGet(); return _billsOfLadingConsignee; }
+        }
+
+        private List<BillOfLading> _billsOfLadingCarrier = new List<BillOfLading>();
+        [RelationshipList("B5F96C5F-BA50-485B-AAEF-8F2415DC3DD5", nameof(BillOfLading.CompanyIDCarrier))]
+        public IReadOnlyCollection<BillOfLading> BillsOfLadingCarrier
+        {
+            get { CheckGet(); return _billsOfLadingCarrier; }
         }
         #endregion
         #endregion

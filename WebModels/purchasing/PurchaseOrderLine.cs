@@ -97,20 +97,18 @@ namespace WebModels.purchasing
             set { CheckSet(); _unitCost = value; }
         }
 
-        private FulfillmentPlan _fulfillmentPlan = null;
-        [Relationship("98FB4D2F-B14C-4615-AFD5-C4C425C82FB5", OneToOneByForeignKey = true)]
-        public FulfillmentPlan FulfillmentPlan
-        {
-            get { CheckGet(); return _fulfillmentPlan; }
-        }
-
         protected override bool PreDelete(ITransaction transaction)
         {
-            Search<FulfillmentPlan> fulfillmentPlanSearch = new Search<FulfillmentPlan>(new LongSearchCondition<FulfillmentPlan>()
+            Search<FulfillmentPlan> fulfillmentPlanSearch = new Search<FulfillmentPlan>(new ExistsSearchCondition<FulfillmentPlan>()
             {
-                Field = nameof(FulfillmentPlan.PurchaseOrderLineID),
-                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = PurchaseOrderLineID
+                RelationshipName = nameof(FulfillmentPlan.FulfillmentPlanPurchaseOrderLines),
+                ExistsType = ExistsSearchCondition<FulfillmentPlan>.ExistsTypes.Exists,
+                Condition = new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                {
+                    Field = nameof(FulfillmentPlanPurchaseOrderLine.PurchaseOrderLineID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = PurchaseOrderLineID
+                }
             });
 
             if (fulfillmentPlanSearch.ExecuteExists(transaction))
@@ -134,6 +132,21 @@ namespace WebModels.purchasing
         public List<InvoiceLine> InvoiceLines
         {
             get { CheckGet(); return _invoiceLines; }
+        }
+        #endregion
+        #region purchasing
+        private List<FulfillmentPlanPurchaseOrderLine> _fulfillmentPlanPurchaseOrderLines = new List<FulfillmentPlanPurchaseOrderLine>();
+        [RelationshipList("354F1484-E4B8-44CF-B4BE-7719C19683D5", nameof(FulfillmentPlanPurchaseOrderLine.PurchaseOrderLineID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<FulfillmentPlanPurchaseOrderLine> FulfillmentPlanPurchaseOrderLines
+        {
+            get { CheckGet(); return _fulfillmentPlanPurchaseOrderLines; }
+        }
+
+        private List<Fulfillment> _fulfillments = new List<Fulfillment>();
+        [RelationshipList("91C27B49-3DE2-4BC1-B82B-148F84D4BE33", nameof(Fulfillment.PurchaseOrderLineID))]
+        public IReadOnlyCollection<Fulfillment> Fulfillments
+        {
+            get { CheckGet(); return _fulfillments; }
         }
         #endregion
         #endregion

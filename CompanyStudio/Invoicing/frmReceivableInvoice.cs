@@ -270,7 +270,7 @@ namespace CompanyStudio.Invoicing
             skipActionButton = false;
         }
 
-        public async void Save()
+        public async Task Save()
         {
             await InternalSave(false);
         }

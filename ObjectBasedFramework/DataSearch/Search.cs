@@ -200,12 +200,18 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
                             break;
                         }
 
-                        HashSet<string> fieldsAfterReverseRelationship = sortedFields.Where(field => field.StartsWith(checkedFieldPath + ".")).Select(f => f.Replace(checkedFieldPath + ".", "")).ToHashSet();
+                        HashSet<string> fieldsAfterReverseRelationship = sortedFields.Where(field => field.StartsWith(checkedFieldPath + ".")).Select(f => f.Substring(checkedFieldPath.Length + 1)).ToHashSet();
                         fieldsAfterReverseRelationship.Add(relationshipList.RelatedSchemaObject.PrimaryKeyField.FieldName);
                         
                         foreach(KeyValuePair<string, Tuple<ISelectQuery, Dictionary<string, string>>> kvp in GetBaseQueries(relationshipList.RelatedSchemaObject, fieldsAfterReverseRelationship, (upperFieldPath ?? "") + checkedFieldPath + "."))
                         {
                             queriesByFieldPath.Add(checkedFieldPath + "." + kvp.Key, kvp.Value);
+                        }
+
+                        // Add any added child fields to the main retrieval list
+                        foreach(string field in fieldsAfterReverseRelationship)
+                        {
+                            fields.Add(checkedFieldPath + "." + field);
                         }
 
                         break;

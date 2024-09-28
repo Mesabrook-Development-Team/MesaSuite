@@ -28,9 +28,9 @@ namespace CompanyStudio.Invoicing
 
         public event EventHandler OnSave;
 
-        public void Save()
+        public async Task Save()
         {
-            Task.Run(() => InternalSave(false)).Wait();
+            await InternalSave(false);
         }
 
         private async Task InternalSave(bool fromAuthorizeButton)

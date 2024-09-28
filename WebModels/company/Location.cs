@@ -9,6 +9,7 @@ using WebModels.account;
 using WebModels.fleet;
 using WebModels.invoicing;
 using WebModels.mesasys;
+using WebModels.purchasing;
 
 namespace WebModels.company
 {
@@ -260,6 +261,21 @@ namespace WebModels.company
         public IReadOnlyCollection<Invoice> InvoicesTo
         {
             get { CheckGet(); return _invoicesTo; }
+        }
+        #endregion
+        #region purchasing
+        private List<PurchaseOrder> _purchaseOrderOrigins = new List<PurchaseOrder>();
+        [RelationshipList("B6F7A8F8-8E8C-4B9F-8C8F-4A9C8C8C8C8C", nameof(PurchaseOrder.LocationIDOrigin))]
+        public IReadOnlyCollection<PurchaseOrder> PurchaseOrderOrigins
+        {
+            get { CheckGet(); return _purchaseOrderOrigins; }
+        }
+
+        private List<PurchaseOrder> _purchaseOrderDestinations = new List<PurchaseOrder>();
+        [RelationshipList("CE9D354F-D707-4511-9700-F47A1C8793E3", nameof(PurchaseOrder.LocationIDDestination))]
+        public IReadOnlyCollection<PurchaseOrder> PurchaseOrderDestinations
+        {
+            get { CheckGet(); return _purchaseOrderDestinations; }
         }
         #endregion
         #endregion

@@ -282,6 +282,20 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _railDistricts; }
         }
+
+        private List<fleet.RailcarRoute> _railcarRouteFroms = new List<fleet.RailcarRoute>();
+        [RelationshipList("475F4A93-9F0D-452C-9C53-6364DB715F03", nameof(fleet.RailcarRoute.GovernmentIDFrom))]
+        public IReadOnlyCollection<fleet.RailcarRoute> RailcarRouteFroms
+        {
+            get { CheckGet(); return _railcarRouteFroms; }
+        }
+
+        private List<fleet.RailcarRoute> _railcarRouteTos = new List<fleet.RailcarRoute>();
+        [RelationshipList("D9717142-19BC-417A-B6DB-D8C84043877A", nameof(fleet.RailcarRoute.GovernmentIDTo))]
+        public IReadOnlyCollection<fleet.RailcarRoute> RailcarRouteTos
+        {
+            get { CheckGet(); return _railcarRouteTos; }
+        }
         #endregion
         #region gov
         private List<Official> _officials = new List<Official>();
@@ -347,6 +361,48 @@ namespace WebModels.gov
         public IReadOnlyCollection<PurchaseOrder> PurchaseOrderDestinations
         {
             get { CheckGet(); return _purchaseOrderDestinations; }
+        }
+
+        private List<FulfillmentPlanRoute> _fulfillmentPlanRouteFroms = new List<FulfillmentPlanRoute>();
+        [RelationshipList("C180EA65-9DE1-4C0F-8382-6E23F3C03518", nameof(FulfillmentPlanRoute.GovernmentIDFrom))]
+        public IReadOnlyCollection<FulfillmentPlanRoute> FulfillmentPlanRouteFroms
+        {
+            get { CheckGet(); return _fulfillmentPlanRouteFroms; }
+        }
+
+        private List<FulfillmentPlanRoute> _fulfillmentPlanRouteTos = new List<FulfillmentPlanRoute>();
+        [RelationshipList("E5691164-E38C-41B1-84EA-82794350F01D", nameof(FulfillmentPlanRoute.GovernmentIDTo))]
+        public IReadOnlyCollection<FulfillmentPlanRoute> FulfillmentPlanRouteTos
+        {
+            get { CheckGet(); return _fulfillmentPlanRouteTos; }
+        }
+
+        private List<PurchaseOrderApproval> _purchaseOrderApprovals = new List<PurchaseOrderApproval>();
+        [RelationshipList("11BE5642-1DA3-4A68-ABF8-656C28FAAF60", nameof(PurchaseOrderApproval.GovernmentIDApprover), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<PurchaseOrderApproval> PurchaseOrderApprovals
+        {
+            get { CheckGet(); return _purchaseOrderApprovals; }
+        }
+
+        private List<BillOfLading> _billsOfLadingShipper = new List<BillOfLading>();
+        [RelationshipList("7D552921-D779-43FE-ACE8-E4438F63418A", nameof(BillOfLading.GovernmentIDShipper))]
+        public IReadOnlyCollection<BillOfLading> BillsOfLadingShipper
+        {
+            get { CheckGet(); return _billsOfLadingShipper; }
+        }
+
+        private List<BillOfLading> _billsOfLadingConsignee = new List<BillOfLading>();
+        [RelationshipList("8D342BD1-A1E5-4E30-A473-6305133866D7", nameof(BillOfLading.GovernmentIDConsignee))]
+        public IReadOnlyCollection<BillOfLading> BillsOfLadingConsignee
+        {
+            get { CheckGet(); return _billsOfLadingConsignee; }
+        }
+
+        private List<BillOfLading> _billsOfLadingCarrier = new List<BillOfLading>();
+        [RelationshipList("BB498567-5004-4767-A2A8-25FB88929C84", nameof(BillOfLading.GovernmentIDCarrier))]
+        public IReadOnlyCollection<BillOfLading> BillsOfLadingCarrier
+        {
+            get { CheckGet(); return _billsOfLadingCarrier; }
         }
         #endregion
         #endregion

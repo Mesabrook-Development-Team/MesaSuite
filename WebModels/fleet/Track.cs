@@ -205,11 +205,18 @@ namespace WebModels.fleet
             get { CheckGet(); return _fulfillmentPlanDestinations; }
         }
 
-        private List<FulfillmentPlan> _fulfillmentPlanStrategicDestinations = new List<FulfillmentPlan>();
-        [RelationshipList("387BACFC-EDE0-4232-84AB-43270848F472", nameof(FulfillmentPlan.TrackIDStrategicDestination))]
-        public IReadOnlyCollection<FulfillmentPlan> FulfillmentPlanStrategicDestinations
+        private List<FulfillmentPlan> _fulfillmentPlanStrategicAfterLoads = new List<FulfillmentPlan>();
+        [RelationshipList("387BACFC-EDE0-4232-84AB-43270848F472", nameof(FulfillmentPlan.TrackIDStrategicAfterLoad))]
+        public IReadOnlyCollection<FulfillmentPlan> FulfillmentPlanStrategicAfterLoads
         {
-            get { CheckGet(); return _fulfillmentPlanStrategicDestinations; }
+            get { CheckGet(); return _fulfillmentPlanStrategicAfterLoads; }
+        }
+
+        private List<FulfillmentPlan> _fulfillmentPlanStrategicAfterDestinations = new List<FulfillmentPlan>();
+        [RelationshipList("7CCBFE1B-2DC8-4216-B31A-FDA256CEB63A", nameof(FulfillmentPlan.TrackIDStrategicAfterDestination))]
+        public IReadOnlyCollection<FulfillmentPlan> FulfillmentPlanStrategicAfterDestinations
+        {
+            get { CheckGet(); return _fulfillmentPlanStrategicAfterDestinations; }
         }
 
         private List<FulfillmentPlan> _fulfillmentPlanPostFulfillments = new List<FulfillmentPlan>();

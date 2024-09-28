@@ -59,7 +59,7 @@ namespace CompanyStudio.Store
             }
         }
 
-        public async void Save()
+        public async Task Save()
         {
             Dictionary<string, object> patchData = new Dictionary<string, object>()
             {

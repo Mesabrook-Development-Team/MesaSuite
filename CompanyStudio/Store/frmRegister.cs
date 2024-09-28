@@ -86,6 +86,11 @@ namespace CompanyStudio.Store
 
         private async void cmdSave_Click(object sender, EventArgs e)
         {
+            await Save();
+        }
+
+        public async Task Save()
+        {
             try
             {
                 loader.BringToFront();
@@ -126,11 +131,6 @@ namespace CompanyStudio.Store
                 loader.Visible = false;
                 OnSave?.Invoke(this, EventArgs.Empty);
             }
-        }
-
-        public void Save()
-        {
-            cmdSave.PerformClick();
         }
 
         private async void cmdOnline_Click(object sender, EventArgs e)

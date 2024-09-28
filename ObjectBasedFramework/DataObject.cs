@@ -707,12 +707,12 @@ namespace ClussPro.ObjectBasedFramework
                         query.WhereCondition = primaryKeyCondition;
                     }
 
-                    HashSet<string> childFieldsToSet = fieldsToSet.Where(f => f.StartsWith(reverseRelationshipWeCanDoSomethingAbout)).Select(f => f.Replace(reverseRelationshipWeCanDoSomethingAbout, "")).ToHashSet();
+                    HashSet<string> childFieldsToSet = fieldsToSet.Where(f => f.StartsWith(reverseRelationshipWeCanDoSomethingAbout)).Select(f => f.Substring(reverseRelationshipWeCanDoSomethingAbout.Length)).ToHashSet();
                     childFieldsToSet.Add(relationshipList.RelatedSchemaObject.PrimaryKeyField.FieldName);
                     Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>> childQueries = new Dictionary<string, Tuple<ISelectQuery, Dictionary<string, string>>>();
                     foreach (KeyValuePair<string, Tuple<ISelectQuery, Dictionary<string, string>>> childQuery in queries.Where(kvp => kvp.Key.StartsWith(reverseRelationshipWeCanDoSomethingAbout)))
                     {
-                        childQueries.Add(childQuery.Key.Replace(reverseRelationshipWeCanDoSomethingAbout, ""), childQuery.Value);
+                        childQueries.Add(childQuery.Key.Substring(reverseRelationshipWeCanDoSomethingAbout.Length), childQuery.Value);
                     }
 
                     object reverseRelationshipList = relationshipList.GetPrivateDataCallback(parentObject);

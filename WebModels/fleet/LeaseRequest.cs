@@ -138,7 +138,7 @@ namespace WebModels.fleet
         #endregion
         #region Purchasing
         private List<FulfillmentPlan> _fulfillmentPlans = new List<FulfillmentPlan>();
-        [RelationshipList("780FC5D3-1097-43B1-9FB7-F9B2E1F24D37", nameof(FulfillmentPlan.LeaseRequestID))]
+        [RelationshipList("780FC5D3-1097-43B1-9FB7-F9B2E1F24D37", nameof(FulfillmentPlan.LeaseRequestID), AutoRemoveReferences = true)]
         public IReadOnlyCollection<FulfillmentPlan> FulfillmentPlans
         {
             get { CheckGet(); return _fulfillmentPlans; }

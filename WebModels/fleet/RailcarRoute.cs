@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebModels.company;
+using WebModels.gov;
 
 namespace WebModels.fleet
 {
@@ -73,6 +74,36 @@ namespace WebModels.fleet
         public Company CompanyTo
         {
             get { CheckGet(); return _companyTo; }
+        }
+
+        private long? _governmentIDFrom;
+        [Field("5FB43550-9C6C-4FCC-B4E5-0795F92C1C3B")]
+        public long? GovernmentIDFrom
+        {
+            get { CheckGet(); return _governmentIDFrom; }
+            set { CheckSet(); _governmentIDFrom = value; }
+        }
+
+        private Government _governmentFrom = null;
+        [Relationship("FC95C40A-373F-402C-9871-879C02E234FC", ForeignKeyField = nameof(GovernmentIDFrom))]
+        public Government GovernmentFrom
+        {
+            get { CheckGet(); return _governmentFrom; }
+        }
+
+        private long? _governmentIDTo;
+        [Field("12BA7D91-8DE3-43F1-BD49-116709D0220F")]
+        public long? GovernmentIDTo
+        {
+            get { CheckGet(); return _governmentIDTo; }
+            set { CheckSet(); _governmentIDTo = value; }
+        }
+
+        private Government _governmentTo = null;
+        [Relationship("FFC0677A-0C6D-4DC5-8E60-0E477B7641EF", ForeignKeyField = nameof(GovernmentIDTo))]
+        public Government GovernmentTo
+        {
+            get { CheckGet(); return _governmentTo; }
         }
     }
 }

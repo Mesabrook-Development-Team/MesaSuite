@@ -299,9 +299,13 @@ namespace CompanyStudio
                     case PermissionsManager.LocationWidePermissions.ManageInvoices:
                         invoicingToolStripMenuItem.Visible = e.Value;
                         break;
+                    case PermissionsManager.LocationWidePermissions.ManagePurchaseOrders:
+                        purchaseOrdersToolStripMenuItem.Visible = e.Value;
+                        break;
                 }
 
                 financeToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts) ||
+                                                   PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManagePurchaseOrders) ||
                                                    PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices) ||
                                                    PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
             }
@@ -737,6 +741,7 @@ namespace CompanyStudio
         private void financeToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             accountsToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.ManageAccounts);
+            purchaseOrdersToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManagePurchaseOrders);
             invoicingToolStripMenuItem.Visible = PermissionsManager.HasPermission(_activeLocation?.LocationID ?? -1, PermissionsManager.LocationWidePermissions.ManageInvoices);
             mnuWireTransfers.Visible = PermissionsManager.HasPermission(_activeCompany?.CompanyID ?? -1, PermissionsManager.CompanyWidePermissions.IssueWireTransfers);
         }
@@ -937,6 +942,25 @@ namespace CompanyStudio
             promotionExplorer = new Store.frmPromotionExplorer();
             DecorateStudioContent(promotionExplorer);
             promotionExplorer.Show(dockPanel, DockState.DockRight);
+        }
+
+        private void purchaseOrdersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Purchasing.frmPurchaseOrderExplorer purchaseOrderExplorer = dockPanel.Contents.OfType<Purchasing.frmPurchaseOrderExplorer>().FirstOrDefault(explorer => explorer.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (purchaseOrderExplorer != null)
+            {
+                purchaseOrderExplorer.BringToFront();
+                return;
+            }
+
+            purchaseOrderExplorer = new Purchasing.frmPurchaseOrderExplorer();
+            DecorateStudioContent(purchaseOrderExplorer);
+            purchaseOrderExplorer.Show(dockPanel, DockState.DockRight);
+        }
+
+        public FleetTrackingApplication GetFleetTrackingApplication(long? companyID)
+        {
+            return fleetTrackingApplicationsByCompany.FirstOrDefault(kvp => kvp.Key == companyID).Value;
         }
     }
 }

@@ -117,11 +117,19 @@ namespace CompanyStudio.Purchasing.Fulfillment
                     FleetTracking.Models.Railcar railcar = await get.GetObject<FleetTracking.Models.Railcar>();
                     if (railcar != null && railcar.CompanyIDPossessor == data.CompanyID)
                     {
-                        railcar.CompanyIDPossessor = billOfLading.CompanyIDCarrier;
-                        railcar.GovernmentIDPossessor = billOfLading.GovernmentIDCarrier;
-                        PutData put = new PutData(DataAccess.APIs.FleetTracking, "Railcar/Put", railcar);
-                        put.AddCompanyHeader(data.CompanyID);
-                        await put.ExecuteNoResult();
+                        PatchData patch = new PatchData(DataAccess.APIs.FleetTracking, "Railcar/Patch", PatchData.PatchMethods.Replace, railcar.RailcarID, new Dictionary<string, object>()
+                        {
+                            { nameof(FleetTracking.Models.Railcar.GovernmentIDPossessor), billOfLading.GovernmentIDCarrier },
+                            { nameof(FleetTracking.Models.Railcar.CompanyIDPossessor), billOfLading.CompanyIDCarrier }
+                        });
+                        patch.AddCompanyHeader(data.CompanyID);
+                        await patch.Execute();
+
+                        patch.Values = new Dictionary<string, object>()
+                        {
+                            { nameof(FleetTracking.Models.Railcar.TrackIDStrategic), railcar.TrackIDStrategic }
+                        };
+                        await patch.Execute();
                     }
                 }
             }

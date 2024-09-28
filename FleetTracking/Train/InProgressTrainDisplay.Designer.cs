@@ -91,6 +91,7 @@
             this.toolTogglePartialTrip = new System.Windows.Forms.ToolStripButton();
             this.loaderHandledCars = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.toolSpotAtStrategic = new System.Windows.Forms.ToolStripButton();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -356,6 +357,7 @@
             this.dgvConsist.Name = "dgvConsist";
             this.dgvConsist.Size = new System.Drawing.Size(512, 310);
             this.dgvConsist.TabIndex = 2;
+            this.dgvConsist.SelectionChanged += new System.EventHandler(this.dgvConsist_SelectionChanged);
             // 
             // colConsistImage
             // 
@@ -403,6 +405,7 @@
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolModifyConsist,
             this.toolLiveLoad,
+            this.toolSpotAtStrategic,
             this.toolStripSeparator1,
             this.toolPrintManifest});
             this.toolStrip2.Location = new System.Drawing.Point(3, 3);
@@ -416,7 +419,7 @@
             this.toolModifyConsist.Image = global::FleetTracking.Properties.Resources.application_edit;
             this.toolModifyConsist.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolModifyConsist.Name = "toolModifyConsist";
-            this.toolModifyConsist.Size = new System.Drawing.Size(65, 22);
+            this.toolModifyConsist.Size = new System.Drawing.Size(59, 22);
             this.toolModifyConsist.Text = "Modify";
             this.toolModifyConsist.Click += new System.EventHandler(this.toolModifyConsist_Click);
             // 
@@ -425,7 +428,7 @@
             this.toolLiveLoad.Image = global::FleetTracking.Properties.Resources.freight1;
             this.toolLiveLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolLiveLoad.Name = "toolLiveLoad";
-            this.toolLiveLoad.Size = new System.Drawing.Size(77, 22);
+            this.toolLiveLoad.Size = new System.Drawing.Size(72, 22);
             this.toolLiveLoad.Text = "Live Load";
             this.toolLiveLoad.Click += new System.EventHandler(this.toolLiveLoad_Click);
             // 
@@ -439,7 +442,7 @@
             this.toolPrintManifest.Image = global::FleetTracking.Properties.Resources.printer;
             this.toolPrintManifest.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolPrintManifest.Name = "toolPrintManifest";
-            this.toolPrintManifest.Size = new System.Drawing.Size(101, 22);
+            this.toolPrintManifest.Size = new System.Drawing.Size(93, 22);
             this.toolPrintManifest.Text = "Print Manifest";
             this.toolPrintManifest.Click += new System.EventHandler(this.toolPrintManifest_Click);
             // 
@@ -513,7 +516,7 @@
             this.toolAddTransaction.Image = global::FleetTracking.Properties.Resources.add;
             this.toolAddTransaction.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAddTransaction.Name = "toolAddTransaction";
-            this.toolAddTransaction.Size = new System.Drawing.Size(140, 22);
+            this.toolAddTransaction.Size = new System.Drawing.Size(131, 22);
             this.toolAddTransaction.Text = "Add Duty Transaction";
             this.toolAddTransaction.Click += new System.EventHandler(this.toolAddTransaction_Click);
             // 
@@ -595,7 +598,7 @@
             this.toolFuelAddLoco.Image = global::FleetTracking.Properties.Resources.add;
             this.toolFuelAddLoco.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolFuelAddLoco.Name = "toolFuelAddLoco";
-            this.toolFuelAddLoco.Size = new System.Drawing.Size(115, 22);
+            this.toolFuelAddLoco.Size = new System.Drawing.Size(103, 22);
             this.toolFuelAddLoco.Text = "Add Locomotive";
             this.toolFuelAddLoco.Click += new System.EventHandler(this.toolFuelAddLoco_Click);
             // 
@@ -613,7 +616,7 @@
             this.toolFuelSetEnd.Image = global::FleetTracking.Properties.Resources.control_stop_blue;
             this.toolFuelSetEnd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolFuelSetEnd.Name = "toolFuelSetEnd";
-            this.toolFuelSetEnd.Size = new System.Drawing.Size(66, 22);
+            this.toolFuelSetEnd.Size = new System.Drawing.Size(64, 22);
             this.toolFuelSetEnd.Text = "Set End";
             this.toolFuelSetEnd.Click += new System.EventHandler(this.toolFuelSetEnd_Click);
             // 
@@ -700,7 +703,7 @@
             this.toolTogglePartialTrip.Image = global::FleetTracking.Properties.Resources.arrow_switch;
             this.toolTogglePartialTrip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolTogglePartialTrip.Name = "toolTogglePartialTrip";
-            this.toolTogglePartialTrip.Size = new System.Drawing.Size(120, 22);
+            this.toolTogglePartialTrip.Size = new System.Drawing.Size(113, 22);
             this.toolTogglePartialTrip.Text = "Toggle Partial Trip";
             this.toolTogglePartialTrip.Click += new System.EventHandler(this.toolTogglePartialTrip_Click);
             // 
@@ -715,6 +718,16 @@
             this.loaderHandledCars.Size = new System.Drawing.Size(518, 357);
             this.loaderHandledCars.TabIndex = 2;
             this.loaderHandledCars.Visible = false;
+            // 
+            // toolSpotAtStrategic
+            // 
+            this.toolSpotAtStrategic.Enabled = false;
+            this.toolSpotAtStrategic.Image = global::FleetTracking.Properties.Resources.eye;
+            this.toolSpotAtStrategic.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolSpotAtStrategic.Name = "toolSpotAtStrategic";
+            this.toolSpotAtStrategic.Size = new System.Drawing.Size(108, 22);
+            this.toolSpotAtStrategic.Text = "Spot @ Strategic";
+            this.toolSpotAtStrategic.Click += new System.EventHandler(this.toolSpotAtStrategic_Click);
             // 
             // InProgressTrainDisplay
             // 
@@ -821,5 +834,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colConsistType;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolPrintManifest;
+        private System.Windows.Forms.ToolStripButton toolSpotAtStrategic;
     }
 }

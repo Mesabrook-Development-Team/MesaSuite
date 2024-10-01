@@ -271,6 +271,8 @@ namespace WebModels.fleet
             }
             else
             {
+                bool carWasReleased = false;
+
                 if (IsFieldDirty(nameof(CompanyIDPossessor)) && CompanyIDPossessor != null)
                 {
                     MiscellaneousSettings settings = new Search<MiscellaneousSettings>(new LongSearchCondition<MiscellaneousSettings>()
@@ -284,6 +286,8 @@ namespace WebModels.fleet
                         EmailImplementation emailImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(settings.EmailImplementationIDCarReleased, transaction, null);
                         emailImplementation.SendEmail<Railcar>(RailcarID, transaction);
                     }
+
+                    carWasReleased = true;
                 }
 
                 if (IsFieldDirty(nameof(GovernmentIDPossessor)) && GovernmentIDPossessor != null)
@@ -299,9 +303,116 @@ namespace WebModels.fleet
                         EmailImplementation emailImplementation = DataObject.GetEditableByPrimaryKey<EmailImplementation>(settings.EmailImplementationIDCarReleased, transaction, null);
                         emailImplementation.SendEmail<Railcar>(RailcarID, transaction);
                     }
+
+                    carWasReleased = true;
+                }
+
+                if (carWasReleased && !HandleRouteAndBOLUpdates(transaction))
+                {
+                    return false;
                 }
             }
             return base.PostSave(transaction);
+        }
+
+        private bool HandleRouteAndBOLUpdates(ITransaction transaction)
+        {
+            Search<RailcarRoute> railcarRouteSearch = new Search<RailcarRoute>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                                    new LongSearchCondition<RailcarRoute>()
+                                    {
+                                        Field = nameof(RailcarRoute.RailcarID),
+                                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                        Value = RailcarID
+                                    },
+                                    new ByteSearchCondition<RailcarRoute>()
+                                    {
+                                        Field = nameof(RailcarRoute.SortOrder),
+                                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                        Value = 1
+                                    }));
+
+            RailcarRoute nextRoute = railcarRouteSearch.GetEditable(transaction);
+            if (nextRoute != null &&
+                (nextRoute.CompanyIDFrom == GetDirtyValue(nameof(CompanyIDPossessor)) as long? || nextRoute.GovernmentIDFrom == GetDirtyValue(nameof(GovernmentIDPossessor)) as long?) &&
+                (nextRoute.CompanyIDTo == CompanyIDPossessor || nextRoute.GovernmentIDTo == GovernmentIDPossessor))
+            {
+                if (!nextRoute.Delete(transaction))
+                {
+                    Errors.AddRange(nextRoute.Errors.ToArray());
+                    return false;
+                }
+
+                Search<RailcarRoute> nextRailcarRoutes = new Search<RailcarRoute>(new LongSearchCondition<RailcarRoute>()
+                {
+                    Field = nameof(RailcarRoute.RailcarID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = nextRoute.RailcarID
+                });
+
+                byte i = 0;
+                nextRoute = null;
+                foreach(RailcarRoute route in nextRailcarRoutes.GetEditableReader(transaction).OrderBy(r => r.SortOrder))
+                {
+                    route.SortOrder = ++i;
+                    nextRoute = nextRoute ?? route;
+                    if (!route.Save(transaction))
+                    {
+                        Errors.AddRange(route.Errors.ToArray());
+                        return false;
+                    }
+                }
+
+                Search<BillOfLading> existingBillOfLadingSearch = new Search<BillOfLading>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<BillOfLading>()
+                    {
+                        Field = nameof(BillOfLading.RailcarID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = RailcarID
+                    },
+                    new DateTimeSearchCondition<BillOfLading>()
+                    {
+                        Field = nameof(BillOfLading.DeliveredDate),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                    }));
+
+                List<string> itemFields = Schema.GetSchemaObject<BillOfLadingItem>().GetFields().Select(f => nameof(BillOfLading.BillOfLadingItems) + "." + f.FieldName).ToList();
+                BillOfLading existingBillOfLading = existingBillOfLadingSearch.GetEditable(transaction, itemFields);
+                if (existingBillOfLading != null)
+                {
+                    existingBillOfLading.DeliveredDate = DateTime.Now;
+                    if (!existingBillOfLading.Save(transaction))
+                    {
+                        Errors.AddRange(existingBillOfLading.Errors.ToArray());
+                        return false;
+                    }
+
+                    BillOfLading newBillOfLading = DataObjectFactory.Create<BillOfLading>();
+                    existingBillOfLading.Copy(newBillOfLading);
+                    newBillOfLading.DeliveredDate = null;
+                    newBillOfLading.CompanyIDCarrier = nextRoute.CompanyIDTo;
+                    newBillOfLading.GovernmentIDCarrier = nextRoute.GovernmentIDTo;
+                    if (!newBillOfLading.Save(transaction))
+                    {
+                        Errors.AddRange(newBillOfLading.Errors.ToArray());
+                        return false;
+                    }
+
+                    foreach(BillOfLadingItem item in existingBillOfLading.BillOfLadingItems)
+                    {
+                        BillOfLadingItem newItem = DataObjectFactory.Create<BillOfLadingItem>();
+                        item.Copy(newItem);
+                        newItem.BillOfLadingID = newBillOfLading.BillOfLadingID;
+
+                        if (!newItem.Save(transaction))
+                        {
+                            Errors.AddRange(newItem.Errors.ToArray());
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
 
         protected override bool PreDelete(ITransaction transaction)

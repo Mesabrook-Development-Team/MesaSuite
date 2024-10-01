@@ -222,6 +222,7 @@
     <Compile Include="Models\PrintPage.cs" />
     <Compile Include="Models\RailcarLoad.cs" />
     <Compile Include="Models\RailcarLocationTransaction.cs" />
+    <Compile Include="Models\RailcarRoute.cs" />
     <Compile Include="Models\RailLocation.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Government.cs" />

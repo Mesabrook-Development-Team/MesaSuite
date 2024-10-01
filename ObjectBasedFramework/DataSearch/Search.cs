@@ -364,7 +364,7 @@ namespace ClussPro.ObjectBasedFramework.DataSearch
 
             selectQuery.WhereCondition = SearchCondition?.GetCondition(tableAliasesByFieldPath, upperFieldPath, queriesByFieldPath.Keys.Where(k => !string.IsNullOrEmpty(k)).ToArray());
 
-            if (SearchOrders != null)
+            if (SearchOrders != null && string.IsNullOrEmpty(upperFieldPath)) // Currently not supporting orders on relationship lists
             {
                 List<Order> orders = new List<Order>();
                 foreach (SearchOrder searchOrder in SearchOrders)

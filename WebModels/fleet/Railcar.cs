@@ -377,7 +377,7 @@ namespace WebModels.fleet
 
                 List<string> itemFields = Schema.GetSchemaObject<BillOfLadingItem>().GetFields().Select(f => nameof(BillOfLading.BillOfLadingItems) + "." + f.FieldName).ToList();
                 BillOfLading existingBillOfLading = existingBillOfLadingSearch.GetEditable(transaction, itemFields);
-                if (existingBillOfLading != null)
+                if (existingBillOfLading != null && !existingBillOfLading.Type.HasFlag(BillOfLading.Types.LastMile)) // Last mile BoLs must be manually accepted
                 {
                     existingBillOfLading.DeliveredDate = DateTime.Now;
                     if (!existingBillOfLading.Save(transaction))

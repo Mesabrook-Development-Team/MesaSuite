@@ -401,6 +401,12 @@
     <Compile Include="Purchasing\DraftEntry\RouteControlStart.Designer.cs">
       <DependentUpon>RouteControlStart.cs</DependentUpon>
     </Compile>
+    <Compile Include="Purchasing\frmBillOfLadingExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\frmBillOfLadingExplorer.Designer.cs">
+      <DependentUpon>frmBillOfLadingExplorer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Purchasing\frmPurchaseOrderExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -734,6 +740,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\DraftEntry\RouteControlStart.resx">
       <DependentUpon>RouteControlStart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\frmBillOfLadingExplorer.resx">
+      <DependentUpon>frmBillOfLadingExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\frmPurchaseOrderExplorer.resx">
       <DependentUpon>frmPurchaseOrderExplorer.cs</DependentUpon>

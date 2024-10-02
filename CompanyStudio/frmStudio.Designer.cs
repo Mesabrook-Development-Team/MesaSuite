@@ -50,6 +50,9 @@
             this.accountsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccountExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCategories = new System.Windows.Forms.ToolStripMenuItem();
+            this.purchasingFulfillmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.purchaseOrdersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.billsOfLadingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.invoicingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoicePayables = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoicingReceivables = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,7 +82,6 @@
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolLocationDropDown = new System.Windows.Forms.ToolStripComboBox();
             this.tmrLocationUpdater = new System.Windows.Forms.Timer(this.components);
-            this.purchaseOrdersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loader = new CompanyStudio.Loader();
             this.studioFormExtender = new CompanyStudio.StudioFormExtender(this.components);
             this.mnuBanner.SuspendLayout();
@@ -260,7 +262,7 @@
             // 
             this.financeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.accountsToolStripMenuItem,
-            this.purchaseOrdersToolStripMenuItem,
+            this.purchasingFulfillmentToolStripMenuItem,
             this.invoicingToolStripMenuItem,
             this.mnuWireTransfers});
             this.financeToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.money_dollar;
@@ -279,7 +281,7 @@
             this.accountsToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.money;
             this.accountsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.accountsToolStripMenuItem.Name = "accountsToolStripMenuItem";
-            this.accountsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.accountsToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.accountsToolStripMenuItem.Text = "Accounts";
             // 
             // mnuAccountExplorer
@@ -300,6 +302,35 @@
             this.mnuCategories.Text = "Categories";
             this.mnuCategories.Click += new System.EventHandler(this.mnuCategories_Click);
             // 
+            // purchasingFulfillmentToolStripMenuItem
+            // 
+            this.purchasingFulfillmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.purchaseOrdersToolStripMenuItem,
+            this.billsOfLadingToolStripMenuItem});
+            this.purchasingFulfillmentToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.cart;
+            this.purchasingFulfillmentToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.purchasingFulfillmentToolStripMenuItem.Name = "purchasingFulfillmentToolStripMenuItem";
+            this.purchasingFulfillmentToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.purchasingFulfillmentToolStripMenuItem.Text = "Purchasing && Fulfillment";
+            // 
+            // purchaseOrdersToolStripMenuItem
+            // 
+            this.purchaseOrdersToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.cart;
+            this.purchaseOrdersToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.purchaseOrdersToolStripMenuItem.Name = "purchaseOrdersToolStripMenuItem";
+            this.purchaseOrdersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.purchaseOrdersToolStripMenuItem.Text = "Purchase Orders";
+            this.purchaseOrdersToolStripMenuItem.Click += new System.EventHandler(this.purchaseOrdersToolStripMenuItem_Click);
+            // 
+            // billsOfLadingToolStripMenuItem
+            // 
+            this.billsOfLadingToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.script;
+            this.billsOfLadingToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.billsOfLadingToolStripMenuItem.Name = "billsOfLadingToolStripMenuItem";
+            this.billsOfLadingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.billsOfLadingToolStripMenuItem.Text = "Bills of Lading";
+            this.billsOfLadingToolStripMenuItem.Click += new System.EventHandler(this.billsOfLadingToolStripMenuItem_Click);
+            // 
             // invoicingToolStripMenuItem
             // 
             this.invoicingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -310,7 +341,7 @@
             this.invoicingToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.page;
             this.invoicingToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.invoicingToolStripMenuItem.Name = "invoicingToolStripMenuItem";
-            this.invoicingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.invoicingToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.invoicingToolStripMenuItem.Text = "Invoicing";
             // 
             // mnuInvoicePayables
@@ -370,7 +401,7 @@
             this.mnuWireTransfers.Image = global::CompanyStudio.Properties.Resources.arrow_turn_right;
             this.mnuWireTransfers.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuWireTransfers.Name = "mnuWireTransfers";
-            this.mnuWireTransfers.Size = new System.Drawing.Size(180, 22);
+            this.mnuWireTransfers.Size = new System.Drawing.Size(187, 22);
             this.mnuWireTransfers.Text = "Wire Transfers";
             this.mnuWireTransfers.Visible = false;
             // 
@@ -529,15 +560,6 @@
             this.tmrLocationUpdater.Interval = 1000;
             this.tmrLocationUpdater.Tick += new System.EventHandler(this.tmrLocationUpdater_Tick);
             // 
-            // purchaseOrdersToolStripMenuItem
-            // 
-            this.purchaseOrdersToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.cart;
-            this.purchaseOrdersToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.purchaseOrdersToolStripMenuItem.Name = "purchaseOrdersToolStripMenuItem";
-            this.purchaseOrdersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.purchaseOrdersToolStripMenuItem.Text = "Purchase Orders";
-            this.purchaseOrdersToolStripMenuItem.Click += new System.EventHandler(this.purchaseOrdersToolStripMenuItem_Click);
-            // 
             // loader
             // 
             this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -630,7 +652,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem mnuStoreConfiguration;
         private System.Windows.Forms.ToolStripMenuItem mnuStoreSalesReport;
+        private System.Windows.Forms.ToolStripMenuItem purchasingFulfillmentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem purchaseOrdersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem billsOfLadingToolStripMenuItem;
     }
 }
 

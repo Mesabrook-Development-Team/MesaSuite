@@ -34,5 +34,9 @@ namespace CompanyStudio.Models
         public Types Type { get; set; }
 
         public List<BillOfLadingItem> BillOfLadingItems { get; set; } = new List<BillOfLadingItem>();
+
+        public string From => GovernmentIDShipper == null ? CompanyShipper.Name : GovernmentShipper.Name + " (Government)";
+        public string To => GovernmentIDConsignee == null ? CompanyConsignee.Name : GovernmentConsignee.Name + " (Government)";
+        public string Via => GovernmentIDCarrier == null ? CompanyCarrier.Name : GovernmentCarrier.Name + " (Government)";
     }
 }

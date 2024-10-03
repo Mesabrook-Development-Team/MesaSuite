@@ -717,6 +717,8 @@
     <EmbeddedResource Include="Purchasing\ApprovalViewer\OutstandingLeaseRequests.resx">
       <DependentUpon>OutstandingLeaseRequests.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\BillOfLadingReport\BillOfLading.rdlc" />
+    <EmbeddedResource Include="Purchasing\BillOfLadingReport\BillOfLadingItems.rdlc" />
     <EmbeddedResource Include="Purchasing\DraftEntry\Arrow.resx">
       <DependentUpon>Arrow.cs</DependentUpon>
     </EmbeddedResource>
@@ -839,6 +841,8 @@
       <DependentUpon>frmWizardShell.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\CompanyStudio.Models.BillOfLading.datasource" />
+    <None Include="Properties\DataSources\CompanyStudio.Models.BillOfLadingItem.datasource" />
     <None Include="Properties\DataSources\CompanyStudio.Models.StoreSale.datasource" />
     <None Include="Properties\DataSources\CompanyStudio.Models.StoreSaleItem.datasource" />
     <None Include="Properties\DataSources\CompanyStudio.Store.Reports.MonthlySummary.datasource" />

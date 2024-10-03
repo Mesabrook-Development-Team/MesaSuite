@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace CompanyStudio.Models
 {
@@ -38,5 +39,27 @@ namespace CompanyStudio.Models
         public string From => GovernmentIDShipper == null ? CompanyShipper.Name : GovernmentShipper.Name + " (Government)";
         public string To => GovernmentIDConsignee == null ? CompanyConsignee.Name : GovernmentConsignee.Name + " (Government)";
         public string Via => GovernmentIDCarrier == null ? CompanyCarrier.Name : GovernmentCarrier.Name + " (Government)";
+        public string RailcarReportingID => Railcar?.ReportingID;
+        public string TypeString
+        {
+            get
+            {
+                List<string> types = new List<string>();
+                if (Type.HasFlag(Types.FirstMile))
+                {
+                    types.Add("First Mile");
+                }
+                if (Type.HasFlag(Types.Interchange))
+                {
+                    types.Add("Interchange");
+                }
+                if (Type.HasFlag(Types.LastMile))
+                {
+                    types.Add("Last Mile");
+                }
+
+                return string.Join(", ", types);
+            }
+        }
     }
 }

@@ -58,6 +58,7 @@ namespace CompanyStudio.Purchasing
 
                     TreeNode bolNode = new TreeNode(nodeText);
                     bolNode.ToolTipText = toolTipText;
+                    bolNode.Tag = billOfLading;
 
                     if (billOfLading.CompanyIDShipper == Company.CompanyID)
                     {
@@ -95,6 +96,31 @@ namespace CompanyStudio.Purchasing
             {
                 loader.Visible = false;
             }
+        }
+
+        private async void treBOLs_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            BillOfLading bol = e.Node.Tag as BillOfLading;
+            if (bol == null)
+            {
+                return;
+            }
+
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "BillOfLading/Get/" + bol.BillOfLadingID);
+            get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            BillOfLading billOfLading = await get.GetObject<BillOfLading>();
+            if (billOfLading == null)
+            {
+                return;
+            }
+
+            frmReportViewer reportViewer = new frmReportViewer();
+            Studio.DecorateStudioContent(reportViewer);
+            reportViewer.Company = Company;
+            reportViewer.ReportName = "CompanyStudio.Purchasing.BillOfLadingReport.BillOfLading.rdlc";
+            reportViewer.AddDataSet("BillOfLadingDataSet", new List<BillOfLading>() { billOfLading });
+            reportViewer.AddDataSet("BillOfLadingItems.BillOfLadingItemDataSet", billOfLading.BillOfLadingItems ?? new List<BillOfLadingItem>());
+            reportViewer.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
         }
     }
 }

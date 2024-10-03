@@ -146,5 +146,37 @@ namespace API_Company.Controllers
 
             return await Task.Run(() => billOfLadingSearch.GetReadOnlyReader(null, _fields).ToList());
         }
+
+        [HttpGet]
+        public async Task<BillOfLading> Get(long? id)
+        {
+            Search<BillOfLading> billOfLadingSearch = new Search<BillOfLading>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                new LongSearchCondition<BillOfLading>()
+                {
+                    Field = nameof(BillOfLading.CompanyIDShipper),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = CompanyID
+                },
+                new LongSearchCondition<BillOfLading>()
+                {
+                    Field = nameof(BillOfLading.CompanyIDConsignee),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = CompanyID
+                },
+                new LongSearchCondition<BillOfLading>()
+                {
+                    Field = nameof(BillOfLading.CompanyIDCarrier),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = CompanyID
+                },
+                new LongSearchCondition<BillOfLading>()
+                {
+                    Field = nameof(BillOfLading.BillOfLadingID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                }));
+
+            return await Task.Run(() => billOfLadingSearch.GetReadOnly(null, _fields));
+        }
     }
 }

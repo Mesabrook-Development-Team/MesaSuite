@@ -46,6 +46,7 @@
             this.treBOLs.ShowNodeToolTips = true;
             this.treBOLs.Size = new System.Drawing.Size(514, 501);
             this.treBOLs.TabIndex = 0;
+            this.treBOLs.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treBOLs_NodeMouseDoubleClick);
             // 
             // imageList
             // 

@@ -19,6 +19,7 @@ namespace WebModels.purchasing.Validations
                     ID = new Guid("4710ABB2-7AA7-40A9-8773-0E9B6806291D"),
                     Field = nameof(Fulfillment.RailcarID),
                     Message = FulfillmentOnEligibleRailcarCondition.MESSAGE,
+                    ApplyOnUpdate = false,
                     Condition = new FulfillmentOnEligibleRailcarCondition()
                 };
             }

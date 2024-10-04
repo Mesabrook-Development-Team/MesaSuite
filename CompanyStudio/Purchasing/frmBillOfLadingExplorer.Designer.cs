@@ -33,6 +33,11 @@
             this.treBOLs = new System.Windows.Forms.TreeView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.loader = new CompanyStudio.Loader();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolAcceptBOL = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolAcceptMultiple = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // treBOLs
@@ -40,12 +45,13 @@
             this.treBOLs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treBOLs.ImageIndex = 0;
             this.treBOLs.ImageList = this.imageList;
-            this.treBOLs.Location = new System.Drawing.Point(0, 0);
+            this.treBOLs.Location = new System.Drawing.Point(0, 25);
             this.treBOLs.Name = "treBOLs";
             this.treBOLs.SelectedImageIndex = 0;
             this.treBOLs.ShowNodeToolTips = true;
-            this.treBOLs.Size = new System.Drawing.Size(514, 501);
+            this.treBOLs.Size = new System.Drawing.Size(514, 476);
             this.treBOLs.TabIndex = 0;
+            this.treBOLs.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treBOLs_NodeMouseClick);
             this.treBOLs.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treBOLs_NodeMouseDoubleClick);
             // 
             // imageList
@@ -64,18 +70,60 @@
             this.loader.TabIndex = 1;
             this.loader.Visible = false;
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolAcceptBOL,
+            this.toolStripSeparator1,
+            this.toolAcceptMultiple});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(514, 25);
+            this.toolStrip1.TabIndex = 2;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolAcceptBOL
+            // 
+            this.toolAcceptBOL.Enabled = false;
+            this.toolAcceptBOL.Image = global::CompanyStudio.Properties.Resources.script_lightning;
+            this.toolAcceptBOL.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolAcceptBOL.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolAcceptBOL.Name = "toolAcceptBOL";
+            this.toolAcceptBOL.Size = new System.Drawing.Size(82, 22);
+            this.toolAcceptBOL.Text = "Accept BOL";
+            this.toolAcceptBOL.Click += new System.EventHandler(this.toolAcceptBOL_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolAcceptMultiple
+            // 
+            this.toolAcceptMultiple.Image = global::CompanyStudio.Properties.Resources.script_lightning;
+            this.toolAcceptMultiple.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolAcceptMultiple.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolAcceptMultiple.Name = "toolAcceptMultiple";
+            this.toolAcceptMultiple.Size = new System.Drawing.Size(99, 22);
+            this.toolAcceptMultiple.Text = "Accept Multiple";
+            this.toolAcceptMultiple.Click += new System.EventHandler(this.toolAcceptMultiple_Click);
+            // 
             // frmBillOfLadingExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 501);
-            this.Controls.Add(this.loader);
             this.Controls.Add(this.treBOLs);
+            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.loader);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmBillOfLadingExplorer";
             this.Text = "Bill Of Lading Explorer";
             this.Load += new System.EventHandler(this.frmBillOfLadingExplorer_Load);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -84,5 +132,9 @@
         private System.Windows.Forms.TreeView treBOLs;
         private System.Windows.Forms.ImageList imageList;
         private Loader loader;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolAcceptBOL;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolAcceptMultiple;
     }
 }

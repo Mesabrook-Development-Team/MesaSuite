@@ -34,7 +34,7 @@ namespace CompanyStudio
 
         public event EventHandler<Company> OnCompanyAdded;
         public event EventHandler<Company> OnCompanyRemoved;
-        
+
         Dictionary<Type, BaseCompanyStudioContent> formsByType = new Dictionary<Type, BaseCompanyStudioContent>();
         private Company _activeCompany;
         public Company ActiveCompany
@@ -136,7 +136,7 @@ namespace CompanyStudio
 
             if (item.SubItems != null)
             {
-                foreach(FleetTrackingApplication.MainNavigationItem subItem in item.SubItems)
+                foreach (FleetTrackingApplication.MainNavigationItem subItem in item.SubItems)
                 {
                     FleetTracking_AddNavigationItem(tsmi.DropDownItems, subItem);
                 }
@@ -268,7 +268,7 @@ namespace CompanyStudio
         {
             if (e.CompanyID == (ActiveCompany?.CompanyID ?? -1))
             {
-                switch(e.Permission)
+                switch (e.Permission)
                 {
                     case PermissionsManager.CompanyWidePermissions.ManageEmails:
                         emailToolStripMenuItem.Visible = e.Value;
@@ -294,7 +294,7 @@ namespace CompanyStudio
         {
             if (e.LocationID == (ActiveLocation?.LocationID ?? 0))
             {
-                switch(e.Permission)
+                switch (e.Permission)
                 {
                     case PermissionsManager.LocationWidePermissions.ManageInvoices:
                         invoicingToolStripMenuItem.Visible = e.Value;
@@ -351,7 +351,7 @@ namespace CompanyStudio
             {
                 dockPanel.SaveAsXml(memoryStream, Encoding.UTF8);
                 memoryStream.Position = 0;
-                foreach(IDockContent content in dockPanel.Contents.ToList())
+                foreach (IDockContent content in dockPanel.Contents.ToList())
                 {
                     content.DockHandler.Close();
                 }
@@ -409,7 +409,7 @@ namespace CompanyStudio
             ApplyTheme();
         }
 
-        public T GetForm<T>(bool createNew = true) where T:BaseCompanyStudioContent
+        public T GetForm<T>(bool createNew = true) where T : BaseCompanyStudioContent
         {
             return GetForm(typeof(T), createNew) as T;
         }
@@ -454,7 +454,7 @@ namespace CompanyStudio
 
         private void Content_OnIsDirtyChange(object sender, EventArgs e)
         {
-            
+
         }
 
         public void AddCompany(Company company)
@@ -519,7 +519,7 @@ namespace CompanyStudio
 
         private void mnuEmailExplorer_Click(object sender, EventArgs e)
         {
-            foreach(Email.frmEmailExplorer openEmailExplorers in dockPanel.Contents.OfType<Email.frmEmailExplorer>())
+            foreach (Email.frmEmailExplorer openEmailExplorers in dockPanel.Contents.OfType<Email.frmEmailExplorer>())
             {
                 if (openEmailExplorers.Company == ActiveCompany)
                 {
@@ -547,7 +547,7 @@ namespace CompanyStudio
 
         private void toolSaveAll_Click(object sender, EventArgs e)
         {
-            foreach(ISaveable saveable in dockPanel.Documents.OfType<ISaveable>())
+            foreach (ISaveable saveable in dockPanel.Documents.OfType<ISaveable>())
             {
                 try
                 {
@@ -559,7 +559,7 @@ namespace CompanyStudio
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            switch(keyData)
+            switch (keyData)
             {
                 case Keys.S | Keys.Control | Keys.Shift:
                     toolSaveAll.PerformClick();
@@ -594,7 +594,7 @@ namespace CompanyStudio
             PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
             PermissionsManager.StopCheckThread();
 
-            foreach(FleetTrackingApplication fleetTrackingApplication in fleetTrackingApplicationsByCompany.Values)
+            foreach (FleetTrackingApplication fleetTrackingApplication in fleetTrackingApplicationsByCompany.Values)
             {
                 fleetTrackingApplication.Shutdown();
             }
@@ -975,6 +975,17 @@ namespace CompanyStudio
             purchaseOrderExplorer = new Purchasing.frmBillOfLadingExplorer();
             DecorateStudioContent(purchaseOrderExplorer);
             purchaseOrderExplorer.Show(dockPanel, DockState.DockRight);
+        }
+
+        private async void receiveBillsOfLadingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await BillOfLading.AcceptMultiple(ActiveCompany?.CompanyID, ActiveLocation?.LocationID);
+
+            Purchasing.frmBillOfLadingExplorer bolExplorer = dockPanel.Contents.OfType<Purchasing.frmBillOfLadingExplorer>().FirstOrDefault(explorer => explorer.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (bolExplorer != null)
+            {
+                await bolExplorer.RefreshData();
+            }
         }
     }
 }

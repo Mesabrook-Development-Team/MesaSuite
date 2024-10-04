@@ -1,6 +1,11 @@
-﻿using System;
+﻿using CompanyStudio.Extensions;
+using MesaSuite.Common;
+using MesaSuite.Common.Data;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CompanyStudio.Models
 {
@@ -59,6 +64,44 @@ namespace CompanyStudio.Models
                 }
 
                 return string.Join(", ", types);
+            }
+        }
+
+        public static async Task Accept(long? billOfLadingID, long? companyID, long? locationID)
+        {
+            try
+            {
+                PostData post = new PostData(DataAccess.APIs.CompanyStudio, "BillOfLading/AcceptBOL", new { billOfLadingID });
+                post.AddLocationHeader(companyID, locationID);
+                await post.ExecuteNoResult();
+            }
+            catch { }
+        }
+
+        public static async Task AcceptMultiple(long? companyID, long? locationID)
+        {
+            GenericInputBox inputBox = new GenericInputBox()
+            {
+                Prompt = "Enter Bill of Lading Numbers, separated by commas:",
+                Text = "Accept Bills of Lading",
+                AcceptText = "Accept",
+                ResultType = typeof(string)
+            };
+
+            if (inputBox.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            string[] billOfLadingNumbers = inputBox.Result.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string billOfLadingNumber in billOfLadingNumbers)
+            {
+                billOfLadingNumber.Trim();
+
+                if (!string.IsNullOrEmpty(billOfLadingNumber) && long.TryParse(billOfLadingNumber, out long billOfLadingID))
+                {
+                    await Accept(billOfLadingID, companyID, locationID);
+                }
             }
         }
     }

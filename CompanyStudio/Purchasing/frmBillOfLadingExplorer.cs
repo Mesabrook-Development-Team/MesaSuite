@@ -35,6 +35,11 @@ namespace CompanyStudio.Purchasing
 
         private async void frmBillOfLadingExplorer_Load(object sender, EventArgs e)
         {
+            await RefreshData();
+        }
+
+        public async Task RefreshData()
+        {
             try
             {
                 loader.BringToFront();
@@ -51,7 +56,7 @@ namespace CompanyStudio.Purchasing
                 get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
                 List<BillOfLading> billsOfLading = await get.GetObject<List<BillOfLading>>() ?? new List<BillOfLading>();
 
-                foreach(BillOfLading billOfLading in billsOfLading.OrderBy(bol => bol.IssuedDate))
+                foreach (BillOfLading billOfLading in billsOfLading.OrderBy(bol => bol.IssuedDate))
                 {
                     string nodeText = string.Format("BOL {0} - Container {1}", billOfLading.BillOfLadingID, billOfLading.Railcar?.ReportingID ?? "[None]");
                     string toolTipText = string.Format("BOL {0} - {1} - From {2} to {3} via {4}", billOfLading.BillOfLadingID, billOfLading.Railcar?.ReportingID, billOfLading.From, billOfLading.To, billOfLading.Via);
@@ -121,6 +126,30 @@ namespace CompanyStudio.Purchasing
             reportViewer.AddDataSet("BillOfLadingDataSet", new List<BillOfLading>() { billOfLading });
             reportViewer.AddDataSet("BillOfLadingItems.BillOfLadingItemDataSet", billOfLading.BillOfLadingItems ?? new List<BillOfLadingItem>());
             reportViewer.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
+        }
+
+        private async void toolAcceptMultiple_Click(object sender, EventArgs e)
+        {
+            await BillOfLading.AcceptMultiple(Company.CompanyID, LocationModel.LocationID);
+            await RefreshData();
+        }
+
+        private void treBOLs_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            BillOfLading bol = e.Node.Tag as BillOfLading;
+            toolAcceptBOL.Enabled = bol?.BillOfLadingID != null && bol.DeliveredDate == null;
+        }
+
+        private async void toolAcceptBOL_Click(object sender, EventArgs e)
+        {
+            TreeNode treeNode = treBOLs.SelectedNode;
+            if (treeNode == null || !(treeNode.Tag is BillOfLading billOfLading) || billOfLading.DeliveredDate != null)
+            {
+                return;
+            }
+
+            await BillOfLading.Accept(billOfLading.BillOfLadingID, Company.CompanyID, LocationModel.LocationID);
+            await RefreshData();
         }
     }
 }

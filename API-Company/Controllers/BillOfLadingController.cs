@@ -8,7 +8,6 @@ using ClussPro.ObjectBasedFramework.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebModels.company;
@@ -61,8 +60,13 @@ namespace API_Company.Controllers
             bol.BillOfLadingItems.First().UnitCost
         });
 
+        public struct AcceptBOLParameter
+        {
+            public long? BillOfLadingID { get; set; }
+        }
+
         [HttpPost]
-        public async Task<IHttpActionResult> AcceptBOL(long? id)
+        public async Task<IHttpActionResult> AcceptBOL(AcceptBOLParameter parameter)
         {
             using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
@@ -71,7 +75,7 @@ namespace API_Company.Controllers
                     {
                         Field = nameof(BillOfLading.BillOfLadingID),
                         SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = id
+                        Value = parameter.BillOfLadingID
                     },
                     new LongSearchCondition<BillOfLading>()
                     {
@@ -99,16 +103,17 @@ namespace API_Company.Controllers
                         SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                         Value = billOfLading.RailcarID
                     },
-                    new LongSearchCondition<Fulfillment>()
+                    new BooleanSearchCondition<Fulfillment>()
                     {
-                        Field = nameof(Fulfillment.FulfillmentTime),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                        Field = nameof(Fulfillment.IsComplete),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = false
                     }));
 
                 Fulfillment fulfillment = await Task.Run(() => fufillmentSearch.GetEditable(transaction));
                 if (fulfillment != null)
                 {
-                    fulfillment.FulfillmentTime = DateTime.Now;
+                    fulfillment.IsComplete = true;
                     if (!await Task.Run(() => fulfillment.Save(transaction)))
                     {
                         return fulfillment.HandleFailedValidation(this);

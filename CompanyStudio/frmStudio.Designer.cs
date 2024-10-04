@@ -53,6 +53,8 @@
             this.purchasingFulfillmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.purchaseOrdersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.billsOfLadingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.receiveBillsOfLadingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.invoicingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoicePayables = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoicingReceivables = new System.Windows.Forms.ToolStripMenuItem();
@@ -289,7 +291,7 @@
             this.mnuAccountExplorer.Image = global::CompanyStudio.Properties.Resources.book;
             this.mnuAccountExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuAccountExplorer.Name = "mnuAccountExplorer";
-            this.mnuAccountExplorer.Size = new System.Drawing.Size(156, 22);
+            this.mnuAccountExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuAccountExplorer.Text = "Account Explorer";
             this.mnuAccountExplorer.Click += new System.EventHandler(this.mnuAccountExplorer_Click);
             // 
@@ -298,7 +300,7 @@
             this.mnuCategories.Image = global::CompanyStudio.Properties.Resources.database;
             this.mnuCategories.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuCategories.Name = "mnuCategories";
-            this.mnuCategories.Size = new System.Drawing.Size(156, 22);
+            this.mnuCategories.Size = new System.Drawing.Size(180, 22);
             this.mnuCategories.Text = "Categories";
             this.mnuCategories.Click += new System.EventHandler(this.mnuCategories_Click);
             // 
@@ -306,7 +308,9 @@
             // 
             this.purchasingFulfillmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.purchaseOrdersToolStripMenuItem,
-            this.billsOfLadingToolStripMenuItem});
+            this.billsOfLadingToolStripMenuItem,
+            this.toolStripMenuItem4,
+            this.receiveBillsOfLadingToolStripMenuItem});
             this.purchasingFulfillmentToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.cart;
             this.purchasingFulfillmentToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.purchasingFulfillmentToolStripMenuItem.Name = "purchasingFulfillmentToolStripMenuItem";
@@ -330,6 +334,20 @@
             this.billsOfLadingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.billsOfLadingToolStripMenuItem.Text = "Bills of Lading";
             this.billsOfLadingToolStripMenuItem.Click += new System.EventHandler(this.billsOfLadingToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
+            // 
+            // receiveBillsOfLadingToolStripMenuItem
+            // 
+            this.receiveBillsOfLadingToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.script_lightning;
+            this.receiveBillsOfLadingToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.receiveBillsOfLadingToolStripMenuItem.Name = "receiveBillsOfLadingToolStripMenuItem";
+            this.receiveBillsOfLadingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.receiveBillsOfLadingToolStripMenuItem.Text = "Accept Bills of Lading";
+            this.receiveBillsOfLadingToolStripMenuItem.Click += new System.EventHandler(this.receiveBillsOfLadingToolStripMenuItem_Click);
             // 
             // invoicingToolStripMenuItem
             // 
@@ -655,6 +673,8 @@
         private System.Windows.Forms.ToolStripMenuItem purchasingFulfillmentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem purchaseOrdersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem billsOfLadingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem receiveBillsOfLadingToolStripMenuItem;
     }
 }
 

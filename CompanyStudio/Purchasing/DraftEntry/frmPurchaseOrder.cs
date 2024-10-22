@@ -137,7 +137,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
             PurchaseOrderLineControl purchaseOrderLineControl = new PurchaseOrderLineControl();
             purchaseOrderLineControl.CompanyID = Company.CompanyID;
-            purchaseOrderLineControl.LocationID = LocationModel.LocationID;
+            purchaseOrderLineControl.LocationIDOrigin = LocationModel.LocationID;
+            purchaseOrderLineControl.LocationIDDestination = rdoLocation.Checked ? (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.LocationID : null;
             purchaseOrderLineControl.PurchaseOrderLine = purchaseOrderLine;
             purchaseOrderLineControl.PurchaseOrderID = PurchaseOrderID;
             purchaseOrderLineControl.Location = new Point(3, lowestHeight + 3);
@@ -177,6 +178,11 @@ namespace CompanyStudio.Purchasing.DraftEntry
         {
             cboLocation.Enabled = rdoLocation.Checked;
             cboGovernment.Enabled = rdoGovernment.Checked;
+
+            foreach(PurchaseOrderLineControl ctrl in pnlPurchaseOrderLines.Controls.OfType<PurchaseOrderLineControl>())
+            {
+                ctrl.LocationIDDestination = cboLocation.Enabled ? (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.LocationID : null;
+            }
         }
 
         private async void cmdSubmit_Click(object sender, EventArgs e)
@@ -477,6 +483,14 @@ namespace CompanyStudio.Purchasing.DraftEntry
             if (row != null)
             {
                 AddFulfillmentPlanControl(row.Tag as long?);
+            }
+        }
+
+        private void cboLocation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach(PurchaseOrderLineControl ctrl in pnlPurchaseOrderLines.Controls.OfType<PurchaseOrderLineControl>())
+            {
+                ctrl.LocationIDDestination = (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.LocationID;
             }
         }
     }

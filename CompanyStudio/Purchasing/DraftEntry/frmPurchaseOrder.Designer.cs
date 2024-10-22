@@ -191,6 +191,7 @@
             this.cboLocation.Name = "cboLocation";
             this.cboLocation.Size = new System.Drawing.Size(281, 21);
             this.cboLocation.TabIndex = 2;
+            this.cboLocation.SelectedIndexChanged += new System.EventHandler(this.cboLocation_SelectedIndexChanged);
             // 
             // rdoLocation
             // 

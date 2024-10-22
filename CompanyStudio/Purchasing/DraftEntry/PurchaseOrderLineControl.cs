@@ -20,7 +20,17 @@ namespace CompanyStudio.Purchasing.DraftEntry
         public PurchaseOrderLine PurchaseOrderLine { get; set; }
         public long? PurchaseOrderID { get; set; }
         public long? CompanyID { get; set; }
-        public long? LocationID { get; set; }
+        public long? LocationIDOrigin { get; set; }
+        private long? _locationIDDestination = null;
+        public long? LocationIDDestination
+        {
+            get => _locationIDDestination;
+            set
+            {
+                _locationIDDestination = value;
+                cboItem_ItemSelected(cboItem, EventArgs.Empty);
+            }
+        }
 
         public PurchaseOrderLineControl()
         {
@@ -32,8 +42,10 @@ namespace CompanyStudio.Purchasing.DraftEntry
             DeleteClicked?.Invoke(this, EventArgs.Empty);
         }
 
+        private bool _loading;
         private void PurchaseOrderLineControl_Load(object sender, EventArgs e)
         {
+            _loading = true;
             rdoItem.Checked = (!PurchaseOrderLine?.IsService) ?? false;
             rdoService.Checked = PurchaseOrderLine?.IsService ?? false;
             txtServiceDescription.Text = PurchaseOrderLine?.ServiceDescription;
@@ -43,6 +55,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
             txtUnitCost.Text = PurchaseOrderLine?.UnitCost.ToString();
             txtLineCost.Text = (PurchaseOrderLine?.Quantity * PurchaseOrderLine?.UnitCost)?.ToString();
             lblFulfillmentPlanWarning.Visible = !PurchaseOrderLine?.FulfillmentPlanPurchaseOrderLines?.Any() ?? true;
+            _loading = false;
         }
 
         public async Task<string> PerformSave()
@@ -73,7 +86,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
             {
                 PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrderLine/Post", lineToSave);
                 post.SuppressErrors = true;
-                post.AddLocationHeader(CompanyID, LocationID);
+                post.AddLocationHeader(CompanyID, LocationIDOrigin);
                 lineToSave = await post.Execute<PurchaseOrderLine>();
                 if (post.RequestSuccessful)
                 {
@@ -88,7 +101,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
             {
                 PutData put = new PutData(DataAccess.APIs.CompanyStudio, "PurchaseOrderLine/Put", lineToSave);
                 put.SuppressErrors = true;
-                put.AddLocationHeader(CompanyID, LocationID);
+                put.AddLocationHeader(CompanyID, LocationIDOrigin);
                 lineToSave = await put.Execute<PurchaseOrderLine>();
                 if (put.RequestSuccessful)
                 {
@@ -148,11 +161,84 @@ namespace CompanyStudio.Purchasing.DraftEntry
         {
             pnlItem.Visible = rdoItem.Checked;
             pnlService.Visible = rdoService.Checked;
+
+            txtUnitCost.ReadOnly = rdoItem.Checked;
         }
 
         public void SetHasFulfillmentPlan(bool hasFulfillmentPlan)
         {
             lblFulfillmentPlanWarning.Visible = !hasFulfillmentPlan;
+        }
+
+        private async void cboItem_ItemSelected(object sender, EventArgs e)
+        {
+            await UpdatePricing();
+        }
+
+        private async Task UpdatePricing()
+        {
+            if (_loading) { return; }
+
+            if (rdoItem.Checked)
+            {
+                if (cboItem.SelectedID == null || !short.TryParse(txtQuantity.Text, out short quantity))
+                {
+                    txtUnitCost.Text = "Invalid";
+                    txtLineCost.Text = "";
+                    return;
+                }
+
+                GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PriceCheck/GetItem");
+                get.QueryString.Add("locationID", LocationIDDestination.ToString());
+                get.QueryString.Add("itemID", cboItem.SelectedID?.ToString());
+                get.QueryString.Add("quantity", txtQuantity.Text);
+                LocationItem locationItem = await get.GetObject<LocationItem>();
+                if (locationItem == null)
+                {
+                    get.QueryString["quantity"].Clear();
+                    get.QueryString["quantity"].Add("1");
+                    locationItem = await get.GetObject<LocationItem>();
+                }
+
+                if (locationItem == null)
+                {
+                    txtUnitCost.Text = "Invalid";
+                    txtLineCost.Text = "";
+                    return;
+                }
+
+                txtUnitCost.Text = locationItem.CurrentPromotionLocationItem?.PromotionPrice?.ToString("F") ?? locationItem.BasePrice?.ToString("F");
+                txtLineCost.Text = locationItem.Quantity == quantity ?
+                    locationItem.CurrentPromotionLocationItem?.PromotionPrice?.ToString("F") ?? locationItem.BasePrice?.ToString("F") :
+                    ((locationItem.CurrentPromotionLocationItem?.PromotionPrice ?? locationItem.BasePrice) * quantity)?.ToString("F");
+            }
+            else if (rdoService.Checked)
+            {
+                if (!short.TryParse(txtQuantity.Text, out short quantity) || !decimal.TryParse(txtUnitCost.Text, out decimal unitCost))
+                {
+                    txtLineCost.Text = "";
+                    return;
+                }
+
+                txtLineCost.Text = (quantity * unitCost).ToString("F");
+            }
+            else
+            {
+                txtLineCost.Text = "";
+            }
+        }
+
+        private async void txtQuantity_TextChanged(object sender, EventArgs e)
+        {
+            await UpdatePricing();
+        }
+
+        private async void txtUnitCost_TextChanged(object sender, EventArgs e)
+        {
+            if (rdoService.Checked)
+            {
+                await UpdatePricing();
+            }
         }
     }
 }

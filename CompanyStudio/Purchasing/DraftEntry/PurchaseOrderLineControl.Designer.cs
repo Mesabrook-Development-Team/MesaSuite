@@ -107,6 +107,7 @@
             this.cboItem.SelectedID = null;
             this.cboItem.Size = new System.Drawing.Size(454, 20);
             this.cboItem.TabIndex = 1;
+            this.cboItem.ItemSelected += new System.EventHandler(this.cboItem_ItemSelected);
             // 
             // txtItemDescription
             // 
@@ -185,6 +186,7 @@
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(67, 20);
             this.txtQuantity.TabIndex = 5;
+            this.txtQuantity.TextChanged += new System.EventHandler(this.txtQuantity_TextChanged);
             // 
             // label6
             // 
@@ -199,8 +201,10 @@
             // 
             this.txtUnitCost.Location = new System.Drawing.Point(185, 120);
             this.txtUnitCost.Name = "txtUnitCost";
+            this.txtUnitCost.ReadOnly = true;
             this.txtUnitCost.Size = new System.Drawing.Size(67, 20);
             this.txtUnitCost.TabIndex = 5;
+            this.txtUnitCost.TextChanged += new System.EventHandler(this.txtUnitCost_TextChanged);
             // 
             // label7
             // 

@@ -987,5 +987,19 @@ namespace CompanyStudio
                 await bolExplorer.RefreshData();
             }
         }
+
+        private void shippingReceivingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Purchasing.ShippingReceiving.frmShippingReceiving purchaseOrderExplorer = dockPanel.Contents.OfType<Purchasing.ShippingReceiving.frmShippingReceiving>().FirstOrDefault(explorer => explorer.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (purchaseOrderExplorer != null)
+            {
+                purchaseOrderExplorer.BringToFront();
+                return;
+            }
+
+            purchaseOrderExplorer = new Purchasing.ShippingReceiving.frmShippingReceiving();
+            DecorateStudioContent(purchaseOrderExplorer);
+            purchaseOrderExplorer.Show(dockPanel, DockState.Document);
+        }
     }
 }

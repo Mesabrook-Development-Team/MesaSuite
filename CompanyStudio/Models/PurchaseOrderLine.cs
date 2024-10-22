@@ -77,5 +77,6 @@ namespace CompanyStudio.Models
         }
 
         public List<FulfillmentPlanPurchaseOrderLine> FulfillmentPlanPurchaseOrderLines { get; set; } = new List<FulfillmentPlanPurchaseOrderLine>();
+        public List<RailcarLoad> RailcarLoads { get; set; } = new List<RailcarLoad>();
     }
 }

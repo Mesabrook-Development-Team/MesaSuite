@@ -102,6 +102,7 @@
             this.Controls.Add(this.trePurchaseOrders);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.loader);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmPurchaseOrderExplorer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Purchase Order Explorer";

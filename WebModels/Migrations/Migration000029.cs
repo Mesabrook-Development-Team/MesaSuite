@@ -238,6 +238,11 @@ namespace WebModels.Migrations
             alterTable.Schema = "gov";
             alterTable.Table = "Official";
             alterTable.AddColumn("ManagePurchaseOrders", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
+
+            alterTable.Schema = "fleet";
+            alterTable.Table = "RailcarLoad";
+            alterTable.AddColumn("PurchaseOrderLineID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt));
+            alterTable.AddForeignKey("FKRailcarLoad_PurchaseOrderLine_PurchaseOrderLineID", "PurchaseOrderLineID", "purchasing", "PurchaseOrderLine", "PurchaseOrderLineID", transaction);
         }
     }
 }

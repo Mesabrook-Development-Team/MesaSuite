@@ -83,7 +83,6 @@ namespace CompanyStudio.Purchasing.Fulfillment
         {
             ListViewItem lstItem = new ListViewItem();
             lstItem.Text = railcar.ReportingID;
-            lstItem.SubItems.Add(railcar.BillOfLadingCurrent?.BillOfLadingID?.ToString());
             lstItem.Tag = railcar;
             lstCars.Items.Add(lstItem);
         }

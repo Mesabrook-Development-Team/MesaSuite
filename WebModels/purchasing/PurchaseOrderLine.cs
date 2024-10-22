@@ -1,4 +1,7 @@
-﻿using ClussPro.Base.Data.Query;
+﻿using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
+using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
@@ -8,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebModels.fleet;
 using WebModels.invoicing;
 using WebModels.mesasys;
 
@@ -97,6 +101,52 @@ namespace WebModels.purchasing
             set { CheckSet(); _unitCost = value; }
         }
 
+        private decimal? _remainingQuantity;
+        [Field("906BD8CE-69CD-40CB-9E42-B9C86E46A45F", HasOperation = true)]
+        public decimal? RemainingQuantity
+        {
+            get { CheckGet(); return _remainingQuantity; }
+        }
+
+        public static OperationDelegate RemainingQuantityOperation
+        {
+            get => (myAlias) =>
+            {
+                ISelectQuery fulfillmentSubquery = SQLProviderFactory.GetSelectQuery();
+                fulfillmentSubquery.SelectList = new List<Select>()
+                {
+                    new Select() { SelectOperand = new IsNull(new Sum((Field)$"fulfillmentsumsubquery.Quantity"), new Literal(0)) }
+                };
+                fulfillmentSubquery.Table = new Table("purchasing", "Fulfillment", "fulfillmentsumsubquery");
+                fulfillmentSubquery.WhereCondition = new Condition()
+                {
+                    Left = (Field)"fulfillmentsumsubquery.PurchaseOrderLineID",
+                    ConditionType = Condition.ConditionTypes.Equal,
+                    Right = (Field)$"{myAlias}.PurchaseOrderLineID"
+                };
+
+                Subtraction subtraction = new Subtraction((Field)$"{myAlias}.{nameof(Quantity)}", new SubQuery(fulfillmentSubquery));
+
+                Case zeroOrOverCase = new Case();
+                zeroOrOverCase.Whens = new List<Case.When>()
+                {
+                    new Case.When()
+                    {
+                        Condition = new Condition()
+                        {
+                            Left = subtraction,
+                            ConditionType = Condition.ConditionTypes.Less,
+                            Right = new Literal(0)
+                        },
+                        Result = new Literal(0)
+                    }
+                };
+                zeroOrOverCase.Else = subtraction;
+
+                return zeroOrOverCase;
+            };
+        }    
+            
         protected override bool PreDelete(ITransaction transaction)
         {
             Search<FulfillmentPlan> fulfillmentPlanSearch = new Search<FulfillmentPlan>(new ExistsSearchCondition<FulfillmentPlan>()
@@ -126,6 +176,14 @@ namespace WebModels.purchasing
         }
 
         #region Relationships
+        #region fleet
+        private List<RailcarLoad> _railcarLoads = new List<RailcarLoad>();
+        [RelationshipList("1AEB9D11-D680-4471-9868-3C17EDF910D1", nameof(RailcarLoad.PurchaseOrderLineID), AutoRemoveReferences = true)]
+        public IReadOnlyCollection<RailcarLoad> RailcarLoads
+        {
+            get { CheckGet(); return _railcarLoads; }
+        }
+        #endregion
         #region invoicing
         private List<InvoiceLine> _invoiceLines = new List<InvoiceLine>();
         [RelationshipList("26BF469D-EDBA-42D0-96DA-B203D4667AE4", nameof(InvoiceLine.PurchaseOrderLineID))]

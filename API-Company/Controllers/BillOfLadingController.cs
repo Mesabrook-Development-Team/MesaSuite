@@ -90,6 +90,11 @@ namespace API_Company.Controllers
                     }));
 
                 BillOfLading billOfLading = await Task.Run(() => bolSearch.GetEditable(transaction));
+                if (billOfLading == null)
+                {
+                    return NotFound();
+                }
+
                 billOfLading.DeliveredDate = DateTime.Now;
                 if (!await Task.Run(() => billOfLading.Save(transaction)))
                 {
@@ -155,25 +160,26 @@ namespace API_Company.Controllers
         [HttpGet]
         public async Task<BillOfLading> Get(long? id)
         {
-            Search<BillOfLading> billOfLadingSearch = new Search<BillOfLading>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
-                new LongSearchCondition<BillOfLading>()
-                {
-                    Field = nameof(BillOfLading.CompanyIDShipper),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = CompanyID
-                },
-                new LongSearchCondition<BillOfLading>()
-                {
-                    Field = nameof(BillOfLading.CompanyIDConsignee),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = CompanyID
-                },
-                new LongSearchCondition<BillOfLading>()
-                {
-                    Field = nameof(BillOfLading.CompanyIDCarrier),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = CompanyID
-                },
+            Search<BillOfLading> billOfLadingSearch = new Search<BillOfLading>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                    new LongSearchCondition<BillOfLading>()
+                    {
+                        Field = nameof(BillOfLading.CompanyIDShipper),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = CompanyID
+                    },
+                    new LongSearchCondition<BillOfLading>()
+                    {
+                        Field = nameof(BillOfLading.CompanyIDConsignee),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = CompanyID
+                    },
+                    new LongSearchCondition<BillOfLading>()
+                    {
+                        Field = nameof(BillOfLading.CompanyIDCarrier),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = CompanyID
+                    }),
                 new LongSearchCondition<BillOfLading>()
                 {
                     Field = nameof(BillOfLading.BillOfLadingID),
@@ -182,6 +188,25 @@ namespace API_Company.Controllers
                 }));
 
             return await Task.Run(() => billOfLadingSearch.GetReadOnly(null, _fields));
+        }
+
+        [HttpGet]
+        public async Task<List<BillOfLading>> GetByRailcar(long? id)
+        {
+            Search<BillOfLading> billOfLadingSearch = new Search<BillOfLading>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<BillOfLading>()
+                {
+                    Field = nameof(BillOfLading.RailcarID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                },
+                new DateTimeSearchCondition<BillOfLading>()
+                {
+                    Field = nameof(BillOfLading.DeliveredDate),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                }));
+
+            return await Task.Run(() => billOfLadingSearch.GetReadOnlyReader(null, _fields).ToList());
         }
     }
 }

@@ -40,6 +40,7 @@ namespace API_Company.Controllers
                                                                             fp.TrackStrategicAfterDestination.Name,
                                                                             fp.TrackStrategicAfterLoad.Name,
                                                                             fp.TrackPostFulfillment.Name,
+                                                                            fp.FulfillmentPlanRoutes.First().SortOrder,
                                                                             fp.FulfillmentPlanRoutes.First().CompanyFrom.Name,
                                                                             fp.FulfillmentPlanRoutes.First().CompanyTo.Name,
                                                                             fp.FulfillmentPlanRoutes.First().GovernmentFrom.Name,
@@ -116,6 +117,31 @@ namespace API_Company.Controllers
                 GetBaseSearchCondition()));
 
             return fulfillmentPlanSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).ToList();
+        }
+
+        [HttpGet]
+        public async Task<FulfillmentPlan> GetByRailcar(long? id)
+        {
+            Search<FulfillmentPlan> fulfillmentPlanSearch = new Search<FulfillmentPlan>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new ExistsSearchCondition<FulfillmentPlan>()
+                {
+                    RelationshipName = nameof(FulfillmentPlan.FulfillmentPlanPurchaseOrderLines),
+                    ExistsType = ExistsSearchCondition<FulfillmentPlan>.ExistsTypes.Exists,
+                    Condition = new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlanPurchaseOrderLine>(fppol => new List<object>() { fppol.PurchaseOrderLine.RemainingQuantity }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Greater,
+                        Value = 0
+                    }
+                },
+                new LongSearchCondition<FulfillmentPlan>()
+                {
+                    Field = nameof(FulfillmentPlan.RailcarID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                }));
+
+            return fulfillmentPlanSearch.GetReadOnly(null, await FieldsToRetrieve());
         }
     }
 }

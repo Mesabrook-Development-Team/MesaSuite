@@ -14,13 +14,15 @@ namespace CompanyStudio.Models
         public string ReportingNumber { get; set; }
         public string ReportingID => $"{ReportingMark}{ReportingNumber}";
         public RailLocation RailLocation { get; set; }
+        public long? TrackIDDestination { get; set; }
         public Track TrackDestination { get; set; }
         public long? CompanyIDOwner { get; set; }
         public Company CompanyPossessor { get; set; }
         public Government GovernmentPossessor { get; set; }
         public RailcarModel RailcarModel { get; set; }
-        public BillOfLading BillOfLadingCurrent { get; set; }
         public List<BillOfLading> BillsOfLading { get; set; } = new List<BillOfLading>();
+        public List<RailcarLoad> RailcarLoads { get; set; } = new List<RailcarLoad>();
+        public List<RailcarRoute> RailcarRoutes { get; set; } = new List<RailcarRoute>();
 
         public async Task<Image> GetImage(long? companyID, long? locationID)
         {

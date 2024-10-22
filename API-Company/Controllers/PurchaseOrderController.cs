@@ -88,7 +88,11 @@ namespace API_Company.Controllers
             po.PurchaseOrderLines.First().Fulfillments.First().Railcar.ReportingNumber,
             po.PurchaseOrderLines.First().Fulfillments.First().Quantity,
             po.PurchaseOrderLines.First().Fulfillments.First().FulfillmentTime,
-            po.PurchaseOrderLines.First().Fulfillments.First().IsComplete
+            po.PurchaseOrderLines.First().Fulfillments.First().IsComplete,
+            po.PurchaseOrderLines.First().RailcarLoads.First().RailcarID,
+            po.PurchaseOrderLines.First().RailcarLoads.First().ItemID,
+            po.PurchaseOrderLines.First().RailcarLoads.First().Quantity,
+            po.PurchaseOrderLines.First().RailcarLoads.First().PurchaseOrderLineID
         });
 
         protected override IEnumerable<string> RequestableFields => FieldPathUtility.CreateFieldPathsAsList<PurchaseOrder>(po => new List<object>()

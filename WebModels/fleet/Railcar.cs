@@ -12,6 +12,7 @@ using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.company;
 using WebModels.gov;
@@ -230,11 +231,6 @@ namespace WebModels.fleet
 
         protected override bool PreSave(ITransaction transaction)
         {
-            if (IsFieldDirty(nameof(CompanyIDPossessor)) || IsFieldDirty(nameof(GovernmentIDPossessor)))
-            {
-                TrackIDStrategic = null;
-            }
-
             if (IsFieldDirty(nameof(ImageOverride)))
             {
                 using (MemoryStream inputStream = new MemoryStream(ImageOverride))
@@ -415,6 +411,175 @@ namespace WebModels.fleet
             return true;
         }
 
+        public bool CompleteReceiving(ITransaction transaction)
+        {
+            if (!IsEditable)
+            {
+                throw new InvalidOperationException("Railcar must be editable to complete receiving.");
+            }
+
+            if (transaction == null)
+            {
+                throw new ArgumentNullException(nameof(transaction), "Transaction cannot be null.");
+            }
+
+            Search<FulfillmentPlan> fulfillmentPlanSearch = new Search<FulfillmentPlan>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<FulfillmentPlan>()
+                {
+                    Field = nameof(FulfillmentPlan.RailcarID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = RailcarID
+                },
+                new ExistsSearchCondition<FulfillmentPlan>()
+                {
+                    RelationshipName = nameof(FulfillmentPlan.FulfillmentPlanPurchaseOrderLines),
+                    ExistsType = ExistsSearchCondition<FulfillmentPlan>.ExistsTypes.Exists,
+                    Condition = new DecimalSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlanPurchaseOrderLine>(fppol => new List<object>() { fppol.PurchaseOrderLine.RemainingQuantity }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Greater,
+                        Value = 0
+                    }
+                }));
+
+            List<string> fulfillmentPlanFields = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlan>(fp => new List<object>()
+            {
+                fp.TrackIDLoading,
+                fp.TrackIDStrategicAfterDestination,
+                fp.FulfillmentPlanRoutes.First().SortOrder,
+                fp.FulfillmentPlanRoutes.First().CompanyIDFrom,
+                fp.FulfillmentPlanRoutes.First().GovernmentIDFrom,
+                fp.FulfillmentPlanRoutes.First().CompanyIDTo,
+                fp.FulfillmentPlanRoutes.First().GovernmentIDTo
+            });
+
+            FulfillmentPlan fulfillmentPlan = fulfillmentPlanSearch.GetEditable(transaction, fulfillmentPlanFields);
+            if (fulfillmentPlan != null) // Return to shipper
+            {
+                TrackIDDestination = fulfillmentPlan.TrackIDLoading;
+                TrackIDStrategic = fulfillmentPlan.TrackIDStrategicAfterDestination;
+
+                if (!Save(transaction))
+                {
+                    return false;
+                }
+
+                Search<RailcarRoute> deleteRouteSearch = new Search<RailcarRoute>(new LongSearchCondition<RailcarRoute>()
+                {
+                    Field = nameof(RailcarRoute.RailcarID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = RailcarID
+                });
+                foreach(RailcarRoute route in deleteRouteSearch.GetEditableReader(transaction))
+                {
+                    if (!route.Delete(transaction))
+                    {
+                        Errors.AddRange(route.Errors.ToArray());
+                        return false;
+                    }
+                }
+
+                for(int i = 0; i < (fulfillmentPlan.FulfillmentPlanRoutes?.Count ?? 0); i++)
+                {
+                    FulfillmentPlanRoute planRoute = fulfillmentPlan.FulfillmentPlanRoutes.OrderByDescending(fpr => fpr.SortOrder).ElementAt(i);
+
+                    RailcarRoute newRoute = DataObjectFactory.Create<RailcarRoute>();
+                    newRoute.RailcarID = RailcarID;
+                    newRoute.SortOrder = (byte)i;
+                    newRoute.CompanyIDFrom = planRoute.CompanyIDTo;
+                    newRoute.GovernmentIDFrom = planRoute.GovernmentIDTo;
+                    newRoute.CompanyIDTo = planRoute.CompanyIDFrom;
+                    newRoute.GovernmentIDTo = planRoute.GovernmentIDFrom;
+
+                    if (!newRoute.Save(transaction))
+                    {
+                        Errors.AddRange(newRoute.Errors.ToArray());
+                        return false;
+                    }
+                }
+            }
+            else // Attempt to locate fulfillment plan by purchase order and send it to post fulfillment track. Also end lease contract
+            {
+                Search<PurchaseOrderLine> purchaseOrderLineSearch = new Search<PurchaseOrderLine>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new ExistsSearchCondition<PurchaseOrderLine>()
+                    {
+                        RelationshipName = nameof(PurchaseOrderLine.FulfillmentPlanPurchaseOrderLines),
+                        ExistsType = ExistsSearchCondition<PurchaseOrderLine>.ExistsTypes.Exists,
+                        Condition = new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                        {
+                            Field = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlanPurchaseOrderLine>(fppol => new List<object>() { fppol.FulfillmentPlan.RailcarID }).First(),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = RailcarID
+                        }
+                    }));
+
+                purchaseOrderLineSearch.SearchOrders = new List<SearchOrder>()
+                {
+                    new SearchOrder()
+                    {
+                        OrderField = FieldPathUtility.CreateFieldPathsAsList<PurchaseOrderLine>(pol => new List<object>() { pol.PurchaseOrder.PurchaseOrderDate }).First(),
+                        OrderDirection = SearchOrder.OrderDirections.Descending
+                    }
+                };
+
+                List<string> purchaseOrderLineFields = FieldPathUtility.CreateFieldPathsAsList<PurchaseOrderLine>(pol => new List<object>()
+                {
+                    pol.FulfillmentPlanPurchaseOrderLines.First().FulfillmentPlan.RailcarID,
+                    pol.FulfillmentPlanPurchaseOrderLines.First().FulfillmentPlan.TrackIDPostFulfillment,
+                    pol.FulfillmentPlanPurchaseOrderLines.First().FulfillmentPlan.FulfillmentPlanRoutes.First().SortOrder,
+                    pol.FulfillmentPlanPurchaseOrderLines.First().FulfillmentPlan.FulfillmentPlanRoutes.First().CompanyIDFrom,
+                    pol.FulfillmentPlanPurchaseOrderLines.First().FulfillmentPlan.FulfillmentPlanRoutes.First().GovernmentIDFrom
+                });
+
+                PurchaseOrderLine purchaseOrderLine = purchaseOrderLineSearch.GetReadOnly(transaction, purchaseOrderLineFields);
+
+                if (purchaseOrderLine != null)
+                {
+                    fulfillmentPlan = purchaseOrderLine.FulfillmentPlanPurchaseOrderLines.First(fppol => fppol.FulfillmentPlan.RailcarID == RailcarID).FulfillmentPlan;
+                    TrackIDDestination = fulfillmentPlan.TrackIDPostFulfillment;
+
+                    if (fulfillmentPlan.FulfillmentPlanRoutes?.Count >= 2)
+                    {
+                        FulfillmentPlanRoute finalRoute = fulfillmentPlan.FulfillmentPlanRoutes.OrderByDescending(fpr => fpr.SortOrder).First();
+                        GovernmentIDPossessor = finalRoute.GovernmentIDFrom;
+                        CompanyIDPossessor = finalRoute.CompanyIDFrom;
+                    }
+
+                    if (!Save(transaction))
+                    {
+                        return false;
+                    }
+                }
+
+                Search<LeaseContract> leaseContractSearch = new Search<LeaseContract>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<LeaseContract>()
+                    {
+                        Field = nameof(LeaseContract.RailcarID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = RailcarID
+                    },
+                    new DateTimeSearchCondition<LeaseContract>()
+                    {
+                        Field = nameof(LeaseContract.LeaseTimeEnd),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                    }));
+
+                LeaseContract leaseContract = leaseContractSearch.GetEditable(transaction);
+                if (leaseContract != null)
+                {
+                    leaseContract.LeaseTimeEnd = DateTime.Now;
+
+                    if (!leaseContract.Save(transaction))
+                    {
+                        Errors.AddRange(leaseContract.Errors.ToArray());
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
         protected override bool PreDelete(ITransaction transaction)
         {
             RailLocation railLocation = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
@@ -444,10 +609,6 @@ namespace WebModels.fleet
                     return CompanyLeasedToCondition(myAlias, otherAlias);
                 case nameof(GovernmentLeasedTo):
                     return GovernmentLeasedToCondition(myAlias, otherAlias);
-                case nameof(BillOfLadingCurrent):
-                    return BillOfLadingCurrentCondition(myAlias, otherAlias);
-                case nameof(FulfillmentCurrent):
-                    return FulfillmentCurrentCondition(myAlias, otherAlias);
             }
 
             return base.GetRelationshipCondition(relationship, myAlias, otherAlias);
@@ -536,65 +697,6 @@ namespace WebModels.fleet
                 Left = new SubQuery(select),
                 ConditionType = Condition.ConditionTypes.Equal,
                 Right = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.GovernmentID"
-            };
-        }
-
-        private BillOfLading _billOfLadingCurrent;
-        [Relationship("724A8653-5AF9-491F-8C3F-BB4E3613BBDF", HasForeignKey = false)]
-        public BillOfLading BillOfLadingCurrent
-        {
-            get { CheckGet(); return _billOfLadingCurrent; }
-        }
-
-        private ICondition BillOfLadingCurrentCondition(string myAlias, string otherAlias)
-        {
-            return new ConditionGroup()
-            {
-                ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
-                Conditions = new List<ICondition>()
-                {
-                    new Condition()
-                    {
-                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.{nameof(BillOfLading.RailcarID)}",
-                        ConditionType = Condition.ConditionTypes.Equal,
-                        Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.{nameof(RailcarID)}"
-                    },
-                    new Condition()
-                    {
-                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.{nameof(BillOfLading.DeliveredDate)}",
-                        ConditionType = Condition.ConditionTypes.Null
-                    }
-                }
-            };
-        }
-
-        private Fulfillment _fulfillmentCurrent;
-        [Relationship("B09CA979-16C6-49DA-9485-7F79611A9B3F", HasForeignKey = false)]
-        public Fulfillment FulfillmentCurrent
-        {
-            get { CheckGet(); return _fulfillmentCurrent; }
-        }
-
-        private ICondition FulfillmentCurrentCondition(string myAlias, string otherAlias)
-        {
-            return new ConditionGroup()
-            {
-                ConditionGroupType = ConditionGroup.ConditionGroupTypes.And,
-                Conditions = new List<ICondition>()
-                {
-                    new Condition()
-                    {
-                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.{nameof(Fulfillment.RailcarID)}",
-                        ConditionType = Condition.ConditionTypes.Equal,
-                        Right = (ClussPro.Base.Data.Operand.Field)$"{myAlias}.{nameof(RailcarID)}"
-                    },
-                    new Condition()
-                    {
-                        Left = (ClussPro.Base.Data.Operand.Field)$"{otherAlias}.{nameof(Fulfillment.IsComplete)}",
-                        ConditionType = Condition.ConditionTypes.Equal,
-                        Right = new Literal(false)
-                    }
-                }
             };
         }
         #endregion

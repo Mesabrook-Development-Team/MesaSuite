@@ -55,6 +55,7 @@
             this.billsOfLadingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.receiveBillsOfLadingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shippingReceivingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.invoicingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoicePayables = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoicingReceivables = new System.Windows.Forms.ToolStripMenuItem();
@@ -310,6 +311,7 @@
             this.purchaseOrdersToolStripMenuItem,
             this.billsOfLadingToolStripMenuItem,
             this.toolStripMenuItem4,
+            this.shippingReceivingToolStripMenuItem,
             this.receiveBillsOfLadingToolStripMenuItem});
             this.purchasingFulfillmentToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.cart;
             this.purchasingFulfillmentToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
@@ -348,6 +350,15 @@
             this.receiveBillsOfLadingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.receiveBillsOfLadingToolStripMenuItem.Text = "Accept Bills of Lading";
             this.receiveBillsOfLadingToolStripMenuItem.Click += new System.EventHandler(this.receiveBillsOfLadingToolStripMenuItem_Click);
+            // 
+            // shippingReceivingToolStripMenuItem
+            // 
+            this.shippingReceivingToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.box;
+            this.shippingReceivingToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.shippingReceivingToolStripMenuItem.Name = "shippingReceivingToolStripMenuItem";
+            this.shippingReceivingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.shippingReceivingToolStripMenuItem.Text = "Shipping && Receiving";
+            this.shippingReceivingToolStripMenuItem.Click += new System.EventHandler(this.shippingReceivingToolStripMenuItem_Click);
             // 
             // invoicingToolStripMenuItem
             // 
@@ -465,7 +476,7 @@
             this.mnuThemes.Image = global::CompanyStudio.Properties.Resources.paintbrush;
             this.mnuThemes.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuThemes.Name = "mnuThemes";
-            this.mnuThemes.Size = new System.Drawing.Size(106, 22);
+            this.mnuThemes.Size = new System.Drawing.Size(180, 22);
             this.mnuThemes.Text = "Theme";
             // 
             // mnuLightTheme
@@ -675,6 +686,7 @@
         private System.Windows.Forms.ToolStripMenuItem billsOfLadingToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem receiveBillsOfLadingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem shippingReceivingToolStripMenuItem;
     }
 }
 

@@ -15,7 +15,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -300,7 +300,9 @@
     <Compile Include="Models\PurchaseOrderApproval.cs" />
     <Compile Include="Models\PurchaseOrderLine.cs" />
     <Compile Include="Models\Railcar.cs" />
+    <Compile Include="Models\RailcarLoad.cs" />
     <Compile Include="Models\RailcarModel.cs" />
+    <Compile Include="Models\RailcarRoute.cs" />
     <Compile Include="Models\RailLocation.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\RegisterStatus.cs" />
@@ -480,6 +482,24 @@
     </Compile>
     <Compile Include="Purchasing\OpenMaintenance\PurchaseOrderLineUnfulfilled.Designer.cs">
       <DependentUpon>PurchaseOrderLineUnfulfilled.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\ShippingReceiving\frmShippingReceiving.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\ShippingReceiving\frmShippingReceiving.Designer.cs">
+      <DependentUpon>frmShippingReceiving.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\ShippingReceiving\Receiving.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\ShippingReceiving\Receiving.Designer.cs">
+      <DependentUpon>Receiving.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\ShippingReceiving\Shipping.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\ShippingReceiving\Shipping.Designer.cs">
+      <DependentUpon>Shipping.cs</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Store\ClonePrices\ClonePricesWizardController.cs" />
@@ -781,6 +801,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\OpenMaintenance\PurchaseOrderLineUnfulfilled.resx">
       <DependentUpon>PurchaseOrderLineUnfulfilled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\ShippingReceiving\frmShippingReceiving.resx">
+      <DependentUpon>frmShippingReceiving.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\ShippingReceiving\Receiving.resx">
+      <DependentUpon>Receiving.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\ShippingReceiving\Shipping.resx">
+      <DependentUpon>Shipping.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Store\ClonePrices\ConfirmationStep.resx">
       <DependentUpon>ConfirmationStep.cs</DependentUpon>

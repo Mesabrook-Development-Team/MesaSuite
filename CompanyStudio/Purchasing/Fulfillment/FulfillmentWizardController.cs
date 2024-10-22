@@ -124,14 +124,6 @@ namespace CompanyStudio.Purchasing.Fulfillment
                         });
                         patch.AddCompanyHeader(data.CompanyID);
                         await patch.Execute();
-
-                        // Releasing the car above clears the strategic track. We need to make a second API call
-                        // to re-set the strategic track.
-                        patch.Values = new Dictionary<string, object>()
-                        {
-                            { nameof(FleetTracking.Models.Railcar.TrackIDStrategic), railcar.TrackIDStrategic }
-                        };
-                        await patch.Execute();
                     }
                 }
             }

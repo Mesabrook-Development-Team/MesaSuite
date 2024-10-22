@@ -158,18 +158,36 @@ namespace WebModels.purchasing
                     }
                 }
 
-                // Add fulfillment load to railcar
-                PurchaseOrderLine purchaseOrderLine = DataObject.GetReadOnlyByPrimaryKey<PurchaseOrderLine>(PurchaseOrderLineID, transaction, new[] { nameof(PurchaseOrderLine.ItemID) });
-                if (purchaseOrderLine != null && purchaseOrderLine.ItemID != null)
-                {
-                    RailcarLoad railcarLoad = DataObjectFactory.Create<RailcarLoad>();
-                    railcarLoad.RailcarID = RailcarID;
-                    railcarLoad.Quantity = Quantity;
-                    railcarLoad.ItemID = purchaseOrderLine.ItemID;
-                    if (!railcarLoad.Save(transaction))
+                // Add fulfillment load to railcar, if it hasn't been done already
+                Search<RailcarLoad> railcarLoadExistsSearch = new Search<RailcarLoad>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<RailcarLoad>()
                     {
-                        Errors.AddRange(railcarLoad.Errors.ToArray());
-                        return false;
+                        Field = nameof(RailcarLoad.RailcarID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = RailcarID
+                    },
+                    new LongSearchCondition<RailcarLoad>()
+                    {
+                        Field = nameof(RailcarLoad.PurchaseOrderLineID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = PurchaseOrderLineID
+                    }));
+
+                if (!railcarLoadExistsSearch.ExecuteExists(transaction))
+                {
+                    PurchaseOrderLine purchaseOrderLine = DataObject.GetReadOnlyByPrimaryKey<PurchaseOrderLine>(PurchaseOrderLineID, transaction, new[] { nameof(PurchaseOrderLine.ItemID) });
+                    if (purchaseOrderLine != null && purchaseOrderLine.ItemID != null)
+                    {
+                        RailcarLoad railcarLoad = DataObjectFactory.Create<RailcarLoad>();
+                        railcarLoad.RailcarID = RailcarID;
+                        railcarLoad.Quantity = Quantity;
+                        railcarLoad.ItemID = purchaseOrderLine.ItemID;
+                        railcarLoad.PurchaseOrderLineID = PurchaseOrderLineID;
+                        if (!railcarLoad.Save(transaction))
+                        {
+                            Errors.AddRange(railcarLoad.Errors.ToArray());
+                            return false;
+                        }
                     }
                 }
 
@@ -205,6 +223,22 @@ namespace WebModels.purchasing
                     }
                 }
             }
+
+            if (IsFieldDirty(nameof(IsComplete)) && IsComplete)
+            {
+                PurchaseOrderLine purchaseOrderLine = DataObject.GetReadOnlyByPrimaryKey<PurchaseOrderLine>(PurchaseOrderLineID, transaction, new[] { nameof(PurchaseOrderLine.PurchaseOrderID) });
+                PurchaseOrder purchaseOrder = DataObject.GetEditableByPrimaryKey<PurchaseOrder>(purchaseOrderLine.PurchaseOrderID, transaction, FieldPathUtility.CreateFieldPathsAsList<PurchaseOrder>(po => new List<object>() { po.PurchaseOrderLines.First().RemainingQuantity }));
+                if (purchaseOrder.PurchaseOrderLines.All(pol => (pol.RemainingQuantity ?? 0) == 0))
+                {
+                    purchaseOrder.Status = PurchaseOrder.Statuses.Completed;
+                    if (!purchaseOrder.Save(transaction, new List<Guid>() { PurchaseOrder.SaveFlags.V_StatusChange }))
+                    {
+                        Errors.AddRange(purchaseOrder.Errors.ToArray());
+                        return false;
+                    }
+                }
+            }
+
             return base.PostSave(transaction);
         }
     }

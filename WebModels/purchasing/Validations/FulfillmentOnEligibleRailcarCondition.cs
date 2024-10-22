@@ -12,7 +12,7 @@ namespace WebModels.purchasing.Validations
 {
     public class FulfillmentOnEligibleRailcarCondition : Condition
     {
-        public const string MESSAGE = "Railcar must not have a current Bill Of Lading or Fulfillment";
+        public const string MESSAGE = "Railcar must not fulfill multiple concurrent Purchase Orders.";
         public override bool Evaluate(DataObject dataObject, ITransaction transaction)
         {
             if (!(dataObject is Fulfillment fulfillment))
@@ -20,30 +20,37 @@ namespace WebModels.purchasing.Validations
                 throw new InvalidCastException("dataObject must be a Fulfillment");
             }
 
-            if (fulfillment.RailcarID == null)
+            if (fulfillment.RailcarID == null || fulfillment.PurchaseOrderLineID == null)
             {
                 return true;
             }
 
-            Search<Railcar> railcarSearch = new Search<Railcar>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
-                new LongSearchCondition<Railcar>()
+            Search<Fulfillment> fulfillmentSearch = new Search<Fulfillment>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<Fulfillment>()
                 {
-                    Field = FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new List<object>() { r.BillOfLadingCurrent.BillOfLadingID }).First(),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Null
-                },
-                new LongSearchCondition<Railcar>()
-                {
-                    Field = FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new List<object>() { r.FulfillmentCurrent.FulfillmentID }).First(),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Null
-                },
-                new LongSearchCondition<Railcar>()
-                {
-                    Field = nameof(Railcar.RailcarID),
+                    Field = nameof(Fulfillment.RailcarID),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = fulfillment.RailcarID
+                },
+                new BooleanSearchCondition<Fulfillment>()
+                {
+                    Field = nameof(Fulfillment.IsComplete),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = false
                 }));
 
-            return railcarSearch.ExecuteExists(transaction);
+            PurchaseOrderLine selectedLine = DataObject.GetReadOnlyByPrimaryKey<PurchaseOrderLine>(fulfillment.PurchaseOrderLineID, transaction, new[] { nameof(PurchaseOrderLine.PurchaseOrderID) });
+            List<Fulfillment> fulfillments = fulfillmentSearch.GetReadOnlyReader(transaction, FieldPathUtility.CreateFieldPathsAsList<Fulfillment>(f => new List<object>() { f.PurchaseOrderLine.PurchaseOrderID })).ToList();
+            HashSet<long?> purchaseOrderIDs = new HashSet<long?>() { selectedLine.PurchaseOrderID };
+            foreach(Fulfillment f in fulfillments)
+            {
+                if (purchaseOrderIDs.Add(f.PurchaseOrderLine.PurchaseOrderID))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

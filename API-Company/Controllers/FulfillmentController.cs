@@ -172,5 +172,25 @@ namespace API_Company.Controllers
                 return Ok(billsOfLading);
             }
         }
+
+        [HttpGet]
+        public async Task<List<Fulfillment>> GetCurrentByRailcar(long? id)
+        {
+            Search<Fulfillment> fulfillmentSearch = new Search<Fulfillment>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<Fulfillment>()
+                {
+                    Field = nameof(Fulfillment.RailcarID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                },
+                new BooleanSearchCondition<Fulfillment>()
+                {
+                    Field = nameof(Fulfillment.IsComplete),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = false
+                }));
+
+            return await Task.Run(() => fulfillmentSearch.GetReadOnlyReader(null, _fields).ToList());
+        }
     }
 }

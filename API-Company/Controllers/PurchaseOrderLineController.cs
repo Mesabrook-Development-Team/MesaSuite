@@ -22,7 +22,7 @@ namespace API_Company.Controllers
             .Concat(FieldPathUtility.CreateFieldPathsAsList<PurchaseOrderLine>(pol => new List<object>()
             {
                 pol.Item.ItemID,
-                pol.Item.Name,
+                pol.Item.Name
             }));
 
         public override ISearchCondition GetBaseSearchCondition()

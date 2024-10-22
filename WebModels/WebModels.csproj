@@ -191,11 +191,13 @@
     <Compile Include="purchasing\PurchaseOrderLine.cs" />
     <Compile Include="purchasing\Validations\BillOfLadingUniqueByRailcarCondition.cs" />
     <Compile Include="purchasing\Validations\BillOfLadingValidations.cs" />
+    <Compile Include="purchasing\Validations\RailcarLoadClearedAfterAcceptedBillsOfLadingCondition.cs" />
     <Compile Include="purchasing\Validations\FulfillmentOnEligibleRailcarCondition.cs" />
     <Compile Include="purchasing\Validations\FulfillmentValidations.cs" />
     <Compile Include="purchasing\Validations\PurchaseOrderHasDetailsOnSubmitCondition.cs" />
     <Compile Include="purchasing\Validations\PurchaseOrderRoutesValidOnSubmitCondition.cs" />
     <Compile Include="purchasing\Validations\PurchaseOrderValidations.cs" />
+    <Compile Include="purchasing\Validations\RailcarLoadValidations.cs" />
     <Compile Include="security\Program.cs" />
     <Compile Include="security\User.cs" />
     <Compile Include="security\UserProgram.cs" />

@@ -77,7 +77,7 @@ namespace CompanyStudio.Purchasing
                         bolNode.SelectedImageKey = INBOUND;
                         if (billOfLading.DeliveredDate == null) { inboundNode.Nodes.Add(bolNode); } else { historicalNode.Nodes.Add(bolNode); }
                     }
-                    else if (billOfLading.CompanyIDCarrier != Company.CompanyID)
+                    else if (billOfLading.CompanyIDCarrier == Company.CompanyID)
                     {
                         bolNode.ImageKey = CARRIER;
                         bolNode.SelectedImageKey = CARRIER;

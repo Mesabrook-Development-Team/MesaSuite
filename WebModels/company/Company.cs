@@ -317,6 +317,34 @@ namespace WebModels.company
         {
             get { CheckGet(); return _billsOfLadingCarrier; }
         }
+
+        private List<QuotationRequest> _quotationRequestFroms = new List<QuotationRequest>();
+        [RelationshipList("795CD655-4DB0-43F1-9E6C-3ADCA127E7A3", nameof(QuotationRequest.CompanyIDFrom))]
+        public IReadOnlyCollection<QuotationRequest> QuotationRequestFroms
+        {
+            get { CheckGet(); return _quotationRequestFroms; }
+        }
+
+        private List<QuotationRequest> _quotationRequestTos = new List<QuotationRequest>();
+        [RelationshipList("768B8575-1802-4EC1-8F37-E006FABFE4D7", nameof(QuotationRequest.CompanyIDTo))]
+        public IReadOnlyCollection<QuotationRequest> QuotationRequestTos
+        {
+            get { CheckGet(); return _quotationRequestTos; }
+        }
+
+        private List<Quotation> _quotationFroms = new List<Quotation>();
+        [RelationshipList("15988ACB-E277-4CFA-A56A-C1631F366C30", nameof(Quotation.CompanyIDFrom))]
+        public IReadOnlyCollection<Quotation> QuotationFroms
+        {
+            get { CheckGet(); return _quotationFroms; }
+        }
+
+        private List<Quotation> _quotationTos = new List<Quotation>();
+        [RelationshipList("DB2341F7-2266-4A54-85B6-92F4C56B9302", nameof(Quotation.CompanyIDTo))]
+        public IReadOnlyCollection<Quotation> QuotationTos
+        {
+            get { CheckGet(); return _quotationTos; }
+        }
         #endregion
         #endregion
     }

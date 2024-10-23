@@ -404,6 +404,34 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _billsOfLadingCarrier; }
         }
+
+        private List<QuotationRequest> _quotationRequestFroms = new List<QuotationRequest>();
+        [RelationshipList("B7DA4D52-9760-4696-9612-45839702B3D9", nameof(QuotationRequest.GovernmentIDFrom))]
+        public IReadOnlyCollection<QuotationRequest> QuotationRequestFroms
+        {
+            get { CheckGet(); return _quotationRequestFroms; }
+        }
+
+        private List<QuotationRequest> _quotationRequestTos = new List<QuotationRequest>();
+        [RelationshipList("2283B667-1A2E-433B-9877-C55877867F13", nameof(QuotationRequest.GovernmentIDTo))]
+        public IReadOnlyCollection<QuotationRequest> QuotationRequestTos
+        {
+            get { CheckGet(); return _quotationRequestTos; }
+        }
+
+        private List<Quotation> _quotationFroms = new List<Quotation>();
+        [RelationshipList("F1D7CEDD-486F-427B-AAF3-56223EB339A4", nameof(Quotation.GovernmentIDFrom))]
+        public IReadOnlyCollection<Quotation> QuotationFroms
+        {
+            get { CheckGet(); return _quotationFroms; }
+        }
+
+        private List<Quotation> _quotationTos = new List<Quotation>();
+        [RelationshipList("2732210F-5117-4BA3-ACED-64FD203A80D6", nameof(Quotation.GovernmentIDTo))]
+        public IReadOnlyCollection<Quotation> QuotationTos
+        {
+            get { CheckGet(); return _quotationTos; }
+        }
         #endregion
         #endregion
     }

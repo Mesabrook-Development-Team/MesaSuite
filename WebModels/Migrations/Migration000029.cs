@@ -190,6 +190,68 @@ namespace WebModels.Migrations
             alter.Table = "BillOfLadingItem";
             alter.AddForeignKey("FKBillOfLadingItem_BillOfLading_BillOfLadingID", "BillOfLadingID", "purchasing", "BillOfLading", "BillOfLadingID", transaction);
             alter.AddForeignKey("FKBillOfLadingItem_Item_ItemID", "ItemID", "mesasys", "Item", "ItemID", transaction);
+
+            createTable.TableName = "QuotationRequest";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "QuotationRequestID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "CompanyIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Notes", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 4000) }
+            };
+            createTable.Execute(transaction);
+            alter.Table = "QuotationRequest";
+            alter.AddForeignKey("FKQuotationRequest_Company_CompanyIDFrom", "CompanyIDFrom", "company", "Company", "CompanyID", transaction);
+            alter.AddForeignKey("FKQuotationRequest_Company_CompanyIDTo", "CompanyIDTo", "company", "Company", "CompanyID", transaction);
+            alter.AddForeignKey("FKQuotationRequest_Government_GovernmentIDFrom", "GovernmentIDFrom", "gov", "Government", "GovernmentID", transaction);
+            alter.AddForeignKey("FKQuotationRequest_Government_GovernmentIDTo", "GovernmentIDTo", "gov", "Government", "GovernmentID", transaction);
+
+            createTable.TableName = "QuotationRequestItem";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "QuotationRequestItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "QuotationRequestID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "ItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Quantity", new FieldSpecification(FieldSpecification.FieldTypes.SmallInt) }
+            };
+            createTable.Execute(transaction);
+            alter.Table = "QuotationRequestItem";
+            alter.AddForeignKey("FKQuotationRequestItem_QuotationRequest_QuotationRequestID", "QuotationRequestID", "purchasing", "QuotationRequest", "QuotationRequestID", transaction);
+            alter.AddForeignKey("FKQuotationRequestItem_Item_ItemID", "ItemID", "mesasys", "Item", "ItemID", transaction);
+
+            createTable.TableName = "Quotation";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "QuotationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "CompanyIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "CompanyIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDFrom", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDTo", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "IsRepeatable", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } },
+                { "ExpirationTime", new FieldSpecification(FieldSpecification.FieldTypes.DateTime2, 7) }
+            };
+            createTable.Execute(transaction);
+            alter.Table = "Quotation";
+            alter.AddForeignKey("FKQuotation_Company_CompanyIDFrom", "CompanyIDFrom", "company", "Company", "CompanyID", transaction);
+            alter.AddForeignKey("FKQuotation_Company_CompanyIDTo", "CompanyIDTo", "company", "Company", "CompanyID", transaction);
+            alter.AddForeignKey("FKQuotation_Government_GovernmentIDFrom", "GovernmentIDFrom", "gov", "Government", "GovernmentID", transaction);
+            alter.AddForeignKey("FKQuotation_Government_GovernmentIDTo", "GovernmentIDTo", "gov", "Government", "GovernmentID", transaction);
+
+            createTable.TableName = "QuotationItem";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "QuotationItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "QuotationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "ItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "UnitCost", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
+                { "MinimumQuantity", new FieldSpecification(FieldSpecification.FieldTypes.SmallInt) }
+            };
+            createTable.Execute(transaction);
+            alter.Table = "QuotationItem";
+            alter.AddForeignKey("FKQuotationItem_Quotation_QuotationID", "QuotationID", "purchasing", "Quotation", "QuotationID", transaction);
+            alter.AddForeignKey("FKQuotationItem_Item_ItemID", "ItemID", "mesasys", "Item", "ItemID", transaction);
         }
 
         private void CreateFleetTables(ITransaction transaction)

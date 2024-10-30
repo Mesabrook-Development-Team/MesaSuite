@@ -299,6 +299,10 @@
     <Compile Include="Models\PurchaseOrder.cs" />
     <Compile Include="Models\PurchaseOrderApproval.cs" />
     <Compile Include="Models\PurchaseOrderLine.cs" />
+    <Compile Include="Models\Quotation.cs" />
+    <Compile Include="Models\QuotationRequest.cs" />
+    <Compile Include="Models\QuotationItem.cs" />
+    <Compile Include="Models\QuotationRequestItem.cs" />
     <Compile Include="Models\Railcar.cs" />
     <Compile Include="Models\RailcarLoad.cs" />
     <Compile Include="Models\RailcarModel.cs" />
@@ -421,6 +425,12 @@
     <Compile Include="Purchasing\DraftEntry\PurchaseOrderLineControl.Designer.cs">
       <DependentUpon>PurchaseOrderLineControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Purchasing\frmQuoteExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\frmQuoteExplorer.Designer.cs">
+      <DependentUpon>frmQuoteExplorer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Purchasing\Fulfillment\AdditionalTasksStepControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -482,6 +492,24 @@
     </Compile>
     <Compile Include="Purchasing\OpenMaintenance\PurchaseOrderLineUnfulfilled.Designer.cs">
       <DependentUpon>PurchaseOrderLineUnfulfilled.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Quotes\frmQuote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Quotes\frmQuote.Designer.cs">
+      <DependentUpon>frmQuote.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Quotes\frmQuoteBulkPricing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Quotes\frmQuoteBulkPricing.Designer.cs">
+      <DependentUpon>frmQuoteBulkPricing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Quotes\frmQuoteRequest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Quotes\frmQuoteRequest.Designer.cs">
+      <DependentUpon>frmQuoteRequest.cs</DependentUpon>
     </Compile>
     <Compile Include="Purchasing\ShippingReceiving\frmShippingReceiving.cs">
       <SubType>Form</SubType>
@@ -772,6 +800,9 @@
     <EmbeddedResource Include="Purchasing\DraftEntry\PurchaseOrderLineControl.resx">
       <DependentUpon>PurchaseOrderLineControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\frmQuoteExplorer.resx">
+      <DependentUpon>frmQuoteExplorer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\Fulfillment\AdditionalTasksStepControl.resx">
       <DependentUpon>AdditionalTasksStepControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -801,6 +832,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\OpenMaintenance\PurchaseOrderLineUnfulfilled.resx">
       <DependentUpon>PurchaseOrderLineUnfulfilled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Quotes\frmQuote.resx">
+      <DependentUpon>frmQuote.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Quotes\frmQuoteBulkPricing.resx">
+      <DependentUpon>frmQuoteBulkPricing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Quotes\frmQuoteRequest.resx">
+      <DependentUpon>frmQuoteRequest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\ShippingReceiving\frmShippingReceiving.resx">
       <DependentUpon>frmShippingReceiving.cs</DependentUpon>

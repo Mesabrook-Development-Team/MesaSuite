@@ -1,5 +1,6 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +94,7 @@ namespace WebModels.purchasing
 
         private DateTime? _expirationTime;
         [Field("9A4B22B1-36D0-43FB-BF23-0FEC60B540F8")]
+        [Required]
         public DateTime? ExpirationTime
         {
             get { CheckGet(); return _expirationTime; }
@@ -102,7 +104,7 @@ namespace WebModels.purchasing
         #region Relationships
         #region purchasing
         private List<QuotationItem> _quotationItems = new List<QuotationItem>();
-        [RelationshipList("6B51E8C6-7586-42DA-B5FE-1271160F8D23", nameof(QuotationItem.QuotationID))]
+        [RelationshipList("6B51E8C6-7586-42DA-B5FE-1271160F8D23", nameof(QuotationItem.QuotationID), AutoDeleteReferences = true)]
         public IReadOnlyCollection<QuotationItem> QuotationItems
         {
             get { CheckGet(); return _quotationItems; }

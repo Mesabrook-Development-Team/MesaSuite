@@ -1001,5 +1001,19 @@ namespace CompanyStudio
             DecorateStudioContent(purchaseOrderExplorer);
             purchaseOrderExplorer.Show(dockPanel, DockState.Document);
         }
+
+        private void toolQuotes_Click(object sender, EventArgs e)
+        {
+            Purchasing.frmQuoteExplorer quoteExplorer = dockPanel.Contents.OfType<Purchasing.frmQuoteExplorer>().FirstOrDefault(explorer => explorer.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (quoteExplorer != null)
+            {
+                quoteExplorer.BringToFront();
+                return;
+            }
+
+            quoteExplorer = new Purchasing.frmQuoteExplorer();
+            DecorateStudioContent(quoteExplorer);
+            quoteExplorer.Show(dockPanel, DockState.DockRight);
+        }
     }
 }

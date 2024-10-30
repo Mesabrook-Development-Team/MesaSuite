@@ -111,7 +111,7 @@
     <Compile Include="fleet\Validations\FleetSecurityValidationDefinition.cs" />
     <Compile Include="fleet\Validations\ReportingMarkUniqueCondition.cs" />
     <Compile Include="fleet\Validations\TrainValidationDefinition.cs" />
-    <Compile Include="fleet\Validations\XOrPresenceCondition.cs" />
+    <Compile Include="Common\XOrPresenceCondition.cs" />
     <Compile Include="gov\Government.cs" />
     <Compile Include="gov\InterestConfiguration.cs" />
     <Compile Include="gov\Law.cs" />
@@ -195,6 +195,8 @@
     <Compile Include="purchasing\QuotationRequestItem.cs" />
     <Compile Include="purchasing\Validations\BillOfLadingUniqueByRailcarCondition.cs" />
     <Compile Include="purchasing\Validations\BillOfLadingValidations.cs" />
+    <Compile Include="purchasing\Validations\QuotationValidations.cs" />
+    <Compile Include="purchasing\Validations\QuotationRequestValidations.cs" />
     <Compile Include="purchasing\Validations\RailcarLoadClearedAfterAcceptedBillsOfLadingCondition.cs" />
     <Compile Include="purchasing\Validations\FulfillmentOnEligibleRailcarCondition.cs" />
     <Compile Include="purchasing\Validations\FulfillmentValidations.cs" />

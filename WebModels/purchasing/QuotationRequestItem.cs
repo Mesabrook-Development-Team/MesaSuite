@@ -1,5 +1,6 @@
 ﻿using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace WebModels.purchasing
 
         private long? _quotationRequestID;
         [Field("A3A7F3E8-C8CB-43DD-A95A-375EEFAC3446")]
+        [Required]
         public long? QuotationRequestID
         {
             get { CheckGet(); return _quotationRequestID; }
@@ -39,6 +41,7 @@ namespace WebModels.purchasing
 
         private long? _itemID;
         [Field("48F23441-3A0F-4087-B448-93773912F6FF")]
+        [Required]
         public long? ItemID
         {
             get { CheckGet(); return _itemID; }
@@ -54,6 +57,7 @@ namespace WebModels.purchasing
 
         private short? _quantity;
         [Field("8D03B78D-18CC-40A8-BF09-4A7CB63DD6B8")]
+        [Required]
         public short? Quantity
         {
             get { CheckGet(); return _quantity; }

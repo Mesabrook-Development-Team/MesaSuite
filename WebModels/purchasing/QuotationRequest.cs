@@ -94,7 +94,7 @@ namespace WebModels.purchasing
         #region Relationships
         #region purchasing
         private List<QuotationRequestItem> _quotationRequestItems = new List<QuotationRequestItem>();
-        [RelationshipList("39D28A20-2882-41AF-B8C1-B54290584DF3", nameof(QuotationRequestItem.QuotationRequestID))]
+        [RelationshipList("39D28A20-2882-41AF-B8C1-B54290584DF3", nameof(QuotationRequestItem.QuotationRequestID), AutoDeleteReferences = true)]
         public IReadOnlyCollection<QuotationRequestItem> QuotationRequestItems
         {
             get { CheckGet(); return _quotationRequestItems; }

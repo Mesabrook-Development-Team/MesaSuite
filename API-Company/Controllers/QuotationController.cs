@@ -60,6 +60,32 @@ namespace API_Company.Controllers
             };
         }
 
+        public override Task<Quotation> Get(long id)
+        {
+            Search<Quotation> quotationSearch = new Search<Quotation>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<Quotation>()
+                {
+                    Field = nameof(Quotation.QuotationID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                },
+                new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                    new LongSearchCondition<Quotation>()
+                    {
+                        Field = nameof(Quotation.CompanyIDFrom),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = CompanyID
+                    },
+                    new LongSearchCondition<Quotation>()
+                    {
+                        Field = nameof(Quotation.CompanyIDTo),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = CompanyID
+                    })));
+
+            return Task.Run(async () => quotationSearch.GetReadOnlyReader(null, await FieldsToRetrieve()).FirstOrDefault());
+        }
+
         [HttpGet]
         public async Task<List<Quotation>> GetReceived()
         {

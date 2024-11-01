@@ -1,4 +1,9 @@
-﻿using ClussPro.ObjectBasedFramework.DataSearch;
+﻿using API.Common;
+using API.Common.Attributes;
+using API.Common.Extensions;
+using API_Company.App_Code;
+using API_Company.Models.company;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
 using System;
 using System.Collections.Generic;
@@ -9,6 +14,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using WebModels.company;
 using WebModels.mesasys;
+using WebModels.purchasing;
 
 namespace API_Company.Controllers
 {
@@ -32,18 +38,20 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
-        public List<LocationItem> GetItems([FromUri]long? locationID)
+        public async Task<List<QuotedLocationItem>> GetItems([FromUri]long? locationID)
         {
-            Search<LocationItem> locationItemSearch = new Search<LocationItem>(new LongSearchCondition<LocationItem>()
+            Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(new LongSearchCondition<QuotedLocationItem>()
             {
-                Field = nameof(LocationItem.LocationID),
+                Field = nameof(QuotedLocationItem.LocationID),
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                 Value = locationID
             });
 
-            return locationItemSearch.GetReadOnlyReader(null, FieldPathUtility.CreateFieldPathsAsList<LocationItem>(l => new List<object>()
+            List<QuotedLocationItem> quotedLocationItems = locationItemSearch.GetReadOnlyReader(null, FieldPathUtility.CreateFieldPathsAsList<LocationItem>(l => new List<object>()
             {
                 l.LocationItemID,
+                l.LocationID,
+                l.ItemID,
                 l.Item.Name,
                 l.Item.ItemNamespace.Namespace,
                 l.Item.IsFluid,
@@ -51,34 +59,40 @@ namespace API_Company.Controllers
                 l.Quantity,
                 l.CurrentPromotionLocationItem.PromotionPrice
             })).ToList();
+
+            await QuotedLocationItem.ApplyQuotes(quotedLocationItems, Request, ActionContext);
+
+            return quotedLocationItems;
         }
 
         [HttpGet]
-        public LocationItem GetItem([FromUri] long? locationID, [FromUri]string itemName, [FromUri]short? quantity)
+        public async Task<QuotedLocationItem> GetItem([FromUri] long? locationID, [FromUri]string itemName, [FromUri]short? quantity)
         {
-            Search<LocationItem> locationItemSearch = new Search<LocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
-                new StringSearchCondition<LocationItem>()
+            Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new StringSearchCondition<QuotedLocationItem>()
                 {
-                    Field = $"{nameof(LocationItem.Item)}.{nameof(Item.Name)}",
+                    Field = $"{nameof(QuotedLocationItem.Item)}.{nameof(Item.Name)}",
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = itemName
                 },
-                new LongSearchCondition<LocationItem>()
+                new LongSearchCondition<QuotedLocationItem>()
                 {
-                    Field = nameof(LocationItem.LocationID),
+                    Field = nameof(QuotedLocationItem.LocationID),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = locationID
                 },
-                new ShortSearchCondition<LocationItem>()
+                new ShortSearchCondition<QuotedLocationItem>()
                 {
-                    Field = nameof(LocationItem.Quantity),
+                    Field = nameof(QuotedLocationItem.Quantity),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = quantity
                 }));
 
-            return locationItemSearch.GetReadOnly(null, FieldPathUtility.CreateFieldPathsAsList<LocationItem>(l => new List<object>()
+            QuotedLocationItem quotedLocationItem = locationItemSearch.GetReadOnly(null, FieldPathUtility.CreateFieldPathsAsList<QuotedLocationItem>(l => new List<object>()
             {
                 l.LocationItemID,
+                l.LocationID,
+                l.ItemID,
                 l.Item.Name,
                 l.Item.ItemNamespace.Namespace,
                 l.Item.IsFluid,
@@ -86,75 +100,91 @@ namespace API_Company.Controllers
                 l.Quantity,
                 l.CurrentPromotionLocationItem.PromotionPrice
             }));
+
+            await QuotedLocationItem.ApplyQuotes(new List<QuotedLocationItem>() { quotedLocationItem }, Request, ActionContext);
+
+            return quotedLocationItem;
         }
 
         [HttpGet]
-        public LocationItem GetItem([FromUri]long? locationID, [FromUri]long? itemID, [FromUri]short? quantity)
+        public async Task<QuotedLocationItem> GetItem([FromUri]long? locationID, [FromUri]long? itemID, [FromUri]short? quantity)
         {
-            Search<LocationItem> locationItemSearch = new Search<LocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
-                new LongSearchCondition<LocationItem>()
+            Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<QuotedLocationItem>()
                 {
-                    Field = nameof(LocationItem.ItemID),
+                    Field = nameof(QuotedLocationItem.ItemID),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = itemID
                 },
-                new LongSearchCondition<LocationItem>()
+                new LongSearchCondition<QuotedLocationItem>()
                 {
-                    Field = nameof(LocationItem.LocationID),
+                    Field = nameof(QuotedLocationItem.LocationID),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = locationID
                 },
-                new ShortSearchCondition<LocationItem>()
+                new ShortSearchCondition<QuotedLocationItem>()
                 {
-                    Field = nameof(LocationItem.Quantity),
+                    Field = nameof(QuotedLocationItem.Quantity),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = quantity
                 }));
 
-            return locationItemSearch.GetReadOnly(null, FieldPathUtility.CreateFieldPathsAsList<LocationItem>(l => new List<object>()
+            QuotedLocationItem item = await Task.Run(() => locationItemSearch.GetReadOnly(null, FieldPathUtility.CreateFieldPathsAsList<LocationItem>(l => new List<object>()
             {
                 l.LocationItemID,
+                l.LocationID,
+                l.ItemID,
                 l.Item.Name,
                 l.Item.ItemNamespace.Namespace,
                 l.Item.IsFluid,
                 l.BasePrice,
                 l.Quantity,
                 l.CurrentPromotionLocationItem.PromotionPrice
-            }));
+            })));
+
+            await QuotedLocationItem.ApplyQuotes(new List<QuotedLocationItem>() { item }, Request, ActionContext);
+
+            return item;
         }
 
         [HttpGet]
-        public List<LocationItem> FindItem([FromUri] string itemName, [FromUri] short? quantity)
+        public async Task<List<QuotedLocationItem>> FindItem([FromUri] string itemName, [FromUri] short? quantity)
         {
             SearchConditionGroup searchCondition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
-                new StringSearchCondition<LocationItem>()
+                new StringSearchCondition<QuotedLocationItem>()
                 {
-                    Field = $"{nameof(LocationItem.Item)}.{nameof(Item.Name)}",
+                    Field = $"{nameof(QuotedLocationItem.Item)}.{nameof(Item.Name)}",
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = itemName
                 });
 
             if (quantity != null)
             {
-                searchCondition.SearchConditions.Add(new ShortSearchCondition<LocationItem>()
+                searchCondition.SearchConditions.Add(new ShortSearchCondition<QuotedLocationItem>()
                 {
-                    Field = nameof(LocationItem.Quantity),
+                    Field = nameof(QuotedLocationItem.Quantity),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = quantity
                 });
             }
 
-            Search<LocationItem> locationItemSearch = new Search<LocationItem>(searchCondition);
-            return locationItemSearch.GetReadOnlyReader(null, FieldPathUtility.CreateFieldPathsAsList<LocationItem>(l => new List<object>()
+            Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(searchCondition);
+            List<QuotedLocationItem> quotedLocationItems = await Task.Run(() => locationItemSearch.GetReadOnlyReader(null, FieldPathUtility.CreateFieldPathsAsList<LocationItem>(l => new List<object>()
             {
                 l.LocationItemID,
+                l.LocationID,
+                l.ItemID,
                 l.Item.Name,
                 l.Item.ItemNamespace.Namespace,
                 l.Item.IsFluid,
                 l.BasePrice,
                 l.Quantity,
                 l.CurrentPromotionLocationItem.PromotionPrice
-            })).ToList();
+            })).ToList());
+
+            await QuotedLocationItem.ApplyQuotes(quotedLocationItems, Request, ActionContext);
+
+            return quotedLocationItems;
         }
     }
 }

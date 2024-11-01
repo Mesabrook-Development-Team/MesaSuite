@@ -1015,5 +1015,19 @@ namespace CompanyStudio
             DecorateStudioContent(quoteExplorer);
             quoteExplorer.Show(dockPanel, DockState.DockRight);
         }
+
+        private void toolPurchasingPriceManager_Click(object sender, EventArgs e)
+        {
+            Store.frmStoreItems storeItems = dockPanel.Contents.OfType<Store.frmStoreItems>().FirstOrDefault(r => r.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (storeItems != null)
+            {
+                storeItems.BringToFront();
+                return;
+            }
+
+            storeItems = new Store.frmStoreItems();
+            DecorateStudioContent(storeItems);
+            storeItems.Show(dockPanel, DockState.Document);
+        }
     }
 }

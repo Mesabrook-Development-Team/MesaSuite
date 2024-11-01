@@ -17,5 +17,9 @@ namespace CompanyStudio.Models
         public decimal? BasePrice { get; set; }
         public PromotionLocationItem CurrentPromotionLocationItem { get; set; }
 
+        /// <summary>
+        /// This is only used during PriceCheck
+        /// </summary>
+        public List<QuotationItem> QuotedPrices { get; set; }
     }
 }

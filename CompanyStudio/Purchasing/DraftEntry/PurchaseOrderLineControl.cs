@@ -189,6 +189,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 }
 
                 GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PriceCheck/GetItem");
+                get.AddLocationHeader(CompanyID, LocationIDOrigin);
                 get.QueryString.Add("locationID", LocationIDDestination.ToString());
                 get.QueryString.Add("itemID", cboItem.SelectedID?.ToString());
                 get.QueryString.Add("quantity", txtQuantity.Text);
@@ -207,10 +208,25 @@ namespace CompanyStudio.Purchasing.DraftEntry
                     return;
                 }
 
-                txtUnitCost.Text = locationItem.CurrentPromotionLocationItem?.PromotionPrice?.ToString("F") ?? locationItem.BasePrice?.ToString("F");
-                txtLineCost.Text = locationItem.Quantity == quantity ?
-                    locationItem.CurrentPromotionLocationItem?.PromotionPrice?.ToString("F") ?? locationItem.BasePrice?.ToString("F") :
-                    ((locationItem.CurrentPromotionLocationItem?.PromotionPrice ?? locationItem.BasePrice) * quantity)?.ToString("F");
+                decimal unitCost = decimal.MaxValue;
+                short unitQuantity = locationItem.Quantity ?? 1;
+                short lineCostMultiplier = 1;
+                if (locationItem.QuotedPrices != null)
+                {
+                    unitCost = locationItem.QuotedPrices.Where(qp => qp.MinimumQuantity <= quantity).OrderBy(qp => qp.UnitCost).FirstOrDefault()?.UnitCost ?? decimal.MaxValue;
+                    unitQuantity = 1;
+                    lineCostMultiplier = quantity;
+                }
+
+                unitCost = Math.Min(Math.Min(unitCost, locationItem.CurrentPromotionLocationItem?.PromotionPrice ?? decimal.MaxValue), locationItem.BasePrice ?? decimal.MaxValue);
+
+                if (unitCost == decimal.MaxValue)
+                {
+                    unitCost = 0;
+                }
+
+                txtUnitCost.Text = (unitCost / unitQuantity).ToString("F");
+                txtLineCost.Text = (unitCost * lineCostMultiplier).ToString("F");
             }
             else if (rdoService.Checked)
             {

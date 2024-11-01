@@ -240,7 +240,7 @@ namespace CompanyStudio.Purchasing.Quotes
 
         private async void dgvItems_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            if (_loading || e.RowIndex < 0 || e.RowIndex >= dgvItems.Rows.Count)
+            if (_loading || e.RowIndex < 0 || e.RowIndex >= dgvItems.Rows.Count || !toolAdd.Enabled)
             {
                 return;
             }

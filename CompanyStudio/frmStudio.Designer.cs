@@ -53,6 +53,7 @@
             this.purchasingFulfillmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.purchaseOrdersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.billsOfLadingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolQuotes = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.shippingReceivingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.receiveBillsOfLadingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,7 +88,8 @@
             this.tmrLocationUpdater = new System.Windows.Forms.Timer(this.components);
             this.loader = new CompanyStudio.Loader();
             this.studioFormExtender = new CompanyStudio.StudioFormExtender(this.components);
-            this.toolQuotes = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolPurchasingPriceManager = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuBanner.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -175,7 +177,7 @@
             this.mnuRegisters.Image = global::CompanyStudio.Properties.Resources.cash_register_small;
             this.mnuRegisters.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuRegisters.Name = "mnuRegisters";
-            this.mnuRegisters.Size = new System.Drawing.Size(164, 22);
+            this.mnuRegisters.Size = new System.Drawing.Size(180, 22);
             this.mnuRegisters.Text = "Registers";
             this.mnuRegisters.Click += new System.EventHandler(this.mnuRegisters_Click);
             // 
@@ -184,7 +186,7 @@
             this.mnuStorePriceManager.Image = global::CompanyStudio.Properties.Resources.money;
             this.mnuStorePriceManager.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuStorePriceManager.Name = "mnuStorePriceManager";
-            this.mnuStorePriceManager.Size = new System.Drawing.Size(164, 22);
+            this.mnuStorePriceManager.Size = new System.Drawing.Size(180, 22);
             this.mnuStorePriceManager.Text = "Price Manager";
             this.mnuStorePriceManager.Click += new System.EventHandler(this.mnuStorePriceManager_Click);
             // 
@@ -193,21 +195,21 @@
             this.mnuPromotions.Image = global::CompanyStudio.Properties.Resources.tag_red;
             this.mnuPromotions.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuPromotions.Name = "mnuPromotions";
-            this.mnuPromotions.Size = new System.Drawing.Size(164, 22);
+            this.mnuPromotions.Size = new System.Drawing.Size(180, 22);
             this.mnuPromotions.Text = "Promotions";
             this.mnuPromotions.Click += new System.EventHandler(this.mnuPromotions_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(161, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
             // 
             // mnuStoreConfiguration
             // 
             this.mnuStoreConfiguration.Image = global::CompanyStudio.Properties.Resources.cog;
             this.mnuStoreConfiguration.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuStoreConfiguration.Name = "mnuStoreConfiguration";
-            this.mnuStoreConfiguration.Size = new System.Drawing.Size(164, 22);
+            this.mnuStoreConfiguration.Size = new System.Drawing.Size(180, 22);
             this.mnuStoreConfiguration.Text = "Configuration";
             this.mnuStoreConfiguration.Click += new System.EventHandler(this.mnuStoreConfiguration_Click);
             // 
@@ -216,7 +218,7 @@
             this.mnuStoreSalesReport.Image = global::CompanyStudio.Properties.Resources.report;
             this.mnuStoreSalesReport.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuStoreSalesReport.Name = "mnuStoreSalesReport";
-            this.mnuStoreSalesReport.Size = new System.Drawing.Size(164, 22);
+            this.mnuStoreSalesReport.Size = new System.Drawing.Size(180, 22);
             this.mnuStoreSalesReport.Text = "Store Sales Report";
             this.mnuStoreSalesReport.Click += new System.EventHandler(this.mnuStoreSalesReport_Click);
             // 
@@ -237,7 +239,7 @@
             this.mnuEmailExplorer.Image = global::CompanyStudio.Properties.Resources.email;
             this.mnuEmailExplorer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuEmailExplorer.Name = "mnuEmailExplorer";
-            this.mnuEmailExplorer.Size = new System.Drawing.Size(141, 22);
+            this.mnuEmailExplorer.Size = new System.Drawing.Size(180, 22);
             this.mnuEmailExplorer.Text = "Email Explorer";
             this.mnuEmailExplorer.Click += new System.EventHandler(this.mnuEmailExplorer_Click);
             // 
@@ -312,6 +314,8 @@
             this.purchaseOrdersToolStripMenuItem,
             this.billsOfLadingToolStripMenuItem,
             this.toolQuotes,
+            this.toolStripMenuItem5,
+            this.toolPurchasingPriceManager,
             this.toolStripMenuItem4,
             this.shippingReceivingToolStripMenuItem,
             this.receiveBillsOfLadingToolStripMenuItem});
@@ -338,6 +342,15 @@
             this.billsOfLadingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.billsOfLadingToolStripMenuItem.Text = "Bills of Lading";
             this.billsOfLadingToolStripMenuItem.Click += new System.EventHandler(this.billsOfLadingToolStripMenuItem_Click);
+            // 
+            // toolQuotes
+            // 
+            this.toolQuotes.Image = global::CompanyStudio.Properties.Resources.comments;
+            this.toolQuotes.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolQuotes.Name = "toolQuotes";
+            this.toolQuotes.Size = new System.Drawing.Size(180, 22);
+            this.toolQuotes.Text = "Quotes";
+            this.toolQuotes.Click += new System.EventHandler(this.toolQuotes_Click);
             // 
             // toolStripMenuItem4
             // 
@@ -604,14 +617,19 @@
             this.loader.TabIndex = 7;
             this.loader.Visible = false;
             // 
-            // toolQuotes
+            // toolPurchasingPriceManager
             // 
-            this.toolQuotes.Image = global::CompanyStudio.Properties.Resources.comments;
-            this.toolQuotes.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolQuotes.Name = "toolQuotes";
-            this.toolQuotes.Size = new System.Drawing.Size(180, 22);
-            this.toolQuotes.Text = "Quotes";
-            this.toolQuotes.Click += new System.EventHandler(this.toolQuotes_Click);
+            this.toolPurchasingPriceManager.Image = global::CompanyStudio.Properties.Resources.money;
+            this.toolPurchasingPriceManager.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolPurchasingPriceManager.Name = "toolPurchasingPriceManager";
+            this.toolPurchasingPriceManager.Size = new System.Drawing.Size(180, 22);
+            this.toolPurchasingPriceManager.Text = "Price Manager";
+            this.toolPurchasingPriceManager.Click += new System.EventHandler(this.toolPurchasingPriceManager_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
             // 
             // frmStudio
             // 
@@ -699,6 +717,8 @@
         private System.Windows.Forms.ToolStripMenuItem receiveBillsOfLadingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem shippingReceivingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolQuotes;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem toolPurchasingPriceManager;
     }
 }
 

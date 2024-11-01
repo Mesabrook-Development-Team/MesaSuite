@@ -41,10 +41,14 @@ namespace CompanyStudio.Store
 
         private void PermissionsManager_OnLocationPermissionChange(object sender, PermissionsManager.LocationWidePermissionChangeEventArgs e)
         {
-            if (e.LocationID == LocationModel.LocationID && e.Permission == PermissionsManager.LocationWidePermissions.ManagePrices && !e.Value)
+            if (e.LocationID == LocationModel.LocationID && !e.Value)
             {
-                this.ShowError("You do not have permission to manage prices in this location.");
-                Close();
+                if (!PermissionsManager.HasPermission(LocationModel.LocationID.Value, PermissionsManager.LocationWidePermissions.ManagePrices) &&
+                    !PermissionsManager.HasPermission(LocationModel.LocationID.Value, PermissionsManager.LocationWidePermissions.ManagePurchaseOrders))
+                {
+                    this.ShowError("You do not have permission to manage prices in this location.");
+                    Close();
+                }
             }
         }
 

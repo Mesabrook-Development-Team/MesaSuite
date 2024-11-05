@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace Updater
             if (StartupArguments.MCSyncProcessID != -1)
             {
                 NonTaskExecuting?.Invoke(this, "Waiting for MCSync to close...");
-                while(Process.GetProcesses().Any(p => p.Id == StartupArguments.MCSyncProcessID))
+                while (Process.GetProcesses().Any(p => p.Id == StartupArguments.MCSyncProcessID))
                 {
                     Thread.Sleep(50);
                 }
@@ -121,6 +122,7 @@ namespace Updater
                 while ((file = reader.ReadLine()) != null)
                 {
                     TaskExecuting?.Invoke(this, "Downloading " + file);
+                    Thread.Sleep(1000);
 
                     webRequest = (FtpWebRequest)WebRequest.Create($"ftp://www.clussmanproductions.com/support/{updateFolder}/updates/{StartupArguments.VersionToDownload}/{file}");
                     webRequest.Credentials = ftpCredentials;

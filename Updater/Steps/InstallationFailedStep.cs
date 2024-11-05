@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Updater.UpdateWorkflow;
 
@@ -19,6 +16,16 @@ namespace Updater.Steps
             NextText = "Close";
 
             _getErrorsCallback = getErrorsCallback;
+        }
+
+        public override Task<bool> LoadAndAutoComplete()
+        {
+            if (Program.installMusic != null)
+            {
+                Program.installMusic.Dispose();
+            }
+
+            return Task.FromResult(false);
         }
 
         public override IStepUserControl StepUserControl => new InstallationFailedStepControl()

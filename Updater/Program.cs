@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Windows.Forms;
 using System.IO;
+using System.Media;
 
 namespace Updater
 {
     static class Program
     {
         public const bool InternalEdition = false;
+
+        public static SoundPlayer installMusic = null;
 
         /// <summary>
         /// The main entry point for the application.
@@ -21,8 +24,17 @@ namespace Updater
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            Application.ApplicationExit += Application_ApplicationExit;
             StartupArguments.SetupArguments(args);
             Application.Run(new frmPrompts());
+        }
+
+        private static void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            if (installMusic != null)
+            {
+                installMusic.Dispose();
+            }
         }
 
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)

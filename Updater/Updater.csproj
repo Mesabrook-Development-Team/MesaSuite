@@ -250,6 +250,7 @@
     <EmbeddedResource Include="BetterFolderBrowser.dll" />
     <EmbeddedResource Include="Newtonsoft.Json.dll" />
     <None Include="Resources\bannerGreen.png" />
+    <None Include="Resources\Windows 2000 Shutdown %28Build 1983-2000%29 %28Suno AI Extended%29.wav" />
     <Content Include="Sign025.ico" />
     <Content Include="updater.ico" />
   </ItemGroup>

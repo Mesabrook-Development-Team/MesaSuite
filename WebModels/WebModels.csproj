@@ -189,6 +189,8 @@
     <Compile Include="purchasing\PurchaseOrder.cs" />
     <Compile Include="purchasing\PurchaseOrderApproval.cs" />
     <Compile Include="purchasing\PurchaseOrderLine.cs" />
+    <Compile Include="purchasing\PurchaseOrderTemplate.cs" />
+    <Compile Include="purchasing\PurchaseOrderTemplateFolder.cs" />
     <Compile Include="purchasing\Quotation.cs" />
     <Compile Include="purchasing\QuotationItem.cs" />
     <Compile Include="purchasing\QuotationRequest.cs" />

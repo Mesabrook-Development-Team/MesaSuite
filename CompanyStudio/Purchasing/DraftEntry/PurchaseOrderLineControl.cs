@@ -256,5 +256,15 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 await UpdatePricing();
             }
         }
+
+        public decimal? GetCurrentUnitCost()
+        {
+            if (!decimal.TryParse(txtUnitCost.Text, out decimal unitCost))
+            {
+                return null;
+            }
+
+            return unitCost;
+        }
     }
 }

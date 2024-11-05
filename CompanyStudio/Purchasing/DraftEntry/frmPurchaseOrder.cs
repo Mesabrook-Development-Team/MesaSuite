@@ -203,6 +203,21 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 PurchaseOrder purchaseOrder = await post.Execute<PurchaseOrder>();
                 if (post.RequestSuccessful)
                 {
+                    StringBuilder linesWithDiscrepantPrices = new StringBuilder();
+                    foreach(PurchaseOrderLine line in purchaseOrder.PurchaseOrderLines ?? new List<PurchaseOrderLine>())
+                    {
+                        PurchaseOrderLineControl polc = pnlPurchaseOrderLines.Controls.OfType<PurchaseOrderLineControl>().FirstOrDefault(ctrl => ctrl.PurchaseOrderLine?.PurchaseOrderLineID == line.PurchaseOrderLineID);
+                        if (line.UnitCost != polc.GetCurrentUnitCost())
+                        {
+                            linesWithDiscrepantPrices.AppendLine($"* {line.Quantity}x {line.Item?.Name} (was {polc.GetCurrentUnitCost().Value.ToString("N2")} each, now {line.UnitCost.Value.ToString("N2")} each)");
+                        }
+                    }
+
+                    if (linesWithDiscrepantPrices.Length > 0)
+                    {
+                        this.ShowWarning("The following prices were updated following submission:\r\n\r\n" + linesWithDiscrepantPrices.ToString());
+                    }
+
                     // Open up approval form
                     frmApprovalViewerSubmitter approvalViewer = new frmApprovalViewerSubmitter()
                     {

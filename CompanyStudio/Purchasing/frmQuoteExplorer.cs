@@ -134,6 +134,7 @@ namespace CompanyStudio.Purchasing
         private void treQuotes_AfterSelect(object sender, TreeViewEventArgs e)
         {
             toolDeleteQuote.Enabled = false;
+            toolCloneQuote.Enabled = false;
             toolDeleteRequest.Enabled = false;
             toolIssueFromRequest.Enabled = false;
 
@@ -142,6 +143,7 @@ namespace CompanyStudio.Purchasing
                 if (quotation.CompanyIDFrom == Company.CompanyID)
                 {
                     toolDeleteQuote.Enabled = true;
+                    toolCloneQuote.Enabled = true;
                 }
             }
             else if (e.Node.Tag is QuotationRequest request)
@@ -298,6 +300,40 @@ namespace CompanyStudio.Purchasing
             }
 
             OpenQuote(quoteID);
+
+            await ReloadList();
+        }
+
+        private async void toolCloneQuote_Click(object sender, EventArgs e)
+        {
+            Quotation quote = treQuotes.SelectedNode.Tag as Quotation;
+            if (quote == null)
+            {
+                return;
+            }
+
+            Quotation newQuote = quote.ShallowClone();
+            newQuote.QuotationID = null;
+
+            PostData post = new PostData(DataAccess.APIs.CompanyStudio, "Quotation/Post", newQuote);
+            post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            newQuote = await post.Execute<Quotation>();
+            if (!post.RequestSuccessful)
+            {
+                return;
+            }
+
+            foreach(QuotationItem item in quote.QuotationItems)
+            {
+                QuotationItem newItem = item.ShallowClone();
+                newItem.QuotationItemID = null;
+                newItem.QuotationID = newQuote.QuotationID;
+                post = new PostData(DataAccess.APIs.CompanyStudio, "QuotationItem/Post", newItem);
+                post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                await post.ExecuteNoResult();
+            }
+
+            OpenQuote(newQuote.QuotationID);
 
             await ReloadList();
         }

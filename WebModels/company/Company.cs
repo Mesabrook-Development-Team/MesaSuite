@@ -345,6 +345,20 @@ namespace WebModels.company
         {
             get { CheckGet(); return _quotationTos; }
         }
+
+        private List<PurchaseOrderTemplateFolder> purchaseOrderTemplateFolders = new List<PurchaseOrderTemplateFolder>();
+        [RelationshipList("D08A833C-92B7-4C38-9128-F7004A655D43", nameof(PurchaseOrderTemplateFolder.CompanyID))]
+        public IReadOnlyCollection<PurchaseOrderTemplateFolder> PurchaseOrderTemplateFolders
+        {
+            get { CheckGet(); return purchaseOrderTemplateFolders; }
+        }
+
+        private List<PurchaseOrderTemplate> _purchaseOrderTemplates = new List<PurchaseOrderTemplate>();
+        [RelationshipList("2F0268B7-5364-45CF-B0F6-691A7241B841", nameof(PurchaseOrderTemplate.CompanyID))]
+        public IReadOnlyCollection<PurchaseOrderTemplate> PurchaseOrderTemplates
+        {
+            get { CheckGet(); return _purchaseOrderTemplates; }
+        }
         #endregion
         #endregion
     }

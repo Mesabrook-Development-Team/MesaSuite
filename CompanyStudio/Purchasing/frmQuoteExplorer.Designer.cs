@@ -40,6 +40,7 @@
             this.toolIssueFromRequest = new System.Windows.Forms.ToolStripButton();
             this.treQuotes = new System.Windows.Forms.TreeView();
             this.imgList = new System.Windows.Forms.ImageList(this.components);
+            this.toolCloneQuote = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,6 +52,7 @@
             this.toolStripSeparator1,
             this.toolIssueQuote,
             this.toolDeleteQuote,
+            this.toolCloneQuote,
             this.toolStripSeparator2,
             this.toolIssueFromRequest});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
@@ -137,6 +139,16 @@
             this.imgList.ImageSize = new System.Drawing.Size(16, 16);
             this.imgList.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // toolCloneQuote
+            // 
+            this.toolCloneQuote.Enabled = false;
+            this.toolCloneQuote.Image = global::CompanyStudio.Properties.Resources.page_copy;
+            this.toolCloneQuote.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolCloneQuote.Name = "toolCloneQuote";
+            this.toolCloneQuote.Size = new System.Drawing.Size(87, 20);
+            this.toolCloneQuote.Text = "Clone Quote";
+            this.toolCloneQuote.Click += new System.EventHandler(this.toolCloneQuote_Click);
+            // 
             // frmQuoteExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -168,5 +180,6 @@
         private System.Windows.Forms.ImageList imgList;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolIssueFromRequest;
+        private System.Windows.Forms.ToolStripButton toolCloneQuote;
     }
 }

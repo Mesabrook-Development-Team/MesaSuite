@@ -252,6 +252,38 @@ namespace WebModels.Migrations
             alter.Table = "QuotationItem";
             alter.AddForeignKey("FKQuotationItem_Quotation_QuotationID", "QuotationID", "purchasing", "Quotation", "QuotationID", transaction);
             alter.AddForeignKey("FKQuotationItem_Item_ItemID", "ItemID", "mesasys", "Item", "ItemID", transaction);
+
+            createTable.TableName = "PurchaseOrderTemplateFolder";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "PurchaseOrderTemplateFolderID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "CompanyID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "PurchaseOrderTemplateFolderIDParent", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 255) }
+            };
+            createTable.Execute(transaction);
+            alter.Table = "PurchaseOrderTemplateFolder";
+            alter.AddForeignKey("FKPurchaseOrderTemplateFolder_Company_CompanyID", "CompanyID", "company", "Company", "CompanyID", transaction);
+            alter.AddForeignKey("FKPurchaseOrderTemplateFolder_Government_GovernmentID", "GovernmentID", "gov", "Government", "GovernmentID", transaction);
+            alter.AddForeignKey("FKPurchaseOrderTemplateFolder_PurcahseOrderTemplateFolder_PurchaseOrderTemplateFolderIDParent", "PurchaseOrderTemplateFolderIDParent", "purchasing", "PurchaseOrderTemplateFolderID", "PurchaseOrderTemplateFolderID", transaction);
+
+            createTable.TableName = "PurchaseOrderTemplate";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "PurchaseOrderTemplateID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "CompanyID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "PurchaseOrderTemplateFolderID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "PurchaseOrderID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "Name", new FieldSpecification(FieldSpecification.FieldTypes.NVarChar, 255) }
+            };
+            createTable.Execute(transaction);
+            alter.Table = "PurchaseOrderTemplate";
+            alter.AddForeignKey("FKPurchaseOrderTemplate_Company_CompanyID", "CompanyID", "company", "Company", "CompanyID", transaction);
+            alter.AddForeignKey("FKPurchaseOrderTemplate_Government_GovernmentID", "GovernmentID", "gov", "Government", "GovernmentID", transaction);
+            alter.AddForeignKey("FKPurchaseOrderTemplate_PurchaseOrderTemplateFolder_PurchaseOrderTemplateFolderID", "PurchaseOrderTemplateFolderID", "purchasing", "PurchaseOrderTemplateFolder", "PurchaseOrderTemplateFolderID", transaction);
+            alter.AddForeignKey("FKPurchaseOrderTemplate_PurchaseOrder_PurchaseOrderID", "PurchaseOrderID", "purchasing", "PurchaseOrder", "PurchaseOrderID", transaction);
         }
 
         private void CreateFleetTables(ITransaction transaction)

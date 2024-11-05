@@ -158,6 +158,11 @@ namespace WebModels.purchasing
                     return false;
                 }
 
+                if (!await UpdatePrices(localTransaction))
+                {
+                    return false;
+                }
+
                 Status = PurchaseOrder.Statuses.Pending;
                 PurchaseOrderDate = DateTime.Now;
                 if (!await Task.Run(() => Save(localTransaction, new List<Guid>() { PurchaseOrder.SaveFlags.V_StatusChange })))
@@ -252,6 +257,139 @@ namespace WebModels.purchasing
             }
         }
 
+        private async Task<bool> UpdatePrices(ITransaction transaction)
+        {
+            List<ISearchCondition> quotationSearchConditions = new List<ISearchCondition>();
+            if (LocationIDOrigin != null)
+            {
+                quotationSearchConditions.Add(new ExistsSearchCondition<Quotation>()
+                {
+                    RelationshipName = FieldPathUtility.CreateFieldPathsAsList<Quotation>(q => new List<object>() { q.CompanyTo.Locations }).First(),
+                    ExistsType = ExistsSearchCondition<Quotation>.ExistsTypes.Exists,
+                    Condition = new LongSearchCondition<Location>()
+                    {
+                        Field = nameof(Location.LocationID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = LocationIDOrigin
+                    }
+                });
+            }
+
+            if (LocationIDDestination != null)
+            {
+                quotationSearchConditions.Add(new ExistsSearchCondition<Quotation>()
+                {
+                    RelationshipName = FieldPathUtility.CreateFieldPathsAsList<Quotation>(q => new List<object>() { q.CompanyFrom.Locations }).First(),
+                    ExistsType = ExistsSearchCondition<Quotation>.ExistsTypes.Exists,
+                    Condition = new LongSearchCondition<Location>()
+                    {
+                        Field = nameof(Location.LocationID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = LocationIDDestination
+                    }
+                });
+            }
+
+            if (GovernmentIDOrigin != null)
+            {
+                quotationSearchConditions.Add(new LongSearchCondition<Quotation>()
+                {
+                    Field = nameof(Quotation.GovernmentIDTo),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = GovernmentIDOrigin
+                });
+            }
+
+            if (GovernmentIDDestination != null)
+            {
+                quotationSearchConditions.Add(new LongSearchCondition<Quotation>()
+                {
+                    Field = nameof(Quotation.GovernmentIDFrom),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = GovernmentIDDestination
+                });
+            }
+
+            quotationSearchConditions.Add(new DateTimeSearchCondition<Quotation>()
+            {
+                Field = nameof(Quotation.ExpirationTime),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Greater,
+                Value = DateTime.Now
+            });
+
+            Search<Quotation> quoteSearch = new Search<Quotation>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And, quotationSearchConditions.ToArray()));
+            List<Quotation> quotes = quoteSearch.GetEditableReader(transaction, FieldPathUtility.CreateFieldPathsAsList<Quotation>(q => new List<object>()
+            {
+                q.QuotationItems.First().ItemID,
+                q.QuotationItems.First().MinimumQuantity,
+                q.QuotationItems.First().UnitCost
+            })).ToList();
+
+            Dictionary<QuotationItem, Quotation> quotesByItem = new Dictionary<QuotationItem, Quotation>();
+            quotes.ForEach(q => q.QuotationItems.ToList().ForEach(qi => quotesByItem[qi] = q));
+
+            List<LocationItem> locationItems = new List<LocationItem>();
+            if (LocationIDDestination != null)
+            {
+                Search<LocationItem> locationItemSearch = new Search<LocationItem>(new LongSearchCondition<LocationItem>()
+                {
+                    Field = nameof(LocationItem.LocationID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = LocationIDDestination
+                });
+                locationItems = locationItemSearch.GetReadOnlyReader(transaction, FieldPathUtility.CreateFieldPathsAsList<LocationItem>(li => new List<object>()
+                {
+                    li.ItemID,
+                    li.Quantity,
+                    li.BasePrice,
+                    li.CurrentPromotionLocationItem.PromotionPrice
+                })).ToList();
+            }
+
+            Search<PurchaseOrderLine> lineSearch = new Search<PurchaseOrderLine>(new LongSearchCondition<PurchaseOrderLine>()
+            {
+                Field = nameof(PurchaseOrderLine.PurchaseOrderID),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = PurchaseOrderID
+            });
+
+            foreach(PurchaseOrderLine line in await Task.Run(() => lineSearch.GetEditableReader(transaction)))
+            {
+                if (line.ItemID == null)
+                {
+                    continue;
+                }
+
+                QuotationItem quoteItem = quotesByItem.Keys.Where(qi => qi.ItemID == line.ItemID && qi.MinimumQuantity <= line.Quantity).OrderBy(qi => qi.UnitCost).FirstOrDefault();
+                decimal? unitCost = quoteItem?.UnitCost;
+                if (unitCost == null)
+                {
+                    LocationItem relatedItem = locationItems.Where(li => li.ItemID == line.ItemID && li.Quantity == line.Quantity).FirstOrDefault();
+                    if (relatedItem == null)
+                    {
+                        relatedItem = locationItems.Where(li => li.ItemID == line.ItemID && li.Quantity == 1).FirstOrDefault();
+                    }
+
+                    if (relatedItem == null)
+                    {
+                        return false;
+                    }
+
+                    unitCost = (relatedItem.CurrentPromotionLocationItem?.PromotionPrice ?? relatedItem.BasePrice) / relatedItem.Quantity;
+                }
+
+                line.UnitCost = unitCost.Value;
+
+                if (!await Task.Run(() => line.Save(transaction)))
+                {
+                    Errors.AddRange(line.Errors.ToArray());
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public async Task<bool> WithdrawSubmission(ITransaction transaction = null)
         {
             ITransaction localTransaction = transaction;
@@ -321,6 +459,9 @@ namespace WebModels.purchasing
 
                 PurchaseOrder purchaseOrderForApprovalLookup = DataObject.GetReadOnlyByPrimaryKey<PurchaseOrder>(PurchaseOrderID, localTransaction, FieldPathUtility.CreateFieldPathsAsList<PurchaseOrder>(po => new List<object>()
                 {
+                    po.PurchaseOrderLines.First().IsService,
+                    po.PurchaseOrderLines.First().ItemID,
+                    po.PurchaseOrderLines.First().Quantity,
                     po.PurchaseOrderLines.First().FulfillmentPlanPurchaseOrderLines.First().FulfillmentPlan.LeaseRequestID,
                     po.PurchaseOrderLines.First().FulfillmentPlanPurchaseOrderLines.First().FulfillmentPlan.RailcarID,
                     po.PurchaseOrderLines.First().FulfillmentPlanPurchaseOrderLines.First().FulfillmentPlan.TrackIDLoading,
@@ -373,6 +514,122 @@ namespace WebModels.purchasing
 
                         // Routes will be created after product is picked up
                     }
+
+                    // Expire any quotes that were used
+                    List<ISearchCondition> quotationSearchConditions = new List<ISearchCondition>()
+                    {
+                        new DateTimeSearchCondition<Quotation>()
+                        {
+                            Field = nameof(Quotation.ExpirationTime),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.GreaterEquals,
+                            Value = PurchaseOrderDate.Value
+                        },
+                        new BooleanSearchCondition<Quotation>()
+                        {
+                            Field = nameof(Quotation.IsRepeatable),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = false
+                        },
+                        new ExistsSearchCondition<Quotation>()
+                        {
+                            RelationshipName = nameof(Quotation.QuotationItems),
+                            ExistsType = ExistsSearchCondition<Quotation>.ExistsTypes.Exists,
+                            Condition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                                new LongSearchCondition<QuotationItem>()
+                                {
+                                    Field = nameof(QuotationItem.ItemID),
+                                    SearchConditionType = SearchCondition.SearchConditionTypes.List,
+                                    List = purchaseOrderForApprovalLookup.PurchaseOrderLines.Where(pol => !pol.IsService && pol.ItemID != null).Select(pol => pol.ItemID.Value).ToList()
+                                })
+                        }
+                    };
+
+                    if (LocationIDOrigin != null)
+                    {
+                        quotationSearchConditions.Add(new ExistsSearchCondition<Quotation>()
+                        {
+                            RelationshipName = FieldPathUtility.CreateFieldPathsAsList<Quotation>(q => new List<object>() { q.CompanyTo.Locations }).First(),
+                            ExistsType = ExistsSearchCondition<Quotation>.ExistsTypes.Exists,
+                            Condition = new LongSearchCondition<Location>()
+                            {
+                                Field = nameof(Location.LocationID),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = LocationIDOrigin
+                            }
+                        });
+                    }
+
+                    if (LocationIDDestination != null)
+                    {
+                        quotationSearchConditions.Add(new ExistsSearchCondition<Quotation>()
+                        {
+                            RelationshipName = FieldPathUtility.CreateFieldPathsAsList<Quotation>(q => new List<object>() { q.CompanyFrom.Locations }).First(),
+                            ExistsType = ExistsSearchCondition<Quotation>.ExistsTypes.Exists,
+                            Condition = new LongSearchCondition<Location>()
+                            {
+                                Field = nameof(Location.LocationID),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = LocationIDDestination
+                            }
+                        });
+                    }
+
+                    if (GovernmentIDOrigin != null)
+                    {
+                        quotationSearchConditions.Add(new LongSearchCondition<Quotation>()
+                        {
+                            Field = nameof(Quotation.GovernmentIDTo),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = GovernmentIDOrigin
+                        });
+                    }
+
+                    if (GovernmentIDDestination != null)
+                    {
+                        quotationSearchConditions.Add(new LongSearchCondition<Quotation>()
+                        {
+                            Field = nameof(Quotation.GovernmentIDFrom),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = GovernmentIDDestination
+                        });
+                    }
+
+                    Search<Quotation> quotationSearch = new Search<Quotation>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And, quotationSearchConditions.ToArray()));
+                    List<Quotation> quotations = await Task.Run(() => quotationSearch.GetEditableReader(localTransaction, FieldPathUtility.CreateFieldPathsAsList<Quotation>(q => new List<object>()
+                    {
+                        q.QuotationItems.First().ItemID,
+                        q.QuotationItems.First().UnitCost,
+                        q.QuotationItems.First().MinimumQuantity
+                    })).ToList());
+                    Dictionary<QuotationItem, Quotation> quotationsByLine = new Dictionary<QuotationItem, Quotation>();
+                    Dictionary<long?, List<QuotationItem>> quotationItemsByItemID = new Dictionary<long?, List<QuotationItem>>();
+
+                    quotations.ForEach(q => q.QuotationItems.ToList().ForEach(qi => quotationsByLine.Add(qi, q)));
+                    quotationsByLine.Keys.ToList().ForEach(qi => quotationItemsByItemID.GetOrSet(qi.ItemID, () => new List<QuotationItem>()).Add(qi));
+
+                    foreach(PurchaseOrderLine line in purchaseOrderForApprovalLookup.PurchaseOrderLines)
+                    {
+                        if (line.IsService || line.ItemID == null)
+                        {
+                            continue;
+                        }
+
+                        QuotationItem item = quotationItemsByItemID.GetOrDefault(line.ItemID)?.Where(qi => qi.MinimumQuantity <= line.Quantity).OrderByDescending(qi => qi.UnitCost).FirstOrDefault();
+                        if (item == null || !quotations.Any(q => q.QuotationItems.Contains(item)))
+                        {
+                            continue;
+                        }
+
+                        Quotation quotation = quotationsByLine[item];
+                        quotation.ExpirationTime = DateTime.Now;
+                        if (!await Task.Run(() => quotation.Save(localTransaction)))
+                        {
+                            Errors.AddRange(quotation.Errors.ToArray());
+                            return false;
+                        }
+
+                        quotations.Remove(quotation);
+                    }
                 }
 
                 if (transaction == null)
@@ -420,6 +677,13 @@ namespace WebModels.purchasing
         public IReadOnlyCollection<BillOfLading> BillsOfLading
         {
             get { CheckGet(); return _billsOfLading; }
+        }
+
+        private List<PurchaseOrderTemplate> _purchaseOrderTemplates = new List<PurchaseOrderTemplate>();
+        [RelationshipList("345649FE-612C-44C7-9875-9004D2420C75", nameof(PurchaseOrderTemplate.PurchaseOrderID), AutoDeleteReferences = true)]
+        public IReadOnlyCollection<PurchaseOrderTemplate> PurchaseOrderTemplates
+        {
+            get { CheckGet(); return _purchaseOrderTemplates; }
         }
         #endregion
         #endregion

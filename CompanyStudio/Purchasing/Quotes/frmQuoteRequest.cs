@@ -26,7 +26,7 @@ namespace CompanyStudio.Purchasing.Quotes
         public frmQuoteRequest()
         {
             InitializeComponent();
-            colQuantity.ValueType = typeof(short);
+            colQuantity.ValueType = typeof(decimal);
         }
 
         public Location LocationModel { get; set; }
@@ -168,7 +168,7 @@ namespace CompanyStudio.Purchasing.Quotes
                 return;
             }
 
-            if (!short.TryParse(e.FormattedValue.ToString(), out short newValue) || newValue < 0)
+            if (!decimal.TryParse(e.FormattedValue.ToString(), out decimal newValue) || newValue < 0)
             {
                 this.ShowError("Quantity must be greater or equal to 0");
                 e.Cancel = true;

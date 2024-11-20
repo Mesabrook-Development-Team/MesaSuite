@@ -23,7 +23,7 @@ namespace CompanyStudio.Purchasing.Quotes
         {
             InitializeComponent();
             colUnitCost.ValueType = typeof(decimal);
-            colBulkQty.ValueType = typeof(short?);
+            colBulkQty.ValueType = typeof(decimal?);
             colBulkCost.ValueType = typeof(decimal);
         }
 
@@ -32,7 +32,7 @@ namespace CompanyStudio.Purchasing.Quotes
             public byte[] Image { get; set; }
             public string Name { get; set; }
             public decimal? UnitCost { get; set; }
-            public short? BulkQuantity { get; set; }
+            public decimal? BulkQuantity { get; set; }
             public Image GetImage()
             {
                 using (MemoryStream memoryStream = new MemoryStream(Image))
@@ -58,8 +58,8 @@ namespace CompanyStudio.Purchasing.Quotes
                 row.Cells[colImage.Name].Value = image;
                 row.Cells[colItem.Name].Value = bulkPricingItem.Name;
                 row.Cells[colUnitCost.Name].Value = bulkPricingItem.UnitCost ?? 0M;
-                row.Cells[colBulkQty.Name].Value = bulkPricingItem.BulkQuantity ?? (bulkPricingItem.UnitCost != null ? (short?)1 : null);
-                row.Cells[colBulkCost.Name].Value = bulkPricingItem.UnitCost * (short?)row.Cells[colBulkQty.Name].Value;
+                row.Cells[colBulkQty.Name].Value = bulkPricingItem.BulkQuantity ?? (bulkPricingItem.UnitCost != null ? (decimal?)1 : null);
+                row.Cells[colBulkCost.Name].Value = bulkPricingItem.UnitCost * (decimal?)row.Cells[colBulkQty.Name].Value;
                 row.Tag = bulkPricingItem;
             }
             _loading = false;
@@ -79,7 +79,7 @@ namespace CompanyStudio.Purchasing.Quotes
                     return;
                 }
 
-                if (!short.TryParse(e.FormattedValue.ToString(), out short qty) || qty < 0)
+                if (!decimal.TryParse(e.FormattedValue.ToString(), out decimal qty) || qty < 0)
                 {
                     this.ShowError("Bulk Quantity must be blank, greater than, or equal to 0");
                     e.Cancel = true;
@@ -108,7 +108,7 @@ namespace CompanyStudio.Purchasing.Quotes
                 return;
             }
 
-            short? qty = dgvItems.Rows[e.RowIndex].Cells[colBulkQty.Name].Value as short?;
+            decimal? qty = dgvItems.Rows[e.RowIndex].Cells[colBulkQty.Name].Value as decimal?;
             decimal? amt = dgvItems.Rows[e.RowIndex].Cells[colBulkCost.Name].Value as decimal?;
             BulkPricingItem bulkPricingItem = dgvItems.Rows[e.RowIndex].Tag as BulkPricingItem;
 

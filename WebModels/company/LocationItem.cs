@@ -63,10 +63,10 @@ namespace WebModels.company
             get { CheckGet(); return _item; }
         }
 
-        private int? _quantity;
-        [Field("9425016B-54DB-495C-8078-A43484FFE39C")]
+        private decimal? _quantity;
+        [Field("9425016B-54DB-495C-8078-A43484FFE39C", DataSize = 9, DataScale = 2)]
         [Required]
-        public int? Quantity
+        public decimal? Quantity
         {
             get { CheckGet(); return _quantity; }
             set { CheckSet(); _quantity = value; }
@@ -180,7 +180,7 @@ namespace WebModels.company
 
                 if (storePricingAutomation != null && storePricingAutomation.IsEnabled && (storePricingAutomation.PushAdd || storePricingAutomation.PushUpdate))
                 {
-                    int? oldQuantity = (int?)GetDirtyValue(nameof(Quantity));
+                    decimal? oldQuantity = (decimal?)GetDirtyValue(nameof(Quantity));
                     oldQuantity = oldQuantity ?? Quantity;
 
                     foreach (StorePricingAutomationLocation storePricingAutomationLocation in storePricingAutomation.StorePricingAutomationLocations)
@@ -198,7 +198,7 @@ namespace WebModels.company
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                 Value = ItemID
                             },
-                            new IntSearchCondition<LocationItem>()
+                            new DecimalSearchCondition<LocationItem>()
                             {
                                 Field = nameof(Quantity),
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
@@ -263,7 +263,7 @@ namespace WebModels.company
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                 Value = ItemID
                             },
-                            new IntSearchCondition<LocationItem>()
+                            new DecimalSearchCondition<LocationItem>()
                             {
                                 Field = nameof(Quantity),
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,

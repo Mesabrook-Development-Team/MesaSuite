@@ -8,6 +8,6 @@
         public long? ItemID { get; set; }
         public Item Item { get; set; }
         public decimal? UnitCost { get; set; }
-        public short? MinimumQuantity { get; set; }
+        public decimal? MinimumQuantity { get; set; }
     }
 }

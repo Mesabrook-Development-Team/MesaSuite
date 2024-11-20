@@ -30,7 +30,7 @@ namespace API_Company.Controllers
         });
 
         [HttpGet]
-        public IHttpActionResult Get(long? locationID, string name, short? quantity)
+        public IHttpActionResult Get(long? locationID, string name, decimal? quantity)
         {
             if (locationID == null || string.IsNullOrEmpty(name) || quantity == null)
             {
@@ -61,7 +61,7 @@ namespace API_Company.Controllers
             if (!(itemLookup?.IsFluid ?? false))
             {
                 searchConditionGroup.SearchConditions.Add(
-                new ShortSearchCondition<LocationItem>()
+                new DecimalSearchCondition<LocationItem>()
                 {
                     Field = nameof(LocationItem.Quantity),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
@@ -110,7 +110,7 @@ namespace API_Company.Controllers
         {
             public long? LocationID { get; set; }
             public string ItemName { get; set; }
-            public short Quantity { get; set; }
+            public decimal Quantity { get; set; }
             public decimal? Price { get; set; }
         }
     }

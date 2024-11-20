@@ -55,10 +55,10 @@ namespace WebModels.purchasing
             get { CheckGet(); return _item; }
         }
 
-        private short? _quantity;
+        private decimal? _quantity;
         [Field("8D03B78D-18CC-40A8-BF09-4A7CB63DD6B8")]
         [Required]
-        public short? Quantity
+        public decimal? Quantity
         {
             get { CheckGet(); return _quantity; }
             set { CheckSet(); _quantity = value; }

@@ -182,7 +182,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
             if (rdoItem.Checked)
             {
-                if (cboItem.SelectedID == null || !short.TryParse(txtQuantity.Text, out short quantity))
+                if (cboItem.SelectedID == null || !decimal.TryParse(txtQuantity.Text, out decimal quantity))
                 {
                     txtUnitCost.Text = "Invalid";
                     txtLineCost.Text = "";
@@ -212,8 +212,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 }
 
                 decimal unitCost = decimal.MaxValue;
-                short unitQuantity = locationItem.Quantity ?? 1;
-                short lineCostMultiplier = 1;
+                decimal unitQuantity = locationItem.Quantity ?? 1;
+                decimal lineCostMultiplier = 1;
                 if (locationItem.QuotedPrices != null)
                 {
                     unitCost = locationItem.QuotedPrices.Where(qp => qp.MinimumQuantity <= quantity).OrderBy(qp => qp.UnitCost).FirstOrDefault()?.UnitCost ?? decimal.MaxValue;
@@ -234,7 +234,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
             }
             else if (rdoService.Checked)
             {
-                if (!short.TryParse(txtQuantity.Text, out short quantity) || !decimal.TryParse(txtUnitCost.Text, out decimal unitCost))
+                if (!decimal.TryParse(txtQuantity.Text, out decimal quantity) || !decimal.TryParse(txtUnitCost.Text, out decimal unitCost))
                 {
                     txtLineCost.Text = "";
                     return;

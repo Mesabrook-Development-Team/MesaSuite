@@ -224,7 +224,7 @@ namespace WebModels.Migrations
                 { "QuotationRequestItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "QuotationRequestID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "ItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "Quantity", new FieldSpecification(FieldSpecification.FieldTypes.SmallInt) }
+                { "Quantity", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) }
             };
             createTable.Execute(transaction);
             alter.Table = "QuotationRequestItem";
@@ -256,7 +256,7 @@ namespace WebModels.Migrations
                 { "QuotationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "ItemID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
                 { "UnitCost", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
-                { "MinimumQuantity", new FieldSpecification(FieldSpecification.FieldTypes.SmallInt) }
+                { "MinimumQuantity", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) }
             };
             createTable.Execute(transaction);
             alter.Table = "QuotationItem";
@@ -347,6 +347,10 @@ namespace WebModels.Migrations
             alterTable.Table = "RailcarLoad";
             alterTable.AddColumn("PurchaseOrderLineID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt));
             alterTable.AddForeignKey("FKRailcarLoad_PurchaseOrderLine_PurchaseOrderLineID", "PurchaseOrderLineID", "purchasing", "PurchaseOrderLine", "PurchaseOrderLineID", transaction);
+
+            alterTable.Schema = "company";
+            alterTable.Table = "LocationItem";
+            alterTable.AlterColumn("Quantity", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2), transaction);
         }
     }
 }

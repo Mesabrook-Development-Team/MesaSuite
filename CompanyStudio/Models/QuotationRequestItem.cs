@@ -7,6 +7,6 @@
         public QuotationRequest QuotationRequest { get; set; }
         public long? ItemID { get; set; }
         public Item Item { get; set; }
-        public short? Quantity { get; set; }
+        public decimal? Quantity { get; set; }
     }
 }

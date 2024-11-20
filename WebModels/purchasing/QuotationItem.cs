@@ -64,9 +64,9 @@ namespace WebModels.purchasing
             set { CheckGet(); _unitCost = value; }
         }
 
-        private short? _minimumQuantity;
+        private decimal? _minimumQuantity;
         [Field("80F86F12-EF3A-405A-9542-03CC62127787")]
-        public short? MinimumQuantity
+        public decimal? MinimumQuantity
         {
             get { CheckGet(); return _minimumQuantity; }
             set { CheckGet(); _minimumQuantity = value; }

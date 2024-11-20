@@ -66,7 +66,7 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
-        public async Task<QuotedLocationItem> GetItem([FromUri] long? locationID, [FromUri]string itemName, [FromUri]short? quantity)
+        public async Task<QuotedLocationItem> GetItem([FromUri] long? locationID, [FromUri]string itemName, [FromUri]decimal? quantity)
         {
             Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 new StringSearchCondition<QuotedLocationItem>()
@@ -81,7 +81,7 @@ namespace API_Company.Controllers
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = locationID
                 },
-                new ShortSearchCondition<QuotedLocationItem>()
+                new DecimalSearchCondition<QuotedLocationItem>()
                 {
                     Field = nameof(QuotedLocationItem.Quantity),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
@@ -107,7 +107,7 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
-        public async Task<QuotedLocationItem> GetItem([FromUri]long? locationID, [FromUri]long? itemID, [FromUri]short? quantity)
+        public async Task<QuotedLocationItem> GetItem([FromUri]long? locationID, [FromUri]long? itemID, [FromUri]decimal? quantity)
         {
             Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 new LongSearchCondition<QuotedLocationItem>()
@@ -122,7 +122,7 @@ namespace API_Company.Controllers
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = locationID
                 },
-                new ShortSearchCondition<QuotedLocationItem>()
+                new DecimalSearchCondition<QuotedLocationItem>()
                 {
                     Field = nameof(QuotedLocationItem.Quantity),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
@@ -148,7 +148,7 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
-        public async Task<List<QuotedLocationItem>> FindItem([FromUri] string itemName, [FromUri] short? quantity)
+        public async Task<List<QuotedLocationItem>> FindItem([FromUri] string itemName, [FromUri] decimal? quantity)
         {
             SearchConditionGroup searchCondition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 new StringSearchCondition<QuotedLocationItem>()
@@ -160,7 +160,7 @@ namespace API_Company.Controllers
 
             if (quantity != null)
             {
-                searchCondition.SearchConditions.Add(new ShortSearchCondition<QuotedLocationItem>()
+                searchCondition.SearchConditions.Add(new DecimalSearchCondition<QuotedLocationItem>()
                 {
                     Field = nameof(QuotedLocationItem.Quantity),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,

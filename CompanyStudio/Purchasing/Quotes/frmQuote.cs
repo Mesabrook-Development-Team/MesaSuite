@@ -28,7 +28,7 @@ namespace CompanyStudio.Purchasing.Quotes
         {
             InitializeComponent();
             colUnitCost.ValueType = typeof(decimal);
-            colMinimumQuantity.ValueType = typeof(short);
+            colMinimumQuantity.ValueType = typeof(decimal);
         }
 
         private async void frmQuote_Load(object sender, EventArgs e)

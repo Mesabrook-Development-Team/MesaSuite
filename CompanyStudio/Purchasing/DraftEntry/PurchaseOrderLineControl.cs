@@ -17,6 +17,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
     public partial class PurchaseOrderLineControl : UserControl
     {
         public event EventHandler DeleteClicked;
+        public event EventHandler TotalChanged;
         public PurchaseOrderLine PurchaseOrderLine { get; set; }
         public long? PurchaseOrderID { get; set; }
         public long? CompanyID { get; set; }
@@ -185,6 +186,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 {
                     txtUnitCost.Text = "Invalid";
                     txtLineCost.Text = "";
+                    TotalChanged?.Invoke(this, EventArgs.Empty);
                     return;
                 }
 
@@ -205,6 +207,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 {
                     txtUnitCost.Text = "Invalid";
                     txtLineCost.Text = "";
+                    TotalChanged?.Invoke(this, EventArgs.Empty);
                     return;
                 }
 
@@ -227,6 +230,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
                 txtUnitCost.Text = (unitCost / unitQuantity).ToString("F");
                 txtLineCost.Text = (unitCost * lineCostMultiplier).ToString("F");
+                TotalChanged?.Invoke(this, EventArgs.Empty);
             }
             else if (rdoService.Checked)
             {
@@ -237,10 +241,12 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 }
 
                 txtLineCost.Text = (quantity * unitCost).ToString("F");
+                TotalChanged?.Invoke(this, EventArgs.Empty);
             }
             else
             {
                 txtLineCost.Text = "";
+                TotalChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -265,6 +271,16 @@ namespace CompanyStudio.Purchasing.DraftEntry
             }
 
             return unitCost;
+        }
+
+        public decimal? GetCurrentTotal()
+        {
+            if (!decimal.TryParse(txtLineCost.Text, out decimal lineCost))
+            {
+                return null;
+            }
+
+            return lineCost;
         }
     }
 }

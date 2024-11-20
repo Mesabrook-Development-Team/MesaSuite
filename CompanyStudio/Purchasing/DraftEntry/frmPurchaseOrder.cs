@@ -119,6 +119,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
                     _linesAtLoad = purchaseOrder?.PurchaseOrderLines ?? new List<PurchaseOrderLine>();
 
+                    await UpdateTotals();
+
                     await RefreshFulfillmentPlans();
                 }
                 else
@@ -196,7 +198,40 @@ namespace CompanyStudio.Purchasing.DraftEntry
                     lblLinePlaceholder.Visible = true;
                 }
             };
+            purchaseOrderLineControl.TotalChanged += (_, __) => { UpdateTotals(); };
             pnlPurchaseOrderLines.Controls.Add(purchaseOrderLineControl);
+        }
+
+        private async Task UpdateTotals()
+        {
+            List<SalesTax> salesTaxes = new List<SalesTax>();
+            if (rdoLocation.Checked && cboLocation.SelectedItem is DropDownItem<Location> location)
+            {
+                GetData get = new GetData(DataAccess.APIs.CompanyStudio, "SalesTax/GetEffectiveSalesTaxForLocation/" + location.Object.LocationID);
+                get.AddCompanyHeader(Company.CompanyID);
+                salesTaxes = await get.GetObject<List<SalesTax>>() ?? new List<SalesTax>();
+            }
+
+            decimal runningTotal = 0M;
+            foreach(PurchaseOrderLineControl ctrl in pnlPurchaseOrderLines.Controls.OfType<PurchaseOrderLineControl>())
+            {
+                runningTotal += ctrl.GetCurrentTotal() ?? 0M;
+            }
+
+            txtNetTotal.Text = runningTotal.ToString("N2");
+            if (!salesTaxes.Any())
+            {
+                txtEstTax.Text = "0.00";
+                txtGrossTotal.Text = txtNetTotal.Text;
+            }
+            else
+            {
+                decimal taxRate = salesTaxes.Sum(st => st.Rate / 100M);
+                txtEstTax.Text = (runningTotal * taxRate).ToString("N2");
+                txtGrossTotal.Text = (runningTotal + (runningTotal * taxRate)).ToString("N2");
+            }
+
+            lnkTaxBreakdown.Tag = salesTaxes;
         }
 
         private async void cmdSave_Click(object sender, EventArgs e)
@@ -213,6 +248,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
             {
                 ctrl.LocationIDDestination = cboLocation.Enabled ? (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.LocationID : null;
             }
+
+            UpdateTotals();
         }
 
         private async void cmdSubmit_Click(object sender, EventArgs e)
@@ -558,6 +595,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
             {
                 ctrl.LocationIDDestination = (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.LocationID;
             }
+
+            UpdateTotals();
         }
 
         private async void toolLoadTemplate_Click(object sender, EventArgs e)
@@ -708,6 +747,23 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
                 SetupFormWarnings(purchaseOrder);
             }
+        }
+
+        private void lnkTaxBreakdown_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (!(lnkTaxBreakdown.Tag is List<SalesTax> salesTaxes))
+            {
+                this.ShowInformation("No tax information available.");
+                return;
+            }
+
+            StringBuilder taxInformation = new StringBuilder();
+            foreach(SalesTax salesTax in salesTaxes)
+            {
+                taxInformation.AppendLine($"{salesTax.Government.Name}: {salesTax.Rate}%");
+            }
+
+            this.ShowInformation(taxInformation.ToString());
         }
     }
 }

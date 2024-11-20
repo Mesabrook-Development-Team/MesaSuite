@@ -30,6 +30,13 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lnkTaxBreakdown = new System.Windows.Forms.LinkLabel();
+            this.txtGrossTotal = new System.Windows.Forms.TextBox();
+            this.txtEstTax = new System.Windows.Forms.TextBox();
+            this.txtNetTotal = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.txtOrderDate = new System.Windows.Forms.TextBox();
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -70,9 +77,9 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolAddPlan = new System.Windows.Forms.ToolStripButton();
             this.toolDeletePlan = new System.Windows.Forms.ToolStripButton();
-            this.lblSaveToAddPlans = new System.Windows.Forms.ToolStripLabel();
             this.cloneSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.toolClonePlan = new System.Windows.Forms.ToolStripButton();
+            this.lblSaveToAddPlans = new System.Windows.Forms.ToolStripLabel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.pnlPurchaseOrderLines.SuspendLayout();
@@ -104,6 +111,13 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.lnkTaxBreakdown);
+            this.groupBox1.Controls.Add(this.txtGrossTotal);
+            this.groupBox1.Controls.Add(this.txtEstTax);
+            this.groupBox1.Controls.Add(this.txtNetTotal);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.txtOrderDate);
             this.groupBox1.Controls.Add(this.txtDescription);
             this.groupBox1.Controls.Add(this.label5);
@@ -115,10 +129,72 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(3, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(450, 186);
+            this.groupBox1.Size = new System.Drawing.Size(450, 223);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Purchase Order Information";
+            // 
+            // lnkTaxBreakdown
+            // 
+            this.lnkTaxBreakdown.AutoSize = true;
+            this.lnkTaxBreakdown.Location = new System.Drawing.Point(180, 207);
+            this.lnkTaxBreakdown.Name = "lnkTaxBreakdown";
+            this.lnkTaxBreakdown.Size = new System.Drawing.Size(82, 13);
+            this.lnkTaxBreakdown.TabIndex = 9;
+            this.lnkTaxBreakdown.TabStop = true;
+            this.lnkTaxBreakdown.Text = "Tax Breakdown";
+            this.lnkTaxBreakdown.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTaxBreakdown_LinkClicked);
+            // 
+            // txtGrossTotal
+            // 
+            this.txtGrossTotal.Location = new System.Drawing.Point(346, 185);
+            this.txtGrossTotal.Name = "txtGrossTotal";
+            this.txtGrossTotal.ReadOnly = true;
+            this.txtGrossTotal.Size = new System.Drawing.Size(62, 20);
+            this.txtGrossTotal.TabIndex = 8;
+            // 
+            // txtEstTax
+            // 
+            this.txtEstTax.Location = new System.Drawing.Point(190, 185);
+            this.txtEstTax.Name = "txtEstTax";
+            this.txtEstTax.ReadOnly = true;
+            this.txtEstTax.Size = new System.Drawing.Size(62, 20);
+            this.txtEstTax.TabIndex = 8;
+            // 
+            // txtNetTotal
+            // 
+            this.txtNetTotal.Location = new System.Drawing.Point(70, 185);
+            this.txtNetTotal.Name = "txtNetTotal";
+            this.txtNetTotal.ReadOnly = true;
+            this.txtNetTotal.Size = new System.Drawing.Size(62, 20);
+            this.txtNetTotal.TabIndex = 8;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(258, 188);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(82, 13);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "Est Gross Total:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(138, 188);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(46, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Est Tax:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 188);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(54, 13);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Net Total:";
             // 
             // txtOrderDate
             // 
@@ -225,9 +301,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.pnlPurchaseOrderLines);
             this.groupBox2.Controls.Add(this.toolStrip1);
-            this.groupBox2.Location = new System.Drawing.Point(3, 192);
+            this.groupBox2.Location = new System.Drawing.Point(3, 229);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(450, 245);
+            this.groupBox2.Size = new System.Drawing.Size(450, 208);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Purchase Order Lines";
@@ -239,7 +315,7 @@
             this.pnlPurchaseOrderLines.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPurchaseOrderLines.Location = new System.Drawing.Point(3, 47);
             this.pnlPurchaseOrderLines.Name = "pnlPurchaseOrderLines";
-            this.pnlPurchaseOrderLines.Size = new System.Drawing.Size(444, 195);
+            this.pnlPurchaseOrderLines.Size = new System.Drawing.Size(444, 158);
             this.pnlPurchaseOrderLines.TabIndex = 1;
             // 
             // lblLinePlaceholder
@@ -247,7 +323,7 @@
             this.lblLinePlaceholder.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblLinePlaceholder.AutoSize = true;
             this.lblLinePlaceholder.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLinePlaceholder.Location = new System.Drawing.Point(124, 91);
+            this.lblLinePlaceholder.Location = new System.Drawing.Point(124, 73);
             this.lblLinePlaceholder.Name = "lblLinePlaceholder";
             this.lblLinePlaceholder.Size = new System.Drawing.Size(196, 13);
             this.lblLinePlaceholder.TabIndex = 0;
@@ -569,12 +645,6 @@
             this.toolDeletePlan.Visible = false;
             this.toolDeletePlan.Click += new System.EventHandler(this.toolDeletePlan_Click);
             // 
-            // lblSaveToAddPlans
-            // 
-            this.lblSaveToAddPlans.Name = "lblSaveToAddPlans";
-            this.lblSaveToAddPlans.Size = new System.Drawing.Size(96, 13);
-            this.lblSaveToAddPlans.Text = "Save To Add Plans";
-            // 
             // cloneSeparator
             // 
             this.cloneSeparator.Name = "cloneSeparator";
@@ -592,6 +662,12 @@
             this.toolClonePlan.Text = "Clone Plan";
             this.toolClonePlan.Visible = false;
             this.toolClonePlan.Click += new System.EventHandler(this.toolClonePlan_Click);
+            // 
+            // lblSaveToAddPlans
+            // 
+            this.lblSaveToAddPlans.Name = "lblSaveToAddPlans";
+            this.lblSaveToAddPlans.Size = new System.Drawing.Size(96, 22);
+            this.lblSaveToAddPlans.Text = "Save To Add Plans";
             // 
             // frmPurchaseOrder
             // 
@@ -684,5 +760,12 @@
         private System.Windows.Forms.ToolStripStatusLabel toolWarnings;
         private System.Windows.Forms.ToolStripSeparator cloneSeparator;
         private System.Windows.Forms.ToolStripButton toolClonePlan;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.LinkLabel lnkTaxBreakdown;
+        private System.Windows.Forms.TextBox txtGrossTotal;
+        private System.Windows.Forms.TextBox txtEstTax;
+        private System.Windows.Forms.TextBox txtNetTotal;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
@@ -129,5 +130,16 @@ namespace WebModels.invoicing
 
             return base.PostSave(transaction);
         }
+
+        #region Relationships
+        #region purchasing
+        private List<Fulfillment> _fulfillments = new List<Fulfillment>();
+        [RelationshipList("442C25EF-FBAE-4F3C-9557-1D2A6F037D75", nameof(Fulfillment.InvoiceLineID), AutoRemoveReferences = true)]
+        public List<Fulfillment> Fulfillments
+        {
+            get { CheckGet(); return _fulfillments; }
+        }
+        #endregion
+        #endregion
     }
 }

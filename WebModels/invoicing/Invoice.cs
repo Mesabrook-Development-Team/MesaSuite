@@ -248,7 +248,7 @@ namespace WebModels.invoicing
         #region Relationships
         #region fleet
         private List<fleet.LeaseContractInvoice> _leaseContractInvoices = new List<fleet.LeaseContractInvoice>();
-        [RelationshipList("BC306004-B909-4E56-9BE4-C5153904350B", nameof(fleet.LeaseContractInvoice.InvoiceID))]
+        [RelationshipList("BC306004-B909-4E56-9BE4-C5153904350B", nameof(fleet.LeaseContractInvoice.InvoiceID), AutoDeleteReferences = true)]
         public IReadOnlyCollection<fleet.LeaseContractInvoice> LeaseContractInvoices
         {
             get { CheckGet(); return _leaseContractInvoices; }
@@ -431,7 +431,7 @@ namespace WebModels.invoicing
             return base.PostSave(transaction);
         }
 
-        public void IssueInvoice()
+        public void IssueInvoice(ITransaction transaction = null)
         {
             if (Status != Statuses.WorkInProgress)
             {
@@ -439,7 +439,7 @@ namespace WebModels.invoicing
             }
 
             Status = Statuses.Sent;
-            Save();
+            Save(transaction);
         }
 
         public void ReceiveInvoice()

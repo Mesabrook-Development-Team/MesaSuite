@@ -25,7 +25,14 @@ namespace Sandbox
     {
         static void Main(string[] args)
         {
-            TestDeviceAuth();
+            //TestDeviceAuth();
+
+            void InspectExpression(Expression<Func<WebModels.purchasing.PurchaseOrderLine, object>> field)
+            {
+
+            };
+
+            InspectExpression(pol => pol.UnitCost);
 
             Console.WriteLine("Done!");
             Console.ReadKey();

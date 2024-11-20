@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using WebModels.company;
 using WebModels.gov;
 using WebModels.invoicing;
@@ -50,6 +51,7 @@ namespace API_Company.Controllers
             po.GovernmentIDDestination,
             po.GovernmentDestination.GovernmentID,
             po.GovernmentDestination.Name,
+            po.PurchaseOrderIDClonedFrom,
             po.PurchaseOrderDate,
             po.Status,
             po.Description,
@@ -92,12 +94,15 @@ namespace API_Company.Controllers
             po.PurchaseOrderLines.First().RailcarLoads.First().RailcarID,
             po.PurchaseOrderLines.First().RailcarLoads.First().ItemID,
             po.PurchaseOrderLines.First().RailcarLoads.First().Quantity,
-            po.PurchaseOrderLines.First().RailcarLoads.First().PurchaseOrderLineID
+            po.PurchaseOrderLines.First().RailcarLoads.First().PurchaseOrderLineID,
+            po.PurchaseOrderClones.First().PurchaseOrderID,
+            po.PurchaseOrderTemplates.First().PurchaseOrderTemplateID
         });
 
         protected override IEnumerable<string> RequestableFields => FieldPathUtility.CreateFieldPathsAsList<PurchaseOrder>(po => new List<object>()
         {
-            po.InvoiceSchedule
+            po.InvoiceSchedule,
+            po.AccountIDReceiving
         });
 
         public override ISearchCondition GetBaseSearchCondition()
@@ -308,6 +313,38 @@ namespace API_Company.Controllers
             });
 
             return Ok(await Task.Run(() => invoiceSearch.GetReadOnlyReader(null, InvoiceFields).ToList()));
+        }
+
+        public class CloneFromTemplateParameter
+        {
+            public long? PurchaseOrderTemplateID { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> CloneFromTemplate(CloneFromTemplateParameter parameter)
+        {
+            PurchaseOrderTemplate template = await Task.Run(() => DataObject.GetReadOnlyByPrimaryKey<PurchaseOrderTemplate>(parameter.PurchaseOrderTemplateID, null, new[] 
+            {
+                nameof(PurchaseOrderTemplate.PurchaseOrderID) ,
+                nameof(PurchaseOrderTemplate.LocationID)
+            }));
+            if (template == null)
+            {
+                return NotFound();
+            }
+
+            if (template.LocationID != LocationID)
+            {
+                return new StatusCodeResult(System.Net.HttpStatusCode.Forbidden, this);
+            }
+
+            long? newPurchaseOrderID;
+            if ((newPurchaseOrderID = await template.CreateClonedPurchaseOrder()) == null)
+            {
+                return template.HandleFailedValidation(this);
+            }
+
+            return Created("PurchaseOrder/Get/" + newPurchaseOrderID, DataObject.GetReadOnlyByPrimaryKey<PurchaseOrder>(newPurchaseOrderID, null, await FieldsToRetrieve()));
         }
     }
 }

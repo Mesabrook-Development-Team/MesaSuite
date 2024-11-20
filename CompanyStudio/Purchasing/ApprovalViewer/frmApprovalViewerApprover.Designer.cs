@@ -38,6 +38,10 @@
             this.txtApprovalReason = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSellerSetup = new System.Windows.Forms.TabPage();
+            this.cboInvoiceSchedule = new System.Windows.Forms.ComboBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.tabPOInfo = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label5 = new System.Windows.Forms.Label();
@@ -82,11 +86,9 @@
             this.cmdApprove = new System.Windows.Forms.Button();
             this.cmdDeny = new System.Windows.Forms.Button();
             this.loader = new CompanyStudio.Loader();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.cboInvoiceSchedule = new System.Windows.Forms.ComboBox();
             this.chkFutureAutoApprove = new System.Windows.Forms.CheckBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.cboReceivingAccount = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabSellerSetup.SuspendLayout();
             this.tabPOInfo.SuspendLayout();
@@ -144,6 +146,8 @@
             // 
             // tabSellerSetup
             // 
+            this.tabSellerSetup.Controls.Add(this.cboReceivingAccount);
+            this.tabSellerSetup.Controls.Add(this.label21);
             this.tabSellerSetup.Controls.Add(this.cboInvoiceSchedule);
             this.tabSellerSetup.Controls.Add(this.label20);
             this.tabSellerSetup.Controls.Add(this.label19);
@@ -155,6 +159,45 @@
             this.tabSellerSetup.TabIndex = 2;
             this.tabSellerSetup.Text = "Seller Setup";
             this.tabSellerSetup.UseVisualStyleBackColor = true;
+            // 
+            // cboInvoiceSchedule
+            // 
+            this.cboInvoiceSchedule.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboInvoiceSchedule.FormattingEnabled = true;
+            this.cboInvoiceSchedule.Location = new System.Drawing.Point(269, 35);
+            this.cboInvoiceSchedule.Name = "cboInvoiceSchedule";
+            this.cboInvoiceSchedule.Size = new System.Drawing.Size(365, 21);
+            this.cboInvoiceSchedule.TabIndex = 3;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(6, 38);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(260, 13);
+            this.label20.TabIndex = 2;
+            this.label20.Text = "Automatically create Invoices based on this schedule:";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(6, 19);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(290, 13);
+            this.label19.TabIndex = 1;
+            this.label19.Text = "The following settings will be applied after you click Approve";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(6, 3);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(80, 16);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Seller Setup";
             // 
             // tabPOInfo
             // 
@@ -654,45 +697,6 @@
             this.loader.TabIndex = 4;
             this.loader.Visible = false;
             // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(6, 3);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(80, 16);
-            this.label18.TabIndex = 0;
-            this.label18.Text = "Seller Setup";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(6, 19);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(290, 13);
-            this.label19.TabIndex = 1;
-            this.label19.Text = "The following settings will be applied after you click Approve";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(6, 38);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(260, 13);
-            this.label20.TabIndex = 2;
-            this.label20.Text = "Automatically create Invoices based on this schedule:";
-            // 
-            // cboInvoiceSchedule
-            // 
-            this.cboInvoiceSchedule.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboInvoiceSchedule.FormattingEnabled = true;
-            this.cboInvoiceSchedule.Location = new System.Drawing.Point(269, 35);
-            this.cboInvoiceSchedule.Name = "cboInvoiceSchedule";
-            this.cboInvoiceSchedule.Size = new System.Drawing.Size(365, 21);
-            this.cboInvoiceSchedule.TabIndex = 3;
-            // 
             // chkFutureAutoApprove
             // 
             this.chkFutureAutoApprove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -705,6 +709,25 @@
             this.chkFutureAutoApprove.TabIndex = 5;
             this.chkFutureAutoApprove.Text = "Auto-approve for future Purchase Orders created from a template of this one";
             this.chkFutureAutoApprove.UseVisualStyleBackColor = true;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(6, 65);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(252, 13);
+            this.label21.TabIndex = 2;
+            this.label21.Text = "Use this Account to receive on automated Invoices:";
+            // 
+            // cboReceivingAccount
+            // 
+            this.cboReceivingAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboReceivingAccount.FormattingEnabled = true;
+            this.cboReceivingAccount.Location = new System.Drawing.Point(269, 62);
+            this.cboReceivingAccount.Name = "cboReceivingAccount";
+            this.cboReceivingAccount.Size = new System.Drawing.Size(365, 21);
+            this.cboReceivingAccount.TabIndex = 3;
             // 
             // frmApprovalViewerApprover
             // 
@@ -798,5 +821,7 @@
         private System.Windows.Forms.ComboBox cboInvoiceSchedule;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.CheckBox chkFutureAutoApprove;
+        private System.Windows.Forms.ComboBox cboReceivingAccount;
+        private System.Windows.Forms.Label label21;
     }
 }

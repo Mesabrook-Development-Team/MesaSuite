@@ -5,10 +5,12 @@ using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WebModels.fleet;
@@ -172,7 +174,49 @@ namespace WebModels.purchasing
                 }
             }
 
+            PurchaseOrder purchaseOrder = DataObject.GetEditableByPrimaryKey<PurchaseOrder>(PurchaseOrderID, transaction, null);
+            if (!purchaseOrder.ClearTemplateDataForPurchaseOrder(transaction) || !purchaseOrder.Save(transaction))
+            {
+                Errors.AddRange(purchaseOrder.Errors.ToArray());
+                return false;
+            }
+
             return base.PreDelete(transaction);
+        }
+
+        protected override bool PreSave(ITransaction transaction)
+        {
+            if (!IsInsert && HasSignificantChanges())
+            {
+                PurchaseOrder purchaseOrder = DataObject.GetEditableByPrimaryKey<PurchaseOrder>(PurchaseOrderID, transaction, null);
+                if (!purchaseOrder.ClearTemplateDataForPurchaseOrder(transaction) || !purchaseOrder.Save(transaction))
+                {
+                    Errors.AddRange(purchaseOrder.Errors.ToArray());
+                    return false;
+                }
+            }
+
+            return base.PreSave(transaction);
+        }
+
+        private bool HasSignificantChanges()
+        {
+            bool IsFieldDirty(Expression<Func<PurchaseOrderLine, object>> field)
+            {
+                string fieldPath = FieldPathUtility.CreateFieldPath(field);
+                if (string.IsNullOrWhiteSpace(fieldPath) || fieldPath.Contains('.'))
+                {
+                    throw new InvalidOperationException("This method must not use field paths");
+                }
+
+                return this.IsFieldDirty(fieldPath);
+            };
+
+            return IsFieldDirty(pol => pol.PurchaseOrderID) ||
+                   IsFieldDirty(pol => pol.IsService) ||
+                   IsFieldDirty(pol => pol.ItemID) ||
+                   IsFieldDirty(pol => pol.Quantity) ||
+                   IsFieldDirty(pol => pol.UnitCost);
         }
 
         #region Relationships

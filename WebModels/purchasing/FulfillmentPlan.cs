@@ -1,8 +1,13 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WebModels.fleet;
@@ -125,6 +130,190 @@ namespace WebModels.purchasing
         public Track TrackPostFulfillment
         {
             get { CheckGet(); return _trackPostFulfillment; }
+        }
+
+        protected override bool PreSave(ITransaction transaction)
+        {
+            if (!IsInsert && HasSignificantChanges())
+            {
+                Search<PurchaseOrder> purchaseOrderSearch = new Search<PurchaseOrder>(new ExistsSearchCondition<PurchaseOrder>()
+                {
+                    RelationshipName = nameof(PurchaseOrder.PurchaseOrderLines),
+                    ExistsType = ExistsSearchCondition<PurchaseOrder>.ExistsTypes.Exists,
+                    Condition = new ExistsSearchCondition<PurchaseOrderLine>()
+                    {
+                        RelationshipName = nameof(PurchaseOrderLine.FulfillmentPlanPurchaseOrderLines),
+                        ExistsType = ExistsSearchCondition<PurchaseOrderLine>.ExistsTypes.Exists,
+                        Condition = new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                        {
+                            Field = nameof(FulfillmentPlanPurchaseOrderLine.FulfillmentPlanID),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = FulfillmentPlanID
+                        }
+                    }
+                });
+
+                foreach(PurchaseOrder purchaseOrder in purchaseOrderSearch.GetEditableReader(transaction))
+                {
+                    if (!purchaseOrder.ClearTemplateDataForPurchaseOrder(transaction) || !purchaseOrder.Save(transaction))
+                    {
+                        Errors.AddRange(purchaseOrder.Errors.ToArray());
+                        return false;
+                    }
+                }
+            }
+
+            return base.PreSave(transaction);
+        }
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            if (!IsInsert && IsFieldDirty(nameof(RailcarID)) && RailcarID != null)
+            {
+                Search<PurchaseOrder> purchaseOrderSearch = new Search<PurchaseOrder>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new IntSearchCondition<PurchaseOrder>()
+                    {
+                        Field = nameof(PurchaseOrder.Status),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = (int)PurchaseOrder.Statuses.Pending
+                    },
+                    new ExistsSearchCondition<PurchaseOrder>()
+                    {
+                        RelationshipName = nameof(PurchaseOrder.PurchaseOrderLines),
+                        ExistsType = ExistsSearchCondition<PurchaseOrder>.ExistsTypes.Exists,
+                        Condition = new ExistsSearchCondition<PurchaseOrderLine>()
+                        {
+                            RelationshipName = nameof(PurchaseOrderLine.FulfillmentPlanPurchaseOrderLines),
+                            ExistsType = ExistsSearchCondition<PurchaseOrderLine>.ExistsTypes.Exists,
+                            Condition = new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                            {
+                                Field = nameof(FulfillmentPlanPurchaseOrderLine.FulfillmentPlanID),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = FulfillmentPlanID
+                            }
+                        }
+                    }));
+
+                foreach (PurchaseOrder purchaseOrder in purchaseOrderSearch.GetEditableReader(transaction))
+                {
+                    if (!Task.Run(() => purchaseOrder.ApprovalSubmitted(transaction)).Result)
+                    {
+                        Errors.AddRange(purchaseOrder.Errors.ToArray());
+                        return false;
+                    }
+                }
+            }
+
+            return base.PostSave(transaction);
+        }
+
+        protected override bool PreDelete(ITransaction transaction)
+        {
+            Search<PurchaseOrder> purchaseOrderSearch = new Search<PurchaseOrder>(new ExistsSearchCondition<PurchaseOrder>()
+            {
+                RelationshipName = nameof(PurchaseOrder.PurchaseOrderLines),
+                ExistsType = ExistsSearchCondition<PurchaseOrder>.ExistsTypes.Exists,
+                Condition = new ExistsSearchCondition<PurchaseOrderLine>()
+                {
+                    RelationshipName = nameof(PurchaseOrderLine.FulfillmentPlanPurchaseOrderLines),
+                    ExistsType = ExistsSearchCondition<PurchaseOrderLine>.ExistsTypes.Exists,
+                    Condition = new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                    {
+                        Field = nameof(FulfillmentPlanPurchaseOrderLine.FulfillmentPlanID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = FulfillmentPlanID
+                    }
+                }
+            });
+
+            foreach (PurchaseOrder purchaseOrder in purchaseOrderSearch.GetEditableReader(transaction))
+            {
+                if (!purchaseOrder.ClearTemplateDataForPurchaseOrder(transaction) || !purchaseOrder.Save(transaction))
+                {
+                    Errors.AddRange(purchaseOrder.Errors.ToArray());
+                    return false;
+                }
+            }
+
+            return base.PreDelete(transaction);
+        }
+
+        private bool HasSignificantChanges()
+        {
+            bool IsFieldDirty(Expression<Func<FulfillmentPlan, object>> field)
+            {
+                string fieldPath = FieldPathUtility.CreateFieldPath(field);
+                if (string.IsNullOrWhiteSpace(fieldPath) || fieldPath.Contains('.'))
+                {
+                    throw new InvalidOperationException("This method must not use field paths");
+                }
+
+                return this.IsFieldDirty(fieldPath);
+            };
+            
+            return IsFieldDirty(fp => fp.TrackIDLoading) ||
+                   IsFieldDirty(fp => fp.TrackIDDestination) ||
+                   IsFieldDirty(fp => fp.TrackIDStrategicAfterLoad) ||
+                   IsFieldDirty(fp => fp.TrackIDStrategicAfterDestination) ||
+                   IsFieldDirty(fp => fp.TrackIDPostFulfillment);
+        }
+
+        public async Task<long?> Clone()
+        {
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
+            {
+                FulfillmentPlan newPlan = DataObjectFactory.Create<FulfillmentPlan>();
+                Copy(newPlan);
+                newPlan.RailcarID = null;
+                newPlan.LeaseRequestID = null;
+
+                if (!await Task.Run(() => newPlan.Save(transaction)))
+                {
+                    Errors.AddRange(newPlan.Errors.ToArray());
+                    return null;
+                }
+
+                Search<FulfillmentPlanPurchaseOrderLine> fppolSearch = new Search<FulfillmentPlanPurchaseOrderLine>(new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                {
+                    Field = nameof(FulfillmentPlanPurchaseOrderLine.FulfillmentPlanID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = FulfillmentPlanID
+                });
+
+                foreach (FulfillmentPlanPurchaseOrderLine originalJoin in fppolSearch.GetEditableReader(transaction))
+                {
+                    FulfillmentPlanPurchaseOrderLine newJoin = DataObjectFactory.Create<FulfillmentPlanPurchaseOrderLine>();
+                    originalJoin.Copy(newJoin);
+                    newJoin.FulfillmentPlanID = newPlan.FulfillmentPlanID;
+                    if (!await Task.Run(() => newJoin.Save(transaction)))
+                    {
+                        Errors.AddRange(newJoin.Errors.ToArray());
+                        return null;
+                    }
+                }
+
+                Search<FulfillmentPlanRoute> routeSearch = new Search<FulfillmentPlanRoute>(new LongSearchCondition<FulfillmentPlanRoute>()
+                {
+                    Field = nameof(FulfillmentPlanRoute.FulfillmentPlanID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = FulfillmentPlanID
+                });
+
+                foreach (FulfillmentPlanRoute originalRoute in routeSearch.GetEditableReader(transaction))
+                {
+                    FulfillmentPlanRoute newRoute = DataObjectFactory.Create<FulfillmentPlanRoute>();
+                    originalRoute.Copy(newRoute);
+                    newRoute.FulfillmentPlanID = newPlan.FulfillmentPlanID;
+                    if (!await Task.Run(() => newRoute.Save(transaction)))
+                    {
+                        Errors.AddRange(newRoute.Errors.ToArray());
+                        return null;
+                    }
+                }
+
+                transaction.Commit();
+                return newPlan.FulfillmentPlanID;
+            }
         }
 
         #region Relationships

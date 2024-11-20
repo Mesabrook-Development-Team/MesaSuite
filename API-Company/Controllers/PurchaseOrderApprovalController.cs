@@ -111,6 +111,7 @@ namespace API_Company.Controllers
                 if (CompanyID == purchaseOrder.LocationDestination.CompanyID)
                 {
                     purchaseOrder.InvoiceSchedule = approveParameter.InvoiceSchedule;
+                    purchaseOrder.AccountIDReceiving = approveParameter.AccountIDReceiving;
                 }
 
                 if (!await purchaseOrder.ApprovalSubmitted(transaction))
@@ -128,6 +129,7 @@ namespace API_Company.Controllers
         {
             public bool FutureAutoApprove { get; set; }
             public PurchaseOrder.InvoiceSchedules InvoiceSchedule { get; set; }
+            public long? AccountIDReceiving { get; set; }
         }
     }
 }

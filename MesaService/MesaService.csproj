@@ -72,6 +72,7 @@
     <Compile Include="ServiceTasks\AuditAccountBalances.cs" />
     <Compile Include="ServiceTasks\AuditFiscalQuarters.cs" />
     <Compile Include="ServiceTasks\IServiceTask.cs" />
+    <Compile Include="ServiceTasks\IssueFulfillmentInvoices.cs" />
     <Compile Include="ServiceTasks\IssueRecurringLeaseInvoices.cs" />
     <Compile Include="ServiceTasks\SendOutboundEmails.cs" />
     <Compile Include="ServiceTasks\HandleUserInactivity.cs" />

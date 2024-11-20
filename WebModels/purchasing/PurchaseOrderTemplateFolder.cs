@@ -20,20 +20,20 @@ namespace WebModels.purchasing
             set { CheckSet(); _purchaseOrderTemplateFolderID = value; }
         }
 
-        private long? _companyID;
+        private long? _locationID;
         [Field("C358800E-8649-4462-8802-F0434A6C716C")]
-        public long? CompanyID
+        public long? LocationID
         {
-            get { CheckGet(); return _companyID; }
-            set { CheckSet(); _companyID = value; }
+            get { CheckGet(); return _locationID; }
+            set { CheckSet(); _locationID = value; }
         }
 
-        private Company _company = null;
+        private Location _location = null;
         [Relationship("D8462FF9-14F4-47D0-BF82-FA4E418F846F")]
-        public Company Company
+        public Location Location
         {
-            get { CheckGet(); return _company; }
-            set { CheckSet(); _company = value; }
+            get { CheckGet(); return _location; }
+            set { CheckSet(); _location = value; }
         }
 
         private long? _governmentID;

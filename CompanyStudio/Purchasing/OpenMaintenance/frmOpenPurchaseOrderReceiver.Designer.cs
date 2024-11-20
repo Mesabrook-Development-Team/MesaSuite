@@ -49,7 +49,8 @@
             this.colFulfillmentReceived = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.mnuAddFulfilllmentWizard = new System.Windows.Forms.ToolStripSplitButton();
-            this.manualEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolManualFulfillmentEntry = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolDeleteFulfillment = new System.Windows.Forms.ToolStripButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.loader = new CompanyStudio.Loader();
             this.groupBox1.SuspendLayout();
@@ -217,6 +218,7 @@
             this.dgvFulfillments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFulfillments.Size = new System.Drawing.Size(590, 147);
             this.dgvFulfillments.TabIndex = 0;
+            this.dgvFulfillments.SelectionChanged += new System.EventHandler(this.dgvFulfillments_SelectionChanged);
             // 
             // colFulfillmentTime
             // 
@@ -249,7 +251,8 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuAddFulfilllmentWizard});
+            this.mnuAddFulfilllmentWizard,
+            this.toolDeleteFulfillment});
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(590, 25);
@@ -259,19 +262,34 @@
             // mnuAddFulfilllmentWizard
             // 
             this.mnuAddFulfilllmentWizard.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manualEntryToolStripMenuItem});
-            this.mnuAddFulfilllmentWizard.Image = ((System.Drawing.Image)(resources.GetObject("mnuAddFulfilllmentWizard.Image")));
+            this.toolManualFulfillmentEntry});
+            this.mnuAddFulfilllmentWizard.Image = global::CompanyStudio.Properties.Resources.wand;
+            this.mnuAddFulfilllmentWizard.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuAddFulfilllmentWizard.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuAddFulfilllmentWizard.Name = "mnuAddFulfilllmentWizard";
             this.mnuAddFulfilllmentWizard.Size = new System.Drawing.Size(145, 22);
             this.mnuAddFulfilllmentWizard.Text = "Add Fulfillment Wizard";
             this.mnuAddFulfilllmentWizard.ButtonClick += new System.EventHandler(this.mnuAddFulfilllmentWizard_ButtonClick);
             // 
-            // manualEntryToolStripMenuItem
+            // toolManualFulfillmentEntry
             // 
-            this.manualEntryToolStripMenuItem.Name = "manualEntryToolStripMenuItem";
-            this.manualEntryToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.manualEntryToolStripMenuItem.Text = "Manual Entry";
+            this.toolManualFulfillmentEntry.Image = global::CompanyStudio.Properties.Resources.package_add;
+            this.toolManualFulfillmentEntry.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolManualFulfillmentEntry.Name = "toolManualFulfillmentEntry";
+            this.toolManualFulfillmentEntry.Size = new System.Drawing.Size(180, 22);
+            this.toolManualFulfillmentEntry.Text = "Manual Entry";
+            this.toolManualFulfillmentEntry.Click += new System.EventHandler(this.toolManualFulfillmentEntry_Click);
+            // 
+            // toolDeleteFulfillment
+            // 
+            this.toolDeleteFulfillment.Enabled = false;
+            this.toolDeleteFulfillment.Image = global::CompanyStudio.Properties.Resources.package_delete;
+            this.toolDeleteFulfillment.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolDeleteFulfillment.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolDeleteFulfillment.Name = "toolDeleteFulfillment";
+            this.toolDeleteFulfillment.Size = new System.Drawing.Size(109, 22);
+            this.toolDeleteFulfillment.Text = "Delete Fulfillment";
+            this.toolDeleteFulfillment.Click += new System.EventHandler(this.toolDeleteFulfillment_Click);
             // 
             // groupBox3
             // 
@@ -347,10 +365,11 @@
         private System.Windows.Forms.DataGridView dgvFulfillments;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripSplitButton mnuAddFulfilllmentWizard;
-        private System.Windows.Forms.ToolStripMenuItem manualEntryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolManualFulfillmentEntry;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFulfillmentTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRailcar;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFulfillmentItems;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colFulfillmentReceived;
+        private System.Windows.Forms.ToolStripButton toolDeleteFulfillment;
     }
 }

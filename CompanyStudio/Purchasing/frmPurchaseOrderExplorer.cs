@@ -21,6 +21,9 @@ namespace CompanyStudio.Purchasing
         private const string INCOMING_NODE_GOV_FORMAT = "From {0} - PO {1} - Ordered on {2}";
         private const string OUTGOING_NODE_COMPANY_FORMAT = "To {0} ({1}) - PO {2} - Ordered on {3}";
         private const string OUTGOING_NODE_GOV_FORMAT = "To {0} - PO {1} - Ordered on {2}";
+
+        private event EventHandler<long?> OnInternalDelete;
+
         public frmPurchaseOrderExplorer()
         {
             InitializeComponent();
@@ -226,8 +229,22 @@ namespace CompanyStudio.Purchasing
 
         public void RegisterPurchaseOrderForm<T>(T form, Func<long?> purchaseOrderIDCallback) where T : BaseCompanyStudioContent, ISaveable
         {
+            async void OnFormClosed(object sender, FormClosedEventArgs e)
+            {
+                await ReloadTree(purchaseOrderIDCallback?.Invoke());
+            };
+
             form.OnSave += async (_, __) => await ReloadTree(purchaseOrderIDCallback?.Invoke());
-            form.FormClosed += async (_, __) => await ReloadTree(purchaseOrderIDCallback?.Invoke());
+            form.FormClosed += OnFormClosed;
+
+            OnInternalDelete += (_, deletedPOID) =>
+            {
+                if (form.IsHandleCreated && deletedPOID == purchaseOrderIDCallback?.Invoke())
+                {
+                    form.FormClosed -= OnFormClosed;
+                    form.Close();
+                }
+            };
         }
 
         private void trePurchaseOrders_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -235,6 +252,74 @@ namespace CompanyStudio.Purchasing
             if (e.Node.Tag is PurchaseOrder purchaseOrder)
             {
                 OpenPurchaseOrder(purchaseOrder);
+            }
+        }
+
+        private void trePurchaseOrders_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (trePurchaseOrders.SelectedNode == null || !(trePurchaseOrders.SelectedNode.Tag is PurchaseOrder purchaseOrder))
+            {
+                return;
+            }
+
+            switch(e.KeyCode)
+            {
+                case Keys.Delete:
+                    toolDelete.PerformClick();
+                    break;
+            }
+        }
+
+        private void trePurchaseOrders_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (trePurchaseOrders.SelectedNode == null || !(trePurchaseOrders.SelectedNode.Tag is PurchaseOrder purchaseOrder))
+            {
+                toolDelete.Enabled = false;
+                return;
+            }
+
+            toolDelete.Enabled = purchaseOrder.LocationIDOrigin == LocationModel.LocationID && purchaseOrder.Status == PurchaseOrder.Statuses.Draft;
+        }
+
+        private async void toolDelete_Click(object sender, EventArgs e)
+        {
+            if (trePurchaseOrders.SelectedNode == null || !(trePurchaseOrders.SelectedNode.Tag is PurchaseOrder purchaseOrder))
+            {
+                return;
+            }
+
+            if (purchaseOrder.LocationIDOrigin == LocationModel.LocationID && purchaseOrder.Status == PurchaseOrder.Statuses.Draft && this.Confirm($"Are you sure you want to delete Purchase Order {purchaseOrder.PurchaseOrderID}"))
+            {
+                DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Delete/" + purchaseOrder.PurchaseOrderID);
+                delete.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                await delete.Execute();
+
+                OnInternalDelete?.Invoke(this, purchaseOrder.PurchaseOrderID);
+
+                await ReloadTree();
+            }
+        }
+
+        private async void toolNewFromTemplate_Click(object sender, EventArgs e)
+        {
+            Templates.frmTemplateDialog openDialog = new Templates.frmTemplateDialog()
+            {
+                CompanyID = Company.CompanyID,
+                LocationID = LocationModel.LocationID,
+                Theme = Theme,
+                DialogMode = Templates.frmTemplateDialog.DialogModes.Open
+            };
+
+            if (openDialog.ShowDialog() == DialogResult.OK)
+            {
+                PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/CloneFromTemplate", new { openDialog.SelectedTemplate.PurchaseOrderTemplateID });
+                post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                PurchaseOrder newPO = await post.Execute<PurchaseOrder>();
+                if (post.RequestSuccessful)
+                {
+                    await ReloadTree(newPO.PurchaseOrderID);
+                    OpenPurchaseOrder(newPO);
+                }
             }
         }
     }

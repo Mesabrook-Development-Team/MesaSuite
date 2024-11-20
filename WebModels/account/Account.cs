@@ -404,6 +404,14 @@ namespace WebModels.account
             get { CheckGet(); return _invoicesTo; }
         }
         #endregion
+        #region purchasing
+        private List<purchasing.PurchaseOrder> _purchaseOrderReceivers = new List<purchasing.PurchaseOrder>();
+        [RelationshipList("B524172F-29A5-4244-8D15-DE27EB23604A", nameof(purchasing.PurchaseOrder.AccountIDReceiving))]
+        public IReadOnlyCollection<purchasing.PurchaseOrder> PurchaseOrderReceivers
+        {
+            get { CheckGet(); return _purchaseOrderReceivers; }
+        }
+        #endregion
         #endregion
     }
 }

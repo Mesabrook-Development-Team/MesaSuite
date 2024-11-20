@@ -192,5 +192,31 @@ namespace API_Company.Controllers
 
             return await Task.Run(() => fulfillmentSearch.GetReadOnlyReader(null, _fields).ToList());
         }
+
+        [HttpDelete]
+        public async Task<IHttpActionResult> Delete(long? id)
+        {
+            Fulfillment fulfillment = await Task.Run(() => DataObject.GetEditableByPrimaryKey<Fulfillment>(id, null, FieldPathUtility.CreateFieldPathsAsList<Fulfillment>(f => new object[]
+            {
+                f.PurchaseOrderLine.PurchaseOrder.LocationIDDestination
+            })));
+
+            if (fulfillment == null)
+            {
+                return NotFound();
+            }
+
+            if (fulfillment.PurchaseOrderLine.PurchaseOrder.LocationIDDestination != LocationID)
+            {
+                return new StatusCodeResult(System.Net.HttpStatusCode.Forbidden, this);
+            }
+
+            if (!await Task.Run(() => fulfillment.Delete()))
+            {
+                return fulfillment.HandleFailedValidation(this);
+            }
+
+            return Ok();
+        }
     }
 }

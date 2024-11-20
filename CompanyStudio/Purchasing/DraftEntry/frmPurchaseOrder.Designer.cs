@@ -46,10 +46,13 @@
             this.toolAddNewLine = new System.Windows.Forms.ToolStripButton();
             this.toolStripMain = new System.Windows.Forms.ToolStrip();
             this.toolLoadTemplate = new System.Windows.Forms.ToolStripButton();
-            this.toolSaveAsTemplate = new System.Windows.Forms.ToolStripButton();
+            this.toolSaveTemplate = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolDelete = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolWarnings = new System.Windows.Forms.ToolStripStatusLabel();
             this.cmdSubmit = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdSave = new System.Windows.Forms.Button();
@@ -68,6 +71,8 @@
             this.toolAddPlan = new System.Windows.Forms.ToolStripButton();
             this.toolDeletePlan = new System.Windows.Forms.ToolStripButton();
             this.lblSaveToAddPlans = new System.Windows.Forms.ToolStripLabel();
+            this.cloneSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.toolClonePlan = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.pnlPurchaseOrderLines.SuspendLayout();
@@ -273,7 +278,9 @@
             this.toolStripMain.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolLoadTemplate,
-            this.toolSaveAsTemplate});
+            this.toolSaveTemplate,
+            this.toolStripSeparator1,
+            this.toolDelete});
             this.toolStripMain.Location = new System.Drawing.Point(0, 0);
             this.toolStripMain.Name = "toolStripMain";
             this.toolStripMain.Size = new System.Drawing.Size(793, 25);
@@ -288,38 +295,75 @@
             this.toolLoadTemplate.Name = "toolLoadTemplate";
             this.toolLoadTemplate.Size = new System.Drawing.Size(97, 22);
             this.toolLoadTemplate.Text = "Load Template";
+            this.toolLoadTemplate.Click += new System.EventHandler(this.toolLoadTemplate_Click);
             // 
-            // toolSaveAsTemplate
+            // toolSaveTemplate
             // 
-            this.toolSaveAsTemplate.Image = global::CompanyStudio.Properties.Resources.script_save;
-            this.toolSaveAsTemplate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolSaveAsTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolSaveAsTemplate.Name = "toolSaveAsTemplate";
-            this.toolSaveAsTemplate.Size = new System.Drawing.Size(112, 22);
-            this.toolSaveAsTemplate.Text = "Save as Template";
+            this.toolSaveTemplate.Image = global::CompanyStudio.Properties.Resources.script_save;
+            this.toolSaveTemplate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolSaveTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolSaveTemplate.Name = "toolSaveTemplate";
+            this.toolSaveTemplate.Size = new System.Drawing.Size(98, 22);
+            this.toolSaveTemplate.Text = "Save Template";
+            this.toolSaveTemplate.Visible = false;
+            this.toolSaveTemplate.Click += new System.EventHandler(this.toolSaveTemplate_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolDelete
+            // 
+            this.toolDelete.Enabled = false;
+            this.toolDelete.Image = global::CompanyStudio.Properties.Resources.delete;
+            this.toolDelete.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolDelete.Name = "toolDelete";
+            this.toolDelete.Size = new System.Drawing.Size(136, 22);
+            this.toolDelete.Text = "Delete Purchase Order";
+            this.toolDelete.Click += new System.EventHandler(this.toolDelete_Click);
             // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
-            this.lblStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 520);
+            this.lblStatus,
+            this.toolWarnings});
+            this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.statusStrip1.Location = new System.Drawing.Point(0, 524);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(793, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(793, 18);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(42, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(42, 13);
             this.toolStripStatusLabel1.Text = "Status:";
             // 
             // lblStatus
             // 
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(0, 17);
+            this.lblStatus.Size = new System.Drawing.Size(0, 0);
+            // 
+            // toolWarnings
+            // 
+            this.toolWarnings.BackColor = System.Drawing.Color.Yellow;
+            this.toolWarnings.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolWarnings.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedOuter;
+            this.toolWarnings.ForeColor = System.Drawing.Color.Black;
+            this.toolWarnings.Image = global::CompanyStudio.Properties.Resources.error;
+            this.toolWarnings.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolWarnings.Name = "toolWarnings";
+            this.toolWarnings.Size = new System.Drawing.Size(89, 20);
+            this.toolWarnings.Text = "0 Warning(s)";
+            this.toolWarnings.Visible = false;
+            this.toolWarnings.Click += new System.EventHandler(this.toolWarnings_Click);
             // 
             // cmdSubmit
             // 
@@ -493,6 +537,8 @@
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolAddPlan,
             this.toolDeletePlan,
+            this.cloneSeparator,
+            this.toolClonePlan,
             this.lblSaveToAddPlans});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
@@ -503,35 +549,57 @@
             // toolAddPlan
             // 
             this.toolAddPlan.Image = global::CompanyStudio.Properties.Resources.package_add;
+            this.toolAddPlan.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolAddPlan.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAddPlan.Name = "toolAddPlan";
-            this.toolAddPlan.Size = new System.Drawing.Size(79, 28);
+            this.toolAddPlan.Size = new System.Drawing.Size(71, 22);
             this.toolAddPlan.Text = "New Plan";
             this.toolAddPlan.Visible = false;
             this.toolAddPlan.Click += new System.EventHandler(this.toolAddPlan_Click);
             // 
             // toolDeletePlan
             // 
+            this.toolDeletePlan.Enabled = false;
             this.toolDeletePlan.Image = global::CompanyStudio.Properties.Resources.package_delete;
+            this.toolDeletePlan.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolDeletePlan.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolDeletePlan.Name = "toolDeletePlan";
-            this.toolDeletePlan.Size = new System.Drawing.Size(89, 28);
+            this.toolDeletePlan.Size = new System.Drawing.Size(81, 22);
             this.toolDeletePlan.Text = "Delete Plan";
             this.toolDeletePlan.Visible = false;
+            this.toolDeletePlan.Click += new System.EventHandler(this.toolDeletePlan_Click);
             // 
             // lblSaveToAddPlans
             // 
             this.lblSaveToAddPlans.Name = "lblSaveToAddPlans";
-            this.lblSaveToAddPlans.Size = new System.Drawing.Size(96, 22);
+            this.lblSaveToAddPlans.Size = new System.Drawing.Size(96, 13);
             this.lblSaveToAddPlans.Text = "Save To Add Plans";
+            // 
+            // cloneSeparator
+            // 
+            this.cloneSeparator.Name = "cloneSeparator";
+            this.cloneSeparator.Size = new System.Drawing.Size(6, 25);
+            this.cloneSeparator.Visible = false;
+            // 
+            // toolClonePlan
+            // 
+            this.toolClonePlan.Enabled = false;
+            this.toolClonePlan.Image = global::CompanyStudio.Properties.Resources.package_go;
+            this.toolClonePlan.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolClonePlan.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolClonePlan.Name = "toolClonePlan";
+            this.toolClonePlan.Size = new System.Drawing.Size(77, 22);
+            this.toolClonePlan.Text = "Clone Plan";
+            this.toolClonePlan.Visible = false;
+            this.toolClonePlan.Click += new System.EventHandler(this.toolClonePlan_Click);
             // 
             // frmPurchaseOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(793, 542);
-            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.toolStripMain);
             this.Controls.Add(this.loader);
@@ -587,7 +655,6 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Panel pnlPurchaseOrderLines;
         private System.Windows.Forms.ToolStripButton toolLoadTemplate;
-        private System.Windows.Forms.ToolStripButton toolSaveAsTemplate;
         private System.Windows.Forms.ToolStripButton toolAddNewLine;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
@@ -611,5 +678,11 @@
         private System.Windows.Forms.GroupBox grpFulfillmentPlanInformation;
         private System.Windows.Forms.Label lblPlanPlaceholder;
         private System.Windows.Forms.ToolStripLabel lblSaveToAddPlans;
+        private System.Windows.Forms.ToolStripButton toolSaveTemplate;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolDelete;
+        private System.Windows.Forms.ToolStripStatusLabel toolWarnings;
+        private System.Windows.Forms.ToolStripSeparator cloneSeparator;
+        private System.Windows.Forms.ToolStripButton toolClonePlan;
     }
 }

@@ -299,6 +299,8 @@
     <Compile Include="Models\PurchaseOrder.cs" />
     <Compile Include="Models\PurchaseOrderApproval.cs" />
     <Compile Include="Models\PurchaseOrderLine.cs" />
+    <Compile Include="Models\PurchaseOrderTemplate.cs" />
+    <Compile Include="Models\PurchaseOrderTemplateFolder.cs" />
     <Compile Include="Models\Quotation.cs" />
     <Compile Include="Models\QuotationRequest.cs" />
     <Compile Include="Models\QuotationItem.cs" />
@@ -469,6 +471,12 @@
     <Compile Include="Purchasing\Fulfillment\ReviewStepControl.Designer.cs">
       <DependentUpon>ReviewStepControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Purchasing\OpenMaintenance\frmManualFulfillmentEntry.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\OpenMaintenance\frmManualFulfillmentEntry.Designer.cs">
+      <DependentUpon>frmManualFulfillmentEntry.cs</DependentUpon>
+    </Compile>
     <Compile Include="Purchasing\OpenMaintenance\frmOpenPurchaseOrderReceiver.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -528,6 +536,12 @@
     </Compile>
     <Compile Include="Purchasing\ShippingReceiving\Shipping.Designer.cs">
       <DependentUpon>Shipping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Templates\frmTemplateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Templates\frmTemplateDialog.Designer.cs">
+      <DependentUpon>frmTemplateDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Store\ClonePrices\ClonePricesWizardController.cs" />
@@ -821,6 +835,9 @@
     <EmbeddedResource Include="Purchasing\Fulfillment\ReviewStepControl.resx">
       <DependentUpon>ReviewStepControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\OpenMaintenance\frmManualFulfillmentEntry.resx">
+      <DependentUpon>frmManualFulfillmentEntry.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\OpenMaintenance\frmOpenPurchaseOrderReceiver.resx">
       <DependentUpon>frmOpenPurchaseOrderReceiver.cs</DependentUpon>
     </EmbeddedResource>
@@ -850,6 +867,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\ShippingReceiving\Shipping.resx">
       <DependentUpon>Shipping.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Templates\frmTemplateDialog.resx">
+      <DependentUpon>frmTemplateDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Store\ClonePrices\ConfirmationStep.resx">
       <DependentUpon>ConfirmationStep.cs</DependentUpon>

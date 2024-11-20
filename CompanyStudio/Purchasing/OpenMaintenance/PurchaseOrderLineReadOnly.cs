@@ -11,6 +11,7 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
     public partial class PurchaseOrderLineReadOnly : UserControl
     {
         public event EventHandler OnFulfillmentPlanLinkClicked;
+        public event EventHandler OnFulfillmentsLinkClicked;
 
         public PurchaseOrderLine PurchaseOrderLine { get; set; }
 
@@ -76,6 +77,11 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
         private void lnkFulfillmentPlans_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             OnFulfillmentPlanLinkClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void lnkFulfillments_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OnFulfillmentsLinkClicked?.Invoke(this, EventArgs.Empty);
         }
     }
 }

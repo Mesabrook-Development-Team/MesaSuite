@@ -155,6 +155,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
             if (!dgvPurchaseOrderLines.Rows.OfType<DataGridViewRow>().Any(dgvr => dgvr.Cells[colApplyPOLine.Name].Value as bool? ?? false))
             {
                 this.ShowError("At least one Purchase Order Line must be selected");
+                return;
             }
 
             try

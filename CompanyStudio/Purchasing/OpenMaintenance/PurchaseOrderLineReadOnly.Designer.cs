@@ -155,6 +155,7 @@
             this.lnkFulfillments.TabIndex = 4;
             this.lnkFulfillments.TabStop = true;
             this.lnkFulfillments.Text = "View Fulfillments";
+            this.lnkFulfillments.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFulfillments_LinkClicked);
             // 
             // PurchaseOrderLineReadOnly
             // 

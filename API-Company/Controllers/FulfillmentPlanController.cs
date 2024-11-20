@@ -1,6 +1,10 @@
 ﻿using API.Common;
 using API.Common.Attributes;
+using API.Common.Extensions;
 using API_Company.Attributes;
+using ClussPro.Base.Data;
+using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Utility;
@@ -8,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using WebModels.company;
 using WebModels.purchasing;
 
@@ -18,6 +23,8 @@ namespace API_Company.Controllers
     [LocationAccess(RequiredPermissions = new[] { nameof(LocationEmployee.ManagePurchaseOrders) })]
     public class FulfillmentPlanController : DataObjectController<FulfillmentPlan>
     {
+        protected long? LocationID => long.Parse(Request.Headers.GetValues("LocationID").First());
+
         public override IEnumerable<string> DefaultRetrievedFields => Schema.GetSchemaObject<FulfillmentPlan>().GetFields().Select(f => f.FieldName)
                                                                         .Concat(Schema.GetSchemaObject<FulfillmentPlanRoute>().GetFields().Select(f => $"{nameof(FulfillmentPlan.FulfillmentPlanRoutes)}.{f.FieldName}"))
                                                                         .Concat(FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlan>(fp => new List<object>()
@@ -142,6 +149,39 @@ namespace API_Company.Controllers
                 }));
 
             return fulfillmentPlanSearch.GetReadOnly(null, await FieldsToRetrieve());
+        }
+
+        public class CloneParameter
+        {
+            public long? FulfillmentPlanID { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> Clone(CloneParameter cloneParameter)
+        {
+            FulfillmentPlan original = DataObject.GetEditableByPrimaryKey<FulfillmentPlan>(cloneParameter.FulfillmentPlanID, null, FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlan>(fp => new object[]
+            {
+                fp.FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationIDOrigin,
+                fp.FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationIDDestination
+            }));
+
+            if (original == null)
+            {
+                return NotFound();
+            }
+
+            if (!original.FulfillmentPlanPurchaseOrderLines.Any(fppol => fppol.PurchaseOrderLine.PurchaseOrder.LocationIDOrigin == LocationID || fppol.PurchaseOrderLine.PurchaseOrder.LocationIDDestination == LocationID))
+            {
+                return new StatusCodeResult(System.Net.HttpStatusCode.Forbidden, this);
+            }
+
+            long? newPlanID;
+            if ((newPlanID = await original.Clone()) == null)
+            {
+                return original.HandleFailedValidation(this);
+            }
+
+            return Created("FulfillmentPlan/Get/" + newPlanID, DataObject.GetReadOnlyByPrimaryKey<FulfillmentPlan>(newPlanID, null, await FieldsToRetrieve()));
         }
     }
 }

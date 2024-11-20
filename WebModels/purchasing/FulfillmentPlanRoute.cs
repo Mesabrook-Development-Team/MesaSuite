@@ -1,4 +1,7 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using System;
 using System.Collections.Generic;
@@ -104,6 +107,89 @@ namespace WebModels.purchasing
         public Government GovernmentTo
         {
             get { CheckGet(); return _governmentTo; }
+        }
+
+        protected override bool PreSave(ITransaction transaction)
+        {
+            if (!IsSaveFlagSet(SaveFlags.SkipClearTemplateDataForPurchaseOrder) && AnyFieldDirty())
+            {
+                Search<PurchaseOrder> purchaseOrderSearch = new Search<PurchaseOrder>(new ExistsSearchCondition<PurchaseOrder>()
+                {
+                    RelationshipName = nameof(PurchaseOrder.PurchaseOrderLines),
+                    ExistsType = ExistsSearchCondition<PurchaseOrder>.ExistsTypes.Exists,
+                    Condition = new ExistsSearchCondition<PurchaseOrderLine>()
+                    {
+                        RelationshipName = nameof(PurchaseOrderLine.FulfillmentPlanPurchaseOrderLines),
+                        ExistsType = ExistsSearchCondition<PurchaseOrderLine>.ExistsTypes.Exists,
+                        Condition = new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                        {
+                            Field = nameof(FulfillmentPlanPurchaseOrderLine.FulfillmentPlanID),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = FulfillmentPlanID
+                        }
+                    }
+                });
+
+                foreach (PurchaseOrder purchaseOrder in purchaseOrderSearch.GetEditableReader(transaction))
+                {
+                    if (!purchaseOrder.ClearTemplateDataForPurchaseOrder(transaction) || !purchaseOrder.Save(transaction))
+                    {
+                        Errors.AddRange(purchaseOrder.Errors.ToArray());
+                        return false;
+                    }
+                }
+            }
+
+            return base.PreSave(transaction);
+        }
+
+        protected override bool PreDelete(ITransaction transaction)
+        {
+            Search<PurchaseOrder> purchaseOrderSearch = new Search<PurchaseOrder>(new ExistsSearchCondition<PurchaseOrder>()
+            {
+                RelationshipName = nameof(PurchaseOrder.PurchaseOrderLines),
+                ExistsType = ExistsSearchCondition<PurchaseOrder>.ExistsTypes.Exists,
+                Condition = new ExistsSearchCondition<PurchaseOrderLine>()
+                {
+                    RelationshipName = nameof(PurchaseOrderLine.FulfillmentPlanPurchaseOrderLines),
+                    ExistsType = ExistsSearchCondition<PurchaseOrderLine>.ExistsTypes.Exists,
+                    Condition = new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                    {
+                        Field = nameof(FulfillmentPlanPurchaseOrderLine.FulfillmentPlanID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = FulfillmentPlanID
+                    }
+                }
+            });
+
+            foreach (PurchaseOrder purchaseOrder in purchaseOrderSearch.GetEditableReader(transaction))
+            {
+                if (!purchaseOrder.ClearTemplateDataForPurchaseOrder(transaction) || !purchaseOrder.Save(transaction))
+                {
+                    Errors.AddRange(purchaseOrder.Errors.ToArray());
+                    return false;
+                }
+            }
+
+            return base.PreDelete(transaction);
+        }
+
+        private bool AnyFieldDirty()
+        {
+            foreach (Field field in Schema.GetSchemaObject<FulfillmentPlanRoute>().GetFields())
+            {
+                if (IsFieldDirty(field.FieldName))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static class SaveFlags
+        {
+            public static readonly Guid SkipClearTemplateDataForPurchaseOrder = new Guid("7E675818-DF30-4E61-AE19-4AEBE77CCF1F");
         }
     }
 }

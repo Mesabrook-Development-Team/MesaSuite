@@ -28,6 +28,11 @@ namespace CompanyStudio.Purchasing.DraftEntry
         public Location LocationModel { get; set; }
         private List<long?> _deletedLineIDs = new List<long?>();
         private List<PurchaseOrderLine> _linesAtLoad = new List<PurchaseOrderLine>();
+        private long? _purchaseOrderIDClonedFromAtLoad = null;
+
+        private bool _clonedWarning = false;
+        private bool _templateWarning = false;
+        private bool _clonesExistWarning = false;
 
         public event EventHandler OnSave;
 
@@ -64,7 +69,6 @@ namespace CompanyStudio.Purchasing.DraftEntry
                     get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Get/" + PurchaseOrderID);
                     get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
                     PurchaseOrder purchaseOrder = await get.GetObject<PurchaseOrder>();
-
                     rdoLocation.Checked = purchaseOrder?.LocationIDDestination != null;
                     cboLocation.SelectedItem = cboLocation.Items.OfType<DropDownItem<Location>>().FirstOrDefault(item => item.Object.LocationID == purchaseOrder?.LocationIDDestination);
                     rdoGovernment.Checked = purchaseOrder?.GovernmentIDDestination != null;
@@ -72,12 +76,32 @@ namespace CompanyStudio.Purchasing.DraftEntry
                     txtOrderDate.Text = purchaseOrder?.PurchaseOrderDate?.ToString("MM/dd/yyyy");
                     txtDescription.Text = purchaseOrder?.Description;
                     _currentStatus = purchaseOrder?.Status ?? PurchaseOrder.Statuses.Draft;
+                    _purchaseOrderIDClonedFromAtLoad = purchaseOrder.PurchaseOrderIDClonedFrom;
                     lblStatus.Text = _currentStatus.ToString().ToDisplayName();
+                    SetupFormWarnings(purchaseOrder);
+
+                    foreach (PurchaseOrderLineControl polc in pnlPurchaseOrderLines.Controls.OfType<PurchaseOrderLineControl>().ToList())
+                    {
+                        pnlPurchaseOrderLines.Controls.Remove(polc);
+                    }
+
+                    if (purchaseOrder.PurchaseOrderLines != null)
+                    {
+                        foreach (PurchaseOrderLine purchaseOrderLine in purchaseOrder.PurchaseOrderLines)
+                        {
+                            AddPurchaseOrderLineControl(purchaseOrderLine, purchaseOrder.Status == PurchaseOrder.Statuses.InProgress || purchaseOrder.Status == PurchaseOrder.Statuses.Completed);
+                        }
+                    }
+
                     lblSaveToAddPlans.Visible = false;
                     toolAddPlan.Visible = true;
                     toolDeletePlan.Visible = true;
+                    cloneSeparator.Visible = true;
+                    toolClonePlan.Visible = true;
+                    toolSaveTemplate.Visible = true;
+                    toolDelete.Enabled = true;
 
-                    switch(_currentStatus)
+                    switch (_currentStatus)
                     {
                         case PurchaseOrder.Statuses.Draft:
                             cmdSubmit.Visible = _currentStatus == PurchaseOrder.Statuses.Draft;
@@ -93,22 +117,14 @@ namespace CompanyStudio.Purchasing.DraftEntry
                             break;
                     }
 
-                    if (purchaseOrder?.PurchaseOrderLines != null)
-                    {
-                        foreach(PurchaseOrderLine purchaseOrderLine in purchaseOrder.PurchaseOrderLines)
-                        {
-                            AddPurchaseOrderLineControl(purchaseOrderLine, purchaseOrder.Status == PurchaseOrder.Statuses.InProgress || purchaseOrder.Status == PurchaseOrder.Statuses.Completed);
-                        }
-
-                        _linesAtLoad = purchaseOrder.PurchaseOrderLines;
-                    }
+                    _linesAtLoad = purchaseOrder?.PurchaseOrderLines ?? new List<PurchaseOrderLine>();
 
                     await RefreshFulfillmentPlans();
                 }
                 else
                 {
                     _currentStatus = PurchaseOrder.Statuses.Draft;
-                    lblStatus.Text = PurchaseOrder.Statuses.Draft.ToString().ToLowerInvariant();
+                    lblStatus.Text = PurchaseOrder.Statuses.Draft.ToString().ToDisplayName();
                     cmdSubmit.Visible = true;
                 }
             }
@@ -117,6 +133,20 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 toolStripMain.Enabled = true;
                 loader.Visible = false;
             }
+        }
+
+        private void SetupFormWarnings(PurchaseOrder purchaseOrder)
+        {
+            _clonedWarning = purchaseOrder.PurchaseOrderIDClonedFrom != null;
+            _templateWarning = purchaseOrder.PurchaseOrderTemplates?.Any() ?? false;
+            _clonesExistWarning = purchaseOrder.PurchaseOrderClones?.Any() ?? false;
+
+            int warningCount = 0;
+            warningCount += _clonedWarning ? 1 : 0;
+            warningCount += _templateWarning ? 1 : 0;
+            warningCount += _clonesExistWarning ? 1 : 0;
+            toolWarnings.Text = $"{warningCount} Warning(s)";
+            toolWarnings.Visible = warningCount > 0;
         }
 
         private void toolAddNewLine_Click(object sender, EventArgs e)
@@ -291,7 +321,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
                     LocationIDOrigin = LocationModel.LocationID,
                     LocationIDDestination = rdoLocation.Checked ? ((DropDownItem<Location>)cboLocation.SelectedItem).Object.LocationID : null,
                     GovernmentIDDestination = rdoGovernment.Checked ? ((DropDownItem<Government>)cboGovernment.SelectedItem).Object.GovernmentID : null,
-                    Description = txtDescription.Text
+                    Description = txtDescription.Text,
+                    PurchaseOrderIDClonedFrom = _purchaseOrderIDClonedFromAtLoad
                 };
 
                 if (PurchaseOrderID == null)
@@ -302,6 +333,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                     if (post.RequestSuccessful)
                     {
                         PurchaseOrderID = purchaseOrderToSave.PurchaseOrderID;
+                        _purchaseOrderIDClonedFromAtLoad = purchaseOrderToSave.PurchaseOrderIDClonedFrom;
                         foreach (PurchaseOrderLineControl line in purchaseOrderLines)
                         {
                             line.PurchaseOrderID = PurchaseOrderID;
@@ -316,16 +348,24 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 {
                     PutData put = new PutData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Put", purchaseOrderToSave);
                     put.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-                    await put.ExecuteNoResult();
+                    purchaseOrderToSave = await put.Execute<PurchaseOrder>();
                     if (!put.RequestSuccessful)
                     {
                         return false;
                     }
+
+                    _purchaseOrderIDClonedFromAtLoad = purchaseOrderToSave.PurchaseOrderIDClonedFrom;
                 }
 
                 lblSaveToAddPlans.Visible = false;
                 toolAddPlan.Visible = true;
                 toolDeletePlan.Visible = true;
+                toolSaveTemplate.Visible = true;
+                cloneSeparator.Visible = true;
+                toolClonePlan.Visible = true;
+                toolDelete.Enabled = true;
+
+                SetupFormWarnings(purchaseOrderToSave);
 
                 lineErrors = new StringBuilder();
                 for (int i = 0; i < purchaseOrderLines.Length; i++)
@@ -484,6 +524,15 @@ namespace CompanyStudio.Purchasing.DraftEntry
         private async void FulfillmentPlanControl_OnSave(object sender, EventArgs e)
         {
             await RefreshFulfillmentPlans();
+
+            GetData getData = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Get/" + PurchaseOrderID);
+            getData.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            PurchaseOrder purchaseOrder = await getData.GetObject<PurchaseOrder>();
+
+            if (purchaseOrder != null)
+            {
+                SetupFormWarnings(purchaseOrder);
+            }
         }
 
         private void dgvFulfillmentPlans_SelectionChanged(object sender, EventArgs e)
@@ -494,6 +543,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
             }
 
             DataGridViewRow row = dgvFulfillmentPlans.SelectedRows.Cast<DataGridViewRow>().FirstOrDefault();
+            toolDeletePlan.Enabled = row != null;
+            toolClonePlan.Enabled = row != null;
 
             if (row != null)
             {
@@ -506,6 +557,156 @@ namespace CompanyStudio.Purchasing.DraftEntry
             foreach(PurchaseOrderLineControl ctrl in pnlPurchaseOrderLines.Controls.OfType<PurchaseOrderLineControl>())
             {
                 ctrl.LocationIDDestination = (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.LocationID;
+            }
+        }
+
+        private async void toolLoadTemplate_Click(object sender, EventArgs e)
+        {
+            Templates.frmTemplateDialog loadTemplate = new Templates.frmTemplateDialog()
+            {
+                CompanyID = Company.CompanyID,
+                LocationID = LocationModel.LocationID,
+                Theme = Theme,
+                DialogMode = Templates.frmTemplateDialog.DialogModes.Open
+            };
+            DialogResult result = loadTemplate.ShowDialog();
+
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+
+            PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/CloneFromTemplate", new { loadTemplate.SelectedTemplate.PurchaseOrderTemplateID });
+            post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            PurchaseOrder newPO = await post.Execute<PurchaseOrder>();
+            if (post.RequestSuccessful)
+            {
+                frmPurchaseOrder newPOForm = new frmPurchaseOrder();
+                Studio.DecorateStudioContent(newPOForm);
+                newPOForm.PurchaseOrderID = newPO.PurchaseOrderID;
+                newPOForm.Company = Company;
+                newPOForm.LocationModel = LocationModel;
+                newPOForm.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
+                Close();
+            }
+        }
+
+        private async void toolSaveTemplate_Click(object sender, EventArgs e)
+        {
+            Templates.frmTemplateDialog saveTemplate = new Templates.frmTemplateDialog()
+            {
+                CompanyID = Company.CompanyID,
+                LocationID = LocationModel.LocationID,
+                Theme = Theme,
+                DialogMode = Templates.frmTemplateDialog.DialogModes.Save
+            };
+            DialogResult result = saveTemplate.ShowDialog();
+
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+
+            PurchaseOrderTemplate template = saveTemplate.SelectedTemplate;
+            template.PurchaseOrderID = PurchaseOrderID;
+
+            if (template.PurchaseOrderTemplateID == null)
+            {
+                PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrderTemplate/Post", template);
+                post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                await post.ExecuteNoResult();
+            }
+            else
+            {
+                PutData put = new PutData(DataAccess.APIs.CompanyStudio, "PurchaseOrderTemplate/Put", template);
+                put.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                await put.ExecuteNoResult();
+            }
+        }
+
+        private async void toolDelete_Click(object sender, EventArgs e)
+        {
+            if (!this.Confirm("Are you sure you want to delete this Purchase Order?"))
+            {
+                return;
+            }
+
+            DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Delete/" + PurchaseOrderID);
+            delete.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            await delete.Execute();
+            Close();
+        }
+
+        private void toolWarnings_Click(object sender, EventArgs e)
+        {
+            if (!_clonedWarning && !_templateWarning && !_clonesExistWarning)
+            {
+                return;
+            }
+
+            StringBuilder warningBuilder = new StringBuilder();
+            if (_clonedWarning)
+            {
+                warningBuilder.AppendLine("* This Purchase Order was cloned from a Template. Significant changes will skip pre-approvals.");
+            }
+            if (_templateWarning)
+            {
+                warningBuilder.AppendLine("* This Purchase Order is saved as a Template. Significant changes will delete the Template.");
+            }
+            if (_clonesExistWarning)
+            {
+                warningBuilder.AppendLine("* This Purchase Order has one or more Clones. Significant changes will skip pre-approvals on all Clones.");
+            }
+
+            this.ShowWarning(warningBuilder.ToString());
+        }
+
+        private async void toolDeletePlan_Click(object sender, EventArgs e)
+        {
+            if (dgvFulfillmentPlans.SelectedRows.Count <= 0 || !(dgvFulfillmentPlans.SelectedRows[0].Tag is long?) || !this.Confirm("Are you sure you want to delete this Fulfillment Plan?"))
+            {
+                return;
+            }
+
+            long? planID = dgvFulfillmentPlans.SelectedRows[0].Tag as long?;
+
+            DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, "FulfillmentPlan/Delete/" + planID);
+            delete.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            await delete.Execute();
+
+            if (delete.RequestSuccessful)
+            {
+                await RefreshFulfillmentPlans();
+
+                GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Get/" + PurchaseOrderID);
+                get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                PurchaseOrder purchaseOrder = await get.GetObject<PurchaseOrder>();
+
+                SetupFormWarnings(purchaseOrder);
+            }
+        }
+
+        private async void toolClonePlan_Click(object sender, EventArgs e)
+        {
+            if (dgvFulfillmentPlans.SelectedRows.Count <= 0 || !(dgvFulfillmentPlans.SelectedRows[0].Tag is long?))
+            {
+                return;
+            }
+
+            long? fulfillmentPlanID = dgvFulfillmentPlans.SelectedRows[0].Tag as long?;
+            PostData post = new PostData(DataAccess.APIs.CompanyStudio, "FulfillmentPlan/Clone", new { fulfillmentPlanID });
+            post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            await post.ExecuteNoResult();
+
+            if (post.RequestSuccessful)
+            {
+                await RefreshFulfillmentPlans();
+
+                GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Get/" + PurchaseOrderID);
+                get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                PurchaseOrder purchaseOrder = await get.GetObject<PurchaseOrder>();
+
+                SetupFormWarnings(purchaseOrder);
             }
         }
     }

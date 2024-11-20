@@ -64,6 +64,12 @@
             this.colFPPOLines = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFPRoute = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabFulfillments = new System.Windows.Forms.TabPage();
+            this.dgvFulfillments = new System.Windows.Forms.DataGridView();
+            this.colPurchaseOrderLine = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colRailcar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFulfillmentTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIsComplete = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabInvoices = new System.Windows.Forms.TabPage();
             this.loader = new CompanyStudio.Loader();
             this.tabControl1.SuspendLayout();
@@ -71,6 +77,8 @@
             this.groupBox1.SuspendLayout();
             this.tabFulfillmentPlans.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillmentPlans)).BeginInit();
+            this.tabFulfillments.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillments)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -440,6 +448,7 @@
             // 
             // tabFulfillments
             // 
+            this.tabFulfillments.Controls.Add(this.dgvFulfillments);
             this.tabFulfillments.Location = new System.Drawing.Point(4, 22);
             this.tabFulfillments.Name = "tabFulfillments";
             this.tabFulfillments.Padding = new System.Windows.Forms.Padding(3);
@@ -447,6 +456,60 @@
             this.tabFulfillments.TabIndex = 1;
             this.tabFulfillments.Text = "Fulfillments";
             this.tabFulfillments.UseVisualStyleBackColor = true;
+            // 
+            // dgvFulfillments
+            // 
+            this.dgvFulfillments.AllowUserToAddRows = false;
+            this.dgvFulfillments.AllowUserToDeleteRows = false;
+            this.dgvFulfillments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFulfillments.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colPurchaseOrderLine,
+            this.colRailcar,
+            this.colQuantity,
+            this.colFulfillmentTime,
+            this.colIsComplete});
+            this.dgvFulfillments.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvFulfillments.Location = new System.Drawing.Point(3, 3);
+            this.dgvFulfillments.Name = "dgvFulfillments";
+            this.dgvFulfillments.ReadOnly = true;
+            this.dgvFulfillments.RowHeadersVisible = false;
+            this.dgvFulfillments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvFulfillments.Size = new System.Drawing.Size(910, 486);
+            this.dgvFulfillments.TabIndex = 0;
+            // 
+            // colPurchaseOrderLine
+            // 
+            this.colPurchaseOrderLine.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colPurchaseOrderLine.HeaderText = "Purchase Order Line";
+            this.colPurchaseOrderLine.Name = "colPurchaseOrderLine";
+            this.colPurchaseOrderLine.ReadOnly = true;
+            // 
+            // colRailcar
+            // 
+            this.colRailcar.HeaderText = "Railcar";
+            this.colRailcar.Name = "colRailcar";
+            this.colRailcar.ReadOnly = true;
+            this.colRailcar.Width = 150;
+            // 
+            // colQuantity
+            // 
+            this.colQuantity.HeaderText = "Quantity";
+            this.colQuantity.Name = "colQuantity";
+            this.colQuantity.ReadOnly = true;
+            // 
+            // colFulfillmentTime
+            // 
+            this.colFulfillmentTime.HeaderText = "Ship Time";
+            this.colFulfillmentTime.Name = "colFulfillmentTime";
+            this.colFulfillmentTime.ReadOnly = true;
+            this.colFulfillmentTime.Width = 150;
+            // 
+            // colIsComplete
+            // 
+            this.colIsComplete.HeaderText = "Arrived";
+            this.colIsComplete.Name = "colIsComplete";
+            this.colIsComplete.ReadOnly = true;
+            this.colIsComplete.Width = 75;
             // 
             // tabInvoices
             // 
@@ -487,6 +550,8 @@
             this.tabFulfillmentPlans.ResumeLayout(false);
             this.tabFulfillmentPlans.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillmentPlans)).EndInit();
+            this.tabFulfillments.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillments)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -531,5 +596,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colFPRailcar;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFPPOLines;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFPRoute;
+        private System.Windows.Forms.DataGridView dgvFulfillments;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPurchaseOrderLine;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colRailcar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colQuantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFulfillmentTime;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colIsComplete;
     }
 }

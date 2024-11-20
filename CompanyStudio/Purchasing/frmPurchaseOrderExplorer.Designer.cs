@@ -34,7 +34,9 @@
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.loader = new CompanyStudio.Loader();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolAddPurchaseOrder = new System.Windows.Forms.ToolStripButton();
+            this.toolAddPurchaseOrder = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolNewFromTemplate = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,7 +50,9 @@
             this.trePurchaseOrders.SelectedImageIndex = 0;
             this.trePurchaseOrders.Size = new System.Drawing.Size(498, 425);
             this.trePurchaseOrders.TabIndex = 0;
+            this.trePurchaseOrders.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trePurchaseOrders_AfterSelect);
             this.trePurchaseOrders.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trePurchaseOrders_NodeMouseDoubleClick);
+            this.trePurchaseOrders.KeyDown += new System.Windows.Forms.KeyEventHandler(this.trePurchaseOrders_KeyDown);
             // 
             // imageList
             // 
@@ -77,7 +81,8 @@
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolAddPurchaseOrder});
+            this.toolAddPurchaseOrder,
+            this.toolDelete});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(498, 25);
@@ -86,13 +91,35 @@
             // 
             // toolAddPurchaseOrder
             // 
+            this.toolAddPurchaseOrder.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolNewFromTemplate});
             this.toolAddPurchaseOrder.Image = global::CompanyStudio.Properties.Resources.cart_add;
             this.toolAddPurchaseOrder.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolAddPurchaseOrder.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAddPurchaseOrder.Name = "toolAddPurchaseOrder";
-            this.toolAddPurchaseOrder.Size = new System.Drawing.Size(126, 22);
+            this.toolAddPurchaseOrder.Size = new System.Drawing.Size(138, 22);
             this.toolAddPurchaseOrder.Text = "New Purchase Order";
-            this.toolAddPurchaseOrder.Click += new System.EventHandler(this.toolAddPurchaseOrder_Click);
+            this.toolAddPurchaseOrder.ButtonClick += new System.EventHandler(this.toolAddPurchaseOrder_Click);
+            // 
+            // toolNewFromTemplate
+            // 
+            this.toolNewFromTemplate.Image = global::CompanyStudio.Properties.Resources.script_go;
+            this.toolNewFromTemplate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolNewFromTemplate.Name = "toolNewFromTemplate";
+            this.toolNewFromTemplate.Size = new System.Drawing.Size(180, 22);
+            this.toolNewFromTemplate.Text = "From Template...";
+            this.toolNewFromTemplate.Click += new System.EventHandler(this.toolNewFromTemplate_Click);
+            // 
+            // toolDelete
+            // 
+            this.toolDelete.Enabled = false;
+            this.toolDelete.Image = global::CompanyStudio.Properties.Resources.delete;
+            this.toolDelete.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolDelete.Name = "toolDelete";
+            this.toolDelete.Size = new System.Drawing.Size(136, 22);
+            this.toolDelete.Text = "Delete Purchase Order";
+            this.toolDelete.Click += new System.EventHandler(this.toolDelete_Click);
             // 
             // frmPurchaseOrderExplorer
             // 
@@ -120,6 +147,8 @@
         private Loader loader;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ImageList imageList;
-        private System.Windows.Forms.ToolStripButton toolAddPurchaseOrder;
+        private System.Windows.Forms.ToolStripButton toolDelete;
+        private System.Windows.Forms.ToolStripSplitButton toolAddPurchaseOrder;
+        private System.Windows.Forms.ToolStripMenuItem toolNewFromTemplate;
     }
 }

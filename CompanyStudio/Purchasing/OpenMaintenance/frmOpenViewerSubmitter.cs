@@ -68,6 +68,20 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
                     row.Cells[colFPRoute.Name].Value = route;
                     row.Tag = fulfillmentPlan;
                 }
+
+                Dictionary<Models.Fulfillment, PurchaseOrderLine> purchaseOrderLineByFulfillment = new Dictionary<Models.Fulfillment, PurchaseOrderLine>();
+                purchaseOrder.PurchaseOrderLines.ForEach(pol => pol.Fulfillments.ForEach(f => purchaseOrderLineByFulfillment[f] = pol));
+
+                foreach(Models.Fulfillment fulfillment in purchaseOrder.PurchaseOrderLines.SelectMany(pol => pol.Fulfillments).OrderByDescending(f => f.FulfillmentTime))
+                {
+                    DataGridViewRow row = dgvFulfillments.Rows[dgvFulfillments.Rows.Add()];
+                    row.Cells[colPurchaseOrderLine.Name].Value = purchaseOrderLineByFulfillment[fulfillment]?.DisplayString;
+                    row.Cells[colRailcar.Name].Value = fulfillment.Railcar?.ReportingID;
+                    row.Cells[colQuantity.Name].Value = fulfillment.Quantity;
+                    row.Cells[colFulfillmentTime.Name].Value = fulfillment.FulfillmentTime?.ToString("MM/dd/yyyy HH:mm");
+                    row.Cells[colIsComplete.Name].Value = fulfillment.IsComplete;
+                    row.Tag = fulfillment;
+                }
             }
             finally
             {
@@ -89,8 +103,24 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
             }
             purchaseOrderLineReadOnly.Top = top;
             purchaseOrderLineReadOnly.OnFulfillmentPlanLinkClicked += PurchaseOrderLineReadOnly_OnFulfillmentPlanLinkClicked;
+            purchaseOrderLineReadOnly.OnFulfillmentsLinkClicked += PurchaseOrderLineReadOnly_OnFulfillmentsLinkClicked;
             pnlPOLines.Controls.Add(purchaseOrderLineReadOnly);
             purchaseOrderLineReadOnly.Width = pnlPOLines.Width;
+        }
+
+        private void PurchaseOrderLineReadOnly_OnFulfillmentsLinkClicked(object sender, EventArgs e)
+        {
+            PurchaseOrderLineReadOnly purchaseOrderLineReadOnly = sender as PurchaseOrderLineReadOnly;
+            if (purchaseOrderLineReadOnly == null)
+            {
+                return;
+            }
+
+            tabControl1.SelectedTab = tabFulfillments;
+            foreach (DataGridViewRow row in dgvFulfillments.Rows)
+            {
+                row.Selected = row.Tag is Models.Fulfillment fulfillment && fulfillment.PurchaseOrderLineID == purchaseOrderLineReadOnly.PurchaseOrderLine.PurchaseOrderLineID;
+            }
         }
 
         private void PurchaseOrderLineReadOnly_OnFulfillmentPlanLinkClicked(object sender, EventArgs e)

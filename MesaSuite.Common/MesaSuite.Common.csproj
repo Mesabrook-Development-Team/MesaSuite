@@ -132,6 +132,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SecuredApplicationContext.cs" />
+    <Compile Include="ToolStripSpringTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UserPreferences.cs" />
     <Compile Include="Utility\DropDownItem.cs" />
   </ItemGroup>

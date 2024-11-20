@@ -277,6 +277,20 @@ namespace WebModels.company
         {
             get { CheckGet(); return _purchaseOrderDestinations; }
         }
+
+        private List<PurchaseOrderTemplateFolder> _purchaseOrderTemplateFolders = new List<PurchaseOrderTemplateFolder>();
+        [RelationshipList("D08A833C-92B7-4C38-9128-F7004A655D43", nameof(PurchaseOrderTemplateFolder.LocationID))]
+        public IReadOnlyCollection<PurchaseOrderTemplateFolder> PurchaseOrderTemplateFolders
+        {
+            get { CheckGet(); return _purchaseOrderTemplateFolders; }
+        }
+
+        private List<PurchaseOrderTemplate> _purchaseOrderTemplates = new List<PurchaseOrderTemplate>();
+        [RelationshipList("2F0268B7-5364-45CF-B0F6-691A7241B841", nameof(PurchaseOrderTemplate.LocationID))]
+        public IReadOnlyCollection<PurchaseOrderTemplate> PurchaseOrderTemplates
+        {
+            get { CheckGet(); return _purchaseOrderTemplates; }
+        }
         #endregion
         #endregion
     }

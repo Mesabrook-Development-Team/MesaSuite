@@ -171,6 +171,8 @@
     <Compile Include="Controllers\PurchaseOrderApprovalController.cs" />
     <Compile Include="Controllers\PurchaseOrderController.cs" />
     <Compile Include="Controllers\PurchaseOrderLineController.cs" />
+    <Compile Include="Controllers\PurchaseOrderTemplateController.cs" />
+    <Compile Include="Controllers\PurchaseOrderTemplateFolderController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\QuotationRequestController.cs" />
     <Compile Include="Controllers\QuotationItemController.cs" />

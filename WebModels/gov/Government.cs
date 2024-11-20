@@ -433,11 +433,11 @@ namespace WebModels.gov
             get { CheckGet(); return _quotationTos; }
         }
 
-        private List<PurchaseOrderTemplateFolder> purchaseOrderTemplateFolders = new List<PurchaseOrderTemplateFolder>();
+        private List<PurchaseOrderTemplateFolder> _purchaseOrderTemplateFolders = new List<PurchaseOrderTemplateFolder>();
         [RelationshipList("DEF38F31-1293-4F3C-9212-3F4F72003B35", nameof(PurchaseOrderTemplateFolder.GovernmentID))]
         public IReadOnlyCollection<PurchaseOrderTemplateFolder> PurchaseOrderTemplateFolders
         {
-            get { CheckGet(); return purchaseOrderTemplateFolders; }
+            get { CheckGet(); return _purchaseOrderTemplateFolders; }
         }
 
         private List<PurchaseOrderTemplate> _purchaseOrderTemplates = new List<PurchaseOrderTemplate>();

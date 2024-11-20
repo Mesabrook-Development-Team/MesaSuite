@@ -61,6 +61,7 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
                 {
                     AddFulfillment(fulfillment);
                 }
+                dgvFulfillments_SelectionChanged(dgvFulfillments, EventArgs.Empty);
 
                 get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/GetInvoicesForPurchaseOrder/" + PurchaseOrderID);
                 get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
@@ -88,6 +89,7 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
             row.Cells[colRailcar.Name].Value = fulfillment.Railcar?.ReportingID;
             row.Cells[colFulfillmentItems.Name].Value = string.Format("{0}x {1}", fulfillment.Quantity, fulfillment.PurchaseOrderLine?.DisplayStringNoQuantity);
             row.Cells[colFulfillmentReceived.Name].Value = fulfillment.IsComplete;
+            row.Tag = fulfillment;
         }
 
         private void AddPurchaseOrderLine(PurchaseOrderLine unfulfilledLine)
@@ -118,6 +120,48 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
         public Task Save()
         {
             return Task.CompletedTask;
+        }
+
+        private async void toolManualFulfillmentEntry_Click(object sender, EventArgs e)
+        {
+            frmManualFulfillmentEntry manualEntry = new frmManualFulfillmentEntry()
+            {
+                CompanyID = Company.CompanyID,
+                LocationID = LocationModel.LocationID,
+                PurchaseOrderID = PurchaseOrderID,
+                Theme = Theme
+            };
+
+            if (manualEntry.ShowDialog() == DialogResult.OK)
+            {
+                await RefreshData();
+                OnSave?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private void dgvFulfillments_SelectionChanged(object sender, EventArgs e)
+        {
+            IEnumerable<Models.Fulfillment> fulfillments = dgvFulfillments.SelectedRows.OfType<DataGridViewRow>().Select(dgvr => dgvr.Tag).OfType<Models.Fulfillment>();
+            toolDeleteFulfillment.Enabled = fulfillments.Any(f => !f.IsComplete);
+        }
+
+        private async void toolDeleteFulfillment_Click(object sender, EventArgs e)
+        {
+            if (!dgvFulfillments.SelectedRows.OfType<DataGridViewRow>().Where(dgvr => dgvr.Tag is Models.Fulfillment).Any() ||
+                !this.Confirm("Are you sure you want to delete these Fulfillment(s)?"))
+            {
+                return;
+            }
+
+            List<Models.Fulfillment> fulfillmentsToDelete = dgvFulfillments.SelectedRows.OfType<DataGridViewRow>().Select(dgvr => dgvr.Tag).OfType<Models.Fulfillment>().ToList();
+            foreach (Models.Fulfillment fulfillment in fulfillmentsToDelete)
+            {
+                DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, "Fulfillment/Delete/" + fulfillment.FulfillmentID);
+                delete.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                await delete.Execute();
+            }
+
+            await RefreshData();
         }
     }
 }

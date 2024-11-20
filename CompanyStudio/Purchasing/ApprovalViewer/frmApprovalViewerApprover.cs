@@ -40,6 +40,7 @@ namespace CompanyStudio.Purchasing.ApprovalViewer
                 GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Get/" + PurchaseOrderID);
                 get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
                 get.AdditionalFields.Add(nameof(PurchaseOrder.InvoiceSchedule));
+                get.AdditionalFields.Add(nameof(PurchaseOrder.AccountIDReceiving));
                 PurchaseOrder purchaseOrder = await get.GetObject<PurchaseOrder>();
                 if (purchaseOrder == null)
                 {
@@ -116,6 +117,16 @@ namespace CompanyStudio.Purchasing.ApprovalViewer
                     }
 
                     cboInvoiceSchedule.SelectedItem = cboInvoiceSchedule.Items.OfType<DropDownItem<PurchaseOrder.InvoiceSchedules>>().FirstOrDefault(x => x.Object == purchaseOrder.InvoiceSchedule);
+
+                    get = new GetData(DataAccess.APIs.CompanyStudio, "Account/GetAllForUser");
+                    get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                    List<Account> accounts = await get.GetObject<List<Account>>() ?? new List<Account>();
+                    cboReceivingAccount.Items.Clear();
+                    foreach (Account account in accounts)
+                    {
+                        cboReceivingAccount.Items.Add(new DropDownItem<Account>(account, $"{account.Description} ({account.AccountNumber})"));
+                    }
+                    cboReceivingAccount.SelectedItem = cboReceivingAccount.Items.OfType<DropDownItem<Account>>().FirstOrDefault(x => x.Object.AccountID == purchaseOrder.AccountIDReceiving);
                 }
 
                 get = new GetData(DataAccess.APIs.CompanyStudio, "FulfillmentPlan/GetByPurchaseOrderID/" + PurchaseOrderID);
@@ -211,7 +222,8 @@ namespace CompanyStudio.Purchasing.ApprovalViewer
                 var approveData = new
                 {
                     FutureAutoApprove = chkFutureAutoApprove.Checked,
-                    InvoiceSchedule = tabControl1.TabPages.Contains(tabSellerSetup) ? (cboInvoiceSchedule.SelectedItem as DropDownItem<PurchaseOrder.InvoiceSchedules>)?.Object : null
+                    InvoiceSchedule = tabControl1.TabPages.Contains(tabSellerSetup) ? (cboInvoiceSchedule.SelectedItem as DropDownItem<PurchaseOrder.InvoiceSchedules>)?.Object : null,
+                    AccountIDReceiving = tabControl1.TabPages.Contains(tabSellerSetup) ? (cboReceivingAccount.SelectedItem as DropDownItem<Account>)?.Object.AccountID : null
                 };
 
                 PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrderApproval/Approve/" + PurchaseOrderApprovalID, approveData);

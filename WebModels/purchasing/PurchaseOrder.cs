@@ -91,6 +91,21 @@ namespace WebModels.purchasing
             get { CheckGet(); return _governmentDestination; }
         }
 
+        private long? _purchaseOrderIDClonedFrom;
+        [Field("CF809F10-2043-49B0-9935-0C743F3E9855")]
+        public long? PurchaseOrderIDClonedFrom
+        {
+            get { CheckGet(); return _purchaseOrderIDClonedFrom; }
+            set { CheckGet(); _purchaseOrderIDClonedFrom = value; }
+        }
+
+        private PurchaseOrder _purchaseOrderClonedFrom = null;
+        [Relationship("1880B8B9-42E0-47D3-86F4-EF54E2936783", ForeignKeyField = nameof(PurchaseOrderIDClonedFrom))]
+        public PurchaseOrder PurchaseOrderClonedFrom
+        {
+            get { CheckGet(); return _purchaseOrderClonedFrom; }
+        }
+
         private DateTime? _purchaseOrderDate;
         [Field("5E4FEF5E-887B-4DC8-B1C3-1F9A33ABC4CD", DataSize = 7)]
         public DateTime? PurchaseOrderDate
@@ -139,6 +154,79 @@ namespace WebModels.purchasing
         {
             get { CheckGet(); return _invoiceSchedule; }
             set { CheckGet(); _invoiceSchedule = value; }
+        }
+
+        private long? _accountIDReceiving;
+        [Field("A82BD52B-60F9-4EBD-A652-722F629B0AA9")]
+        public long? AccountIDReceiving
+        {
+            get { CheckGet(); return _accountIDReceiving; }
+            set { CheckGet(); _accountIDReceiving = value; }
+        }
+
+        private account.Account _accountReceiving = null;
+        [Relationship("9DEBDC1F-ABF2-4998-BB3D-5BA1FCBA79CC", ForeignKeyField = nameof(AccountIDReceiving))]
+        public account.Account AccountReceiving
+        {
+            get { CheckGet(); return _accountReceiving; }
+        }
+
+        protected override bool PreSave(ITransaction transaction)
+        {
+            if (!IsInsert && HasSignficiantChanges() && !ClearTemplateDataForPurchaseOrder(transaction))
+            {
+                return false;
+            }
+
+            return base.PreSave(transaction);
+        }
+
+        public bool ClearTemplateDataForPurchaseOrder(ITransaction transaction)
+        {
+            PurchaseOrderIDClonedFrom = null;
+
+            Search<PurchaseOrderTemplate> templateSearch = new Search<PurchaseOrderTemplate>(new LongSearchCondition<PurchaseOrder>()
+            {
+                Field = nameof(PurchaseOrderTemplate.PurchaseOrderID),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = PurchaseOrderID
+            });
+
+            foreach (PurchaseOrderTemplate template in templateSearch.GetEditableReader(transaction))
+            {
+                if (!template.Delete(transaction))
+                {
+                    Errors.AddRange(template.Errors.ToArray());
+                    return false;
+                }
+            }
+
+            Search<PurchaseOrder> cloneSearch = new Search<PurchaseOrder>(new LongSearchCondition<PurchaseOrder>()
+            {
+                Field = nameof(PurchaseOrder.PurchaseOrderIDClonedFrom),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = PurchaseOrderID
+            });
+
+            foreach (PurchaseOrder clone in cloneSearch.GetEditableReader(transaction))
+            {
+                clone.PurchaseOrderIDClonedFrom = null;
+                if (!clone.Save(transaction))
+                {
+                    Errors.AddRange(clone.Errors.ToArray());
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool HasSignficiantChanges()
+        {
+            return IsFieldDirty(nameof(LocationIDOrigin)) ||
+                   IsFieldDirty(nameof(GovernmentIDOrigin)) ||
+                   IsFieldDirty(nameof(LocationIDDestination)) ||
+                   IsFieldDirty(nameof(GovernmentIDDestination));
         }
 
         public async Task<bool> Submit(ITransaction transaction = null)
@@ -473,7 +561,7 @@ namespace WebModels.purchasing
                 }));
 
                 bool hasRejections = purchaseOrderForApprovalLookup.PurchaseOrderApprovals?.Any(poa => poa.ApprovalStatus == PurchaseOrderApproval.ApprovalStatuses.Rejected) ?? false;
-                bool hasNoRailcars = purchaseOrderForApprovalLookup.PurchaseOrderLines?.Any(pl => pl.FulfillmentPlanPurchaseOrderLines?.Any(fppol => fppol.FulfillmentPlan?.RailcarID == null && fppol.FulfillmentPlan?.LeaseRequestID == null) ?? false) ?? false;
+                bool hasNoRailcars = purchaseOrderForApprovalLookup.PurchaseOrderLines?.Any(pl => pl.FulfillmentPlanPurchaseOrderLines?.Any(fppol => fppol.FulfillmentPlan?.RailcarID == null) ?? false) ?? false;
                 bool hasAnyPending = purchaseOrderForApprovalLookup.PurchaseOrderApprovals?.Any(poa => poa.ApprovalStatus == PurchaseOrderApproval.ApprovalStatuses.Pending) ?? false;
 
                 if (!hasRejections && !hasNoRailcars && !hasAnyPending)
@@ -631,6 +719,13 @@ namespace WebModels.purchasing
                         quotations.Remove(quotation);
                     }
                 }
+                else if (IsFieldDirty(nameof(InvoiceSchedule)) || IsFieldDirty(nameof(AccountIDReceiving)))
+                {
+                    if (!await Task.Run(() => Save(transaction)))
+                    {
+                        return false;
+                    }
+                }
 
                 if (transaction == null)
                 {
@@ -684,6 +779,13 @@ namespace WebModels.purchasing
         public IReadOnlyCollection<PurchaseOrderTemplate> PurchaseOrderTemplates
         {
             get { CheckGet(); return _purchaseOrderTemplates; }
+        }
+
+        private List<PurchaseOrder> _purchaseOrderClones = new List<PurchaseOrder>();
+        [RelationshipList("C2E037F7-07F1-4F48-A459-89EE5771EC8B", nameof(PurchaseOrderIDClonedFrom), AutoRemoveReferences = true)]
+        public IReadOnlyCollection<PurchaseOrder> PurchaseOrderClones
+        {
+            get { CheckGet(); return _purchaseOrderClones; }
         }
         #endregion
         #endregion

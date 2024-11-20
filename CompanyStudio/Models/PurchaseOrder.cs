@@ -15,6 +15,8 @@ namespace CompanyStudio.Models
         public long? GovernmentIDDestination { get; set; }
         public Government GovernmentDestination { get; set; }
 
+        public long? PurchaseOrderIDClonedFrom { get; set; }
+
         public string DestinationString
         {
             get
@@ -49,10 +51,13 @@ namespace CompanyStudio.Models
             Manual
         }
         public InvoiceSchedules InvoiceSchedule { get; set; }
+        public long? AccountIDReceiving { get; set; }
 
         public List<PurchaseOrderLine> PurchaseOrderLines { get; set; }
         public List<PurchaseOrderApproval> PurchaseOrderApprovals { get; set; }
         public List<Invoice> Invoices { get; set; }
+        public List<PurchaseOrder> PurchaseOrderClones { get; set; }
+        public List<PurchaseOrderTemplate> PurchaseOrderTemplates { get; set; }
 
         public static readonly IReadOnlyCollection<Statuses> RECEIVED_STATUSES = new List<Statuses>()
         {

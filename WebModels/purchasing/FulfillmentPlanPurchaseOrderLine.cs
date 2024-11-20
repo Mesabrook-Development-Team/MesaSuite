@@ -1,4 +1,7 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
+using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using System;
 using System.Collections.Generic;
@@ -49,6 +52,87 @@ namespace WebModels.purchasing
         public PurchaseOrderLine PurchaseOrderLine
         {
             get { CheckGet(); return _purchaseOrderLine; }
+        }
+
+        protected override bool PreSave(ITransaction transaction)
+        {
+            if (!IsSaveFlagSet(SaveFlags.SkipClearTemplateDataForPurchaseOrder) && AnyFieldDirty())
+            {
+                Search<PurchaseOrder> purchaseOrderSearch = new Search<PurchaseOrder>(new ExistsSearchCondition<PurchaseOrder>()
+                {
+                    RelationshipName = nameof(PurchaseOrder.PurchaseOrderLines),
+                    ExistsType = ExistsSearchCondition<PurchaseOrder>.ExistsTypes.Exists,
+                    Condition = new LongSearchCondition<PurchaseOrderLine>()
+                    {
+                        Field = nameof(PurchaseOrderLine.PurchaseOrderLineID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.List,
+                        List = new List<long>()
+                        {
+                            PurchaseOrderLineID ?? -1L,
+                            ((long?)GetDirtyValue(nameof(PurchaseOrderLineID))) ?? -1L
+                        }
+                    }
+                });
+
+                foreach (PurchaseOrder purchaseOrder in purchaseOrderSearch.GetEditableReader(transaction))
+                {
+                    if (!purchaseOrder.ClearTemplateDataForPurchaseOrder(transaction) || !purchaseOrder.Save(transaction))
+                    {
+                        Errors.AddRange(purchaseOrder.Errors.ToArray());
+                        return false;
+                    }
+                }
+            }
+
+            return base.PreSave(transaction);
+        }
+
+        protected override bool PreDelete(ITransaction transaction)
+        {
+            Search<PurchaseOrder> purchaseOrderSearch = new Search<PurchaseOrder>(new ExistsSearchCondition<PurchaseOrder>()
+            {
+                RelationshipName = nameof(PurchaseOrder.PurchaseOrderLines),
+                ExistsType = ExistsSearchCondition<PurchaseOrder>.ExistsTypes.Exists,
+                Condition = new LongSearchCondition<PurchaseOrderLine>()
+                {
+                    Field = nameof(PurchaseOrderLine.PurchaseOrderLineID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.List,
+                    List = new List<long>()
+                    {
+                        PurchaseOrderLineID ?? -1L,
+                        ((long?)GetDirtyValue(nameof(PurchaseOrderLineID))) ?? -1L
+                    }
+                }
+            });
+
+            foreach (PurchaseOrder purchaseOrder in purchaseOrderSearch.GetEditableReader(transaction))
+            {
+                if (!purchaseOrder.ClearTemplateDataForPurchaseOrder(transaction) || !purchaseOrder.Save(transaction))
+                {
+                    Errors.AddRange(purchaseOrder.Errors.ToArray());
+                    return false;
+                }
+            }
+
+            return base.PreDelete(transaction);
+        }
+
+        private bool AnyFieldDirty()
+        {
+            foreach(Field field in Schema.GetSchemaObject<FulfillmentPlanPurchaseOrderLine>().GetFields())
+            {
+                if (IsFieldDirty(field.FieldName))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static class SaveFlags
+        {
+            public static readonly Guid SkipClearTemplateDataForPurchaseOrder = new Guid("8AE58F64-C49C-43E1-AB0C-E6C00FB843E0");
         }
     }
 }

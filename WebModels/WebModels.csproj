@@ -197,6 +197,8 @@
     <Compile Include="purchasing\QuotationRequestItem.cs" />
     <Compile Include="purchasing\Validations\BillOfLadingUniqueByRailcarCondition.cs" />
     <Compile Include="purchasing\Validations\BillOfLadingValidations.cs" />
+    <Compile Include="purchasing\Validations\FulfillmentPlanRailcarIsIdleCondition.cs" />
+    <Compile Include="purchasing\Validations\FulfillmentPlanValidations.cs" />
     <Compile Include="purchasing\Validations\QuotationValidations.cs" />
     <Compile Include="purchasing\Validations\QuotationRequestValidations.cs" />
     <Compile Include="purchasing\Validations\RailcarLoadClearedAfterAcceptedBillsOfLadingCondition.cs" />

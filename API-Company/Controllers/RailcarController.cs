@@ -78,20 +78,37 @@ namespace API_Company.Controllers
         });
 
         [HttpGet]
-        public async Task<List<Railcar>> GetOwnedLeasedForCompany()
+        public async Task<List<Railcar>> GetIdleForCompany()
         {
-            Search<Railcar> railcarSearch = new Search<Railcar>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
-                new LongSearchCondition<Railcar>()
+            Search<Railcar> railcarSearch = new Search<Railcar>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                    new LongSearchCondition<Railcar>()
+                    {
+                        Field = nameof(Railcar.CompanyIDOwner),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = CompanyID
+                    },
+                    new LongSearchCondition<Railcar>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new List<object>() { r.CompanyLeasedTo.CompanyID }).First(),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = CompanyID
+                    }),
+                new ExistsSearchCondition<Railcar>()
                 {
-                    Field = nameof(Railcar.CompanyIDOwner),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = CompanyID
-                },
-                new LongSearchCondition<Railcar>()
-                {
-                    Field = FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new List<object>() { r.CompanyLeasedTo.CompanyID }).First(),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = CompanyID
+                    RelationshipName = nameof(Railcar.FulfillmentPlans),
+                    ExistsType = ExistsSearchCondition<Railcar>.ExistsTypes.NotExists,
+                    Condition = new ExistsSearchCondition<FulfillmentPlan>()
+                    {
+                        RelationshipName = nameof(FulfillmentPlan.FulfillmentPlanPurchaseOrderLines),
+                        ExistsType = ExistsSearchCondition<FulfillmentPlan>.ExistsTypes.Exists,
+                        Condition = new IntSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                        {
+                            Field = FieldPathUtility.CreateFieldPath<FulfillmentPlanPurchaseOrderLine>(fppol => fppol.PurchaseOrderLine.PurchaseOrder.Status),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.NotEquals,
+                            Value = (int)PurchaseOrder.Statuses.Completed
+                        }
+                    }
                 }));
 
             return await Task.Run(() => railcarSearch.GetReadOnlyReader(null, fields).ToList());

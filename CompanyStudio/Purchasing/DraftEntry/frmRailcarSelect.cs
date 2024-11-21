@@ -28,7 +28,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
         private async void frmRailcarSelect_Load(object sender, EventArgs e)
         {
-            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Railcar/GetOwnedLeasedForCompany");
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Railcar/GetIdleForCompany");
             get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
             _railcars = await get.GetObject<List<Railcar>>() ?? new List<Railcar>();
 

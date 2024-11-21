@@ -197,6 +197,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 {
                     lblLinePlaceholder.Visible = true;
                 }
+
+                UpdateTotals();
             };
             purchaseOrderLineControl.TotalChanged += (_, __) => { UpdateTotals(); };
             pnlPurchaseOrderLines.Controls.Add(purchaseOrderLineControl);

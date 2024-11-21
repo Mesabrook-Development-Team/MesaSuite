@@ -49,6 +49,11 @@
             this.tabPOInfo = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label5 = new System.Windows.Forms.Label();
+            this.lnkTaxBreakdown = new System.Windows.Forms.LinkLabel();
+            this.txtGrossTotal = new System.Windows.Forms.TextBox();
+            this.txtEstTax = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.txtTotal = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -99,7 +104,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(786, 219);
+            this.groupBox1.Size = new System.Drawing.Size(786, 205);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Approvals";
@@ -110,7 +115,7 @@
             this.pnlApprovals.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlApprovals.Location = new System.Drawing.Point(3, 16);
             this.pnlApprovals.Name = "pnlApprovals";
-            this.pnlApprovals.Size = new System.Drawing.Size(780, 200);
+            this.pnlApprovals.Size = new System.Drawing.Size(780, 186);
             this.pnlApprovals.TabIndex = 0;
             // 
             // label1
@@ -143,7 +148,7 @@
             this.dgvLines.ReadOnly = true;
             this.dgvLines.RowHeadersVisible = false;
             this.dgvLines.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvLines.Size = new System.Drawing.Size(772, 100);
+            this.dgvLines.Size = new System.Drawing.Size(772, 148);
             this.dgvLines.TabIndex = 0;
             // 
             // colType
@@ -255,7 +260,7 @@
             this.tbcDetails.Location = new System.Drawing.Point(0, 0);
             this.tbcDetails.Name = "tbcDetails";
             this.tbcDetails.SelectedIndex = 0;
-            this.tbcDetails.Size = new System.Drawing.Size(786, 338);
+            this.tbcDetails.Size = new System.Drawing.Size(786, 402);
             this.tbcDetails.TabIndex = 4;
             // 
             // tabPOInfo
@@ -264,7 +269,7 @@
             this.tabPOInfo.Location = new System.Drawing.Point(4, 22);
             this.tabPOInfo.Name = "tabPOInfo";
             this.tabPOInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPOInfo.Size = new System.Drawing.Size(778, 312);
+            this.tabPOInfo.Size = new System.Drawing.Size(778, 376);
             this.tabPOInfo.TabIndex = 0;
             this.tabPOInfo.Text = "Purchase Order Information";
             this.tabPOInfo.UseVisualStyleBackColor = true;
@@ -289,11 +294,16 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.lnkTaxBreakdown);
+            this.splitContainer1.Panel2.Controls.Add(this.txtGrossTotal);
+            this.splitContainer1.Panel2.Controls.Add(this.txtEstTax);
+            this.splitContainer1.Panel2.Controls.Add(this.label17);
+            this.splitContainer1.Panel2.Controls.Add(this.label18);
             this.splitContainer1.Panel2.Controls.Add(this.label7);
             this.splitContainer1.Panel2.Controls.Add(this.txtTotal);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.dgvLines);
-            this.splitContainer1.Size = new System.Drawing.Size(772, 306);
+            this.splitContainer1.Size = new System.Drawing.Size(772, 370);
             this.splitContainer1.SplitterDistance = 154;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -307,11 +317,61 @@
             this.label5.TabIndex = 3;
             this.label5.Text = "Purchase Order Information";
             // 
+            // lnkTaxBreakdown
+            // 
+            this.lnkTaxBreakdown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lnkTaxBreakdown.AutoSize = true;
+            this.lnkTaxBreakdown.Location = new System.Drawing.Point(251, 195);
+            this.lnkTaxBreakdown.Name = "lnkTaxBreakdown";
+            this.lnkTaxBreakdown.Size = new System.Drawing.Size(82, 13);
+            this.lnkTaxBreakdown.TabIndex = 14;
+            this.lnkTaxBreakdown.TabStop = true;
+            this.lnkTaxBreakdown.Text = "Tax Breakdown";
+            this.lnkTaxBreakdown.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTaxBreakdown_LinkClicked);
+            // 
+            // txtGrossTotal
+            // 
+            this.txtGrossTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtGrossTotal.Location = new System.Drawing.Point(417, 173);
+            this.txtGrossTotal.Name = "txtGrossTotal";
+            this.txtGrossTotal.ReadOnly = true;
+            this.txtGrossTotal.Size = new System.Drawing.Size(62, 20);
+            this.txtGrossTotal.TabIndex = 12;
+            // 
+            // txtEstTax
+            // 
+            this.txtEstTax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtEstTax.Location = new System.Drawing.Point(261, 173);
+            this.txtEstTax.Name = "txtEstTax";
+            this.txtEstTax.ReadOnly = true;
+            this.txtEstTax.Size = new System.Drawing.Size(62, 20);
+            this.txtEstTax.TabIndex = 13;
+            // 
+            // label17
+            // 
+            this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(329, 176);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(82, 13);
+            this.label17.TabIndex = 10;
+            this.label17.Text = "Est Gross Total:";
+            // 
+            // label18
+            // 
+            this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(209, 176);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(46, 13);
+            this.label18.TabIndex = 11;
+            this.label18.Text = "Est Tax:";
+            // 
             // label7
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 128);
+            this.label7.Location = new System.Drawing.Point(5, 176);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(111, 13);
             this.label7.TabIndex = 2;
@@ -320,7 +380,7 @@
             // txtTotal
             // 
             this.txtTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtTotal.Location = new System.Drawing.Point(120, 125);
+            this.txtTotal.Location = new System.Drawing.Point(122, 173);
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
             this.txtTotal.Size = new System.Drawing.Size(81, 20);
@@ -360,7 +420,7 @@
             this.tabFulfillmentPlans.Location = new System.Drawing.Point(4, 22);
             this.tabFulfillmentPlans.Name = "tabFulfillmentPlans";
             this.tabFulfillmentPlans.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFulfillmentPlans.Size = new System.Drawing.Size(778, 312);
+            this.tabFulfillmentPlans.Size = new System.Drawing.Size(778, 376);
             this.tabFulfillmentPlans.TabIndex = 1;
             this.tabFulfillmentPlans.Text = "Fulfillment Plans";
             this.tabFulfillmentPlans.UseVisualStyleBackColor = true;
@@ -586,8 +646,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tbcDetails);
-            this.splitContainer2.Size = new System.Drawing.Size(786, 561);
-            this.splitContainer2.SplitterDistance = 219;
+            this.splitContainer2.Size = new System.Drawing.Size(786, 611);
+            this.splitContainer2.SplitterDistance = 205;
             this.splitContainer2.TabIndex = 5;
             // 
             // cmdWithdrawSubmission
@@ -595,7 +655,7 @@
             this.cmdWithdrawSubmission.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdWithdrawSubmission.BackColor = System.Drawing.Color.Red;
             this.cmdWithdrawSubmission.ForeColor = System.Drawing.Color.White;
-            this.cmdWithdrawSubmission.Location = new System.Drawing.Point(671, 599);
+            this.cmdWithdrawSubmission.Location = new System.Drawing.Point(671, 649);
             this.cmdWithdrawSubmission.Name = "cmdWithdrawSubmission";
             this.cmdWithdrawSubmission.Size = new System.Drawing.Size(127, 23);
             this.cmdWithdrawSubmission.TabIndex = 6;
@@ -607,7 +667,7 @@
             // 
             this.loader.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(307, 264);
+            this.loader.Location = new System.Drawing.Point(307, 289);
             this.loader.Name = "loader";
             this.loader.Size = new System.Drawing.Size(196, 101);
             this.loader.TabIndex = 7;
@@ -617,7 +677,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(810, 629);
+            this.ClientSize = new System.Drawing.Size(810, 679);
             this.Controls.Add(this.loader);
             this.Controls.Add(this.cmdWithdrawSubmission);
             this.Controls.Add(this.splitContainer2);
@@ -698,5 +758,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colUnitCost;
         private System.Windows.Forms.DataGridViewTextBoxColumn colLineTotal;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colHasFulfillmentPlan;
+        private System.Windows.Forms.LinkLabel lnkTaxBreakdown;
+        private System.Windows.Forms.TextBox txtGrossTotal;
+        private System.Windows.Forms.TextBox txtEstTax;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
     }
 }

@@ -1,11 +1,14 @@
 ﻿using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using CompanyStudio.Purchasing.DraftEntry;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
+using MesaSuite.Common.Utility;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -77,6 +80,25 @@ namespace CompanyStudio.Purchasing.ApprovalViewer
                 }
 
                 txtTotal.Text = runningTotal.ToString("N2");
+
+                List<SalesTax> salesTaxes = new List<SalesTax>();
+                if (purchaseOrder.GovernmentIDDestination != null)
+                {
+                    txtEstTax.Text = "0.00";
+                    txtGrossTotal.Text = txtTotal.Text;
+                }
+                else
+                {
+                    get = new GetData(DataAccess.APIs.CompanyStudio, "SalesTax/GetEffectiveSalesTaxForLocation/" + purchaseOrder.LocationIDDestination);
+                    get.AddCompanyHeader(Company.CompanyID);
+                    salesTaxes = await get.GetObject<List<SalesTax>>() ?? new List<SalesTax>();
+
+                    decimal taxRate = salesTaxes.Sum(t => t.Rate) / 100M;
+                    txtEstTax.Text = (runningTotal * taxRate).ToString("N2");
+                    txtGrossTotal.Text = (runningTotal + (runningTotal * taxRate)).ToString("N2");
+                }
+
+                lnkTaxBreakdown.Tag = salesTaxes;
 
                 foreach(PurchaseOrderApproval approval in purchaseOrder.PurchaseOrderApprovals ?? new List<PurchaseOrderApproval>())
                 {
@@ -271,6 +293,23 @@ namespace CompanyStudio.Purchasing.ApprovalViewer
                     Studio.GetFleetTrackingApplication(Company.CompanyID)?.OpenLeaseRequestDetail(leaseRequest.LeaseRequestID);
                 }
             }
+        }
+
+        private void lnkTaxBreakdown_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (!(lnkTaxBreakdown.Tag is List<SalesTax> salesTaxes))
+            {
+                this.ShowInformation("No tax information available.");
+                return;
+            }
+
+            StringBuilder taxInformation = new StringBuilder();
+            foreach (SalesTax salesTax in salesTaxes)
+            {
+                taxInformation.AppendLine($"{salesTax.Government.Name}: {salesTax.Rate}%");
+            }
+
+            this.ShowInformation(taxInformation.ToString());
         }
     }
 }

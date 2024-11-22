@@ -252,6 +252,7 @@
             this.lnkFPRailcar.Size = new System.Drawing.Size(755, 20);
             this.lnkFPRailcar.TabIndex = 22;
             this.lnkFPRailcar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lnkFPRailcar.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFPRailcar_LinkClicked);
             // 
             // txtFPRailcarRouting
             // 

@@ -212,5 +212,19 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
             txtFPDestinationAfterFulfillment.Text = fulfillmentPlan.TrackPostFulfillment?.Name;
             txtFPRailcarRouting.Text = row.Cells[colFPRoute.Name].Value as string;
         }
+
+        private void lnkFPRailcar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Railcar railcar = lnkFPRailcar.Tag as Railcar;
+            if (railcar != null)
+            {
+                if (PermissionsManager.HasPermissionFleetTrack(Company.CompanyID ?? 0L, nameof(FleetTracking.Models.FleetSecurity.AllowSetup)) ||
+                    PermissionsManager.HasPermissionFleetTrack(Company.CompanyID ?? 0L, nameof(FleetTracking.Models.FleetSecurity.IsTrainCrew)) ||
+                    PermissionsManager.HasPermissionFleetTrack(Company.CompanyID ?? 0L, nameof(FleetTracking.Models.FleetSecurity.IsYardmaster)))
+                {
+                    Studio.GetFleetTrackingApplication(Company.CompanyID)?.OpenRailcarDetail(railcar.RailcarID);
+                }
+            }
+        }
     }
 }

@@ -317,6 +317,26 @@ namespace WebModels.invoicing
                 {
                     Status = Statuses.WorkInProgress;
                 }
+
+                if (IsFieldDirty(nameof(PurchaseOrderID)) && PurchaseOrderID == null)
+                {
+                    Search<InvoiceLine> invoiceLineSearch = new Search<InvoiceLine>(new LongSearchCondition<InvoiceLine>()
+                    {
+                        Field = nameof(InvoiceLine.InvoiceID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = InvoiceID
+                    });
+
+                    foreach (InvoiceLine invoiceLine in invoiceLineSearch.GetEditableReader(transaction))
+                    {
+                        invoiceLine.PurchaseOrderLineID = null;
+                        if (!invoiceLine.Save(transaction))
+                        {
+                            Errors.AddRange(invoiceLine.Errors.ToArray());
+                            return false;
+                        }
+                    }
+                }
             }
 
             return base.PreSave(transaction);

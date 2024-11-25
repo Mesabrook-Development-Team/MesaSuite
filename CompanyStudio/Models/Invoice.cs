@@ -17,6 +17,8 @@ namespace CompanyStudio.Models
         public Government GovernmentTo { get; set; }
         public long? LocationIDTo { get; set; }
         public Location LocationTo { get; set; }
+        public long? PurchaseOrderID { get; set; }
+        public PurchaseOrder PurchaseOrder { get; set; }
         public string InvoiceNumber { get; set; }
         public string Description { get; set; }
         public DateTime InvoiceDate { get; set; }

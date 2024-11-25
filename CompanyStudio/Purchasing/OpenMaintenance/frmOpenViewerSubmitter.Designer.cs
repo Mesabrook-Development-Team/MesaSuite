@@ -71,6 +71,12 @@
             this.colFulfillmentTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIsComplete = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabInvoices = new System.Windows.Forms.TabPage();
+            this.dgvInvoices = new System.Windows.Forms.DataGridView();
+            this.colInvoiceNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colInvoiceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDueDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colInvoiceAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loader = new CompanyStudio.Loader();
             this.tabControl1.SuspendLayout();
             this.tabPOInfo.SuspendLayout();
@@ -79,6 +85,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillmentPlans)).BeginInit();
             this.tabFulfillments.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillments)).BeginInit();
+            this.tabInvoices.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInvoices)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -514,12 +522,69 @@
             // 
             // tabInvoices
             // 
+            this.tabInvoices.Controls.Add(this.dgvInvoices);
             this.tabInvoices.Location = new System.Drawing.Point(4, 22);
             this.tabInvoices.Name = "tabInvoices";
             this.tabInvoices.Size = new System.Drawing.Size(916, 492);
             this.tabInvoices.TabIndex = 2;
             this.tabInvoices.Text = "Invoices";
             this.tabInvoices.UseVisualStyleBackColor = true;
+            // 
+            // dgvInvoices
+            // 
+            this.dgvInvoices.AllowUserToAddRows = false;
+            this.dgvInvoices.AllowUserToDeleteRows = false;
+            this.dgvInvoices.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvInvoices.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colInvoiceNumber,
+            this.colInvoiceDate,
+            this.colDueDate,
+            this.colStatus,
+            this.colInvoiceAmount});
+            this.dgvInvoices.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvInvoices.Location = new System.Drawing.Point(0, 0);
+            this.dgvInvoices.Name = "dgvInvoices";
+            this.dgvInvoices.ReadOnly = true;
+            this.dgvInvoices.RowHeadersVisible = false;
+            this.dgvInvoices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvInvoices.Size = new System.Drawing.Size(916, 492);
+            this.dgvInvoices.TabIndex = 0;
+            this.dgvInvoices.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInvoices_CellDoubleClick);
+            // 
+            // colInvoiceNumber
+            // 
+            this.colInvoiceNumber.HeaderText = "Invoice Number";
+            this.colInvoiceNumber.Name = "colInvoiceNumber";
+            this.colInvoiceNumber.ReadOnly = true;
+            this.colInvoiceNumber.Width = 150;
+            // 
+            // colInvoiceDate
+            // 
+            this.colInvoiceDate.HeaderText = "Invoice Date";
+            this.colInvoiceDate.Name = "colInvoiceDate";
+            this.colInvoiceDate.ReadOnly = true;
+            this.colInvoiceDate.Width = 150;
+            // 
+            // colDueDate
+            // 
+            this.colDueDate.HeaderText = "Due Date";
+            this.colDueDate.Name = "colDueDate";
+            this.colDueDate.ReadOnly = true;
+            this.colDueDate.Width = 150;
+            // 
+            // colStatus
+            // 
+            this.colStatus.HeaderText = "Status";
+            this.colStatus.Name = "colStatus";
+            this.colStatus.ReadOnly = true;
+            this.colStatus.Width = 150;
+            // 
+            // colInvoiceAmount
+            // 
+            this.colInvoiceAmount.HeaderText = "Amount";
+            this.colInvoiceAmount.Name = "colInvoiceAmount";
+            this.colInvoiceAmount.ReadOnly = true;
+            this.colInvoiceAmount.Width = 150;
             // 
             // loader
             // 
@@ -553,6 +618,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillmentPlans)).EndInit();
             this.tabFulfillments.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillments)).EndInit();
+            this.tabInvoices.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInvoices)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -603,5 +670,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colQuantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFulfillmentTime;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colIsComplete;
+        private System.Windows.Forms.DataGridView dgvInvoices;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colInvoiceNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colInvoiceDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDueDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colInvoiceAmount;
     }
 }

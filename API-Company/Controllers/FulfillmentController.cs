@@ -218,5 +218,44 @@ namespace API_Company.Controllers
 
             return Ok();
         }
+
+        public struct PutInvoiceLineParameter
+        {
+            public long? FulfillmentID { get; set; }
+            public long? InvoiceLineID { get; set; }
+        }
+
+        [HttpPut]
+        [LocationAccess(OptionalPermissions = new[] { nameof(LocationEmployee.ManageInvoices), nameof(LocationEmployee.ManagePurchaseOrders) })]
+        public async Task<IHttpActionResult> PutInvoiceLine(PutInvoiceLineParameter parameter)
+        {
+            Search<Fulfillment> fulfillmentSearch = new Search<Fulfillment>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<Fulfillment>()
+                {
+                    Field = nameof(Fulfillment.FulfillmentID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = parameter.FulfillmentID
+                },
+                new LongSearchCondition<Fulfillment>()
+                {
+                    Field = FieldPathUtility.CreateFieldPath<Fulfillment>(f => f.PurchaseOrderLine.PurchaseOrder.LocationIDDestination),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = LocationID
+                }));
+
+            Fulfillment fulfillment = await Task.Run(() => fulfillmentSearch.GetEditable());
+            if (fulfillment == null)
+            {
+                return NotFound();
+            }
+
+            fulfillment.InvoiceLineID = parameter.InvoiceLineID;
+            if (!await Task.Run(() => fulfillment.Save()))
+            {
+                return fulfillment.HandleFailedValidation(this);
+            }
+
+            return Ok(await Task.Run(() => DataObject.GetReadOnlyByPrimaryKey<Fulfillment>(fulfillment.FulfillmentID, null, _fields)));
+        }
     }
 }

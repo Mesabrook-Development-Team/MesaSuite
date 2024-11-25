@@ -55,6 +55,8 @@
             this.colRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAppliedAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lnkPurchaseOrder = new System.Windows.Forms.LinkLabel();
+            this.label11 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cboAccount = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -69,6 +71,8 @@
             this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUnitCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colLineTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPOLine = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFulfillment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLineItems)).BeginInit();
             this.grpTaxes.SuspendLayout();
@@ -84,7 +88,7 @@
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.Location = new System.Drawing.Point(3, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(581, 36);
+            this.lblTitle.Size = new System.Drawing.Size(855, 36);
             this.lblTitle.TabIndex = 1;
             this.lblTitle.Text = "INVOICE";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -105,7 +109,7 @@
             this.txtPayee.Location = new System.Drawing.Point(90, 3);
             this.txtPayee.Name = "txtPayee";
             this.txtPayee.ReadOnly = true;
-            this.txtPayee.Size = new System.Drawing.Size(491, 20);
+            this.txtPayee.Size = new System.Drawing.Size(748, 20);
             this.txtPayee.TabIndex = 0;
             // 
             // label2
@@ -124,13 +128,13 @@
             this.txtPayor.Location = new System.Drawing.Point(90, 29);
             this.txtPayor.Name = "txtPayor";
             this.txtPayor.ReadOnly = true;
-            this.txtPayor.Size = new System.Drawing.Size(491, 20);
+            this.txtPayor.Size = new System.Drawing.Size(748, 20);
             this.txtPayor.TabIndex = 1;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1, 58);
+            this.label3.Location = new System.Drawing.Point(1, 84);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(85, 13);
             this.label3.TabIndex = 2;
@@ -140,16 +144,16 @@
             // 
             this.txtInvoiceNumber.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInvoiceNumber.Location = new System.Drawing.Point(90, 55);
+            this.txtInvoiceNumber.Location = new System.Drawing.Point(90, 81);
             this.txtInvoiceNumber.Name = "txtInvoiceNumber";
             this.txtInvoiceNumber.ReadOnly = true;
-            this.txtInvoiceNumber.Size = new System.Drawing.Size(491, 20);
+            this.txtInvoiceNumber.Size = new System.Drawing.Size(748, 20);
             this.txtInvoiceNumber.TabIndex = 2;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1, 84);
+            this.label4.Location = new System.Drawing.Point(1, 110);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(71, 13);
             this.label4.TabIndex = 2;
@@ -160,15 +164,15 @@
             this.dtpInvoiceDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpInvoiceDate.Enabled = false;
-            this.dtpInvoiceDate.Location = new System.Drawing.Point(90, 81);
+            this.dtpInvoiceDate.Location = new System.Drawing.Point(90, 107);
             this.dtpInvoiceDate.Name = "dtpInvoiceDate";
-            this.dtpInvoiceDate.Size = new System.Drawing.Size(491, 20);
+            this.dtpInvoiceDate.Size = new System.Drawing.Size(748, 20);
             this.dtpInvoiceDate.TabIndex = 3;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(1, 110);
+            this.label5.Location = new System.Drawing.Point(1, 136);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(56, 13);
             this.label5.TabIndex = 2;
@@ -179,15 +183,15 @@
             this.dtpDueDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpDueDate.Enabled = false;
-            this.dtpDueDate.Location = new System.Drawing.Point(90, 107);
+            this.dtpDueDate.Location = new System.Drawing.Point(90, 133);
             this.dtpDueDate.Name = "dtpDueDate";
-            this.dtpDueDate.Size = new System.Drawing.Size(491, 20);
+            this.dtpDueDate.Size = new System.Drawing.Size(748, 20);
             this.dtpDueDate.TabIndex = 4;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(1, 136);
+            this.label6.Location = new System.Drawing.Point(1, 162);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(63, 13);
             this.label6.TabIndex = 2;
@@ -197,12 +201,12 @@
             // 
             this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Location = new System.Drawing.Point(4, 152);
+            this.txtDescription.Location = new System.Drawing.Point(4, 178);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ReadOnly = true;
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(577, 70);
+            this.txtDescription.Size = new System.Drawing.Size(834, 70);
             this.txtDescription.TabIndex = 5;
             // 
             // groupBox1
@@ -212,9 +216,9 @@
             this.groupBox1.Controls.Add(this.txtSubtotal);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.dgvLineItems);
-            this.groupBox1.Location = new System.Drawing.Point(4, 228);
+            this.groupBox1.Location = new System.Drawing.Point(4, 254);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(580, 152);
+            this.groupBox1.Size = new System.Drawing.Size(837, 152);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Invoice Line Items";
@@ -226,7 +230,7 @@
             this.txtSubtotal.Location = new System.Drawing.Point(67, 124);
             this.txtSubtotal.Name = "txtSubtotal";
             this.txtSubtotal.ReadOnly = true;
-            this.txtSubtotal.Size = new System.Drawing.Size(510, 20);
+            this.txtSubtotal.Size = new System.Drawing.Size(767, 20);
             this.txtSubtotal.TabIndex = 1;
             // 
             // label8
@@ -253,13 +257,15 @@
             this.colDescription,
             this.colQuantity,
             this.colUnitCost,
-            this.colLineTotal});
+            this.colLineTotal,
+            this.colPOLine,
+            this.colFulfillment});
             this.dgvLineItems.Location = new System.Drawing.Point(6, 19);
             this.dgvLineItems.Name = "dgvLineItems";
             this.dgvLineItems.ReadOnly = true;
             this.dgvLineItems.RowHeadersVisible = false;
             this.dgvLineItems.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvLineItems.Size = new System.Drawing.Size(571, 99);
+            this.dgvLineItems.Size = new System.Drawing.Size(828, 99);
             this.dgvLineItems.TabIndex = 0;
             this.dgvLineItems.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLineItems_CellClick);
             // 
@@ -270,9 +276,9 @@
             this.grpTaxes.Controls.Add(this.txtTaxTotal);
             this.grpTaxes.Controls.Add(this.label7);
             this.grpTaxes.Controls.Add(this.dgvTaxes);
-            this.grpTaxes.Location = new System.Drawing.Point(4, 386);
+            this.grpTaxes.Location = new System.Drawing.Point(4, 412);
             this.grpTaxes.Name = "grpTaxes";
-            this.grpTaxes.Size = new System.Drawing.Size(577, 125);
+            this.grpTaxes.Size = new System.Drawing.Size(834, 125);
             this.grpTaxes.TabIndex = 7;
             this.grpTaxes.TabStop = false;
             this.grpTaxes.Text = "Taxes";
@@ -284,7 +290,7 @@
             this.txtTaxTotal.Location = new System.Drawing.Point(71, 100);
             this.txtTaxTotal.Name = "txtTaxTotal";
             this.txtTaxTotal.ReadOnly = true;
-            this.txtTaxTotal.Size = new System.Drawing.Size(503, 20);
+            this.txtTaxTotal.Size = new System.Drawing.Size(760, 20);
             this.txtTaxTotal.TabIndex = 1;
             // 
             // label7
@@ -316,7 +322,7 @@
             this.dgvTaxes.ReadOnly = true;
             this.dgvTaxes.RowHeadersVisible = false;
             this.dgvTaxes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTaxes.Size = new System.Drawing.Size(571, 79);
+            this.dgvTaxes.Size = new System.Drawing.Size(828, 79);
             this.dgvTaxes.TabIndex = 0;
             // 
             // colMunicipality
@@ -345,6 +351,8 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.lnkPurchaseOrder);
+            this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.grpTaxes);
@@ -362,8 +370,29 @@
             this.panel1.Controls.Add(this.txtDescription);
             this.panel1.Location = new System.Drawing.Point(12, 48);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(588, 606);
+            this.panel1.Size = new System.Drawing.Size(862, 606);
             this.panel1.TabIndex = 0;
+            // 
+            // lnkPurchaseOrder
+            // 
+            this.lnkPurchaseOrder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkPurchaseOrder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lnkPurchaseOrder.Location = new System.Drawing.Point(90, 55);
+            this.lnkPurchaseOrder.Name = "lnkPurchaseOrder";
+            this.lnkPurchaseOrder.Size = new System.Drawing.Size(748, 20);
+            this.lnkPurchaseOrder.TabIndex = 10;
+            this.lnkPurchaseOrder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lnkPurchaseOrder.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPurchaseOrder_LinkClicked);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(1, 57);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(84, 13);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "Purchase Order:";
             // 
             // groupBox3
             // 
@@ -373,9 +402,9 @@
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.txtInvoiceTotal);
             this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Location = new System.Drawing.Point(4, 517);
+            this.groupBox3.Location = new System.Drawing.Point(4, 543);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(577, 77);
+            this.groupBox3.Size = new System.Drawing.Size(834, 77);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Payable Information";
@@ -388,7 +417,7 @@
             this.cboAccount.FormattingEnabled = true;
             this.cboAccount.Location = new System.Drawing.Point(103, 45);
             this.cboAccount.Name = "cboAccount";
-            this.cboAccount.Size = new System.Drawing.Size(471, 21);
+            this.cboAccount.Size = new System.Drawing.Size(728, 21);
             this.cboAccount.TabIndex = 1;
             // 
             // label10
@@ -407,7 +436,7 @@
             this.txtInvoiceTotal.Location = new System.Drawing.Point(103, 19);
             this.txtInvoiceTotal.Name = "txtInvoiceTotal";
             this.txtInvoiceTotal.ReadOnly = true;
-            this.txtInvoiceTotal.Size = new System.Drawing.Size(471, 20);
+            this.txtInvoiceTotal.Size = new System.Drawing.Size(728, 20);
             this.txtInvoiceTotal.TabIndex = 0;
             // 
             // label9
@@ -424,7 +453,7 @@
             // cmdSave
             // 
             this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSave.Location = new System.Drawing.Point(518, 660);
+            this.cmdSave.Location = new System.Drawing.Point(792, 660);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
             this.cmdSave.TabIndex = 1;
@@ -435,7 +464,7 @@
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.Location = new System.Drawing.Point(437, 661);
+            this.cmdCancel.Location = new System.Drawing.Point(711, 661);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 2;
@@ -445,7 +474,7 @@
             // cmdAuthorize
             // 
             this.cmdAuthorize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdAuthorize.Location = new System.Drawing.Point(323, 661);
+            this.cmdAuthorize.Location = new System.Drawing.Point(597, 661);
             this.cmdAuthorize.Name = "cmdAuthorize";
             this.cmdAuthorize.Size = new System.Drawing.Size(108, 23);
             this.cmdAuthorize.TabIndex = 3;
@@ -461,7 +490,7 @@
             this.loader.BackColor = System.Drawing.Color.Transparent;
             this.loader.Location = new System.Drawing.Point(0, 0);
             this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(600, 697);
+            this.loader.Size = new System.Drawing.Size(874, 697);
             this.loader.TabIndex = 8;
             this.loader.Visible = false;
             // 
@@ -499,12 +528,28 @@
             this.colLineTotal.Name = "colLineTotal";
             this.colLineTotal.ReadOnly = true;
             // 
+            // colPOLine
+            // 
+            this.colPOLine.HeaderText = "PO Line";
+            this.colPOLine.Name = "colPOLine";
+            this.colPOLine.ReadOnly = true;
+            this.colPOLine.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colPOLine.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colFulfillment
+            // 
+            this.colFulfillment.HeaderText = "Fulfillment";
+            this.colFulfillment.Name = "colFulfillment";
+            this.colFulfillment.ReadOnly = true;
+            this.colFulfillment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colFulfillment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // frmPayableInvoice
             // 
             this.AcceptButton = this.cmdSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(605, 695);
+            this.ClientSize = new System.Drawing.Size(879, 695);
             this.Controls.Add(this.cmdAuthorize);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);
@@ -568,10 +613,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colMunicipality;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAppliedAmount;
+        private System.Windows.Forms.LinkLabel lnkPurchaseOrder;
+        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.DataGridViewButtonColumn colItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescription;
         private System.Windows.Forms.DataGridViewTextBoxColumn colQuantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUnitCost;
         private System.Windows.Forms.DataGridViewTextBoxColumn colLineTotal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPOLine;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFulfillment;
     }
 }

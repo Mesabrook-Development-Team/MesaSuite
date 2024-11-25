@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.mesasys;
@@ -104,11 +105,43 @@ namespace WebModels.invoicing
             get { CheckGet(); return _purchaseOrderLine; }
         }
 
+        private Fulfillment _fulfillment = null;
+        [Relationship("21B6EF16-D1F4-4F0E-87BC-D34971D19192", OneToOneByForeignKey = true)]
+        public Fulfillment Fulfillment
+        {
+            get { CheckGet(); return _fulfillment; }
+        }
+
         protected override void PreValidate()
         {
             base.PreValidate();
 
             Total = Math.Round((Quantity ?? 0M) * (UnitCost ?? 0M), 2, MidpointRounding.AwayFromZero);
+        }
+
+        protected override bool PreSave(ITransaction transaction)
+        {
+            if (!IsInsert && IsFieldDirty(nameof(PurchaseOrderLineID)) && PurchaseOrderLineID == null)
+            {
+                Search<Fulfillment> fulfillmentSearch = new Search<Fulfillment>(new LongSearchCondition<Fulfillment>()
+                {
+                    Field = nameof(Fulfillment.InvoiceLineID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = InvoiceLineID
+                });
+
+                foreach (Fulfillment fulfillment in fulfillmentSearch.GetEditableReader(transaction))
+                {
+                    fulfillment.PurchaseOrderLineID = null;
+                    if (!fulfillment.Save(transaction))
+                    {
+                        Errors.AddRange(fulfillment.Errors.ToArray());
+                        return false;
+                    }
+                }
+            }
+
+            return base.PreSave(transaction);
         }
 
         protected override bool PostSave(ITransaction transaction)
@@ -130,16 +163,5 @@ namespace WebModels.invoicing
 
             return base.PostSave(transaction);
         }
-
-        #region Relationships
-        #region purchasing
-        private List<Fulfillment> _fulfillments = new List<Fulfillment>();
-        [RelationshipList("442C25EF-FBAE-4F3C-9557-1D2A6F037D75", nameof(Fulfillment.InvoiceLineID), AutoRemoveReferences = true)]
-        public List<Fulfillment> Fulfillments
-        {
-            get { CheckGet(); return _fulfillments; }
-        }
-        #endregion
-        #endregion
     }
 }

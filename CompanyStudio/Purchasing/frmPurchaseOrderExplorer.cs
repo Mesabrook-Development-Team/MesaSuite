@@ -149,73 +149,7 @@ namespace CompanyStudio.Purchasing
 
         private void toolAddPurchaseOrder_Click(object sender, EventArgs e)
         {
-            OpenPurchaseOrder();
-        }
-
-        private void OpenPurchaseOrder(PurchaseOrder purchaseOrder = null)
-        {
-            PurchaseOrder.Statuses status = purchaseOrder?.Status ?? PurchaseOrder.Statuses.Draft;
-
-            switch (status)
-            {
-                case PurchaseOrder.Statuses.Draft:
-                    DraftEntry.frmPurchaseOrder draftEntry = new DraftEntry.frmPurchaseOrder();
-                    Studio.DecorateStudioContent(draftEntry);
-                    draftEntry.Company = Company;
-                    draftEntry.LocationModel = LocationModel;
-                    draftEntry.PurchaseOrderID = purchaseOrder?.PurchaseOrderID;
-                    draftEntry.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
-                    break;
-                case PurchaseOrder.Statuses.Pending:
-                    if (purchaseOrder.LocationIDOrigin == LocationModel.LocationID)
-                    {
-                        ApprovalViewer.frmApprovalViewerSubmitter approvalViewerSubmitter = new ApprovalViewer.frmApprovalViewerSubmitter()
-                        {
-                            PurchaseOrderID = purchaseOrder.PurchaseOrderID
-                        };
-                        Studio.DecorateStudioContent(approvalViewerSubmitter);
-                        approvalViewerSubmitter.Company = Company;
-                        approvalViewerSubmitter.LocationModel = LocationModel;
-                        approvalViewerSubmitter.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
-                    }
-                    else if (purchaseOrder.LocationIDDestination == LocationModel.LocationID || purchaseOrder.PurchaseOrderApprovals.Any(poa => poa.CompanyIDApprover == Company.CompanyID))
-                    {
-                        ApprovalViewer.frmApprovalViewerApprover approvalViewerApprover = new ApprovalViewer.frmApprovalViewerApprover()
-                        {
-                            PurchaseOrderID = purchaseOrder.PurchaseOrderID
-                        };
-                        Studio.DecorateStudioContent(approvalViewerApprover);
-                        approvalViewerApprover.Company = Company;
-                        approvalViewerApprover.LocationModel = LocationModel;
-                        approvalViewerApprover.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
-                    }
-                    break;
-                case PurchaseOrder.Statuses.Accepted:
-                case PurchaseOrder.Statuses.InProgress:
-                    if (purchaseOrder.LocationIDOrigin == LocationModel.LocationID)
-                    {
-                        OpenMaintenance.frmOpenViewerSubmitter openMaintenanceSubmitter = new OpenMaintenance.frmOpenViewerSubmitter()
-                        {
-                            PurchaseOrderID = purchaseOrder.PurchaseOrderID
-                        };
-                        Studio.DecorateStudioContent(openMaintenanceSubmitter);
-                        openMaintenanceSubmitter.Company = Company;
-                        openMaintenanceSubmitter.LocationModel = LocationModel;
-                        openMaintenanceSubmitter.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
-                    }
-                    else if (purchaseOrder.LocationIDDestination == LocationModel.LocationID)
-                    {
-                        OpenMaintenance.frmOpenPurchaseOrderReceiver openMaintenanceReceiver = new OpenMaintenance.frmOpenPurchaseOrderReceiver()
-                        {
-                            PurchaseOrderID = purchaseOrder.PurchaseOrderID
-                        };
-                        Studio.DecorateStudioContent(openMaintenanceReceiver);
-                        openMaintenanceReceiver.Company = Company;
-                        openMaintenanceReceiver.LocationModel = LocationModel;
-                        openMaintenanceReceiver.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
-                    }
-                    break;
-            }
+            PurchaseOrder.OpenPurchaseOrderForm(this);
         }
 
         private async void PurchaseOrder_OnSave(object sender, long? purchaseOrderID)
@@ -251,7 +185,7 @@ namespace CompanyStudio.Purchasing
         {
             if (e.Node.Tag is PurchaseOrder purchaseOrder)
             {
-                OpenPurchaseOrder(purchaseOrder);
+                PurchaseOrder.OpenPurchaseOrderForm(this, purchaseOrder);
             }
         }
 
@@ -318,7 +252,7 @@ namespace CompanyStudio.Purchasing
                 if (post.RequestSuccessful)
                 {
                     await ReloadTree(newPO.PurchaseOrderID);
-                    OpenPurchaseOrder(newPO);
+                    PurchaseOrder.OpenPurchaseOrderForm(this, newPO);
                 }
             }
         }

@@ -29,6 +29,13 @@ namespace CompanyStudio.Invoicing
         public frmReceivableInvoice()
         {
             InitializeComponent();
+            colPOLine.ValueType = typeof(long?);
+            colPOLine.ValueMember = nameof(PurchaseOrderLine.PurchaseOrderLineID);
+            colPOLine.DisplayMember = nameof(PurchaseOrderLine.DisplayString);
+
+            colFulfillment.ValueType = typeof(long?);
+            colFulfillment.ValueMember = nameof(Fulfillment.FulfillmentID);
+            colFulfillment.DisplayMember = nameof(Fulfillment.DisplayString);
         }
 
         private async void frmReceivableInvoice_Load(object sender, EventArgs e)
@@ -43,135 +50,149 @@ namespace CompanyStudio.Invoicing
             loader.Visible = false;
         }
 
+        private bool _loading = false;
         private async Task LoadForm()
         {
-            dgvLines.Rows.Clear();
-
-            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Company/GetAll");
-            get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-            companyList = await get.GetObject<List<Company>>() ?? new List<Company>();
-
-            get.Resource = $"Location/Get/{LocationModel.LocationID}";
-            Location location = await get.GetObject<Location>() ?? new Location();
-
-            txtPayee.Text = $"{Company.Name} - {LocationModel.Name}";
-            txtInvoiceNumber.Text = location.InvoiceNumberPrefix + location.NextInvoiceNumber;
-
-            if (!string.IsNullOrEmpty(txtInvoiceNumber.Text))
+            try
             {
-                Text = $"{txtInvoiceNumber.Text} [AR]";
-            }
+                _loading = true;
+                dgvLines.Rows.Clear();
 
-            get.Resource = "Government/GetAll";
-            List<Government> governments = await get.GetObject<List<Government>>() ?? new List<Government>();
+                GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Company/GetAll");
+                get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                companyList = await get.GetObject<List<Company>>() ?? new List<Company>();
 
-            get.Resource = "Account/GetAllForUser";
-            List<Account> accounts = await get.GetObject<List<Account>>() ?? new List<Account>();
+                get.Resource = $"Location/Get/{LocationModel.LocationID}";
+                Location location = await get.GetObject<Location>() ?? new Location();
 
-            cboCompany.Items.Clear();
-            cboLocation.Items.Clear();
-            foreach (Company company in companyList)
-            {
-                cboCompany.Items.Add(new DropDownItem<Company>(company, company.Name));
-            }
+                txtPayee.Text = $"{Company.Name} - {LocationModel.Name}";
+                txtInvoiceNumber.Text = location.InvoiceNumberPrefix + location.NextInvoiceNumber;
 
-            cboGovernment.Items.Clear();
-            foreach (Government government in governments)
-            {
-                cboGovernment.Items.Add(new DropDownItem<Government>(government, government.Name));
-            }
-
-            lblTitle.Text = "INVOICE - " + Invoice?.Status.ToString().ToDisplayName() ?? Invoice.Statuses.WorkInProgress.ToString().ToDisplayName();
-
-            cboAccount.Items.Clear();
-            foreach (Account account in accounts)
-            {
-                cboAccount.Items.Add(new DropDownItem<Account>(account, $"{account.AccountNumber} ({account.Description})"));
-            }
-
-            cmdAction.Visible = false;
-            if (Invoice != null)
-            {
-                rdoCompany.Checked = Invoice.LocationIDTo != default;
-                rdoGovernment.Checked = Invoice.GovernmentIDTo != default;
-
-                if (rdoCompany.Checked)
+                if (!string.IsNullOrEmpty(txtInvoiceNumber.Text))
                 {
-                    cboCompany.SelectedItem = cboCompany.Items.Cast<DropDownItem<Company>>().FirstOrDefault(ddi => ddi.Object.CompanyID == Invoice.LocationTo.CompanyID);
-                    cboLocation.SelectedItem = cboLocation.Items.Cast<DropDownItem<Location>>().FirstOrDefault(ddi => ddi.Object.LocationID == Invoice.LocationIDTo);
-                }
-                else if (rdoGovernment.Checked)
-                {
-                    cboGovernment.SelectedItem = cboGovernment.Items.Cast<DropDownItem<Government>>().FirstOrDefault(ddi => ddi.Object.GovernmentID == Invoice.GovernmentIDTo);
+                    Text = $"{txtInvoiceNumber.Text} [AR]";
                 }
 
-                txtInvoiceNumber.Text = Invoice.InvoiceNumber;
-                dtpInvoiceDate.Value = Invoice.InvoiceDate;
-                dtpDueDate.Value = Invoice.DueDate;
-                txtDescription.Text = Invoice.Description;
-                if (Invoice.Status == Invoice.Statuses.Complete)
+                get.Resource = "Government/GetAll";
+                List<Government> governments = await get.GetObject<List<Government>>() ?? new List<Government>();
+
+                get.Resource = "Account/GetAllForUser";
+                List<Account> accounts = await get.GetObject<List<Account>>() ?? new List<Account>();
+
+                cboCompany.Items.Clear();
+                cboLocation.Items.Clear();
+                foreach (Company company in companyList)
                 {
-                    cboAccount.Items.Insert(0, new DropDownItem<Account>(new Account(), Invoice.AccountToHistorical));
-                    cboAccount.SelectedIndex = 0;
+                    cboCompany.Items.Add(new DropDownItem<Company>(company, company.Name));
+                }
+
+                cboGovernment.Items.Clear();
+                foreach (Government government in governments)
+                {
+                    cboGovernment.Items.Add(new DropDownItem<Government>(government, government.Name));
+                }
+
+                lblTitle.Text = "INVOICE - " + Invoice?.Status.ToString().ToDisplayName() ?? Invoice.Statuses.WorkInProgress.ToString().ToDisplayName();
+
+                cboAccount.Items.Clear();
+                foreach (Account account in accounts)
+                {
+                    cboAccount.Items.Add(new DropDownItem<Account>(account, $"{account.AccountNumber} ({account.Description})"));
+                }
+
+                cmdAction.Visible = false;
+                if (Invoice != null)
+                {
+                    rdoCompany.Checked = Invoice.LocationIDTo != default;
+                    rdoGovernment.Checked = Invoice.GovernmentIDTo != default;
+
+                    if (rdoCompany.Checked)
+                    {
+                        cboCompany.SelectedItem = cboCompany.Items.Cast<DropDownItem<Company>>().FirstOrDefault(ddi => ddi.Object.CompanyID == Invoice.LocationTo.CompanyID);
+                        cboLocation.SelectedItem = cboLocation.Items.Cast<DropDownItem<Location>>().FirstOrDefault(ddi => ddi.Object.LocationID == Invoice.LocationIDTo);
+                    }
+                    else if (rdoGovernment.Checked)
+                    {
+                        cboGovernment.SelectedItem = cboGovernment.Items.Cast<DropDownItem<Government>>().FirstOrDefault(ddi => ddi.Object.GovernmentID == Invoice.GovernmentIDTo);
+                    }
+
+                    await LoadPurchaseOrdersForEntity();
+
+                    txtInvoiceNumber.Text = Invoice.InvoiceNumber;
+                    dtpInvoiceDate.Value = Invoice.InvoiceDate;
+                    dtpDueDate.Value = Invoice.DueDate;
+                    txtDescription.Text = Invoice.Description;
+                    if (Invoice.Status == Invoice.Statuses.Complete)
+                    {
+                        cboAccount.Items.Insert(0, new DropDownItem<Account>(new Account(), Invoice.AccountToHistorical));
+                        cboAccount.SelectedIndex = 0;
+                    }
+                    else
+                    {
+                        cboAccount.SelectedItem = cboAccount.Items.Cast<DropDownItem<Account>>().FirstOrDefault(ddi => ddi.Object.AccountID == Invoice.AccountIDTo);
+                    }
+
+                    decimal invoiceTotal = 0M;
+                    if (Invoice.InvoiceLines != null)
+                    {
+                        foreach (InvoiceLine line in Invoice.InvoiceLines)
+                        {
+                            int rowIndex = dgvLines.Rows.Add();
+                            DataGridViewRow row = dgvLines.Rows[rowIndex];
+
+                            row.Cells["colInvoiceLineID"].Value = line.InvoiceLineID?.ToString();
+                            row.Cells[colItem.Name].Value = line.Item?.Name;
+                            row.Cells[colItem.Name].Tag = line.Item?.ItemID;
+                            row.Cells["colDescription"].Value = line.Description;
+                            row.Cells["colQuantity"].Value = line.Quantity.ToString();
+                            row.Cells["colUnitCost"].Value = line.UnitCost.ToString();
+                            row.Cells["colTotal"].Value = line.Total.ToString();
+                            row.Cells[colPOLine.Name].Value = line.PurchaseOrderLineID;
+                            row.Cells[colFulfillment.Name].Value = line.Fulfillment?.FulfillmentID;
+                            row.Tag = line;
+
+                            invoiceTotal += line.Total;
+                        }
+                    }
+
+                    txtTotal.Text = invoiceTotal.ToString("N2");
+                    _initialAmount = invoiceTotal;
+
+                    if (Invoice.Status == Invoice.Statuses.Complete)
+                    {
+                        foreach (Control control in Controls)
+                        {
+                            control.Enabled = false;
+                        }
+
+                        cmdAction.Visible = false;
+                        cmdSave.Visible = false;
+                        cmdCancel.Visible = false;
+                    }
+
+                    if (Invoice.Status == Invoice.Statuses.ReadyForReceipt)
+                    {
+                        actionButtonAction = ActionButtonActions.ReceivePayment;
+                        cmdAction.Visible = true;
+                        cmdAction.Text = "Receive Payment";
+                    }
+                    else if (Invoice.Status == Invoice.Statuses.WorkInProgress)
+                    {
+                        actionButtonAction = ActionButtonActions.IssueInvoice;
+                        cmdAction.Visible = true;
+                        cmdAction.Text = "Issue Invoice";
+                    }
                 }
                 else
-                {
-                    cboAccount.SelectedItem = cboAccount.Items.Cast<DropDownItem<Account>>().FirstOrDefault(ddi => ddi.Object.AccountID == Invoice.AccountIDTo);
-                }
-
-                decimal invoiceTotal = 0M;
-                if (Invoice.InvoiceLines != null)
-                {
-                    foreach (InvoiceLine line in Invoice.InvoiceLines)
-                    {
-                        int rowIndex = dgvLines.Rows.Add();
-                        DataGridViewRow row = dgvLines.Rows[rowIndex];
-
-                        row.Cells["colInvoiceLineID"].Value = line.InvoiceLineID?.ToString();
-                        row.Cells[colItem.Name].Value = line.Item?.Name;
-                        row.Cells[colItem.Name].Tag = line.Item?.ItemID;
-                        row.Cells["colDescription"].Value = line.Description;
-                        row.Cells["colQuantity"].Value = line.Quantity.ToString();
-                        row.Cells["colUnitCost"].Value = line.UnitCost.ToString();
-                        row.Cells["colTotal"].Value = line.Total.ToString();
-
-                        invoiceTotal += line.Total;
-                    }
-                }
-
-                txtTotal.Text = invoiceTotal.ToString("N2");
-                _initialAmount = invoiceTotal;
-
-                if (Invoice.Status == Invoice.Statuses.Complete)
-                {
-                    foreach(Control control in Controls)
-                    {
-                        control.Enabled = false;
-                    }
-
-                    cmdAction.Visible = false;
-                    cmdSave.Visible = false;
-                    cmdCancel.Visible = false;
-                }
-
-                if (Invoice.Status == Invoice.Statuses.ReadyForReceipt)
-                {
-                    actionButtonAction = ActionButtonActions.ReceivePayment;
-                    cmdAction.Visible = true;
-                    cmdAction.Text = "Receive Payment";
-                }
-                else if (Invoice.Status == Invoice.Statuses.WorkInProgress)
                 {
                     actionButtonAction = ActionButtonActions.IssueInvoice;
                     cmdAction.Visible = true;
                     cmdAction.Text = "Issue Invoice";
                 }
             }
-            else
+            finally
             {
-                actionButtonAction = ActionButtonActions.IssueInvoice;
-                cmdAction.Visible = true;
-                cmdAction.Text = "Issue Invoice";
+                _loading = false;
             }
         }
 
@@ -250,6 +271,38 @@ namespace CompanyStudio.Invoicing
             }
 
             txtTotal.Text = runningTotal.ToString("N2");
+
+            if (e.RowIndex >= 0 && e.RowIndex < dgvLines.Rows.Count)
+            {
+                if (e.ColumnIndex == colPOLine.Index)
+                {
+                    List<PurchaseOrderLine> purchaseOrderLines = colPOLine.DataSource as List<PurchaseOrderLine>;
+                    if (purchaseOrderLines != null)
+                    {
+                        long? selectedPOLineID = dgvLines[colPOLine.Index, e.RowIndex].Value as long?;
+                        dgvLines[colFulfillment.Index, e.RowIndex].Value = null;
+                        List<Fulfillment> newFulfillmentSource = (colPOLine.DataSource as List<PurchaseOrderLine>)?.Single(pol => pol.PurchaseOrderLineID == selectedPOLineID).Fulfillments.ToList() ?? new List<Fulfillment>();
+                        newFulfillmentSource.Insert(0, new Fulfillment());
+                        ((DataGridViewComboBoxCell)dgvLines[colFulfillment.Index, e.RowIndex]).DataSource = newFulfillmentSource;
+                        dgvLines.Refresh();
+                    }
+                }
+
+                if (e.ColumnIndex == colFulfillment.Index)
+                {
+                    long? selectedFulfillmentID = dgvLines[colFulfillment.Index, e.RowIndex].Value as long?;
+                    if (selectedFulfillmentID != null)
+                    {
+                        foreach(DataGridViewRow row in dgvLines.Rows.OfType<DataGridViewRow>().Where(aRow => !aRow.IsNewRow))
+                        {
+                            if (row.Index != e.RowIndex && row.Cells[colFulfillment.Index].Value as long? == selectedFulfillmentID)
+                            {
+                                row.Cells[colFulfillment.Index].Value = null;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void txtInvoiceNumber_TextChanged(object sender, EventArgs e)
@@ -333,6 +386,7 @@ namespace CompanyStudio.Invoicing
                 }
             }
 
+            invoiceToSave.PurchaseOrderID = cboPurchaseOrder.SelectedItem?.Cast<DropDownItem<PurchaseOrder>>()?.Object.PurchaseOrderID;
             invoiceToSave.InvoiceNumber = txtInvoiceNumber.Text;
             invoiceToSave.InvoiceDate = dtpInvoiceDate.Value;
             invoiceToSave.DueDate = dtpDueDate.Value;
@@ -376,6 +430,7 @@ namespace CompanyStudio.Invoicing
                     invoiceLine.Quantity = quantity;
                     invoiceLine.UnitCost = unitCost;
                     invoiceLine.ItemID = itemID;
+                    invoiceLine.PurchaseOrderLineID = row.Cells[colPOLine.Name].Value as long?;
 
                     if (!string.IsNullOrEmpty(strLineID) && long.TryParse(strLineID, out long lineID))
                     {
@@ -383,16 +438,48 @@ namespace CompanyStudio.Invoicing
                         handledLineIDs.Add(lineID);
                     }
 
+                    bool lineSaveSuccessful = false;
                     if (invoiceLine.InvoiceLineID == null)
                     {
                         PostData post = new PostData(DataAccess.APIs.CompanyStudio, "InvoiceLine/Post", invoiceLine);
                         post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-                        await post.ExecuteNoResult();
+                        invoiceLine = await post.Execute<InvoiceLine>();
                         saveSuccessful &= post.RequestSuccessful;
+                        lineSaveSuccessful = post.RequestSuccessful;
                     }
                     else
                     {
                         PutData put = new PutData(DataAccess.APIs.CompanyStudio, "InvoiceLine/Put", invoiceLine);
+                        put.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                        invoiceLine = await put.Execute<InvoiceLine>();
+                        saveSuccessful &= put.RequestSuccessful;
+                        lineSaveSuccessful = put.RequestSuccessful;
+                    }
+
+                    if (lineSaveSuccessful)
+                    {
+                        long? putInvoiceLineID = invoiceLine.InvoiceLineID;
+                        long? putFulfillmentID = row.Cells[colFulfillment.Name].Value as long?;
+
+                        if (putFulfillmentID == null)
+                        {
+                            InvoiceLine originalLine = row.Tag as InvoiceLine;
+                            if (originalLine?.Fulfillment?.FulfillmentID == null) // No change
+                            {
+                                continue;
+                            }
+
+                            if (dgvLines.Rows.Cast<DataGridViewRow>().Any(r => r != row && (long?)r.Cells[colFulfillment.Name].Value == originalLine.Fulfillment.FulfillmentID))
+                            {
+                                // Looks like someone else will update this Fulfillment
+                                continue;
+                            }
+
+                            putFulfillmentID = originalLine.Fulfillment.FulfillmentID;
+                            putInvoiceLineID = null;
+                        }
+
+                        PutData put = new PutData(DataAccess.APIs.CompanyStudio, "Fulfillment/PutInvoiceLine", new { FulfillmentID = putFulfillmentID, InvoiceLineID = putInvoiceLineID });
                         put.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
                         await put.ExecuteNoResult();
                         saveSuccessful &= put.RequestSuccessful;
@@ -493,6 +580,59 @@ namespace CompanyStudio.Invoicing
             Controls.Add(selector);
             selector.BringToFront();
             selector.Focus();
+        }
+
+        private void cboLocation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_loading) return;
+
+            LoadPurchaseOrdersForEntity();
+        }
+
+        private async Task LoadPurchaseOrdersForEntity()
+        {
+            cboPurchaseOrder.Items.Clear();
+            cboPurchaseOrder.SelectedItem = null;
+
+            if ((cboLocation.Enabled && cboLocation.SelectedItem != null && cboLocation.SelectedItem is DropDownItem<Location>) ||
+                (cboGovernment.Enabled && cboGovernment.SelectedItem != null && cboGovernment.SelectedItem is DropDownItem<Government>))
+            {
+                GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/GetAllRelatedToLocation");
+                get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                List<PurchaseOrder> purchaseOrders = await get.GetObject<List<PurchaseOrder>>() ?? new List<PurchaseOrder>();
+
+                foreach (PurchaseOrder po in purchaseOrders)
+                {
+                    cboPurchaseOrder.Items.Add(new DropDownItem<PurchaseOrder>(po, $"{po.PurchaseOrderID} (From {po.LocationOrigin?.Company.Name}{po.GovernmentOrigin?.Name}"));
+                }
+            }
+
+            cboPurchaseOrder.SelectedItem = cboPurchaseOrder.Items.OfType<DropDownItem<PurchaseOrder>>().FirstOrDefault(p => p.Object.PurchaseOrderID == Invoice?.PurchaseOrderID);
+        }
+
+        private void cboPurchaseOrder_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach(DataGridViewRow row in dgvLines.Rows.OfType<DataGridViewRow>().Where(row => !row.IsNewRow))
+            {
+                row.Cells[colFulfillment.Name].Value = null;
+                row.Cells[colPOLine.Name].Value = null;
+            }
+
+            colPOLine.DataSource = new List<PurchaseOrderLine>()
+            {
+                new PurchaseOrderLine()
+                {
+                    IsService = true
+                }
+            };
+            colFulfillment.DataSource = new List<Fulfillment>();
+
+            if (cboPurchaseOrder.SelectedItem is DropDownItem<PurchaseOrder> purchaseOrderItem)
+            {
+                List<PurchaseOrderLine> newPOLines = purchaseOrderItem.Object.PurchaseOrderLines.ToList();
+                newPOLines.Insert(0, new PurchaseOrderLine() { IsService = true });
+                colPOLine.DataSource = newPOLines;
+            }
         }
     }
 }

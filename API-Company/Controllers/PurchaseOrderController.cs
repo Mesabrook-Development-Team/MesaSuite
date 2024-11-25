@@ -188,6 +188,7 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
+        [LocationAccess(OptionalPermissions = new[] { nameof(LocationEmployee.ManagePurchaseOrders), nameof(LocationEmployee.ManageInvoices) })]
         public async Task<List<PurchaseOrder>> GetAllRelatedToLocation()
         {
             return await Task.Run(async () => new Search<PurchaseOrder>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,

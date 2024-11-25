@@ -1,6 +1,8 @@
 ﻿using CompanyStudio.Extensions;
+using CompanyStudio.Invoicing;
 using CompanyStudio.Models;
 using MesaSuite.Common.Data;
+using MesaSuite.Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -81,6 +83,20 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
                     row.Cells[colFulfillmentTime.Name].Value = fulfillment.FulfillmentTime?.ToString("MM/dd/yyyy HH:mm");
                     row.Cells[colIsComplete.Name].Value = fulfillment.IsComplete;
                     row.Tag = fulfillment;
+                }
+
+                get = new GetData(DataAccess.APIs.CompanyStudio, "Invoice/GetForPurchaseOrder/" + PurchaseOrderID);
+                get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                List<Invoice> invoices = await get.GetObject<List<Invoice>>() ?? new List<Invoice>();
+                foreach(Invoice invoice in invoices)
+                {
+                    DataGridViewRow row = dgvInvoices.Rows[dgvInvoices.Rows.Add()];
+                    row.Cells[colInvoiceNumber.Name].Value = invoice.InvoiceNumber;
+                    row.Cells[colInvoiceDate.Name].Value = invoice.InvoiceDate.ToString("MM/dd/yyyy");
+                    row.Cells[colDueDate.Name].Value = invoice.DueDate.ToString("MM/dd/yyyy");
+                    row.Cells[colStatus.Name].Value = invoice.Status.ToString().ToDisplayName();
+                    row.Cells[colInvoiceAmount.Name].Value = invoice.InvoiceLines?.Sum(il => il.Total).ToString("N2") ?? "0.00";
+                    row.Tag = invoice;
                 }
             }
             finally
@@ -225,6 +241,24 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
                     Studio.GetFleetTrackingApplication(Company.CompanyID)?.OpenRailcarDetail(railcar.RailcarID);
                 }
             }
+        }
+
+        private void dgvInvoices_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvInvoices.Rows.Count || !PermissionsManager.HasPermission(LocationModel.LocationID.Value, PermissionsManager.LocationWidePermissions.ManageInvoices))
+            {
+                return;
+            }
+
+            DataGridViewRow row = dgvInvoices.Rows[e.RowIndex];
+            Invoice invoice = row.Tag as Invoice;
+
+            frmPayableInvoice payableInvoice = new frmPayableInvoice();
+            Studio.DecorateStudioContent(payableInvoice);
+            payableInvoice.Company = Company;
+            payableInvoice.LocationModel = LocationModel;
+            payableInvoice.Invoice = invoice;
+            payableInvoice.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
         }
     }
 }

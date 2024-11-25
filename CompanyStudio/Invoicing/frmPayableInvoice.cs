@@ -93,6 +93,8 @@ namespace CompanyStudio.Invoicing
 
             txtPayee.Text = $"{Invoice.LocationFrom?.Company?.Name ?? Invoice.GovernmentFrom?.Name} (Government)";
             txtPayor.Text = $"{Invoice.LocationTo.Company.Name} ({Invoice.LocationTo.Name})";
+            lnkPurchaseOrder.Text = Invoice.PurchaseOrderID?.ToString() ?? "[None]";
+            lnkPurchaseOrder.Tag = Invoice.PurchaseOrderID;
             txtInvoiceNumber.Text = Invoice.InvoiceNumber;
             dtpInvoiceDate.Value = Invoice.InvoiceDate;
             dtpDueDate.Value = Invoice.DueDate;
@@ -110,6 +112,8 @@ namespace CompanyStudio.Invoicing
                 row.Cells[colLineTotal.Name].Value = invoiceLine.Total.ToString("N2");
                 row.Cells[colItem.Name].Value = invoiceLine.Item?.Name;
                 row.Cells[colItem.Name].Tag = invoiceLine.Item?.ItemID;
+                row.Cells[colPOLine.Name].Value = invoiceLine.PurchaseOrderLine?.DisplayString;
+                row.Cells[colFulfillment.Name].Value = invoiceLine.Fulfillment?.DisplayString;
                 subTotal += invoiceLine.Total;
             }
 
@@ -275,6 +279,23 @@ namespace CompanyStudio.Invoicing
             Controls.Add(shownSelector);
             shownSelector.BringToFront();
             shownSelector.Focus();
+        }
+
+        private async void lnkPurchaseOrder_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (!(lnkPurchaseOrder.Tag is long?) || ((long?)lnkPurchaseOrder.Tag) == null || !PermissionsManager.HasPermission(LocationModel.LocationID.Value, PermissionsManager.LocationWidePermissions.ManagePurchaseOrders))
+            {
+                return;
+            }
+
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Get/" + (long?)lnkPurchaseOrder.Tag);
+            get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            PurchaseOrder purchaseOrder = await get.GetObject<PurchaseOrder>();
+
+            if (purchaseOrder != null)
+            {
+                PurchaseOrder.OpenPurchaseOrderForm(this, purchaseOrder);
+            }
         }
     }
 }

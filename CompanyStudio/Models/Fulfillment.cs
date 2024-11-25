@@ -12,5 +12,18 @@ namespace CompanyStudio.Models
         public decimal? Quantity { get; set; }
         public DateTime? FulfillmentTime { get; set; }
         public bool IsComplete { get; set; }
+
+        public string DisplayString
+        {
+            get
+            {
+                if (FulfillmentID == null)
+                {
+                    return null;
+                }
+
+                return $"{FulfillmentTime?.ToString("MM/dd/yyyy HH:mm") ?? "[Unknown Time]"} - {Quantity?.ToString() ?? "[Unknown Qty]"} - {Railcar?.ReportingID ?? "[No Railcar]"}";
+            }
+        }
     }
 }

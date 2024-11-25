@@ -47,11 +47,18 @@
             this.colRailcar = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFulfillmentItems = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFulfillmentReceived = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colIsInvoiced = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.mnuAddFulfilllmentWizard = new System.Windows.Forms.ToolStripSplitButton();
             this.toolManualFulfillmentEntry = new System.Windows.Forms.ToolStripMenuItem();
             this.toolDeleteFulfillment = new System.Windows.Forms.ToolStripButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.dgvInvoices = new System.Windows.Forms.DataGridView();
+            this.colInvoiceNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colInvoiceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDueDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loader = new CompanyStudio.Loader();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -66,6 +73,8 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillments)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInvoices)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -74,7 +83,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(596, 198);
+            this.groupBox1.Size = new System.Drawing.Size(444, 198);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Unfulfilled Purchase Order Lines";
@@ -85,7 +94,7 @@
             this.pnlUnfulfilledLines.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlUnfulfilledLines.Location = new System.Drawing.Point(3, 16);
             this.pnlUnfulfilledLines.Name = "pnlUnfulfilledLines";
-            this.pnlUnfulfilledLines.Size = new System.Drawing.Size(590, 179);
+            this.pnlUnfulfilledLines.Size = new System.Drawing.Size(438, 179);
             this.pnlUnfulfilledLines.TabIndex = 0;
             // 
             // lblPONumber
@@ -167,7 +176,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer1.Size = new System.Drawing.Size(776, 393);
-            this.splitContainer1.SplitterDistance = 596;
+            this.splitContainer1.SplitterDistance = 444;
             this.splitContainer1.TabIndex = 3;
             // 
             // splitContainer2
@@ -184,7 +193,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer2.Size = new System.Drawing.Size(596, 393);
+            this.splitContainer2.Size = new System.Drawing.Size(444, 393);
             this.splitContainer2.SplitterDistance = 198;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -195,7 +204,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(596, 191);
+            this.groupBox2.Size = new System.Drawing.Size(444, 191);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Fulfillments";
@@ -209,14 +218,15 @@
             this.colFulfillmentTime,
             this.colRailcar,
             this.colFulfillmentItems,
-            this.colFulfillmentReceived});
+            this.colFulfillmentReceived,
+            this.colIsInvoiced});
             this.dgvFulfillments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvFulfillments.Location = new System.Drawing.Point(3, 41);
             this.dgvFulfillments.Name = "dgvFulfillments";
             this.dgvFulfillments.ReadOnly = true;
             this.dgvFulfillments.RowHeadersVisible = false;
             this.dgvFulfillments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvFulfillments.Size = new System.Drawing.Size(590, 147);
+            this.dgvFulfillments.Size = new System.Drawing.Size(438, 147);
             this.dgvFulfillments.TabIndex = 0;
             this.dgvFulfillments.SelectionChanged += new System.EventHandler(this.dgvFulfillments_SelectionChanged);
             // 
@@ -242,11 +252,23 @@
             // 
             // colFulfillmentReceived
             // 
+            this.colFulfillmentReceived.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             this.colFulfillmentReceived.HeaderText = "Is Received";
             this.colFulfillmentReceived.Name = "colFulfillmentReceived";
             this.colFulfillmentReceived.ReadOnly = true;
             this.colFulfillmentReceived.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colFulfillmentReceived.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colFulfillmentReceived.Width = 80;
+            // 
+            // colIsInvoiced
+            // 
+            this.colIsInvoiced.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.colIsInvoiced.HeaderText = "Is Invoiced";
+            this.colIsInvoiced.Name = "colIsInvoiced";
+            this.colIsInvoiced.ReadOnly = true;
+            this.colIsInvoiced.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colIsInvoiced.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colIsInvoiced.Width = 76;
             // 
             // toolStrip1
             // 
@@ -255,7 +277,7 @@
             this.toolDeleteFulfillment});
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(590, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(438, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -276,7 +298,7 @@
             this.toolManualFulfillmentEntry.Image = global::CompanyStudio.Properties.Resources.package_add;
             this.toolManualFulfillmentEntry.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolManualFulfillmentEntry.Name = "toolManualFulfillmentEntry";
-            this.toolManualFulfillmentEntry.Size = new System.Drawing.Size(180, 22);
+            this.toolManualFulfillmentEntry.Size = new System.Drawing.Size(137, 22);
             this.toolManualFulfillmentEntry.Text = "Manual Entry";
             this.toolManualFulfillmentEntry.Click += new System.EventHandler(this.toolManualFulfillmentEntry_Click);
             // 
@@ -293,13 +315,65 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.dgvInvoices);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(176, 393);
+            this.groupBox3.Size = new System.Drawing.Size(328, 393);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Invoices";
+            // 
+            // dgvInvoices
+            // 
+            this.dgvInvoices.AllowUserToAddRows = false;
+            this.dgvInvoices.AllowUserToDeleteRows = false;
+            this.dgvInvoices.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvInvoices.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colInvoiceNumber,
+            this.colInvoiceDate,
+            this.colDueDate,
+            this.colAmount,
+            this.colStatus});
+            this.dgvInvoices.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvInvoices.Location = new System.Drawing.Point(3, 16);
+            this.dgvInvoices.Name = "dgvInvoices";
+            this.dgvInvoices.ReadOnly = true;
+            this.dgvInvoices.RowHeadersVisible = false;
+            this.dgvInvoices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvInvoices.Size = new System.Drawing.Size(322, 374);
+            this.dgvInvoices.TabIndex = 0;
+            this.dgvInvoices.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvInvoices_CellMouseDoubleClickAsync);
+            // 
+            // colInvoiceNumber
+            // 
+            this.colInvoiceNumber.HeaderText = "Invoice #";
+            this.colInvoiceNumber.Name = "colInvoiceNumber";
+            this.colInvoiceNumber.ReadOnly = true;
+            // 
+            // colInvoiceDate
+            // 
+            this.colInvoiceDate.HeaderText = "Inv Date";
+            this.colInvoiceDate.Name = "colInvoiceDate";
+            this.colInvoiceDate.ReadOnly = true;
+            // 
+            // colDueDate
+            // 
+            this.colDueDate.HeaderText = "Due Date";
+            this.colDueDate.Name = "colDueDate";
+            this.colDueDate.ReadOnly = true;
+            // 
+            // colAmount
+            // 
+            this.colAmount.HeaderText = "Amount";
+            this.colAmount.Name = "colAmount";
+            this.colAmount.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            this.colStatus.HeaderText = "Status";
+            this.colStatus.Name = "colStatus";
+            this.colStatus.ReadOnly = true;
             // 
             // loader
             // 
@@ -340,6 +414,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillments)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInvoices)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -366,10 +442,17 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripSplitButton mnuAddFulfilllmentWizard;
         private System.Windows.Forms.ToolStripMenuItem toolManualFulfillmentEntry;
+        private System.Windows.Forms.ToolStripButton toolDeleteFulfillment;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFulfillmentTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRailcar;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFulfillmentItems;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colFulfillmentReceived;
-        private System.Windows.Forms.ToolStripButton toolDeleteFulfillment;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colIsInvoiced;
+        private System.Windows.Forms.DataGridView dgvInvoices;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colInvoiceNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colInvoiceDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDueDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
     }
 }

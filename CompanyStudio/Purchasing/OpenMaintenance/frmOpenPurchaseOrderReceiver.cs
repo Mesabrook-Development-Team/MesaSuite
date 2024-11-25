@@ -5,6 +5,7 @@ using MesaSuite.Common.Extensions;
 using Microsoft.ReportingServices.Diagnostics.Internal;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -79,7 +80,18 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
 
         private void AddInvoice(Invoice invoice)
         {
-            
+            DataGridViewRow row = dgvInvoices.Rows[dgvInvoices.Rows.Add()];
+            row.Cells[colInvoiceNumber.Name].Value = invoice.InvoiceNumber;
+            row.Cells[colInvoiceDate.Name].Value = invoice.InvoiceDate.ToString("MM/dd/yyyy");
+            row.Cells[colDueDate.Name].Value = invoice.DueDate.ToString("MM/dd/yyyy");
+            if (invoice.DueDate < DateTime.Now)
+            {
+                row.Cells[colDueDate.Name].Style.BackColor = Color.Red;
+                row.Cells[colDueDate.Name].Style.ForeColor = Color.White;
+            }
+            row.Cells[colAmount.Name].Value = invoice.Amount?.ToString("N2");
+            row.Cells[colStatus.Name].Value = invoice.Status.ToString().ToDisplayName();
+            row.Tag = invoice;
         }
 
         private void AddFulfillment(Models.Fulfillment fulfillment)
@@ -89,6 +101,7 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
             row.Cells[colRailcar.Name].Value = fulfillment.Railcar?.ReportingID;
             row.Cells[colFulfillmentItems.Name].Value = string.Format("{0}x {1}", fulfillment.Quantity, fulfillment.PurchaseOrderLine?.DisplayStringNoQuantity);
             row.Cells[colFulfillmentReceived.Name].Value = fulfillment.IsComplete;
+            row.Cells[colIsInvoiced.Name].Value = fulfillment.InvoiceLineID != null;
             row.Tag = fulfillment;
         }
 
@@ -162,6 +175,25 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
             }
 
             await RefreshData();
+        }
+
+        private async void dgvInvoices_CellMouseDoubleClickAsync(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvInvoices.Rows.Count || !(dgvInvoices.Rows[e.RowIndex].Tag is Invoice invoice) || !PermissionsManager.HasPermission(LocationModel.LocationID.Value, PermissionsManager.LocationWidePermissions.ManageInvoices))
+            {
+                return;
+            }
+
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Invoice/Get/" + invoice.InvoiceID);
+            get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            invoice = await get.GetObject<Invoice>();
+
+            Invoicing.frmReceivableInvoice receivableInvoice = new Invoicing.frmReceivableInvoice();
+            Studio.DecorateStudioContent(receivableInvoice);
+            receivableInvoice.Company = Company;
+            receivableInvoice.LocationModel = LocationModel;
+            receivableInvoice.Invoice = invoice;
+            receivableInvoice.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
         }
     }
 }

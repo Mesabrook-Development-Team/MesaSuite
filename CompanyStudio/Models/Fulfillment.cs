@@ -12,6 +12,8 @@ namespace CompanyStudio.Models
         public decimal? Quantity { get; set; }
         public DateTime? FulfillmentTime { get; set; }
         public bool IsComplete { get; set; }
+        public long? InvoiceLineID { get; set; }
+        public InvoiceLine InvoiceLine { get; set; }
 
         public string DisplayString
         {

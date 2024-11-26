@@ -213,7 +213,7 @@ namespace WebModels.purchasing
                         }
                     }
 
-                    if (!await Task.Run(() => newFulfillmentPlan.Save(transaction)))
+                    if (!await Task.Run(() => newFulfillmentPlan.Save(transaction, new List<System.Guid>() { FulfillmentPlan.SaveFlags.V_RailcarIsIdle })))
                     {
                         Errors.AddRange(newFulfillmentPlan.Errors.ToArray());
                         return null;

@@ -28,10 +28,15 @@ namespace WebModels.purchasing.Validations
 
             FulfillmentPlan fulfillmentPlanForRelationships = DataObject.GetReadOnlyByPrimaryKey<FulfillmentPlan>(fulfillmentPlan.FulfillmentPlanID, transaction, FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlan>(fp => new object[]
             {
-                fp.FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrderID
+                fp.FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.PurchaseOrderID,
+                fp.FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationOrigin.CompanyID,
+                fp.FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.GovernmentIDOrigin
             }));
 
-            long? thisPOID = fulfillmentPlanForRelationships?.FulfillmentPlanPurchaseOrderLines.First()?.PurchaseOrderLine.PurchaseOrderID;
+            PurchaseOrder fulfillmentPlanPurchaseOrder = fulfillmentPlanForRelationships?.FulfillmentPlanPurchaseOrderLines.First()?.PurchaseOrderLine.PurchaseOrder;
+            long? thisPOID = fulfillmentPlanPurchaseOrder?.PurchaseOrderID;
+            long? thisCompanyID = fulfillmentPlanPurchaseOrder?.LocationOrigin?.CompanyID;
+            long? thisGovernmentID = fulfillmentPlanPurchaseOrder?.GovernmentIDOrigin;
 
             Railcar railcar = DataObject.GetReadOnlyByPrimaryKey<Railcar>(fulfillmentPlan.RailcarID, transaction, FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new object[]
             {
@@ -41,7 +46,7 @@ namespace WebModels.purchasing.Validations
                 r.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.Status
             }));
 
-            if (railcar.CompanyLeasedTo?.CompanyID != null || railcar.GovernmentLeasedTo?.GovernmentID != null)
+            if ((railcar.CompanyLeasedTo?.CompanyID != null && railcar.CompanyLeasedTo.CompanyID != thisCompanyID) || (railcar.GovernmentLeasedTo?.GovernmentID != null && railcar.GovernmentLeasedTo.GovernmentID != thisGovernmentID))
             {
                 return false;
             }

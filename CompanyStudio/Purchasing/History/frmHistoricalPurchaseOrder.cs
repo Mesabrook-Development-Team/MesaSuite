@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace CompanyStudio.Purchasing.History
 {
-    public partial class frmHistoricalPurchaseOrder : BaseCompanyStudioContent, ILocationScoped
+    public partial class frmHistoricalPurchaseOrder : BaseCompanyStudioContent, ILocationScoped, ISaveable
     {
         public long? PurchaseOrderID { get; set; }
         public frmHistoricalPurchaseOrder()
@@ -27,8 +27,12 @@ namespace CompanyStudio.Purchasing.History
 
         public Location LocationModel { get; set; }
 
+        public event EventHandler OnSave;
+
         private async void frmHistoricalPurchaseOrder_Load(object sender, EventArgs e)
         {
+            Studio.dockPanel.Contents.OfType<frmPurchaseOrderExplorer>().Where(poe => poe.LocationModel.LocationID == LocationModel.LocationID).FirstOrDefault()?.RegisterPurchaseOrderForm(this, () => PurchaseOrderID);
+
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Get/" + PurchaseOrderID);
             get.AdditionalFields.Add(nameof(PurchaseOrder.InvoiceSchedule));
             get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
@@ -345,6 +349,11 @@ namespace CompanyStudio.Purchasing.History
                 tsbEnableAutoApproval.Checked = false;
                 tsbDisableAutoApproval.Checked = true;
             }
+        }
+
+        public Task Save()
+        {
+            return Task.CompletedTask;
         }
     }
 }

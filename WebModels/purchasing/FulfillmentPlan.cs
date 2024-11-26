@@ -333,5 +333,10 @@ namespace WebModels.purchasing
         }
         #endregion
         #endregion
+
+        public static class SaveFlags
+        {
+            public static readonly Guid V_RailcarIsIdle = new Guid("F36370C5-D5B1-4F7B-9F50-5F04626826B3");
+        }
     }
 }

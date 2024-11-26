@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace CompanyStudio.Purchasing.OpenMaintenance
 {
-    public partial class frmOpenViewerSubmitter : BaseCompanyStudioContent, ILocationScoped
+    public partial class frmOpenViewerSubmitter : BaseCompanyStudioContent, ILocationScoped, ISaveable
     {
         public long? PurchaseOrderID { get; set; }
         public Location LocationModel { get; set; }
@@ -25,8 +25,11 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
             InitializeComponent();
         }
 
+        public event EventHandler OnSave;
+
         private async void frmOpenViewerSubmitter_Load(object sender, EventArgs e)
         {
+            Studio.dockPanel.Contents.OfType<frmPurchaseOrderExplorer>().Where(poe => poe.LocationModel.LocationID == LocationModel.LocationID).FirstOrDefault()?.RegisterPurchaseOrderForm(this, () => PurchaseOrderID);
             try
             {
                 loader.BringToFront();
@@ -281,6 +284,11 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
         private async void toolSaveTemplate_Click(object sender, EventArgs e)
         {
             await PurchaseOrderTemplate.PromptAndSavePurchaseOrderAsTemplate(Company, LocationModel, Theme, PurchaseOrderID);
+        }
+
+        public Task Save()
+        {
+            return Task.CompletedTask;
         }
     }
 }

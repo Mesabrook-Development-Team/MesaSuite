@@ -54,11 +54,23 @@ namespace API_Company.Controllers
                 return NotFound();
             }
 
-            purchaseOrderApproval.ApprovalStatus = PurchaseOrderApproval.ApprovalStatuses.Rejected;
-            purchaseOrderApproval.RejectionReason = reject.reason;
-            if (!await Task.Run(() => purchaseOrderApproval.Save()))
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
-                return purchaseOrderApproval.HandleFailedValidation(this);
+                purchaseOrderApproval.ApprovalStatus = PurchaseOrderApproval.ApprovalStatuses.Rejected;
+                purchaseOrderApproval.RejectionReason = reject.reason;
+                if (!await Task.Run(() => purchaseOrderApproval.Save(transaction)))
+                {
+                    return purchaseOrderApproval.HandleFailedValidation(this);
+                }
+
+                PurchaseOrder purchaseOrder = await Task.Run(() => DataObject.GetEditableByPrimaryKey<PurchaseOrder>(purchaseOrderApproval.PurchaseOrderID, transaction, null));
+                purchaseOrder.Status = PurchaseOrder.Statuses.Rejected;
+                if (!await Task.Run(() => purchaseOrder.Save(transaction, new List<System.Guid>() { PurchaseOrder.SaveFlags.V_StatusChange })))
+                {
+                    return purchaseOrder.HandleFailedValidation(this);
+                }
+
+                transaction.Commit();
             }
 
             return Ok(DataObject.GetReadOnlyByPrimaryKey<PurchaseOrderApproval>(purchaseOrderApproval.PurchaseOrderApprovalID, null, FieldsToRetrieve));

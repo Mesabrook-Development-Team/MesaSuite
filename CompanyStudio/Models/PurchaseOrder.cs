@@ -18,6 +18,21 @@ namespace CompanyStudio.Models
 
         public long? PurchaseOrderIDClonedFrom { get; set; }
 
+        public string OriginString
+        {
+            get
+            {
+                if (GovernmentIDOrigin != null)
+                {
+                    return GovernmentOrigin?.Name;
+                }
+                else
+                {
+                    return $"{LocationOrigin?.Company?.Name} - ({LocationOrigin?.Name})";
+                }
+            }
+        }
+
         public string DestinationString
         {
             get
@@ -82,8 +97,8 @@ namespace CompanyStudio.Models
                     draftEntry.PurchaseOrderID = purchaseOrder?.PurchaseOrderID;
                     draftEntry.Show(parent.Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
                     return draftEntry;
-                    break;
                 case Statuses.Pending:
+                case Statuses.Rejected:
                     if (purchaseOrder.LocationIDOrigin == parent.LocationModel.LocationID)
                     {
                         Purchasing.ApprovalViewer.frmApprovalViewerSubmitter approvalViewerSubmitter = new Purchasing.ApprovalViewer.frmApprovalViewerSubmitter()
@@ -136,6 +151,16 @@ namespace CompanyStudio.Models
                         return openMaintenanceReceiver;
                     }
                     break;
+                case Statuses.Completed:
+                    Purchasing.History.frmHistoricalPurchaseOrder historicalViewer = new Purchasing.History.frmHistoricalPurchaseOrder()
+                    {
+                        PurchaseOrderID = purchaseOrder.PurchaseOrderID
+                    };
+                    parent.Studio.DecorateStudioContent(historicalViewer);
+                    historicalViewer.Company = parent.Company;
+                    historicalViewer.LocationModel = parent.LocationModel;
+                    historicalViewer.Show(parent.Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
+                    return historicalViewer;
             }
 
             return null;

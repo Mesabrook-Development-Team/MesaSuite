@@ -471,6 +471,18 @@
     <Compile Include="Purchasing\Fulfillment\ReviewStepControl.Designer.cs">
       <DependentUpon>ReviewStepControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Purchasing\History\frmHistoricalPurchaseOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\History\frmHistoricalPurchaseOrder.Designer.cs">
+      <DependentUpon>frmHistoricalPurchaseOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\History\PurchaseOrderLineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\History\PurchaseOrderLineControl.Designer.cs">
+      <DependentUpon>PurchaseOrderLineControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Purchasing\OpenMaintenance\frmManualFulfillmentEntry.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -834,6 +846,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\Fulfillment\ReviewStepControl.resx">
       <DependentUpon>ReviewStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\History\frmHistoricalPurchaseOrder.resx">
+      <DependentUpon>frmHistoricalPurchaseOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\History\PurchaseOrderLineControl.resx">
+      <DependentUpon>PurchaseOrderLineControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\OpenMaintenance\frmManualFulfillmentEntry.resx">
       <DependentUpon>frmManualFulfillmentEntry.cs</DependentUpon>

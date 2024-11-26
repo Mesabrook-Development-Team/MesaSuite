@@ -937,9 +937,17 @@ namespace WebModels.purchasing
                         quotations.Remove(quotation);
                     }
                 }
-                else if (IsFieldDirty(nameof(InvoiceSchedule)) || IsFieldDirty(nameof(AccountIDReceiving)))
+
+                List<Guid> saveFlags = new List<Guid>();
+                if (hasRejections)
                 {
-                    if (!await Task.Run(() => Save(transaction)))
+                    Status = Statuses.Rejected;
+                    saveFlags.Add(SaveFlags.V_StatusChange);
+                }
+                
+                if (IsFieldDirty(nameof(InvoiceSchedule)) || IsFieldDirty(nameof(AccountIDReceiving)) || IsFieldDirty(nameof(Status)))
+                {
+                    if (!await Task.Run(() => Save(transaction, saveFlags)))
                     {
                         return false;
                     }

@@ -82,6 +82,8 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.cmdWithdrawSubmission = new System.Windows.Forms.Button();
             this.loader = new CompanyStudio.Loader();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolSaveTemplate = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLines)).BeginInit();
             this.tbcDetails.SuspendLayout();
@@ -96,6 +98,7 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -104,7 +107,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(786, 205);
+            this.groupBox1.Size = new System.Drawing.Size(786, 198);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Approvals";
@@ -115,14 +118,14 @@
             this.pnlApprovals.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlApprovals.Location = new System.Drawing.Point(3, 16);
             this.pnlApprovals.Name = "pnlApprovals";
-            this.pnlApprovals.Size = new System.Drawing.Size(780, 186);
+            this.pnlApprovals.Size = new System.Drawing.Size(780, 179);
             this.pnlApprovals.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(12, 28);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(256, 20);
             this.label1.TabIndex = 1;
@@ -148,7 +151,7 @@
             this.dgvLines.ReadOnly = true;
             this.dgvLines.RowHeadersVisible = false;
             this.dgvLines.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvLines.Size = new System.Drawing.Size(772, 148);
+            this.dgvLines.Size = new System.Drawing.Size(772, 141);
             this.dgvLines.TabIndex = 0;
             // 
             // colType
@@ -260,7 +263,7 @@
             this.tbcDetails.Location = new System.Drawing.Point(0, 0);
             this.tbcDetails.Name = "tbcDetails";
             this.tbcDetails.SelectedIndex = 0;
-            this.tbcDetails.Size = new System.Drawing.Size(786, 402);
+            this.tbcDetails.Size = new System.Drawing.Size(786, 390);
             this.tbcDetails.TabIndex = 4;
             // 
             // tabPOInfo
@@ -269,7 +272,7 @@
             this.tabPOInfo.Location = new System.Drawing.Point(4, 22);
             this.tabPOInfo.Name = "tabPOInfo";
             this.tabPOInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPOInfo.Size = new System.Drawing.Size(778, 376);
+            this.tabPOInfo.Size = new System.Drawing.Size(778, 364);
             this.tabPOInfo.TabIndex = 0;
             this.tabPOInfo.Text = "Purchase Order Information";
             this.tabPOInfo.UseVisualStyleBackColor = true;
@@ -303,8 +306,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.txtTotal);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.dgvLines);
-            this.splitContainer1.Size = new System.Drawing.Size(772, 370);
-            this.splitContainer1.SplitterDistance = 154;
+            this.splitContainer1.Size = new System.Drawing.Size(772, 358);
+            this.splitContainer1.SplitterDistance = 149;
             this.splitContainer1.TabIndex = 0;
             // 
             // label5
@@ -321,7 +324,7 @@
             // 
             this.lnkTaxBreakdown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkTaxBreakdown.AutoSize = true;
-            this.lnkTaxBreakdown.Location = new System.Drawing.Point(251, 195);
+            this.lnkTaxBreakdown.Location = new System.Drawing.Point(251, 188);
             this.lnkTaxBreakdown.Name = "lnkTaxBreakdown";
             this.lnkTaxBreakdown.Size = new System.Drawing.Size(82, 13);
             this.lnkTaxBreakdown.TabIndex = 14;
@@ -332,7 +335,7 @@
             // txtGrossTotal
             // 
             this.txtGrossTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtGrossTotal.Location = new System.Drawing.Point(417, 173);
+            this.txtGrossTotal.Location = new System.Drawing.Point(417, 166);
             this.txtGrossTotal.Name = "txtGrossTotal";
             this.txtGrossTotal.ReadOnly = true;
             this.txtGrossTotal.Size = new System.Drawing.Size(62, 20);
@@ -341,7 +344,7 @@
             // txtEstTax
             // 
             this.txtEstTax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtEstTax.Location = new System.Drawing.Point(261, 173);
+            this.txtEstTax.Location = new System.Drawing.Point(261, 166);
             this.txtEstTax.Name = "txtEstTax";
             this.txtEstTax.ReadOnly = true;
             this.txtEstTax.Size = new System.Drawing.Size(62, 20);
@@ -351,7 +354,7 @@
             // 
             this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(329, 176);
+            this.label17.Location = new System.Drawing.Point(329, 169);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(82, 13);
             this.label17.TabIndex = 10;
@@ -361,7 +364,7 @@
             // 
             this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(209, 176);
+            this.label18.Location = new System.Drawing.Point(209, 169);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(46, 13);
             this.label18.TabIndex = 11;
@@ -371,7 +374,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(5, 176);
+            this.label7.Location = new System.Drawing.Point(5, 169);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(111, 13);
             this.label7.TabIndex = 2;
@@ -380,7 +383,7 @@
             // txtTotal
             // 
             this.txtTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtTotal.Location = new System.Drawing.Point(122, 173);
+            this.txtTotal.Location = new System.Drawing.Point(122, 166);
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
             this.txtTotal.Size = new System.Drawing.Size(81, 20);
@@ -635,7 +638,7 @@
             this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer2.Location = new System.Drawing.Point(12, 32);
+            this.splitContainer2.Location = new System.Drawing.Point(12, 51);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -646,8 +649,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tbcDetails);
-            this.splitContainer2.Size = new System.Drawing.Size(786, 611);
-            this.splitContainer2.SplitterDistance = 205;
+            this.splitContainer2.Size = new System.Drawing.Size(786, 592);
+            this.splitContainer2.SplitterDistance = 198;
             this.splitContainer2.TabIndex = 5;
             // 
             // cmdWithdrawSubmission
@@ -673,11 +676,32 @@
             this.loader.TabIndex = 7;
             this.loader.Visible = false;
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolSaveTemplate});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(810, 25);
+            this.toolStrip1.TabIndex = 8;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolSaveTemplate
+            // 
+            this.toolSaveTemplate.Image = global::CompanyStudio.Properties.Resources.script_save;
+            this.toolSaveTemplate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolSaveTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolSaveTemplate.Name = "toolSaveTemplate";
+            this.toolSaveTemplate.Size = new System.Drawing.Size(98, 22);
+            this.toolSaveTemplate.Text = "Save Template";
+            this.toolSaveTemplate.Click += new System.EventHandler(this.toolSaveTemplate_Click);
+            // 
             // frmApprovalViewerSubmitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(810, 679);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.loader);
             this.Controls.Add(this.cmdWithdrawSubmission);
             this.Controls.Add(this.splitContainer2);
@@ -703,6 +727,8 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -763,5 +789,7 @@
         private System.Windows.Forms.TextBox txtEstTax;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolSaveTemplate;
     }
 }

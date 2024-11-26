@@ -311,5 +311,10 @@ namespace CompanyStudio.Purchasing.ApprovalViewer
 
             this.ShowInformation(taxInformation.ToString());
         }
+
+        private async void toolSaveTemplate_Click(object sender, EventArgs e)
+        {
+            await PurchaseOrderTemplate.PromptAndSavePurchaseOrderAsTemplate(Company, LocationModel, Theme, PurchaseOrderID);
+        }
     }
 }

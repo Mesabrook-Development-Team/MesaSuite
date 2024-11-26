@@ -62,9 +62,9 @@
             this.loader = new CompanyStudio.Loader();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.tsbClose = new System.Windows.Forms.ToolStripButton();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.enableFutureAutoApprovalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.disableFutureAutoApprovalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsbAutoApproving = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsbEnableAutoApproval = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsbDisableAutoApproval = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -394,7 +394,7 @@
             // 
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbClose,
-            this.toolStripDropDownButton1});
+            this.tsbAutoApproving});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(800, 25);
@@ -410,32 +410,32 @@
             this.tsbClose.Text = "Close Purchase Order";
             this.tsbClose.Click += new System.EventHandler(this.tsbClose_Click);
             // 
-            // toolStripDropDownButton1
+            // tsbAutoApproving
             // 
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.enableFutureAutoApprovalsToolStripMenuItem,
-            this.disableFutureAutoApprovalsToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = global::CompanyStudio.Properties.Resources.accept;
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(112, 22);
-            this.toolStripDropDownButton1.Text = "Auto-Approving";
+            this.tsbAutoApproving.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbEnableAutoApproval,
+            this.tsbDisableAutoApproval});
+            this.tsbAutoApproving.Image = global::CompanyStudio.Properties.Resources.accept;
+            this.tsbAutoApproving.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbAutoApproving.Name = "tsbAutoApproving";
+            this.tsbAutoApproving.Size = new System.Drawing.Size(112, 22);
+            this.tsbAutoApproving.Text = "Auto-Approving";
             // 
-            // enableFutureAutoApprovalsToolStripMenuItem
+            // tsbEnableAutoApproval
             // 
-            this.enableFutureAutoApprovalsToolStripMenuItem.Checked = true;
-            this.enableFutureAutoApprovalsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.enableFutureAutoApprovalsToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.accept;
-            this.enableFutureAutoApprovalsToolStripMenuItem.Name = "enableFutureAutoApprovalsToolStripMenuItem";
-            this.enableFutureAutoApprovalsToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
-            this.enableFutureAutoApprovalsToolStripMenuItem.Text = "Enable Future Auto-Approvals";
+            this.tsbEnableAutoApproval.Image = global::CompanyStudio.Properties.Resources.accept;
+            this.tsbEnableAutoApproval.Name = "tsbEnableAutoApproval";
+            this.tsbEnableAutoApproval.Size = new System.Drawing.Size(221, 22);
+            this.tsbEnableAutoApproval.Text = "Enable Future Auto-Approvals";
+            this.tsbEnableAutoApproval.Click += new System.EventHandler(this.tsbEnableAutoApproval_Click);
             // 
-            // disableFutureAutoApprovalsToolStripMenuItem
+            // tsbDisableAutoApproval
             // 
-            this.disableFutureAutoApprovalsToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.cancel;
-            this.disableFutureAutoApprovalsToolStripMenuItem.Name = "disableFutureAutoApprovalsToolStripMenuItem";
-            this.disableFutureAutoApprovalsToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
-            this.disableFutureAutoApprovalsToolStripMenuItem.Text = "Disable Future Auto-Approvals";
+            this.tsbDisableAutoApproval.Image = global::CompanyStudio.Properties.Resources.cancel;
+            this.tsbDisableAutoApproval.Name = "tsbDisableAutoApproval";
+            this.tsbDisableAutoApproval.Size = new System.Drawing.Size(221, 22);
+            this.tsbDisableAutoApproval.Text = "Disable Future Auto-Approvals";
+            this.tsbDisableAutoApproval.Click += new System.EventHandler(this.tsbDisableAutoApproval_Click);
             // 
             // frmOpenPurchaseOrderReceiver
             // 
@@ -512,8 +512,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton tsbClose;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-        private System.Windows.Forms.ToolStripMenuItem enableFutureAutoApprovalsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem disableFutureAutoApprovalsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton tsbAutoApproving;
+        private System.Windows.Forms.ToolStripMenuItem tsbEnableAutoApproval;
+        private System.Windows.Forms.ToolStripMenuItem tsbDisableAutoApproval;
     }
 }

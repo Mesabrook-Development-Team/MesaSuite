@@ -37,6 +37,8 @@ namespace CompanyStudio.Purchasing.History
             {
                 Text = "Complete PO - " + PurchaseOrderID;
                 lblTitle.Text += " - " + PurchaseOrderID;
+                toolSaveTemplate.Visible = purchaseOrder.LocationIDOrigin == LocationModel.LocationID;
+                tsbAutoApproving.Visible = purchaseOrder.LocationIDDestination == LocationModel.LocationID;
 
                 txtPurchaser.Text = purchaseOrder.OriginString;
                 txtSeller.Text = purchaseOrder.DestinationString;
@@ -76,6 +78,18 @@ namespace CompanyStudio.Purchasing.History
             foreach (Invoice invoice in invoices)
             {
                 AddInvoice(invoice);
+            }
+
+            if (tsbAutoApproving.Visible)
+            {
+                get.Resource = "PurchaseOrderApproval/GetForPurchaseOrder/" + PurchaseOrderID;
+                PurchaseOrderApproval purchaseOrderApproval = await get.GetObject<PurchaseOrderApproval>();
+                if (purchaseOrderApproval != null)
+                {
+                    tsbAutoApproving.Image = purchaseOrderApproval.FutureAutoApprove ? Properties.Resources.accept : Properties.Resources.cancel;
+                    tsbEnableAutoApproval.Checked = purchaseOrderApproval.FutureAutoApprove;
+                    tsbDisableAutoApproval.Checked = !purchaseOrderApproval.FutureAutoApprove;
+                }
             }
         }
 
@@ -297,6 +311,39 @@ namespace CompanyStudio.Purchasing.History
                 payableInvoice.LocationModel = LocationModel;
                 payableInvoice.Invoice = invoice;
                 payableInvoice.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
+            }
+        }
+
+        private async void toolSaveTemplate_Click(object sender, EventArgs e)
+        {
+            await PurchaseOrderTemplate.PromptAndSavePurchaseOrderAsTemplate(Company, LocationModel, Theme, PurchaseOrderID);
+        }
+
+        private async void tsbEnableAutoApproval_Click(object sender, EventArgs e)
+        {
+            PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrderApproval/SetAutoApprove", new { PurchaseOrderID, AutoApprove = true });
+            post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            await post.ExecuteNoResult();
+
+            if (post.RequestSuccessful)
+            {
+                tsbAutoApproving.Image = Properties.Resources.accept;
+                tsbEnableAutoApproval.Checked = true;
+                tsbDisableAutoApproval.Checked = false;
+            }
+        }
+
+        private async void tsbDisableAutoApproval_Click(object sender, EventArgs e)
+        {
+            PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrderApproval/SetAutoApprove", new { PurchaseOrderID, AutoApprove = false });
+            post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            await post.ExecuteNoResult();
+
+            if (post.RequestSuccessful)
+            {
+                tsbAutoApproving.Image = Properties.Resources.cancel;
+                tsbEnableAutoApproval.Checked = false;
+                tsbDisableAutoApproval.Checked = true;
             }
         }
     }

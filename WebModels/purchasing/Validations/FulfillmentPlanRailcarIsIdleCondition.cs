@@ -31,7 +31,7 @@ namespace WebModels.purchasing.Validations
                 fp.FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrderID
             }));
 
-            long? thisPOID = fulfillmentPlanForRelationships.FulfillmentPlanPurchaseOrderLines.First()?.PurchaseOrderLine.PurchaseOrderID;
+            long? thisPOID = fulfillmentPlanForRelationships?.FulfillmentPlanPurchaseOrderLines.First()?.PurchaseOrderLine.PurchaseOrderID;
 
             Railcar railcar = DataObject.GetReadOnlyByPrimaryKey<Railcar>(fulfillmentPlan.RailcarID, transaction, FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new object[]
             {

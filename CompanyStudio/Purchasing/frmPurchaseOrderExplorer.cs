@@ -256,5 +256,13 @@ namespace CompanyStudio.Purchasing
                 }
             }
         }
+
+        private void frmPurchaseOrderExplorer_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+            {
+                ReloadTree();
+            }
+        }
     }
 }

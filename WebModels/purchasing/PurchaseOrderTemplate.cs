@@ -125,6 +125,7 @@ namespace WebModels.purchasing
                 originalPurchaseOrder.Copy(newPurchaseOrder);
                 newPurchaseOrder.PurchaseOrderIDClonedFrom = originalPurchaseOrder.PurchaseOrderID;
                 newPurchaseOrder.Status = PurchaseOrder.Statuses.Draft;
+                newPurchaseOrder.PurchaseOrderDate = null;
                 
                 if (!await Task.Run(() => newPurchaseOrder.Save(transaction)))
                 {

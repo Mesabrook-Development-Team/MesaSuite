@@ -79,6 +79,8 @@
             this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colInvoiceAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loader = new CompanyStudio.Loader();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolSaveTemplate = new System.Windows.Forms.ToolStripButton();
             this.tabControl1.SuspendLayout();
             this.tabPOInfo.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -88,13 +90,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillments)).BeginInit();
             this.tabInvoices.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvoices)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(12, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(163, 20);
             this.label1.TabIndex = 0;
@@ -109,10 +112,10 @@
             this.tabControl1.Controls.Add(this.tabFulfillmentPlans);
             this.tabControl1.Controls.Add(this.tabFulfillments);
             this.tabControl1.Controls.Add(this.tabInvoices);
-            this.tabControl1.Location = new System.Drawing.Point(16, 32);
+            this.tabControl1.Location = new System.Drawing.Point(16, 49);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(924, 518);
+            this.tabControl1.Size = new System.Drawing.Size(924, 501);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPOInfo
@@ -129,7 +132,7 @@
             this.tabPOInfo.Location = new System.Drawing.Point(4, 22);
             this.tabPOInfo.Name = "tabPOInfo";
             this.tabPOInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPOInfo.Size = new System.Drawing.Size(916, 492);
+            this.tabPOInfo.Size = new System.Drawing.Size(916, 475);
             this.tabPOInfo.TabIndex = 0;
             this.tabPOInfo.Text = "Purchase Order Information";
             this.tabPOInfo.UseVisualStyleBackColor = true;
@@ -155,7 +158,7 @@
             this.groupBox1.Controls.Add(this.pnlPOLines);
             this.groupBox1.Location = new System.Drawing.Point(6, 183);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(904, 303);
+            this.groupBox1.Size = new System.Drawing.Size(904, 286);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Purchase Order Lines";
@@ -166,7 +169,7 @@
             this.pnlPOLines.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPOLines.Location = new System.Drawing.Point(3, 16);
             this.pnlPOLines.Name = "pnlPOLines";
-            this.pnlPOLines.Size = new System.Drawing.Size(898, 284);
+            this.pnlPOLines.Size = new System.Drawing.Size(898, 267);
             this.pnlPOLines.TabIndex = 0;
             // 
             // label5
@@ -611,11 +614,32 @@
             this.loader.TabIndex = 2;
             this.loader.Visible = false;
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolSaveTemplate});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(952, 25);
+            this.toolStrip1.TabIndex = 3;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolSaveTemplate
+            // 
+            this.toolSaveTemplate.Image = global::CompanyStudio.Properties.Resources.script_save;
+            this.toolSaveTemplate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolSaveTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolSaveTemplate.Name = "toolSaveTemplate";
+            this.toolSaveTemplate.Size = new System.Drawing.Size(98, 22);
+            this.toolSaveTemplate.Text = "Save Template";
+            this.toolSaveTemplate.Click += new System.EventHandler(this.toolSaveTemplate_Click);
+            // 
             // frmOpenViewerSubmitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(952, 562);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.loader);
@@ -635,6 +659,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillments)).EndInit();
             this.tabInvoices.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvoices)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -692,5 +718,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn colInvoiceAmount;
         private System.Windows.Forms.Button cmdClose;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolSaveTemplate;
     }
 }

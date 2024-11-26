@@ -106,7 +106,7 @@
             this.toolNewFromTemplate.Image = global::CompanyStudio.Properties.Resources.script_go;
             this.toolNewFromTemplate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolNewFromTemplate.Name = "toolNewFromTemplate";
-            this.toolNewFromTemplate.Size = new System.Drawing.Size(180, 22);
+            this.toolNewFromTemplate.Size = new System.Drawing.Size(157, 22);
             this.toolNewFromTemplate.Text = "From Template...";
             this.toolNewFromTemplate.Click += new System.EventHandler(this.toolNewFromTemplate_Click);
             // 
@@ -130,10 +130,12 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.loader);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "frmPurchaseOrderExplorer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Purchase Order Explorer";
             this.Load += new System.EventHandler(this.frmPurchaseOrderExplorer_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmPurchaseOrderExplorer_KeyDown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);

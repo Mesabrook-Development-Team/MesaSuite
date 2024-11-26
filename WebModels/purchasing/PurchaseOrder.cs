@@ -573,6 +573,11 @@ namespace WebModels.purchasing
                     qi.MinimumQuantity
                 }));
 
+                if (quotationItem == null)
+                {
+                    continue;
+                }
+
                 if (purchaseOrderLine.FulfilledQuantity < quotationItem.MinimumQuantity)
                 {
                     underpaidQuantityByItemID.GetOrSet(purchaseOrderLine.ItemID, () => 0M);

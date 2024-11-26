@@ -81,6 +81,11 @@
             this.colDueDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colInvoiceAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolSaveTemplate = new System.Windows.Forms.ToolStripButton();
+            this.tsbAutoApproving = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsbEnableAutoApproval = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsbDisableAutoApproval = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabInfo.SuspendLayout();
@@ -91,6 +96,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillments)).BeginInit();
             this.tabInvoice.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvoices)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -215,7 +221,7 @@
             // 
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.Location = new System.Drawing.Point(12, 9);
+            this.lblTitle.Location = new System.Drawing.Point(12, 25);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(192, 20);
             this.lblTitle.TabIndex = 1;
@@ -230,10 +236,10 @@
             this.tabControl1.Controls.Add(this.tabFulfillmentPlan);
             this.tabControl1.Controls.Add(this.tabFulfillment);
             this.tabControl1.Controls.Add(this.tabInvoice);
-            this.tabControl1.Location = new System.Drawing.Point(12, 32);
+            this.tabControl1.Location = new System.Drawing.Point(12, 48);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(776, 422);
+            this.tabControl1.Size = new System.Drawing.Size(776, 406);
             this.tabControl1.TabIndex = 2;
             // 
             // tabInfo
@@ -243,7 +249,7 @@
             this.tabInfo.Location = new System.Drawing.Point(4, 22);
             this.tabInfo.Name = "tabInfo";
             this.tabInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInfo.Size = new System.Drawing.Size(768, 396);
+            this.tabInfo.Size = new System.Drawing.Size(768, 380);
             this.tabInfo.TabIndex = 0;
             this.tabInfo.Text = "Purchase Order";
             this.tabInfo.UseVisualStyleBackColor = true;
@@ -256,7 +262,7 @@
             this.groupBox2.Controls.Add(this.pnlLines);
             this.groupBox2.Location = new System.Drawing.Point(6, 188);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(756, 202);
+            this.groupBox2.Size = new System.Drawing.Size(756, 186);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Purchase Order Lines";
@@ -267,7 +273,7 @@
             this.pnlLines.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlLines.Location = new System.Drawing.Point(3, 16);
             this.pnlLines.Name = "pnlLines";
-            this.pnlLines.Size = new System.Drawing.Size(750, 183);
+            this.pnlLines.Size = new System.Drawing.Size(750, 167);
             this.pnlLines.TabIndex = 0;
             // 
             // tabFulfillmentPlan
@@ -293,7 +299,7 @@
             this.tabFulfillmentPlan.Location = new System.Drawing.Point(4, 22);
             this.tabFulfillmentPlan.Name = "tabFulfillmentPlan";
             this.tabFulfillmentPlan.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFulfillmentPlan.Size = new System.Drawing.Size(768, 396);
+            this.tabFulfillmentPlan.Size = new System.Drawing.Size(768, 380);
             this.tabFulfillmentPlan.TabIndex = 1;
             this.tabFulfillmentPlan.Text = "Fulfillment Plans";
             this.tabFulfillmentPlan.UseVisualStyleBackColor = true;
@@ -508,7 +514,7 @@
             this.tabFulfillment.Controls.Add(this.dgvFulfillments);
             this.tabFulfillment.Location = new System.Drawing.Point(4, 22);
             this.tabFulfillment.Name = "tabFulfillment";
-            this.tabFulfillment.Size = new System.Drawing.Size(768, 396);
+            this.tabFulfillment.Size = new System.Drawing.Size(768, 380);
             this.tabFulfillment.TabIndex = 2;
             this.tabFulfillment.Text = "Fulfillments";
             this.tabFulfillment.UseVisualStyleBackColor = true;
@@ -530,7 +536,7 @@
             this.dgvFulfillments.ReadOnly = true;
             this.dgvFulfillments.RowHeadersVisible = false;
             this.dgvFulfillments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvFulfillments.Size = new System.Drawing.Size(768, 396);
+            this.dgvFulfillments.Size = new System.Drawing.Size(768, 380);
             this.dgvFulfillments.TabIndex = 1;
             // 
             // colPurchaseOrderLine
@@ -572,7 +578,7 @@
             this.tabInvoice.Controls.Add(this.dgvInvoices);
             this.tabInvoice.Location = new System.Drawing.Point(4, 22);
             this.tabInvoice.Name = "tabInvoice";
-            this.tabInvoice.Size = new System.Drawing.Size(768, 396);
+            this.tabInvoice.Size = new System.Drawing.Size(768, 380);
             this.tabInvoice.TabIndex = 3;
             this.tabInvoice.Text = "Invoices";
             this.tabInvoice.UseVisualStyleBackColor = true;
@@ -594,7 +600,7 @@
             this.dgvInvoices.ReadOnly = true;
             this.dgvInvoices.RowHeadersVisible = false;
             this.dgvInvoices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvInvoices.Size = new System.Drawing.Size(768, 396);
+            this.dgvInvoices.Size = new System.Drawing.Size(768, 380);
             this.dgvInvoices.TabIndex = 1;
             this.dgvInvoices.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvInvoices_CellMouseDoubleClick);
             // 
@@ -633,11 +639,62 @@
             this.colInvoiceAmount.ReadOnly = true;
             this.colInvoiceAmount.Width = 150;
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolSaveTemplate,
+            this.tsbAutoApproving});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(800, 25);
+            this.toolStrip1.TabIndex = 3;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolSaveTemplate
+            // 
+            this.toolSaveTemplate.Image = global::CompanyStudio.Properties.Resources.script_save;
+            this.toolSaveTemplate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolSaveTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolSaveTemplate.Name = "toolSaveTemplate";
+            this.toolSaveTemplate.Size = new System.Drawing.Size(98, 22);
+            this.toolSaveTemplate.Text = "Save Template";
+            this.toolSaveTemplate.Visible = false;
+            this.toolSaveTemplate.Click += new System.EventHandler(this.toolSaveTemplate_Click);
+            // 
+            // tsbAutoApproving
+            // 
+            this.tsbAutoApproving.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbEnableAutoApproval,
+            this.tsbDisableAutoApproval});
+            this.tsbAutoApproving.Image = global::CompanyStudio.Properties.Resources.accept;
+            this.tsbAutoApproving.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbAutoApproving.Name = "tsbAutoApproving";
+            this.tsbAutoApproving.Size = new System.Drawing.Size(112, 22);
+            this.tsbAutoApproving.Text = "Auto-Approving";
+            this.tsbAutoApproving.Visible = false;
+            // 
+            // tsbEnableAutoApproval
+            // 
+            this.tsbEnableAutoApproval.Image = global::CompanyStudio.Properties.Resources.accept;
+            this.tsbEnableAutoApproval.Name = "tsbEnableAutoApproval";
+            this.tsbEnableAutoApproval.Size = new System.Drawing.Size(221, 22);
+            this.tsbEnableAutoApproval.Text = "Enable Future Auto-Approvals";
+            this.tsbEnableAutoApproval.Click += new System.EventHandler(this.tsbEnableAutoApproval_Click);
+            // 
+            // tsbDisableAutoApproval
+            // 
+            this.tsbDisableAutoApproval.Image = global::CompanyStudio.Properties.Resources.cancel;
+            this.tsbDisableAutoApproval.Name = "tsbDisableAutoApproval";
+            this.tsbDisableAutoApproval.Size = new System.Drawing.Size(221, 22);
+            this.tsbDisableAutoApproval.Text = "Disable Future Auto-Approvals";
+            this.tsbDisableAutoApproval.Click += new System.EventHandler(this.tsbDisableAutoApproval_Click);
+            // 
             // frmHistoricalPurchaseOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 466);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.lblTitle);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -657,6 +714,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvFulfillments)).EndInit();
             this.tabInvoice.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvoices)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -716,5 +775,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colInvoiceAmount;
         private System.Windows.Forms.TextBox txtOrderDate;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolSaveTemplate;
+        private System.Windows.Forms.ToolStripDropDownButton tsbAutoApproving;
+        private System.Windows.Forms.ToolStripMenuItem tsbEnableAutoApproval;
+        private System.Windows.Forms.ToolStripMenuItem tsbDisableAutoApproval;
     }
 }

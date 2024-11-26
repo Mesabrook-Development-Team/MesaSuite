@@ -139,9 +139,12 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
         private void SetupFormWarnings(PurchaseOrder purchaseOrder)
         {
-            _clonedWarning = purchaseOrder.PurchaseOrderIDClonedFrom != null;
-            _templateWarning = purchaseOrder.PurchaseOrderTemplates?.Any() ?? false;
-            _clonesExistWarning = purchaseOrder.PurchaseOrderClones?.Any() ?? false;
+            if (purchaseOrder != null)
+            {
+                _clonedWarning = purchaseOrder.PurchaseOrderIDClonedFrom != null;
+                _templateWarning = purchaseOrder.PurchaseOrderTemplates?.Any() ?? false;
+                _clonesExistWarning = purchaseOrder.PurchaseOrderClones?.Any() ?? false;
+            }
 
             int warningCount = 0;
             warningCount += _clonedWarning ? 1 : 0;
@@ -634,34 +637,12 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
         private async void toolSaveTemplate_Click(object sender, EventArgs e)
         {
-            Templates.frmTemplateDialog saveTemplate = new Templates.frmTemplateDialog()
-            {
-                CompanyID = Company.CompanyID,
-                LocationID = LocationModel.LocationID,
-                Theme = Theme,
-                DialogMode = Templates.frmTemplateDialog.DialogModes.Save
-            };
-            DialogResult result = saveTemplate.ShowDialog();
+            long? templateID = await PurchaseOrderTemplate.PromptAndSavePurchaseOrderAsTemplate(Company, LocationModel, Theme, PurchaseOrderID);
 
-            if (result != DialogResult.OK)
+            if (templateID != null)
             {
-                return;
-            }
-
-            PurchaseOrderTemplate template = saveTemplate.SelectedTemplate;
-            template.PurchaseOrderID = PurchaseOrderID;
-
-            if (template.PurchaseOrderTemplateID == null)
-            {
-                PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrderTemplate/Post", template);
-                post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-                await post.ExecuteNoResult();
-            }
-            else
-            {
-                PutData put = new PutData(DataAccess.APIs.CompanyStudio, "PurchaseOrderTemplate/Put", template);
-                put.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-                await put.ExecuteNoResult();
+                _templateWarning = true;
+                SetupFormWarnings(null);
             }
         }
 

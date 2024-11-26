@@ -277,5 +277,10 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
                 Close();
             }
         }
+
+        private async void toolSaveTemplate_Click(object sender, EventArgs e)
+        {
+            await PurchaseOrderTemplate.PromptAndSavePurchaseOrderAsTemplate(Company, LocationModel, Theme, PurchaseOrderID);
+        }
     }
 }

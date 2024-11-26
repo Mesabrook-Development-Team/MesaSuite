@@ -72,6 +72,20 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
                 {
                     AddInvoice(invoice);
                 }
+
+                get.Resource = "PurchaseOrderApproval/GetForPurchaseOrder/" + PurchaseOrderID;
+                PurchaseOrderApproval purchaseOrderApproval = await get.GetObject<PurchaseOrderApproval>();
+                if (purchaseOrderApproval == null)
+                {
+                    tsbAutoApproving.Visible = false;
+                }
+                else
+                {
+                    tsbAutoApproving.Visible = true;
+                    tsbAutoApproving.Image = purchaseOrderApproval.FutureAutoApprove ? Properties.Resources.accept : Properties.Resources.cancel;
+                    tsbEnableAutoApproval.Checked = purchaseOrderApproval.FutureAutoApprove;
+                    tsbDisableAutoApproval.Checked = !purchaseOrderApproval.FutureAutoApprove;
+                }
             }
             finally
             {
@@ -211,6 +225,34 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
             if (post.RequestSuccessful)
             {
                 Close();
+            }
+        }
+
+        private async void tsbEnableAutoApproval_Click(object sender, EventArgs e)
+        {
+            PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrderApproval/SetAutoApprove", new { PurchaseOrderID, AutoApprove = true });
+            post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            await post.ExecuteNoResult();
+
+            if (post.RequestSuccessful)
+            {
+                tsbAutoApproving.Image = Properties.Resources.accept;
+                tsbEnableAutoApproval.Checked = true;
+                tsbDisableAutoApproval.Checked = false;
+            }
+        }
+
+        private async void tsbDisableAutoApproval_Click(object sender, EventArgs e)
+        {
+            PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrderApproval/SetAutoApprove", new { PurchaseOrderID, AutoApprove = false });
+            post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            await post.ExecuteNoResult();
+
+            if (post.RequestSuccessful)
+            {
+                tsbAutoApproving.Image = Properties.Resources.cancel;
+                tsbEnableAutoApproval.Checked = false;
+                tsbDisableAutoApproval.Checked = true;
             }
         }
     }

@@ -136,12 +136,76 @@ namespace API_Company.Controllers
 
             return Ok(DataObject.GetReadOnlyByPrimaryKey<PurchaseOrderApproval>(id, null, FieldsToRetrieve));
         }
-
         public struct ApproveParameter
         {
             public bool FutureAutoApprove { get; set; }
             public PurchaseOrder.InvoiceSchedules InvoiceSchedule { get; set; }
             public long? AccountIDReceiving { get; set; }
+        }
+
+        [HttpGet]
+        public async Task<IHttpActionResult> GetForPurchaseOrder(long? id)
+        {
+            Search<PurchaseOrderApproval> purchaseOrderApprovalSearch = new Search<PurchaseOrderApproval>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<PurchaseOrderApproval>()
+                {
+                    Field = nameof(PurchaseOrderApproval.PurchaseOrderID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = id
+                },
+                new LongSearchCondition<PurchaseOrderApproval>()
+                {
+                    Field = nameof(PurchaseOrderApproval.CompanyIDApprover),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = CompanyID
+                }));
+
+            PurchaseOrderApproval purchaseOrderApproval = await Task.Run(() => purchaseOrderApprovalSearch.GetReadOnlyReader(null, FieldsToRetrieve).FirstOrDefault());
+
+            if (purchaseOrderApproval == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(purchaseOrderApproval);
+        }
+
+        public struct SetAutoApproveParameter
+        {
+            public long? PurchaseOrderID { get; set; }
+            public bool AutoApprove { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> SetAutoApprove(SetAutoApproveParameter setAutoApproveParameter)
+        {
+            Search<PurchaseOrderApproval> purchaseOrderApprovalSearch = new Search<PurchaseOrderApproval>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<PurchaseOrderApproval>()
+                {
+                    Field = nameof(PurchaseOrderApproval.PurchaseOrderID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = setAutoApproveParameter.PurchaseOrderID
+                },
+                new LongSearchCondition<PurchaseOrderApproval>()
+                {
+                    Field = nameof(PurchaseOrderApproval.CompanyIDApprover),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = CompanyID
+                }));
+
+            PurchaseOrderApproval purchaseOrderApproval = await Task.Run(() => purchaseOrderApprovalSearch.GetEditable());
+            if (purchaseOrderApproval == null)
+            {
+                return NotFound();
+            }
+
+            purchaseOrderApproval.FutureAutoApprove = setAutoApproveParameter.AutoApprove;
+            if (!await Task.Run(() => purchaseOrderApproval.Save()))
+            {
+                return purchaseOrderApproval.HandleFailedValidation(this);
+            }
+
+            return Ok(await Task.Run(() => DataObject.GetReadOnlyByPrimaryKey<PurchaseOrderApproval>(purchaseOrderApproval.PurchaseOrderApprovalID, null, FieldsToRetrieve)));
         }
     }
 }

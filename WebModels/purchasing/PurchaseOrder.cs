@@ -263,12 +263,45 @@ namespace WebModels.purchasing
                     return false;
                 }
 
+                List<PurchaseOrderApproval> preApprovals = new List<PurchaseOrderApproval>();
+                if (PurchaseOrderIDClonedFrom != null)
+                {
+                    Search<PurchaseOrderApproval> preApprovalSearch = new Search<PurchaseOrderApproval>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                        new LongSearchCondition<PurchaseOrderApproval>()
+                        {
+                            Field = nameof(PurchaseOrderApproval.PurchaseOrderID),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = PurchaseOrderIDClonedFrom
+                        },
+                        new BooleanSearchCondition<PurchaseOrderApproval>()
+                        {
+                            Field = nameof(PurchaseOrderApproval.FutureAutoApprove),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = true
+                        },
+                        new IntSearchCondition<PurchaseOrderApproval>()
+                        {
+                            Field = nameof(PurchaseOrderApproval.ApprovalStatus),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = (int)PurchaseOrderApproval.ApprovalStatuses.Approved
+                        }));
+
+                    preApprovals.AddRange(preApprovalSearch.GetReadOnlyReader(transaction, FieldPathUtility.CreateFieldPathsAsList<PurchaseOrderApproval>(poa => new object[]
+                    {
+                        poa.CompanyIDApprover,
+                        poa.GovernmentIDApprover
+                    })));
+                }
+
+                bool recipientPreApprovalExists = preApprovals.Any(poa => poa.CompanyIDApprover == LocationDestination?.CompanyID && poa.GovernmentIDApprover == GovernmentIDDestination);
+                bool preApprovalApplied = recipientPreApprovalExists;
                 PurchaseOrderApproval recipientApproval = DataObjectFactory.Create<PurchaseOrderApproval>();
                 recipientApproval.PurchaseOrderID = PurchaseOrderID;
                 recipientApproval.CompanyIDApprover = LocationDestination?.CompanyID;
                 recipientApproval.GovernmentIDApprover = GovernmentIDDestination;
                 recipientApproval.ApprovalPurpose = PurchaseOrderApproval.DESTINATION_PURPOSE;
-                recipientApproval.ApprovalStatus = PurchaseOrderApproval.ApprovalStatuses.Pending;
+                recipientApproval.ApprovalStatus = recipientPreApprovalExists ? PurchaseOrderApproval.ApprovalStatuses.Approved : PurchaseOrderApproval.ApprovalStatuses.Pending;
+                recipientApproval.FutureAutoApprove = recipientPreApprovalExists;
                 if (!await Task.Run(() => recipientApproval.Save(localTransaction)))
                 {
                     Errors.AddRange(recipientApproval.Errors.ToArray());
@@ -308,30 +341,43 @@ namespace WebModels.purchasing
 
                 foreach (long? companyID in companyIDRoutes)
                 {
+                    bool preApprovalExists = preApprovals.Any(poa => poa.CompanyIDApprover == companyID);
                     PurchaseOrderApproval companyApproval = DataObjectFactory.Create<PurchaseOrderApproval>();
                     companyApproval.PurchaseOrderID = PurchaseOrderID;
                     companyApproval.CompanyIDApprover = companyID;
                     companyApproval.ApprovalPurpose = PurchaseOrderApproval.ROUTE_PURPOSE;
-                    companyApproval.ApprovalStatus = PurchaseOrderApproval.ApprovalStatuses.Pending;
+                    companyApproval.ApprovalStatus = preApprovalExists ? PurchaseOrderApproval.ApprovalStatuses.Approved : PurchaseOrderApproval.ApprovalStatuses.Pending;
+                    companyApproval.FutureAutoApprove = preApprovalExists;
                     if (!await Task.Run(() => companyApproval.Save(localTransaction)))
                     {
                         Errors.AddRange(companyApproval.Errors.ToArray());
                         return false;
                     }
+
+                    preApprovalApplied |= preApprovalExists;
                 }
 
                 foreach (long? governmentID in governmentIDRoutes)
                 {
+                    bool preApprovalExists = preApprovals.Any(poa => poa.GovernmentIDApprover == governmentID);
                     PurchaseOrderApproval governmentApproval = DataObjectFactory.Create<PurchaseOrderApproval>();
                     governmentApproval.PurchaseOrderID = PurchaseOrderID;
                     governmentApproval.GovernmentIDApprover = governmentID;
                     governmentApproval.ApprovalPurpose = PurchaseOrderApproval.ROUTE_PURPOSE;
-                    governmentApproval.ApprovalStatus = PurchaseOrderApproval.ApprovalStatuses.Pending;
+                    governmentApproval.ApprovalStatus = preApprovalExists ? PurchaseOrderApproval.ApprovalStatuses.Approved : PurchaseOrderApproval.ApprovalStatuses.Pending;
+                    governmentApproval.FutureAutoApprove = preApprovalExists;
                     if (!await Task.Run(() => governmentApproval.Save(localTransaction)))
                     {
                         Errors.AddRange(governmentApproval.Errors.ToArray());
                         return false;
                     }
+
+                    preApprovalApplied |= preApprovalExists;
+                }
+
+                if (preApprovalApplied)
+                {
+                    await ApprovalSubmitted(transaction);
                 }
 
                 if (transaction == null)

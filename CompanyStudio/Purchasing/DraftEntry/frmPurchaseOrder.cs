@@ -290,15 +290,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
                         this.ShowWarning("The following prices were updated following submission:\r\n\r\n" + linesWithDiscrepantPrices.ToString());
                     }
 
-                    // Open up approval form
-                    frmApprovalViewerSubmitter approvalViewer = new frmApprovalViewerSubmitter()
-                    {
-                        PurchaseOrderID = PurchaseOrderID
-                    };
-                    Studio.DecorateStudioContent(approvalViewer);
-                    approvalViewer.Company = Company;
-                    approvalViewer.LocationModel = LocationModel;
-                    approvalViewer.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
+                    // Open up next form
+                    PurchaseOrder.OpenPurchaseOrderForm(this, purchaseOrder);
                     Close();
                 }
 

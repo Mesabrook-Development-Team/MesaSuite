@@ -66,6 +66,7 @@ namespace CompanyStudio.Purchasing
                 }
 
                 int receivedCount = 0;
+                int receivedNonCompleteCount = 0;
                 foreach (PurchaseOrder purchaseOrder in purchaseOrders.Where(po => po.LocationIDDestination == LocationModel.LocationID || (po.PurchaseOrderApprovals?.Any(poa => poa.CompanyIDApprover == Company.CompanyID) ?? false)))
                 {
                     TreeNode parentNode = receivedNodes.FirstOrDefault(kvp => kvp.Key == purchaseOrder.Status).Value;
@@ -81,6 +82,11 @@ namespace CompanyStudio.Purchasing
                     purchaseOrderNode.Tag = purchaseOrder;
                     parentNode.Nodes.Add(purchaseOrderNode);
                     receivedCount++;
+
+                    if (purchaseOrder.Status != PurchaseOrder.Statuses.Completed)
+                    {
+                        receivedNonCompleteCount++;
+                    }
 
                     if (purchaseOrder.PurchaseOrderID == selectedPurchaseOrderID)
                     {
@@ -118,7 +124,7 @@ namespace CompanyStudio.Purchasing
                     parentNode.Text += " (" + parentNode.Nodes.Count + ")";
                     receivedNode.Nodes.Add(parentNode);
                 }
-                receivedNode.Text += " (" + receivedCount + ")";
+                receivedNode.Text += " (" + receivedNonCompleteCount + " Active/" + receivedCount + " Total)";
                 trePurchaseOrders.Nodes.Add(receivedNode);
 
                 TreeNode issuedNode = new TreeNode("Outgoing", imageList.Images.IndexOfKey("sent"), imageList.Images.IndexOfKey("sent"));
@@ -127,7 +133,7 @@ namespace CompanyStudio.Purchasing
                     parentNode.Text += " (" + parentNode.Nodes.Count + ")";
                     issuedNode.Nodes.Add(parentNode);
                 }
-                issuedNode.Text += " (" + issuedNonCompleteCount + "/" + issuedTotalCount + ")";
+                issuedNode.Text += " (" + issuedNonCompleteCount + " Active/" + issuedTotalCount + " Total)";
                 trePurchaseOrders.Nodes.Add(issuedNode);
 
                 trePurchaseOrders.ExpandAll();

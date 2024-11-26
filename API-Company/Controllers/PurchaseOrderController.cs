@@ -91,6 +91,7 @@ namespace API_Company.Controllers
             po.PurchaseOrderLines.First().Fulfillments.First().Quantity,
             po.PurchaseOrderLines.First().Fulfillments.First().FulfillmentTime,
             po.PurchaseOrderLines.First().Fulfillments.First().IsComplete,
+            po.PurchaseOrderLines.First().Fulfillments.First().InvoiceLineID,
             po.PurchaseOrderLines.First().RailcarLoads.First().RailcarID,
             po.PurchaseOrderLines.First().RailcarLoads.First().ItemID,
             po.PurchaseOrderLines.First().RailcarLoads.First().Quantity,
@@ -346,6 +347,37 @@ namespace API_Company.Controllers
             }
 
             return Created("PurchaseOrder/Get/" + newPurchaseOrderID, DataObject.GetReadOnlyByPrimaryKey<PurchaseOrder>(newPurchaseOrderID, null, await FieldsToRetrieve()));
+        }
+
+        public struct CloseParameter
+        {
+            public long? PurchaseOrderID { get; set; }
+        }
+        [HttpPost]
+        public async Task<IHttpActionResult> Close(CloseParameter parameter)
+        {
+            Search<PurchaseOrder> purchaseOrderSearch = new Search<PurchaseOrder>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                GetBaseSearchCondition(),
+                new LongSearchCondition<PurchaseOrder>()
+                {
+                    Field = nameof(PurchaseOrder.PurchaseOrderID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = parameter.PurchaseOrderID
+                }));
+
+            PurchaseOrder purchaseOrder = await Task.Run(() => purchaseOrderSearch.GetEditable());
+            if (purchaseOrder == null)
+            {
+                return NotFound();
+            }
+
+            purchaseOrder.Status = PurchaseOrder.Statuses.Completed;
+            if (!await Task.Run(() => purchaseOrder.Save(saveFlags: new List<Guid>() { PurchaseOrder.SaveFlags.V_StatusChange})))
+            {
+                return purchaseOrder.HandleFailedValidation(this);
+            }
+
+            return Ok(await Task.Run(async () => DataObject.GetReadOnlyByPrimaryKey<PurchaseOrder>(purchaseOrder.PurchaseOrderID, null, await FieldsToRetrieve())));
         }
     }
 }

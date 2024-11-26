@@ -260,5 +260,22 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
             payableInvoice.Invoice = invoice;
             payableInvoice.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
         }
+
+        private async void cmdClose_Click(object sender, EventArgs e)
+        {
+            if (!this.Confirm("Are you sure you want to close this Purchase Order? It cannot be reopened."))
+            {
+                return;
+            }
+
+            PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Close", new { PurchaseOrderID });
+            post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            await post.ExecuteNoResult();
+
+            if (post.RequestSuccessful)
+            {
+                Close();
+            }
+        }
     }
 }

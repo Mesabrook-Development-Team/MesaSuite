@@ -479,10 +479,10 @@ namespace CompanyStudio.Invoicing
                             putInvoiceLineID = null;
                         }
 
-                        PutData put = new PutData(DataAccess.APIs.CompanyStudio, "Fulfillment/PutInvoiceLine", new { FulfillmentID = putFulfillmentID, InvoiceLineID = putInvoiceLineID });
-                        put.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-                        await put.ExecuteNoResult();
-                        saveSuccessful &= put.RequestSuccessful;
+                        PostData post = new PostData(DataAccess.APIs.CompanyStudio, "Fulfillment/PutInvoiceLine", new { FulfillmentID = putFulfillmentID, InvoiceLineID = putInvoiceLineID });
+                        post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                        await post.ExecuteNoResult();
+                        saveSuccessful &= post.RequestSuccessful;
                     }
                 }
 

@@ -367,7 +367,7 @@ namespace ClussPro.ObjectBasedFramework
         protected void UpdateOneToOneRelationships(ITransaction transaction)
         {
             SchemaObject thisSchemaObject = Schema.Schema.GetSchemaObject(GetType());
-            foreach(Relationship relationship in thisSchemaObject.GetRelationships().Where(r => !r.OneToOneByForeignKey))
+            foreach(Relationship relationship in thisSchemaObject.GetRelationships().Where(r => !r.OneToOneByForeignKey && r.HasForeignKey))
             {
                 if (!IsFieldDirty(relationship.ForeignKeyField.FieldName) || GetValue(relationship.ForeignKeyField.FieldName) == null)
                 {

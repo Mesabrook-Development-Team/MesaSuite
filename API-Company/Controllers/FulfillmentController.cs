@@ -225,7 +225,7 @@ namespace API_Company.Controllers
             public long? InvoiceLineID { get; set; }
         }
 
-        [HttpPut]
+        [HttpPost]
         [LocationAccess(OptionalPermissions = new[] { nameof(LocationEmployee.ManageInvoices), nameof(LocationEmployee.ManagePurchaseOrders) })]
         public async Task<IHttpActionResult> PutInvoiceLine(PutInvoiceLineParameter parameter)
         {

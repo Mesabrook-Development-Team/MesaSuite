@@ -60,6 +60,11 @@
             this.colAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loader = new CompanyStudio.Loader();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.tsbClose = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.enableFutureAutoApprovalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableFutureAutoApprovalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -75,6 +80,7 @@
             this.toolStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvoices)).BeginInit();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -83,7 +89,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(444, 198);
+            this.groupBox1.Size = new System.Drawing.Size(444, 193);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Unfulfilled Purchase Order Lines";
@@ -94,14 +100,14 @@
             this.pnlUnfulfilledLines.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlUnfulfilledLines.Location = new System.Drawing.Point(3, 16);
             this.pnlUnfulfilledLines.Name = "pnlUnfulfilledLines";
-            this.pnlUnfulfilledLines.Size = new System.Drawing.Size(438, 179);
+            this.pnlUnfulfilledLines.Size = new System.Drawing.Size(438, 174);
             this.pnlUnfulfilledLines.TabIndex = 0;
             // 
             // lblPONumber
             // 
             this.lblPONumber.AutoSize = true;
             this.lblPONumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPONumber.Location = new System.Drawing.Point(12, 9);
+            this.lblPONumber.Location = new System.Drawing.Point(12, 29);
             this.lblPONumber.Name = "lblPONumber";
             this.lblPONumber.Size = new System.Drawing.Size(163, 20);
             this.lblPONumber.TabIndex = 1;
@@ -117,7 +123,7 @@
             this.lblOrderDate,
             this.toolStripStatusLabel3,
             this.lblDescription});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 430);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
             this.statusStrip1.TabIndex = 2;
@@ -165,7 +171,7 @@
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(12, 32);
+            this.splitContainer1.Location = new System.Drawing.Point(12, 52);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -175,7 +181,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
-            this.splitContainer1.Size = new System.Drawing.Size(776, 393);
+            this.splitContainer1.Size = new System.Drawing.Size(776, 375);
             this.splitContainer1.SplitterDistance = 444;
             this.splitContainer1.TabIndex = 3;
             // 
@@ -193,8 +199,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer2.Size = new System.Drawing.Size(444, 393);
-            this.splitContainer2.SplitterDistance = 198;
+            this.splitContainer2.Size = new System.Drawing.Size(444, 375);
+            this.splitContainer2.SplitterDistance = 193;
             this.splitContainer2.TabIndex = 0;
             // 
             // groupBox2
@@ -204,7 +210,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(444, 191);
+            this.groupBox2.Size = new System.Drawing.Size(444, 178);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Fulfillments";
@@ -226,7 +232,7 @@
             this.dgvFulfillments.ReadOnly = true;
             this.dgvFulfillments.RowHeadersVisible = false;
             this.dgvFulfillments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvFulfillments.Size = new System.Drawing.Size(438, 147);
+            this.dgvFulfillments.Size = new System.Drawing.Size(438, 134);
             this.dgvFulfillments.TabIndex = 0;
             this.dgvFulfillments.SelectionChanged += new System.EventHandler(this.dgvFulfillments_SelectionChanged);
             // 
@@ -319,7 +325,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(328, 393);
+            this.groupBox3.Size = new System.Drawing.Size(328, 375);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Invoices";
@@ -341,7 +347,7 @@
             this.dgvInvoices.ReadOnly = true;
             this.dgvInvoices.RowHeadersVisible = false;
             this.dgvInvoices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvInvoices.Size = new System.Drawing.Size(322, 374);
+            this.dgvInvoices.Size = new System.Drawing.Size(322, 356);
             this.dgvInvoices.TabIndex = 0;
             this.dgvInvoices.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvInvoices_CellMouseDoubleClickAsync);
             // 
@@ -384,15 +390,63 @@
             this.loader.TabIndex = 4;
             this.loader.Visible = false;
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbClose,
+            this.toolStripDropDownButton1});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(800, 25);
+            this.toolStrip2.TabIndex = 5;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // tsbClose
+            // 
+            this.tsbClose.Image = global::CompanyStudio.Properties.Resources.cart_delete;
+            this.tsbClose.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbClose.Name = "tsbClose";
+            this.tsbClose.Size = new System.Drawing.Size(131, 22);
+            this.tsbClose.Text = "Close Purchase Order";
+            this.tsbClose.Click += new System.EventHandler(this.tsbClose_Click);
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.enableFutureAutoApprovalsToolStripMenuItem,
+            this.disableFutureAutoApprovalsToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = global::CompanyStudio.Properties.Resources.accept;
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(112, 22);
+            this.toolStripDropDownButton1.Text = "Auto-Approving";
+            // 
+            // enableFutureAutoApprovalsToolStripMenuItem
+            // 
+            this.enableFutureAutoApprovalsToolStripMenuItem.Checked = true;
+            this.enableFutureAutoApprovalsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.enableFutureAutoApprovalsToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.accept;
+            this.enableFutureAutoApprovalsToolStripMenuItem.Name = "enableFutureAutoApprovalsToolStripMenuItem";
+            this.enableFutureAutoApprovalsToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.enableFutureAutoApprovalsToolStripMenuItem.Text = "Enable Future Auto-Approvals";
+            // 
+            // disableFutureAutoApprovalsToolStripMenuItem
+            // 
+            this.disableFutureAutoApprovalsToolStripMenuItem.Image = global::CompanyStudio.Properties.Resources.cancel;
+            this.disableFutureAutoApprovalsToolStripMenuItem.Name = "disableFutureAutoApprovalsToolStripMenuItem";
+            this.disableFutureAutoApprovalsToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.disableFutureAutoApprovalsToolStripMenuItem.Text = "Disable Future Auto-Approvals";
+            // 
             // frmOpenPurchaseOrderReceiver
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 452);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.lblPONumber);
             this.Controls.Add(this.loader);
+            this.Controls.Add(this.toolStrip2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmOpenPurchaseOrderReceiver";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -416,6 +470,8 @@
             this.toolStrip1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvoices)).EndInit();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -454,5 +510,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDueDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton tsbClose;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem enableFutureAutoApprovalsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disableFutureAutoApprovalsToolStripMenuItem;
     }
 }

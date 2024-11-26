@@ -32,6 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPOInfo = new System.Windows.Forms.TabPage();
+            this.cmdClose = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pnlPOLines = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
@@ -116,6 +117,7 @@
             // 
             // tabPOInfo
             // 
+            this.tabPOInfo.Controls.Add(this.cmdClose);
             this.tabPOInfo.Controls.Add(this.groupBox1);
             this.tabPOInfo.Controls.Add(this.label5);
             this.tabPOInfo.Controls.Add(this.txtDescription);
@@ -132,15 +134,28 @@
             this.tabPOInfo.Text = "Purchase Order Information";
             this.tabPOInfo.UseVisualStyleBackColor = true;
             // 
+            // cmdClose
+            // 
+            this.cmdClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdClose.BackColor = System.Drawing.Color.Red;
+            this.cmdClose.ForeColor = System.Drawing.Color.Black;
+            this.cmdClose.Location = new System.Drawing.Point(785, 154);
+            this.cmdClose.Name = "cmdClose";
+            this.cmdClose.Size = new System.Drawing.Size(125, 23);
+            this.cmdClose.TabIndex = 1;
+            this.cmdClose.Text = "Close Purchase Order";
+            this.cmdClose.UseVisualStyleBackColor = false;
+            this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
+            // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.pnlPOLines);
-            this.groupBox1.Location = new System.Drawing.Point(6, 154);
+            this.groupBox1.Location = new System.Drawing.Point(6, 183);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(904, 332);
+            this.groupBox1.Size = new System.Drawing.Size(904, 303);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Purchase Order Lines";
@@ -151,7 +166,7 @@
             this.pnlPOLines.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPOLines.Location = new System.Drawing.Point(3, 16);
             this.pnlPOLines.Name = "pnlPOLines";
-            this.pnlPOLines.Size = new System.Drawing.Size(898, 313);
+            this.pnlPOLines.Size = new System.Drawing.Size(898, 284);
             this.pnlPOLines.TabIndex = 0;
             // 
             // label5
@@ -676,5 +691,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDueDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn colInvoiceAmount;
+        private System.Windows.Forms.Button cmdClose;
     }
 }

@@ -178,6 +178,11 @@ namespace WebModels.purchasing
                 return false;
             }
 
+            if (IsFieldDirty(nameof(Status)) && Status == Statuses.Completed && !ChargeQuoteDifference(transaction))
+            {
+                return false;
+            }
+
             return base.PreSave(transaction);
         }
 
@@ -472,6 +477,219 @@ namespace WebModels.purchasing
                 {
                     Errors.AddRange(line.Errors.ToArray());
                     return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool ChargeQuoteDifference(ITransaction transaction)
+        {
+            Search<PurchaseOrderLine> purchaseOrderLineSearch = new Search<PurchaseOrderLine>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new LongSearchCondition<PurchaseOrderLine>()
+                {
+                    Field = nameof(PurchaseOrderLine.PurchaseOrderID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = PurchaseOrderID
+                },
+                new DecimalSearchCondition<PurchaseOrderLine>()
+                {
+                    Field = nameof(PurchaseOrderLine.RemainingQuantity),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Greater,
+                    Value = 0M
+                }));
+
+            List<ISearchCondition> entitySearchConditions = new List<ISearchCondition>();
+            if (GovernmentIDDestination != null)
+            {
+                entitySearchConditions.Add(new LongSearchCondition<QuotationItem>()
+                {
+                    Field = FieldPathUtility.CreateFieldPath<QuotationItem>(qi => qi.Quotation.GovernmentIDFrom),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = GovernmentIDDestination
+                });
+            }
+            if (GovernmentIDOrigin != null)
+            {
+                entitySearchConditions.Add(new LongSearchCondition<QuotationItem>()
+                {
+                    Field = FieldPathUtility.CreateFieldPath<QuotationItem>(qi => qi.Quotation.GovernmentIDTo),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = GovernmentIDOrigin
+                });
+            }
+            if (LocationIDDestination != null)
+            {
+                long? companyIDDestination = DataObject.GetReadOnlyByPrimaryKey<Location>(LocationIDDestination, transaction, new string[] { nameof(Location.CompanyID) }).CompanyID;
+
+                entitySearchConditions.Add(new LongSearchCondition<QuotationItem>()
+                {
+                    Field = FieldPathUtility.CreateFieldPath<QuotationItem>(qi => qi.Quotation.CompanyIDFrom),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = companyIDDestination
+                });
+            }
+            if (LocationIDOrigin != null)
+            {
+                long? companyIDOrigin = DataObject.GetReadOnlyByPrimaryKey<Location>(LocationIDOrigin, transaction, new string[] { nameof(Location.CompanyID) }).CompanyID;
+
+                entitySearchConditions.Add(new LongSearchCondition<QuotationItem>()
+                {
+                    Field = FieldPathUtility.CreateFieldPath<QuotationItem>(qi => qi.Quotation.CompanyIDTo),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = companyIDOrigin
+                });
+            }
+            entitySearchConditions.Add(new DateTimeSearchCondition<QuotationItem>()
+            {
+                Field = FieldPathUtility.CreateFieldPath<QuotationItem>(qi => qi.Quotation.ExpirationTime),
+                SearchConditionType = SearchCondition.SearchConditionTypes.GreaterEquals,
+                Value = PurchaseOrderDate
+            });
+
+            Dictionary<long?, decimal> underpaidQuantityByItemID = new Dictionary<long?, decimal>();
+            Dictionary<long?, decimal> paidAmountByItemID = new Dictionary<long?, decimal>();
+            foreach (PurchaseOrderLine purchaseOrderLine in purchaseOrderLineSearch.GetReadOnlyReader(transaction, FieldPathUtility.CreateFieldPathsAsList<PurchaseOrderLine>(pol => new object[]
+            {
+                pol.FulfilledQuantity,
+                pol.ItemID,
+                pol.Quantity,
+                pol.UnitCost
+            })))
+            {
+                List<ISearchCondition> andConditions = new List<ISearchCondition>(entitySearchConditions)
+                {
+                    new LongSearchCondition<QuotationItem>()
+                    {
+                        Field = nameof(QuotationItem.ItemID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = purchaseOrderLine.ItemID
+                    }
+                };
+
+                Search<QuotationItem> quotationItemSearch = new Search<QuotationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And, andConditions.ToArray()));
+                QuotationItem quotationItem = quotationItemSearch.GetReadOnly(transaction, FieldPathUtility.CreateFieldPathsAsList<QuotationItem>(qi => new object[]
+                {
+                    qi.MinimumQuantity
+                }));
+
+                if (purchaseOrderLine.FulfilledQuantity < quotationItem.MinimumQuantity)
+                {
+                    underpaidQuantityByItemID.GetOrSet(purchaseOrderLine.ItemID, () => 0M);
+                    paidAmountByItemID.GetOrSet(purchaseOrderLine.ItemID, () => 0M);
+
+                    underpaidQuantityByItemID[purchaseOrderLine.ItemID] += purchaseOrderLine.FulfilledQuantity.Value;
+                    paidAmountByItemID[purchaseOrderLine.ItemID] += (purchaseOrderLine.UnitCost * purchaseOrderLine.FulfilledQuantity).Value;
+                }
+            }
+
+            if (underpaidQuantityByItemID.Any())
+            {
+                Dictionary<long?, decimal> chargesByItemID = new Dictionary<long?, decimal>();
+                Search<LocationItem> locationItemSearch = new Search<LocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<LocationItem>()
+                    {
+                        Field = nameof(Location.LocationID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = LocationIDDestination
+                    },
+                    new DecimalSearchCondition<LocationItem>()
+                    {
+                        Field = nameof(LocationItem.Quantity),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = 1
+                    },
+                    new LongSearchCondition<LocationItem>()
+                    {
+                        Field = nameof(LocationItem.ItemID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.List,
+                        List = underpaidQuantityByItemID.Keys.Select(k => k.Value).ToList()
+                    }));
+
+                foreach (LocationItem locationItem in locationItemSearch.GetReadOnlyReader(transaction, FieldPathUtility.CreateFieldPathsAsList<LocationItem>(li => new object[]
+                {
+                    li.ItemID,
+                    li.BasePrice
+                })))
+                {
+                    decimal? amountToCharge = locationItem.BasePrice * underpaidQuantityByItemID[locationItem.ItemID] - paidAmountByItemID[locationItem.ItemID];
+
+                    if (amountToCharge > 0)
+                    {
+                        chargesByItemID[locationItem.ItemID] = amountToCharge.Value;
+                    }
+                }
+
+                if (chargesByItemID.Any())
+                {
+                    string nextInvoiceNumber = "PO" + PurchaseOrderID;
+                    if (LocationIDDestination != null)
+                    {
+                        Location location = DataObject.GetReadOnlyByPrimaryKey<Location>(LocationIDDestination, transaction, FieldPathUtility.CreateFieldPathsAsList<Location>(l => new object[]
+                        {
+                            l.InvoiceNumberPrefix,
+                            l.NextInvoiceNumber
+                        }));
+
+                        if (!string.IsNullOrEmpty(location.NextInvoiceNumber))
+                        {
+                            nextInvoiceNumber = $"{location.InvoiceNumberPrefix}{location.NextInvoiceNumber}";
+                        }
+                    }
+                    else if (GovernmentIDDestination != null)
+                    {
+                        Government government = DataObject.GetReadOnlyByPrimaryKey<Government>(GovernmentIDDestination, transaction, FieldPathUtility.CreateFieldPathsAsList<Government>(g => new object[]
+                        {
+                            g.InvoiceNumberPrefix,
+                            g.NextInvoiceNumber
+                        }));
+
+                        if (!string.IsNullOrEmpty(government.NextInvoiceNumber))
+                        {
+                            nextInvoiceNumber = $"{government.InvoiceNumberPrefix}{government.NextInvoiceNumber}";
+                        }
+                    }
+
+                    Invoice invoice = DataObjectFactory.Create<Invoice>();
+                    invoice.GovernmentIDTo = GovernmentIDOrigin;
+                    invoice.GovernmentIDFrom = GovernmentIDDestination;
+                    invoice.LocationIDTo = LocationIDOrigin;
+                    invoice.LocationIDFrom = LocationIDDestination;
+                    invoice.PurchaseOrderID = PurchaseOrderID;
+                    invoice.InvoiceNumber = nextInvoiceNumber;
+                    invoice.InvoiceDate = DateTime.Now;
+                    invoice.DueDate = DateTime.Now.AddDays(14);
+                    invoice.Description = "Charges for Purchase Order " + PurchaseOrderID;
+                    invoice.AccountIDTo = AccountIDReceiving;
+                    if (!invoice.Save(transaction))
+                    {
+                        Errors.AddRange(invoice.Errors.ToArray());
+                        return false;
+                    }
+                    else
+                    {
+                        foreach (KeyValuePair<long?, decimal> charge in chargesByItemID)
+                        {
+                            InvoiceLine invoiceLine = DataObjectFactory.Create<InvoiceLine>();
+                            invoiceLine.InvoiceID = invoice.InvoiceID;
+                            invoiceLine.ItemID = charge.Key;
+                            invoiceLine.Quantity = 1;
+                            invoiceLine.UnitCost = charge.Value;
+                            invoiceLine.Description = "Makeup charge - quote minimum quantity not met";
+                            if (!invoiceLine.Save(transaction))
+                            {
+                                Errors.AddRange(invoiceLine.Errors.ToArray());
+                                return false;
+                            }
+                        }
+                    }
+
+                    invoice.IssueInvoice(transaction);
+                    if (invoice.Errors.Any())
+                    {
+                        Errors.AddRange(invoice.Errors.ToArray());
+                        return false;
+                    }
                 }
             }
 

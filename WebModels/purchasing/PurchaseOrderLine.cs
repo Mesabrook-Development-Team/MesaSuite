@@ -147,7 +147,35 @@ namespace WebModels.purchasing
 
                 return zeroOrOverCase;
             };
-        }    
+        }
+
+        private decimal? _fulfilledQuantity;
+        [Field("22B384E4-7478-4B71-AB62-53AE2B9F4EE9", HasOperation = true)]
+        public decimal? FulfilledQuantity
+        {
+            get { CheckGet(); return _fulfilledQuantity; }
+        }
+
+        public static OperationDelegate FulfilledQuantityOperation
+        {
+            get => (myAlias) =>
+            {
+                ISelectQuery selectQuery = SQLProviderFactory.GetSelectQuery();
+                selectQuery.Table = new Table("purchasing", "Fulfillment", "innerfulfillment");
+                selectQuery.SelectList = new List<Select>()
+                {
+                    new Select() { SelectOperand = new Sum((Field)$"innerfulfillment.Quantity") }
+                };
+                selectQuery.WhereCondition = new Condition()
+                {
+                    Left = (Field)"innerfulfillment.PurchaseOrderLineID",
+                    ConditionType = Condition.ConditionTypes.Equal,
+                    Right = (Field)$"{myAlias}.PurchaseOrderLineID"
+                };
+
+                return new SubQuery(selectQuery);
+            };
+        }
             
         protected override bool PreDelete(ITransaction transaction)
         {

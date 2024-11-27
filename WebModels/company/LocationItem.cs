@@ -11,12 +11,13 @@ using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WebModels.gov;
 using WebModels.mesasys;
 
 namespace WebModels.company
 {
     [Table("E97C6315-06D2-462D-A9F2-FB2971047221")]
-    [Unique(new[] { nameof(LocationID), nameof(ItemID), nameof(Quantity) })]
+    [Unique(new[] { nameof(LocationID), nameof(GovernmentID), nameof(ItemID), nameof(Quantity) })]
     public class LocationItem : DataObject
     {
         protected LocationItem() : base() { }
@@ -33,7 +34,6 @@ namespace WebModels.company
 
         private long? _locationID;
         [Field("5F523791-7A97-48C3-B06B-893AB4C748A7")]
-        [Required]
         public long? LocationID
         {
             get { CheckGet(); return _locationID; }
@@ -45,6 +45,21 @@ namespace WebModels.company
         public Location Location
         {
             get { CheckGet(); return _location; }
+        }
+
+        private long? _governmentID;
+        [Field("EDC68D0A-3514-4172-9AAB-9952A431FD0E")]
+        public long? GovernmentID
+        {
+            get { CheckGet(); return _governmentID; }
+            set { CheckSet(); _governmentID = value; }
+        }
+
+        private Government _government = null;
+        [Relationship("7A3B00B2-57A7-4956-9CBD-08E95F204EFA")]
+        public Government Government
+        {
+            get { CheckGet(); return _government; }
         }
 
         private long? _itemID;
@@ -163,7 +178,7 @@ namespace WebModels.company
 
         protected override bool PostSave(ITransaction transaction)
         {
-            if (!SkipAutomaticPriceUpdate)
+            if (GovernmentID == null && !SkipAutomaticPriceUpdate)
             {
                 StorePricingAutomation storePricingAutomation = new Search<StorePricingAutomation>(new LongSearchCondition<StorePricingAutomation>()
                 {
@@ -232,7 +247,7 @@ namespace WebModels.company
 
         protected override bool PostDelete(ITransaction transaction)
         {
-            if (!SkipAutomaticPriceUpdate)
+            if (GovernmentID == null && !SkipAutomaticPriceUpdate)
             {
                 StorePricingAutomation storePricingAutomation = new Search<StorePricingAutomation>(new LongSearchCondition<StorePricingAutomation>()
                 {

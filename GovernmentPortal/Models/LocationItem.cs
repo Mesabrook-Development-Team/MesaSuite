@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CompanyStudio.Models
+namespace GovernmentPortal.Models
 {
     public class LocationItem
     {

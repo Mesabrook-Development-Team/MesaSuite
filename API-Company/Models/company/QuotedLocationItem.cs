@@ -22,7 +22,9 @@ namespace API_Company.Models.company
 
         public static async Task ApplyQuotes(List<QuotedLocationItem> items, System.Net.Http.HttpRequestMessage request, System.Web.Http.Controllers.HttpActionContext actionContext)
         {
-            if (items == null || !items.Any(i => i != null))
+            items = items?.Where(i => i != null && i.GovernmentID == null).ToList();
+
+            if (items == null || !items.Any())
             {
                 return;
             }
@@ -33,7 +35,7 @@ namespace API_Company.Models.company
                 throw new InvalidOperationException("All items must be from the same location.");
             }
 
-            if (!string.IsNullOrEmpty(request.Headers.Authorization.Parameter) && request.Headers.Contains("CompanyID") && long.TryParse(request.Headers.GetValues("CompanyID").First(), out long companyID))
+            if (!string.IsNullOrEmpty(request.Headers.Authorization?.Parameter) && request.Headers.Contains("CompanyID") && long.TryParse(request.Headers.GetValues("CompanyID").First(), out long companyID))
             {
                 var unauthorized = await MesabrookAuthorizationAttribute.CheckHeadersForSecurity(actionContext);
                 if (unauthorized == null)

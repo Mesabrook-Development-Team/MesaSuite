@@ -1,23 +1,21 @@
 ﻿using API.Common;
 using API.Common.Attributes;
-using API_Company.App_Code;
-using API_Company.Attributes;
+using API_Government.Attributes;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
-using ClussPro.ObjectBasedFramework.Validation;
 using System.Collections.Generic;
 using System.Linq;
 using WebModels.company;
+using WebModels.gov;
 
-namespace API_Company.Controllers
+namespace API_Government.Controllers
 {
     [MesabrookAuthorization]
-    [ProgramAccess("company")]
-    [LocationAccess(OptionalPermissions = new[] { nameof(LocationEmployee.ManagePrices), nameof(LocationEmployee.ManagePurchaseOrders) })]
+    [ProgramAccess("gov")]
+    [GovernmentAccess(RequiredPermissions = new[] { nameof(Official.ManagePurchaseOrders) })]
     public class LocationItemController : DataObjectController<LocationItem>
     {
-        private long CompanyID => long.Parse(Request.Headers.GetValues("CompanyID").First());
-        private long LocationID => long.Parse(Request.Headers.GetValues("LocationID").First());
+        private long GovernmentID => long.Parse(Request.Headers.GetValues("GovernmentID").First());
 
         public override IEnumerable<string> DefaultRetrievedFields => FieldPathUtility.CreateFieldPathsAsList<LocationItem>(li => new List<object>()
         {
@@ -45,9 +43,9 @@ namespace API_Company.Controllers
         {
             return new LongSearchCondition<LocationItem>()
             {
-                Field = nameof(LocationItem.LocationID),
+                Field = nameof(LocationItem.GovernmentID),
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = LocationID
+                Value = GovernmentID
             };
         }
 

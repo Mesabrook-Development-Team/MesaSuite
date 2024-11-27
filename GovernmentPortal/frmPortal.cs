@@ -33,7 +33,8 @@ namespace GovernmentPortal
                 { PermissionsManager.Permissions.ManageTaxes, tsmiTaxes },
                 { PermissionsManager.Permissions.ManageInvoices, mnuInvoices },
                 { PermissionsManager.Permissions.IssueWireTransfers, mnuWireTransfers },
-                { PermissionsManager.Permissions.ManageLaws, toolLaws }
+                { PermissionsManager.Permissions.ManageLaws, toolLaws },
+                { PermissionsManager.Permissions.ManagePurchaseOrders, toolPurchasing }
             };
         }
 
@@ -424,6 +425,14 @@ namespace GovernmentPortal
             lawEditor.MdiParent = this;
             lawEditor.GovernmentID = _government.GovernmentID;
             lawEditor.Show();
+        }
+
+        private void toolPriceManager_Click(object sender, EventArgs e)
+        {
+            Purchasing.frmPriceManager priceManager = new Purchasing.frmPriceManager();
+            priceManager.MdiParent = this;
+            priceManager.GovernmentID = _government.GovernmentID.Value;
+            priceManager.Show();
         }
     }
 }

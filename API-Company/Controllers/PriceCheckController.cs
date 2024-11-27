@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebModels.company;
+using WebModels.gov;
 using WebModels.mesasys;
 using WebModels.purchasing;
 
@@ -38,19 +39,51 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
-        public async Task<List<QuotedLocationItem>> GetItems([FromUri]long? locationID)
+        public List<Government> GetGovernments()
         {
-            Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(new LongSearchCondition<QuotedLocationItem>()
+            Search<Government> governmentSearch = new Search<Government>(new ExistsSearchCondition<Government>()
             {
-                Field = nameof(QuotedLocationItem.LocationID),
-                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = locationID
+                RelationshipName = nameof(Government.LocationItems),
+                ExistsType = ExistsSearchCondition<Government>.ExistsTypes.Exists
             });
+
+            return governmentSearch.GetReadOnlyReader(null, FieldPathUtility.CreateFieldPathsAsList<Government>(g => new List<object>()
+            {
+                g.GovernmentID,
+                g.Name
+            })).ToList();
+        }
+
+        [HttpGet]
+        public async Task<List<QuotedLocationItem>> GetItems([FromUri]long? locationID = null, [FromUri]long? governmentID = null)
+        {
+            LongSearchCondition<QuotedLocationItem> entitySearchCondition;
+            if (locationID != null)
+            {
+                entitySearchCondition = new LongSearchCondition<QuotedLocationItem>()
+                {
+                    Field = nameof(QuotedLocationItem.LocationID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = locationID
+                };
+            }
+            else
+            {
+                entitySearchCondition = new LongSearchCondition<QuotedLocationItem>()
+                {
+                    Field = nameof(QuotedLocationItem.GovernmentID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = governmentID
+                };
+            }
+
+            Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(entitySearchCondition);
 
             List<QuotedLocationItem> quotedLocationItems = locationItemSearch.GetReadOnlyReader(null, FieldPathUtility.CreateFieldPathsAsList<LocationItem>(l => new List<object>()
             {
                 l.LocationItemID,
                 l.LocationID,
+                l.GovernmentID,
                 l.ItemID,
                 l.Item.Name,
                 l.Item.ItemNamespace.Namespace,
@@ -66,8 +99,28 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
-        public async Task<QuotedLocationItem> GetItem([FromUri] long? locationID, [FromUri]string itemName, [FromUri]decimal? quantity)
+        public async Task<QuotedLocationItem> GetItem([FromUri]string itemName, [FromUri]decimal? quantity, [FromUri] long? locationID = null, [FromUri] long? governmentID = null)
         {
+            LongSearchCondition<QuotedLocationItem> entitySearchCondition;
+            if (locationID != null)
+            {
+                entitySearchCondition = new LongSearchCondition<QuotedLocationItem>()
+                {
+                    Field = nameof(QuotedLocationItem.LocationID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = locationID
+                };
+            }
+            else
+            {
+                entitySearchCondition = new LongSearchCondition<QuotedLocationItem>()
+                {
+                    Field = nameof(QuotedLocationItem.GovernmentID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = governmentID
+                };
+            }
+
             Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 new StringSearchCondition<QuotedLocationItem>()
                 {
@@ -75,12 +128,7 @@ namespace API_Company.Controllers
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = itemName
                 },
-                new LongSearchCondition<QuotedLocationItem>()
-                {
-                    Field = nameof(QuotedLocationItem.LocationID),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = locationID
-                },
+                entitySearchCondition,
                 new DecimalSearchCondition<QuotedLocationItem>()
                 {
                     Field = nameof(QuotedLocationItem.Quantity),
@@ -92,6 +140,7 @@ namespace API_Company.Controllers
             {
                 l.LocationItemID,
                 l.LocationID,
+                l.GovernmentID,
                 l.ItemID,
                 l.Item.Name,
                 l.Item.ItemNamespace.Namespace,
@@ -107,8 +156,28 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
-        public async Task<QuotedLocationItem> GetItem([FromUri]long? locationID, [FromUri]long? itemID, [FromUri]decimal? quantity)
+        public async Task<QuotedLocationItem> GetItem([FromUri]long? itemID, [FromUri]decimal? quantity, [FromUri] long? locationID = null, [FromUri] long? governmentID = null)
         {
+            LongSearchCondition<QuotedLocationItem> entitySearchCondition;
+            if (locationID != null)
+            {
+                entitySearchCondition = new LongSearchCondition<QuotedLocationItem>()
+                {
+                    Field = nameof(QuotedLocationItem.LocationID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = locationID
+                };
+            }
+            else
+            {
+                entitySearchCondition = new LongSearchCondition<QuotedLocationItem>()
+                {
+                    Field = nameof(QuotedLocationItem.GovernmentID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = governmentID
+                };
+            }
+
             Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 new LongSearchCondition<QuotedLocationItem>()
                 {
@@ -116,12 +185,7 @@ namespace API_Company.Controllers
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = itemID
                 },
-                new LongSearchCondition<QuotedLocationItem>()
-                {
-                    Field = nameof(QuotedLocationItem.LocationID),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = locationID
-                },
+                entitySearchCondition,
                 new DecimalSearchCondition<QuotedLocationItem>()
                 {
                     Field = nameof(QuotedLocationItem.Quantity),
@@ -133,6 +197,7 @@ namespace API_Company.Controllers
             {
                 l.LocationItemID,
                 l.LocationID,
+                l.GovernmentID,
                 l.ItemID,
                 l.Item.Name,
                 l.Item.ItemNamespace.Namespace,
@@ -148,7 +213,7 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
-        public async Task<List<QuotedLocationItem>> FindItem([FromUri] string itemName, [FromUri] decimal? quantity)
+        public async Task<List<QuotedLocationItem>> FindItem([FromUri] string itemName, [FromUri] decimal? quantity = null)
         {
             SearchConditionGroup searchCondition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 new StringSearchCondition<QuotedLocationItem>()
@@ -173,6 +238,7 @@ namespace API_Company.Controllers
             {
                 l.LocationItemID,
                 l.LocationID,
+                l.GovernmentID,
                 l.ItemID,
                 l.Item.Name,
                 l.Item.ItemNamespace.Namespace,

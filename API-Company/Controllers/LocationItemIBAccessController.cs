@@ -19,6 +19,7 @@ namespace API_Company.Controllers
         {
             li.LocationItemID,
             li.LocationID,
+            li.GovernmentID,
             li.ItemID,
             li.Quantity,
             li.BasePrice,

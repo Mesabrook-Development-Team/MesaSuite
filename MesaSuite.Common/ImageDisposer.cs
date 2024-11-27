@@ -16,14 +16,7 @@ namespace MesaSuite.Common
 
         private void ImageDisposer_Disposed(object sender, EventArgs e)
         {
-            foreach(Image image in Images)
-            {
-                try
-                {
-                    image.Dispose();
-                }
-                catch { }
-            }
+            DisposeAllImages();
         }
 
         public ImageDisposer(IContainer container)
@@ -31,6 +24,18 @@ namespace MesaSuite.Common
             container.Add(this);
 
             InitializeComponent();
+        }
+
+        public void DisposeAllImages()
+        {
+            foreach (Image image in Images)
+            {
+                try
+                {
+                    image.Dispose();
+                }
+                catch { }
+            }
         }
     }
 }

@@ -446,6 +446,13 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _purchaseOrderTemplates; }
         }
+
+        private List<LocationItem> _locationItems = new List<LocationItem>();
+        [RelationshipList("137927AD-5E12-4104-902D-1C270E8E30C5", nameof(LocationItem.GovernmentID))]
+        public IReadOnlyCollection<LocationItem> LocationItems
+        {
+            get { CheckGet(); return _locationItems; }
+        }
         #endregion
         #endregion
     }

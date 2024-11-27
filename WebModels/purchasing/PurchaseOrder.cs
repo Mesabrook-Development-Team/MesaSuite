@@ -468,22 +468,34 @@ namespace WebModels.purchasing
             quotes.ForEach(q => q.QuotationItems.ToList().ForEach(qi => quotesByItem[qi] = q));
 
             List<LocationItem> locationItems = new List<LocationItem>();
+            LongSearchCondition<LocationItem> locationItemEntitySearchCondition;
             if (LocationIDDestination != null)
             {
-                Search<LocationItem> locationItemSearch = new Search<LocationItem>(new LongSearchCondition<LocationItem>()
+                locationItemEntitySearchCondition = new LongSearchCondition<LocationItem>()
                 {
                     Field = nameof(LocationItem.LocationID),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = LocationIDDestination
-                });
-                locationItems = locationItemSearch.GetReadOnlyReader(transaction, FieldPathUtility.CreateFieldPathsAsList<LocationItem>(li => new List<object>()
-                {
-                    li.ItemID,
-                    li.Quantity,
-                    li.BasePrice,
-                    li.CurrentPromotionLocationItem.PromotionPrice
-                })).ToList();
+                };
             }
+            else
+            {
+                locationItemEntitySearchCondition = new LongSearchCondition<LocationItem>()
+                {
+                    Field = nameof(LocationItem.GovernmentID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = GovernmentIDDestination
+                };
+            }
+
+            Search<LocationItem> locationItemSearch = new Search<LocationItem>(locationItemEntitySearchCondition);
+            locationItems = locationItemSearch.GetReadOnlyReader(transaction, FieldPathUtility.CreateFieldPathsAsList<LocationItem>(li => new List<object>()
+            {
+                li.ItemID,
+                li.Quantity,
+                li.BasePrice,
+                li.CurrentPromotionLocationItem.PromotionPrice
+            })).ToList();
 
             Search<PurchaseOrderLine> lineSearch = new Search<PurchaseOrderLine>(new LongSearchCondition<PurchaseOrderLine>()
             {

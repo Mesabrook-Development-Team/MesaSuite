@@ -112,6 +112,7 @@
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LawController.cs" />
     <Compile Include="Controllers\LawSectionController.cs" />
+    <Compile Include="Controllers\LocationItemController.cs" />
     <Compile Include="Controllers\OfficialController.cs" />
     <Compile Include="Controllers\SalesTaxController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />

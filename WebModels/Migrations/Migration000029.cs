@@ -351,6 +351,8 @@ namespace WebModels.Migrations
             alterTable.Schema = "company";
             alterTable.Table = "LocationItem";
             alterTable.AlterColumn("Quantity", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2), transaction);
+            alterTable.AddColumn("GovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
+            alterTable.AddForeignKey("FKLocationItem_Government_GovernmentID", "GovernmentID", "gov", "Government", "GovernmentID", transaction);
         }
     }
 }

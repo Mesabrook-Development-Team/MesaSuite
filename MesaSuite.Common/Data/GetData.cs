@@ -30,6 +30,11 @@ namespace MesaSuite.Common.Data
             {
                 foreach (string queryStringValue in queryString.Value)
                 {
+                    if (queryStringValue == null)
+                    {
+                        continue;
+                    }
+
                     if (first)
                     {
                         uriBuilder.Append("?");

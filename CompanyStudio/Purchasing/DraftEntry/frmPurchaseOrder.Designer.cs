@@ -248,6 +248,7 @@
             this.cboGovernment.Name = "cboGovernment";
             this.cboGovernment.Size = new System.Drawing.Size(281, 21);
             this.cboGovernment.TabIndex = 2;
+            this.cboGovernment.SelectedIndexChanged += new System.EventHandler(this.cboGovernment_SelectedIndexChanged);
             // 
             // rdoGovernment
             // 

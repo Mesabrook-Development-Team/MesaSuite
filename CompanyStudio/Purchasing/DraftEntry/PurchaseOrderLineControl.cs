@@ -32,6 +32,16 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 cboItem_ItemSelected(cboItem, EventArgs.Empty);
             }
         }
+        private long? _governmentIDDestination = null;
+        public long? GovernmentIDDestination
+        {
+            get => _governmentIDDestination;
+            set
+            {
+                _governmentIDDestination = value;
+                cboItem_ItemSelected(cboItem, EventArgs.Empty);
+            }
+        }
 
         public PurchaseOrderLineControl()
         {
@@ -182,7 +192,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
             if (rdoItem.Checked)
             {
-                if (cboItem.SelectedID == null || !decimal.TryParse(txtQuantity.Text, out decimal quantity))
+                if (cboItem.SelectedID == null || !decimal.TryParse(txtQuantity.Text, out decimal quantity) || (LocationIDDestination == null && GovernmentIDDestination == null))
                 {
                     txtUnitCost.Text = "Invalid";
                     txtLineCost.Text = "";
@@ -192,7 +202,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
                 GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PriceCheck/GetItem");
                 get.AddLocationHeader(CompanyID, LocationIDOrigin);
-                get.QueryString.Add("locationID", LocationIDDestination.ToString());
+                get.QueryString.Add("locationID", LocationIDDestination?.ToString());
+                get.QueryString.Add("governmentID", GovernmentIDDestination?.ToString());
                 get.QueryString.Add("itemID", cboItem.SelectedID?.ToString());
                 get.QueryString.Add("quantity", txtQuantity.Text);
                 LocationItem locationItem = await get.GetObject<LocationItem>();
@@ -211,25 +222,21 @@ namespace CompanyStudio.Purchasing.DraftEntry
                     return;
                 }
 
-                decimal unitCost = decimal.MaxValue;
-                decimal unitQuantity = locationItem.Quantity ?? 1;
-                decimal lineCostMultiplier = 1;
-                if (locationItem.QuotedPrices != null)
+                decimal unitCost = Math.Min(locationItem.BasePrice.Value, locationItem.CurrentPromotionLocationItem?.PromotionPrice ?? decimal.MaxValue);
+                if (locationItem.QuotedPrices != null && locationItem.QuotedPrices.Any())
                 {
-                    unitCost = locationItem.QuotedPrices.Where(qp => qp.MinimumQuantity <= quantity).OrderBy(qp => qp.UnitCost).FirstOrDefault()?.UnitCost ?? decimal.MaxValue;
-                    unitQuantity = 1;
-                    lineCostMultiplier = quantity;
+                    QuotationItem quoteItem = locationItem.QuotedPrices.Where(qp => qp.MinimumQuantity <= quantity).OrderBy(qp => qp.UnitCost).FirstOrDefault();
+                    if (quoteItem != null)
+                    {
+                        unitCost = quoteItem.UnitCost.Value;
+                    }
                 }
 
-                unitCost = Math.Min(Math.Min(unitCost, locationItem.CurrentPromotionLocationItem?.PromotionPrice ?? decimal.MaxValue), locationItem.BasePrice ?? decimal.MaxValue);
+                unitCost /= locationItem.Quantity.Value;
 
-                if (unitCost == decimal.MaxValue)
-                {
-                    unitCost = 0;
-                }
+                txtUnitCost.Text = unitCost.ToString("F");
+                txtLineCost.Text = (unitCost * quantity).ToString("F");
 
-                txtUnitCost.Text = (unitCost / unitQuantity).ToString("F");
-                txtLineCost.Text = (unitCost * lineCostMultiplier).ToString("F");
                 TotalChanged?.Invoke(this, EventArgs.Empty);
             }
             else if (rdoService.Checked)

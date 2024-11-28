@@ -67,7 +67,7 @@ namespace API_Company.Controllers
                     Value = locationID
                 };
             }
-            else
+            else if (governmentID != null)
             {
                 entitySearchCondition = new LongSearchCondition<QuotedLocationItem>()
                 {
@@ -75,6 +75,10 @@ namespace API_Company.Controllers
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = governmentID
                 };
+            }
+            else
+            {
+                return null;
             }
 
             Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(entitySearchCondition);
@@ -111,7 +115,7 @@ namespace API_Company.Controllers
                     Value = locationID
                 };
             }
-            else
+            else if (governmentID != null)
             {
                 entitySearchCondition = new LongSearchCondition<QuotedLocationItem>()
                 {
@@ -119,6 +123,10 @@ namespace API_Company.Controllers
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = governmentID
                 };
+            }
+            else
+            {
+                return null;
             }
 
             Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
@@ -168,7 +176,7 @@ namespace API_Company.Controllers
                     Value = locationID
                 };
             }
-            else
+            else if (governmentID != null)
             {
                 entitySearchCondition = new LongSearchCondition<QuotedLocationItem>()
                 {
@@ -176,6 +184,10 @@ namespace API_Company.Controllers
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = governmentID
                 };
+            }
+            else
+            {
+                return null;
             }
 
             Search<QuotedLocationItem> locationItemSearch = new Search<QuotedLocationItem>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,

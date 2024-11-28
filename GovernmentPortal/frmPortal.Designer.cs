@@ -35,6 +35,8 @@ namespace GovernmentPortal
             this.toolAccounts = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAccountList = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAccountCategories = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolPurchasing = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolPriceManager = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoices = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoiceReceivable = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoicePayable = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,8 +62,7 @@ namespace GovernmentPortal
             this.tsmiDistributionLists = new System.Windows.Forms.ToolStripMenuItem();
             this.toolLaws = new System.Windows.Forms.ToolStripButton();
             this.loader = new GovernmentPortal.Loader();
-            this.toolPurchasing = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolPriceManager = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsbPurchaseOrders = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,7 +117,7 @@ namespace GovernmentPortal
             this.tsmiAccountList.Image = global::GovernmentPortal.Properties.Resources.page;
             this.tsmiAccountList.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsmiAccountList.Name = "tsmiAccountList";
-            this.tsmiAccountList.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAccountList.Size = new System.Drawing.Size(126, 22);
             this.tsmiAccountList.Text = "List";
             this.tsmiAccountList.Click += new System.EventHandler(this.tsmiAccountList_Click);
             // 
@@ -125,9 +126,29 @@ namespace GovernmentPortal
             this.tsmiAccountCategories.Image = global::GovernmentPortal.Properties.Resources.database;
             this.tsmiAccountCategories.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsmiAccountCategories.Name = "tsmiAccountCategories";
-            this.tsmiAccountCategories.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAccountCategories.Size = new System.Drawing.Size(126, 22);
             this.tsmiAccountCategories.Text = "Categories";
             this.tsmiAccountCategories.Click += new System.EventHandler(this.tsmiAccountCategories_Click);
+            // 
+            // toolPurchasing
+            // 
+            this.toolPurchasing.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbPurchaseOrders,
+            this.toolPriceManager});
+            this.toolPurchasing.Image = global::GovernmentPortal.Properties.Resources.cart;
+            this.toolPurchasing.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolPurchasing.Name = "toolPurchasing";
+            this.toolPurchasing.Size = new System.Drawing.Size(180, 22);
+            this.toolPurchasing.Text = "Purchasing";
+            // 
+            // toolPriceManager
+            // 
+            this.toolPriceManager.Image = global::GovernmentPortal.Properties.Resources.money;
+            this.toolPriceManager.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolPriceManager.Name = "toolPriceManager";
+            this.toolPriceManager.Size = new System.Drawing.Size(180, 22);
+            this.toolPriceManager.Text = "Price Manager";
+            this.toolPriceManager.Click += new System.EventHandler(this.toolPriceManager_Click);
             // 
             // mnuInvoices
             // 
@@ -368,24 +389,13 @@ namespace GovernmentPortal
             this.loader.TabIndex = 3;
             this.loader.Visible = false;
             // 
-            // toolPurchasing
+            // tsbPurchaseOrders
             // 
-            this.toolPurchasing.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolPriceManager});
-            this.toolPurchasing.Image = global::GovernmentPortal.Properties.Resources.cart;
-            this.toolPurchasing.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolPurchasing.Name = "toolPurchasing";
-            this.toolPurchasing.Size = new System.Drawing.Size(180, 22);
-            this.toolPurchasing.Text = "Purchasing";
-            // 
-            // toolPriceManager
-            // 
-            this.toolPriceManager.Image = global::GovernmentPortal.Properties.Resources.money;
-            this.toolPriceManager.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolPriceManager.Name = "toolPriceManager";
-            this.toolPriceManager.Size = new System.Drawing.Size(180, 22);
-            this.toolPriceManager.Text = "Price Manager";
-            this.toolPriceManager.Click += new System.EventHandler(this.toolPriceManager_Click);
+            this.tsbPurchaseOrders.Image = global::GovernmentPortal.Properties.Resources.cart;
+            this.tsbPurchaseOrders.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tsbPurchaseOrders.Name = "tsbPurchaseOrders";
+            this.tsbPurchaseOrders.Size = new System.Drawing.Size(180, 22);
+            this.tsbPurchaseOrders.Text = "Purchase Orders";
             // 
             // frmPortal
             // 
@@ -444,6 +454,7 @@ namespace GovernmentPortal
         private System.Windows.Forms.ToolStripButton toolLaws;
         private System.Windows.Forms.ToolStripMenuItem toolPurchasing;
         private System.Windows.Forms.ToolStripMenuItem toolPriceManager;
+        private System.Windows.Forms.ToolStripMenuItem tsbPurchaseOrders;
     }
 }
 

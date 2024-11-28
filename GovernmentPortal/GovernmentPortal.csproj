@@ -240,6 +240,12 @@
     <Compile Include="Purchasing\frmPriceManager.Designer.cs">
       <DependentUpon>frmPriceManager.cs</DependentUpon>
     </Compile>
+    <Compile Include="Purchasing\frmPurchaseOrderShell.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\frmPurchaseOrderShell.Designer.cs">
+      <DependentUpon>frmPurchaseOrderShell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Taxes\SalesTaxContext.cs" />
     <Compile Include="Taxes\SalesTaxControl.cs">
       <SubType>UserControl</SubType>
@@ -337,6 +343,9 @@
     </Compile>
     <EmbeddedResource Include="Purchasing\frmPriceManager.resx">
       <DependentUpon>frmPriceManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\frmPurchaseOrderShell.resx">
+      <DependentUpon>frmPurchaseOrderShell.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Taxes\SalesTaxControl.resx">
       <DependentUpon>SalesTaxControl.cs</DependentUpon>

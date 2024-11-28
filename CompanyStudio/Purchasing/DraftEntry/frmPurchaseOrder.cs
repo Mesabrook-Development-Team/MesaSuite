@@ -755,7 +755,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
         private void lnkTaxBreakdown_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (!(lnkTaxBreakdown.Tag is List<SalesTax> salesTaxes))
+            if (!(lnkTaxBreakdown.Tag is List<SalesTax> salesTaxes) || !salesTaxes.Any())
             {
                 this.ShowInformation("No tax information available.");
                 return;

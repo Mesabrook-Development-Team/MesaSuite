@@ -15,7 +15,7 @@
         public long? GovernmentIDTo { get; set; }
         public Government GovernmentTo { get; set; }
 
-        public string From => GovernmentIDFrom != null ? GovernmentFrom.Name + " (Government)" : CompanyFrom?.Name;
-        public string To => GovernmentIDTo != null ? GovernmentTo.Name + " (Government)" : CompanyTo?.Name;
+        public string From => GovernmentIDFrom != null ? GovernmentFrom?.Name + " (Government)" : CompanyFrom?.Name;
+        public string To => GovernmentIDTo != null ? GovernmentTo?.Name + " (Government)" : CompanyTo?.Name;
     }
 }

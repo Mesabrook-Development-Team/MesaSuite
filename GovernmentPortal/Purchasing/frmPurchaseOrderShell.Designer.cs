@@ -28,13 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPurchaseOrderShell));
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.trePurchaseOrders = new System.Windows.Forms.TreeView();
+            this.treeImages = new System.Windows.Forms.ImageList(this.components);
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolAddPurchaseOrder = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolNewFromTemplate = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolDelete = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -57,33 +64,91 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.treeView1);
-            this.splitContainer1.Size = new System.Drawing.Size(776, 401);
+            this.splitContainer1.Panel1.Controls.Add(this.trePurchaseOrders);
+            this.splitContainer1.Panel1.Controls.Add(this.toolStrip1);
+            this.splitContainer1.Size = new System.Drawing.Size(776, 525);
             this.splitContainer1.SplitterDistance = 178;
             this.splitContainer1.TabIndex = 1;
             // 
-            // treeView1
+            // trePurchaseOrders
             // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(178, 401);
-            this.treeView1.TabIndex = 0;
+            this.trePurchaseOrders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trePurchaseOrders.ImageIndex = 0;
+            this.trePurchaseOrders.ImageList = this.treeImages;
+            this.trePurchaseOrders.Location = new System.Drawing.Point(0, 23);
+            this.trePurchaseOrders.Name = "trePurchaseOrders";
+            this.trePurchaseOrders.SelectedImageIndex = 0;
+            this.trePurchaseOrders.Size = new System.Drawing.Size(178, 502);
+            this.trePurchaseOrders.TabIndex = 0;
+            this.trePurchaseOrders.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trePurchaseOrders_AfterSelect);
+            // 
+            // treeImages
+            // 
+            this.treeImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.treeImages.ImageSize = new System.Drawing.Size(16, 16);
+            this.treeImages.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolAddPurchaseOrder,
+            this.toolDelete});
+            this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(178, 23);
+            this.toolStrip1.TabIndex = 4;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolAddPurchaseOrder
+            // 
+            this.toolAddPurchaseOrder.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolNewFromTemplate});
+            this.toolAddPurchaseOrder.Image = global::GovernmentPortal.Properties.Resources.cart_add;
+            this.toolAddPurchaseOrder.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolAddPurchaseOrder.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolAddPurchaseOrder.Name = "toolAddPurchaseOrder";
+            this.toolAddPurchaseOrder.Size = new System.Drawing.Size(82, 20);
+            this.toolAddPurchaseOrder.Text = "Add New";
+            this.toolAddPurchaseOrder.ButtonClick += new System.EventHandler(this.toolAddPurchaseOrder_ButtonClick);
+            // 
+            // toolNewFromTemplate
+            // 
+            this.toolNewFromTemplate.Image = global::GovernmentPortal.Properties.Resources.script_go;
+            this.toolNewFromTemplate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolNewFromTemplate.Name = "toolNewFromTemplate";
+            this.toolNewFromTemplate.Size = new System.Drawing.Size(157, 22);
+            this.toolNewFromTemplate.Text = "From Template...";
+            // 
+            // toolDelete
+            // 
+            this.toolDelete.Enabled = false;
+            this.toolDelete.Image = global::GovernmentPortal.Properties.Resources.delete;
+            this.toolDelete.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolDelete.Name = "toolDelete";
+            this.toolDelete.Size = new System.Drawing.Size(58, 20);
+            this.toolDelete.Text = "Delete";
             // 
             // frmPurchaseOrderShell
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 574);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmPurchaseOrderShell";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Purchase Order Maintenance";
+            this.Load += new System.EventHandler(this.frmPurchaseOrderShell_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,6 +158,11 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView trePurchaseOrders;
+        private System.Windows.Forms.ImageList treeImages;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripSplitButton toolAddPurchaseOrder;
+        private System.Windows.Forms.ToolStripMenuItem toolNewFromTemplate;
+        private System.Windows.Forms.ToolStripButton toolDelete;
     }
 }

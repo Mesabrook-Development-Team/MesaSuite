@@ -201,7 +201,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 }
 
                 StringBuilder joinObjectErrors = new StringBuilder();
-                foreach(DataGridViewRow row in dgvPurchaseOrderLines.Rows)
+                foreach(DataGridViewRow row in dgvPurchaseOrderLines.Rows.OfType<DataGridViewRow>().OrderByDescending(dgvr => (bool)dgvr.Cells[colApplyPOLine.Name].Value))
                 {
                     bool isChecked = row.Cells[colApplyPOLine.Name].Value as bool? ?? false;
                     long? fulfillmentPlanPOLineID = row.Cells[colApplyPOLine.Name].Tag as long?;

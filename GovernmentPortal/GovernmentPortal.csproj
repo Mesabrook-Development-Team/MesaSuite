@@ -186,6 +186,10 @@
     <Compile Include="Models\DebitCard.cs" />
     <Compile Include="Models\EmailImplementation.cs" />
     <Compile Include="Models\EmailTemplate.cs" />
+    <Compile Include="Models\Fulfillment.cs" />
+    <Compile Include="Models\FulfillmentPlan.cs" />
+    <Compile Include="Models\FulfillmentPlanPurchaseOrderLine.cs" />
+    <Compile Include="Models\FulfillmentPlanRoute.cs" />
     <Compile Include="Models\InterestConfiguration.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceLine.cs" />
@@ -218,6 +222,11 @@
     <Compile Include="Models\Official.cs" />
     <Compile Include="Models\Promotion.cs" />
     <Compile Include="Models\PromotionLocationItem.cs" />
+    <Compile Include="Models\PurchaseOrder.cs" />
+    <Compile Include="Models\PurchaseOrderApproval.cs" />
+    <Compile Include="Models\PurchaseOrderLine.cs" />
+    <Compile Include="Models\PurchaseOrderTemplate.cs" />
+    <Compile Include="Models\PurchaseOrderTemplateFolder.cs" />
     <Compile Include="Models\Quotation.cs" />
     <Compile Include="Models\QuotationItem.cs" />
     <Compile Include="Models\SalesTax.cs" />
@@ -245,6 +254,49 @@
     </Compile>
     <Compile Include="Purchasing\frmPurchaseOrderShell.Designer.cs">
       <DependentUpon>frmPurchaseOrderShell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\Draft.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\Draft.Designer.cs">
+      <DependentUpon>Draft.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\DraftLine.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\DraftLine.Designer.cs">
+      <DependentUpon>DraftLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\frmDraftFulfillmentPlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\frmDraftFulfillmentPlan.Designer.cs">
+      <DependentUpon>frmDraftFulfillmentPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\frmDraftFulfillmentPlans.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\frmDraftFulfillmentPlans.Designer.cs">
+      <DependentUpon>frmDraftFulfillmentPlans.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\frmDraftRailcarSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\frmDraftRailcarSelect.Designer.cs">
+      <DependentUpon>frmDraftRailcarSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\frmLeaseRequestSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\frmLeaseRequestSelect.Designer.cs">
+      <DependentUpon>frmLeaseRequestSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\IHasShellReference.cs" />
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\NoneSelected.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Purchasing\PurchaseOrderScreen\Draft\NoneSelected.Designer.cs">
+      <DependentUpon>NoneSelected.cs</DependentUpon>
     </Compile>
     <Compile Include="Taxes\SalesTaxContext.cs" />
     <Compile Include="Taxes\SalesTaxControl.cs">
@@ -346,6 +398,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\frmPurchaseOrderShell.resx">
       <DependentUpon>frmPurchaseOrderShell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\PurchaseOrderScreen\Draft\Draft.resx">
+      <DependentUpon>Draft.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\PurchaseOrderScreen\Draft\DraftLine.resx">
+      <DependentUpon>DraftLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\PurchaseOrderScreen\Draft\frmDraftFulfillmentPlan.resx">
+      <DependentUpon>frmDraftFulfillmentPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\PurchaseOrderScreen\Draft\frmDraftFulfillmentPlans.resx">
+      <DependentUpon>frmDraftFulfillmentPlans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\PurchaseOrderScreen\Draft\frmDraftRailcarSelect.resx">
+      <DependentUpon>frmDraftRailcarSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\PurchaseOrderScreen\Draft\frmLeaseRequestSelect.resx">
+      <DependentUpon>frmLeaseRequestSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\PurchaseOrderScreen\Draft\NoneSelected.resx">
+      <DependentUpon>NoneSelected.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Taxes\SalesTaxControl.resx">
       <DependentUpon>SalesTaxControl.cs</DependentUpon>

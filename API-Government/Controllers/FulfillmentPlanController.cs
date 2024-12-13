@@ -1,9 +1,7 @@
 ﻿using API.Common;
 using API.Common.Attributes;
 using API.Common.Extensions;
-using API_Company.Attributes;
-using ClussPro.Base.Data;
-using ClussPro.Base.Data.Query;
+using API_Government.Attributes;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema;
@@ -13,17 +11,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
-using WebModels.company;
+using WebModels.gov;
 using WebModels.purchasing;
 
-namespace API_Company.Controllers
+namespace API_Government.Controllers
 {
     [MesabrookAuthorization]
-    [ProgramAccess("company")]
-    [LocationAccess(RequiredPermissions = new[] { nameof(LocationEmployee.ManagePurchaseOrders) })]
+    [ProgramAccess("gov")]
+    [GovernmentAccess(RequiredPermissions = new[] { nameof(Official.ManagePurchaseOrders) })]
     public class FulfillmentPlanController : DataObjectController<FulfillmentPlan>
     {
-        protected long? LocationID => long.Parse(Request.Headers.GetValues("LocationID").First());
+        protected long? GovernmentID => long.Parse(Request.Headers.GetValues("GovernmentID").First());
 
         public override IEnumerable<string> DefaultRetrievedFields => Schema.GetSchemaObject<FulfillmentPlan>().GetFields().Select(f => f.FieldName)
                                                                         .Concat(Schema.GetSchemaObject<FulfillmentPlanRoute>().GetFields().Select(f => $"{nameof(FulfillmentPlan.FulfillmentPlanRoutes)}.{f.FieldName}"))
@@ -73,36 +71,36 @@ namespace API_Company.Controllers
                     Condition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
                         new ExistsSearchCondition<FulfillmentPlanPurchaseOrderLine>()
                         {
-                            RelationshipName = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlanPurchaseOrderLine>(fppol => new List<object>() { fppol.PurchaseOrderLine.PurchaseOrder.LocationOrigin.LocationEmployees }).First(),
+                            RelationshipName = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlanPurchaseOrderLine>(fppol => new List<object>() { fppol.PurchaseOrderLine.PurchaseOrder.GovernmentOrigin.Officials }).First(),
                             ExistsType = ExistsSearchCondition<FulfillmentPlanPurchaseOrderLine>.ExistsTypes.Exists,
                             Condition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
-                                new LongSearchCondition<LocationEmployee>()
+                                new LongSearchCondition<Official>()
                                 {
-                                    Field = FieldPathUtility.CreateFieldPathsAsList<LocationEmployee>(lp => new List<object>() { lp.Employee.UserID }).First(),
+                                    Field = nameof(Official.UserID),
                                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                     Value = SecurityProfile.UserID
                                 },
-                                new BooleanSearchCondition<LocationEmployee>()
+                                new BooleanSearchCondition<Official>()
                                 {
-                                    Field = nameof(LocationEmployee.ManagePurchaseOrders),
+                                    Field = nameof(Official.ManagePurchaseOrders),
                                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                     Value = true
                                 })
                         },
                         new ExistsSearchCondition<FulfillmentPlanPurchaseOrderLine>()
                         {
-                            RelationshipName = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlanPurchaseOrderLine>(fppol => new List<object>() { fppol.PurchaseOrderLine.PurchaseOrder.LocationDestination.LocationEmployees }).First(),
+                            RelationshipName = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlanPurchaseOrderLine>(fppol => new List<object>() { fppol.PurchaseOrderLine.PurchaseOrder.GovernmentDestination.Officials }).First(),
                             ExistsType = ExistsSearchCondition<FulfillmentPlanPurchaseOrderLine>.ExistsTypes.Exists,
                             Condition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
-                                new LongSearchCondition<LocationEmployee>()
+                                new LongSearchCondition<Official>()
                                 {
-                                    Field = FieldPathUtility.CreateFieldPathsAsList<LocationEmployee>(lp => new List<object>() { lp.Employee.UserID }).First(),
+                                    Field = nameof(Official.UserID),
                                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                     Value = SecurityProfile.UserID
                                 },
-                                new BooleanSearchCondition<LocationEmployee>()
+                                new BooleanSearchCondition<Official>()
                                 {
-                                    Field = nameof(LocationEmployee.ManagePurchaseOrders),
+                                    Field = nameof(Official.ManagePurchaseOrders),
                                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                     Value = true
                                 })
@@ -138,7 +136,7 @@ namespace API_Company.Controllers
                 {
                     RelationshipName = nameof(FulfillmentPlan.FulfillmentPlanPurchaseOrderLines),
                     ExistsType = ExistsSearchCondition<FulfillmentPlan>.ExistsTypes.Exists,
-                    Condition = new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                    Condition = new DecimalSearchCondition<FulfillmentPlanPurchaseOrderLine>()
                     {
                         Field = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlanPurchaseOrderLine>(fppol => new List<object>() { fppol.PurchaseOrderLine.RemainingQuantity }).First(),
                         SearchConditionType = SearchCondition.SearchConditionTypes.Greater,
@@ -165,8 +163,8 @@ namespace API_Company.Controllers
         {
             FulfillmentPlan original = DataObject.GetEditableByPrimaryKey<FulfillmentPlan>(cloneParameter.FulfillmentPlanID, null, FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlan>(fp => new object[]
             {
-                fp.FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationIDOrigin,
-                fp.FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationIDDestination
+                fp.FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.GovernmentIDOrigin,
+                fp.FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.GovernmentIDDestination
             }));
 
             if (original == null)
@@ -174,7 +172,7 @@ namespace API_Company.Controllers
                 return NotFound();
             }
 
-            if (!original.FulfillmentPlanPurchaseOrderLines.Any(fppol => fppol.PurchaseOrderLine.PurchaseOrder.LocationIDOrigin == LocationID || fppol.PurchaseOrderLine.PurchaseOrder.LocationIDDestination == LocationID))
+            if (!original.FulfillmentPlanPurchaseOrderLines.Any(fppol => fppol.PurchaseOrderLine.PurchaseOrder.GovernmentIDOrigin == GovernmentID || fppol.PurchaseOrderLine.PurchaseOrder.GovernmentIDDestination == GovernmentID))
             {
                 return new StatusCodeResult(System.Net.HttpStatusCode.Forbidden, this);
             }

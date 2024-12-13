@@ -117,6 +117,28 @@ namespace WebModels.purchasing
             return base.PreDelete(transaction);
         }
 
+        protected override bool PostDelete(ITransaction transaction)
+        {
+            Search<FulfillmentPlanPurchaseOrderLine> otherLinesSearch = new Search<FulfillmentPlanPurchaseOrderLine>(new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+            {
+                Field = nameof(PurchaseOrderLineID),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = PurchaseOrderLineID
+            });
+
+            if (!otherLinesSearch.ExecuteExists(transaction))
+            {
+                FulfillmentPlan fulfillmentPlan = DataObject.GetEditableByPrimaryKey<FulfillmentPlan>(FulfillmentPlanID, transaction, null);
+                if (!fulfillmentPlan.Delete(transaction))
+                {
+                    Errors.AddRange(fulfillmentPlan.Errors.ToArray());
+                    return false;
+                }
+            }
+
+            return base.PostDelete(transaction);
+        }
+
         private bool AnyFieldDirty()
         {
             foreach(Field field in Schema.GetSchemaObject<FulfillmentPlanPurchaseOrderLine>().GetFields())

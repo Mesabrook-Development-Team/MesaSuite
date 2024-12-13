@@ -52,6 +52,8 @@ namespace GovernmentPortal
             InitializeFleetTracking();
         }
 
+        public FleetTracking.Interop.FleetTrackingApplication FleetTrackingApplication => _fleetTrackingApplication;
+
         private void UpdateMenuVisibility()
         {
             bool shouldShowFinanceToolstrip = false;
@@ -433,6 +435,14 @@ namespace GovernmentPortal
             priceManager.MdiParent = this;
             priceManager.GovernmentID = _government.GovernmentID.Value;
             priceManager.Show();
+        }
+
+        private void tsbPurchaseOrders_Click(object sender, EventArgs e)
+        {
+            Purchasing.frmPurchaseOrderShell purchaseOrderShell = new Purchasing.frmPurchaseOrderShell();
+            purchaseOrderShell.MdiParent = this;
+            purchaseOrderShell.GovernmentID = _government.GovernmentID.Value;
+            purchaseOrderShell.Show();
         }
     }
 }

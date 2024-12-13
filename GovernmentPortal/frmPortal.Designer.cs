@@ -36,6 +36,7 @@ namespace GovernmentPortal
             this.tsmiAccountList = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAccountCategories = new System.Windows.Forms.ToolStripMenuItem();
             this.toolPurchasing = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsbPurchaseOrders = new System.Windows.Forms.ToolStripMenuItem();
             this.toolPriceManager = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoices = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoiceReceivable = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,7 +63,6 @@ namespace GovernmentPortal
             this.tsmiDistributionLists = new System.Windows.Forms.ToolStripMenuItem();
             this.toolLaws = new System.Windows.Forms.ToolStripButton();
             this.loader = new GovernmentPortal.Loader();
-            this.tsbPurchaseOrders = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,6 +140,15 @@ namespace GovernmentPortal
             this.toolPurchasing.Name = "toolPurchasing";
             this.toolPurchasing.Size = new System.Drawing.Size(180, 22);
             this.toolPurchasing.Text = "Purchasing";
+            // 
+            // tsbPurchaseOrders
+            // 
+            this.tsbPurchaseOrders.Image = global::GovernmentPortal.Properties.Resources.cart;
+            this.tsbPurchaseOrders.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tsbPurchaseOrders.Name = "tsbPurchaseOrders";
+            this.tsbPurchaseOrders.Size = new System.Drawing.Size(180, 22);
+            this.tsbPurchaseOrders.Text = "Purchase Orders";
+            this.tsbPurchaseOrders.Click += new System.EventHandler(this.tsbPurchaseOrders_Click);
             // 
             // toolPriceManager
             // 
@@ -388,14 +397,6 @@ namespace GovernmentPortal
             this.loader.Size = new System.Drawing.Size(659, 372);
             this.loader.TabIndex = 3;
             this.loader.Visible = false;
-            // 
-            // tsbPurchaseOrders
-            // 
-            this.tsbPurchaseOrders.Image = global::GovernmentPortal.Properties.Resources.cart;
-            this.tsbPurchaseOrders.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.tsbPurchaseOrders.Name = "tsbPurchaseOrders";
-            this.tsbPurchaseOrders.Size = new System.Drawing.Size(180, 22);
-            this.tsbPurchaseOrders.Text = "Purchase Orders";
             // 
             // frmPortal
             // 

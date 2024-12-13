@@ -21,6 +21,14 @@ namespace WebModels.purchasing.Validations
                     Message = "Railcar must not be leased to another company and must not be assigned to another active Purchase Order.",
                     Condition = new FulfillmentPlanRailcarIsIdleCondition()
                 };
+
+                yield return new ValidationRule()
+                {
+                    ID = new Guid("AAC78972-5CF3-4622-8246-99B4F0A984F8"),
+                    Field = nameof(FulfillmentPlan.LeaseRequestID),
+                    Message = "Lease Request must not be on any other Fulfillment Plans.",
+                    Condition = new FulfillmentPlanLeaseRequestNotOnOtherPlansCondition()
+                };
             }
         }
     }

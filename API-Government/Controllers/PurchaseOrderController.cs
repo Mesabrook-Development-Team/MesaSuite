@@ -1,7 +1,7 @@
 ﻿using API.Common;
 using API.Common.Attributes;
 using API.Common.Extensions;
-using API_Company.Attributes;
+using API_Government.Attributes;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
 using ClussPro.Base.Extensions;
@@ -20,15 +20,14 @@ using WebModels.gov;
 using WebModels.invoicing;
 using WebModels.purchasing;
 
-namespace API_Company.Controllers
+namespace API_Government.Controllers
 {
     [MesabrookAuthorization]
-    [ProgramAccess("company")]
-    [LocationAccess(RequiredPermissions = new[] { nameof(LocationEmployee.ManagePurchaseOrders) })]
+    [ProgramAccess("gov")]
+    [GovernmentAccess(RequiredPermissions = new[] { nameof(Official.ManagePurchaseOrders) })]
     public class PurchaseOrderController : DataObjectController<PurchaseOrder>
     {
-        private long? CompanyID => long.TryParse(Request.Headers.GetValues("CompanyID").First(), out long companyID) ? companyID : (long?)null;
-        private long? LocationID => long.TryParse(Request.Headers.GetValues("LocationID").First(), out long locationID) ? locationID : (long?)null;
+        private long? GovernmentID => long.TryParse(Request.Headers.GetValues("GovernmentID").First(), out long governmentID) ? governmentID : (long?)null;
 
         public override IEnumerable<string> DefaultRetrievedFields => FieldPathUtility.CreateFieldPathsAsList<PurchaseOrder>(po => new List<object>()
         {
@@ -111,18 +110,18 @@ namespace API_Company.Controllers
             return new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
                 new ExistsSearchCondition<PurchaseOrder>()
                 {
-                    RelationshipName = FieldPathUtility.CreateFieldPathsAsList<PurchaseOrder>(po => new List<object>() { po.LocationOrigin.LocationEmployees }).First(),
+                    RelationshipName = FieldPathUtility.CreateFieldPathsAsList<PurchaseOrder>(po => new List<object>() { po.GovernmentOrigin.Officials }).First(),
                     ExistsType = ExistsSearchCondition<PurchaseOrder>.ExistsTypes.Exists,
                     Condition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
-                        new LongSearchCondition<LocationEmployee>()
+                        new LongSearchCondition<Official>()
                         {
-                            Field = FieldPathUtility.CreateFieldPathsAsList<LocationEmployee>(le => new List<object>() { le.Employee.UserID }).First(),
+                            Field = nameof(Official.UserID),
                             SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                             Value = SecurityProfile.UserID
                         },
-                        new BooleanSearchCondition<LocationEmployee>()
+                        new BooleanSearchCondition<Official>()
                         {
-                            Field = nameof(LocationEmployee.ManagePurchaseOrders),
+                            Field = nameof(Official.ManagePurchaseOrders),
                             SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                             Value = true
                         }
@@ -130,18 +129,18 @@ namespace API_Company.Controllers
                 },
                 new ExistsSearchCondition<PurchaseOrder>()
                 {
-                    RelationshipName = FieldPathUtility.CreateFieldPathsAsList<PurchaseOrder>(po => new List<object>() { po.LocationDestination.LocationEmployees }).First(),
+                    RelationshipName = FieldPathUtility.CreateFieldPathsAsList<PurchaseOrder>(po => new List<object>() { po.GovernmentDestination.Officials }).First(),
                     ExistsType = ExistsSearchCondition<PurchaseOrder>.ExistsTypes.Exists,
                     Condition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
-                        new LongSearchCondition<LocationEmployee>()
+                        new LongSearchCondition<Official>()
                         {
-                            Field = FieldPathUtility.CreateFieldPathsAsList<LocationEmployee>(le => new List<object>() { le.Employee.UserID }).First(),
+                            Field = nameof(Official.UserID),
                             SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                             Value = SecurityProfile.UserID
                         },
-                        new BooleanSearchCondition<LocationEmployee>()
+                        new BooleanSearchCondition<Official>()
                         {
-                            Field = nameof(LocationEmployee.ManagePurchaseOrders),
+                            Field = nameof(Official.ManagePurchaseOrders),
                             SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                             Value = true
                         }
@@ -150,24 +149,24 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
-        [LocationAccess(OptionalPermissions = new[] { nameof(LocationEmployee.ManagePurchaseOrders), nameof(LocationEmployee.ManageInvoices) })]
-        public async Task<List<PurchaseOrder>> GetAllRelatedToLocation()
+        [GovernmentAccess(OptionalPermissions = new[] { nameof(Official.ManagePurchaseOrders), nameof(Official.ManageInvoices) })]
+        public async Task<List<PurchaseOrder>> GetAllRelatedToGovernment()
         {
             return await Task.Run(async () => new Search<PurchaseOrder>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 GetBaseSearchCondition(),
                 new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
                     new LongSearchCondition<PurchaseOrder>()
                     {
-                        Field = nameof(PurchaseOrder.LocationIDOrigin),
+                        Field = nameof(PurchaseOrder.GovernmentIDOrigin),
                         SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = LocationID
+                        Value = GovernmentID
                     },
                     new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                         new LongSearchCondition<PurchaseOrder>()
                         {
-                            Field = nameof(PurchaseOrder.LocationIDDestination),
+                            Field = nameof(PurchaseOrder.GovernmentIDDestination),
                             SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                            Value = LocationID
+                            Value = GovernmentID
                         },
                         new IntSearchCondition<PurchaseOrder>()
                         {
@@ -186,9 +185,9 @@ namespace API_Company.Controllers
                         Condition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                             new LongSearchCondition<PurchaseOrderApproval>()
                             {
-                                Field = nameof(PurchaseOrderApproval.CompanyIDApprover),
+                                Field = nameof(PurchaseOrderApproval.GovernmentIDApprover),
                                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                                Value = CompanyID
+                                Value = GovernmentID
                             },
                             new IntSearchCondition<PurchaseOrderApproval>()
                             {
@@ -204,7 +203,7 @@ namespace API_Company.Controllers
         {
             using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
-                PurchaseOrder purchaseOrder = await Task.Run(() => DataObject.GetEditableByPrimaryKey<PurchaseOrder>(id, transaction, FieldPathUtility.CreateFieldPathsAsList<PurchaseOrder>(po => new List<object>() { po.LocationOrigin.CompanyID, po.LocationDestination.CompanyID })));
+                PurchaseOrder purchaseOrder = await Task.Run(() => DataObject.GetEditableByPrimaryKey<PurchaseOrder>(id, transaction, null));
                 if (!await purchaseOrder.Submit(transaction))
                 {
                     return purchaseOrder.HandleFailedValidation(this);
@@ -252,15 +251,15 @@ namespace API_Company.Controllers
                 new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
                     new LongSearchCondition<PurchaseOrder>()
                     {
-                        Field = nameof(PurchaseOrder.LocationIDOrigin),
+                        Field = nameof(PurchaseOrder.GovernmentIDOrigin),
                         SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = LocationID
+                        Value = GovernmentID
                     },
                     new LongSearchCondition<PurchaseOrder>()
                     {
-                        Field = nameof(PurchaseOrder.LocationIDDestination),
+                        Field = nameof(PurchaseOrder.GovernmentIDDestination),
                         SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = LocationID
+                        Value = GovernmentID
                     })));
 
             if (!await Task.Run(() => purchaseOrderForSecurityCheck.ExecuteExists(null)))
@@ -289,14 +288,14 @@ namespace API_Company.Controllers
             PurchaseOrderTemplate template = await Task.Run(() => DataObject.GetReadOnlyByPrimaryKey<PurchaseOrderTemplate>(parameter.PurchaseOrderTemplateID, null, new[] 
             {
                 nameof(PurchaseOrderTemplate.PurchaseOrderID) ,
-                nameof(PurchaseOrderTemplate.LocationID)
+                nameof(PurchaseOrderTemplate.GovernmentID)
             }));
             if (template == null)
             {
                 return NotFound();
             }
 
-            if (template.LocationID != LocationID)
+            if (template.GovernmentID != GovernmentID)
             {
                 return new StatusCodeResult(System.Net.HttpStatusCode.Forbidden, this);
             }

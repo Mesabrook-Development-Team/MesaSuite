@@ -190,12 +190,6 @@
     <Compile Include="FleetTrackingForms\frmFleetForm.Designer.cs">
       <DependentUpon>frmFleetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmCompanyConnect.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmCompanyConnect.Designer.cs">
-      <DependentUpon>frmCompanyConnect.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmCompanyExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -734,9 +728,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FleetTrackingForms\frmFleetForm.resx">
       <DependentUpon>frmFleetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmCompanyConnect.resx">
-      <DependentUpon>frmCompanyConnect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCompanyExplorer.resx">
       <DependentUpon>frmCompanyExplorer.cs</DependentUpon>

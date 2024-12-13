@@ -237,8 +237,11 @@ namespace CompanyStudio
             return PermissionsManager.HasPermissionFleetTrack(ActiveCompany?.CompanyID ?? 0L, permission);
         }
 
-        private void frmStudio_Load(object sender, EventArgs e)
+        private async void frmStudio_Load(object sender, EventArgs e)
         {
+            loader.BringToFront();
+            loader.Visible = true;
+            loader.Text = "Initializing Company Studio";
             string subKey = GlobalSettings.InternalEditionMode ? "MesaSuiteInternalEdition" : "MesaSuite";
             RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Clussman Productions\" + subKey);
             string theme = key.GetValue("CStudioTheme") as string;
@@ -253,10 +256,12 @@ namespace CompanyStudio
             SetThemeMenuChecked();
             ApplyTheme();
 
-
-            frmCompanyConnect connect = GetForm<frmCompanyConnect>();
-            connect.Shown += Connect_Shown_FirstTime;
-            connect.Show();
+            GetData getCompanies = new GetData(DataAccess.APIs.CompanyStudio, "Company/GetForEmployee");
+            List<Company> companies = await getCompanies.GetObject<List<Company>>();
+            if (getCompanies.RequestSuccessful)
+            {
+                companies.OrderBy(c => c.Name).ForEach(c => AddCompany(c));
+            }
 
             frmCompanyExplorer companyExplorer = GetForm<frmCompanyExplorer>();
             companyExplorer.Show(dockPanel, DockState.DockLeft);
@@ -264,6 +269,7 @@ namespace CompanyStudio
             PermissionsManager.OnCompanyPermissionChange += PermissionsManager_OnCompanyPermissionChange;
             PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
             PermissionsManager.StartCheckThread((method) => Invoke(method));
+            loader.Visible = false;
         }
 
         private void PermissionsManager_OnCompanyPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
@@ -314,13 +320,6 @@ namespace CompanyStudio
             }
         }
 
-        private void Connect_Shown_FirstTime(object sender, EventArgs e)
-        {
-            frmCompanyConnect connect = GetForm<frmCompanyConnect>(false);
-            connect.Shown -= Connect_Shown_FirstTime;
-            connect.BringToFront();
-        }
-
         private void SetThemeMenuChecked()
         {
             foreach (ToolStripMenuItem item in mnuThemes.DropDownItems)
@@ -369,12 +368,6 @@ namespace CompanyStudio
             foreach (BaseCompanyStudioContent item in dockPanel.Contents.OfType<BaseCompanyStudioContent>())
             {
                 item.Theme = currentTheme;
-            }
-
-            frmCompanyConnect connect = GetForm<frmCompanyConnect>(false);
-            if (connect != null)
-            {
-                connect.Theme = currentTheme;
             }
 
             studioFormExtender.ApplyStyle(loader, currentTheme);

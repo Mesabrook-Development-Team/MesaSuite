@@ -48,6 +48,23 @@ namespace WebModels.purchasing.Validations
                     Message = "All Purchase Order Lines must have the same Route as defined by all of their Fulfillment Plans",
                     Condition = new PurchaseOrderRoutesValidOnSubmitCondition()
                 };
+
+#warning Government Disabled
+                yield return new ValidationRule()
+                {
+                    ID = new Guid("2147F531-48C4-4041-8FCA-992FFDEE3008"),
+                    Field = nameof(PurchaseOrder.GovernmentIDOrigin),
+                    Message = "Purchase Orders from Governments are not allowed at this time",
+                    Condition = new EqualCondition(nameof(PurchaseOrder.GovernmentIDOrigin), null)
+                };
+
+                yield return new ValidationRule()
+                {
+                    ID = new Guid("1B1379B5-A0E3-4D43-8ECD-727E7416B89C"),
+                    Field = nameof(PurchaseOrder.GovernmentIDDestination),
+                    Message = "Purchase Orders to Governments are not allowed at this time",
+                    Condition = new EqualCondition(nameof(PurchaseOrder.GovernmentIDDestination), null)
+                };
             }
         }
     }

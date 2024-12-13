@@ -117,7 +117,7 @@ namespace GovernmentPortal
             this.tsmiAccountList.Image = global::GovernmentPortal.Properties.Resources.page;
             this.tsmiAccountList.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsmiAccountList.Name = "tsmiAccountList";
-            this.tsmiAccountList.Size = new System.Drawing.Size(126, 22);
+            this.tsmiAccountList.Size = new System.Drawing.Size(180, 22);
             this.tsmiAccountList.Text = "List";
             this.tsmiAccountList.Click += new System.EventHandler(this.tsmiAccountList_Click);
             // 
@@ -126,7 +126,7 @@ namespace GovernmentPortal
             this.tsmiAccountCategories.Image = global::GovernmentPortal.Properties.Resources.database;
             this.tsmiAccountCategories.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsmiAccountCategories.Name = "tsmiAccountCategories";
-            this.tsmiAccountCategories.Size = new System.Drawing.Size(126, 22);
+            this.tsmiAccountCategories.Size = new System.Drawing.Size(180, 22);
             this.tsmiAccountCategories.Text = "Categories";
             this.tsmiAccountCategories.Click += new System.EventHandler(this.tsmiAccountCategories_Click);
             // 
@@ -140,6 +140,7 @@ namespace GovernmentPortal
             this.toolPurchasing.Name = "toolPurchasing";
             this.toolPurchasing.Size = new System.Drawing.Size(180, 22);
             this.toolPurchasing.Text = "Purchasing";
+            this.toolPurchasing.Visible = false;
             // 
             // tsbPurchaseOrders
             // 
@@ -178,7 +179,7 @@ namespace GovernmentPortal
             this.mnuInvoiceReceivable.Image = global::GovernmentPortal.Properties.Resources.money_add;
             this.mnuInvoiceReceivable.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuInvoiceReceivable.Name = "mnuInvoiceReceivable";
-            this.mnuInvoiceReceivable.Size = new System.Drawing.Size(177, 22);
+            this.mnuInvoiceReceivable.Size = new System.Drawing.Size(180, 22);
             this.mnuInvoiceReceivable.Text = "Receivable";
             this.mnuInvoiceReceivable.Click += new System.EventHandler(this.mnuInvoiceReceivable_Click);
             // 
@@ -187,21 +188,21 @@ namespace GovernmentPortal
             this.mnuInvoicePayable.Image = global::GovernmentPortal.Properties.Resources.money_delete;
             this.mnuInvoicePayable.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuInvoicePayable.Name = "mnuInvoicePayable";
-            this.mnuInvoicePayable.Size = new System.Drawing.Size(177, 22);
+            this.mnuInvoicePayable.Size = new System.Drawing.Size(180, 22);
             this.mnuInvoicePayable.Text = "Payable";
             this.mnuInvoicePayable.Click += new System.EventHandler(this.mnuInvoicePayable_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(174, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // mnuInvoicesInvoiceConfiguration
             // 
             this.mnuInvoicesInvoiceConfiguration.Image = global::GovernmentPortal.Properties.Resources.page;
             this.mnuInvoicesInvoiceConfiguration.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuInvoicesInvoiceConfiguration.Name = "mnuInvoicesInvoiceConfiguration";
-            this.mnuInvoicesInvoiceConfiguration.Size = new System.Drawing.Size(177, 22);
+            this.mnuInvoicesInvoiceConfiguration.Size = new System.Drawing.Size(180, 22);
             this.mnuInvoicesInvoiceConfiguration.Text = "Invoice Configuration";
             this.mnuInvoicesInvoiceConfiguration.Click += new System.EventHandler(this.mnuInvoicesInvoiceConfiguration_Click);
             // 
@@ -213,7 +214,7 @@ namespace GovernmentPortal
             this.emailConfigurationToolStripMenuItem1.Image = global::GovernmentPortal.Properties.Resources.email;
             this.emailConfigurationToolStripMenuItem1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.emailConfigurationToolStripMenuItem1.Name = "emailConfigurationToolStripMenuItem1";
-            this.emailConfigurationToolStripMenuItem1.Size = new System.Drawing.Size(177, 22);
+            this.emailConfigurationToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.emailConfigurationToolStripMenuItem1.Text = "Email Configuration";
             // 
             // mnuInvoicePayableReceived

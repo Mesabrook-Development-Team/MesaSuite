@@ -209,6 +209,7 @@
     <Compile Include="purchasing\Validations\PurchaseOrderRoutesValidOnSubmitCondition.cs" />
     <Compile Include="purchasing\Validations\PurchaseOrderValidations.cs" />
     <Compile Include="purchasing\Validations\RailcarLoadValidations.cs" />
+    <Compile Include="purchasing\Validations\RouteValidations.cs" />
     <Compile Include="security\Program.cs" />
     <Compile Include="security\User.cs" />
     <Compile Include="security\UserProgram.cs" />

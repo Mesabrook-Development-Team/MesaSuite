@@ -34,7 +34,8 @@ namespace GovernmentPortal
                 { PermissionsManager.Permissions.ManageInvoices, mnuInvoices },
                 { PermissionsManager.Permissions.IssueWireTransfers, mnuWireTransfers },
                 { PermissionsManager.Permissions.ManageLaws, toolLaws },
-                { PermissionsManager.Permissions.ManagePurchaseOrders, toolPurchasing }
+#warning Government Disabled
+                //{ PermissionsManager.Permissions.ManagePurchaseOrders, toolPurchasing }
             };
         }
 

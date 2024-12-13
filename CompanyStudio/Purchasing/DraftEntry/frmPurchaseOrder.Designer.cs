@@ -253,6 +253,7 @@
             // rdoGovernment
             // 
             this.rdoGovernment.AutoSize = true;
+            this.rdoGovernment.Enabled = false;
             this.rdoGovernment.Location = new System.Drawing.Point(74, 46);
             this.rdoGovernment.Name = "rdoGovernment";
             this.rdoGovernment.Size = new System.Drawing.Size(83, 17);
@@ -267,7 +268,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboLocation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboLocation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboLocation.Enabled = false;
             this.cboLocation.FormattingEnabled = true;
             this.cboLocation.Location = new System.Drawing.Point(163, 17);
             this.cboLocation.Name = "cboLocation";
@@ -278,10 +278,12 @@
             // rdoLocation
             // 
             this.rdoLocation.AutoSize = true;
+            this.rdoLocation.Checked = true;
             this.rdoLocation.Location = new System.Drawing.Point(74, 19);
             this.rdoLocation.Name = "rdoLocation";
             this.rdoLocation.Size = new System.Drawing.Size(69, 17);
             this.rdoLocation.TabIndex = 1;
+            this.rdoLocation.TabStop = true;
             this.rdoLocation.Text = "Company";
             this.rdoLocation.UseVisualStyleBackColor = true;
             this.rdoLocation.CheckedChanged += new System.EventHandler(this.OrderFromCheckedChanged);

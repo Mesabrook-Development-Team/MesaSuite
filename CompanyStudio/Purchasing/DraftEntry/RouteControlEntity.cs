@@ -40,13 +40,14 @@ namespace CompanyStudio.Purchasing.DraftEntry
                     dropDownItems.Add(new DropDownItem<Company>(company, company.Name));
                 }
 
-                get = new GetData(DataAccess.APIs.CompanyStudio, "Government/GetAll");
-                get.AddLocationHeader(ContextCompanyID, ContextLocationID);
-                List<Government> governments = await get.GetObject<List<Government>>() ?? new List<Government>();
-                foreach (Government government in governments.OrderBy(g => g.Name))
-                {
-                    dropDownItems.Add(new DropDownItem<Government>(government, government.Name));
-                }
+#warning Government Disabled
+                //get = new GetData(DataAccess.APIs.CompanyStudio, "Government/GetAll");
+                //get.AddLocationHeader(ContextCompanyID, ContextLocationID);
+                //List<Government> governments = await get.GetObject<List<Government>>() ?? new List<Government>();
+                //foreach (Government government in governments.OrderBy(g => g.Name))
+                //{
+                //    dropDownItems.Add(new DropDownItem<Government>(government, government.Name));
+                //}
 
                 cboEntities.Items.AddRange(dropDownItems.OrderBy(ddi => ddi.Text).ToArray());
 

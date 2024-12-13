@@ -270,6 +270,10 @@ namespace CompanyStudio
             PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
             PermissionsManager.StartCheckThread((method) => Invoke(method));
             loader.Visible = false;
+
+            frmStartPage start = new frmStartPage();
+            start.Studio = this;
+            start.Show(dockPanel, DockState.Document);
         }
 
         private void PermissionsManager_OnCompanyPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)
@@ -1024,6 +1028,15 @@ namespace CompanyStudio
             storeItems = new Store.frmStoreItems();
             DecorateStudioContent(storeItems);
             storeItems.Show(dockPanel, DockState.Document);
+        }
+
+        private void tsmiStartPage_Click(object sender, EventArgs e)
+        {
+            frmStartPage startPage = new frmStartPage()
+            {
+                Studio = this
+            };
+            startPage.Show(dockPanel, DockState.Document);
         }
     }
 }

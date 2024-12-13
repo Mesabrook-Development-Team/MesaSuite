@@ -197,6 +197,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="Models\company\QuotedLocationItem.cs" />
+    <Compile Include="Models\EmployeeToDoItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

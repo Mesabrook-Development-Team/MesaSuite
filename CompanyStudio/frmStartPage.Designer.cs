@@ -37,10 +37,8 @@
             this.headerLabel1 = new ReaLTaiizor.Controls.HeaderLabel();
             this.tbpToDoList = new ReaLTaiizor.Controls.AirTabPage();
             this.tabAll = new System.Windows.Forms.TabPage();
-            this.hopeNotify4 = new ReaLTaiizor.Controls.HopeNotify();
-            this.hopeNotify3 = new ReaLTaiizor.Controls.HopeNotify();
-            this.hopeNotify2 = new ReaLTaiizor.Controls.HopeNotify();
-            this.hopeNotify1 = new ReaLTaiizor.Controls.HopeNotify();
+            this.lblAllCaughtUp = new ReaLTaiizor.Controls.MaterialLabel();
+            this.loader = new CompanyStudio.Loader();
             this.airForm1.SuspendLayout();
             this.tbpToDoList.SuspendLayout();
             this.tabAll.SuspendLayout();
@@ -148,7 +146,7 @@
             this.tbpToDoList.SelectedIndex = 0;
             this.tbpToDoList.SelectedTabBackColor = System.Drawing.Color.White;
             this.tbpToDoList.SelectedTextColor = System.Drawing.Color.Black;
-            this.tbpToDoList.ShowOuterBorders = false;
+            this.tbpToDoList.ShowOuterBorders = true;
             this.tbpToDoList.Size = new System.Drawing.Size(794, 299);
             this.tbpToDoList.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tbpToDoList.SquareColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(87)))), ((int)(((byte)(100)))));
@@ -158,10 +156,8 @@
             // tabAll
             // 
             this.tabAll.BackColor = System.Drawing.Color.White;
-            this.tabAll.Controls.Add(this.hopeNotify4);
-            this.tabAll.Controls.Add(this.hopeNotify3);
-            this.tabAll.Controls.Add(this.hopeNotify2);
-            this.tabAll.Controls.Add(this.hopeNotify1);
+            this.tabAll.Controls.Add(this.lblAllCaughtUp);
+            this.tabAll.Controls.Add(this.loader);
             this.tabAll.Cursor = System.Windows.Forms.Cursors.Default;
             this.tabAll.Location = new System.Drawing.Point(119, 4);
             this.tabAll.Name = "tabAll";
@@ -170,97 +166,32 @@
             this.tabAll.TabIndex = 0;
             this.tabAll.Text = "All Businesses";
             // 
-            // hopeNotify4
+            // lblAllCaughtUp
             // 
-            this.hopeNotify4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblAllCaughtUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblAllCaughtUp.AutoSize = true;
+            this.lblAllCaughtUp.Depth = 0;
+            this.lblAllCaughtUp.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblAllCaughtUp.Image = global::CompanyStudio.Properties.Resources.emoticon_happy;
+            this.lblAllCaughtUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblAllCaughtUp.Location = new System.Drawing.Point(263, 136);
+            this.lblAllCaughtUp.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            this.lblAllCaughtUp.Name = "lblAllCaughtUp";
+            this.lblAllCaughtUp.Size = new System.Drawing.Size(145, 19);
+            this.lblAllCaughtUp.TabIndex = 0;
+            this.lblAllCaughtUp.Text = "You\'re all caught up!";
+            // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.hopeNotify4.Close = false;
-            this.hopeNotify4.CloseColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(148)))), ((int)(((byte)(154)))));
-            this.hopeNotify4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.hopeNotify4.ErrorBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(245)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
-            this.hopeNotify4.ErrorTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
-            this.hopeNotify4.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.hopeNotify4.InfoBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.hopeNotify4.InfoTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.hopeNotify4.Location = new System.Drawing.Point(0, 120);
-            this.hopeNotify4.Name = "hopeNotify4";
-            this.hopeNotify4.Size = new System.Drawing.Size(671, 34);
-            this.hopeNotify4.SuccessBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(103)))), ((int)(((byte)(194)))), ((int)(((byte)(58)))));
-            this.hopeNotify4.SuccessTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(194)))), ((int)(((byte)(58)))));
-            this.hopeNotify4.TabIndex = 0;
-            this.hopeNotify4.Text = "Viper Steel: You have 3 railcars on your property awaiting action.";
-            this.hopeNotify4.Type = ReaLTaiizor.Controls.HopeNotify.AlertType.Info;
-            this.hopeNotify4.WarningBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(230)))), ((int)(((byte)(162)))), ((int)(((byte)(60)))));
-            this.hopeNotify4.WarningTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(162)))), ((int)(((byte)(60)))));
-            // 
-            // hopeNotify3
-            // 
-            this.hopeNotify3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.hopeNotify3.Close = false;
-            this.hopeNotify3.CloseColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(148)))), ((int)(((byte)(154)))));
-            this.hopeNotify3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.hopeNotify3.ErrorBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(245)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
-            this.hopeNotify3.ErrorTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
-            this.hopeNotify3.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.hopeNotify3.InfoBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.hopeNotify3.InfoTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.hopeNotify3.Location = new System.Drawing.Point(0, 80);
-            this.hopeNotify3.Name = "hopeNotify3";
-            this.hopeNotify3.Size = new System.Drawing.Size(671, 34);
-            this.hopeNotify3.SuccessBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(103)))), ((int)(((byte)(194)))), ((int)(((byte)(58)))));
-            this.hopeNotify3.SuccessTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(194)))), ((int)(((byte)(58)))));
-            this.hopeNotify3.TabIndex = 0;
-            this.hopeNotify3.Text = "Stellar Farms: Purchase Order 30005 is waiting for your approval.";
-            this.hopeNotify3.Type = ReaLTaiizor.Controls.HopeNotify.AlertType.Warning;
-            this.hopeNotify3.WarningBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(230)))), ((int)(((byte)(162)))), ((int)(((byte)(60)))));
-            this.hopeNotify3.WarningTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(162)))), ((int)(((byte)(60)))));
-            // 
-            // hopeNotify2
-            // 
-            this.hopeNotify2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.hopeNotify2.Close = false;
-            this.hopeNotify2.CloseColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(148)))), ((int)(((byte)(154)))));
-            this.hopeNotify2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.hopeNotify2.ErrorBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(245)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
-            this.hopeNotify2.ErrorTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
-            this.hopeNotify2.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.hopeNotify2.InfoBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.hopeNotify2.InfoTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.hopeNotify2.Location = new System.Drawing.Point(0, 40);
-            this.hopeNotify2.Name = "hopeNotify2";
-            this.hopeNotify2.Size = new System.Drawing.Size(671, 34);
-            this.hopeNotify2.SuccessBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(103)))), ((int)(((byte)(194)))), ((int)(((byte)(58)))));
-            this.hopeNotify2.SuccessTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(194)))), ((int)(((byte)(58)))));
-            this.hopeNotify2.TabIndex = 0;
-            this.hopeNotify2.Text = "Beyer Electrics: Invoice TG24005 is overdue.";
-            this.hopeNotify2.Type = ReaLTaiizor.Controls.HopeNotify.AlertType.Error;
-            this.hopeNotify2.WarningBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(230)))), ((int)(((byte)(162)))), ((int)(((byte)(60)))));
-            this.hopeNotify2.WarningTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(162)))), ((int)(((byte)(60)))));
-            // 
-            // hopeNotify1
-            // 
-            this.hopeNotify1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.hopeNotify1.Close = false;
-            this.hopeNotify1.CloseColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(148)))), ((int)(((byte)(154)))));
-            this.hopeNotify1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.hopeNotify1.ErrorBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(245)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
-            this.hopeNotify1.ErrorTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
-            this.hopeNotify1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.hopeNotify1.InfoBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.hopeNotify1.InfoTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.hopeNotify1.Location = new System.Drawing.Point(0, 0);
-            this.hopeNotify1.Name = "hopeNotify1";
-            this.hopeNotify1.Size = new System.Drawing.Size(671, 34);
-            this.hopeNotify1.SuccessBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(103)))), ((int)(((byte)(194)))), ((int)(((byte)(58)))));
-            this.hopeNotify1.SuccessTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(194)))), ((int)(((byte)(58)))));
-            this.hopeNotify1.TabIndex = 0;
-            this.hopeNotify1.Text = "Iron River & Western: Invoice TG24003 is overdue.";
-            this.hopeNotify1.Type = ReaLTaiizor.Controls.HopeNotify.AlertType.Error;
-            this.hopeNotify1.WarningBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(230)))), ((int)(((byte)(162)))), ((int)(((byte)(60)))));
-            this.hopeNotify1.WarningTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(162)))), ((int)(((byte)(60)))));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(0, 0);
+            this.loader.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(671, 291);
+            this.loader.TabIndex = 1;
             // 
             // frmStartPage
             // 
@@ -280,6 +211,7 @@
             this.airForm1.PerformLayout();
             this.tbpToDoList.ResumeLayout(false);
             this.tabAll.ResumeLayout(false);
+            this.tabAll.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -294,9 +226,7 @@
         private ReaLTaiizor.Controls.SmallLabel smallLabel1;
         private ReaLTaiizor.Controls.BigLabel bigLabel1;
         private ReaLTaiizor.Controls.AirCheckBox airCheckBox1;
-        private ReaLTaiizor.Controls.HopeNotify hopeNotify1;
-        private ReaLTaiizor.Controls.HopeNotify hopeNotify3;
-        private ReaLTaiizor.Controls.HopeNotify hopeNotify2;
-        private ReaLTaiizor.Controls.HopeNotify hopeNotify4;
+        private ReaLTaiizor.Controls.MaterialLabel lblAllCaughtUp;
+        private Loader loader;
     }
 }

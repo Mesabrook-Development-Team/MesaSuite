@@ -271,9 +271,14 @@ namespace CompanyStudio
             PermissionsManager.StartCheckThread((method) => Invoke(method));
             loader.Visible = false;
 
-            frmStartPage start = new frmStartPage();
-            start.Studio = this;
-            start.Show(dockPanel, DockState.Document);
+            bool showStart = UserPreferences.Get().GetPreferencesForSection("company").GetOrDefault("showStartPage", true) as bool? ?? true;
+
+            if (showStart)
+            {
+                frmStartPage start = new frmStartPage();
+                start.Studio = this;
+                start.Show(dockPanel, DockState.Document);
+            }
         }
 
         private void PermissionsManager_OnCompanyPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)

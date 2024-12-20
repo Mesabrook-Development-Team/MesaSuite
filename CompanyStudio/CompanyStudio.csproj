@@ -219,6 +219,12 @@
     <Compile Include="frmStartPage.Designer.cs">
       <DependentUpon>frmStartPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmStartPageEditQuickAccess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmStartPageEditQuickAccess.Designer.cs">
+      <DependentUpon>frmStartPageEditQuickAccess.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmStudio.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -751,6 +757,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmStartPage.resx">
       <DependentUpon>frmStartPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmStartPageEditQuickAccess.resx">
+      <DependentUpon>frmStartPageEditQuickAccess.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmStudio.resx">
       <DependentUpon>frmStudio.cs</DependentUpon>

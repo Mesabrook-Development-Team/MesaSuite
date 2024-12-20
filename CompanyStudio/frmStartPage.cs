@@ -9,9 +9,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using MesaSuite.Common;
 using MesaSuite.Common.Collections;
 using MesaSuite.Common.Data;
+using MesaSuite.Common.Extensions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using ReaLTaiizor.Controls;
 using WeifenLuo.WinFormsUI.Docking;
+using static CompanyStudio.frmStartPage;
+using static ReaLTaiizor.Helper.CrownHelper;
 
 namespace CompanyStudio
 {
@@ -27,8 +34,100 @@ namespace CompanyStudio
 
         private async void frmStartPage_Load(object sender, EventArgs e)
         {
+            ThemeProvider.Theme = new LightTheme();
+            ctxQuickAccessMenu.BackColor = ThemeProvider.Theme.Colors.GreyBackground;
+            ctxQuickAccessMenu.Items.OfType<ToolStripItem>().ForEach(tsi => tsi.BackColor = ThemeProvider.Theme.Colors.GreyBackground);
+
+            await RefreshData();
+            ReloadQuickAccess();
+
+            chkAlwaysShowStart.Checked = UserPreferences.Get().GetPreferencesForSection("company").GetOrDefault("showStartPage", true) as bool? ?? true;
+        }
+
+        private void ReloadQuickAccess()
+        {
+            pnlQuickLinks.Controls.OfType<Control>().Where(ctrl => ctrl != lnkQuickAccess).ToList().ForEach(ctrl => pnlQuickLinks.Controls.Remove(ctrl));
+
+            UserPreferences userPreferences = UserPreferences.Get();
+            JArray quickAccess = userPreferences.GetPreferencesForSection("company").GetOrSetDefault("startQuickAccess", new JArray()) as JArray;
+            if (quickAccess != null)
+            {
+                ToolStrip bannerStrip = Studio.Controls["mnuBanner"] as ToolStrip;
+
+                foreach (JToken jItem in quickAccess)
+                {
+                    QuickAccessItem quickAccessItem;
+                    try
+                    {
+                        quickAccessItem = jItem.ToObject<QuickAccessItem>();
+                    }
+                    catch { continue; }
+
+                    string[] controlNameParts = quickAccessItem.ToolName.Split('/');
+                    if (!bannerStrip.Items.ContainsKey(controlNameParts[0]))
+                    {
+                        continue;
+                    }
+
+                    ToolStripMenuItem toolStripMenuItem = bannerStrip.Items[controlNameParts[0]] as ToolStripMenuItem;
+                    for (int i = 1; i < controlNameParts.Length; i++)
+                    {
+                        if (!toolStripMenuItem.DropDownItems.ContainsKey(controlNameParts[i]))
+                        {
+                            break;
+                        }
+
+                        toolStripMenuItem = toolStripMenuItem.DropDownItems[controlNameParts[i]] as ToolStripMenuItem;
+                    }
+
+                    if (!toolStripMenuItem.Name.Equals(controlNameParts.Last(), StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    quickAccessItem.ToolStripMenuItem = toolStripMenuItem;
+
+                    DungeonLinkLabel quickAccessLink = new DungeonLinkLabel()
+                    {
+                        Text = quickAccessItem.FriendlyName,
+                        Image = toolStripMenuItem.Image,
+                        ImageAlign = ContentAlignment.MiddleLeft,
+                        Tag = quickAccessItem,
+                        AutoSize = true,
+                        Padding = new Padding(16, 0, 0, 0),
+                        Margin = new Padding(0, 6, 0, 0)
+                    };
+                    quickAccessLink.LinkClicked += QuickAccessLink_LinkClicked;
+                    pnlQuickLinks.Controls.Add(quickAccessLink);
+                }
+            }
+        }
+
+        private void QuickAccessLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            QuickAccessItem quickAccessItem = (sender as DungeonLinkLabel).Tag as QuickAccessItem;
+            if (e.Button == MouseButtons.Left)
+            {
+                Studio.ActiveCompany = Studio.Companies.FirstOrDefault(c => c.Locations.Any(l => l.LocationID == quickAccessItem.LocationID));
+                Studio.ActiveLocation = Studio.ActiveCompany.Locations.FirstOrDefault(l => l.LocationID == quickAccessItem.LocationID);
+                quickAccessItem.ToolStripMenuItem.PerformClick();
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                ctxQuickAccessMenu.Tag = quickAccessItem;
+                ctxQuickAccessMenu.Show(Cursor.Position);
+            }
+        }
+
+        private async Task RefreshData()
+        {
             loader.BringToFront();
             loader.Visible = true;
+
+            while(tbpToDoList.TabPages.Count > 1)
+            {
+                tbpToDoList.TabPages.RemoveAt(1);
+            }
 
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Employee/GetToDoItems");
             toDoItems = await get.GetObject<List<ToDoItem>>() ?? new List<ToDoItem>();
@@ -36,7 +135,7 @@ namespace CompanyStudio
             toDoItems.Sort(new ToDoItem.ToDoItemComparer());
             foreach (ToDoItem item in toDoItems)
             {
-                TabPage companyPage = tbpToDoList.TabPages.OfType<TabPage>().FirstOrDefault(tp => tp.Tag is Company company && company.CompanyID == item.CompanyID);
+                System.Windows.Forms.TabPage companyPage = tbpToDoList.TabPages.OfType<System.Windows.Forms.TabPage>().FirstOrDefault(tp => tp.Tag is Company company && company.CompanyID == item.CompanyID);
                 if (companyPage == null)
                 {
                     Company company = Studio.Companies.FirstOrDefault(c => c.CompanyID == item.CompanyID);
@@ -45,12 +144,12 @@ namespace CompanyStudio
                         continue;
                     }
 
-                    companyPage = new TabPage();
+                    companyPage = new System.Windows.Forms.TabPage();
                     companyPage.Tag = company;
                     companyPage.Text = company.Name;
 
                     int insertIndex = 1;
-                    TabPage desiredIndex = tbpToDoList.TabPages.OfType<TabPage>().OrderBy(tp => tp.Text).FirstOrDefault(tb => tb.Text.CompareTo(companyPage.Text) >= 1);
+                    System.Windows.Forms.TabPage desiredIndex = tbpToDoList.TabPages.OfType<System.Windows.Forms.TabPage>().OrderBy(tp => tp.Text).FirstOrDefault(tb => tb.Text.CompareTo(companyPage.Text) >= 1);
                     if (desiredIndex != null)
                     {
                         insertIndex = tbpToDoList.TabPages.IndexOf(desiredIndex);
@@ -62,7 +161,7 @@ namespace CompanyStudio
                 lblAllCaughtUp.Visible = false;
                 // Insert into All Businesses tab
                 ReaLTaiizor.Controls.HopeNotify.AlertType type = default;
-                switch(item.Type)
+                switch (item.Type)
                 {
                     case ToDoItem.Types.PayablePastDueInvoice:
                     case ToDoItem.Types.ReceivablePastDueInvoice:
@@ -119,7 +218,6 @@ namespace CompanyStudio
                 companyTabControl.Top = top;
                 companyPage.Controls.Add(companyTabControl);
             }
-
             loader.Visible = false;
         }
 
@@ -155,6 +253,7 @@ namespace CompanyStudio
                     Studio.DecorateStudioContent(payableInvoiceForm);
                     payableInvoiceForm.Company = company;
                     payableInvoiceForm.LocationModel = location;
+                    payableInvoiceForm.FormClosed += async (_, __) => await RefreshData();
                     payableInvoiceForm.Show(Studio.dockPanel, DockState.Document);
                     break;
                 case ToDoItem.Types.ReceivableInvoiceWaiting:
@@ -174,6 +273,7 @@ namespace CompanyStudio
                     Studio.DecorateStudioContent(receivableInvoiceForm);
                     receivableInvoiceForm.Company = company;
                     receivableInvoiceForm.LocationModel = location;
+                    receivableInvoiceForm.FormClosed += async (_, __) => await RefreshData();
                     receivableInvoiceForm.Show(Studio.dockPanel, DockState.Document);
                     break;
                 case ToDoItem.Types.QuotationRequestWaiting:
@@ -184,6 +284,7 @@ namespace CompanyStudio
                     Studio.DecorateStudioContent(quoteRequest);
                     quoteRequest.Company = company;
                     quoteRequest.LocationModel = location;
+                    quoteRequest.FormClosed += async (_, __) => await RefreshData();
                     quoteRequest.Show(Studio.dockPanel, DockState.Document);
                     break;
                 case ToDoItem.Types.PurchaseOrderWaitingApproval:
@@ -200,6 +301,7 @@ namespace CompanyStudio
                     Studio.DecorateStudioContent(approvalViewer);
                     approvalViewer.Company = company;
                     approvalViewer.LocationModel = location;
+                    approvalViewer.FormClosed += async (_, __) => await RefreshData();
                     approvalViewer.Show(Studio.dockPanel, DockState.Document);
                     break;
                 case ToDoItem.Types.RailcarAwaitingAction:
@@ -207,6 +309,7 @@ namespace CompanyStudio
                     Studio.DecorateStudioContent(shippingReceiving);
                     shippingReceiving.Company = company;
                     shippingReceiving.LocationModel = location;
+                    shippingReceiving.FormClosed += async (_, __) => await RefreshData();
                     shippingReceiving.Show(Studio.dockPanel, DockState.Document);
                     break;
                 case ToDoItem.Types.RegisterOffline:
@@ -218,6 +321,7 @@ namespace CompanyStudio
                     Studio.DecorateStudioContent(register);
                     register.Company = company;
                     register.LocationModel = location;
+                    register.FormClosed += async (_, __) => await RefreshData();
                     register.Show(Studio.dockPanel, DockState.Document);
                     break;
                 case ToDoItem.Types.OpenPurchaseOrders:
@@ -225,6 +329,7 @@ namespace CompanyStudio
                     Studio.DecorateStudioContent(purchaseOrderExplorer);
                     purchaseOrderExplorer.Company = company;
                     purchaseOrderExplorer.LocationModel = location;
+                    purchaseOrderExplorer.FormClosed += async (_, __) => await RefreshData();
                     purchaseOrderExplorer.Show(Studio.dockPanel, DockState.DockRight);
                     break;
             }
@@ -286,6 +391,252 @@ namespace CompanyStudio
                     return result;
                 }
             }
+        }
+
+        private void chkAlwaysShowStart_CheckedChanged(object sender)
+        {
+            UserPreferences userPreferences = UserPreferences.Get();
+            userPreferences.GetPreferencesForSection("company")["showStartPage"] = chkAlwaysShowStart.Checked;
+            userPreferences.Save();
+        }
+
+        private void lnkQuickAccess_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            frmStartPageEditQuickAccess editQuickAccess = new frmStartPageEditQuickAccess()
+            {
+                Studio = Studio,
+                QuickAccessItem = new QuickAccessItem()
+                {
+                    LocationID = Studio.ActiveLocation?.LocationID
+                }
+            };
+            DialogResult result = editQuickAccess.ShowDialog();
+
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+
+            UserPreferences userPreferences = UserPreferences.Get();
+            JArray array = userPreferences.GetPreferencesForSection("company").GetOrSetDefault("startQuickAccess", new JArray()) as JArray;
+            array.Add(JObject.FromObject(editQuickAccess.QuickAccessItem));
+            userPreferences.Save();
+
+            ReloadQuickAccess();
+        }
+
+        public class QuickAccessItem
+        {
+            public string ToolName { get; set; } = "";
+            public string FriendlyName { get; set; } = "";
+            public long? LocationID { get; set; }
+
+            [JsonIgnore]
+            public ToolStripMenuItem ToolStripMenuItem { get; set; }
+        }
+
+        private void tsmiEditQuickAccess_Click(object sender, EventArgs e)
+        {
+            QuickAccessItem quickAccessItem = ctxQuickAccessMenu.Tag as QuickAccessItem;
+
+            UserPreferences userPreferences = UserPreferences.Get();
+            JArray array = userPreferences.GetPreferencesForSection("company").GetOrSetDefault("startQuickAccess", new JArray()) as JArray;
+            JToken existing = null;
+            foreach (JToken token in array)
+            {
+                try
+                {
+                    QuickAccessItem item = token.ToObject<QuickAccessItem>();
+                    if (quickAccessItem.FriendlyName.Equals(item.FriendlyName, StringComparison.OrdinalIgnoreCase) &&
+                        item.LocationID == quickAccessItem.LocationID &&
+                        quickAccessItem.ToolName.Equals(item.ToolName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        existing = token;
+                        break;
+                    }
+                }
+                catch { continue; }
+            }
+
+            if (existing == null)
+            {
+                CrownMessageBox.ShowError("Unable to locate quick access item in user preferences.", "Error");
+                return;
+            }
+
+            frmStartPageEditQuickAccess editQuickAccess = new frmStartPageEditQuickAccess()
+            {
+                Studio = Studio,
+                QuickAccessItem = quickAccessItem
+            };
+            DialogResult result = editQuickAccess.ShowDialog();
+
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+
+            existing.Replace(JToken.FromObject(quickAccessItem));
+            userPreferences.GetPreferencesForSection("company")["startQuickAccess"] = array;
+            userPreferences.Save();
+
+            ReloadQuickAccess();
+        }
+
+        private void tsmiDeleteQuickAccess_Click(object sender, EventArgs e)
+        {
+            QuickAccessItem quickAccessItem = ctxQuickAccessMenu.Tag as QuickAccessItem;
+
+            UserPreferences userPreferences = UserPreferences.Get();
+            JArray array = userPreferences.GetPreferencesForSection("company").GetOrSetDefault("startQuickAccess", new JArray()) as JArray;
+            JToken existing = null;
+            foreach (JToken token in array)
+            {
+                try
+                {
+                    QuickAccessItem item = token.ToObject<QuickAccessItem>();
+                    if (quickAccessItem.FriendlyName.Equals(item.FriendlyName, StringComparison.OrdinalIgnoreCase) &&
+                        item.LocationID == quickAccessItem.LocationID &&
+                        quickAccessItem.ToolName.Equals(item.ToolName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        existing = token;
+                        break;
+                    }
+                }
+                catch { continue; }
+            }
+
+            if (existing == null)
+            {
+                CrownMessageBox.ShowError("Unable to locate quick access item in user preferences.", "Error");
+                return;
+            }
+
+            array.Remove(existing);
+            userPreferences.GetPreferencesForSection("company")["startQuickAccess"] = array;
+            userPreferences.Save();
+
+            ReloadQuickAccess();
+        }
+
+        private void tsmiQuickAccessMoveUp_Click(object sender, EventArgs e)
+        {
+            QuickAccessItem quickAccessItem = ctxQuickAccessMenu.Tag as QuickAccessItem;
+
+            UserPreferences userPreferences = UserPreferences.Get();
+            JArray array = userPreferences.GetPreferencesForSection("company").GetOrSetDefault("startQuickAccess", new JArray()) as JArray;
+            JToken existing = null;
+            foreach (JToken token in array)
+            {
+                try
+                {
+                    QuickAccessItem item = token.ToObject<QuickAccessItem>();
+                    if (quickAccessItem.FriendlyName.Equals(item.FriendlyName, StringComparison.OrdinalIgnoreCase) &&
+                        item.LocationID == quickAccessItem.LocationID &&
+                        quickAccessItem.ToolName.Equals(item.ToolName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        existing = token;
+                        break;
+                    }
+                }
+                catch { continue; }
+            }
+
+            if (existing == null)
+            {
+                CrownMessageBox.ShowError("Unable to locate quick access item in user preferences.", "Error");
+                return;
+            }
+            int currentIndex = array.IndexOf(existing);
+
+            if (currentIndex == 0)
+            {
+                return;
+            }
+
+            array.Remove(existing);
+            array.Insert(currentIndex - 1, existing);
+            userPreferences.GetPreferencesForSection("company")["startQuickAccess"] = array;
+            userPreferences.Save();
+
+            ReloadQuickAccess();
+        }
+
+        private void tsmiQuickAccessMoveDown_Click(object sender, EventArgs e)
+        {
+            QuickAccessItem quickAccessItem = ctxQuickAccessMenu.Tag as QuickAccessItem;
+
+            UserPreferences userPreferences = UserPreferences.Get();
+            JArray array = userPreferences.GetPreferencesForSection("company").GetOrSetDefault("startQuickAccess", new JArray()) as JArray;
+            JToken existing = null;
+            foreach (JToken token in array)
+            {
+                try
+                {
+                    QuickAccessItem item = token.ToObject<QuickAccessItem>();
+                    if (quickAccessItem.FriendlyName.Equals(item.FriendlyName, StringComparison.OrdinalIgnoreCase) &&
+                        item.LocationID == quickAccessItem.LocationID &&
+                        quickAccessItem.ToolName.Equals(item.ToolName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        existing = token;
+                        break;
+                    }
+                }
+                catch { continue; }
+            }
+
+            if (existing == null)
+            {
+                CrownMessageBox.ShowError("Unable to locate quick access item in user preferences.", "Error");
+                return;
+            }
+            int currentIndex = array.IndexOf(existing);
+
+            if (currentIndex == array.Count - 1)
+            {
+                return;
+            }
+
+            array.Remove(existing);
+            array.Insert(currentIndex + 1, existing);
+            userPreferences.GetPreferencesForSection("company")["startQuickAccess"] = array;
+            userPreferences.Save();
+
+            ReloadQuickAccess();
+        }
+
+        private void ctxQuickAccessMenu_Opening(object sender, CancelEventArgs e)
+        {
+            QuickAccessItem quickAccessItem = ctxQuickAccessMenu.Tag as QuickAccessItem;
+
+            UserPreferences userPreferences = UserPreferences.Get();
+            JArray array = userPreferences.GetPreferencesForSection("company").GetOrSetDefault("startQuickAccess", new JArray()) as JArray;
+            JToken existing = null;
+            foreach (JToken token in array)
+            {
+                try
+                {
+                    QuickAccessItem item = token.ToObject<QuickAccessItem>();
+                    if (quickAccessItem.FriendlyName.Equals(item.FriendlyName, StringComparison.OrdinalIgnoreCase) &&
+                        item.LocationID == quickAccessItem.LocationID &&
+                        quickAccessItem.ToolName.Equals(item.ToolName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        existing = token;
+                        break;
+                    }
+                }
+                catch { continue; }
+            }
+
+            if (existing == null)
+            {
+                CrownMessageBox.ShowError("Unable to locate quick access item in user preferences.", "Error");
+                return;
+            }
+            int currentIndex = array.IndexOf(existing);
+
+            tsmiQuickAccessMoveUp.Enabled = currentIndex > 0;
+            tsmiQuickAccessMoveDown.Enabled = currentIndex < array.Count - 1;
         }
     }
 }

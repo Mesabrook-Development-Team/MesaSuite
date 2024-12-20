@@ -117,10 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="smallLabel1.Text" xml:space="preserve">
-    <value>Using Company Studio, you can manage every aspect about each of your businesses. To help make things easier, we've created a list of items on this Start Page to help you focus on the things that truly need your attention as well as quick access to useful features.</value>
-  </data>
-  <metadata name="ctxQuickAccessMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
 </root>

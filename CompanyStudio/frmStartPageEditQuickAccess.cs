@@ -1,4 +1,5 @@
 ﻿using CompanyStudio.Models;
+using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
 using ReaLTaiizor.Child.Crown;
 using ReaLTaiizor.Controls;
@@ -37,7 +38,18 @@ namespace CompanyStudio
                     DropDownItem<Location> locationItem = new DropDownItem<Location>(location, $"{company.Name} ({location.Name})");
                     cboLocations.Items.Add(locationItem);
 
-                    if (QuickAccessItem.LocationID == location.LocationID)
+                    if (QuickAccessItem.CompanyID == location.CompanyID && QuickAccessItem.LocationID == location.LocationID)
+                    {
+                        cboLocations.SelectedItem = locationItem;
+                    }
+                }
+
+                if (!company.Locations.Any())
+                {
+                    DropDownItem<Location> locationItem = new DropDownItem<Location>(new Models.Location() { CompanyID = company.CompanyID }, $"{company.Name} (No Locations)");
+                    cboLocations.Items.Add(locationItem);
+
+                    if (QuickAccessItem.CompanyID == company.CompanyID && QuickAccessItem.LocationID == null)
                     {
                         cboLocations.SelectedItem = locationItem;
                     }
@@ -172,6 +184,7 @@ namespace CompanyStudio
 
             QuickAccessItem.ToolName = builder.ToString();
             QuickAccessItem.FriendlyName = txtQuickAccessName.Text;
+            QuickAccessItem.CompanyID = ((DropDownItem<Location>)cboLocations.SelectedItem).Object.CompanyID;
             QuickAccessItem.LocationID = ((DropDownItem<Location>)cboLocations.SelectedItem).Object.LocationID;
 
             DialogResult = DialogResult.OK;

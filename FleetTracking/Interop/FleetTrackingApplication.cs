@@ -245,6 +245,7 @@ namespace FleetTracking.Interop
                 toolStrip = new ToolStripMenuItem("Fleet Tracking", Properties.Resources.lorry);
                 toolStrip.ImageScaling = ToolStripItemImageScaling.None;
                 toolStrip.DropDownOpened += Navigation_DropDownOpening;
+                toolStrip.Name = "mnuFleetTracking";
                 foreach(MainNavigationItem item in items)
                 {
                     AddItemToToolStrip(item, toolStrip);
@@ -275,6 +276,7 @@ namespace FleetTracking.Interop
             newStripItem.Tag = item;
             newStripItem.Image = item.Image;
             newStripItem.ImageScaling = ToolStripItemImageScaling.None;
+            newStripItem.Name = "mnu" + item.Text.Replace(" ", "");
             toolStripMenuItem.DropDownItems.Add(newStripItem);
 
             if (item.SubItems != null)

@@ -108,9 +108,38 @@ namespace CompanyStudio
             QuickAccessItem quickAccessItem = (sender as DungeonLinkLabel).Tag as QuickAccessItem;
             if (e.Button == MouseButtons.Left)
             {
-                Studio.ActiveCompany = Studio.Companies.FirstOrDefault(c => c.Locations.Any(l => l.LocationID == quickAccessItem.LocationID));
+                Studio.ActiveCompany = Studio.Companies.FirstOrDefault(c => c.CompanyID == quickAccessItem.CompanyID);
                 Studio.ActiveLocation = Studio.ActiveCompany.Locations.FirstOrDefault(l => l.LocationID == quickAccessItem.LocationID);
-                quickAccessItem.ToolStripMenuItem.PerformClick();
+                
+                List<ToolStripMenuItem> menusToClick = new List<ToolStripMenuItem>();
+                ToolStripMenuItem workingMenu = quickAccessItem.ToolStripMenuItem;
+                menusToClick.Add(workingMenu);
+                while(workingMenu.OwnerItem != null)
+                {
+                    workingMenu = workingMenu.OwnerItem as ToolStripMenuItem;
+                    menusToClick.Add(workingMenu);
+                }
+
+                menusToClick.Reverse();
+
+                for(int i = 0; i < menusToClick.Count; i++)
+                {
+                    ToolStripMenuItem menu = menusToClick[i];
+                    if (!menu.Visible)
+                    {
+                        menusToClick[0].HideDropDown();
+                        return;
+                    }
+
+                    if (i == menusToClick.Count - 1)
+                    {
+                        menu.PerformClick();
+                    }
+                    else
+                    {
+                        menu.ShowDropDown();
+                    }
+                }
             }
             else if (e.Button == MouseButtons.Right)
             {
@@ -128,6 +157,8 @@ namespace CompanyStudio
             {
                 tbpToDoList.TabPages.RemoveAt(1);
             }
+
+            tabAll.Controls.Clear();
 
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Employee/GetToDoItems");
             toDoItems = await get.GetObject<List<ToDoItem>>() ?? new List<ToDoItem>();
@@ -407,6 +438,7 @@ namespace CompanyStudio
                 Studio = Studio,
                 QuickAccessItem = new QuickAccessItem()
                 {
+                    CompanyID = Studio.ActiveCompany?.CompanyID,
                     LocationID = Studio.ActiveLocation?.LocationID
                 }
             };
@@ -429,6 +461,7 @@ namespace CompanyStudio
         {
             public string ToolName { get; set; } = "";
             public string FriendlyName { get; set; } = "";
+            public long? CompanyID { get; set; }
             public long? LocationID { get; set; }
 
             [JsonIgnore]
@@ -448,6 +481,7 @@ namespace CompanyStudio
                 {
                     QuickAccessItem item = token.ToObject<QuickAccessItem>();
                     if (quickAccessItem.FriendlyName.Equals(item.FriendlyName, StringComparison.OrdinalIgnoreCase) &&
+                        item.CompanyID == quickAccessItem.CompanyID &&
                         item.LocationID == quickAccessItem.LocationID &&
                         quickAccessItem.ToolName.Equals(item.ToolName, StringComparison.OrdinalIgnoreCase))
                     {
@@ -496,6 +530,7 @@ namespace CompanyStudio
                 {
                     QuickAccessItem item = token.ToObject<QuickAccessItem>();
                     if (quickAccessItem.FriendlyName.Equals(item.FriendlyName, StringComparison.OrdinalIgnoreCase) &&
+                        item.CompanyID == quickAccessItem.CompanyID &&
                         item.LocationID == quickAccessItem.LocationID &&
                         quickAccessItem.ToolName.Equals(item.ToolName, StringComparison.OrdinalIgnoreCase))
                     {
@@ -532,6 +567,7 @@ namespace CompanyStudio
                 {
                     QuickAccessItem item = token.ToObject<QuickAccessItem>();
                     if (quickAccessItem.FriendlyName.Equals(item.FriendlyName, StringComparison.OrdinalIgnoreCase) &&
+                        item.CompanyID == quickAccessItem.CompanyID &&
                         item.LocationID == quickAccessItem.LocationID &&
                         quickAccessItem.ToolName.Equals(item.ToolName, StringComparison.OrdinalIgnoreCase))
                     {
@@ -575,6 +611,7 @@ namespace CompanyStudio
                 {
                     QuickAccessItem item = token.ToObject<QuickAccessItem>();
                     if (quickAccessItem.FriendlyName.Equals(item.FriendlyName, StringComparison.OrdinalIgnoreCase) &&
+                        item.CompanyID == quickAccessItem.CompanyID &&
                         item.LocationID == quickAccessItem.LocationID &&
                         quickAccessItem.ToolName.Equals(item.ToolName, StringComparison.OrdinalIgnoreCase))
                     {
@@ -618,6 +655,7 @@ namespace CompanyStudio
                 {
                     QuickAccessItem item = token.ToObject<QuickAccessItem>();
                     if (quickAccessItem.FriendlyName.Equals(item.FriendlyName, StringComparison.OrdinalIgnoreCase) &&
+                        item.CompanyID == quickAccessItem.CompanyID &&
                         item.LocationID == quickAccessItem.LocationID &&
                         quickAccessItem.ToolName.Equals(item.ToolName, StringComparison.OrdinalIgnoreCase))
                     {

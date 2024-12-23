@@ -3,6 +3,7 @@ using CompanyStudio.Models;
 using FleetTracking;
 using FleetTracking.Interop;
 using MesaSuite.Common;
+using MesaSuite.Common.Collections;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -31,6 +32,7 @@ namespace CompanyStudio
             themes.Add("light", vS2015LightTheme);
             themes.Add("blue", vS2015BlueTheme);
         }
+
 
         public event EventHandler<Company> OnCompanyAdded;
         public event EventHandler<Company> OnCompanyRemoved;
@@ -131,6 +133,7 @@ namespace CompanyStudio
         private void FleetTracking_AddNavigationItem(ToolStripItemCollection collection, FleetTrackingApplication.MainNavigationItem item)
         {
             ToolStripMenuItem tsmi = new ToolStripMenuItem(item.Text);
+            tsmi.Name = "mnu" + item.Text.Replace(" ", "");
             if (item.SelectedAction != null)
             {
                 tsmi.Click += (s, e) => item.SelectedAction.Invoke();
@@ -261,6 +264,8 @@ namespace CompanyStudio
             if (getCompanies.RequestSuccessful)
             {
                 companies.OrderBy(c => c.Name).ForEach(c => AddCompany(c));
+
+                ActiveCompany = Companies.First();
             }
 
             frmCompanyExplorer companyExplorer = GetForm<frmCompanyExplorer>();

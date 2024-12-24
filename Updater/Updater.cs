@@ -169,7 +169,7 @@ namespace Updater
             {
                 string subKey = Program.InternalEdition ? "MesaSuiteInternalEdition" : "MesaSuite";
                 RegistryKey mesasuiteKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + subKey, true);
-                mesasuiteKey.SetValue("DisplayName", "MesaSuite (Internal Edition)");
+                mesasuiteKey.SetValue("DisplayName", "MesaSuite" + (Program.InternalEdition ? " (Internal Edition)" : ""));
                 mesasuiteKey.SetValue("ApplicationVersion", StartupArguments.VersionToDownload);
                 mesasuiteKey.SetValue("Publisher", "Clussman Productions");
                 mesasuiteKey.SetValue("DisplayIcon", Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe"));
@@ -180,6 +180,15 @@ namespace Updater
                 mesasuiteKey.SetValue("UninstallString", Path.Combine(InstallationConfiguration.InstallDirectory, "Updater.exe") + " -uninstallquiet");
                 mesasuiteKey.SetValue("DesktopIcon", InstallationConfiguration.MakeDesktopIcon);
                 mesasuiteKey.SetValue("StartMenuIcon", InstallationConfiguration.MakeStartMenuIcon);
+                mesasuiteKey.Close();
+
+                mesasuiteKey = Registry.ClassesRoot.CreateSubKey(@"mesasuite");
+                mesasuiteKey.SetValue("", "MesaSuite Protocol");
+                mesasuiteKey.SetValue("URLProtocol", "");
+                mesasuiteKey.Close();
+
+                mesasuiteKey = Registry.ClassesRoot.CreateSubKey(@"mesasuite\shell\open\command");
+                mesasuiteKey.SetValue("", Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe") + " \"%1\"");
                 mesasuiteKey.Close();
             }
             catch(Exception ex)

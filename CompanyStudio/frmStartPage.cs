@@ -279,7 +279,7 @@ namespace CompanyStudio
 
                     Invoicing.frmPayableInvoice payableInvoiceForm = new Invoicing.frmPayableInvoice()
                     {
-                        Invoice = payableInvoice
+                        InvoiceID = payableInvoice.InvoiceID
                     };
                     Studio.DecorateStudioContent(payableInvoiceForm);
                     payableInvoiceForm.Company = company;

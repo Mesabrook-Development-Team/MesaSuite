@@ -1,5 +1,6 @@
 ﻿using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Utility;
 using System;
@@ -10,6 +11,7 @@ using System.Windows.Forms;
 
 namespace CompanyStudio.Purchasing.ShippingReceiving
 {
+    [UriReachable("shippingreceiving")]
     public partial class frmShippingReceiving : BaseCompanyStudioContent, ILocationScoped
     {
         public frmShippingReceiving()

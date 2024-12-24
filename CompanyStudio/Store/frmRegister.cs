@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 
 namespace CompanyStudio.Store
 {
+    [UriReachable("register/{RegisterID}")]
     public partial class frmRegister : BaseCompanyStudioContent, ILocationScoped, ISaveable
     {
         public long? RegisterID { get; set; }

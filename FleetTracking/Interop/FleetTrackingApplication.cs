@@ -34,6 +34,7 @@ namespace FleetTracking.Interop
             RegisterCallback(securityPermissionCheckCallback);
 
             _permissionsThread = new Thread(new ParameterizedThreadStart(PermissionsChecker));
+            _permissionsThread.IsBackground = true;
             _permissionsTokenSource = new CancellationTokenSource();
             _permissionsThread.Start(_permissionsTokenSource.Token);
         }

@@ -1,5 +1,6 @@
 ﻿using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using System;
@@ -15,6 +16,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CompanyStudio.Purchasing
 {
+    [UriReachable("purchaseorders")]
     public partial class frmPurchaseOrderExplorer : BaseCompanyStudioContent, ILocationScoped
     {
         private const string INCOMING_NODE_COMPANY_FORMAT = "From {0} ({1}) - PO {2} - Ordered on {3}";

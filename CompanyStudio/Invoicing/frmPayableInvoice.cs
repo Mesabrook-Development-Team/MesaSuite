@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
 
 namespace CompanyStudio.Invoicing
 {
+    [UriReachable("apinvoice/{InvoiceID}")]
     public partial class frmPayableInvoice : /*Form*/ BaseCompanyStudioContent, ILocationScoped, ISaveable
     {
         public frmPayableInvoice()
@@ -22,7 +24,7 @@ namespace CompanyStudio.Invoicing
             InitializeComponent();
         }
 
-        public Invoice Invoice { get; set; }
+        public long? InvoiceID { get; set; }
 
         public Location LocationModel { get; set; }
 
@@ -40,7 +42,7 @@ namespace CompanyStudio.Invoicing
 
             long? accountID = cboAccount.SelectedItem.Cast<DropDownItem<Account>>()?.Object.AccountID;
 
-            PatchData patch = new PatchData(DataAccess.APIs.CompanyStudio, "Invoice/Patch", PatchData.PatchMethods.Replace, Invoice.InvoiceID, new Dictionary<string, object>()
+            PatchData patch = new PatchData(DataAccess.APIs.CompanyStudio, "Invoice/Patch", PatchData.PatchMethods.Replace, InvoiceID, new Dictionary<string, object>()
             {
                 { "AccountIDFrom", accountID }
             });
@@ -52,9 +54,9 @@ namespace CompanyStudio.Invoicing
                 IsDirty = false;
                 OnSave?.Invoke(this, EventArgs.Empty);
 
-                GetData getUpdatedinvoice = new GetData(DataAccess.APIs.CompanyStudio, $"Invoice/Get/{Invoice.InvoiceID}");
+                GetData getUpdatedinvoice = new GetData(DataAccess.APIs.CompanyStudio, $"Invoice/Get/{InvoiceID}");
                 getUpdatedinvoice.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-                Invoice = await getUpdatedinvoice.GetObject<Invoice>();
+                InvoiceID = (await getUpdatedinvoice.GetObject<Invoice>())?.InvoiceID ?? InvoiceID;
                 if (!getUpdatedinvoice.RequestSuccessful)
                 {
                     Close();
@@ -72,7 +74,7 @@ namespace CompanyStudio.Invoicing
 
         private async void frmPayableInvoice_Load(object sender, EventArgs e)
         {
-            if (Invoice == null)
+            if (InvoiceID == null)
             {
                 this.ShowError("Payable Invoices cannot be created");
                 _closeOnShown = true;
@@ -89,20 +91,29 @@ namespace CompanyStudio.Invoicing
             loader.BringToFront();
             loader.Visible = true;
 
-            Text = Invoice.InvoiceNumber + " [AP]";
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Invoice/Get/" + InvoiceID);
+            get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            Invoice invoice = await get.GetObject<Invoice>();
+            if (invoice == null)
+            {
+                Close();
+                return;
+            }
 
-            txtPayee.Text = $"{Invoice.LocationFrom?.Company?.Name ?? Invoice.GovernmentFrom?.Name} (Government)";
-            txtPayor.Text = $"{Invoice.LocationTo.Company.Name} ({Invoice.LocationTo.Name})";
-            lnkPurchaseOrder.Text = Invoice.PurchaseOrderID?.ToString() ?? "[None]";
-            lnkPurchaseOrder.Tag = Invoice.PurchaseOrderID;
-            txtInvoiceNumber.Text = Invoice.InvoiceNumber;
-            dtpInvoiceDate.Value = Invoice.InvoiceDate;
-            dtpDueDate.Value = Invoice.DueDate;
-            txtDescription.Text = Invoice.Description;
+            Text = invoice.InvoiceNumber + " [AP]";
+
+            txtPayee.Text = $"{invoice.LocationFrom?.Company?.Name ?? invoice.GovernmentFrom?.Name} (Government)";
+            txtPayor.Text = $"{invoice.LocationTo.Company.Name} ({invoice.LocationTo.Name})";
+            lnkPurchaseOrder.Text = invoice.PurchaseOrderID?.ToString() ?? "[None]";
+            lnkPurchaseOrder.Tag = invoice.PurchaseOrderID;
+            txtInvoiceNumber.Text = invoice.InvoiceNumber;
+            dtpInvoiceDate.Value = invoice.InvoiceDate;
+            dtpDueDate.Value = invoice.DueDate;
+            txtDescription.Text = invoice.Description;
 
             dgvLineItems.Rows.Clear();
             decimal subTotal = 0M;
-            foreach(InvoiceLine invoiceLine in Invoice.InvoiceLines)
+            foreach(InvoiceLine invoiceLine in invoice.InvoiceLines)
             {
                 int rowIndex = dgvLineItems.Rows.Add();
                 DataGridViewRow row = dgvLineItems.Rows[rowIndex];
@@ -121,10 +132,10 @@ namespace CompanyStudio.Invoicing
 
             dgvTaxes.Rows.Clear();
             decimal taxTotal = 0M;
-            if (Invoice.Status == Invoice.Statuses.Complete)
+            if (invoice.Status == Invoice.Statuses.Complete)
             {
                 grpTaxes.Text = "Taxes Paid";
-                foreach(InvoiceSalesTax salesTax in Invoice.InvoiceSalesTaxes)
+                foreach(InvoiceSalesTax salesTax in invoice.InvoiceSalesTaxes)
                 {
                     int rowIndex = dgvTaxes.Rows.Add();
                     DataGridViewRow row = dgvTaxes.Rows[rowIndex];
@@ -134,10 +145,10 @@ namespace CompanyStudio.Invoicing
                     taxTotal += salesTax.AppliedAmount;
                 }
             }
-            else if (Invoice.LocationIDFrom != null)
+            else if (invoice.LocationIDFrom != null)
             {
                 grpTaxes.Text = "Estimated Taxes";
-                GetData getEffectiveTaxes = new GetData(DataAccess.APIs.CompanyStudio, $"SalesTax/GetEffectiveSalesTaxForLocation/{Invoice.LocationIDFrom}");
+                GetData getEffectiveTaxes = new GetData(DataAccess.APIs.CompanyStudio, $"SalesTax/GetEffectiveSalesTaxForLocation/{invoice.LocationIDFrom}");
                 getEffectiveTaxes.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
                 List<SalesTax> effectiveTaxes = await getEffectiveTaxes.GetObject<List<SalesTax>>() ?? new List<SalesTax>();
                 foreach(SalesTax salesTax in effectiveTaxes)
@@ -158,9 +169,9 @@ namespace CompanyStudio.Invoicing
 
             cboAccount.Items.Clear();
 
-            if (Invoice.Status == Invoice.Statuses.Complete)
+            if (invoice.Status == Invoice.Statuses.Complete)
             {
-                cboAccount.Items.Add(new DropDownItem<Account>(new Account(), Invoice.AccountFromHistorical));
+                cboAccount.Items.Add(new DropDownItem<Account>(new Account(), invoice.AccountFromHistorical));
                 cboAccount.SelectedIndex = 0;
             }
             else
@@ -173,13 +184,13 @@ namespace CompanyStudio.Invoicing
                     cboAccount.Items.Add(new DropDownItem<Account>(account, $"{account.Description} ({account.AccountNumber})"));
                 }
 
-                cboAccount.SelectedItem = cboAccount.Items.OfType<DropDownItem<Account>>().FirstOrDefault(ddi => ddi.Object.AccountID == Invoice.AccountIDFrom);
+                cboAccount.SelectedItem = cboAccount.Items.OfType<DropDownItem<Account>>().FirstOrDefault(ddi => ddi.Object.AccountID == invoice.AccountIDFrom);
             }
 
-            cmdAuthorize.Visible = Invoice.Status == Invoice.Statuses.Sent;
-            cmdSave.Visible = Invoice.Status == Invoice.Statuses.Sent;
-            cmdCancel.Visible = Invoice.Status == Invoice.Statuses.Sent;
-            cboAccount.Enabled = Invoice.Status == Invoice.Statuses.Sent;
+            cmdAuthorize.Visible = invoice.Status == Invoice.Statuses.Sent;
+            cmdSave.Visible = invoice.Status == Invoice.Statuses.Sent;
+            cmdCancel.Visible = invoice.Status == Invoice.Statuses.Sent;
+            cboAccount.Enabled = invoice.Status == Invoice.Statuses.Sent;
 
             loader.Visible = false;
         }
@@ -238,7 +249,7 @@ namespace CompanyStudio.Invoicing
             loader.BringToFront();
             loader.Visible = true;
 
-            PutData authorize = new PutData(DataAccess.APIs.CompanyStudio, $"Invoice/AuthorizePayment/{Invoice.InvoiceID}", new { placeholder = "placeholder" });
+            PutData authorize = new PutData(DataAccess.APIs.CompanyStudio, $"Invoice/AuthorizePayment/{InvoiceID}", new { placeholder = "placeholder" });
             authorize.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
             await authorize.ExecuteNoResult();
             if (authorize.RequestSuccessful)
@@ -246,9 +257,9 @@ namespace CompanyStudio.Invoicing
                 IsDirty = false;
                 OnSave?.Invoke(this, EventArgs.Empty);
 
-                GetData getUpdatedinvoice = new GetData(DataAccess.APIs.CompanyStudio, $"Invoice/Get/{Invoice.InvoiceID}");
+                GetData getUpdatedinvoice = new GetData(DataAccess.APIs.CompanyStudio, $"Invoice/Get/{InvoiceID}");
                 getUpdatedinvoice.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-                Invoice = await getUpdatedinvoice.GetObject<Invoice>();
+                InvoiceID = (await getUpdatedinvoice.GetObject<Invoice>())?.InvoiceID ?? InvoiceID;
                 if (!getUpdatedinvoice.RequestSuccessful)
                 {
                     Close();

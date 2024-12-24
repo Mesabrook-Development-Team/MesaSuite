@@ -304,7 +304,7 @@ namespace CompanyStudio.Purchasing.History
                 Studio.DecorateStudioContent(receivableInvoice);
                 receivableInvoice.Company = Company;
                 receivableInvoice.LocationModel = LocationModel;
-                receivableInvoice.Invoice = invoice;
+                receivableInvoice.InvoiceID = invoice.InvoiceID;
                 receivableInvoice.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
             }
             else if (invoice.LocationIDTo == LocationModel.LocationID)
@@ -313,7 +313,7 @@ namespace CompanyStudio.Purchasing.History
                 Studio.DecorateStudioContent(payableInvoice);
                 payableInvoice.Company = Company;
                 payableInvoice.LocationModel = LocationModel;
-                payableInvoice.Invoice = invoice;
+                payableInvoice.InvoiceID = invoice.InvoiceID;
                 payableInvoice.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
             }
         }

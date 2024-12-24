@@ -1,5 +1,6 @@
 ﻿using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -15,6 +16,7 @@ using System.Windows.Forms;
 
 namespace CompanyStudio.Purchasing.Quotes
 {
+    [UriReachable("quotationrequest/{QuotationRequestID}")]
     public partial class frmQuoteRequest : BaseCompanyStudioContent, ILocationScoped
     {
         public event EventHandler RecordUpdated;

@@ -1,6 +1,7 @@
 ﻿using CompanyStudio.Extensions;
 using CompanyStudio.Invoicing;
 using CompanyStudio.Models;
+using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using System;
@@ -15,6 +16,7 @@ using System.Windows.Forms;
 
 namespace CompanyStudio.Purchasing.OpenMaintenance
 {
+    [UriReachable("openposubmitter/{PurchaseOrderID}")]
     public partial class frmOpenViewerSubmitter : BaseCompanyStudioContent, ILocationScoped, ISaveable
     {
         public long? PurchaseOrderID { get; set; }
@@ -260,7 +262,7 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
             Studio.DecorateStudioContent(payableInvoice);
             payableInvoice.Company = Company;
             payableInvoice.LocationModel = LocationModel;
-            payableInvoice.Invoice = invoice;
+            payableInvoice.InvoiceID = invoice.InvoiceID;
             payableInvoice.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
         }
 

@@ -1,6 +1,7 @@
 ﻿using CompanyStudio.Extensions;
 using CompanyStudio.Models;
 using MesaSuite.Common;
+using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -14,6 +15,7 @@ using System.Windows.Forms;
 
 namespace CompanyStudio.Purchasing.ApprovalViewer
 {
+    [UriReachable("poapproval/{PurchaseOrderID}/{PurchaseOrderApprovalID}")]
     public partial class frmApprovalViewerApprover : BaseCompanyStudioContent, ILocationScoped, ISaveable
     {
         public frmApprovalViewerApprover()

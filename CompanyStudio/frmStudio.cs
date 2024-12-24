@@ -3,6 +3,7 @@ using CompanyStudio.Models;
 using FleetTracking;
 using FleetTracking.Interop;
 using MesaSuite.Common;
+using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Collections;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
@@ -20,6 +21,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace CompanyStudio
 {
+    [UriReachable("")]
     public partial class frmStudio : Form
     {
         Dictionary<string, ThemeBase> themes = new Dictionary<string, ThemeBase>();
@@ -240,6 +242,7 @@ namespace CompanyStudio
             return PermissionsManager.HasPermissionFleetTrack(ActiveCompany?.CompanyID ?? 0L, permission);
         }
 
+        public bool IsLoading = true;
         private async void frmStudio_Load(object sender, EventArgs e)
         {
             loader.BringToFront();
@@ -284,6 +287,8 @@ namespace CompanyStudio
                 start.Studio = this;
                 start.Show(dockPanel, DockState.Document);
             }
+
+            IsLoading = false;
         }
 
         private void PermissionsManager_OnCompanyPermissionChange(object sender, PermissionsManager.CompanyWidePermissionChangeEventArgs e)

@@ -1,5 +1,6 @@
 ﻿using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using Microsoft.ReportingServices.Diagnostics.Internal;
@@ -207,7 +208,7 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
             Studio.DecorateStudioContent(receivableInvoice);
             receivableInvoice.Company = Company;
             receivableInvoice.LocationModel = LocationModel;
-            receivableInvoice.Invoice = invoice;
+            receivableInvoice.InvoiceID = invoice.InvoiceID;
             receivableInvoice.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
         }
 

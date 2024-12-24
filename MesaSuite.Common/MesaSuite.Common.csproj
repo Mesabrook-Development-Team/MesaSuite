@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\EnumValueAttribute.cs" />
+    <Compile Include="Attributes\UriReachableAttribute.cs" />
     <Compile Include="Authentication.cs" />
     <Compile Include="Collections\MultiMap.cs" />
     <Compile Include="CrashHandler.cs" />
@@ -137,6 +138,7 @@
     </Compile>
     <Compile Include="UserPreferences.cs" />
     <Compile Include="Utility\DropDownItem.cs" />
+    <Compile Include="Utility\RunByURIEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmCrashReport.resx">

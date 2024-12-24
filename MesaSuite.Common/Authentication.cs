@@ -24,9 +24,10 @@ namespace MesaSuite.Common
         public static event EventHandler OnLoggedOut;
         public static event EventHandler OnProgramUpdate;
         private static AuthenticationStatuses _authenticationStatus = AuthenticationStatuses.LoggedOut;
+        private static object _authenticationLock = new object();
         public static AuthenticationStatuses AuthenticationStatus
         {
-            get { return _authenticationStatus; }
+            get { lock (_authenticationLock) { return _authenticationStatus; } }
             private set
             {
                 _authenticationStatus = value;
@@ -102,17 +103,20 @@ namespace MesaSuite.Common
 
         public static string GetAuthToken(bool doLogIn = false)
         {
-            if (string.IsNullOrEmpty(AuthToken) && doLogIn)
+            lock (_authenticationLock)
             {
-                DoLogIn();
-            }
+                if (string.IsNullOrEmpty(AuthToken) && doLogIn)
+                {
+                    DoLogIn();
+                }
 
-            if (!string.IsNullOrEmpty(AuthToken) && Expiration <= DateTime.Now)
-            {
-                RefreshTokenRequest();
-            }
+                if (!string.IsNullOrEmpty(AuthToken) && Expiration <= DateTime.Now)
+                {
+                    RefreshTokenRequest();
+                }
 
-            return AuthToken;
+                return AuthToken;
+            }
         }
 
         public static void Register()
@@ -460,6 +464,7 @@ namespace MesaSuite.Common
             AuthenticationStatus = string.IsNullOrEmpty(AuthToken) ? AuthenticationStatuses.LoggedOut : AuthenticationStatuses.LoggedIn;
 
             programThread = new Thread(new ThreadStart(ProgramThreadLogic));
+            programThread.IsBackground = true;
             programThread.Start();
         }
 

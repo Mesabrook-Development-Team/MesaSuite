@@ -100,7 +100,6 @@ namespace CompanyStudio.Invoicing
                 if (InvoiceID.HasValue)
                 {
                     get.Resource = "Invoice/Get/" + InvoiceID.Value;
-                    get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
                     invoice = await get.GetObject<Invoice>();
                 }
 

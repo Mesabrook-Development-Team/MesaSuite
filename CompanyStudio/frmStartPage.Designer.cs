@@ -155,6 +155,7 @@
             // 
             // tabAll
             // 
+            this.tabAll.AutoScroll = true;
             this.tabAll.BackColor = System.Drawing.Color.White;
             this.tabAll.Controls.Add(this.lblAllCaughtUp);
             this.tabAll.Controls.Add(this.loader);
@@ -291,7 +292,7 @@
             this.tsmiQuickAccessMoveUp,
             this.tsmiQuickAccessMoveDown});
             this.ctxQuickAccessMenu.Name = "ctxQuickAccessMenu";
-            this.ctxQuickAccessMenu.Size = new System.Drawing.Size(181, 128);
+            this.ctxQuickAccessMenu.Size = new System.Drawing.Size(131, 106);
             this.ctxQuickAccessMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ctxQuickAccessMenu_Opening);
             // 
             // tsmiEditQuickAccess
@@ -299,7 +300,7 @@
             this.tsmiEditQuickAccess.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.tsmiEditQuickAccess.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.tsmiEditQuickAccess.Name = "tsmiEditQuickAccess";
-            this.tsmiEditQuickAccess.Size = new System.Drawing.Size(180, 22);
+            this.tsmiEditQuickAccess.Size = new System.Drawing.Size(130, 22);
             this.tsmiEditQuickAccess.Text = "Edit";
             this.tsmiEditQuickAccess.Click += new System.EventHandler(this.tsmiEditQuickAccess_Click);
             // 
@@ -309,14 +310,14 @@
             this.toolStripMenuItem1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripMenuItem1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(127, 6);
             // 
             // tsmiDeleteQuickAccess
             // 
             this.tsmiDeleteQuickAccess.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.tsmiDeleteQuickAccess.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.tsmiDeleteQuickAccess.Name = "tsmiDeleteQuickAccess";
-            this.tsmiDeleteQuickAccess.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDeleteQuickAccess.Size = new System.Drawing.Size(130, 22);
             this.tsmiDeleteQuickAccess.Text = "Delete";
             this.tsmiDeleteQuickAccess.Click += new System.EventHandler(this.tsmiDeleteQuickAccess_Click);
             // 
@@ -326,14 +327,14 @@
             this.toolStripMenuItem2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.toolStripMenuItem2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(127, 6);
             // 
             // tsmiQuickAccessMoveUp
             // 
             this.tsmiQuickAccessMoveUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.tsmiQuickAccessMoveUp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.tsmiQuickAccessMoveUp.Name = "tsmiQuickAccessMoveUp";
-            this.tsmiQuickAccessMoveUp.Size = new System.Drawing.Size(180, 22);
+            this.tsmiQuickAccessMoveUp.Size = new System.Drawing.Size(130, 22);
             this.tsmiQuickAccessMoveUp.Text = "Move Up";
             this.tsmiQuickAccessMoveUp.Click += new System.EventHandler(this.tsmiQuickAccessMoveUp_Click);
             // 
@@ -342,7 +343,7 @@
             this.tsmiQuickAccessMoveDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.tsmiQuickAccessMoveDown.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.tsmiQuickAccessMoveDown.Name = "tsmiQuickAccessMoveDown";
-            this.tsmiQuickAccessMoveDown.Size = new System.Drawing.Size(180, 22);
+            this.tsmiQuickAccessMoveDown.Size = new System.Drawing.Size(130, 22);
             this.tsmiQuickAccessMoveDown.Text = "Move Down";
             this.tsmiQuickAccessMoveDown.Click += new System.EventHandler(this.tsmiQuickAccessMoveDown_Click);
             // 

@@ -299,7 +299,7 @@ namespace CompanyStudio
 
                     Invoicing.frmReceivableInvoice receivableInvoiceForm = new Invoicing.frmReceivableInvoice()
                     {
-                        Company = company
+                        InvoiceID = receivableInvoice.InvoiceID
                     };
                     Studio.DecorateStudioContent(receivableInvoiceForm);
                     receivableInvoiceForm.Company = company;

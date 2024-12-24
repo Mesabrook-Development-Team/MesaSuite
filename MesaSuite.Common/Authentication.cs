@@ -101,13 +101,13 @@ namespace MesaSuite.Common
         private static string RefreshToken { get; set; }
         private static DateTime Expiration { get; set; }
 
-        public static string GetAuthToken(bool doLogIn = false)
+        public static string GetAuthToken(bool doLogIn = false, string loginToProgramName = null)
         {
             lock (_authenticationLock)
             {
                 if (string.IsNullOrEmpty(AuthToken) && doLogIn)
                 {
-                    DoLogIn();
+                    DoLogIn(loginToProgramName);
                 }
 
                 if (!string.IsNullOrEmpty(AuthToken) && Expiration <= DateTime.Now)
@@ -176,7 +176,7 @@ namespace MesaSuite.Common
             }
         }
 
-        private static void DoLogIn()
+        private static void DoLogIn(string loginToProgramName = null)
         {
             if (ClientID == null)
             {
@@ -190,6 +190,7 @@ namespace MesaSuite.Common
             login.Port = PORT;
             login.ClientID = ClientID.Value;
             login.State = state;
+            login.LoginToProgramName = loginToProgramName;
             login.DialogResult = DialogResult.Cancel;
 
             HttpListener listener = null;

@@ -70,7 +70,7 @@ namespace API_Company.Models
                                 },
                                 new BooleanSearchCondition<LocationEmployee>()
                                 {
-                                    Field = nameof(LocationEmployee.ManageInventory),
+                                    Field = nameof(LocationEmployee.ManageInvoices),
                                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                     Value = true
                                 })
@@ -88,7 +88,7 @@ namespace API_Company.Models
                                 },
                                 new BooleanSearchCondition<LocationEmployee>()
                                 {
-                                    Field = nameof(LocationEmployee.ManageInventory),
+                                    Field = nameof(LocationEmployee.ManageInvoices),
                                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                                     Value = true
                                 })
@@ -127,9 +127,20 @@ namespace API_Company.Models
                                     CompanyID = invoice.LocationTo.CompanyID,
                                     SourceID = invoice.InvoiceID,
                                     Message = invoice.DueDate > DateTime.Now ?
-                                                $"Invoice {invoice.InvoiceNumber} awaits payment" :
-                                                $"Invoice {invoice.InvoiceNumber} is overdue",
+                                                $"Payable Invoice {invoice.InvoiceNumber} awaits payment" :
+                                                $"Payable Invoice {invoice.InvoiceNumber} is overdue",
                                     Type = invoice.DueDate > DateTime.Now ? Types.PayableInvoiceWaiting : Types.PayablePastDueInvoice
+                                });
+                            }
+                            else if (invoice.LocationFrom.LocationEmployees.Any(le => le.Employee.UserID == userID) && invoice.DueDate < DateTime.Now)
+                            {
+                                toDoItems.Add(new EmployeeToDoItem()
+                                {
+                                    LocationID = invoice.LocationIDFrom,
+                                    CompanyID = invoice.LocationFrom.CompanyID,
+                                    SourceID = invoice.InvoiceID,
+                                    Message = $"Receivable Invoice {invoice.InvoiceNumber} is overdue",
+                                    Type = Types.ReceivablePastDueInvoice
                                 });
                             }
                             break;
@@ -142,8 +153,8 @@ namespace API_Company.Models
                                     CompanyID = invoice.LocationFrom.CompanyID,
                                     SourceID = invoice.InvoiceID,
                                     Message = invoice.DueDate > DateTime.Now ?
-                                                $"Invoice {invoice.InvoiceNumber} is waiting to be received" :
-                                                $"Invoice {invoice.InvoiceNumber} is overdue and is waiting to be received",
+                                                $"Receivable Invoice {invoice.InvoiceNumber} is waiting to be received" :
+                                                $"Receivable Invoice {invoice.InvoiceNumber} is overdue and is waiting to be received",
                                     Type = invoice.DueDate > DateTime.Now ? Types.ReceivableInvoiceWaiting : Types.ReceivablePastDueInvoice
                                 });
                             }

@@ -39,11 +39,11 @@ namespace MesaSuite
             {
                 _programKeysForButton = new Dictionary<Panel, ProgramData>()
                 {
-                    { pnlMCSync, new ProgramData("", MCSync.Program.Main) },
-                    { pnlSystemManagement, new ProgramData("system", SystemManagement.Program.Main) },
-                    { pnlCompanyStudio, new ProgramData("company", CompanyStudio.Program.Main, CompanyStudio.Program.GetOrCreateRunByURIEngine) },
-                    { pnlGovernmentPortal, new ProgramData("gov", GovernmentPortal.Program.Main) },
-                    { pnlTowing, new ProgramData("tow", Towing.Program.Main) }
+                    { pnlMCSync, new ProgramData("", "MCSync", MCSync.Program.Main) },
+                    { pnlSystemManagement, new ProgramData("system", "System Management", SystemManagement.Program.Main) },
+                    { pnlCompanyStudio, new ProgramData("company", "Company Studio", CompanyStudio.Program.Main, CompanyStudio.Program.GetOrCreateRunByURIEngine) },
+                    { pnlGovernmentPortal, new ProgramData("gov", "Government Portal", GovernmentPortal.Program.Main) },
+                    { pnlTowing, new ProgramData("tow", "Towing", Towing.Program.Main) }
                 };
             }
 
@@ -166,7 +166,7 @@ namespace MesaSuite
                     {
                         if (Authentication.AuthenticationStatus != Authentication.AuthenticationStatuses.LoggedIn)
                         {
-                            Authentication.GetAuthToken(true);
+                            Authentication.GetAuthToken(true, programData.DisplayName);
                             _ranURI = false; // We'll need to let the program update handle this
                             return;
                         }
@@ -506,17 +506,19 @@ namespace MesaSuite
         public class ProgramData
         {
             public string Name { get; set; }
+            public string DisplayName { get; set; }
             public Action<string[]> LaunchAction { get; set; }
             public Func<RunByURIEngine> RunByURIEngineGetter { get; set; }
             public Thread LastThread { get; set; }
 
-            public ProgramData(string name, Action<string[]> launchAction)
+            public ProgramData(string name, string displayName, Action<string[]> launchAction)
             {
                 Name = name;
+                DisplayName = displayName;
                 LaunchAction = launchAction;
             }
 
-            public ProgramData(string name, Action<string[]> launchAction, Func<RunByURIEngine> runByURIEngineGetter) : this(name, launchAction)
+            public ProgramData(string name, string displayName, Action<string[]> launchAction, Func<RunByURIEngine> runByURIEngineGetter) : this(name, displayName, launchAction)
             {
                 RunByURIEngineGetter = runByURIEngineGetter;
             }

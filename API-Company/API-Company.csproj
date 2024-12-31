@@ -159,7 +159,6 @@
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\InvoiceLineController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
-    <Compile Include="Controllers\LaunchStudioController.cs" />
     <Compile Include="Controllers\LeaseRequestController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\LocationEmployeeController.cs" />

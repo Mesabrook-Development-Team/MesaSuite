@@ -10,7 +10,7 @@ namespace WebModels.Migrations
 {
     public class Migration000029 : IMigration
     {
-        public int MigrationNumber => 28;
+        public int MigrationNumber => 29;
 
         public void Execute(ITransaction transaction)
         {
@@ -51,7 +51,7 @@ namespace WebModels.Migrations
             alter.AddForeignKey("FKPurchaseOrder_Government_GovernmentIDOrigin", "GovernmentIDOrigin", "gov", "Government", "GovernmentID", transaction);
             alter.AddForeignKey("FKPurchaseOrder_Government_GovernmentIDDestination", "GovernmentIDDestination", "gov", "Government", "GovernmentID", transaction);
             alter.AddForeignKey("FKPurchaseOrder_PurchaseOrder_PurchaseOrderIDClonedFrom", "PurchaseOrderIDClonedFrom", "purchasing", "PurchaseOrder", "PurchaseOrderID", transaction);
-            alter.AddForeignKey("FKPurchaseOrder_Account_AccountIDReceiving", "AccountIDReceiving", "account", "Account", "AccountIDReceiving", transaction);
+            alter.AddForeignKey("FKPurchaseOrder_Account_AccountIDReceiving", "AccountIDReceiving", "account", "Account", "AccountID", transaction);
 
             createTable.TableName = "PurchaseOrderApproval";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
@@ -276,7 +276,7 @@ namespace WebModels.Migrations
             alter.Table = "PurchaseOrderTemplateFolder";
             alter.AddForeignKey("FKPurchaseOrderTemplateFolder_Location_LocationID", "LocationID", "company", "Location", "LocationID", transaction);
             alter.AddForeignKey("FKPurchaseOrderTemplateFolder_Government_GovernmentID", "GovernmentID", "gov", "Government", "GovernmentID", transaction);
-            alter.AddForeignKey("FKPurchaseOrderTemplateFolder_PurcahseOrderTemplateFolder_PurchaseOrderTemplateFolderIDParent", "PurchaseOrderTemplateFolderIDParent", "purchasing", "PurchaseOrderTemplateFolderID", "PurchaseOrderTemplateFolderID", transaction);
+            alter.AddForeignKey("FKPurchaseOrderTemplateFolder_PurchaseOrderTemplateFolder_PurchaseOrderTemplateFolderIDParent", "PurchaseOrderTemplateFolderIDParent", "purchasing", "PurchaseOrderTemplateFolder", "PurchaseOrderTemplateFolderID", transaction);
 
             createTable.TableName = "PurchaseOrderTemplate";
             createTable.Columns = new Dictionary<string, FieldSpecification>()
@@ -332,7 +332,7 @@ namespace WebModels.Migrations
             alterTable.AddForeignKey("FKInvoice_PurchaseOrder_PurchaseOrderID", "PurchaseOrderID", "purchasing", "PurchaseOrder", "PurchaseOrderID", transaction);
 
             alterTable.Table = "InvoiceLine";
-            alterTable.AddColumn("PurchaseOrderLine", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
+            alterTable.AddColumn("PurchaseOrderLineID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
             alterTable.AddForeignKey("FKInvoiceLine_PurchaseOrderLine_PurchaseOrderLineID", "PurchaseOrderLineID", "purchasing", "PurchaseOrderLine", "PurchaseOrderLineID", transaction);
 
             alterTable.Schema = "company";

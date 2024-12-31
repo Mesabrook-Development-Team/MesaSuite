@@ -111,19 +111,28 @@ namespace CompanyStudio
             Action crossThreadAction = null;
             if (existingStudioContent != null)
             {
-                crossThreadAction = () => existingStudioContent.BringToFront();
-                return;
-            }
-
-            crossThreadAction = () =>
-            {
-                currentStudio.ActiveCompany = studioContent.Company;
-                if (currentStudio is ILocationScoped locationScopedForSettingStudio)
+                crossThreadAction = () =>
                 {
-                    currentStudio.ActiveLocation = locationScopedForSettingStudio.LocationModel;
-                }
-                studioContent.Show(currentStudio.dockPanel);
-            };
+                    existingStudioContent.BringToFront();
+                    currentStudio.TopMost = true;
+                    currentStudio.TopMost = false;
+                };
+            }
+            else
+            {
+                crossThreadAction = () =>
+                {
+                    currentStudio.ActiveCompany = studioContent.Company;
+                    if (currentStudio is ILocationScoped locationScopedForSettingStudio)
+                    {
+                        currentStudio.ActiveLocation = locationScopedForSettingStudio.LocationModel;
+                    }
+                    studioContent.Show(currentStudio.dockPanel);
+
+                    currentStudio.TopMost = true;
+                    currentStudio.TopMost = false;
+                };
+            }
 
             currentStudio.Invoke(new MethodInvoker(crossThreadAction));
         }

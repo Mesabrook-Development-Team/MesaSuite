@@ -34,8 +34,11 @@ namespace API_Company.Models
         public Types Type { get; set; }
         public string Message { get; set; }
         public long? CompanyID { get; set; }
+        public string CompanyName { get; set; }
         public long? LocationID { get; set; }
+        public string LocationName { get; set; }
         public long? SourceID { get; set; }
+        public string MesaSuiteURI { get; set; }
 
         public static async Task<List<EmployeeToDoItem>> GetForUserID(long userID)
         {
@@ -49,6 +52,8 @@ namespace API_Company.Models
                                   Schema.GetSchemaObject<LocationEmployee>().GetFields().Select(f => nameof(Employee.LocationEmployees) + "." + f.FieldName)).Concat(
                                   Schema.GetSchemaObject<FleetSecurity>().GetFields().Select(f => nameof(Employee.FleetSecurity) + "." + f.FieldName)).ToList();
 
+            fields.Add(FieldPathUtility.CreateFieldPath<Employee>(e => e.Company.Name));
+            fields.Add(FieldPathUtility.CreateFieldPath<Employee>(e => e.LocationEmployees.First().Location.Name));
             List<Employee> employeeList = (await Task.Run(() => employeeRecordsForUser.GetReadOnlyReader(null, fields))).ToList();
             List<EmployeeToDoItem> toDoItems = new List<EmployeeToDoItem>();
 
@@ -104,10 +109,16 @@ namespace API_Company.Models
                 {
                     i.InvoiceID,
                     i.LocationIDFrom,
+                    i.LocationFrom.Name,
                     i.LocationFrom.CompanyID,
+                    i.LocationFrom.Company.Name,
+                    i.LocationFrom.LocationEmployees.First().ManageInvoices,
                     i.LocationFrom.LocationEmployees.First().Employee.UserID,
                     i.LocationIDTo,
+                    i.LocationTo.Name,
                     i.LocationTo.CompanyID,
+                    i.LocationTo.Company.Name,
+                    i.LocationTo.LocationEmployees.First().ManageInvoices,
                     i.LocationTo.LocationEmployees.First().Employee.UserID,
                     i.Status,
                     i.DueDate,
@@ -119,43 +130,52 @@ namespace API_Company.Models
                     switch(invoice.Status)
                     {
                         case Invoice.Statuses.Sent:
-                            if (invoice.LocationTo.LocationEmployees.Any(le => le.Employee.UserID == userID))
+                            if (invoice.LocationTo.LocationEmployees.Any(le => le.ManageInvoices && le.Employee.UserID == userID))
                             {
                                 toDoItems.Add(new EmployeeToDoItem()
                                 {
                                     LocationID = invoice.LocationIDTo,
+                                    LocationName = invoice.LocationTo.Name,
                                     CompanyID = invoice.LocationTo.CompanyID,
+                                    CompanyName = invoice.LocationTo.Company.Name,
                                     SourceID = invoice.InvoiceID,
                                     Message = invoice.DueDate > DateTime.Now ?
                                                 $"Payable Invoice {invoice.InvoiceNumber} awaits payment" :
                                                 $"Payable Invoice {invoice.InvoiceNumber} is overdue",
-                                    Type = invoice.DueDate > DateTime.Now ? Types.PayableInvoiceWaiting : Types.PayablePastDueInvoice
+                                    Type = invoice.DueDate > DateTime.Now ? Types.PayableInvoiceWaiting : Types.PayablePastDueInvoice,
+                                    MesaSuiteURI = $"mesasuite://company/apinvoice/{invoice.InvoiceID}?companyid={invoice.LocationTo.CompanyID}&locationid={invoice.LocationIDTo}"
                                 });
                             }
-                            else if (invoice.LocationFrom.LocationEmployees.Any(le => le.Employee.UserID == userID) && invoice.DueDate < DateTime.Now)
+                            else if (invoice.LocationFrom.LocationEmployees.Any(le => le.ManageInvoices && le.Employee.UserID == userID) && invoice.DueDate < DateTime.Now)
                             {
                                 toDoItems.Add(new EmployeeToDoItem()
                                 {
                                     LocationID = invoice.LocationIDFrom,
+                                    LocationName = invoice.LocationFrom.Name,
                                     CompanyID = invoice.LocationFrom.CompanyID,
+                                    CompanyName = invoice.LocationFrom.Company.Name,
                                     SourceID = invoice.InvoiceID,
                                     Message = $"Receivable Invoice {invoice.InvoiceNumber} is overdue",
-                                    Type = Types.ReceivablePastDueInvoice
+                                    Type = Types.ReceivablePastDueInvoice,
+                                    MesaSuiteURI = $"mesasuite://company/arinvoice/{invoice.InvoiceID}?companyid={invoice.LocationFrom.CompanyID}&locationid={invoice.LocationIDFrom}"
                                 });
                             }
                             break;
                         case Invoice.Statuses.ReadyForReceipt:
-                            if (invoice.LocationFrom.LocationEmployees.Any(le => le.Employee.UserID == userID))
+                            if (invoice.LocationFrom.LocationEmployees.Any(le => le.ManageInvoices && le.Employee.UserID == userID))
                             {
                                 toDoItems.Add(new EmployeeToDoItem()
                                 {
                                     LocationID = invoice.LocationIDFrom,
+                                    LocationName = invoice.LocationFrom.Name,
                                     CompanyID = invoice.LocationFrom.CompanyID,
+                                    CompanyName = invoice.LocationFrom.Company.Name,
                                     SourceID = invoice.InvoiceID,
                                     Message = invoice.DueDate > DateTime.Now ?
                                                 $"Receivable Invoice {invoice.InvoiceNumber} is waiting to be received" :
                                                 $"Receivable Invoice {invoice.InvoiceNumber} is overdue and is waiting to be received",
-                                    Type = invoice.DueDate > DateTime.Now ? Types.ReceivableInvoiceWaiting : Types.ReceivablePastDueInvoice
+                                    Type = invoice.DueDate > DateTime.Now ? Types.ReceivableInvoiceWaiting : Types.ReceivablePastDueInvoice,
+                                    MesaSuiteURI = $"mesasuite://company/arinvoice/{invoice.InvoiceID}?companyid={invoice.LocationFrom.CompanyID}&locationid={invoice.LocationIDFrom}"
                                 });
                             }
                             break;
@@ -218,17 +238,30 @@ namespace API_Company.Models
                 List<string> approvalFields = FieldPathUtility.CreateFieldPathsAsList<PurchaseOrderApproval>(poa => new object[]
                 {
                     poa.CompanyIDApprover,
-                    poa.PurchaseOrderID
+                    poa.CompanyApprover.Name,
+                    poa.CompanyApprover.Locations.First().LocationID,
+                    poa.CompanyApprover.Locations.First().Name,
+                    poa.CompanyApprover.Locations.First().LocationEmployees.First().ManagePurchaseOrders,
+                    poa.CompanyApprover.Locations.First().LocationEmployees.First().Employee.UserID,
+                    poa.PurchaseOrderID,
+                    poa.PurchaseOrderApprovalID
                 });
 
                 foreach(PurchaseOrderApproval approval in approvalSearch.GetReadOnlyReader(null, approvalFields))
                 {
+                    // Find first applicable location for approval
+                    Location locationForApproval = approval.CompanyApprover.Locations.FirstOrDefault(l => l.LocationEmployees.Any(le => le.ManagePurchaseOrders && le.Employee.UserID == userID));
+
                     toDoItems.Add(new EmployeeToDoItem()
                     {
                         CompanyID = approval.CompanyIDApprover,
+                        CompanyName = approval.CompanyApprover.Name,
+                        LocationID = locationForApproval.LocationID,
+                        LocationName = locationForApproval.Name,
                         SourceID = approval.PurchaseOrderID,
                         Type = Types.PurchaseOrderWaitingApproval,
-                        Message = $"Purchase Order {approval.PurchaseOrderID} is waiting for your approval"
+                        Message = $"Purchase Order {approval.PurchaseOrderID} is waiting for your approval",
+                        MesaSuiteURI = $"mesasuite://company/poapproval/{approval.PurchaseOrderID}/{approval.PurchaseOrderApprovalID}?companyid={approval.CompanyIDApprover}&locationid={locationForApproval.LocationID}"
                     });
                 }
 
@@ -256,12 +289,19 @@ namespace API_Company.Models
 
                 foreach(KeyValuePair<long?, int> countByLocationID in purchaseOrdersByLocation)
                 {
+                    Employee employee = employeeList.Where(e => e.LocationEmployees.Any(l => l.ManagePurchaseOrders && l.LocationID == countByLocationID.Key)).First();
+                    Company company = employee.Company;
+                    Location location = employee.LocationEmployees.First(l => l.LocationID == countByLocationID.Key).Location;
+
                     toDoItems.Add(new EmployeeToDoItem()
                     {
-                        CompanyID = employeeList.Where(e => e.LocationEmployees.Any(l => l.LocationID == countByLocationID.Key)).First().CompanyID,
+                        CompanyID = company.CompanyID,
+                        CompanyName = company.Name,
                         LocationID = countByLocationID.Key,
+                        LocationName = location.Name,
                         Type = Types.OpenPurchaseOrders,
-                        Message = $"You have {countByLocationID.Value} open Purchase Order(s)"
+                        Message = $"You have {countByLocationID.Value} open Purchase Order(s)",
+                        MesaSuiteURI = $"mesasuite://company/purchaseorders?companyid={employee.CompanyID}&locationid={countByLocationID.Key}"
                     });
                 }
 
@@ -278,6 +318,11 @@ namespace API_Company.Models
                 {
                     qr.QuotationRequestID,
                     qr.CompanyIDTo,
+                    qr.CompanyTo.Name,
+                    qr.CompanyTo.Locations.First().LocationID,
+                    qr.CompanyTo.Locations.First().Name,
+                    qr.CompanyTo.Locations.First().LocationEmployees.First().ManagePurchaseOrders,
+                    qr.CompanyTo.Locations.First().LocationEmployees.First().Employee.UserID,
                     qr.CompanyFrom.Name,
                     qr.GovernmentFrom.Name,
                     qr.QuotationRequestItems.First().QuotationRequestItemID
@@ -285,12 +330,17 @@ namespace API_Company.Models
 
                 foreach(QuotationRequest quotationRequest in quotationRequestSearch.GetReadOnlyReader(null, quotationRequestFields))
                 {
+                    Location locationForQuotationRequest = quotationRequest.CompanyTo.Locations.FirstOrDefault(l => l.LocationEmployees.Any(le => le.ManagePurchaseOrders && le.Employee.UserID == userID));
                     toDoItems.Add(new EmployeeToDoItem()
                     {
                         CompanyID = quotationRequest.CompanyIDTo,
+                        CompanyName = quotationRequest.CompanyTo.Name,
+                        LocationID = locationForQuotationRequest.LocationID,
+                        LocationName = locationForQuotationRequest.Name,
                         SourceID = quotationRequest.QuotationRequestID,
                         Type = Types.QuotationRequestWaiting,
-                        Message = $"Quotation Request from {quotationRequest.CompanyFrom?.Name}{quotationRequest.GovernmentFrom.Name} for {quotationRequest.QuotationRequestItems?.Count ?? 0} item(s) is awaiting response"
+                        Message = $"Quotation Request from {quotationRequest.CompanyFrom?.Name}{quotationRequest.GovernmentFrom.Name} for {quotationRequest.QuotationRequestItems?.Count ?? 0} item(s) is awaiting response",
+                        MesaSuiteURI = $"mesasuite://company/quotationrequest/{quotationRequest.QuotationRequestID}?companyid={quotationRequest.CompanyIDTo}&locationid={locationForQuotationRequest.LocationID}"
                     });
                 }
 
@@ -361,14 +411,22 @@ namespace API_Company.Models
                 List<string> railcarFields = FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new object[]
                 {
                     r.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationIDDestination,
+                    r.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationDestination.Name,
                     r.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationDestination.CompanyID,
+                    r.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationDestination.Company.Name,
                     r.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationIDOrigin,
+                    r.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationOrigin.Name,
                     r.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationOrigin.CompanyID,
+                    r.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.LocationOrigin.Company.Name,
                     r.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrder.Status,
                     r.RailcarLoads.First().PurchaseOrderLine.PurchaseOrder.LocationIDDestination,
+                    r.RailcarLoads.First().PurchaseOrderLine.PurchaseOrder.LocationDestination.Name,
                     r.RailcarLoads.First().PurchaseOrderLine.PurchaseOrder.LocationDestination.CompanyID,
+                    r.RailcarLoads.First().PurchaseOrderLine.PurchaseOrder.LocationDestination.Company.Name,
                     r.RailcarLoads.First().PurchaseOrderLine.PurchaseOrder.LocationIDOrigin,
+                    r.RailcarLoads.First().PurchaseOrderLine.PurchaseOrder.LocationOrigin.Name,
                     r.RailcarLoads.First().PurchaseOrderLine.PurchaseOrder.LocationOrigin.CompanyID,
+                    r.RailcarLoads.First().PurchaseOrderLine.PurchaseOrder.LocationOrigin.Company.Name,
                     r.CompanyIDPossessor
                 });
 
@@ -404,12 +462,18 @@ namespace API_Company.Models
                         continue;
                     }
 
+                    Employee employee = employeeList.Where(e => e.LocationEmployees.Any(le => le.ManagePurchaseOrders && le.LocationID == countByLocationID.Key)).FirstOrDefault();
+                    Company company = employee.Company;
+                    Location location = employee.LocationEmployees.First(le => le.LocationID == countByLocationID.Key).Location;
                     toDoItems.Add(new EmployeeToDoItem()
                     {
-                        CompanyID = employeeList.Where(e => e.LocationEmployees.Any(le => le.LocationID == countByLocationID.Key)).FirstOrDefault().CompanyID,
-                        LocationID = countByLocationID.Key,
+                        CompanyID = company.CompanyID,
+                        CompanyName = company.Name,
+                        LocationID = location.LocationID,
+                        LocationName = location.Name,
                         Type = Types.RailcarAwaitingAction,
-                        Message = $"You have {countByLocationID.Value} railcar(s) on your property awaiting action"
+                        Message = $"You have {countByLocationID.Value} railcar(s) on your property awaiting action",
+                        MesaSuiteURI = $"mesasuite://company/shippingreceiving?companyid={employee.CompanyID}&locationid={countByLocationID.Key}"
                     });
                 }
             }
@@ -443,15 +507,28 @@ namespace API_Company.Models
                             })
                     }));
 
-                foreach(Register register in registerSearch.GetReadOnlyReader(null, new[] { nameof(Register.RegisterID), nameof(Register.LocationID), nameof(Register.Location) + "." + nameof(Location.CompanyID), nameof(Register.Name)}))
+                List<string> registerFields = FieldPathUtility.CreateFieldPathsAsList<Register>(r => new object[]
+                {
+                    r.RegisterID,
+                    r.Name,
+                    r.LocationID,
+                    r.Location.Name,
+                    r.Location.CompanyID,
+                    r.Location.Company.Name
+                });
+
+                foreach(Register register in registerSearch.GetReadOnlyReader(null, registerFields))
                 {
                     toDoItems.Add(new EmployeeToDoItem()
                     {
                         CompanyID = register.Location.CompanyID,
+                        CompanyName = register.Location.Company.Name,
                         LocationID = register.LocationID,
+                        LocationName = register.Location.Name,
                         SourceID = register.RegisterID,
                         Type = Types.RegisterOffline,
-                        Message = $"Register {register.Name} is reporting offline"
+                        Message = $"Register {register.Name} is reporting offline",
+                        MesaSuiteURI = $"mesasuite://company/register/{register.RegisterID}?companyid={register.Location.CompanyID}&locationid={register.LocationID}"
                     });
                 }
             }

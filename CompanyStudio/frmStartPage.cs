@@ -249,6 +249,8 @@ namespace CompanyStudio
                 companyTabControl.Top = top;
                 companyPage.Controls.Add(companyTabControl);
             }
+            lblAllCaughtUp.Visible = !toDoItems.Any();
+            lblAllCaughtUp.BringToFront();
             loader.Visible = false;
         }
 

@@ -31,18 +31,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmStartPage));
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.airForm1 = new ReaLTaiizor.Forms.AirForm();
+            this.lblAllCaughtUp = new ReaLTaiizor.Controls.MaterialLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.headerLabel1 = new ReaLTaiizor.Controls.HeaderLabel();
             this.tbpToDoList = new ReaLTaiizor.Controls.AirTabPage();
             this.tabAll = new System.Windows.Forms.TabPage();
-            this.lblAllCaughtUp = new ReaLTaiizor.Controls.MaterialLabel();
-            this.loader = new CompanyStudio.Loader();
             this.pnlQuickLinks = new System.Windows.Forms.FlowLayoutPanel();
             this.lnkQuickAccess = new ReaLTaiizor.Controls.DungeonLinkLabel();
             this.headerLabel2 = new ReaLTaiizor.Controls.HeaderLabel();
             this.chkAlwaysShowStart = new ReaLTaiizor.Controls.AirCheckBox();
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
             this.smallLabel1 = new ReaLTaiizor.Controls.SmallLabel();
+            this.loader = new CompanyStudio.Loader();
             this.ctxQuickAccessMenu = new ReaLTaiizor.Controls.CrownContextMenuStrip();
             this.tsmiEditQuickAccess = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -56,7 +56,6 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tbpToDoList.SuspendLayout();
-            this.tabAll.SuspendLayout();
             this.pnlQuickLinks.SuspendLayout();
             this.ctxQuickAccessMenu.SuspendLayout();
             this.SuspendLayout();
@@ -73,6 +72,8 @@
             // 
             this.airForm1.BackColor = System.Drawing.Color.White;
             this.airForm1.BorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.airForm1.Controls.Add(this.loader);
+            this.airForm1.Controls.Add(this.lblAllCaughtUp);
             this.airForm1.Controls.Add(this.splitContainer1);
             this.airForm1.Controls.Add(this.chkAlwaysShowStart);
             this.airForm1.Controls.Add(this.bigLabel1);
@@ -93,6 +94,22 @@
             this.airForm1.TabIndex = 0;
             this.airForm1.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.airForm1.Transparent = false;
+            // 
+            // lblAllCaughtUp
+            // 
+            this.lblAllCaughtUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblAllCaughtUp.AutoSize = true;
+            this.lblAllCaughtUp.Depth = 0;
+            this.lblAllCaughtUp.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblAllCaughtUp.Image = global::CompanyStudio.Properties.Resources.emoticon_happy;
+            this.lblAllCaughtUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblAllCaughtUp.Location = new System.Drawing.Point(261, 236);
+            this.lblAllCaughtUp.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            this.lblAllCaughtUp.Name = "lblAllCaughtUp";
+            this.lblAllCaughtUp.Size = new System.Drawing.Size(164, 19);
+            this.lblAllCaughtUp.TabIndex = 0;
+            this.lblAllCaughtUp.Text = "🎉 You\'re all caught up!";
+            this.lblAllCaughtUp.Visible = false;
             // 
             // splitContainer1
             // 
@@ -157,8 +174,6 @@
             // 
             this.tabAll.AutoScroll = true;
             this.tabAll.BackColor = System.Drawing.Color.White;
-            this.tabAll.Controls.Add(this.lblAllCaughtUp);
-            this.tabAll.Controls.Add(this.loader);
             this.tabAll.Cursor = System.Windows.Forms.Cursors.Default;
             this.tabAll.Location = new System.Drawing.Point(119, 4);
             this.tabAll.Name = "tabAll";
@@ -166,33 +181,6 @@
             this.tabAll.Size = new System.Drawing.Size(427, 266);
             this.tabAll.TabIndex = 0;
             this.tabAll.Text = "All Businesses";
-            // 
-            // lblAllCaughtUp
-            // 
-            this.lblAllCaughtUp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lblAllCaughtUp.AutoSize = true;
-            this.lblAllCaughtUp.Depth = 0;
-            this.lblAllCaughtUp.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblAllCaughtUp.Image = global::CompanyStudio.Properties.Resources.emoticon_happy;
-            this.lblAllCaughtUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblAllCaughtUp.Location = new System.Drawing.Point(131, 124);
-            this.lblAllCaughtUp.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
-            this.lblAllCaughtUp.Name = "lblAllCaughtUp";
-            this.lblAllCaughtUp.Size = new System.Drawing.Size(164, 19);
-            this.lblAllCaughtUp.TabIndex = 0;
-            this.lblAllCaughtUp.Text = "🎉 You\'re all caught up!";
-            // 
-            // loader
-            // 
-            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(0, 0);
-            this.loader.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(427, 266);
-            this.loader.TabIndex = 1;
             // 
             // pnlQuickLinks
             // 
@@ -280,10 +268,23 @@
             this.smallLabel1.TabIndex = 1;
             this.smallLabel1.Text = resources.GetString("smallLabel1.Text");
             // 
+            // loader
+            // 
+            this.loader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(130, 115);
+            this.loader.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(418, 266);
+            this.loader.TabIndex = 1;
+            // 
             // ctxQuickAccessMenu
             // 
             this.ctxQuickAccessMenu.BackColor = System.Drawing.Color.White;
             this.ctxQuickAccessMenu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.ctxQuickAccessMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.ctxQuickAccessMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiEditQuickAccess,
             this.toolStripMenuItem1,
@@ -370,8 +371,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.tbpToDoList.ResumeLayout(false);
-            this.tabAll.ResumeLayout(false);
-            this.tabAll.PerformLayout();
             this.pnlQuickLinks.ResumeLayout(false);
             this.pnlQuickLinks.PerformLayout();
             this.ctxQuickAccessMenu.ResumeLayout(false);

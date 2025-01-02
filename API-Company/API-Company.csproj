@@ -138,6 +138,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AccountIBAccessController.cs" />
     <Compile Include="Controllers\AliasController.cs" />
+    <Compile Include="Controllers\AutomaticInvoicePaymentConfigurationController.cs" />
     <Compile Include="Controllers\BillOfLadingController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />

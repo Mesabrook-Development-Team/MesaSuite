@@ -16,6 +16,7 @@ namespace WebModels.Migrations
         {
             CreatePurchasingTables(transaction);
             CreateFleetTables(transaction);
+            CreateInvoiceTables(transaction);
             UpdateTables(transaction);
         }
 
@@ -321,6 +322,35 @@ namespace WebModels.Migrations
             alterTable.AddForeignKey("FKRailcarRoute_Company_CompanyIDTo", "CompanyIDTo", "company", "Company", "CompanyID", transaction);
             alterTable.AddForeignKey("FKRailcarRoute_Government_GovernmentIDFrom", "GovernmentIDFrom", "gov", "Government", "GovernmentID", transaction);
             alterTable.AddForeignKey("FKRailcarRoute_Government_GovernmentIDTo", "GovernmentIDTo", "gov", "Government", "GovernmentID", transaction);
+        }
+
+        private void CreateInvoiceTables(ITransaction transaction)
+        {
+            ICreateTable createTable = SQLProviderFactory.GetCreateTableQuery();
+            createTable.SchemaName = "invoicing";
+            createTable.TableName = "AutomaticInvoicePaymentConfiguration";
+            createTable.Columns = new Dictionary<string, FieldSpecification>()
+            {
+                { "AutomaticInvoicePaymentConfigurationID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
+                { "LocationIDConfiguredFor", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDConfiguredFor", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "LocationIDPayee", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "GovernmentIDPayee", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
+                { "PaidAmount", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
+                { "MaxAmount", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2) },
+                { "Schedule", new FieldSpecification(FieldSpecification.FieldTypes.Int) },
+                { "AccountID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) }
+            };
+            createTable.Execute(transaction);
+
+            IAlterTable alterTable = SQLProviderFactory.GetAlterTableQuery();
+            alterTable.Schema = "invoicing";
+            alterTable.Table = "AutomaticInvoicePaymentConfiguration";
+            alterTable.AddForeignKey("FKAutomaticInvoicePaymentConfiguration_Location_LocationIDConfiguredFor", "LocationIDConfiguredFor", "company", "Location", "LocationID", transaction);
+            alterTable.AddForeignKey("FKAutomaticInvoicePaymentConfiguration_Government_GovernmentIDConfiguredFor", "GovernmentIDConfiguredFor", "gov", "Government", "GovernmentID", transaction);
+            alterTable.AddForeignKey("FKAutomaticInvoicePaymentConfiguration_Location_LocationIDPayee", "LocationIDPayee", "company", "Location", "LocationID", transaction);
+            alterTable.AddForeignKey("FKAutomaticInvoicePaymentConfiguration_Government_GovernmentIDPayee", "GovernmentIDPayee", "gov", "Government", "GovernmentID", transaction);
+            alterTable.AddForeignKey("FKAutomaticInvoicePaymentConfiguration_Account_AccountID", "AccountID", "account", "Account", "AccountID", transaction);
         }
 
         private void UpdateTables(ITransaction transaction)

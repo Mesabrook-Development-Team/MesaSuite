@@ -262,6 +262,20 @@ namespace WebModels.company
         {
             get { CheckGet(); return _invoicesTo; }
         }
+
+        private List<AutomaticInvoicePaymentConfiguration> _automaticInvoicePaymentConfigurationConfiguredFors = new List<AutomaticInvoicePaymentConfiguration>();
+        [RelationshipList("1DF050A5-8DF0-47FF-8902-46949F4B3156", nameof(AutomaticInvoicePaymentConfiguration.LocationIDConfiguredFor))]
+        public IReadOnlyCollection<AutomaticInvoicePaymentConfiguration> AutomaticInvoicePaymentConfigurationConfiguredFors
+        {
+            get { CheckGet(); return _automaticInvoicePaymentConfigurationConfiguredFors; }
+        }
+
+        private List<AutomaticInvoicePaymentConfiguration> _automaticInvoicePaymentConfigurationPayees = new List<AutomaticInvoicePaymentConfiguration>();
+        [RelationshipList("2B0E747E-6808-48A4-BEE6-6378A13223DC", nameof(AutomaticInvoicePaymentConfiguration.LocationIDPayee))]
+        public IReadOnlyCollection<AutomaticInvoicePaymentConfiguration> AutomaticInvoicePaymentConfigurationPayees
+        {
+            get { CheckGet(); return _automaticInvoicePaymentConfigurationPayees; }
+        }
         #endregion
         #region purchasing
         private List<PurchaseOrder> _purchaseOrderOrigins = new List<PurchaseOrder>();

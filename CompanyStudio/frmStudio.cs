@@ -1053,5 +1053,19 @@ namespace CompanyStudio
             };
             startPage.Show(dockPanel, DockState.Document);
         }
+
+        private void tsmiAutomaticPayments_Click(object sender, EventArgs e)
+        {
+            Invoicing.frmAutomaticPaymentConfiguration configuration = dockPanel.Contents.OfType<Invoicing.frmAutomaticPaymentConfiguration>().FirstOrDefault(r => r.LocationModel.LocationID == ActiveLocation?.LocationID);
+            if (configuration != null)
+            {
+                configuration.BringToFront();
+                return;
+            }
+
+            configuration = new Invoicing.frmAutomaticPaymentConfiguration();
+            DecorateStudioContent(configuration);
+            configuration.Show(dockPanel, DockState.Document);
+        }
     }
 }

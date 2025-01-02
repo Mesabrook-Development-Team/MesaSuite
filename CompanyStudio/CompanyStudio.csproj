@@ -238,6 +238,12 @@
     <Compile Include="Invoicing\frmAccountsReceivableExplorer.Designer.cs">
       <DependentUpon>frmAccountsReceivableExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Invoicing\frmAutomaticPaymentConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoicing\frmAutomaticPaymentConfiguration.Designer.cs">
+      <DependentUpon>frmAutomaticPaymentConfiguration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Invoicing\frmPayableExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -766,6 +772,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\frmAccountsReceivableExplorer.resx">
       <DependentUpon>frmAccountsReceivableExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\frmAutomaticPaymentConfiguration.resx">
+      <DependentUpon>frmAutomaticPaymentConfiguration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\frmPayableExplorer.resx">
       <DependentUpon>frmPayableExplorer.cs</DependentUpon>

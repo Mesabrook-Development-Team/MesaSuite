@@ -347,6 +347,20 @@ namespace WebModels.gov
         {
             get { CheckGet(); return _wireTransferHistoryTos; }
         }
+
+        private List<AutomaticInvoicePaymentConfiguration> _automaticInvoicePaymentConfigurationConfiguredFors = new List<AutomaticInvoicePaymentConfiguration>();
+        [RelationshipList("F5CD1264-DB7C-4D2C-8A57-9A53BA2D95BE", nameof(AutomaticInvoicePaymentConfiguration.GovernmentIDConfiguredFor))]
+        public IReadOnlyCollection<AutomaticInvoicePaymentConfiguration> AutomaticInvoicePaymentConfigurationConfiguredFors
+        {
+            get { CheckGet(); return _automaticInvoicePaymentConfigurationConfiguredFors; }
+        }
+
+        private List<AutomaticInvoicePaymentConfiguration> _automaticInvoicePaymentConfigurationPayees = new List<AutomaticInvoicePaymentConfiguration>();
+        [RelationshipList("AD5429F6-255C-4466-8D8B-1B1E11EF4BBC", nameof(AutomaticInvoicePaymentConfiguration.GovernmentIDPayee))]
+        public IReadOnlyCollection<AutomaticInvoicePaymentConfiguration> AutomaticInvoicePaymentConfigurationPayees 
+        {
+            get { CheckGet(); return _automaticInvoicePaymentConfigurationPayees; }
+        }
         #endregion
         #region purchasing
         private List<PurchaseOrder> _purchaseOrderOrigins = new List<PurchaseOrder>();

@@ -117,28 +117,50 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="studioFormExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="button3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
+        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAEpSURBVDhPY/j//z8DJRhDgFSMIUAqxhAgFWMI4MP+
+        M913e050ZCPbAM+Jjt+dOqxvYxhQcjzjPwgXHk79n7sv8X/Gjtj/SRsj/sesDP4fttD3v/9M9/+eEx3/
+        Jy2O+h8zN/S/aYX+RQwD1t1a+n/1jUX/l1+b93/xlVn/51+a9n/W+cn/p57p+z/hVOf/7uOt/9uPNv5v
+        OlT7P2Ci13/NTNWTcANANq+8vuD/0qtz/i+8POP/3AtT/s84N+H/5NPd//tOtv/vPNb0v+Vw3f+Gg1X/
+        a/aV/ffqcf2vkqx4BG4APmc7dVj/t24w/e/aYf8/bmHkf89uF5Dm8yheIAbrF2hZaGaqfldJVryJLI6h
+        EB9WSVbcoRAnS340YsMYAqRiDAFSMYYAqRgAmsrV1BYA1VMAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="button4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
+        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAEpSURBVDhPY/j//z8DJRhDgFSMIUAqxhAgFWMI4MP+
+        M913e050ZCPbAM+Jjt+dOqxvYxhQcjzjPwgXHk79n7sv8X/Gjtj/SRsj/sesDP4fttD3v/9M9/+eEx3/
+        Jy2O+h8zN/S/aYX+RQwD1t1a+n/1jUX/l1+b93/xlVn/51+a9n/W+cn/p57p+z/hVOf/7uOt/9uPNv5v
+        OlT7P2Ci13/NTNWTcANANq+8vuD/0qtz/i+8POP/3AtT/s84N+H/5NPd//tOtv/vPNb0v+Vw3f+Gg1X/
+        a/aV/ffqcf2vkqx4BG4APmc7dVj/t24w/e/aYf8/bmHkf89uF5Dm8yheIAbrF2hZaGaqfldJVryJLI6h
+        EB9WSVbcoRAnS340YsMYAqRiDAFSMYYAqRgAmsrV1BYA1VMAAAAASUVORK5CYII=
+</value>
+  </data>
+  <metadata name="colPayee.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colCloneFrom.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colPayee.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colCloneFrom.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>177, 17</value>
+    <value>17, 17</value>
   </metadata>
-  <metadata name="colInvoiceNumber.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
+  <metadata name="studioFormExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>122, 17</value>
   </metadata>
-  <metadata name="colInvoiceDate.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colDueDate.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colDescription.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colAmount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAYAAAAAAAEAIADHKgAAZgAAAICAAAABACAAKAgBAC0rAABAQAAAAQAgAChCAABVMwEAMDAAAAEA

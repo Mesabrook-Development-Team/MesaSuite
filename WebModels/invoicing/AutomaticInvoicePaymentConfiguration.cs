@@ -74,26 +74,26 @@ namespace WebModels.invoicing
             set { CheckSet(); _governmentIDPayee = value; }
         }
 
-        private Government _governmentPayor = null;
+        private Government _governmentPayee = null;
         [Relationship("A0EF9548-98CC-4524-A500-1960E4D417FD", ForeignKeyField = nameof(GovernmentIDPayee))]
         public Government GovernmentPayee
         {
-            get { CheckGet(); return _governmentPayor; }
+            get { CheckGet(); return _governmentPayee; }
         }
 
-        private decimal _paidAmount;
+        private decimal? _paidAmount;
         [Field("7DACCD8D-D23C-4A80-85A8-51D0A0D42F9F", DataSize = 9, DataScale = 2)]
         [Required]
-        public decimal PaidAmount
+        public decimal? PaidAmount
         {
             get { CheckGet(); return _paidAmount; }
             set { CheckSet(); _paidAmount = value; }
         }
 
-        private decimal _maxAmount;
+        private decimal? _maxAmount;
         [Field("BF47B8A4-42EE-4FF7-9CEF-84E9F2F1220C", DataSize = 9, DataScale = 2)]
         [Required]
-        public decimal MaxAmount
+        public decimal? MaxAmount
         {
             get { CheckGet(); return _maxAmount; }
             set { CheckSet(); _maxAmount = value; }
@@ -101,8 +101,8 @@ namespace WebModels.invoicing
 
         public enum Schedules
         {
-            Immediately,
-            OnDueDate
+            OnDueDate,
+            Immediately
         }
 
         private Schedules _schedule;

@@ -244,6 +244,12 @@
     <Compile Include="Invoicing\frmAutomaticPaymentConfiguration.Designer.cs">
       <DependentUpon>frmAutomaticPaymentConfiguration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Invoicing\frmAutomaticPaymentConfigurationAddPayees.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoicing\frmAutomaticPaymentConfigurationAddPayees.Designer.cs">
+      <DependentUpon>frmAutomaticPaymentConfigurationAddPayees.cs</DependentUpon>
+    </Compile>
     <Compile Include="Invoicing\frmPayableExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -283,6 +289,7 @@
     </Compile>
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Alias.cs" />
+    <Compile Include="Models\AutomaticInvoicePaymentConfiguration.cs" />
     <Compile Include="Models\BillOfLading.cs" />
     <Compile Include="Models\BillOfLadingItem.cs" />
     <Compile Include="Models\Category.cs" />
@@ -775,6 +782,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\frmAutomaticPaymentConfiguration.resx">
       <DependentUpon>frmAutomaticPaymentConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\frmAutomaticPaymentConfigurationAddPayees.resx">
+      <DependentUpon>frmAutomaticPaymentConfigurationAddPayees.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\frmPayableExplorer.resx">
       <DependentUpon>frmPayableExplorer.cs</DependentUpon>

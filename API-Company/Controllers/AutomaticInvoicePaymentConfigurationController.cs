@@ -57,5 +57,7 @@ namespace API_Company.Controllers
                     SearchConditionType = SearchCondition.SearchConditionTypes.Null
                 });
         }
+
+        public override bool AllowGetAll => true;
     }
 }

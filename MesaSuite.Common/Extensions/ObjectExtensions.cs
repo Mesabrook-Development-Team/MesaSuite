@@ -32,7 +32,7 @@ namespace MesaSuite.Common.Extensions
         public static T ShallowClone<T>(this T anObject) where T : new()
         {
             T clone = new T();
-            foreach (var property in anObject.GetType().GetProperties().Where(p => !(p.PropertyType is IEnumerable)))
+            foreach (var property in anObject.GetType().GetProperties().Where(p => !(p.PropertyType is IEnumerable) && p.CanWrite))
             {
                 property.SetValue(clone, property.GetValue(anObject));
             }

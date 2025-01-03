@@ -28,10 +28,15 @@ namespace WebModels.Common
                 throw new ArgumentException("Improper fields specified for validation");
             }
 
+            if (!dataObject.IsFieldDirty(Field1) && !dataObject.IsFieldDirty(Field2))
+            {
+                return true;
+            }
+
             long? field1Value = field1.GetValue(dataObject) as long?;
             long? field2Value = field2.GetValue(dataObject) as long?;
 
-            return field1Value != null && field2Value == null || field2Value != null && field1Value == null;
+            return (field1Value != null && field2Value == null) || (field2Value != null && field1Value == null);
         }
     }
 }

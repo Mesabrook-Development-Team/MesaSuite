@@ -19,5 +19,7 @@
         public Schedules Schedule { get; set; }
         public long? AccountID { get; set; }
         public Account Account { get; set; }
+
+        public string DisplayName => LocationConfiguredFor?.Name;
     }
 }

@@ -34,23 +34,23 @@
             this.lstAvailable = new System.Windows.Forms.ListView();
             this.colSourcePayee = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colCloneable = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.cmdRemoveAll = new System.Windows.Forms.Button();
+            this.cmdRemove = new System.Windows.Forms.Button();
             this.cmdAdd = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.cmdAddAll = new System.Windows.Forms.Button();
             this.dgvChosen = new System.Windows.Forms.DataGridView();
-            this.colPayee = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCloneFrom = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.cboCloneAllFrom = new System.Windows.Forms.ToolStripComboBox();
             this.cmdApply = new System.Windows.Forms.ToolStripButton();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.studioFormExtender = new CompanyStudio.StudioFormExtender(this.components);
-            this.loader = new CompanyStudio.Loader();
+            this.cmdSave = new System.Windows.Forms.Button();
+            this.cmdCancel = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.loader = new CompanyStudio.Loader();
+            this.studioFormExtender = new CompanyStudio.StudioFormExtender(this.components);
+            this.colPayee = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCloneFrom = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvChosen)).BeginInit();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -95,29 +95,31 @@
             // 
             this.colCloneable.Text = "Cloneable";
             // 
-            // button1
+            // cmdRemoveAll
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.button1.Image = global::CompanyStudio.Properties.Resources.arrow_left;
-            this.button1.Location = new System.Drawing.Point(3, 65);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(86, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Remove All";
-            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button1.UseVisualStyleBackColor = true;
+            this.cmdRemoveAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cmdRemoveAll.Image = global::CompanyStudio.Properties.Resources.arrow_left;
+            this.cmdRemoveAll.Location = new System.Drawing.Point(3, 65);
+            this.cmdRemoveAll.Name = "cmdRemoveAll";
+            this.cmdRemoveAll.Size = new System.Drawing.Size(86, 23);
+            this.cmdRemoveAll.TabIndex = 2;
+            this.cmdRemoveAll.Text = "Remove All";
+            this.cmdRemoveAll.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.cmdRemoveAll.UseVisualStyleBackColor = true;
+            this.cmdRemoveAll.Click += new System.EventHandler(this.cmdRemoveAll_Click);
             // 
-            // button2
+            // cmdRemove
             // 
-            this.button2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.button2.Image = global::CompanyStudio.Properties.Resources.arrow_left;
-            this.button2.Location = new System.Drawing.Point(3, 94);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(86, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Remove";
-            this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button2.UseVisualStyleBackColor = true;
+            this.cmdRemove.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cmdRemove.Image = global::CompanyStudio.Properties.Resources.arrow_left;
+            this.cmdRemove.Location = new System.Drawing.Point(3, 94);
+            this.cmdRemove.Name = "cmdRemove";
+            this.cmdRemove.Size = new System.Drawing.Size(86, 23);
+            this.cmdRemove.TabIndex = 2;
+            this.cmdRemove.Text = "Remove";
+            this.cmdRemove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.cmdRemove.UseVisualStyleBackColor = true;
+            this.cmdRemove.Click += new System.EventHandler(this.cmdRemove_Click);
             // 
             // cmdAdd
             // 
@@ -132,17 +134,18 @@
             this.cmdAdd.UseVisualStyleBackColor = true;
             this.cmdAdd.Click += new System.EventHandler(this.cmdAdd_Click);
             // 
-            // button4
+            // cmdAddAll
             // 
-            this.button4.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
-            this.button4.Location = new System.Drawing.Point(3, 152);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(86, 23);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "Add All";
-            this.button4.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this.button4.UseVisualStyleBackColor = true;
+            this.cmdAddAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cmdAddAll.Image = ((System.Drawing.Image)(resources.GetObject("cmdAddAll.Image")));
+            this.cmdAddAll.Location = new System.Drawing.Point(3, 152);
+            this.cmdAddAll.Name = "cmdAddAll";
+            this.cmdAddAll.Size = new System.Drawing.Size(86, 23);
+            this.cmdAddAll.TabIndex = 2;
+            this.cmdAddAll.Text = "Add All";
+            this.cmdAddAll.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.cmdAddAll.UseVisualStyleBackColor = true;
+            this.cmdAddAll.Click += new System.EventHandler(this.cmdAddAll_Click);
             // 
             // dgvChosen
             // 
@@ -156,22 +159,9 @@
             this.dgvChosen.Location = new System.Drawing.Point(0, 25);
             this.dgvChosen.Name = "dgvChosen";
             this.dgvChosen.RowHeadersVisible = false;
+            this.dgvChosen.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvChosen.Size = new System.Drawing.Size(455, 207);
             this.dgvChosen.TabIndex = 3;
-            // 
-            // colPayee
-            // 
-            this.colPayee.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colPayee.HeaderText = "Payee";
-            this.colPayee.Name = "colPayee";
-            this.colPayee.ReadOnly = true;
-            // 
-            // colCloneFrom
-            // 
-            this.colCloneFrom.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colCloneFrom.HeaderText = "Clone From";
-            this.colCloneFrom.Name = "colCloneFrom";
-            this.colCloneFrom.ReadOnly = true;
             // 
             // panel1
             // 
@@ -200,7 +190,7 @@
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(79, 22);
+            this.toolStripLabel1.Size = new System.Drawing.Size(89, 22);
             this.toolStripLabel1.Text = "Clone All From:";
             // 
             // cboCloneAllFrom
@@ -214,36 +204,28 @@
             this.cmdApply.Image = global::CompanyStudio.Properties.Resources.accept;
             this.cmdApply.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cmdApply.Name = "cmdApply";
-            this.cmdApply.Size = new System.Drawing.Size(54, 22);
+            this.cmdApply.Size = new System.Drawing.Size(58, 22);
             this.cmdApply.Text = "Apply";
+            this.cmdApply.Click += new System.EventHandler(this.cmdApply_Click);
             // 
-            // button5
+            // cmdSave
             // 
-            this.button5.Location = new System.Drawing.Point(813, 270);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 5;
-            this.button5.Text = "Save";
-            this.button5.UseVisualStyleBackColor = true;
+            this.cmdSave.Location = new System.Drawing.Point(813, 270);
+            this.cmdSave.Name = "cmdSave";
+            this.cmdSave.Size = new System.Drawing.Size(75, 23);
+            this.cmdSave.TabIndex = 5;
+            this.cmdSave.Text = "Save";
+            this.cmdSave.UseVisualStyleBackColor = true;
+            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
-            // button6
+            // cmdCancel
             // 
-            this.button6.Location = new System.Drawing.Point(732, 270);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 23);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "Cancel";
-            this.button6.UseVisualStyleBackColor = true;
-            // 
-            // loader
-            // 
-            this.loader.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.loader.BackColor = System.Drawing.Color.Transparent;
-            this.loader.Location = new System.Drawing.Point(352, 100);
-            this.loader.Name = "loader";
-            this.loader.Size = new System.Drawing.Size(196, 101);
-            this.loader.TabIndex = 6;
-            this.loader.Visible = false;
+            this.cmdCancel.Location = new System.Drawing.Point(732, 270);
+            this.cmdCancel.Name = "cmdCancel";
+            this.cmdCancel.Size = new System.Drawing.Size(75, 23);
+            this.cmdCancel.TabIndex = 5;
+            this.cmdCancel.Text = "Cancel";
+            this.cmdCancel.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
             // 
@@ -257,21 +239,44 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Panel2.Controls.Add(this.button1);
+            this.splitContainer1.Panel2.Controls.Add(this.cmdRemoveAll);
             this.splitContainer1.Panel2.Controls.Add(this.cmdAdd);
-            this.splitContainer1.Panel2.Controls.Add(this.button4);
-            this.splitContainer1.Panel2.Controls.Add(this.button2);
+            this.splitContainer1.Panel2.Controls.Add(this.cmdAddAll);
+            this.splitContainer1.Panel2.Controls.Add(this.cmdRemove);
             this.splitContainer1.Size = new System.Drawing.Size(876, 232);
             this.splitContainer1.SplitterDistance = 322;
             this.splitContainer1.TabIndex = 7;
+            // 
+            // loader
+            // 
+            this.loader.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(352, 100);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(196, 101);
+            this.loader.TabIndex = 6;
+            this.loader.Visible = false;
+            // 
+            // colPayee
+            // 
+            this.colPayee.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colPayee.HeaderText = "Payee";
+            this.colPayee.Name = "colPayee";
+            this.colPayee.ReadOnly = true;
+            // 
+            // colCloneFrom
+            // 
+            this.colCloneFrom.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colCloneFrom.HeaderText = "Clone From";
+            this.colCloneFrom.Name = "colCloneFrom";
             // 
             // frmAutomaticPaymentConfigurationAddPayees
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(900, 300);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button5);
+            this.Controls.Add(this.cmdCancel);
+            this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.loader);
@@ -301,22 +306,22 @@
         private System.Windows.Forms.ListView lstAvailable;
         private System.Windows.Forms.ColumnHeader colSourcePayee;
         private System.Windows.Forms.ColumnHeader colCloneable;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button cmdRemoveAll;
+        private System.Windows.Forms.Button cmdRemove;
         private System.Windows.Forms.Button cmdAdd;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button cmdAddAll;
         private System.Windows.Forms.DataGridView dgvChosen;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPayee;
-        private System.Windows.Forms.DataGridViewComboBoxColumn colCloneFrom;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripComboBox cboCloneAllFrom;
         private System.Windows.Forms.ToolStripButton cmdApply;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button cmdSave;
+        private System.Windows.Forms.Button cmdCancel;
         private StudioFormExtender studioFormExtender;
         private Loader loader;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPayee;
+        private System.Windows.Forms.DataGridViewComboBoxColumn colCloneFrom;
     }
 }

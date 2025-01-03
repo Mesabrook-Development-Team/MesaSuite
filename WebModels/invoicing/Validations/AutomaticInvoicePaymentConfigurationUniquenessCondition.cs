@@ -63,6 +63,16 @@ namespace WebModels.invoicing.Validations
                 });
             }
 
+            if (automaticInvoicePaymentConfiguration.AutomaticInvoicePaymentConfigurationID != null)
+            {
+                searchConditionGroup.SearchConditions.Add(new LongSearchCondition<AutomaticInvoicePaymentConfiguration>()
+                {
+                    Field = nameof(AutomaticInvoicePaymentConfiguration.AutomaticInvoicePaymentConfigurationID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.NotEquals,
+                    Value = automaticInvoicePaymentConfiguration.AutomaticInvoicePaymentConfigurationID
+                });
+            }
+
             Search<AutomaticInvoicePaymentConfiguration> search = new Search<AutomaticInvoicePaymentConfiguration>(searchConditionGroup);
             return !search.ExecuteExists(transaction);
         }

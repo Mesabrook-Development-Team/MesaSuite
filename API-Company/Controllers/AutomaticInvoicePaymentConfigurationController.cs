@@ -39,7 +39,9 @@ namespace API_Company.Controllers
             c.PaidAmount,
             c.MaxAmount,
             c.Schedule,
-            c.AccountID
+            c.AccountID,
+            c.Account.Description,
+            c.Account.AccountNumber
         });
 
         public override ISearchCondition GetBaseSearchCondition()

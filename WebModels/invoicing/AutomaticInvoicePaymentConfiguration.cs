@@ -51,12 +51,12 @@ namespace WebModels.invoicing
             get { CheckGet(); return _governmentConfiguredFor; }
         }
 
-        private long? _locationIDPayor;
+        private long? _locationIDPayee;
         [Field("50FBBB6F-F530-4698-963C-283A49BCF779")]
         public long? LocationIDPayee
         {
-            get { CheckGet(); return _locationIDPayor; }
-            set { CheckSet(); _locationIDPayor = value; }
+            get { CheckGet(); return _locationIDPayee; }
+            set { CheckSet(); _locationIDPayee = value; }
         }
 
         private Location _locationPayee = null;
@@ -115,7 +115,6 @@ namespace WebModels.invoicing
 
         private long? _accountID;
         [Field("101971EE-E452-46C4-8E40-2A0BC31E1D2F")]
-        [Required]
         public long? AccountID
         {
             get { CheckGet(); return _accountID; }

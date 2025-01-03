@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using CompanyStudio.Store.ClonePrices;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -29,8 +30,8 @@ namespace CompanyStudio.Invoicing
         {
             InitializeComponent();
             colCloneFrom.ValueType = typeof(long?);
-            colCloneFrom.DisplayMember = nameof(Models.Location.DisplayName);
-            colCloneFrom.ValueMember = nameof(Models.Location.LocationID);
+            colCloneFrom.DisplayMember = nameof(AutomaticInvoicePaymentConfiguration.DisplayName);
+            colCloneFrom.ValueMember = nameof(AutomaticInvoicePaymentConfiguration.AutomaticInvoicePaymentConfigurationID);
         }
 
         private async void frmAutomaticPaymentConfigurationAddPayees_Load(object sender, EventArgs e)
@@ -97,7 +98,7 @@ namespace CompanyStudio.Invoicing
                 HashSet<long?> otherLocationIDs = new HashSet<long?>();
                 foreach(AutomaticInvoicePaymentConfiguration otherConfig in _otherLocationConfigurations.Where(c => otherLocationIDs.Add(c.LocationIDConfiguredFor)))
                 {
-                    DropDownItem<Location> ddi = new DropDownItem<Location>(otherConfig.LocationConfiguredFor, otherConfig.LocationConfiguredFor.DisplayName);
+                    DropDownItem<Location> ddi = new DropDownItem<Location>(otherConfig.LocationConfiguredFor, otherConfig.LocationConfiguredFor.Name);
                     cboCloneAllFrom.Items.Add(ddi);
                 }
             }
@@ -106,10 +107,21 @@ namespace CompanyStudio.Invoicing
 
         private void cmdAdd_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in lstAvailable.SelectedItems.ToList())
+            Add(lstAvailable.SelectedItems.ToList());
+        }
+
+        private void cmdAddAll_Click(object sender, EventArgs e)
+        {
+            Add(lstAvailable.Items.ToList());
+        }
+
+        private void Add(List<ListViewItem> items)
+        {
+            foreach (ListViewItem item in items)
             {
                 DataGridViewRow row = dgvChosen.Rows[dgvChosen.Rows.Add()];
                 row.Cells[colPayee.Name].Value = item.Text;
+                row.Tag = item.Tag;
 
                 Location locationPayee = item.Tag as Location;
                 Government governmentPayee = item.Tag as Government;
@@ -124,12 +136,108 @@ namespace CompanyStudio.Invoicing
                     row.Cells[colCloneFrom.Name].ReadOnly = true;
                     ((DataGridViewComboBoxCell)row.Cells[colCloneFrom.Name]).DataSource = new List<object>()
                     {
-                        new { LocationID = (long?)0, DisplayName = "[Not Cloneable]" }
+                        new { AutomaticInvoicePaymentConfigurationID = (long?)0, DisplayName = "[Not Cloneable]" }
                     };
                     row.Cells[colCloneFrom.Name].Value = (long?)0;
                 }
 
                 lstAvailable.Items.Remove(item);
+            }
+
+            dgvChosen.Sort(colPayee, ListSortDirection.Ascending);
+        }
+
+        private void cmdRemove_Click(object sender, EventArgs e)
+        {
+            Remove(dgvChosen.SelectedRows.OfType<DataGridViewRow>().ToList());
+        }
+
+        private void Remove(List<DataGridViewRow> rows)
+        {
+            foreach (DataGridViewRow row in rows)
+            {
+                Location locationPayee = row.Tag as Location;
+                Government governmentPayee = row.Tag as Government;
+
+                bool cloneable = _otherLocationConfigurations.Any(c => c.GovernmentIDPayee == governmentPayee?.GovernmentID && c.LocationIDPayee == locationPayee?.LocationID);
+
+                ListViewItem newItem = new ListViewItem(new[] { row.Cells[colPayee.Name].Value.ToString(), cloneable ? "Yes" : "No" });
+                newItem.Tag = row.Tag;
+                lstAvailable.Items.Add(newItem);
+
+                dgvChosen.Rows.Remove(row);
+            }
+        }
+
+        private void cmdRemoveAll_Click(object sender, EventArgs e)
+        {
+            Remove(dgvChosen.Rows.OfType<DataGridViewRow>().ToList());
+        }
+
+        private async void cmdSave_Click(object sender, EventArgs e)
+        {
+            loader.BringToFront();
+            loader.Visible = true;
+            cmdSave.Enabled = false;
+
+            try
+            {
+                foreach (DataGridViewRow row in dgvChosen.Rows)
+                {
+                    long? cloneFromID = (long?)row.Cells[colCloneFrom.Name].Value;
+                    if (cloneFromID != null && cloneFromID != 0)
+                    {
+                        AutomaticInvoicePaymentConfiguration otherConfiguration = _otherLocationConfigurations.FirstOrDefault(olc => olc.AutomaticInvoicePaymentConfigurationID == cloneFromID);
+                        AutomaticInvoicePaymentConfiguration cloned = otherConfiguration.ShallowClone();
+                        cloned.AutomaticInvoicePaymentConfigurationID = null;
+                        cloned.LocationIDConfiguredFor = LocationID;
+                        cloned.PaidAmount = 0;
+
+                        PostData post = new PostData(DataAccess.APIs.CompanyStudio, "AutomaticInvoicePaymentConfiguration/Post", cloned);
+                        post.AddLocationHeader(CompanyID, LocationID);
+                        await post.ExecuteNoResult();
+                    }
+                    else
+                    {
+                        Location locationPayee = row.Tag as Location;
+                        Government governmentPayee = row.Tag as Government;
+
+                        AutomaticInvoicePaymentConfiguration newConfiguration = new AutomaticInvoicePaymentConfiguration()
+                        {
+                            LocationIDConfiguredFor = LocationID,
+                            LocationIDPayee = locationPayee?.LocationID,
+                            GovernmentIDPayee = governmentPayee?.GovernmentID,
+                            PaidAmount = 0,
+                            MaxAmount = 0
+                        };
+
+                        PostData post = new PostData(DataAccess.APIs.CompanyStudio, "AutomaticInvoicePaymentConfiguration/Post", newConfiguration);
+                        post.AddLocationHeader(CompanyID, LocationID);
+                        await post.ExecuteNoResult();
+                    }
+                }
+            }
+            finally { loader.Visible = false; cmdSave.Enabled = true; }
+
+            Close();
+        }
+
+        private void cmdApply_Click(object sender, EventArgs e)
+        {
+            long? cloneFromLocationID = (cboCloneAllFrom.SelectedItem as DropDownItem<Location>)?.Object.LocationID;
+            foreach(DataGridViewRow row in dgvChosen.Rows)
+            {
+                DataGridViewComboBoxCell cloneFromCell = (DataGridViewComboBoxCell)row.Cells[colCloneFrom.Name];
+                if (cloneFromCell.ReadOnly)
+                {
+                    continue;
+                }
+
+                Location locationPayee = row.Tag as Location;
+                Government governmentPayee = row.Tag as Government;
+
+                AutomaticInvoicePaymentConfiguration cloneFromConfig = _otherLocationConfigurations.FirstOrDefault(aipc => aipc.LocationIDConfiguredFor == cloneFromLocationID && aipc.LocationIDPayee == locationPayee?.LocationID && aipc.GovernmentIDPayee == governmentPayee?.GovernmentID);
+                cloneFromCell.Value = cloneFromConfig?.AutomaticInvoicePaymentConfigurationID;
             }
         }
     }

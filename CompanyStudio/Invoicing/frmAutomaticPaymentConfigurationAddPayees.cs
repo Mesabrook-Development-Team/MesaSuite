@@ -4,12 +4,15 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompanyStudio.Extensions;
 using CompanyStudio.Models;
 using MesaSuite.Common.Data;
+using MesaSuite.Common.Extensions;
+using MesaSuite.Common.Utility;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace CompanyStudio.Invoicing
@@ -20,14 +23,14 @@ namespace CompanyStudio.Invoicing
         public long? LocationID { get; set; }
         public ThemeBase Theme { get; set; }
 
-        private Dictionary<int, CloneFromItem> _clonedFromItemsByHashCode = new Dictionary<int, CloneFromItem>();
+        private List<AutomaticInvoicePaymentConfiguration> _otherLocationConfigurations = new List<AutomaticInvoicePaymentConfiguration>();
 
         public frmAutomaticPaymentConfigurationAddPayees()
         {
             InitializeComponent();
-            colCloneFrom.ValueType = typeof(int);
-            colCloneFrom.DisplayMember = nameof(CloneFromItem.Display);
-            colCloneFrom.ValueMember = nameof(CloneFromItem.HashCode);
+            colCloneFrom.ValueType = typeof(long?);
+            colCloneFrom.DisplayMember = nameof(Models.Location.DisplayName);
+            colCloneFrom.ValueMember = nameof(Models.Location.LocationID);
         }
 
         private async void frmAutomaticPaymentConfigurationAddPayees_Load(object sender, EventArgs e)
@@ -51,8 +54,7 @@ namespace CompanyStudio.Invoicing
                 get.Resource = "Company/GetAll";
                 List<Company> companies = await get.GetObject<List<Company>>() ?? new List<Company>();
 
-                List<AutomaticInvoicePaymentConfiguration> paymentConfigurationsFromOtherLocations = new List<AutomaticInvoicePaymentConfiguration>();
-                foreach (long? locationID in PermissionsManager.AccessibleLocationIDs)
+                foreach (long? locationID in PermissionsManager.AccessibleLocationIDs.Where(l => companies.FirstOrDefault(c => c.Locations.Any(loc => loc.LocationID == l)).CompanyID == CompanyID))
                 {
                     if (LocationID == locationID)
                     {
@@ -62,8 +64,8 @@ namespace CompanyStudio.Invoicing
                     if (PermissionsManager.HasPermission(locationID.Value, PermissionsManager.LocationWidePermissions.ManageInvoices))
                     {
                         GetData getOtherLocation = new GetData(DataAccess.APIs.CompanyStudio, "AutomaticInvoicePaymentConfiguration/GetAll");
-                        getOtherLocation.AddLocationHeader(companies.First(c => c.Locations.Any(l => l.LocationID == locationID)).CompanyID, locationID);
-                        automaticInvoicePaymentConfigurations.AddRange(await getOtherLocation.GetObject<List<AutomaticInvoicePaymentConfiguration>>() ?? new List<AutomaticInvoicePaymentConfiguration>());
+                        getOtherLocation.AddLocationHeader(CompanyID, locationID);
+                        _otherLocationConfigurations.AddRange(await getOtherLocation.GetObject<List<AutomaticInvoicePaymentConfiguration>>() ?? new List<AutomaticInvoicePaymentConfiguration>());
                     }
                 }
 
@@ -72,7 +74,7 @@ namespace CompanyStudio.Invoicing
                 {
                     foreach (Location location in company.Locations.Where(l => !existingLocations.Contains(l.LocationID)))
                     {
-                        bool isCloneable = paymentConfigurationsFromOtherLocations.Any(c => c.LocationIDPayee == location.LocationID);
+                        bool isCloneable = _otherLocationConfigurations.Any(c => c.LocationIDPayee == location.LocationID);
 
                         ListViewItem newItem = new ListViewItem(new[] { $"{company.Name} ({location.Name})", isCloneable ? "Yes" : "No" });
                         newItem.Tag = location;
@@ -85,43 +87,50 @@ namespace CompanyStudio.Invoicing
                 List<Government> governments = await get.GetObject<List<Government>>() ?? new List<Government>();
                 foreach (Government government in governments.Where(g => !existingGovernments.Contains(g.GovernmentID)))
                 {
-                    bool isCloneable = automaticInvoicePaymentConfigurations.Any(c => c.GovernmentIDPayee == government.GovernmentID);
+                    bool isCloneable = _otherLocationConfigurations.Any(c => c.GovernmentIDPayee == government.GovernmentID);
 
                     ListViewItem newItem = new ListViewItem(new[] { government.Name + " (Government)", isCloneable ? "Yes" : "No" });
                     newItem.Tag = government;
                     lstAvailable.Items.Add(newItem);
                 }
 
-                // Keep a record of locations and governments we can clone from and populate respective boxes
-                foreach (AutomaticInvoicePaymentConfiguration otherConfiguration in paymentConfigurationsFromOtherLocations)
+                HashSet<long?> otherLocationIDs = new HashSet<long?>();
+                foreach(AutomaticInvoicePaymentConfiguration otherConfig in _otherLocationConfigurations.Where(c => otherLocationIDs.Add(c.LocationIDConfiguredFor)))
                 {
-                    CloneFromItem cloneFromItem = new CloneFromItem()
-                    {
-                        Government = otherConfiguration.GovernmentPayee,
-                        Location = otherConfiguration.LocationPayee
-                    };
-
-                    cboCloneAllFrom.Items.Add(cloneFromItem);
-                    _clonedFromItemsByHashCode.Add(cloneFromItem.HashCode, cloneFromItem);
+                    DropDownItem<Location> ddi = new DropDownItem<Location>(otherConfig.LocationConfiguredFor, otherConfig.LocationConfiguredFor.DisplayName);
+                    cboCloneAllFrom.Items.Add(ddi);
                 }
-
-                colCloneFrom.DataSource = _clonedFromItemsByHashCode.Values.ToList();
             }
             finally { loader.Visible = false; }
         }
 
-        private class CloneFromItem
+        private void cmdAdd_Click(object sender, EventArgs e)
         {
-            public Location Location { get; set; }
-            public Government Government { get; set; }
-
-            public override string ToString()
+            foreach (ListViewItem item in lstAvailable.SelectedItems.ToList())
             {
-                return Display;
-            }
+                DataGridViewRow row = dgvChosen.Rows[dgvChosen.Rows.Add()];
+                row.Cells[colPayee.Name].Value = item.Text;
 
-            public string Display => Location != null ? $"{Location.Company.Name} ({Location.Name})" : $"{Government.Name} (Government)";
-            public int HashCode => GetHashCode();
+                Location locationPayee = item.Tag as Location;
+                Government governmentPayee = item.Tag as Government;
+
+                List<AutomaticInvoicePaymentConfiguration> cloneableConfigurations = _otherLocationConfigurations.Where(aipc => aipc.LocationIDPayee == locationPayee?.LocationID && aipc.GovernmentIDPayee == governmentPayee?.GovernmentID).ToList();
+                if (cloneableConfigurations.Any())
+                {
+                    ((DataGridViewComboBoxCell)row.Cells[colCloneFrom.Name]).DataSource = cloneableConfigurations;
+                }
+                else
+                {
+                    row.Cells[colCloneFrom.Name].ReadOnly = true;
+                    ((DataGridViewComboBoxCell)row.Cells[colCloneFrom.Name]).DataSource = new List<object>()
+                    {
+                        new { LocationID = (long?)0, DisplayName = "[Not Cloneable]" }
+                    };
+                    row.Cells[colCloneFrom.Name].Value = (long?)0;
+                }
+
+                lstAvailable.Items.Remove(item);
+            }
         }
     }
 }

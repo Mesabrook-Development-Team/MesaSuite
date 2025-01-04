@@ -1,10 +1,12 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data.Operand;
+using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using System;
 using WebModels.account;
 using WebModels.company;
 using WebModels.gov;
+using WebModels.hMailServer.dbo;
 
 namespace WebModels.invoicing
 {
@@ -97,6 +99,24 @@ namespace WebModels.invoicing
         {
             get { CheckGet(); return _maxAmount; }
             set { CheckSet(); _maxAmount = value; }
+        }
+
+        private decimal? _remainingAmount;
+        [Field("3376E5CA-E49A-4389-B43F-0CD1F4D8FB09", HasOperation = true)]
+        public decimal? RemainingAmount
+        {
+            get { CheckGet(); return _remainingAmount; }
+        }
+
+        public static OperationDelegate RemainingAmountOperation
+        {
+            get
+            {
+                return (alias) =>
+                {
+                    return new Subtraction((Field)$"{alias}.{nameof(RemainingAmount)}", (Field)$"{alias}.{nameof(PaidAmount)}");
+                };
+            }
         }
 
         public enum Schedules

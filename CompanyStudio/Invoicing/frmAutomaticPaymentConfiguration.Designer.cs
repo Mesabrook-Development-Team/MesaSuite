@@ -34,14 +34,15 @@
             this.colPayee = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colPaidAmount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colMaxAmount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colAccount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsbAddPayees = new System.Windows.Forms.ToolStripButton();
             this.tsbDeletePayees = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.pnlPlaceholder = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
+            this.tsbResetPaidAmounts = new System.Windows.Forms.ToolStripButton();
+            this.tsbUpdateSelected = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbCloneTo = new System.Windows.Forms.ToolStripButton();
             this.pnlDetails = new System.Windows.Forms.Panel();
             this.cmdSave = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -63,18 +64,17 @@
             this.rdoOnDueDate = new System.Windows.Forms.RadioButton();
             this.txtMaxAmount = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.colAccount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmdReset = new System.Windows.Forms.Button();
+            this.pnlPlaceholder = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.pnlPlaceholder.SuspendLayout();
             this.pnlDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUpcomingInvoices)).BeginInit();
+            this.pnlPlaceholder.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -113,6 +113,7 @@
             this.lstConfigs.UseCompatibleStateImageBehavior = false;
             this.lstConfigs.View = System.Windows.Forms.View.Details;
             this.lstConfigs.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lstConfigs_ItemSelectionChanged);
+            this.lstConfigs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstConfigs_KeyDown);
             // 
             // colPayee
             // 
@@ -129,16 +130,21 @@
             this.colMaxAmount.Text = "Max Amount";
             this.colMaxAmount.Width = 100;
             // 
+            // colAccount
+            // 
+            this.colAccount.Text = "Account";
+            this.colAccount.Width = 150;
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbAddPayees,
             this.tsbDeletePayees,
             this.toolStripSeparator1,
-            this.toolStripButton3,
-            this.toolStripButton1,
+            this.tsbResetPaidAmounts,
+            this.tsbUpdateSelected,
             this.toolStripSeparator2,
-            this.toolStripButton4});
+            this.tsbCloneTo});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -151,7 +157,7 @@
             this.tsbAddPayees.Image = global::CompanyStudio.Properties.Resources.building_add;
             this.tsbAddPayees.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbAddPayees.Name = "tsbAddPayees";
-            this.tsbAddPayees.Size = new System.Drawing.Size(88, 20);
+            this.tsbAddPayees.Size = new System.Drawing.Size(84, 20);
             this.tsbAddPayees.Text = "Add Payees";
             this.tsbAddPayees.Click += new System.EventHandler(this.tsbAddPayees_Click);
             // 
@@ -160,7 +166,7 @@
             this.tsbDeletePayees.Image = global::CompanyStudio.Properties.Resources.building_delete;
             this.tsbDeletePayees.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbDeletePayees.Name = "tsbDeletePayees";
-            this.tsbDeletePayees.Size = new System.Drawing.Size(99, 20);
+            this.tsbDeletePayees.Size = new System.Drawing.Size(96, 20);
             this.tsbDeletePayees.Text = "Delete Payees";
             this.tsbDeletePayees.Click += new System.EventHandler(this.tsbDeletePayees_Click);
             // 
@@ -169,43 +175,37 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
             // 
-            // toolStripButton3
+            // tsbResetPaidAmounts
             // 
-            this.toolStripButton3.Image = global::CompanyStudio.Properties.Resources.arrow_undo;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(133, 20);
-            this.toolStripButton3.Text = "Reset Paid Amounts";
+            this.tsbResetPaidAmounts.Image = global::CompanyStudio.Properties.Resources.arrow_undo;
+            this.tsbResetPaidAmounts.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbResetPaidAmounts.Name = "tsbResetPaidAmounts";
+            this.tsbResetPaidAmounts.Size = new System.Drawing.Size(123, 20);
+            this.tsbResetPaidAmounts.Text = "Reset Paid Amounts";
+            this.tsbResetPaidAmounts.Click += new System.EventHandler(this.tsbResetPaidAmounts_Click);
             // 
-            // toolStripButton4
+            // tsbUpdateSelected
             // 
-            this.toolStripButton4.Image = global::CompanyStudio.Properties.Resources.paste_plain;
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(83, 20);
-            this.toolStripButton4.Text = "Clone To...";
+            this.tsbUpdateSelected.Image = global::CompanyStudio.Properties.Resources.page_edit;
+            this.tsbUpdateSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbUpdateSelected.Name = "tsbUpdateSelected";
+            this.tsbUpdateSelected.Size = new System.Drawing.Size(112, 20);
+            this.tsbUpdateSelected.Text = "Updated Selected";
+            this.tsbUpdateSelected.Click += new System.EventHandler(this.tsbUpdateSelected_Click);
             // 
-            // pnlPlaceholder
+            // toolStripSeparator2
             // 
-            this.pnlPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlPlaceholder.Controls.Add(this.label8);
-            this.pnlPlaceholder.Location = new System.Drawing.Point(0, 0);
-            this.pnlPlaceholder.Name = "pnlPlaceholder";
-            this.pnlPlaceholder.Size = new System.Drawing.Size(512, 447);
-            this.pnlPlaceholder.TabIndex = 12;
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
             // 
-            // label8
+            // tsbCloneTo
             // 
-            this.label8.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(65, 213);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(383, 20);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Select a configuration on the left, or click Add Payees";
+            this.tsbCloneTo.Image = global::CompanyStudio.Properties.Resources.paste_plain;
+            this.tsbCloneTo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCloneTo.Name = "tsbCloneTo";
+            this.tsbCloneTo.Size = new System.Drawing.Size(125, 20);
+            this.tsbCloneTo.Text = "Clone Selected To...";
+            this.tsbCloneTo.Click += new System.EventHandler(this.tsbCloneTo_Click);
             // 
             // pnlDetails
             // 
@@ -227,7 +227,7 @@
             this.pnlDetails.Controls.Add(this.rdoOnDueDate);
             this.pnlDetails.Controls.Add(this.txtMaxAmount);
             this.pnlDetails.Controls.Add(this.label5);
-            this.pnlDetails.Controls.Add(this.button1);
+            this.pnlDetails.Controls.Add(this.cmdReset);
             this.pnlDetails.Location = new System.Drawing.Point(0, 0);
             this.pnlDetails.Name = "pnlDetails";
             this.pnlDetails.Size = new System.Drawing.Size(515, 450);
@@ -341,6 +341,8 @@
             // 
             this.cboPaymentAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboPaymentAccount.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboPaymentAccount.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboPaymentAccount.FormattingEnabled = true;
             this.cboPaymentAccount.Location = new System.Drawing.Point(109, 135);
             this.cboPaymentAccount.Name = "cboPaymentAccount";
@@ -420,32 +422,37 @@
             this.label5.TabIndex = 4;
             this.label5.Text = "Payment Schedule:";
             // 
-            // button1
+            // cmdReset
             // 
-            this.button1.Location = new System.Drawing.Point(185, 58);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Reset";
-            this.button1.UseVisualStyleBackColor = true;
+            this.cmdReset.Location = new System.Drawing.Point(185, 58);
+            this.cmdReset.Name = "cmdReset";
+            this.cmdReset.Size = new System.Drawing.Size(75, 23);
+            this.cmdReset.TabIndex = 3;
+            this.cmdReset.Text = "Reset";
+            this.cmdReset.UseVisualStyleBackColor = true;
+            this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);
             // 
-            // colAccount
+            // pnlPlaceholder
             // 
-            this.colAccount.Text = "Account";
-            this.colAccount.Width = 150;
+            this.pnlPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlPlaceholder.Controls.Add(this.label8);
+            this.pnlPlaceholder.Location = new System.Drawing.Point(0, 0);
+            this.pnlPlaceholder.Name = "pnlPlaceholder";
+            this.pnlPlaceholder.Size = new System.Drawing.Size(512, 447);
+            this.pnlPlaceholder.TabIndex = 12;
             // 
-            // toolStripButton1
+            // label8
             // 
-            this.toolStripButton1.Image = global::CompanyStudio.Properties.Resources.page_edit;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(119, 20);
-            this.toolStripButton1.Text = "Updated Selected";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
+            this.label8.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(65, 213);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(383, 20);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Select a configuration on the left, or click Add Payees";
             // 
             // frmAutomaticPaymentConfiguration
             // 
@@ -465,11 +472,11 @@
             this.splitContainer1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.pnlPlaceholder.ResumeLayout(false);
-            this.pnlPlaceholder.PerformLayout();
             this.pnlDetails.ResumeLayout(false);
             this.pnlDetails.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUpcomingInvoices)).EndInit();
+            this.pnlPlaceholder.ResumeLayout(false);
+            this.pnlPlaceholder.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -487,7 +494,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtPayee;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button cmdReset;
         private System.Windows.Forms.TextBox txtAmountPaid;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtMaxAmount;
@@ -505,14 +512,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescription;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAmount;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripButton tsbResetPaidAmounts;
+        private System.Windows.Forms.ToolStripButton tsbCloneTo;
         private System.Windows.Forms.Button cmdSave;
         private System.Windows.Forms.Panel pnlDetails;
         private System.Windows.Forms.Panel pnlPlaceholder;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ColumnHeader colAccount;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton tsbUpdateSelected;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }

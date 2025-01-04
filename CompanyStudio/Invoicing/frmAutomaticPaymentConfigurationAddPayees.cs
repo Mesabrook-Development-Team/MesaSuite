@@ -240,5 +240,11 @@ namespace CompanyStudio.Invoicing
                 cloneFromCell.Value = cloneFromConfig?.AutomaticInvoicePaymentConfigurationID;
             }
         }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
     }
 }

@@ -250,6 +250,18 @@
     <Compile Include="Invoicing\frmAutomaticPaymentConfigurationAddPayees.Designer.cs">
       <DependentUpon>frmAutomaticPaymentConfigurationAddPayees.cs</DependentUpon>
     </Compile>
+    <Compile Include="Invoicing\frmAutomaticPaymentConfigurationCloneTo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoicing\frmAutomaticPaymentConfigurationCloneTo.Designer.cs">
+      <DependentUpon>frmAutomaticPaymentConfigurationCloneTo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Invoicing\frmAutomaticPaymentConfigurationMassUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoicing\frmAutomaticPaymentConfigurationMassUpdate.Designer.cs">
+      <DependentUpon>frmAutomaticPaymentConfigurationMassUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Invoicing\frmPayableExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -785,6 +797,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\frmAutomaticPaymentConfigurationAddPayees.resx">
       <DependentUpon>frmAutomaticPaymentConfigurationAddPayees.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\frmAutomaticPaymentConfigurationCloneTo.resx">
+      <DependentUpon>frmAutomaticPaymentConfigurationCloneTo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\frmAutomaticPaymentConfigurationMassUpdate.resx">
+      <DependentUpon>frmAutomaticPaymentConfigurationMassUpdate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\frmPayableExplorer.resx">
       <DependentUpon>frmPayableExplorer.cs</DependentUpon>

@@ -39,6 +39,8 @@
             this.cmdAdd = new System.Windows.Forms.Button();
             this.cmdAddAll = new System.Windows.Forms.Button();
             this.dgvChosen = new System.Windows.Forms.DataGridView();
+            this.colPayee = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCloneFrom = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
@@ -49,8 +51,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.loader = new CompanyStudio.Loader();
             this.studioFormExtender = new CompanyStudio.StudioFormExtender(this.components);
-            this.colPayee = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCloneFrom = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvChosen)).BeginInit();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -163,6 +163,19 @@
             this.dgvChosen.Size = new System.Drawing.Size(455, 207);
             this.dgvChosen.TabIndex = 3;
             // 
+            // colPayee
+            // 
+            this.colPayee.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colPayee.HeaderText = "Payee";
+            this.colPayee.Name = "colPayee";
+            this.colPayee.ReadOnly = true;
+            // 
+            // colCloneFrom
+            // 
+            this.colCloneFrom.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colCloneFrom.HeaderText = "Clone From";
+            this.colCloneFrom.Name = "colCloneFrom";
+            // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -190,7 +203,7 @@
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(89, 22);
+            this.toolStripLabel1.Size = new System.Drawing.Size(79, 22);
             this.toolStripLabel1.Text = "Clone All From:";
             // 
             // cboCloneAllFrom
@@ -204,7 +217,7 @@
             this.cmdApply.Image = global::CompanyStudio.Properties.Resources.accept;
             this.cmdApply.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cmdApply.Name = "cmdApply";
-            this.cmdApply.Size = new System.Drawing.Size(58, 22);
+            this.cmdApply.Size = new System.Drawing.Size(54, 22);
             this.cmdApply.Text = "Apply";
             this.cmdApply.Click += new System.EventHandler(this.cmdApply_Click);
             // 
@@ -226,6 +239,7 @@
             this.cmdCancel.TabIndex = 5;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
+            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // splitContainer1
             // 
@@ -256,19 +270,6 @@
             this.loader.Size = new System.Drawing.Size(196, 101);
             this.loader.TabIndex = 6;
             this.loader.Visible = false;
-            // 
-            // colPayee
-            // 
-            this.colPayee.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colPayee.HeaderText = "Payee";
-            this.colPayee.Name = "colPayee";
-            this.colPayee.ReadOnly = true;
-            // 
-            // colCloneFrom
-            // 
-            this.colCloneFrom.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colCloneFrom.HeaderText = "Clone From";
-            this.colCloneFrom.Name = "colCloneFrom";
             // 
             // frmAutomaticPaymentConfigurationAddPayees
             // 

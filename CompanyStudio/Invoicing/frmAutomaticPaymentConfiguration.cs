@@ -218,5 +218,164 @@ namespace CompanyStudio.Invoicing
 
             await ReloadData();
         }
+
+        private async void cmdReset_Click(object sender, EventArgs e)
+        {
+            if (!this.Confirm("Are you sure you want to reset the Paid Amount?"))
+            {
+                return;
+            }
+
+            AutomaticInvoicePaymentConfiguration configuration = txtPayee.Tag as AutomaticInvoicePaymentConfiguration;
+            PatchData patch = new PatchData(DataAccess.APIs.CompanyStudio, "AutomaticInvoicePaymentConfiguration/Patch", PatchData.PatchMethods.Replace, configuration.AutomaticInvoicePaymentConfigurationID, new Dictionary<string, object>()
+            {
+                { nameof(AutomaticInvoicePaymentConfiguration.PaidAmount), 0M }
+            });
+            patch.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            await patch.Execute();
+
+            await ReloadData();
+        }
+
+        private async void tsbResetPaidAmounts_Click(object sender, EventArgs e)
+        {
+            if (lstConfigs.SelectedItems.Count == 0 || !this.Confirm("Are you sure you want to reset the Paid Amount on the selected items?"))
+            {
+                return;
+            }
+
+            foreach(ListViewItem item in lstConfigs.SelectedItems)
+            {
+                AutomaticInvoicePaymentConfiguration automaticInvoicePaymentConfiguration = item.Tag as AutomaticInvoicePaymentConfiguration;
+                if (automaticInvoicePaymentConfiguration == null)
+                {
+                    continue;
+                }
+
+                PatchData patch = new PatchData(DataAccess.APIs.CompanyStudio, "AutomaticInvoicePaymentConfiguration/Patch", PatchData.PatchMethods.Replace, automaticInvoicePaymentConfiguration.AutomaticInvoicePaymentConfigurationID, new Dictionary<string, object>()
+                {
+                    { nameof(AutomaticInvoicePaymentConfiguration.PaidAmount), 0M }
+                });
+                patch.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                await patch.Execute();
+
+                await ReloadData();
+            }
+        }
+
+        private async void tsbUpdateSelected_Click(object sender, EventArgs e)
+        {
+            if (lstConfigs.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            frmAutomaticPaymentConfigurationMassUpdate massUpdate = new frmAutomaticPaymentConfigurationMassUpdate()
+            {
+                CompanyID = Company.CompanyID,
+                LocationID = LocationModel.LocationID,
+                Theme = Theme
+            };
+
+            if (massUpdate.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            Dictionary<string, object> updateValues = new Dictionary<string, object>()
+            {
+                { nameof(AutomaticInvoicePaymentConfiguration.Schedule), massUpdate.Schedule.ToString() }
+            };
+
+            if (massUpdate.MaxAmount != null)
+            {
+                updateValues[nameof(AutomaticInvoicePaymentConfiguration.MaxAmount)] = massUpdate.MaxAmount;
+            }
+            
+            if (massUpdate.AccountID != null)
+            {
+                updateValues[nameof(AutomaticInvoicePaymentConfiguration.AccountID)] = massUpdate.AccountID;
+            }
+
+            PatchData patch = new PatchData(DataAccess.APIs.CompanyStudio, "AutomaticInvoicePaymentConfiguration/Patch", PatchData.PatchMethods.Replace, null, updateValues);
+            patch.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+
+            foreach (ListViewItem item in lstConfigs.SelectedItems)
+            {
+                AutomaticInvoicePaymentConfiguration automaticInvoicePaymentConfiguration = item.Tag as AutomaticInvoicePaymentConfiguration;
+                if (automaticInvoicePaymentConfiguration == null)
+                {
+                    continue;
+                }
+
+                patch.PrimaryKey = automaticInvoicePaymentConfiguration.AutomaticInvoicePaymentConfigurationID;
+                await patch.Execute();
+            }
+
+            await ReloadData();
+        }
+
+        private async void tsbCloneTo_Click(object sender, EventArgs e)
+        {
+            frmAutomaticPaymentConfigurationCloneTo cloneTo = new frmAutomaticPaymentConfigurationCloneTo()
+            {
+                CompanyID = Company.CompanyID,
+                LocationID = LocationModel.LocationID,
+                Theme = Theme
+            };
+
+            if (cloneTo.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            foreach(long? locationID in cloneTo.SelectedLocationIDs)
+            {
+                GetData get = new GetData(DataAccess.APIs.CompanyStudio, "AutomaticInvoicePaymentConfiguration/GetAll");
+                get.AddLocationHeader(Company.CompanyID, locationID);
+                List<AutomaticInvoicePaymentConfiguration> existingConfigurations = await get.GetObject<List<AutomaticInvoicePaymentConfiguration>>() ?? new List<AutomaticInvoicePaymentConfiguration>();
+
+                foreach(ListViewItem listViewItem in lstConfigs.SelectedItems)
+                {
+                    AutomaticInvoicePaymentConfiguration configToClone = listViewItem.Tag as AutomaticInvoicePaymentConfiguration;
+                    if (configToClone == null)
+                    {
+                        continue;
+                    }
+
+                    configToClone = configToClone.ShallowClone();
+                    AutomaticInvoicePaymentConfiguration original = existingConfigurations.FirstOrDefault(aipc => aipc.LocationIDPayee == configToClone.LocationIDPayee && aipc.GovernmentIDPayee == configToClone.GovernmentIDPayee);
+                    if (original != null)
+                    {
+                        configToClone.AutomaticInvoicePaymentConfigurationID = original.AutomaticInvoicePaymentConfigurationID;
+                        configToClone.LocationIDConfiguredFor = original.LocationIDConfiguredFor;
+
+                        PutData put = new PutData(DataAccess.APIs.CompanyStudio, "AutomaticInvoicePaymentConfiguration/Put", configToClone);
+                        put.AddLocationHeader(Company.CompanyID, locationID);
+                        await put.ExecuteNoResult();
+                    }
+                    else
+                    {
+                        configToClone.AutomaticInvoicePaymentConfigurationID = null;
+                        configToClone.LocationIDConfiguredFor = locationID;
+
+                        PostData post = new PostData(DataAccess.APIs.CompanyStudio, "AutomaticInvoicePaymentConfiguration/Post", configToClone);
+                        post.AddLocationHeader(Company.CompanyID, locationID);
+                        await post.ExecuteNoResult();
+                    }
+                }
+            }
+        }
+
+        private void lstConfigs_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+            {
+                foreach (ListViewItem item in lstConfigs.Items)
+                {
+                    item.Selected = true;
+                }
+            }
+        }
     }
 }

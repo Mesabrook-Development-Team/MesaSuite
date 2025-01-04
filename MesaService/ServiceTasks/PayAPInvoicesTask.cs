@@ -1,4 +1,5 @@
 ﻿using ClussPro.ObjectBasedFramework.DataSearch;
+using ClussPro.ObjectBasedFramework.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,18 @@ namespace MesaService.ServiceTasks
                 SearchConditionType = SearchCondition.SearchConditionTypes.Greater,
                 Value = 0
             });
+
+            foreach(AutomaticInvoicePaymentConfiguration configuration in configurationSearch.GetEditableReader())
+            {
+                SearchConditionGroup invoiceConditionGroup = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new IntSearchCondition<Invoice>()
+                    {
+                        Field = nameof(Invoice.Status),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = (int)Invoice.Statuses.Sent
+                    });
+
+            }
         }
     }
 }

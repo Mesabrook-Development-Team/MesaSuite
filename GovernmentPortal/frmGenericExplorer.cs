@@ -83,6 +83,17 @@ namespace GovernmentPortal
             cmdDelete.Text = $"Delete {explorerContext.ObjectDisplayName}";
             cmdDelete.Visible = explorerContext.DeleteButtonVisible;
             grpContent.Text = explorerContext.ObjectDisplayName;
+            IEnumerable<ToolStripMenuItem> extraTools = explorerContext.GetExtraToolItems();
+            if (extraTools.Any())
+            {
+                lstItems.Top = toolStrip.Bottom;
+                toolStrip.Visible = true;
+
+                foreach(ToolStripMenuItem item in extraTools) 
+                {
+                    toolStrip.Items.Add(item);
+                }
+            }
             LoadAllItems(true);
         }
         

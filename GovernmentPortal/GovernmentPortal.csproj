@@ -147,6 +147,13 @@
       <DependentUpon>frmSelectGovernment.cs</DependentUpon>
     </Compile>
     <Compile Include="IExplorerControl.cs" />
+    <Compile Include="Invoicing\AutomaticInvoicePaymentConfigurationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Invoicing\AutomaticInvoicePaymentConfigurationControl.Designer.cs">
+      <DependentUpon>AutomaticInvoicePaymentConfigurationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Invoicing\AutomaticPaymentsContext.cs" />
     <Compile Include="Invoicing\frmInvoiceConfiguration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +189,7 @@
     <Compile Include="Law\frmLawEditor.Designer.cs">
       <DependentUpon>frmLawEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\AutomaticInvoicePaymentConfiguration.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DebitCard.cs" />
     <Compile Include="Models\EmailImplementation.cs" />

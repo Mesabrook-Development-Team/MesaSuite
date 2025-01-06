@@ -157,7 +157,7 @@
             this.tsbAddPayees.Image = global::CompanyStudio.Properties.Resources.building_add;
             this.tsbAddPayees.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbAddPayees.Name = "tsbAddPayees";
-            this.tsbAddPayees.Size = new System.Drawing.Size(84, 20);
+            this.tsbAddPayees.Size = new System.Drawing.Size(88, 20);
             this.tsbAddPayees.Text = "Add Payees";
             this.tsbAddPayees.Click += new System.EventHandler(this.tsbAddPayees_Click);
             // 
@@ -166,7 +166,7 @@
             this.tsbDeletePayees.Image = global::CompanyStudio.Properties.Resources.building_delete;
             this.tsbDeletePayees.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbDeletePayees.Name = "tsbDeletePayees";
-            this.tsbDeletePayees.Size = new System.Drawing.Size(96, 20);
+            this.tsbDeletePayees.Size = new System.Drawing.Size(99, 20);
             this.tsbDeletePayees.Text = "Delete Payees";
             this.tsbDeletePayees.Click += new System.EventHandler(this.tsbDeletePayees_Click);
             // 
@@ -180,7 +180,7 @@
             this.tsbResetPaidAmounts.Image = global::CompanyStudio.Properties.Resources.arrow_undo;
             this.tsbResetPaidAmounts.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbResetPaidAmounts.Name = "tsbResetPaidAmounts";
-            this.tsbResetPaidAmounts.Size = new System.Drawing.Size(123, 20);
+            this.tsbResetPaidAmounts.Size = new System.Drawing.Size(133, 20);
             this.tsbResetPaidAmounts.Text = "Reset Paid Amounts";
             this.tsbResetPaidAmounts.Click += new System.EventHandler(this.tsbResetPaidAmounts_Click);
             // 
@@ -190,7 +190,7 @@
             this.tsbUpdateSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbUpdateSelected.Name = "tsbUpdateSelected";
             this.tsbUpdateSelected.Size = new System.Drawing.Size(112, 20);
-            this.tsbUpdateSelected.Text = "Updated Selected";
+            this.tsbUpdateSelected.Text = "Update Selected";
             this.tsbUpdateSelected.Click += new System.EventHandler(this.tsbUpdateSelected_Click);
             // 
             // toolStripSeparator2
@@ -203,7 +203,7 @@
             this.tsbCloneTo.Image = global::CompanyStudio.Properties.Resources.paste_plain;
             this.tsbCloneTo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbCloneTo.Name = "tsbCloneTo";
-            this.tsbCloneTo.Size = new System.Drawing.Size(125, 20);
+            this.tsbCloneTo.Size = new System.Drawing.Size(130, 20);
             this.tsbCloneTo.Text = "Clone Selected To...";
             this.tsbCloneTo.Click += new System.EventHandler(this.tsbCloneTo_Click);
             // 

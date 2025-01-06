@@ -114,7 +114,7 @@ namespace WebModels.invoicing
             {
                 return (alias) =>
                 {
-                    return new Subtraction((Field)$"{alias}.{nameof(RemainingAmount)}", (Field)$"{alias}.{nameof(PaidAmount)}");
+                    return new Subtraction((Field)$"{alias}.{nameof(MaxAmount)}", (Field)$"{alias}.{nameof(PaidAmount)}");
                 };
             }
         }

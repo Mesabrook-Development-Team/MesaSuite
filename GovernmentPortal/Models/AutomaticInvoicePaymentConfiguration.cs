@@ -3,8 +3,8 @@
     public class AutomaticInvoicePaymentConfiguration
     {
         public long? AutomaticInvoicePaymentConfigurationID { get; set; }
-        public long? LocationIDConfiguredFor { get; set; }
-        public Location LocationConfiguredFor { get; set; }
+        public long? GovernmentIDConfiguredFor { get; set; }
+        public Government GovernmentConfiguredFor { get; set; }
         public long? LocationIDPayee { get; set; }
         public Location LocationPayee { get; set; }
         public long? GovernmentIDPayee { get; set; }
@@ -20,6 +20,6 @@
         public long? AccountID { get; set; }
         public Account Account { get; set; }
 
-        public string DisplayName => LocationConfiguredFor?.Name;
+        public string DisplayName => LocationIDPayee != null ? LocationPayee?.Company?.Name + " (" + LocationPayee?.Name + ")" : GovernmentPayee?.Name + " (Government)";
     }
 }

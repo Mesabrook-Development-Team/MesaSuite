@@ -147,13 +147,25 @@
       <DependentUpon>frmSelectGovernment.cs</DependentUpon>
     </Compile>
     <Compile Include="IExplorerControl.cs" />
-    <Compile Include="Invoicing\AutomaticInvoicePaymentConfigurationControl.cs">
+    <Compile Include="Invoicing\AutomaticPaymentControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Invoicing\AutomaticInvoicePaymentConfigurationControl.Designer.cs">
-      <DependentUpon>AutomaticInvoicePaymentConfigurationControl.cs</DependentUpon>
+    <Compile Include="Invoicing\AutomaticPaymentControl.Designer.cs">
+      <DependentUpon>AutomaticPaymentControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Invoicing\AutomaticPaymentsContext.cs" />
+    <Compile Include="Invoicing\frmAutomaticPaymentsCloneToPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoicing\frmAutomaticPaymentsCloneToPicker.Designer.cs">
+      <DependentUpon>frmAutomaticPaymentsCloneToPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Invoicing\frmAutomaticPaymentsSelectPayees.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Invoicing\frmAutomaticPaymentsSelectPayees.Designer.cs">
+      <DependentUpon>frmAutomaticPaymentsSelectPayees.cs</DependentUpon>
+    </Compile>
     <Compile Include="Invoicing\frmInvoiceConfiguration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -366,6 +378,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSelectGovernment.resx">
       <DependentUpon>frmSelectGovernment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\AutomaticPaymentControl.resx">
+      <DependentUpon>AutomaticPaymentControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\frmAutomaticPaymentsCloneToPicker.resx">
+      <DependentUpon>frmAutomaticPaymentsCloneToPicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invoicing\frmAutomaticPaymentsSelectPayees.resx">
+      <DependentUpon>frmAutomaticPaymentsSelectPayees.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Invoicing\frmInvoiceConfiguration.resx">
       <DependentUpon>frmInvoiceConfiguration.cs</DependentUpon>

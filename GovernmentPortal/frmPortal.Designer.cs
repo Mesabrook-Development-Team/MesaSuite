@@ -42,6 +42,7 @@ namespace GovernmentPortal
             this.mnuInvoiceReceivable = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoicePayable = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiAutomaticPayments = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoicesInvoiceConfiguration = new System.Windows.Forms.ToolStripMenuItem();
             this.emailConfigurationToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvoicePayableReceived = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,7 +64,6 @@ namespace GovernmentPortal
             this.tsmiDistributionLists = new System.Windows.Forms.ToolStripMenuItem();
             this.toolLaws = new System.Windows.Forms.ToolStripButton();
             this.loader = new GovernmentPortal.Loader();
-            this.tsmiAutomaticPayments = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -198,6 +198,15 @@ namespace GovernmentPortal
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(186, 6);
+            // 
+            // tsmiAutomaticPayments
+            // 
+            this.tsmiAutomaticPayments.Image = global::GovernmentPortal.Properties.Resources.lightning;
+            this.tsmiAutomaticPayments.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tsmiAutomaticPayments.Name = "tsmiAutomaticPayments";
+            this.tsmiAutomaticPayments.Size = new System.Drawing.Size(189, 22);
+            this.tsmiAutomaticPayments.Text = "Automatic Payments";
+            this.tsmiAutomaticPayments.Click += new System.EventHandler(this.tsmiAutomaticPayments_Click);
             // 
             // mnuInvoicesInvoiceConfiguration
             // 
@@ -400,14 +409,6 @@ namespace GovernmentPortal
             this.loader.Size = new System.Drawing.Size(659, 372);
             this.loader.TabIndex = 3;
             this.loader.Visible = false;
-            // 
-            // tsmiAutomaticPayments
-            // 
-            this.tsmiAutomaticPayments.Image = global::GovernmentPortal.Properties.Resources.lightning;
-            this.tsmiAutomaticPayments.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.tsmiAutomaticPayments.Name = "tsmiAutomaticPayments";
-            this.tsmiAutomaticPayments.Size = new System.Drawing.Size(189, 22);
-            this.tsmiAutomaticPayments.Text = "Automatic Payments";
             // 
             // frmPortal
             // 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GovernmentPortal.Extensions;
+using GovernmentPortal.Invoicing;
 using GovernmentPortal.Models;
 using GovernmentPortal.Officials;
 using MesaSuite.Common.Data;
@@ -444,6 +445,14 @@ namespace GovernmentPortal
             purchaseOrderShell.MdiParent = this;
             purchaseOrderShell.GovernmentID = _government.GovernmentID.Value;
             purchaseOrderShell.Show();
+        }
+
+        private void tsmiAutomaticPayments_Click(object sender, EventArgs e)
+        {
+            new frmGenericExplorer<AutomaticInvoicePaymentConfiguration>(new AutomaticPaymentsContext(_government.GovernmentID.Value))
+            {
+                MdiParent = this
+            }.Show();
         }
     }
 }

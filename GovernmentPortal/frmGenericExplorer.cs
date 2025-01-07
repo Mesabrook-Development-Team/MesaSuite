@@ -86,13 +86,13 @@ namespace GovernmentPortal
             IEnumerable<ToolStripMenuItem> extraTools = explorerContext.GetExtraToolItems();
             if (extraTools.Any())
             {
-                lstItems.Top = toolStrip.Bottom;
-                toolStrip.Visible = true;
-
                 foreach(ToolStripMenuItem item in extraTools) 
                 {
                     toolStrip.Items.Add(item);
                 }
+
+                lstItems.Top = toolStrip.Bottom;
+                toolStrip.Visible = true;
             }
             LoadAllItems(true);
         }

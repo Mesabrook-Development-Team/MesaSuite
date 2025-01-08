@@ -56,6 +56,14 @@
             this.txtTotal = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.dgvLines = new System.Windows.Forms.DataGridView();
+            this.colInvoiceLineID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colItem = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.colDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUnitCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPOLine = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colFulfillment = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.cboAccount = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -65,14 +73,7 @@
             this.toolStripExtender = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
             this.loader = new CompanyStudio.Loader();
             this.cmdAction = new System.Windows.Forms.Button();
-            this.colInvoiceLineID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colItem = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.colDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colUnitCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPOLine = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.colFulfillment = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.chkAutoReceive = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -373,6 +374,61 @@
             this.dgvLines.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLines_CellClick);
             this.dgvLines.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLines_CellValueChanged);
             // 
+            // colInvoiceLineID
+            // 
+            this.colInvoiceLineID.HeaderText = "";
+            this.colInvoiceLineID.Name = "colInvoiceLineID";
+            this.colInvoiceLineID.ReadOnly = true;
+            this.colInvoiceLineID.Visible = false;
+            // 
+            // colItem
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colItem.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colItem.HeaderText = "Item";
+            this.colItem.Name = "colItem";
+            // 
+            // colDescription
+            // 
+            this.colDescription.HeaderText = "Description";
+            this.colDescription.Name = "colDescription";
+            this.colDescription.Width = 200;
+            // 
+            // colQuantity
+            // 
+            this.colQuantity.HeaderText = "Quantity";
+            this.colQuantity.Name = "colQuantity";
+            this.colQuantity.Width = 60;
+            // 
+            // colUnitCost
+            // 
+            this.colUnitCost.HeaderText = "Unit Cost";
+            this.colUnitCost.Name = "colUnitCost";
+            this.colUnitCost.Width = 75;
+            // 
+            // colTotal
+            // 
+            this.colTotal.HeaderText = "Line Total";
+            this.colTotal.Name = "colTotal";
+            this.colTotal.ReadOnly = true;
+            this.colTotal.Width = 80;
+            // 
+            // colPOLine
+            // 
+            this.colPOLine.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colPOLine.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.colPOLine.HeaderText = "PO Line";
+            this.colPOLine.MinimumWidth = 100;
+            this.colPOLine.Name = "colPOLine";
+            // 
+            // colFulfillment
+            // 
+            this.colFulfillment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colFulfillment.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.colFulfillment.HeaderText = "Fulfillment";
+            this.colFulfillment.MinimumWidth = 100;
+            this.colFulfillment.Name = "colFulfillment";
+            // 
             // groupBox4
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -472,60 +528,16 @@
             this.cmdAction.Visible = false;
             this.cmdAction.Click += new System.EventHandler(this.cmdAction_Click);
             // 
-            // colInvoiceLineID
+            // chkAutoReceive
             // 
-            this.colInvoiceLineID.HeaderText = "";
-            this.colInvoiceLineID.Name = "colInvoiceLineID";
-            this.colInvoiceLineID.ReadOnly = true;
-            this.colInvoiceLineID.Visible = false;
-            // 
-            // colItem
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colItem.DefaultCellStyle = dataGridViewCellStyle1;
-            this.colItem.HeaderText = "Item";
-            this.colItem.Name = "colItem";
-            // 
-            // colDescription
-            // 
-            this.colDescription.HeaderText = "Description";
-            this.colDescription.Name = "colDescription";
-            this.colDescription.Width = 200;
-            // 
-            // colQuantity
-            // 
-            this.colQuantity.HeaderText = "Quantity";
-            this.colQuantity.Name = "colQuantity";
-            this.colQuantity.Width = 60;
-            // 
-            // colUnitCost
-            // 
-            this.colUnitCost.HeaderText = "Unit Cost";
-            this.colUnitCost.Name = "colUnitCost";
-            this.colUnitCost.Width = 75;
-            // 
-            // colTotal
-            // 
-            this.colTotal.HeaderText = "Line Total";
-            this.colTotal.Name = "colTotal";
-            this.colTotal.ReadOnly = true;
-            this.colTotal.Width = 80;
-            // 
-            // colPOLine
-            // 
-            this.colPOLine.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colPOLine.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.colPOLine.HeaderText = "PO Line";
-            this.colPOLine.MinimumWidth = 100;
-            this.colPOLine.Name = "colPOLine";
-            // 
-            // colFulfillment
-            // 
-            this.colFulfillment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colFulfillment.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.colFulfillment.HeaderText = "Fulfillment";
-            this.colFulfillment.MinimumWidth = 100;
-            this.colFulfillment.Name = "colFulfillment";
+            this.chkAutoReceive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkAutoReceive.AutoSize = true;
+            this.chkAutoReceive.Location = new System.Drawing.Point(12, 635);
+            this.chkAutoReceive.Name = "chkAutoReceive";
+            this.chkAutoReceive.Size = new System.Drawing.Size(284, 17);
+            this.chkAutoReceive.TabIndex = 4;
+            this.chkAutoReceive.Text = "Automatically Receive when Payor authorizes payment";
+            this.chkAutoReceive.UseVisualStyleBackColor = true;
             // 
             // frmReceivableInvoice
             // 
@@ -534,6 +546,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(548, 662);
+            this.Controls.Add(this.chkAutoReceive);
             this.Controls.Add(this.cmdAction);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdSave);
@@ -558,6 +571,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -605,5 +619,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTotal;
         private System.Windows.Forms.DataGridViewComboBoxColumn colPOLine;
         private System.Windows.Forms.DataGridViewComboBoxColumn colFulfillment;
+        private System.Windows.Forms.CheckBox chkAutoReceive;
     }
 }

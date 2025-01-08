@@ -146,6 +146,8 @@ namespace CompanyStudio.Invoicing
                         cboAccount.SelectedItem = cboAccount.Items.Cast<DropDownItem<Account>>().FirstOrDefault(ddi => ddi.Object.AccountID == invoice.AccountIDTo);
                     }
 
+                    chkAutoReceive.Checked = invoice.AutoReceive;
+
                     decimal invoiceTotal = 0M;
                     if (invoice.InvoiceLines != null)
                     {
@@ -179,6 +181,7 @@ namespace CompanyStudio.Invoicing
                             control.Enabled = false;
                         }
 
+                        chkAutoReceive.Visible = false;
                         cmdAction.Visible = false;
                         cmdSave.Visible = false;
                         cmdCancel.Visible = false;
@@ -414,6 +417,7 @@ namespace CompanyStudio.Invoicing
             invoiceToSave.DueDate = dtpDueDate.Value;
             invoiceToSave.Description = txtDescription.Text;
             invoiceToSave.AccountIDTo = cboAccount.SelectedItem.Cast<DropDownItem<Account>>()?.Object.AccountID;
+            invoiceToSave.AutoReceive = chkAutoReceive.Checked;
 
             bool saveSuccessful = false;
             if (originalInvoice == null)

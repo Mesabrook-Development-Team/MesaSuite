@@ -13,6 +13,7 @@ using ClussPro.ObjectBasedFramework.Utility;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.account;
 using WebModels.company;
+using WebModels.fleet;
 using WebModels.gov;
 using WebModels.invoicing.Attributes;
 using WebModels.mesasys;
@@ -216,6 +217,14 @@ namespace WebModels.invoicing
         {
             get { CheckGet(); return _accountToHistorical; }
             set { CheckSet(); _accountToHistorical = value; }
+        }
+
+        private bool _autoReceive;
+        [Field("F8069244-2AC4-4E90-B77A-7201DBA93DD8")]
+        public bool AutoReceive
+        {
+            get { CheckGet(); return _autoReceive; }
+            set { CheckSet(); _autoReceive = value; }
         }
 
         private decimal? _amount = null;
@@ -432,8 +441,14 @@ namespace WebModels.invoicing
                         }
                     }
 
-                    if (oldStatus == Statuses.Sent && Status == Statuses.ReadyForReceipt)
+                    if ((oldStatus == Statuses.Sent || oldStatus == Statuses.WorkInProgress) && Status == Statuses.ReadyForReceipt)
                     {
+                        if (AutoReceive)
+                        {
+                            ReceiveInvoice(transaction);
+                            return !Errors.Any();
+                        }
+
                         long? emailImpID;
 
                         if (GovernmentIDFrom != null)
@@ -577,7 +592,7 @@ namespace WebModels.invoicing
             Save(transaction);
         }
 
-        public void ReceiveInvoice()
+        public void ReceiveInvoice(ITransaction transaction = null)
         {
             if (AccountIDTo == null || AccountIDFrom == null)
             {
@@ -585,8 +600,12 @@ namespace WebModels.invoicing
                 return;
             }
 
-            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
+            ITransaction localTransaction = null;
+
+            try
             {
+                localTransaction = transaction ?? SQLProviderFactory.GenerateTransaction();
+
                 Search<InvoiceLine> childLineSearch = new Search<InvoiceLine>(new LongSearchCondition<InvoiceLine>()
                 {
                     Field = "InvoiceID",
@@ -594,7 +613,7 @@ namespace WebModels.invoicing
                     Value = InvoiceID
                 });
 
-                decimal invoiceTotal = childLineSearch.GetReadOnlyReader(transaction, new[] { "Total" }).Sum(il => il.Total).Value;
+                decimal invoiceTotal = childLineSearch.GetReadOnlyReader(localTransaction, new[] { "Total" }).Sum(il => il.Total).Value;
 
                 decimal taxRate = 1M;
                 List<Tuple<string, decimal, long>> taxRateByGovernment = new List<Tuple<string, decimal, long>>();
@@ -622,7 +641,7 @@ namespace WebModels.invoicing
                         $"{nameof(LocationGovernment.Government)}.{nameof(Government.Name)}"
                     };
 
-                    foreach(LocationGovernment locationGovernment in locationGovernmentSearch.GetReadOnlyReader(transaction, searchFields))
+                    foreach(LocationGovernment locationGovernment in locationGovernmentSearch.GetReadOnlyReader(localTransaction, searchFields))
                     {
                         if (locationGovernment.Government.EffectiveSalesTax == null || locationGovernment.Government.EffectiveSalesTax.Rate == 0M || locationGovernment.Government.EffectiveSalesTax.AccountID == null)
                         {
@@ -637,120 +656,124 @@ namespace WebModels.invoicing
 
                 decimal invoiceTotalWithTax = invoiceTotal * taxRate;
 
-                Account sourceAccount = DataObject.GetEditableByPrimaryKey<Account>(AccountIDFrom, transaction, null);
+                Account sourceAccount = DataObject.GetEditableByPrimaryKey<Account>(AccountIDFrom, localTransaction, null);
                 if (sourceAccount.Balance < invoiceTotalWithTax)
                 {
                     Errors.AddBaseMessage("The Payor's Account has insufficient funds available");
                     return;
                 }
 
-                try
-                {
-                    FiscalQuarter sourceAccountFQ = FiscalQuarter.FindOrCreate(sourceAccount.AccountID.Value, DateTime.Now, transaction);
-                    FiscalQuarter destinationAccountFQ = FiscalQuarter.FindOrCreate(AccountIDTo.Value, DateTime.Now, transaction);
+                FiscalQuarter sourceAccountFQ = FiscalQuarter.FindOrCreate(sourceAccount.AccountID.Value, DateTime.Now, localTransaction);
+                FiscalQuarter destinationAccountFQ = FiscalQuarter.FindOrCreate(AccountIDTo.Value, DateTime.Now, localTransaction);
 
-                    Transaction cashTransaction = DataObjectFactory.Create<Transaction>();
+                Transaction cashTransaction = DataObjectFactory.Create<Transaction>();
+                cashTransaction.FiscalQuarterID = sourceAccountFQ.FiscalQuarterID;
+                cashTransaction.TransactionTime = DateTime.Now;
+                cashTransaction.Description = string.Format(Transaction.DescriptionFormats.INVOICE_PAYMENT, InvoiceNumber);
+                cashTransaction.Amount = -invoiceTotal;
+                if (!cashTransaction.Save(localTransaction))
+                {
+                    Errors.AddRange(cashTransaction.Errors.ToArray());
+                    return;
+                }
+
+                foreach (Tuple<string, decimal, long> taxRateGovNameGovAccount in taxRateByGovernment)
+                {
+                    decimal taxAmount = invoiceTotal * taxRateGovNameGovAccount.Item2;
+                    Account govAccount = DataObject.GetEditableByPrimaryKey<Account>(taxRateGovNameGovAccount.Item3, localTransaction, null);
+                    FiscalQuarter govAccountFQ = FiscalQuarter.FindOrCreate(taxRateGovNameGovAccount.Item3, DateTime.Now, localTransaction);
+
+                    cashTransaction = DataObjectFactory.Create<Transaction>();
                     cashTransaction.FiscalQuarterID = sourceAccountFQ.FiscalQuarterID;
                     cashTransaction.TransactionTime = DateTime.Now;
-                    cashTransaction.Description = string.Format(Transaction.DescriptionFormats.INVOICE_PAYMENT, InvoiceNumber);
-                    cashTransaction.Amount = -invoiceTotal;
-                    if (!cashTransaction.Save(transaction))
+                    cashTransaction.Description = string.Format(Transaction.DescriptionFormats.TAX_PAYMENT, InvoiceNumber, taxRateGovNameGovAccount.Item1);
+                    cashTransaction.Amount = -taxAmount;
+                    if (!cashTransaction.Save(localTransaction))
                     {
                         Errors.AddRange(cashTransaction.Errors.ToArray());
                         return;
-                    }
-
-                    foreach (Tuple<string, decimal, long> taxRateGovNameGovAccount in taxRateByGovernment)
-                    {
-                        decimal taxAmount = invoiceTotal * taxRateGovNameGovAccount.Item2;
-                        Account govAccount = DataObject.GetEditableByPrimaryKey<Account>(taxRateGovNameGovAccount.Item3, transaction, null);
-                        FiscalQuarter govAccountFQ = FiscalQuarter.FindOrCreate(taxRateGovNameGovAccount.Item3, DateTime.Now, transaction);
-
-                        cashTransaction = DataObjectFactory.Create<Transaction>();
-                        cashTransaction.FiscalQuarterID = sourceAccountFQ.FiscalQuarterID;
-                        cashTransaction.TransactionTime = DateTime.Now;
-                        cashTransaction.Description = string.Format(Transaction.DescriptionFormats.TAX_PAYMENT, InvoiceNumber, taxRateGovNameGovAccount.Item1);
-                        cashTransaction.Amount = -taxAmount;
-                        if (!cashTransaction.Save(transaction))
-                        {
-                            Errors.AddRange(cashTransaction.Errors.ToArray());
-                            return;
-                        }
-
-                        cashTransaction = DataObjectFactory.Create<Transaction>();
-                        cashTransaction.FiscalQuarterID = govAccountFQ.FiscalQuarterID;
-                        cashTransaction.TransactionTime = DateTime.Now;
-                        cashTransaction.Description = string.Format(Transaction.DescriptionFormats.TAX_COLLECTED_INVOICE, InvoiceNumber);
-                        cashTransaction.Amount = taxAmount;
-                        if (!cashTransaction.Save(transaction))
-                        {
-                            Errors.AddRange(cashTransaction.Errors.ToArray());
-                            return;
-                        }
-
-                        govAccount.Balance += taxAmount;
-                        if (!govAccount.Save(transaction))
-                        {
-                            Errors.AddRange(govAccount.Errors.ToArray());
-                            return;
-                        }
-
-                        InvoiceSalesTax invoiceSalesTax = DataObjectFactory.Create<InvoiceSalesTax>();
-                        invoiceSalesTax.InvoiceID = InvoiceID;
-                        invoiceSalesTax.Rate = taxRateGovNameGovAccount.Item2;
-                        invoiceSalesTax.AppliedAmount = taxAmount;
-                        invoiceSalesTax.Municipality = taxRateGovNameGovAccount.Item1;
-                        if (!invoiceSalesTax.Save(transaction))
-                        {
-                            Errors.AddRange(invoiceSalesTax.Errors.ToArray());
-                            return;
-                        }
                     }
 
                     cashTransaction = DataObjectFactory.Create<Transaction>();
-                    cashTransaction.FiscalQuarterID = destinationAccountFQ.FiscalQuarterID;
+                    cashTransaction.FiscalQuarterID = govAccountFQ.FiscalQuarterID;
                     cashTransaction.TransactionTime = DateTime.Now;
-                    cashTransaction.Description = string.Format(Transaction.DescriptionFormats.INVOICE_COLLECTED, InvoiceNumber);
-                    cashTransaction.Amount = invoiceTotal;
-                    if (!cashTransaction.Save(transaction))
+                    cashTransaction.Description = string.Format(Transaction.DescriptionFormats.TAX_COLLECTED_INVOICE, InvoiceNumber);
+                    cashTransaction.Amount = taxAmount;
+                    if (!cashTransaction.Save(localTransaction))
                     {
                         Errors.AddRange(cashTransaction.Errors.ToArray());
                         return;
                     }
 
-                    sourceAccount.Balance -= invoiceTotalWithTax;
-                    if (!sourceAccount.Save(transaction))
+                    govAccount.Balance += taxAmount;
+                    if (!govAccount.Save(localTransaction))
                     {
-                        Errors.AddRange(sourceAccount.Errors.ToArray());
+                        Errors.AddRange(govAccount.Errors.ToArray());
                         return;
                     }
 
-                    Account destinationAccount = DataObject.GetEditableByPrimaryKey<Account>(AccountIDTo, transaction, null);
-                    destinationAccount.Balance += invoiceTotal;
-                    if (!destinationAccount.Save(transaction))
+                    InvoiceSalesTax invoiceSalesTax = DataObjectFactory.Create<InvoiceSalesTax>();
+                    invoiceSalesTax.InvoiceID = InvoiceID;
+                    invoiceSalesTax.Rate = taxRateGovNameGovAccount.Item2;
+                    invoiceSalesTax.AppliedAmount = taxAmount;
+                    invoiceSalesTax.Municipality = taxRateGovNameGovAccount.Item1;
+                    if (!invoiceSalesTax.Save(localTransaction))
                     {
-                        Errors.AddRange(destinationAccount.Errors.ToArray());
+                        Errors.AddRange(invoiceSalesTax.Errors.ToArray());
                         return;
                     }
-
-                    Status = Statuses.Complete;
-                    AccountFromHistorical = $"{sourceAccount.Description} ({sourceAccount.AccountNumber})";
-                    AccountToHistorical = $"{destinationAccount.Description} ({destinationAccount.AccountNumber})";
-                    AccountIDFrom = null;
-                    AccountIDTo = null;
-
-                    Save(transaction, new List<Guid>() { ValidationIDs.V_HistoryStatusChanges });
-                    if (Errors.Any())
-                    {
-                        return;
-                    }
-
-                    transaction.Commit();
                 }
-                catch (Exception ex)
+
+                cashTransaction = DataObjectFactory.Create<Transaction>();
+                cashTransaction.FiscalQuarterID = destinationAccountFQ.FiscalQuarterID;
+                cashTransaction.TransactionTime = DateTime.Now;
+                cashTransaction.Description = string.Format(Transaction.DescriptionFormats.INVOICE_COLLECTED, InvoiceNumber);
+                cashTransaction.Amount = invoiceTotal;
+                if (!cashTransaction.Save(localTransaction))
                 {
-                    Errors.AddBaseMessage(ex.Message);
-                    transaction.Rollback();
+                    Errors.AddRange(cashTransaction.Errors.ToArray());
+                    return;
+                }
+
+                sourceAccount.Balance -= invoiceTotalWithTax;
+                if (!sourceAccount.Save(localTransaction))
+                {
+                    Errors.AddRange(sourceAccount.Errors.ToArray());
+                    return;
+                }
+
+                Account destinationAccount = DataObject.GetEditableByPrimaryKey<Account>(AccountIDTo, localTransaction, null);
+                destinationAccount.Balance += invoiceTotal;
+                if (!destinationAccount.Save(localTransaction))
+                {
+                    Errors.AddRange(destinationAccount.Errors.ToArray());
+                    return;
+                }
+
+                Status = Statuses.Complete;
+                AccountFromHistorical = $"{sourceAccount.Description} ({sourceAccount.AccountNumber})";
+                AccountToHistorical = $"{destinationAccount.Description} ({destinationAccount.AccountNumber})";
+                AccountIDFrom = null;
+                AccountIDTo = null;
+
+                Save(localTransaction, new List<Guid>() { ValidationIDs.V_HistoryStatusChanges });
+                if (Errors.Any())
+                {
+                    return;
+                }
+
+                if (transaction == null)
+                {
+                    localTransaction.Commit();
+                }
+            }
+            catch (Exception ex)
+            {
+                Errors.AddBaseMessage(ex.Message);
+
+                if (transaction == null && localTransaction != null && localTransaction.IsActive)
+                {
+                    localTransaction.Rollback();
                 }
             }
         }

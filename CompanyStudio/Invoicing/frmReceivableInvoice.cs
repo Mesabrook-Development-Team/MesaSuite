@@ -85,13 +85,13 @@ namespace CompanyStudio.Invoicing
 
                 cboCompany.Items.Clear();
                 cboLocation.Items.Clear();
-                foreach (Company company in companyList)
+                foreach (Company company in companyList.OrderBy(c => c.Name))
                 {
                     cboCompany.Items.Add(new DropDownItem<Company>(company, company.Name));
                 }
 
                 cboGovernment.Items.Clear();
-                foreach (Government government in governments)
+                foreach (Government government in governments.OrderBy(g => g.Name))
                 {
                     cboGovernment.Items.Add(new DropDownItem<Government>(government, government.Name));
                 }
@@ -255,7 +255,7 @@ namespace CompanyStudio.Invoicing
                 return;
             }
 
-            foreach(Location location in selectedItem.Object.Locations)
+            foreach(Location location in selectedItem.Object.Locations.OrderBy(l => l.Name))
             {
                 cboLocation.Items.Add(new DropDownItem<Location>(location, location.Name));
             }

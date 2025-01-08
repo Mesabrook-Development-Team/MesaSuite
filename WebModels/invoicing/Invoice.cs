@@ -9,6 +9,7 @@ using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
 using ClussPro.ObjectBasedFramework.Validation.Attributes;
 using WebModels.account;
 using WebModels.company;
@@ -407,6 +408,11 @@ namespace WebModels.invoicing
                     Statuses oldStatus = (Statuses)GetDirtyValue(nameof(Status));
                     if (oldStatus == Statuses.WorkInProgress && Status == Statuses.Sent)
                     {
+                        if (TryAutoPay(transaction))
+                        {
+                            return true; // Skip sending emails since it's happening immediately
+                        }
+
                         long? emailImpID;
 
                         if (GovernmentIDTo != null)
@@ -449,6 +455,115 @@ namespace WebModels.invoicing
                 }
             }
             return base.PostSave(transaction);
+        }
+
+        private bool TryAutoPay(ITransaction transaction)
+        {
+            SearchConditionGroup autoPayConfigCondition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new IntSearchCondition<AutomaticInvoicePaymentConfiguration>()
+                {
+                    Field = nameof(AutomaticInvoicePaymentConfiguration.Schedule),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = (int)AutomaticInvoicePaymentConfiguration.Schedules.Immediately
+                },
+                new LongSearchCondition<AutomaticInvoicePaymentConfiguration>()
+                {
+                    Field = nameof(AutomaticInvoicePaymentConfiguration.AccountID),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
+                },
+                new DecimalSearchCondition<AutomaticInvoicePaymentConfiguration>()
+                {
+                    Field = nameof(AutomaticInvoicePaymentConfiguration.RemainingAmount),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Greater,
+                    Value = 0
+                });
+
+            if (GovernmentIDFrom != null)
+            {
+                autoPayConfigCondition.SearchConditions.Add(new LongSearchCondition<AutomaticInvoicePaymentConfiguration>()
+                {
+                    Field = nameof(AutomaticInvoicePaymentConfiguration.GovernmentIDPayee),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = GovernmentIDFrom
+                });
+            }
+
+            if (LocationIDFrom != null)
+            {
+                autoPayConfigCondition.SearchConditions.Add(new LongSearchCondition<AutomaticInvoicePaymentConfiguration>()
+                {
+                    Field = nameof(AutomaticInvoicePaymentConfiguration.LocationIDPayee),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = LocationIDFrom
+                });
+            }
+
+            if (GovernmentIDTo != null)
+            {
+                autoPayConfigCondition.SearchConditions.Add(new LongSearchCondition<AutomaticInvoicePaymentConfiguration>()
+                {
+                    Field = nameof(AutomaticInvoicePaymentConfiguration.GovernmentIDConfiguredFor),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = GovernmentIDTo
+                });
+            }
+
+            if (LocationIDTo != null)
+            {
+                autoPayConfigCondition.SearchConditions.Add(new LongSearchCondition<AutomaticInvoicePaymentConfiguration>()
+                {
+                    Field = nameof(AutomaticInvoicePaymentConfiguration.LocationIDConfiguredFor),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = LocationIDTo
+                });
+            }
+
+            List<string> fields = FieldPathUtility.CreateFieldPathsAsList<AutomaticInvoicePaymentConfiguration>(aipc => new object[]
+            {
+                aipc.RemainingAmount,
+                aipc.Account.Balance
+            });
+
+            Search<AutomaticInvoicePaymentConfiguration> autoPayConfigSearch = new Search<AutomaticInvoicePaymentConfiguration>(autoPayConfigCondition);
+            AutomaticInvoicePaymentConfiguration configuration = autoPayConfigSearch.GetEditable(transaction, fields);
+
+            if (configuration != null)
+            {
+                // We know there is a valid configuration - check to see how much this Invoice costs
+                Search<InvoiceLine> invoiceLineSearch = new Search<InvoiceLine>(new LongSearchCondition<InvoiceLine> 
+                {
+                    Field = nameof(InvoiceLine.InvoiceID), 
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals, 
+                    Value = InvoiceID
+                });
+
+                decimal invoiceTotal = invoiceLineSearch.GetReadOnlyReader(transaction, new[] { nameof(InvoiceLine.Total) }).Sum(il => il.Total ?? 0M);
+                if (configuration.Account.Balance > invoiceTotal &&
+                    configuration.RemainingAmount > invoiceTotal)
+                {
+                    long? originalAccountIDFrom = AccountIDFrom;
+                    AccountIDFrom = configuration.AccountID;
+                    Status = Statuses.ReadyForReceipt;
+
+                    configuration.PaidAmount += invoiceTotal;
+                    if (!configuration.Save(transaction))
+                    {
+                        Errors.AddRange(configuration.Errors.ToArray());
+                        return false;
+                    }
+
+                    if (!Save(transaction))
+                    {
+                        Status = Statuses.Sent;
+                        AccountIDFrom = originalAccountIDFrom;
+                        return false;
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void IssueInvoice(ITransaction transaction = null)

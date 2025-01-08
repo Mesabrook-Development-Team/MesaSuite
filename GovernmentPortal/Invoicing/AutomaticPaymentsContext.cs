@@ -62,7 +62,7 @@ namespace GovernmentPortal.Invoicing
                 return;
             }
 
-
+            _lastCreatedControl.CloneThisConfiguration();
         }
     }
 }

@@ -38,7 +38,12 @@ namespace MesaService.ServiceTasks
                     SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
                 }));
 
-            foreach (AutomaticInvoicePaymentConfiguration configuration in configurationSearch.GetEditableReader())
+            List<string> fields = FieldPathUtility.CreateFieldPathsAsList<AutomaticInvoicePaymentConfiguration>(aipc => new object[]
+            {
+                aipc.Account.Balance
+            });
+
+            foreach (AutomaticInvoicePaymentConfiguration configuration in configurationSearch.GetEditableReader(readOnlyFields: fields))
             {
                 SearchConditionGroup invoiceConditionGroup = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                     new IntSearchCondition<Invoice>()
@@ -99,9 +104,11 @@ namespace MesaService.ServiceTasks
                 }
 
                 Search<Invoice> payableInvoiceSearch = new Search<Invoice>(invoiceConditionGroup);
+                decimal runningPaidTotal = 0;
                 foreach (Invoice invoiceToPay in payableInvoiceSearch.GetEditableReader(readOnlyFields: new[] { nameof(Invoice.Amount) }))
                 {
-                    if (invoiceToPay.Amount > (configuration.MaxAmount - configuration.PaidAmount))
+                    if (invoiceToPay.Amount > (configuration.MaxAmount - configuration.PaidAmount) || 
+                        invoiceToPay.Amount > (configuration.Account.Balance - runningPaidTotal))
                     {
                         continue;
                     }

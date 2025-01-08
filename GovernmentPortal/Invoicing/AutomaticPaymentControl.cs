@@ -74,10 +74,19 @@ namespace GovernmentPortal.Invoicing
                 return;
             }
 
+            if (await InternalSave())
+            {
+                Dispose();
+                _explorer.LoadAllItems(true, AutomaticPaymentsContext.GetDisplayName(Model));
+            }
+        }
+
+        private async Task<bool> InternalSave()
+        {
             if (string.IsNullOrEmpty(txtMaxAmount.Text) || !decimal.TryParse(txtMaxAmount.Text, out decimal maxAmount))
             {
                 this.ShowError("Max Amount is a required field");
-                return;
+                return false;
             }
 
             PatchData patch = new PatchData(DataAccess.APIs.GovernmentPortal, "AutomaticInvoicePaymentConfiguration/Patch", PatchData.PatchMethods.Replace, Model.AutomaticInvoicePaymentConfigurationID, new Dictionary<string, object>()
@@ -93,9 +102,9 @@ namespace GovernmentPortal.Invoicing
             {
                 IsDirty = false;
                 Model.MaxAmount = maxAmount;
-                Dispose();
-                _explorer.LoadAllItems(true, AutomaticPaymentsContext.GetDisplayName(Model));
             }
+
+            return patch.RequestSuccessful;
         }
 
         private async void AutomaticPaymentControl_Load(object sender, EventArgs e)
@@ -219,6 +228,7 @@ namespace GovernmentPortal.Invoicing
             if (patch.RequestSuccessful)
             {
                 IsDirty = false;
+                Dispose();
                 _explorer.LoadAllItems(true, AutomaticPaymentsContext.GetDisplayName(Model));
             }
         }
@@ -226,6 +236,41 @@ namespace GovernmentPortal.Invoicing
         private void ControlChanged(object sender, EventArgs e)
         {
             IsDirty = true;
+        }
+
+        public async void CloneThisConfiguration()
+        {
+            if (IsDirty)
+            {
+                this.ShowError("Changes must be saved before cloning this configuration.");
+                return;
+            }
+
+            frmAutomaticPaymentsCloneToPicker selectPayees = new frmAutomaticPaymentsCloneToPicker()
+            {
+                GovernmentID = GovernmentID,
+                CurrentAutomaticInvoicePaymentConfigurationID = Model.AutomaticInvoicePaymentConfigurationID.Value
+            };
+
+            if (selectPayees.ShowDialog() != DialogResult.OK || !selectPayees.SelectedAutomaticInvoicePaymentConfigurations.Any())
+            {
+                return;
+            }
+
+            PutData put = new PutData(DataAccess.APIs.GovernmentPortal, "AutomaticInvoicePaymentConfiguration/Put", null);
+            put.AddGovHeader(GovernmentID);
+            foreach(AutomaticInvoicePaymentConfiguration cloneToConfiguration in selectPayees.SelectedAutomaticInvoicePaymentConfigurations)
+            {
+                AutomaticInvoicePaymentConfiguration configToPut = Model.ShallowClone();
+                configToPut.AutomaticInvoicePaymentConfigurationID = cloneToConfiguration.AutomaticInvoicePaymentConfigurationID;
+                configToPut.LocationIDPayee = cloneToConfiguration.LocationIDPayee;
+                configToPut.GovernmentIDPayee = cloneToConfiguration.GovernmentIDPayee;
+                put.ObjectToPut = configToPut;
+                await put.ExecuteNoResult();
+            }
+
+            Dispose();
+            _explorer.LoadAllItems(true, AutomaticPaymentsContext.GetDisplayName(Model));
         }
     }
 }

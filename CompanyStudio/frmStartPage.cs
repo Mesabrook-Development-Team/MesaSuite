@@ -191,25 +191,9 @@ namespace CompanyStudio
 
                 lblAllCaughtUp.Visible = false;
                 // Insert into All Businesses tab
-                ReaLTaiizor.Controls.HopeNotify.AlertType type = default;
-                switch (item.Type)
-                {
-                    case ToDoItem.Types.PayablePastDueInvoice:
-                    case ToDoItem.Types.ReceivablePastDueInvoice:
-                        type = ReaLTaiizor.Controls.HopeNotify.AlertType.Error;
-                        break;
-                    case ToDoItem.Types.PayableInvoiceWaiting:
-                    case ToDoItem.Types.ReceivableInvoiceWaiting:
-                    case ToDoItem.Types.RegisterOffline:
-                    case ToDoItem.Types.PurchaseOrderWaitingApproval:
-                    case ToDoItem.Types.QuotationRequestWaiting:
-                        type = ReaLTaiizor.Controls.HopeNotify.AlertType.Warning;
-                        break;
-                    case ToDoItem.Types.RailcarAwaitingAction:
-                    case ToDoItem.Types.OpenPurchaseOrders:
-                        type = ReaLTaiizor.Controls.HopeNotify.AlertType.Info;
-                        break;
-                }
+                ReaLTaiizor.Controls.HopeNotify.AlertType type = item.Severity == ToDoItem.Severities.Urgent ? HopeNotify.AlertType.Error :
+                                                                 item.Severity == ToDoItem.Severities.Important ? HopeNotify.AlertType.Warning :
+                                                                 HopeNotify.AlertType.Info;
 
                 ReaLTaiizor.Controls.HopeNotify mainTabControl = new ReaLTaiizor.Controls.HopeNotify()
                 {
@@ -383,6 +367,14 @@ namespace CompanyStudio
                 OpenPurchaseOrders
             }
 
+            public enum Severities
+            {
+                Informational = 0,
+                Important,
+                Urgent
+            }
+
+            public Severities Severity { get; set; }
             public Types Type { get; set; }
             public string Message { get; set; }
             public long? CompanyID { get; set; }
@@ -393,24 +385,9 @@ namespace CompanyStudio
 
             public class ToDoItemComparer : Comparer<ToDoItem>
             {
-                private static readonly Dictionary<Types, int> _typePriorities = new Dictionary<Types, int>()
-                {
-                    { Types.PayablePastDueInvoice, 0 },
-                    { Types.ReceivablePastDueInvoice, 0 },
-                    { Types.PayableInvoiceWaiting, 1 },
-                    { Types.ReceivableInvoiceWaiting, 1 },
-                    { Types.RegisterOffline, 1 },
-                    { Types.PurchaseOrderWaitingApproval, 1 },
-                    { Types.QuotationRequestWaiting, 1 },
-                    { Types.RailcarAwaitingAction, 2 },
-                    { Types.OpenPurchaseOrders, 2 }
-                };
-
                 public override int Compare(ToDoItem x, ToDoItem y)
                 {
-                    int typePriorityX = _typePriorities[x.Type];
-                    int typePriorityY = _typePriorities[y.Type];
-                    int result = typePriorityX.CompareTo(typePriorityY);
+                    int result = ((int)x.Severity).CompareTo((int)y.Severity);
                     if (result == 0)
                     {
                         result = x.CompanyName.CompareTo(y.CompanyName);

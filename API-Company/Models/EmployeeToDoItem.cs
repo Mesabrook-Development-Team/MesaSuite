@@ -31,6 +31,14 @@ namespace API_Company.Models
             OpenPurchaseOrders
         }
 
+        public enum Severities
+        {
+            Informational,
+            Important,
+            Urgent
+        }
+
+        public Severities Severity { get; set; }
         public Types Type { get; set; }
         public string Message { get; set; }
         public long? CompanyID { get; set; }
@@ -127,7 +135,8 @@ namespace API_Company.Models
 
                 foreach(Invoice invoice in invoiceSearch.GetReadOnlyReader(null, invoiceFields))
                 {
-                    switch(invoice.Status)
+                    bool withinDueDate = invoice.DueDate > DateTime.Now;
+                    switch (invoice.Status)
                     {
                         case Invoice.Statuses.Sent:
                             if (invoice.LocationTo.LocationEmployees.Any(le => le.ManageInvoices && le.Employee.UserID == userID))
@@ -139,14 +148,15 @@ namespace API_Company.Models
                                     CompanyID = invoice.LocationTo.CompanyID,
                                     CompanyName = invoice.LocationTo.Company.Name,
                                     SourceID = invoice.InvoiceID,
-                                    Message = invoice.DueDate > DateTime.Now ?
+                                    Message = withinDueDate ?
                                                 $"Payable Invoice {invoice.InvoiceNumber} awaits payment" :
                                                 $"Payable Invoice {invoice.InvoiceNumber} is overdue",
-                                    Type = invoice.DueDate > DateTime.Now ? Types.PayableInvoiceWaiting : Types.PayablePastDueInvoice,
-                                    MesaSuiteURI = $"mesasuite://company/apinvoice/{invoice.InvoiceID}?companyid={invoice.LocationTo.CompanyID}&locationid={invoice.LocationIDTo}"
+                                    Type = withinDueDate ? Types.PayableInvoiceWaiting : Types.PayablePastDueInvoice,
+                                    MesaSuiteURI = $"mesasuite://company/apinvoice/{invoice.InvoiceID}?companyid={invoice.LocationTo.CompanyID}&locationid={invoice.LocationIDTo}",
+                                    Severity = withinDueDate ? Severities.Important : Severities.Urgent
                                 });
                             }
-                            else if (invoice.LocationFrom.LocationEmployees.Any(le => le.ManageInvoices && le.Employee.UserID == userID) && invoice.DueDate < DateTime.Now)
+                            else if (invoice.LocationFrom.LocationEmployees.Any(le => le.ManageInvoices && le.Employee.UserID == userID) && !withinDueDate)
                             {
                                 toDoItems.Add(new EmployeeToDoItem()
                                 {
@@ -157,7 +167,8 @@ namespace API_Company.Models
                                     SourceID = invoice.InvoiceID,
                                     Message = $"Receivable Invoice {invoice.InvoiceNumber} is overdue",
                                     Type = Types.ReceivablePastDueInvoice,
-                                    MesaSuiteURI = $"mesasuite://company/arinvoice/{invoice.InvoiceID}?companyid={invoice.LocationFrom.CompanyID}&locationid={invoice.LocationIDFrom}"
+                                    MesaSuiteURI = $"mesasuite://company/arinvoice/{invoice.InvoiceID}?companyid={invoice.LocationFrom.CompanyID}&locationid={invoice.LocationIDFrom}",
+                                    Severity = Severities.Urgent
                                 });
                             }
                             break;
@@ -171,11 +182,12 @@ namespace API_Company.Models
                                     CompanyID = invoice.LocationFrom.CompanyID,
                                     CompanyName = invoice.LocationFrom.Company.Name,
                                     SourceID = invoice.InvoiceID,
-                                    Message = invoice.DueDate > DateTime.Now ?
+                                    Message = withinDueDate ?
                                                 $"Receivable Invoice {invoice.InvoiceNumber} is waiting to be received" :
                                                 $"Receivable Invoice {invoice.InvoiceNumber} is overdue and is waiting to be received",
-                                    Type = invoice.DueDate > DateTime.Now ? Types.ReceivableInvoiceWaiting : Types.ReceivablePastDueInvoice,
-                                    MesaSuiteURI = $"mesasuite://company/arinvoice/{invoice.InvoiceID}?companyid={invoice.LocationFrom.CompanyID}&locationid={invoice.LocationIDFrom}"
+                                    Type = withinDueDate ? Types.ReceivableInvoiceWaiting : Types.ReceivablePastDueInvoice,
+                                    MesaSuiteURI = $"mesasuite://company/arinvoice/{invoice.InvoiceID}?companyid={invoice.LocationFrom.CompanyID}&locationid={invoice.LocationIDFrom}",
+                                    Severity = withinDueDate ? Severities.Important : Severities.Urgent
                                 });
                             }
                             break;
@@ -261,7 +273,8 @@ namespace API_Company.Models
                         SourceID = approval.PurchaseOrderID,
                         Type = Types.PurchaseOrderWaitingApproval,
                         Message = $"Purchase Order {approval.PurchaseOrderID} is waiting for your approval",
-                        MesaSuiteURI = $"mesasuite://company/poapproval/{approval.PurchaseOrderID}/{approval.PurchaseOrderApprovalID}?companyid={approval.CompanyIDApprover}&locationid={locationForApproval.LocationID}"
+                        MesaSuiteURI = $"mesasuite://company/poapproval/{approval.PurchaseOrderID}/{approval.PurchaseOrderApprovalID}?companyid={approval.CompanyIDApprover}&locationid={locationForApproval.LocationID}",
+                        Severity = Severities.Important
                     });
                 }
 
@@ -301,7 +314,8 @@ namespace API_Company.Models
                         LocationName = location.Name,
                         Type = Types.OpenPurchaseOrders,
                         Message = $"You have {countByLocationID.Value} open Purchase Order(s)",
-                        MesaSuiteURI = $"mesasuite://company/purchaseorders?companyid={employee.CompanyID}&locationid={countByLocationID.Key}"
+                        MesaSuiteURI = $"mesasuite://company/purchaseorders?companyid={employee.CompanyID}&locationid={countByLocationID.Key}",
+                        Severity = Severities.Informational
                     });
                 }
 
@@ -340,7 +354,8 @@ namespace API_Company.Models
                         SourceID = quotationRequest.QuotationRequestID,
                         Type = Types.QuotationRequestWaiting,
                         Message = $"Quotation Request from {quotationRequest.CompanyFrom?.Name}{quotationRequest.GovernmentFrom.Name} for {quotationRequest.QuotationRequestItems?.Count ?? 0} item(s) is awaiting response",
-                        MesaSuiteURI = $"mesasuite://company/quotationrequest/{quotationRequest.QuotationRequestID}?companyid={quotationRequest.CompanyIDTo}&locationid={locationForQuotationRequest.LocationID}"
+                        MesaSuiteURI = $"mesasuite://company/quotationrequest/{quotationRequest.QuotationRequestID}?companyid={quotationRequest.CompanyIDTo}&locationid={locationForQuotationRequest.LocationID}",
+                        Severity = Severities.Important
                     });
                 }
 
@@ -473,7 +488,8 @@ namespace API_Company.Models
                         LocationName = location.Name,
                         Type = Types.RailcarAwaitingAction,
                         Message = $"You have {countByLocationID.Value} railcar(s) on your property awaiting action",
-                        MesaSuiteURI = $"mesasuite://company/shippingreceiving?companyid={employee.CompanyID}&locationid={countByLocationID.Key}"
+                        MesaSuiteURI = $"mesasuite://company/shippingreceiving?companyid={employee.CompanyID}&locationid={countByLocationID.Key}",
+                        Severity = Severities.Informational
                     });
                 }
             }
@@ -528,7 +544,8 @@ namespace API_Company.Models
                         SourceID = register.RegisterID,
                         Type = Types.RegisterOffline,
                         Message = $"Register {register.Name} is reporting offline",
-                        MesaSuiteURI = $"mesasuite://company/register/{register.RegisterID}?companyid={register.Location.CompanyID}&locationid={register.LocationID}"
+                        MesaSuiteURI = $"mesasuite://company/register/{register.RegisterID}?companyid={register.Location.CompanyID}&locationid={register.LocationID}",
+                        Severity = Severities.Important
                     });
                 }
             }

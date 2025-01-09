@@ -156,6 +156,8 @@ namespace GovernmentPortal.Invoicing
                 invoiceToSave.AccountIDTo = cboReceivingAccount.SelectedItem.Cast<DropDownItem<Account>>()?.Object.AccountID;
             }
 
+            invoiceToSave.AutoReceive = chkAutoReceive.Checked;
+
             long invoiceID;
             if (Model == null)
             {
@@ -248,11 +250,11 @@ namespace GovernmentPortal.Invoicing
                 GetData get = new GetData(DataAccess.APIs.GovernmentPortal, $"Government/Get/{_governmentID}");
                 get.AddGovHeader(_governmentID);
                 get.RequestFields = new List<string>()
-            {
-                nameof(Government.Name),
-                nameof(Government.InvoiceNumberPrefix),
-                nameof(Government.NextInvoiceNumber)
-            };
+                {
+                    nameof(Government.Name),
+                    nameof(Government.InvoiceNumberPrefix),
+                    nameof(Government.NextInvoiceNumber)
+                };
                 Government currentGovernment = await get.GetObject<Government>() ?? new Government();
                 get.RequestFields.Clear();
 
@@ -261,14 +263,14 @@ namespace GovernmentPortal.Invoicing
                 get.Resource = "Company/GetAll";
                 List<Company> companies = await get.GetObject<List<Company>>() ?? new List<Company>();
 
-                foreach (Company company in companies)
+                foreach (Company company in companies.OrderBy(c => c.Name))
                 {
                     cboCompany.Items.Add(new DropDownItem<Company>(company, company.Name));
                 }
 
                 get.Resource = "Government/GetAll";
                 List<Government> governments = await get.GetObject<List<Government>>() ?? new List<Government>();
-                foreach (Government government in governments)
+                foreach (Government government in governments.OrderBy(g => g.Name))
                 {
                     cboGovernment.Items.Add(new DropDownItem<Government>(government, government.Name));
                 }
@@ -288,6 +290,7 @@ namespace GovernmentPortal.Invoicing
                 }
 
                 lblStatus.Text = Model?.Status.ToString().ToDisplayName() ?? Invoice.Statuses.WorkInProgress.ToString().ToDisplayName();
+                chkAutoReceive.Checked = Model?.AutoReceive ?? false;
 
                 if (Model != null)
                 {
@@ -381,8 +384,9 @@ namespace GovernmentPortal.Invoicing
                     cmdActionButton.Visible = true;
                     cmdActionButton.Text = "Receive Invoice";
                 }
-                else
+                else if (Model != null && Model.Status == Invoice.Statuses.Complete)
                 {
+                    chkAutoReceive.Visible = false;
                     cmdActionButton.Visible = false;
                 }
 
@@ -418,7 +422,7 @@ namespace GovernmentPortal.Invoicing
                 return;
             }
 
-            foreach(Location location in selectedItem.Object.Locations)
+            foreach(Location location in selectedItem.Object.Locations.OrderBy(l => l.Name))
             {
                 cboLocation.Items.Add(new DropDownItem<Location>(location, location.Name));
             }
@@ -519,6 +523,11 @@ namespace GovernmentPortal.Invoicing
             Controls.Add(selector);
             selector.BringToFront();
             selector.Focus();
+        }
+
+        private void lblStatus_SizeChanged(object sender, EventArgs e)
+        {
+            chkAutoReceive.Left = lblStatus.Right + 3;
         }
     }
 }

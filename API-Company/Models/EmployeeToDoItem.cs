@@ -28,7 +28,8 @@ namespace API_Company.Models
             QuotationRequestWaiting,
             RailcarAwaitingAction,
             RegisterOffline,
-            OpenPurchaseOrders
+            OpenPurchaseOrders,
+            AutomaticPaymentsAlmostComplete
         }
 
         public enum Severities
@@ -191,6 +192,75 @@ namespace API_Company.Models
                                 });
                             }
                             break;
+                    }
+                }
+
+                Search<AutomaticInvoicePaymentConfiguration> automaticInvoicePaymentConfigurationSearch = new Search<AutomaticInvoicePaymentConfiguration>(new ExistsSearchCondition<AutomaticInvoicePaymentConfiguration>()
+                {
+                    RelationshipName = FieldPathUtility.CreateFieldPath<AutomaticInvoicePaymentConfiguration>(aipc => aipc.LocationConfiguredFor.LocationEmployees),
+                    ExistsType = ExistsSearchCondition<AutomaticInvoicePaymentConfiguration>.ExistsTypes.Exists,
+                    Condition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                        new LongSearchCondition<LocationEmployee>()
+                        {
+                            Field = FieldPathUtility.CreateFieldPath<LocationEmployee>(le => le.Employee.UserID),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = userID
+                        },
+                        new BooleanSearchCondition<LocationEmployee>()
+                        {
+                            Field = nameof(LocationEmployee.ManageInvoices),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = true
+                        })
+                });
+
+                List<string> configurationFields = FieldPathUtility.CreateFieldPathsAsList<AutomaticInvoicePaymentConfiguration>(aipc => new object[]
+                {
+                    aipc.AutomaticInvoicePaymentConfigurationID,
+                    aipc.LocationIDConfiguredFor,
+                    aipc.LocationConfiguredFor.CompanyID,
+                    aipc.LocationConfiguredFor.Company.Name,
+                    aipc.LocationConfiguredFor.Name,
+                    aipc.PaidAmount,
+                    aipc.MaxAmount,
+                    aipc.GovernmentIDPayee,
+                    aipc.GovernmentPayee.Name,
+                    aipc.LocationIDPayee,
+                    aipc.LocationPayee.Name,
+                    aipc.LocationPayee.Company.Name
+                });
+
+                foreach(AutomaticInvoicePaymentConfiguration configuration in automaticInvoicePaymentConfigurationSearch.GetReadOnlyReader(null, configurationFields))
+                {
+                    if (configuration.MaxAmount == 0)
+                    {
+                        continue;
+                    }
+
+                    if (configuration.PaidAmount / configuration.MaxAmount >= 0.9M)
+                    {
+                        string payee = "";
+                        if (configuration.GovernmentIDPayee != null)
+                        {
+                            payee = configuration.GovernmentPayee.Name + " (Government)";
+                        }
+                        else
+                        {
+                            payee = configuration.LocationPayee?.Company?.Name + " (" + configuration.LocationPayee?.Name + ")";
+                        }
+
+                        toDoItems.Add(new EmployeeToDoItem()
+                        {
+                            CompanyID = configuration.LocationConfiguredFor.CompanyID,
+                            CompanyName = configuration.LocationConfiguredFor.Company.Name,
+                            LocationID = configuration.LocationIDConfiguredFor,
+                            LocationName = configuration.LocationConfiguredFor.Name,
+                            SourceID = configuration.AutomaticInvoicePaymentConfigurationID,
+                            Message = $"Automatic Invoice Payments for {payee} is near or at the maximum amount (MBD${configuration.PaidAmount.Value.ToString("N2")}/MBD${configuration.MaxAmount.Value.ToString("N2")})",
+                            MesaSuiteURI = "mesasuite://company/automaticinvoicepaymentconfiguration/" + configuration.AutomaticInvoicePaymentConfigurationID + "?companyid=" + configuration.LocationConfiguredFor.CompanyID + "&locationid=" + configuration.LocationIDConfiguredFor,
+                            Type = Types.AutomaticPaymentsAlmostComplete,
+                            Severity = Severities.Important
+                        });
                     }
                 }
             }

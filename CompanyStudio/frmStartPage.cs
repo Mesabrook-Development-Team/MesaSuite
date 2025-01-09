@@ -349,6 +349,15 @@ namespace CompanyStudio
                     purchaseOrderExplorer.FormClosed += async (_, __) => await RefreshData();
                     purchaseOrderExplorer.Show(Studio.dockPanel, DockState.DockRight);
                     break;
+                case ToDoItem.Types.AutomaticPaymentsAlmostComplete:
+                    Invoicing.frmAutomaticPaymentConfiguration automaticPaymentConfiguration = new Invoicing.frmAutomaticPaymentConfiguration();
+                    Studio.DecorateStudioContent(automaticPaymentConfiguration);
+                    automaticPaymentConfiguration.Company = company;
+                    automaticPaymentConfiguration.LocationModel = location;
+                    automaticPaymentConfiguration.InitialConfigurationID = toDoItem.SourceID;
+                    automaticPaymentConfiguration.FormClosed += async (_, __) => await RefreshData();
+                    automaticPaymentConfiguration.Show(Studio.dockPanel, DockState.Document);
+                    break;
             }
         }
 
@@ -364,7 +373,8 @@ namespace CompanyStudio
                 QuotationRequestWaiting,
                 RailcarAwaitingAction,
                 RegisterOffline,
-                OpenPurchaseOrders
+                OpenPurchaseOrders,
+                AutomaticPaymentsAlmostComplete
             }
 
             public enum Severities

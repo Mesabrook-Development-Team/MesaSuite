@@ -635,7 +635,7 @@ namespace CompanyStudio.Invoicing
 
                 foreach (PurchaseOrder po in purchaseOrders)
                 {
-                    cboPurchaseOrder.Items.Add(new DropDownItem<PurchaseOrder>(po, $"{po.PurchaseOrderID} (From {po.LocationOrigin?.Company.Name}{po.GovernmentOrigin?.Name}"));
+                    cboPurchaseOrder.Items.Add(new DropDownItem<PurchaseOrder>(po, $"{po.PurchaseOrderID} (From {po.LocationOrigin?.Company.Name}{po.GovernmentOrigin?.Name})"));
                 }
             }
 

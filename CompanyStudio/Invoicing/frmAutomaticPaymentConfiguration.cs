@@ -1,5 +1,6 @@
 ﻿using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -16,6 +17,7 @@ using System.Windows.Forms;
 
 namespace CompanyStudio.Invoicing
 {
+    [UriReachable("automaticinvoicepaymentconfiguration/{InitialConfigurationID}")]
     public partial class frmAutomaticPaymentConfiguration : BaseCompanyStudioContent, ILocationScoped
     {
         List<Account> accountsUserHasAccessTo = new List<Account>();
@@ -26,9 +28,12 @@ namespace CompanyStudio.Invoicing
 
         public Location LocationModel { get; set; }
 
+        public long? InitialConfigurationID { get; set; }
+
         private async void frmAutomaticPaymentConfiguration_Load(object sender, EventArgs e)
         {
             await ReloadData();
+            InitialConfigurationID = null;
         }
 
         private async Task ReloadData()
@@ -37,7 +42,7 @@ namespace CompanyStudio.Invoicing
             pnlDetails.Visible = false;
             cboPaymentAccount.Items.Clear();
 
-            long? selectedConfigurationID = null;
+            long? selectedConfigurationID = InitialConfigurationID;
             if (lstConfigs.SelectedItems.Count > 0)
             {
                 selectedConfigurationID = (lstConfigs.SelectedItems[0].Tag as AutomaticInvoicePaymentConfiguration)?.AutomaticInvoicePaymentConfigurationID;

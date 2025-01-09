@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using MesaSuite.Common;
 using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
@@ -111,6 +112,8 @@ namespace CompanyStudio.Invoicing
                     cboAccount.Items.Add(new DropDownItem<Account>(account, $"{account.AccountNumber} ({account.Description})"));
                 }
 
+                Dictionary<string, object> companyPreferences = UserPreferences.Get().GetPreferencesForSection("company");
+                chkAutoReceive.Checked = companyPreferences.GetOrDefault("autoReceiveInvoice", true).Cast(true);
                 cmdAction.Visible = false;
                 if (invoice != null)
                 {
@@ -527,6 +530,11 @@ namespace CompanyStudio.Invoicing
 
             if (saveSuccessful)
             {
+                UserPreferences preferences = UserPreferences.Get();
+                Dictionary<string, object> companySettings = preferences.GetPreferencesForSection("company");
+                companySettings["autoReceiveInvoice"] = chkAutoReceive.Checked;
+                preferences.Save();
+
                 IsDirty = false;
                 OnSave?.Invoke(this, EventArgs.Empty);
 

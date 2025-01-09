@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GovernmentPortal.Extensions;
 using GovernmentPortal.Models;
+using MesaSuite.Common;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -237,6 +238,14 @@ namespace GovernmentPortal.Invoicing
                 }
             }
 
+            if (saveSuccessful)
+            {
+                UserPreferences userPreferences = UserPreferences.Get();
+                Dictionary<string, object> govPreferences = userPreferences.GetPreferencesForSection("gov");
+                govPreferences["autoReceiveInvoice"] = chkAutoReceive.Checked;
+                userPreferences.Save();
+            }
+
             return saveSuccessful;
         }
 
@@ -290,7 +299,7 @@ namespace GovernmentPortal.Invoicing
                 }
 
                 lblStatus.Text = Model?.Status.ToString().ToDisplayName() ?? Invoice.Statuses.WorkInProgress.ToString().ToDisplayName();
-                chkAutoReceive.Checked = Model?.AutoReceive ?? false;
+                chkAutoReceive.Checked = UserPreferences.Get().GetPreferencesForSection("gov").GetOrDefault("autoReceiveInvoice", true).Cast(true);
 
                 if (Model != null)
                 {
@@ -336,6 +345,7 @@ namespace GovernmentPortal.Invoicing
                     dtpInvoiceDate.Value = Model.InvoiceDate;
                     dtpDueDate.Value = Model.DueDate;
                     txtDescription.Text = Model.Description;
+                    chkAutoReceive.Checked = Model.AutoReceive;
 
                     decimal invoiceTotal = 0M;
                     foreach (InvoiceLine invoiceLine in Model.InvoiceLines)

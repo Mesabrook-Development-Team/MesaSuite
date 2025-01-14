@@ -130,6 +130,8 @@ namespace WebModels.purchasing
                 {
                     fp.Railcar.RailLocation.Track.CompanyIDOwner,
                     fp.Railcar.RailLocation.Track.GovernmentIDOwner,
+                    fp.Railcar.ReportingMark,
+                    fp.Railcar.ReportingNumber,
                     fp.TrackIDDestination,
                     fp.TrackIDStrategicAfterLoad,
                     fp.FulfillmentPlanRoutes.First().SortOrder,
@@ -140,8 +142,8 @@ namespace WebModels.purchasing
                 });
                 FulfillmentPlan plan = fulfillmentPlanSearch.GetReadOnly(transaction, fields);
                 if (plan != null && parentPOLine != null &&
-                    plan?.Railcar?.RailLocation?.Track?.CompanyIDOwner != parentPOLine?.PurchaseOrder?.LocationDestination?.CompanyID &&
-                    plan?.Railcar?.RailLocation?.Track?.GovernmentIDOwner != parentPOLine?.PurchaseOrder?.GovernmentIDDestination)
+                    (plan?.Railcar?.RailLocation?.Track?.CompanyIDOwner == parentPOLine?.PurchaseOrder?.LocationDestination?.CompanyID ||
+                    plan?.Railcar?.RailLocation?.Track?.GovernmentIDOwner == parentPOLine?.PurchaseOrder?.GovernmentIDDestination))
                 {
                     Railcar railcar = DataObject.GetEditableByPrimaryKey<Railcar>(RailcarID, transaction, null);
                     railcar.TrackIDDestination = plan.TrackIDDestination;
@@ -252,30 +254,6 @@ namespace WebModels.purchasing
                     {
                         Errors.AddRange(purchaseOrder.Errors.ToArray());
                         return false;
-                    }
-
-                    if (purchaseOrder.InvoiceSchedule == PurchaseOrder.InvoiceSchedules.UponShipment)
-                    {
-                        Invoice invoice = DataObjectFactory.Create<Invoice>();
-                        invoice.LocationIDFrom = purchaseOrder.LocationIDDestination;
-                        invoice.GovernmentIDFrom = purchaseOrder.GovernmentIDDestination;
-                        invoice.LocationIDTo = purchaseOrder.LocationIDOrigin;
-                        invoice.GovernmentIDTo = purchaseOrder.GovernmentIDOrigin;
-                        invoice.PurchaseOrderID = purchaseOrder.PurchaseOrderID;
-                        if (!string.IsNullOrEmpty(purchaseOrder.LocationDestination?.NextInvoiceNumber))
-                        {
-                            invoice.InvoiceNumber = (purchaseOrder.LocationDestination.InvoiceNumberPrefix ?? "") + purchaseOrder.LocationDestination.NextInvoiceNumber;
-                        }
-                        else
-                        {
-                            invoice.InvoiceNumber = "PO" + purchaseOrder.PurchaseOrderID;
-                        }
-
-                        if (!invoice.Save(transaction))
-                        {
-                            Errors.AddRange(invoice.Errors.ToArray());
-                            return false;
-                        }
                     }
                 }
             }

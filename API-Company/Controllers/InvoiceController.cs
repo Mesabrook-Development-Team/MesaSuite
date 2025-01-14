@@ -47,6 +47,7 @@ namespace API_Company.Controllers
             nameof(Invoice.AccountIDFrom),
             nameof(Invoice.AccountToHistorical),
             nameof(Invoice.Status),
+            nameof(Invoice.AutoReceive),
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.InvoiceLineID)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.InvoiceID)}",
             $"{nameof(Invoice.InvoiceLines)}.{nameof(InvoiceLine.Quantity)}",

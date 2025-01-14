@@ -1,4 +1,6 @@
 ﻿using ClussPro.Base.Data;
+using ClussPro.Base.Data.Conditions;
+using ClussPro.Base.Data.Operand;
 using ClussPro.Base.Data.Query;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ namespace WebModels.Migrations
             CreateFleetTables(transaction);
             CreateInvoiceTables(transaction);
             UpdateTables(transaction);
+            UpdateDefaultSecurity(transaction);
         }
 
         private void CreatePurchasingTables(ITransaction transaction)
@@ -359,6 +362,7 @@ namespace WebModels.Migrations
             alterTable.Schema = "invoicing";
             alterTable.Table = "Invoice";
             alterTable.AddColumn("PurchaseOrderID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
+            alterTable.AddColumn("AutoReceive", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false });
             alterTable.AddForeignKey("FKInvoice_PurchaseOrder_PurchaseOrderID", "PurchaseOrderID", "purchasing", "PurchaseOrder", "PurchaseOrderID", transaction);
 
             alterTable.Table = "InvoiceLine";
@@ -383,6 +387,26 @@ namespace WebModels.Migrations
             alterTable.AlterColumn("Quantity", new FieldSpecification(FieldSpecification.FieldTypes.Decimal, 9, 2), transaction);
             alterTable.AddColumn("GovernmentID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
             alterTable.AddForeignKey("FKLocationItem_Government_GovernmentID", "GovernmentID", "gov", "Government", "GovernmentID", transaction);
+        }
+
+        private void UpdateDefaultSecurity(ITransaction transaction)
+        {
+            IUpdateQuery update = SQLProviderFactory.GetUpdateQuery();
+            update.Table = new Table("company", "LocationEmployee");
+            update.FieldValueList = new List<FieldValue>()
+            {
+                new FieldValue() { FieldName = "ManagePurchaseOrders", Value = true, FieldType = FieldSpecification.FieldTypes.Bit }
+            };
+            update.Condition = new Condition()
+            {
+                Left = (Field)"ManageInvoices",
+                ConditionType = Condition.ConditionTypes.Equal,
+                Right = new Literal(true)
+            };
+            update.Execute(transaction);
+
+            update.Table = new Table("gov", "Official");
+            update.Execute(transaction);
         }
     }
 }

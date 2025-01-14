@@ -70,8 +70,15 @@ namespace CompanyStudio.Purchasing.Templates
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrderTemplateFolder/GetAll");
             get.AddLocationHeader(CompanyID, LocationID);
             List<PurchaseOrderTemplateFolder> folders = await get.GetObject<List<PurchaseOrderTemplateFolder>>() ?? new List<PurchaseOrderTemplateFolder>();
-            foldersByFolder = new MultiMap<long?, PurchaseOrderTemplateFolder>();
-            templatesByFolder = new MultiMap<long?, PurchaseOrderTemplate>();
+            foldersByFolder = new MultiMap<long?, PurchaseOrderTemplateFolder>()
+            {
+                { -1L, new HashSet<PurchaseOrderTemplateFolder>() }
+            };
+            templatesByFolder = new MultiMap<long?, PurchaseOrderTemplate>()
+            {
+                { -1L, new HashSet<PurchaseOrderTemplate>() }
+            };
+
             folders.ForEach(f => foldersByFolder.Add(f.PurchaseOrderTemplateFolderID ?? -1L, new HashSet<PurchaseOrderTemplateFolder>()));
             folders.ForEach(f => foldersByFolder.Add(f.PurchaseOrderTemplateFolderIDParent ?? -1L, f));
             folders.ForEach(f => templatesByFolder.Add(f.PurchaseOrderTemplateFolderID ?? -1L, new HashSet<PurchaseOrderTemplate>()));

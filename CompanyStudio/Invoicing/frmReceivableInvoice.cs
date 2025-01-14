@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using MesaSuite.Common;
 using MesaSuite.Common.Attributes;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
@@ -85,13 +86,13 @@ namespace CompanyStudio.Invoicing
 
                 cboCompany.Items.Clear();
                 cboLocation.Items.Clear();
-                foreach (Company company in companyList)
+                foreach (Company company in companyList.OrderBy(c => c.Name))
                 {
                     cboCompany.Items.Add(new DropDownItem<Company>(company, company.Name));
                 }
 
                 cboGovernment.Items.Clear();
-                foreach (Government government in governments)
+                foreach (Government government in governments.OrderBy(g => g.Name))
                 {
                     cboGovernment.Items.Add(new DropDownItem<Government>(government, government.Name));
                 }
@@ -111,6 +112,8 @@ namespace CompanyStudio.Invoicing
                     cboAccount.Items.Add(new DropDownItem<Account>(account, $"{account.AccountNumber} ({account.Description})"));
                 }
 
+                Dictionary<string, object> companyPreferences = UserPreferences.Get().GetPreferencesForSection("company");
+                chkAutoReceive.Checked = companyPreferences.GetOrDefault("autoReceiveInvoice", true).Cast(true);
                 cmdAction.Visible = false;
                 if (invoice != null)
                 {
@@ -146,6 +149,8 @@ namespace CompanyStudio.Invoicing
                         cboAccount.SelectedItem = cboAccount.Items.Cast<DropDownItem<Account>>().FirstOrDefault(ddi => ddi.Object.AccountID == invoice.AccountIDTo);
                     }
 
+                    chkAutoReceive.Checked = invoice.AutoReceive;
+
                     decimal invoiceTotal = 0M;
                     if (invoice.InvoiceLines != null)
                     {
@@ -179,6 +184,7 @@ namespace CompanyStudio.Invoicing
                             control.Enabled = false;
                         }
 
+                        chkAutoReceive.Visible = false;
                         cmdAction.Visible = false;
                         cmdSave.Visible = false;
                         cmdCancel.Visible = false;
@@ -255,7 +261,7 @@ namespace CompanyStudio.Invoicing
                 return;
             }
 
-            foreach(Location location in selectedItem.Object.Locations)
+            foreach(Location location in selectedItem.Object.Locations.OrderBy(l => l.Name))
             {
                 cboLocation.Items.Add(new DropDownItem<Location>(location, location.Name));
             }
@@ -414,6 +420,7 @@ namespace CompanyStudio.Invoicing
             invoiceToSave.DueDate = dtpDueDate.Value;
             invoiceToSave.Description = txtDescription.Text;
             invoiceToSave.AccountIDTo = cboAccount.SelectedItem.Cast<DropDownItem<Account>>()?.Object.AccountID;
+            invoiceToSave.AutoReceive = chkAutoReceive.Checked;
 
             bool saveSuccessful = false;
             if (originalInvoice == null)
@@ -523,6 +530,11 @@ namespace CompanyStudio.Invoicing
 
             if (saveSuccessful)
             {
+                UserPreferences preferences = UserPreferences.Get();
+                Dictionary<string, object> companySettings = preferences.GetPreferencesForSection("company");
+                companySettings["autoReceiveInvoice"] = chkAutoReceive.Checked;
+                preferences.Save();
+
                 IsDirty = false;
                 OnSave?.Invoke(this, EventArgs.Empty);
 
@@ -623,7 +635,7 @@ namespace CompanyStudio.Invoicing
 
                 foreach (PurchaseOrder po in purchaseOrders)
                 {
-                    cboPurchaseOrder.Items.Add(new DropDownItem<PurchaseOrder>(po, $"{po.PurchaseOrderID} (From {po.LocationOrigin?.Company.Name}{po.GovernmentOrigin?.Name}"));
+                    cboPurchaseOrder.Items.Add(new DropDownItem<PurchaseOrder>(po, $"{po.PurchaseOrderID} (From {po.LocationOrigin?.Company.Name}{po.GovernmentOrigin?.Name})"));
                 }
             }
 

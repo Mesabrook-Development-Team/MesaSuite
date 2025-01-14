@@ -121,9 +121,9 @@ namespace WebModels.purchasing
         {
             Search<FulfillmentPlanPurchaseOrderLine> otherLinesSearch = new Search<FulfillmentPlanPurchaseOrderLine>(new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
             {
-                Field = nameof(PurchaseOrderLineID),
+                Field = nameof(FulfillmentPlanID),
                 SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                Value = PurchaseOrderLineID
+                Value = FulfillmentPlanID
             });
 
             if (!otherLinesSearch.ExecuteExists(transaction))

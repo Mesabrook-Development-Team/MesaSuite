@@ -39,6 +39,7 @@ namespace CompanyStudio.Models
         public long? AccountIDTo { get; set; }
         public string AccountToHistorical { get; set; }
         public decimal? Amount { get; set; }
+        public bool AutoReceive { get; set; }
 
         public List<InvoiceLine> InvoiceLines { get; set; }
         public List<InvoiceSalesTax> InvoiceSalesTaxes { get; set; }

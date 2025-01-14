@@ -111,16 +111,7 @@ namespace CompanyStudio
                 Studio.ActiveCompany = Studio.Companies.FirstOrDefault(c => c.CompanyID == quickAccessItem.CompanyID);
                 Studio.ActiveLocation = Studio.ActiveCompany.Locations.FirstOrDefault(l => l.LocationID == quickAccessItem.LocationID);
                 
-                List<ToolStripMenuItem> menusToClick = new List<ToolStripMenuItem>();
-                ToolStripMenuItem workingMenu = quickAccessItem.ToolStripMenuItem;
-                menusToClick.Add(workingMenu);
-                while(workingMenu.OwnerItem != null)
-                {
-                    workingMenu = workingMenu.OwnerItem as ToolStripMenuItem;
-                    menusToClick.Add(workingMenu);
-                }
-
-                menusToClick.Reverse();
+                List<ToolStripMenuItem> menusToClick = GetMenusToClickWithVisibleParent(quickAccessItem.ToolStripMenuItem);
 
                 for(int i = 0; i < menusToClick.Count; i++)
                 {
@@ -146,6 +137,56 @@ namespace CompanyStudio
                 ctxQuickAccessMenu.Tag = quickAccessItem;
                 ctxQuickAccessMenu.Show(Cursor.Position);
             }
+        }
+
+        /// <summary>
+        /// A menu may exist multiple times with the same name. Find the one that has a visible parent and return the click
+        /// list to click it.
+        /// </summary>
+        /// <param name="possiblyHiddenMenuItem">The menu that may or may not have a visible parent</param>
+        /// <returns>A list of menu items to click starting with the visible parent</returns>
+        private List<ToolStripMenuItem> GetMenusToClickWithVisibleParent(ToolStripMenuItem possiblyHiddenMenuItem)
+        {
+            ToolStrip banner = Studio.Controls["mnuBanner"] as ToolStrip;
+
+            // Find current parent
+            List<ToolStripMenuItem> possiblyHiddenMenusToClick = new List<ToolStripMenuItem>();
+            ToolStripMenuItem possiblyHiddenParent = possiblyHiddenMenuItem;
+            possiblyHiddenMenusToClick.Add(possiblyHiddenParent);
+            while(possiblyHiddenParent.OwnerItem != null)
+            {
+                possiblyHiddenParent = possiblyHiddenParent.OwnerItem as ToolStripMenuItem;
+                possiblyHiddenMenusToClick.Add(possiblyHiddenParent);
+            }
+            possiblyHiddenMenusToClick.Reverse();
+
+            // The parent is visible, we can just click it
+            if (possiblyHiddenParent.Visible)
+            {
+                return possiblyHiddenMenusToClick;
+            }
+
+            // The parent is not visible. Try to find the visible parent and get the new list
+            // based on the old one
+            List<ToolStripMenuItem> menusToClick = new List<ToolStripMenuItem>();
+            ToolStripMenuItem parent = banner.Items.Find(possiblyHiddenParent.Name, false).FirstOrDefault(tsmi => tsmi.Visible) as ToolStripMenuItem;
+            if (parent == null) // No parent with this name is visible. Return empty list
+            {
+                return menusToClick;
+            }
+
+            menusToClick.Add(parent);
+            foreach(ToolStripMenuItem oldMenuToClick in possiblyHiddenMenusToClick.Skip(1))
+            {
+                parent = parent.DropDownItems.Find(oldMenuToClick.Name, false).First() as ToolStripMenuItem;
+                if (parent == null) // Doesn't exist, return what we have
+                {
+                    return menusToClick;
+                }
+                menusToClick.Add(parent);
+            }
+
+            return menusToClick;
         }
 
         private async Task RefreshData()

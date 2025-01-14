@@ -390,7 +390,7 @@ namespace ClussPro.ObjectBasedFramework
                         {
                             Field = PrimaryKeyField.FieldName,
                             SearchConditionType = SearchCondition.SearchConditionTypes.NotEquals,
-                            Value = GetValue<long?>(PrimaryKeyField.FieldName)
+                            Value = GetValue<long?>(PrimaryKeyField.FieldName) ?? -1l
                         }));
 
                     foreach(DataObject sameForeignKeyObject in sameForeignKeySearch.GetUntypedEditableReader(transaction))

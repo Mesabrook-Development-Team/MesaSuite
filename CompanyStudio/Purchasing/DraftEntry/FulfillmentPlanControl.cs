@@ -201,7 +201,10 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 }
 
                 StringBuilder joinObjectErrors = new StringBuilder();
-                foreach(DataGridViewRow row in dgvPurchaseOrderLines.Rows.OfType<DataGridViewRow>().OrderByDescending(dgvr => (bool)dgvr.Cells[colApplyPOLine.Name].Value))
+                List<(FulfillmentPlanPurchaseOrderLine, DataGridViewRow)> joinsToSave = new List<(FulfillmentPlanPurchaseOrderLine, DataGridViewRow)>();
+                List<long?> joinsToDelete = new List<long?>();
+
+                foreach(DataGridViewRow row in dgvPurchaseOrderLines.Rows.OfType<DataGridViewRow>().OrderByDescending(dgvr => (bool)(dgvr.Cells[colApplyPOLine.Name].Value ?? false)))
                 {
                     bool isChecked = row.Cells[colApplyPOLine.Name].Value as bool? ?? false;
                     long? fulfillmentPlanPOLineID = row.Cells[colApplyPOLine.Name].Tag as long?;
@@ -213,29 +216,39 @@ namespace CompanyStudio.Purchasing.DraftEntry
                         newFPPOL.FulfillmentPlanID = FulfillmentPlanID;
                         newFPPOL.PurchaseOrderLineID = purchaseOrderLineID;
 
-                        PostData post = new PostData(DataAccess.APIs.CompanyStudio, "FulfillmentPlanPurchaseOrderLine/Post", newFPPOL);
-                        post.AddLocationHeader(CompanyID, LocationID);
-                        post.SuppressErrors = true;
-                        newFPPOL = await post.Execute<FulfillmentPlanPurchaseOrderLine>();
-                        if (!post.RequestSuccessful)
-                        {
-                            joinObjectErrors.AppendLine("Failed to save a Purchase Order Line: " + post.LastError);
-                        }
-                        else
-                        {
-                            row.Cells[colApplyPOLine.Name].Tag = newFPPOL.FulfillmentPlanPurchaseOrderLineID;
-                        }
+                        joinsToSave.Add((newFPPOL, row));
                     }
                     else if (!isChecked && fulfillmentPlanPOLineID != null)
                     {
-                        DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, "FulfillmentPlanPurchaseOrderLine/Delete/" + fulfillmentPlanPOLineID);
-                        delete.AddLocationHeader(CompanyID, LocationID);
-                        delete.SuppressErrors = true;
-                        await delete.Execute();
-                        if (!delete.RequestSuccessful)
-                        {
-                            joinObjectErrors.AppendLine("Failed to remove a Purchase Order Line: " + delete.LastError);
-                        }
+                        joinsToDelete.Add(fulfillmentPlanPOLineID);
+                    }
+                }
+
+                foreach((FulfillmentPlanPurchaseOrderLine, DataGridViewRow) joinToSave in joinsToSave)
+                {
+                    PostData post = new PostData(DataAccess.APIs.CompanyStudio, "FulfillmentPlanPurchaseOrderLine/Post", joinToSave.Item1);
+                    post.AddLocationHeader(CompanyID, LocationID);
+                    post.SuppressErrors = true;
+                    FulfillmentPlanPurchaseOrderLine newFPPOL = await post.Execute<FulfillmentPlanPurchaseOrderLine>();
+                    if (!post.RequestSuccessful)
+                    {
+                        joinObjectErrors.AppendLine("Failed to save a Purchase Order Line: " + post.LastError);
+                    }
+                    else
+                    {
+                        joinToSave.Item2.Cells[colApplyPOLine.Name].Tag = newFPPOL.FulfillmentPlanPurchaseOrderLineID;
+                    }
+                }
+
+                foreach(long? joinToDelete in joinsToDelete)
+                {
+                    DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, "FulfillmentPlanPurchaseOrderLine/Delete/" + joinToDelete);
+                    delete.AddLocationHeader(CompanyID, LocationID);
+                    delete.SuppressErrors = true;
+                    await delete.Execute();
+                    if (!delete.RequestSuccessful)
+                    {
+                        joinObjectErrors.AppendLine("Failed to remove a Purchase Order Line: " + delete.LastError);
                     }
                 }
 

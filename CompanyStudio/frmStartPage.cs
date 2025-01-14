@@ -37,11 +37,11 @@ namespace CompanyStudio
             ThemeProvider.Theme = new LightTheme();
             ctxQuickAccessMenu.BackColor = ThemeProvider.Theme.Colors.GreyBackground;
             ctxQuickAccessMenu.Items.OfType<ToolStripItem>().ForEach(tsi => tsi.BackColor = ThemeProvider.Theme.Colors.GreyBackground);
+            chkAlwaysShowStart.Checked = UserPreferences.Get().GetPreferencesForSection("company").GetOrDefault("showStartPage", true) as bool? ?? true;
 
             await RefreshData();
             ReloadQuickAccess();
 
-            chkAlwaysShowStart.Checked = UserPreferences.Get().GetPreferencesForSection("company").GetOrDefault("showStartPage", true) as bool? ?? true;
         }
 
         private void ReloadQuickAccess()
@@ -387,7 +387,7 @@ namespace CompanyStudio
             {
                 public override int Compare(ToDoItem x, ToDoItem y)
                 {
-                    int result = ((int)x.Severity).CompareTo((int)y.Severity);
+                    int result = ((int)x.Severity).CompareTo((int)y.Severity) * -1;
                     if (result == 0)
                     {
                         result = x.CompanyName.CompareTo(y.CompanyName);

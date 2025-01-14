@@ -47,6 +47,13 @@
             this.txtSubtotal = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.dgvLineItems = new System.Windows.Forms.DataGridView();
+            this.colItem = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.colDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUnitCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLineTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPOLine = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFulfillment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grpTaxes = new System.Windows.Forms.GroupBox();
             this.txtTaxTotal = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -66,13 +73,6 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdAuthorize = new System.Windows.Forms.Button();
             this.loader = new CompanyStudio.Loader();
-            this.colItem = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.colDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colUnitCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLineTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPOLine = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFulfillment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLineItems)).BeginInit();
             this.grpTaxes.SuspendLayout();
@@ -268,6 +268,56 @@
             this.dgvLineItems.Size = new System.Drawing.Size(828, 99);
             this.dgvLineItems.TabIndex = 0;
             this.dgvLineItems.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLineItems_CellClick);
+            // 
+            // colItem
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colItem.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colItem.HeaderText = "Item";
+            this.colItem.Name = "colItem";
+            this.colItem.ReadOnly = true;
+            this.colItem.Text = "";
+            // 
+            // colDescription
+            // 
+            this.colDescription.HeaderText = "Description";
+            this.colDescription.Name = "colDescription";
+            this.colDescription.ReadOnly = true;
+            this.colDescription.Width = 225;
+            // 
+            // colQuantity
+            // 
+            this.colQuantity.HeaderText = "Quantity";
+            this.colQuantity.Name = "colQuantity";
+            this.colQuantity.ReadOnly = true;
+            // 
+            // colUnitCost
+            // 
+            this.colUnitCost.HeaderText = "UnitCost";
+            this.colUnitCost.Name = "colUnitCost";
+            this.colUnitCost.ReadOnly = true;
+            // 
+            // colLineTotal
+            // 
+            this.colLineTotal.HeaderText = "Line Total";
+            this.colLineTotal.Name = "colLineTotal";
+            this.colLineTotal.ReadOnly = true;
+            // 
+            // colPOLine
+            // 
+            this.colPOLine.HeaderText = "PO Line";
+            this.colPOLine.Name = "colPOLine";
+            this.colPOLine.ReadOnly = true;
+            this.colPOLine.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colPOLine.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colFulfillment
+            // 
+            this.colFulfillment.HeaderText = "Fulfillment";
+            this.colFulfillment.Name = "colFulfillment";
+            this.colFulfillment.ReadOnly = true;
+            this.colFulfillment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colFulfillment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // grpTaxes
             // 
@@ -470,6 +520,7 @@
             this.cmdCancel.TabIndex = 2;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
+            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // cmdAuthorize
             // 
@@ -493,56 +544,6 @@
             this.loader.Size = new System.Drawing.Size(874, 697);
             this.loader.TabIndex = 8;
             this.loader.Visible = false;
-            // 
-            // colItem
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colItem.DefaultCellStyle = dataGridViewCellStyle1;
-            this.colItem.HeaderText = "Item";
-            this.colItem.Name = "colItem";
-            this.colItem.ReadOnly = true;
-            this.colItem.Text = "";
-            // 
-            // colDescription
-            // 
-            this.colDescription.HeaderText = "Description";
-            this.colDescription.Name = "colDescription";
-            this.colDescription.ReadOnly = true;
-            this.colDescription.Width = 225;
-            // 
-            // colQuantity
-            // 
-            this.colQuantity.HeaderText = "Quantity";
-            this.colQuantity.Name = "colQuantity";
-            this.colQuantity.ReadOnly = true;
-            // 
-            // colUnitCost
-            // 
-            this.colUnitCost.HeaderText = "UnitCost";
-            this.colUnitCost.Name = "colUnitCost";
-            this.colUnitCost.ReadOnly = true;
-            // 
-            // colLineTotal
-            // 
-            this.colLineTotal.HeaderText = "Line Total";
-            this.colLineTotal.Name = "colLineTotal";
-            this.colLineTotal.ReadOnly = true;
-            // 
-            // colPOLine
-            // 
-            this.colPOLine.HeaderText = "PO Line";
-            this.colPOLine.Name = "colPOLine";
-            this.colPOLine.ReadOnly = true;
-            this.colPOLine.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colPOLine.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colFulfillment
-            // 
-            this.colFulfillment.HeaderText = "Fulfillment";
-            this.colFulfillment.Name = "colFulfillment";
-            this.colFulfillment.ReadOnly = true;
-            this.colFulfillment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colFulfillment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // frmPayableInvoice
             // 

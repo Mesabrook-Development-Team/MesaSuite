@@ -175,6 +175,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
             purchaseOrderLineControl.LocationIDOrigin = LocationModel.LocationID;
             if (rdoLocation.Checked)
             {
+                purchaseOrderLineControl.CompanyIDDestination = (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.CompanyID;
                 purchaseOrderLineControl.LocationIDDestination = (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.LocationID;
             }
             else if (rdoGovernment.Checked)
@@ -211,6 +212,17 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 UpdateTotals();
             };
             purchaseOrderLineControl.TotalChanged += (_, __) => { UpdateTotals(); };
+            purchaseOrderLineControl.QuotationRequestClicked += (_, qr) =>
+            {
+                Quotes.frmQuoteRequest requestForm = new Quotes.frmQuoteRequest()
+                {
+                    QuotationRequestID = qr.QuotationRequestID
+                };
+                Studio.DecorateStudioContent(requestForm);
+                requestForm.Company = Company;
+                requestForm.LocationModel = LocationModel;
+                requestForm.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
+            };
             pnlPurchaseOrderLines.Controls.Add(purchaseOrderLineControl);
         }
 
@@ -261,10 +273,12 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 if (rdoLocation.Checked)
                 {
                     ctrl.GovernmentIDDestination = null;
+                    ctrl.CompanyIDDestination = (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.CompanyID;
                     ctrl.LocationIDDestination = (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.LocationID;
                 }
                 else if (rdoGovernment.Checked)
                 {
+                    ctrl.CompanyIDDestination = null;
                     ctrl.LocationIDDestination = null;
                     ctrl.GovernmentIDDestination = (cboGovernment.SelectedItem as DropDownItem<Government>)?.Object.GovernmentID;
                 }
@@ -608,6 +622,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
             foreach(PurchaseOrderLineControl ctrl in pnlPurchaseOrderLines.Controls.OfType<PurchaseOrderLineControl>())
             {
                 ctrl.GovernmentIDDestination = null;
+                ctrl.CompanyIDDestination = (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.CompanyID;
                 ctrl.LocationIDDestination = (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.LocationID;
             }
 
@@ -618,6 +633,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
         {
             foreach (PurchaseOrderLineControl ctrl in pnlPurchaseOrderLines.Controls.OfType<PurchaseOrderLineControl>())
             {
+                ctrl.CompanyIDDestination = null;
                 ctrl.LocationIDDestination = null;
                 ctrl.GovernmentIDDestination = (cboGovernment.SelectedItem as DropDownItem<Government>)?.Object.GovernmentID;
             }

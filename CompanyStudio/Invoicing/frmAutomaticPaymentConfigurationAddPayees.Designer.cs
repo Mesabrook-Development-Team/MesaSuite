@@ -80,9 +80,9 @@
             this.lstAvailable.HideSelection = false;
             this.lstAvailable.Location = new System.Drawing.Point(0, 0);
             this.lstAvailable.Name = "lstAvailable";
-            this.lstAvailable.Size = new System.Drawing.Size(322, 232);
+            this.lstAvailable.Size = new System.Drawing.Size(317, 232);
             this.lstAvailable.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lstAvailable.TabIndex = 1;
+            this.lstAvailable.TabIndex = 0;
             this.lstAvailable.UseCompatibleStateImageBehavior = false;
             this.lstAvailable.View = System.Windows.Forms.View.Details;
             // 
@@ -99,10 +99,10 @@
             // 
             this.cmdRemoveAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cmdRemoveAll.Image = global::CompanyStudio.Properties.Resources.arrow_left;
-            this.cmdRemoveAll.Location = new System.Drawing.Point(3, 65);
+            this.cmdRemoveAll.Location = new System.Drawing.Point(3, 50);
             this.cmdRemoveAll.Name = "cmdRemoveAll";
             this.cmdRemoveAll.Size = new System.Drawing.Size(86, 23);
-            this.cmdRemoveAll.TabIndex = 2;
+            this.cmdRemoveAll.TabIndex = 0;
             this.cmdRemoveAll.Text = "Remove All";
             this.cmdRemoveAll.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.cmdRemoveAll.UseVisualStyleBackColor = true;
@@ -112,10 +112,10 @@
             // 
             this.cmdRemove.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cmdRemove.Image = global::CompanyStudio.Properties.Resources.arrow_left;
-            this.cmdRemove.Location = new System.Drawing.Point(3, 94);
+            this.cmdRemove.Location = new System.Drawing.Point(3, 79);
             this.cmdRemove.Name = "cmdRemove";
             this.cmdRemove.Size = new System.Drawing.Size(86, 23);
-            this.cmdRemove.TabIndex = 2;
+            this.cmdRemove.TabIndex = 1;
             this.cmdRemove.Text = "Remove";
             this.cmdRemove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.cmdRemove.UseVisualStyleBackColor = true;
@@ -125,7 +125,7 @@
             // 
             this.cmdAdd.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cmdAdd.Image = ((System.Drawing.Image)(resources.GetObject("cmdAdd.Image")));
-            this.cmdAdd.Location = new System.Drawing.Point(3, 123);
+            this.cmdAdd.Location = new System.Drawing.Point(3, 108);
             this.cmdAdd.Name = "cmdAdd";
             this.cmdAdd.Size = new System.Drawing.Size(86, 23);
             this.cmdAdd.TabIndex = 2;
@@ -138,10 +138,10 @@
             // 
             this.cmdAddAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cmdAddAll.Image = ((System.Drawing.Image)(resources.GetObject("cmdAddAll.Image")));
-            this.cmdAddAll.Location = new System.Drawing.Point(3, 152);
+            this.cmdAddAll.Location = new System.Drawing.Point(3, 137);
             this.cmdAddAll.Name = "cmdAddAll";
             this.cmdAddAll.Size = new System.Drawing.Size(86, 23);
-            this.cmdAddAll.TabIndex = 2;
+            this.cmdAddAll.TabIndex = 3;
             this.cmdAddAll.Text = "Add All";
             this.cmdAddAll.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.cmdAddAll.UseVisualStyleBackColor = true;
@@ -160,8 +160,8 @@
             this.dgvChosen.Name = "dgvChosen";
             this.dgvChosen.RowHeadersVisible = false;
             this.dgvChosen.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvChosen.Size = new System.Drawing.Size(455, 207);
-            this.dgvChosen.TabIndex = 3;
+            this.dgvChosen.Size = new System.Drawing.Size(460, 207);
+            this.dgvChosen.TabIndex = 0;
             // 
             // colPayee
             // 
@@ -185,7 +185,7 @@
             this.panel1.Controls.Add(this.toolStrip1);
             this.panel1.Location = new System.Drawing.Point(95, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(455, 232);
+            this.panel1.Size = new System.Drawing.Size(460, 232);
             this.panel1.TabIndex = 4;
             // 
             // toolStrip1
@@ -196,14 +196,14 @@
             this.cmdApply});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(455, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(460, 25);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(79, 22);
+            this.toolStripLabel1.Size = new System.Drawing.Size(89, 22);
             this.toolStripLabel1.Text = "Clone All From:";
             // 
             // cboCloneAllFrom
@@ -217,32 +217,37 @@
             this.cmdApply.Image = global::CompanyStudio.Properties.Resources.accept;
             this.cmdApply.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cmdApply.Name = "cmdApply";
-            this.cmdApply.Size = new System.Drawing.Size(54, 22);
+            this.cmdApply.Size = new System.Drawing.Size(58, 22);
             this.cmdApply.Text = "Apply";
             this.cmdApply.Click += new System.EventHandler(this.cmdApply_Click);
             // 
             // cmdSave
             // 
+            this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdSave.Location = new System.Drawing.Point(813, 270);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 5;
+            this.cmdSave.TabIndex = 2;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
             // cmdCancel
             // 
+            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.Location = new System.Drawing.Point(732, 270);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 5;
+            this.cmdCancel.TabIndex = 3;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // splitContainer1
             // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.Location = new System.Drawing.Point(12, 32);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -258,8 +263,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.cmdAddAll);
             this.splitContainer1.Panel2.Controls.Add(this.cmdRemove);
             this.splitContainer1.Size = new System.Drawing.Size(876, 232);
-            this.splitContainer1.SplitterDistance = 322;
-            this.splitContainer1.TabIndex = 7;
+            this.splitContainer1.SplitterDistance = 317;
+            this.splitContainer1.TabIndex = 1;
             // 
             // loader
             // 

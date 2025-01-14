@@ -109,7 +109,7 @@
             this.lstConfigs.Location = new System.Drawing.Point(0, 69);
             this.lstConfigs.Name = "lstConfigs";
             this.lstConfigs.Size = new System.Drawing.Size(281, 381);
-            this.lstConfigs.TabIndex = 0;
+            this.lstConfigs.TabIndex = 1;
             this.lstConfigs.UseCompatibleStateImageBehavior = false;
             this.lstConfigs.View = System.Windows.Forms.View.Details;
             this.lstConfigs.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lstConfigs_ItemSelectionChanged);
@@ -149,7 +149,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(281, 69);
-            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // tsbAddPayees
@@ -231,7 +231,7 @@
             this.pnlDetails.Location = new System.Drawing.Point(0, 0);
             this.pnlDetails.Name = "pnlDetails";
             this.pnlDetails.Size = new System.Drawing.Size(515, 450);
-            this.pnlDetails.TabIndex = 11;
+            this.pnlDetails.TabIndex = 0;
             this.pnlDetails.Visible = false;
             // 
             // cmdSave
@@ -240,7 +240,7 @@
             this.cmdSave.Location = new System.Drawing.Point(428, 424);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 10;
+            this.cmdSave.TabIndex = 8;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -275,7 +275,8 @@
             this.dgvUpcomingInvoices.RowHeadersVisible = false;
             this.dgvUpcomingInvoices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUpcomingInvoices.Size = new System.Drawing.Size(500, 243);
-            this.dgvUpcomingInvoices.TabIndex = 9;
+            this.dgvUpcomingInvoices.TabIndex = 7;
+            this.dgvUpcomingInvoices.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUpcomingInvoices_CellDoubleClick);
             // 
             // colInvoiceNumber
             // 
@@ -335,7 +336,7 @@
             this.txtPayee.Name = "txtPayee";
             this.txtPayee.ReadOnly = true;
             this.txtPayee.Size = new System.Drawing.Size(454, 20);
-            this.txtPayee.TabIndex = 2;
+            this.txtPayee.TabIndex = 0;
             // 
             // cboPaymentAccount
             // 
@@ -347,7 +348,7 @@
             this.cboPaymentAccount.Location = new System.Drawing.Point(109, 135);
             this.cboPaymentAccount.Name = "cboPaymentAccount";
             this.cboPaymentAccount.Size = new System.Drawing.Size(394, 21);
-            this.cboPaymentAccount.TabIndex = 7;
+            this.cboPaymentAccount.TabIndex = 6;
             // 
             // label3
             // 
@@ -373,7 +374,7 @@
             this.txtAmountPaid.Name = "txtAmountPaid";
             this.txtAmountPaid.ReadOnly = true;
             this.txtAmountPaid.Size = new System.Drawing.Size(100, 20);
-            this.txtAmountPaid.TabIndex = 2;
+            this.txtAmountPaid.TabIndex = 1;
             // 
             // rdoImmediately
             // 
@@ -401,7 +402,7 @@
             this.rdoOnDueDate.Location = new System.Drawing.Point(109, 112);
             this.rdoOnDueDate.Name = "rdoOnDueDate";
             this.rdoOnDueDate.Size = new System.Drawing.Size(88, 17);
-            this.rdoOnDueDate.TabIndex = 5;
+            this.rdoOnDueDate.TabIndex = 4;
             this.rdoOnDueDate.TabStop = true;
             this.rdoOnDueDate.Text = "On Due Date";
             this.rdoOnDueDate.UseVisualStyleBackColor = true;
@@ -411,7 +412,7 @@
             this.txtMaxAmount.Location = new System.Drawing.Point(79, 86);
             this.txtMaxAmount.Name = "txtMaxAmount";
             this.txtMaxAmount.Size = new System.Drawing.Size(100, 20);
-            this.txtMaxAmount.TabIndex = 2;
+            this.txtMaxAmount.TabIndex = 3;
             // 
             // label5
             // 
@@ -427,7 +428,7 @@
             this.cmdReset.Location = new System.Drawing.Point(185, 58);
             this.cmdReset.Name = "cmdReset";
             this.cmdReset.Size = new System.Drawing.Size(75, 23);
-            this.cmdReset.TabIndex = 3;
+            this.cmdReset.TabIndex = 2;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
             this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);

@@ -18,10 +18,13 @@ namespace CompanyStudio.Purchasing.DraftEntry
     {
         public event EventHandler DeleteClicked;
         public event EventHandler TotalChanged;
+        public event EventHandler<QuotationRequest> QuotationRequestClicked;
+
         public PurchaseOrderLine PurchaseOrderLine { get; set; }
         public long? PurchaseOrderID { get; set; }
         public long? CompanyID { get; set; }
         public long? LocationIDOrigin { get; set; }
+        public long? CompanyIDDestination { get; set; }
         private long? _locationIDDestination = null;
         public long? LocationIDDestination
         {
@@ -190,6 +193,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
         {
             if (_loading) { return; }
 
+            lnkRequestQuote.Visible = false;
             if (rdoItem.Checked)
             {
                 if (cboItem.SelectedID == null || !decimal.TryParse(txtQuantity.Text, out decimal quantity) || (LocationIDDestination == null && GovernmentIDDestination == null))
@@ -219,6 +223,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                     txtUnitCost.Text = "Invalid";
                     txtLineCost.Text = "";
                     TotalChanged?.Invoke(this, EventArgs.Empty);
+                    lnkRequestQuote.Visible = true;
                     return;
                 }
 
@@ -288,6 +293,68 @@ namespace CompanyStudio.Purchasing.DraftEntry
             }
 
             return lineCost;
+        }
+
+        private async void lnkRequestQuote_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            lnkRequestQuote.Enabled = false;
+            try
+            {
+                if (!rdoItem.Checked || string.IsNullOrEmpty(txtQuantity.Text) || !decimal.TryParse(txtQuantity.Text, out decimal quantity))
+                {
+                    return;
+                }
+
+                GetData get = new GetData(DataAccess.APIs.CompanyStudio, "QuotationRequest/GetAll");
+                get.AddLocationHeader(CompanyID, LocationIDOrigin);
+                List<QuotationRequest> quotationRequests = await get.GetObject<List<QuotationRequest>>() ?? new List<QuotationRequest>();
+
+                QuotationRequest relatedRequest = quotationRequests.FirstOrDefault(qr => qr.CompanyIDTo == CompanyIDDestination && qr.GovernmentIDTo == GovernmentIDDestination && qr.CompanyIDFrom == CompanyID);
+                if (relatedRequest == null)
+                {
+                    relatedRequest = new QuotationRequest()
+                    {
+                        CompanyIDFrom = CompanyID,
+                        CompanyIDTo = CompanyIDDestination,
+                        GovernmentIDTo = GovernmentIDDestination,
+                    };
+
+                    PostData post = new PostData(DataAccess.APIs.CompanyStudio, "QuotationRequest/Post", relatedRequest);
+                    post.AddLocationHeader(CompanyID, LocationIDOrigin);
+                    relatedRequest = await post.Execute<QuotationRequest>();
+                    if (!post.RequestSuccessful)
+                    {
+                        return;
+                    }
+
+                    relatedRequest.QuotationRequestItems = new List<QuotationRequestItem>();
+                }
+
+                QuotationRequestItem item = relatedRequest.QuotationRequestItems.FirstOrDefault(qri => qri.ItemID == cboItem.SelectedID && qri.Quantity == quantity);
+                if (item == null)
+                {
+                    item = new QuotationRequestItem()
+                    {
+                        QuotationRequestID = relatedRequest.QuotationRequestID,
+                        ItemID = cboItem.SelectedID,
+                        Quantity = quantity
+                    };
+
+                    PostData post = new PostData(DataAccess.APIs.CompanyStudio, "QuotationRequestItem/Post", item);
+                    post.AddLocationHeader(CompanyID, LocationIDOrigin);
+                    await post.ExecuteNoResult();
+                    if (!post.RequestSuccessful)
+                    {
+                        return;
+                    }
+                }
+
+                QuotationRequestClicked?.Invoke(this, relatedRequest);
+            }
+            finally
+            {
+                lnkRequestQuote.Enabled = true;
+            }
         }
     }
 }

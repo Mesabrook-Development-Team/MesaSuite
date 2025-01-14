@@ -213,7 +213,7 @@
             this.txtFrom.Name = "txtFrom";
             this.txtFrom.ReadOnly = true;
             this.txtFrom.Size = new System.Drawing.Size(698, 20);
-            this.txtFrom.TabIndex = 1;
+            this.txtFrom.TabIndex = 0;
             // 
             // label3
             // 
@@ -264,7 +264,7 @@
             this.tbcDetails.Name = "tbcDetails";
             this.tbcDetails.SelectedIndex = 0;
             this.tbcDetails.Size = new System.Drawing.Size(786, 390);
-            this.tbcDetails.TabIndex = 4;
+            this.tbcDetails.TabIndex = 0;
             // 
             // tabPOInfo
             // 
@@ -327,7 +327,7 @@
             this.lnkTaxBreakdown.Location = new System.Drawing.Point(251, 188);
             this.lnkTaxBreakdown.Name = "lnkTaxBreakdown";
             this.lnkTaxBreakdown.Size = new System.Drawing.Size(82, 13);
-            this.lnkTaxBreakdown.TabIndex = 14;
+            this.lnkTaxBreakdown.TabIndex = 4;
             this.lnkTaxBreakdown.TabStop = true;
             this.lnkTaxBreakdown.Text = "Tax Breakdown";
             this.lnkTaxBreakdown.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTaxBreakdown_LinkClicked);
@@ -339,7 +339,7 @@
             this.txtGrossTotal.Name = "txtGrossTotal";
             this.txtGrossTotal.ReadOnly = true;
             this.txtGrossTotal.Size = new System.Drawing.Size(62, 20);
-            this.txtGrossTotal.TabIndex = 12;
+            this.txtGrossTotal.TabIndex = 3;
             // 
             // txtEstTax
             // 
@@ -348,7 +348,7 @@
             this.txtEstTax.Name = "txtEstTax";
             this.txtEstTax.ReadOnly = true;
             this.txtEstTax.Size = new System.Drawing.Size(62, 20);
-            this.txtEstTax.TabIndex = 13;
+            this.txtEstTax.TabIndex = 2;
             // 
             // label17
             // 
@@ -387,7 +387,7 @@
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
             this.txtTotal.Size = new System.Drawing.Size(81, 20);
-            this.txtTotal.TabIndex = 3;
+            this.txtTotal.TabIndex = 1;
             // 
             // label6
             // 
@@ -423,7 +423,7 @@
             this.tabFulfillmentPlans.Location = new System.Drawing.Point(4, 22);
             this.tabFulfillmentPlans.Name = "tabFulfillmentPlans";
             this.tabFulfillmentPlans.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFulfillmentPlans.Size = new System.Drawing.Size(778, 376);
+            this.tabFulfillmentPlans.Size = new System.Drawing.Size(778, 364);
             this.tabFulfillmentPlans.TabIndex = 1;
             this.tabFulfillmentPlans.Text = "Fulfillment Plans";
             this.tabFulfillmentPlans.UseVisualStyleBackColor = true;
@@ -436,7 +436,7 @@
             this.lnkRailcar.Location = new System.Drawing.Point(155, 104);
             this.lnkRailcar.Name = "lnkRailcar";
             this.lnkRailcar.Size = new System.Drawing.Size(617, 20);
-            this.lnkRailcar.TabIndex = 4;
+            this.lnkRailcar.TabIndex = 1;
             this.lnkRailcar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lnkRailcar.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkRailcar_LinkClicked);
             // 
@@ -448,7 +448,7 @@
             this.txtRailcarRouting.Name = "txtRailcarRouting";
             this.txtRailcarRouting.ReadOnly = true;
             this.txtRailcarRouting.Size = new System.Drawing.Size(617, 20);
-            this.txtRailcarRouting.TabIndex = 3;
+            this.txtRailcarRouting.TabIndex = 8;
             // 
             // label14
             // 
@@ -467,7 +467,7 @@
             this.txtDestinationAfterFulfillment.Name = "txtDestinationAfterFulfillment";
             this.txtDestinationAfterFulfillment.ReadOnly = true;
             this.txtDestinationAfterFulfillment.Size = new System.Drawing.Size(617, 20);
-            this.txtDestinationAfterFulfillment.TabIndex = 3;
+            this.txtDestinationAfterFulfillment.TabIndex = 7;
             // 
             // label13
             // 
@@ -486,7 +486,7 @@
             this.txtStrategicAfterDropOff.Name = "txtStrategicAfterDropOff";
             this.txtStrategicAfterDropOff.ReadOnly = true;
             this.txtStrategicAfterDropOff.Size = new System.Drawing.Size(617, 20);
-            this.txtStrategicAfterDropOff.TabIndex = 3;
+            this.txtStrategicAfterDropOff.TabIndex = 6;
             // 
             // label12
             // 
@@ -505,7 +505,7 @@
             this.txtStrategicAfterPickup.Name = "txtStrategicAfterPickup";
             this.txtStrategicAfterPickup.ReadOnly = true;
             this.txtStrategicAfterPickup.Size = new System.Drawing.Size(617, 20);
-            this.txtStrategicAfterPickup.TabIndex = 3;
+            this.txtStrategicAfterPickup.TabIndex = 4;
             // 
             // label10
             // 
@@ -524,7 +524,7 @@
             this.txtDropOffTrack.Name = "txtDropOffTrack";
             this.txtDropOffTrack.ReadOnly = true;
             this.txtDropOffTrack.Size = new System.Drawing.Size(617, 20);
-            this.txtDropOffTrack.TabIndex = 3;
+            this.txtDropOffTrack.TabIndex = 5;
             // 
             // label11
             // 
@@ -543,7 +543,7 @@
             this.txtPurchaseOrderLines.Name = "txtPurchaseOrderLines";
             this.txtPurchaseOrderLines.ReadOnly = true;
             this.txtPurchaseOrderLines.Size = new System.Drawing.Size(617, 20);
-            this.txtPurchaseOrderLines.TabIndex = 3;
+            this.txtPurchaseOrderLines.TabIndex = 2;
             // 
             // label16
             // 
@@ -651,7 +651,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.tbcDetails);
             this.splitContainer2.Size = new System.Drawing.Size(786, 592);
             this.splitContainer2.SplitterDistance = 198;
-            this.splitContainer2.TabIndex = 5;
+            this.splitContainer2.TabIndex = 1;
             // 
             // cmdWithdrawSubmission
             // 
@@ -661,7 +661,7 @@
             this.cmdWithdrawSubmission.Location = new System.Drawing.Point(671, 649);
             this.cmdWithdrawSubmission.Name = "cmdWithdrawSubmission";
             this.cmdWithdrawSubmission.Size = new System.Drawing.Size(127, 23);
-            this.cmdWithdrawSubmission.TabIndex = 6;
+            this.cmdWithdrawSubmission.TabIndex = 2;
             this.cmdWithdrawSubmission.Text = "Withdraw Submission";
             this.cmdWithdrawSubmission.UseVisualStyleBackColor = false;
             this.cmdWithdrawSubmission.Click += new System.EventHandler(this.cmdWithdrawSubmission_Click);
@@ -683,7 +683,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(810, 25);
-            this.toolStrip1.TabIndex = 8;
+            this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // toolSaveTemplate
@@ -692,7 +692,7 @@
             this.toolSaveTemplate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolSaveTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSaveTemplate.Name = "toolSaveTemplate";
-            this.toolSaveTemplate.Size = new System.Drawing.Size(98, 22);
+            this.toolSaveTemplate.Size = new System.Drawing.Size(103, 22);
             this.toolSaveTemplate.Text = "Save Template";
             this.toolSaveTemplate.Click += new System.EventHandler(this.toolSaveTemplate_Click);
             // 

@@ -49,8 +49,12 @@
             // 
             // chkLocations
             // 
+            this.chkLocations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.chkLocations.CheckOnClick = true;
             this.chkLocations.FormattingEnabled = true;
+            this.chkLocations.IntegralHeight = false;
             this.chkLocations.Location = new System.Drawing.Point(12, 28);
             this.chkLocations.Name = "chkLocations";
             this.chkLocations.Size = new System.Drawing.Size(385, 199);
@@ -59,6 +63,7 @@
             // 
             // cmdClone
             // 
+            this.cmdClone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdClone.Location = new System.Drawing.Point(322, 233);
             this.cmdClone.Name = "cmdClone";
             this.cmdClone.Size = new System.Drawing.Size(75, 23);
@@ -69,6 +74,7 @@
             // 
             // cmdCancel
             // 
+            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.Location = new System.Drawing.Point(241, 233);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);

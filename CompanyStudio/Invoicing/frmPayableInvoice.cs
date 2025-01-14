@@ -308,5 +308,10 @@ namespace CompanyStudio.Invoicing
                 PurchaseOrder.OpenPurchaseOrderForm(this, purchaseOrder);
             }
         }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

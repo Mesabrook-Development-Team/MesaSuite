@@ -28,6 +28,7 @@ namespace CompanyStudio.Purchasing.ApprovalViewer
 
         private async void frmApprovalViewerSubmitter_Load(object sender, EventArgs e)
         {
+            Text += $" - {PurchaseOrderID}";
             try
             {
                 loader.Visible = true;

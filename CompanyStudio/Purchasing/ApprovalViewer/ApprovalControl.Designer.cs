@@ -54,7 +54,7 @@
             this.txtApprover.Name = "txtApprover";
             this.txtApprover.ReadOnly = true;
             this.txtApprover.Size = new System.Drawing.Size(169, 20);
-            this.txtApprover.TabIndex = 2;
+            this.txtApprover.TabIndex = 0;
             // 
             // lblReasonAssigned
             // 
@@ -72,7 +72,7 @@
             this.txtReasonAssigned.Name = "txtReasonAssigned";
             this.txtReasonAssigned.ReadOnly = true;
             this.txtReasonAssigned.Size = new System.Drawing.Size(169, 20);
-            this.txtReasonAssigned.TabIndex = 2;
+            this.txtReasonAssigned.TabIndex = 1;
             // 
             // lblRejectReason
             // 

@@ -455,5 +455,10 @@ namespace CompanyStudio.Accounts
             LoadDebitCards();
             loader.Visible = false;
         }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

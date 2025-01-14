@@ -504,7 +504,7 @@ namespace WebModels.purchasing
                 Value = PurchaseOrderID
             });
 
-            foreach(PurchaseOrderLine line in await Task.Run(() => lineSearch.GetEditableReader(transaction)))
+            foreach(PurchaseOrderLine line in await Task.Run(() => lineSearch.GetEditableReader(transaction, FieldPathUtility.CreateFieldPathsAsList<PurchaseOrderLine>(pol => new object[] { pol.Item.Name }))))
             {
                 if (line.ItemID == null)
                 {
@@ -523,6 +523,7 @@ namespace WebModels.purchasing
 
                     if (relatedItem == null)
                     {
+                        Errors.AddBaseMessage($"Could not find price for {line.Quantity}x {line.Item.Name}");
                         return false;
                     }
 

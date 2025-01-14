@@ -38,6 +38,8 @@
             this.txtApprovalReason = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSellerSetup = new System.Windows.Forms.TabPage();
+            this.cboReceivingAccount = new System.Windows.Forms.ComboBox();
+            this.label21 = new System.Windows.Forms.Label();
             this.cboInvoiceSchedule = new System.Windows.Forms.ComboBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -87,8 +89,6 @@
             this.cmdDeny = new System.Windows.Forms.Button();
             this.loader = new CompanyStudio.Loader();
             this.chkFutureAutoApprove = new System.Windows.Forms.CheckBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.cboReceivingAccount = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabSellerSetup.SuspendLayout();
             this.tabPOInfo.SuspendLayout();
@@ -128,7 +128,7 @@
             this.txtApprovalReason.Name = "txtApprovalReason";
             this.txtApprovalReason.ReadOnly = true;
             this.txtApprovalReason.Size = new System.Drawing.Size(554, 20);
-            this.txtApprovalReason.TabIndex = 2;
+            this.txtApprovalReason.TabIndex = 0;
             // 
             // tabControl1
             // 
@@ -142,7 +142,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(648, 351);
-            this.tabControl1.TabIndex = 3;
+            this.tabControl1.TabIndex = 1;
             // 
             // tabSellerSetup
             // 
@@ -160,6 +160,25 @@
             this.tabSellerSetup.Text = "Seller Setup";
             this.tabSellerSetup.UseVisualStyleBackColor = true;
             // 
+            // cboReceivingAccount
+            // 
+            this.cboReceivingAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboReceivingAccount.FormattingEnabled = true;
+            this.cboReceivingAccount.Location = new System.Drawing.Point(269, 62);
+            this.cboReceivingAccount.Name = "cboReceivingAccount";
+            this.cboReceivingAccount.Size = new System.Drawing.Size(365, 21);
+            this.cboReceivingAccount.TabIndex = 1;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(6, 65);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(252, 13);
+            this.label21.TabIndex = 2;
+            this.label21.Text = "Use this Account to receive on automated Invoices:";
+            // 
             // cboInvoiceSchedule
             // 
             this.cboInvoiceSchedule.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -168,7 +187,7 @@
             this.cboInvoiceSchedule.Location = new System.Drawing.Point(269, 35);
             this.cboInvoiceSchedule.Name = "cboInvoiceSchedule";
             this.cboInvoiceSchedule.Size = new System.Drawing.Size(365, 21);
-            this.cboInvoiceSchedule.TabIndex = 3;
+            this.cboInvoiceSchedule.TabIndex = 0;
             // 
             // label20
             // 
@@ -287,7 +306,7 @@
             this.txtFrom.Name = "txtFrom";
             this.txtFrom.ReadOnly = true;
             this.txtFrom.Size = new System.Drawing.Size(560, 20);
-            this.txtFrom.TabIndex = 1;
+            this.txtFrom.TabIndex = 0;
             // 
             // label4
             // 
@@ -324,7 +343,7 @@
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
             this.txtTotal.Size = new System.Drawing.Size(81, 20);
-            this.txtTotal.TabIndex = 3;
+            this.txtTotal.TabIndex = 1;
             // 
             // label8
             // 
@@ -453,7 +472,7 @@
             this.lnkRailcar.Location = new System.Drawing.Point(154, 104);
             this.lnkRailcar.Name = "lnkRailcar";
             this.lnkRailcar.Size = new System.Drawing.Size(480, 20);
-            this.lnkRailcar.TabIndex = 22;
+            this.lnkRailcar.TabIndex = 1;
             this.lnkRailcar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lnkRailcar.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkRailcar_LinkClicked);
             // 
@@ -465,7 +484,7 @@
             this.txtRailcarRouting.Name = "txtRailcarRouting";
             this.txtRailcarRouting.ReadOnly = true;
             this.txtRailcarRouting.Size = new System.Drawing.Size(480, 20);
-            this.txtRailcarRouting.TabIndex = 21;
+            this.txtRailcarRouting.TabIndex = 8;
             // 
             // label14
             // 
@@ -484,7 +503,7 @@
             this.txtDestinationAfterFulfillment.Name = "txtDestinationAfterFulfillment";
             this.txtDestinationAfterFulfillment.ReadOnly = true;
             this.txtDestinationAfterFulfillment.Size = new System.Drawing.Size(480, 20);
-            this.txtDestinationAfterFulfillment.TabIndex = 19;
+            this.txtDestinationAfterFulfillment.TabIndex = 7;
             // 
             // label13
             // 
@@ -503,7 +522,7 @@
             this.txtStrategicAfterDropOff.Name = "txtStrategicAfterDropOff";
             this.txtStrategicAfterDropOff.ReadOnly = true;
             this.txtStrategicAfterDropOff.Size = new System.Drawing.Size(480, 20);
-            this.txtStrategicAfterDropOff.TabIndex = 16;
+            this.txtStrategicAfterDropOff.TabIndex = 6;
             // 
             // label12
             // 
@@ -522,7 +541,7 @@
             this.txtStrategicAfterPickup.Name = "txtStrategicAfterPickup";
             this.txtStrategicAfterPickup.ReadOnly = true;
             this.txtStrategicAfterPickup.Size = new System.Drawing.Size(480, 20);
-            this.txtStrategicAfterPickup.TabIndex = 15;
+            this.txtStrategicAfterPickup.TabIndex = 4;
             // 
             // label10
             // 
@@ -541,7 +560,7 @@
             this.txtDropOffTrack.Name = "txtDropOffTrack";
             this.txtDropOffTrack.ReadOnly = true;
             this.txtDropOffTrack.Size = new System.Drawing.Size(480, 20);
-            this.txtDropOffTrack.TabIndex = 17;
+            this.txtDropOffTrack.TabIndex = 5;
             // 
             // label11
             // 
@@ -560,7 +579,7 @@
             this.txtPurchaseOrderLines.Name = "txtPurchaseOrderLines";
             this.txtPurchaseOrderLines.ReadOnly = true;
             this.txtPurchaseOrderLines.Size = new System.Drawing.Size(480, 20);
-            this.txtPurchaseOrderLines.TabIndex = 18;
+            this.txtPurchaseOrderLines.TabIndex = 2;
             // 
             // label16
             // 
@@ -588,7 +607,7 @@
             this.txtPickupTrack.Name = "txtPickupTrack";
             this.txtPickupTrack.ReadOnly = true;
             this.txtPickupTrack.Size = new System.Drawing.Size(480, 20);
-            this.txtPickupTrack.TabIndex = 20;
+            this.txtPickupTrack.TabIndex = 3;
             // 
             // label9
             // 
@@ -642,7 +661,7 @@
             this.dgvFulfillmentPlans.RowHeadersVisible = false;
             this.dgvFulfillmentPlans.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFulfillmentPlans.Size = new System.Drawing.Size(638, 82);
-            this.dgvFulfillmentPlans.TabIndex = 5;
+            this.dgvFulfillmentPlans.TabIndex = 0;
             this.dgvFulfillmentPlans.SelectionChanged += new System.EventHandler(this.dgvFulfillmentPlans_SelectionChanged);
             // 
             // colRailcar
@@ -672,7 +691,7 @@
             this.cmdApprove.Location = new System.Drawing.Point(589, 415);
             this.cmdApprove.Name = "cmdApprove";
             this.cmdApprove.Size = new System.Drawing.Size(75, 23);
-            this.cmdApprove.TabIndex = 0;
+            this.cmdApprove.TabIndex = 2;
             this.cmdApprove.Text = "Approve";
             this.cmdApprove.UseVisualStyleBackColor = true;
             this.cmdApprove.Click += new System.EventHandler(this.cmdApprove_Click);
@@ -683,7 +702,7 @@
             this.cmdDeny.Location = new System.Drawing.Point(508, 415);
             this.cmdDeny.Name = "cmdDeny";
             this.cmdDeny.Size = new System.Drawing.Size(75, 23);
-            this.cmdDeny.TabIndex = 0;
+            this.cmdDeny.TabIndex = 3;
             this.cmdDeny.Text = "Reject";
             this.cmdDeny.UseVisualStyleBackColor = true;
             this.cmdDeny.Click += new System.EventHandler(this.cmdDeny_Click);
@@ -706,28 +725,9 @@
             this.chkFutureAutoApprove.Location = new System.Drawing.Point(119, 419);
             this.chkFutureAutoApprove.Name = "chkFutureAutoApprove";
             this.chkFutureAutoApprove.Size = new System.Drawing.Size(383, 17);
-            this.chkFutureAutoApprove.TabIndex = 5;
+            this.chkFutureAutoApprove.TabIndex = 4;
             this.chkFutureAutoApprove.Text = "Auto-approve for future Purchase Orders created from a template of this one";
             this.chkFutureAutoApprove.UseVisualStyleBackColor = true;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(6, 65);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(252, 13);
-            this.label21.TabIndex = 2;
-            this.label21.Text = "Use this Account to receive on automated Invoices:";
-            // 
-            // cboReceivingAccount
-            // 
-            this.cboReceivingAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboReceivingAccount.FormattingEnabled = true;
-            this.cboReceivingAccount.Location = new System.Drawing.Point(269, 62);
-            this.cboReceivingAccount.Name = "cboReceivingAccount";
-            this.cboReceivingAccount.Size = new System.Drawing.Size(365, 21);
-            this.cboReceivingAccount.TabIndex = 3;
             // 
             // frmApprovalViewerApprover
             // 

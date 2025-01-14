@@ -32,6 +32,7 @@ namespace CompanyStudio.Invoicing
 
         private async void frmAutomaticPaymentConfiguration_Load(object sender, EventArgs e)
         {
+            AppendCompanyLocationNameToWindowText();
             await ReloadData();
             InitialConfigurationID = null;
         }
@@ -115,7 +116,7 @@ namespace CompanyStudio.Invoicing
             cboPaymentAccount.Items.Clear();
             cboPaymentAccount.SelectedItem = null;
             cboPaymentAccount.Text = null;
-            foreach (Account account in accountsUserHasAccessTo)
+            foreach (Account account in accountsUserHasAccessTo.OrderBy(a => a.Description))
             {
                 DropDownItem<Account> ddi = new DropDownItem<Account>(account, $"{account.Description} ({account.AccountNumber})");
                 cboPaymentAccount.Items.Add(ddi);
@@ -163,6 +164,7 @@ namespace CompanyStudio.Invoicing
                     row.Cells[colDueDate.Name].Value = invoice.DueDate.ToString("MM/dd/yyyy");
                     row.Cells[colDescription.Name].Value = invoice.Description;
                     row.Cells[colAmount.Name].Value = invoice.InvoiceLines.Sum(il => il.Total).ToString("N2");
+                    row.Tag = invoice;
 
                     if (invoice.DueDate <= DateTime.Now)
                     {
@@ -381,6 +383,29 @@ namespace CompanyStudio.Invoicing
                     item.Selected = true;
                 }
             }
+        }
+
+        private void dgvUpcomingInvoices_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvUpcomingInvoices.Rows.Count || !PermissionsManager.HasPermission(LocationModel.LocationID.Value, PermissionsManager.LocationWidePermissions.ManageInvoices))
+            {
+                return;
+            }
+
+            Invoice invoice = dgvUpcomingInvoices.Rows[e.RowIndex].Tag as Invoice;
+            if (invoice == null)
+            {
+                return;
+            }
+
+            frmPayableInvoice payableInvoice = new frmPayableInvoice()
+            {
+                InvoiceID = invoice.InvoiceID
+            };
+            Studio.DecorateStudioContent(payableInvoice);
+            payableInvoice.Company = Company;
+            payableInvoice.LocationModel = LocationModel;
+            payableInvoice.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
         }
     }
 }

@@ -47,6 +47,7 @@
             this.txtLineCost = new System.Windows.Forms.TextBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.lblFulfillmentPlanWarning = new System.Windows.Forms.Label();
+            this.lnkRequestQuote = new System.Windows.Forms.LinkLabel();
             this.pnlItem.SuspendLayout();
             this.pnlService.SuspendLayout();
             this.SuspendLayout();
@@ -246,10 +247,23 @@
             this.lblFulfillmentPlanWarning.TabIndex = 9;
             this.lblFulfillmentPlanWarning.Text = "Not on any Fulfillment Plans!";
             // 
+            // lnkRequestQuote
+            // 
+            this.lnkRequestQuote.AutoSize = true;
+            this.lnkRequestQuote.Location = new System.Drawing.Point(391, 123);
+            this.lnkRequestQuote.Name = "lnkRequestQuote";
+            this.lnkRequestQuote.Size = new System.Drawing.Size(79, 13);
+            this.lnkRequestQuote.TabIndex = 10;
+            this.lnkRequestQuote.TabStop = true;
+            this.lnkRequestQuote.Text = "Request Quote";
+            this.lnkRequestQuote.Visible = false;
+            this.lnkRequestQuote.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkRequestQuote_LinkClicked);
+            // 
             // PurchaseOrderLineControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lnkRequestQuote);
             this.Controls.Add(this.lblFulfillmentPlanWarning);
             this.Controls.Add(this.pnlItem);
             this.Controls.Add(this.cmdDelete);
@@ -296,5 +310,6 @@
         private System.Windows.Forms.TextBox txtLineCost;
         private System.Windows.Forms.Button cmdDelete;
         private System.Windows.Forms.Label lblFulfillmentPlanWarning;
+        private System.Windows.Forms.LinkLabel lnkRequestQuote;
     }
 }

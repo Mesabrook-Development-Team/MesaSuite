@@ -63,7 +63,7 @@
             this.txtReview.ReadOnly = true;
             this.txtReview.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtReview.Size = new System.Drawing.Size(535, 305);
-            this.txtReview.TabIndex = 2;
+            this.txtReview.TabIndex = 0;
             // 
             // ReviewStepControl
             // 

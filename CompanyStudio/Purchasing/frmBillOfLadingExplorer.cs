@@ -35,6 +35,7 @@ namespace CompanyStudio.Purchasing
 
         private async void frmBillOfLadingExplorer_Load(object sender, EventArgs e)
         {
+            AppendCompanyLocationNameToWindowText();
             await RefreshData();
         }
 
@@ -44,8 +45,6 @@ namespace CompanyStudio.Purchasing
             {
                 loader.BringToFront();
                 loader.Visible = true;
-
-                treBOLs.Nodes.Clear();
 
                 TreeNode inboundNode = new TreeNode("Consigned") { ImageKey = INBOUND, SelectedImageKey = INBOUND };
                 TreeNode outboundNode = new TreeNode("Shipped") { ImageKey = OUTBOUND, SelectedImageKey = OUTBOUND };
@@ -89,6 +88,7 @@ namespace CompanyStudio.Purchasing
                 outboundNode.Text += " (" + outboundNode.Nodes.Count + ")";
                 carrierNode.Text += " (" + carrierNode.Nodes.Count + ")";
 
+                treBOLs.Nodes.Clear();
                 treBOLs.Nodes.Add(inboundNode);
                 treBOLs.Nodes.Add(outboundNode);
                 treBOLs.Nodes.Add(carrierNode);
@@ -119,13 +119,7 @@ namespace CompanyStudio.Purchasing
                 return;
             }
 
-            frmReportViewer reportViewer = new frmReportViewer();
-            Studio.DecorateStudioContent(reportViewer);
-            reportViewer.Company = Company;
-            reportViewer.ReportName = "CompanyStudio.Purchasing.BillOfLadingReport.BillOfLading.rdlc";
-            reportViewer.AddDataSet("BillOfLadingDataSet", new List<BillOfLading>() { billOfLading });
-            reportViewer.AddDataSet("BillOfLadingItems.BillOfLadingItemDataSet", billOfLading.BillOfLadingItems ?? new List<BillOfLadingItem>());
-            reportViewer.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
+            billOfLading.DisplayReport(Studio, Company);
         }
 
         private async void toolAcceptMultiple_Click(object sender, EventArgs e)
@@ -150,6 +144,14 @@ namespace CompanyStudio.Purchasing
 
             await BillOfLading.Accept(billOfLading.BillOfLadingID, Company.CompanyID, LocationModel.LocationID);
             await RefreshData();
+        }
+
+        private async void frmBillOfLadingExplorer_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+            {
+                await RefreshData();
+            }
         }
     }
 }

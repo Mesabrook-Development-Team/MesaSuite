@@ -36,6 +36,7 @@ namespace CompanyStudio.Purchasing
 
         private async void frmQuoteExplorer_Load(object sender, EventArgs e)
         {
+            AppendCompanyLocationNameToWindowText();
             await ReloadList();
         }
 
@@ -99,7 +100,7 @@ namespace CompanyStudio.Purchasing
             get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
             quotations.AddRange(await get.GetObject<List<Quotation>>() ?? new List<Quotation>());
 
-            foreach(Quotation quotation in quotations)
+            foreach(Quotation quotation in quotations.OrderByDescending(q => q.ExpirationTime))
             {
                 TreeNode parent = null;
                 StringBuilder textBuilder = new StringBuilder();
@@ -213,7 +214,7 @@ namespace CompanyStudio.Purchasing
                 return;
             }
 
-            QuotationRequest request = treQuotes.SelectedNode.Tag as QuotationRequest;
+            QuotationRequest request = treQuotes.SelectedNode?.Tag as QuotationRequest;
             if (request == null)
             {
                 return;
@@ -264,7 +265,7 @@ namespace CompanyStudio.Purchasing
                 return;
             }
 
-            Quotation quote = treQuotes.SelectedNode.Tag as Quotation;
+            Quotation quote = treQuotes.SelectedNode?.Tag as Quotation;
             if (quote == null)
             {
                 return;
@@ -287,7 +288,7 @@ namespace CompanyStudio.Purchasing
 
         private async void toolIssueFromRequest_Click(object sender, EventArgs e)
         {
-            QuotationRequest request = treQuotes.SelectedNode.Tag as QuotationRequest;
+            QuotationRequest request = treQuotes.SelectedNode?.Tag as QuotationRequest;
             if (request == null)
             {
                 return;
@@ -306,7 +307,7 @@ namespace CompanyStudio.Purchasing
 
         private async void toolCloneQuote_Click(object sender, EventArgs e)
         {
-            Quotation quote = treQuotes.SelectedNode.Tag as Quotation;
+            Quotation quote = treQuotes.SelectedNode?.Tag as Quotation;
             if (quote == null)
             {
                 return;
@@ -336,6 +337,14 @@ namespace CompanyStudio.Purchasing
             OpenQuote(newQuote.QuotationID);
 
             await ReloadList();
+        }
+
+        private async void frmQuoteExplorer_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+            {
+                await ReloadList();
+            }
         }
     }
 }

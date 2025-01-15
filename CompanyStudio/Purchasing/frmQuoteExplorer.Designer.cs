@@ -36,11 +36,11 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolIssueQuote = new System.Windows.Forms.ToolStripButton();
             this.toolDeleteQuote = new System.Windows.Forms.ToolStripButton();
+            this.toolCloneQuote = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolIssueFromRequest = new System.Windows.Forms.ToolStripButton();
             this.treQuotes = new System.Windows.Forms.TreeView();
             this.imgList = new System.Windows.Forms.ImageList(this.components);
-            this.toolCloneQuote = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,7 +67,7 @@
             this.toolRequestQuote.Image = global::CompanyStudio.Properties.Resources.comment_add;
             this.toolRequestQuote.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolRequestQuote.Name = "toolRequestQuote";
-            this.toolRequestQuote.Size = new System.Drawing.Size(100, 20);
+            this.toolRequestQuote.Size = new System.Drawing.Size(105, 20);
             this.toolRequestQuote.Text = "Request Quote";
             this.toolRequestQuote.Click += new System.EventHandler(this.toolRequestQuote_Click);
             // 
@@ -77,7 +77,7 @@
             this.toolDeleteRequest.Image = global::CompanyStudio.Properties.Resources.comment_delete;
             this.toolDeleteRequest.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolDeleteRequest.Name = "toolDeleteRequest";
-            this.toolDeleteRequest.Size = new System.Drawing.Size(101, 20);
+            this.toolDeleteRequest.Size = new System.Drawing.Size(105, 20);
             this.toolDeleteRequest.Text = "Delete Request";
             this.toolDeleteRequest.Click += new System.EventHandler(this.toolDeleteRequest_Click);
             // 
@@ -91,7 +91,7 @@
             this.toolIssueQuote.Image = global::CompanyStudio.Properties.Resources.comments_add;
             this.toolIssueQuote.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolIssueQuote.Name = "toolIssueQuote";
-            this.toolIssueQuote.Size = new System.Drawing.Size(86, 20);
+            this.toolIssueQuote.Size = new System.Drawing.Size(89, 20);
             this.toolIssueQuote.Text = "Issue Quote";
             this.toolIssueQuote.Click += new System.EventHandler(this.toolIssueQuote_Click);
             // 
@@ -101,9 +101,19 @@
             this.toolDeleteQuote.Image = global::CompanyStudio.Properties.Resources.comments_delete;
             this.toolDeleteQuote.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolDeleteQuote.Name = "toolDeleteQuote";
-            this.toolDeleteQuote.Size = new System.Drawing.Size(91, 20);
+            this.toolDeleteQuote.Size = new System.Drawing.Size(96, 20);
             this.toolDeleteQuote.Text = "Delete Quote";
             this.toolDeleteQuote.Click += new System.EventHandler(this.toolDeleteQuote_Click);
+            // 
+            // toolCloneQuote
+            // 
+            this.toolCloneQuote.Enabled = false;
+            this.toolCloneQuote.Image = global::CompanyStudio.Properties.Resources.page_copy;
+            this.toolCloneQuote.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolCloneQuote.Name = "toolCloneQuote";
+            this.toolCloneQuote.Size = new System.Drawing.Size(94, 20);
+            this.toolCloneQuote.Text = "Clone Quote";
+            this.toolCloneQuote.Click += new System.EventHandler(this.toolCloneQuote_Click);
             // 
             // toolStripSeparator2
             // 
@@ -116,7 +126,7 @@
             this.toolIssueFromRequest.Image = global::CompanyStudio.Properties.Resources.comment_edit;
             this.toolIssueFromRequest.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolIssueFromRequest.Name = "toolIssueFromRequest";
-            this.toolIssueFromRequest.Size = new System.Drawing.Size(156, 20);
+            this.toolIssueFromRequest.Size = new System.Drawing.Size(165, 20);
             this.toolIssueFromRequest.Text = "Issue Quote From Request";
             this.toolIssueFromRequest.Click += new System.EventHandler(this.toolIssueFromRequest_Click);
             // 
@@ -139,16 +149,6 @@
             this.imgList.ImageSize = new System.Drawing.Size(16, 16);
             this.imgList.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // toolCloneQuote
-            // 
-            this.toolCloneQuote.Enabled = false;
-            this.toolCloneQuote.Image = global::CompanyStudio.Properties.Resources.page_copy;
-            this.toolCloneQuote.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolCloneQuote.Name = "toolCloneQuote";
-            this.toolCloneQuote.Size = new System.Drawing.Size(87, 20);
-            this.toolCloneQuote.Text = "Clone Quote";
-            this.toolCloneQuote.Click += new System.EventHandler(this.toolCloneQuote_Click);
-            // 
             // frmQuoteExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -157,10 +157,12 @@
             this.Controls.Add(this.treQuotes);
             this.Controls.Add(this.toolStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "frmQuoteExplorer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Quote Explorer";
             this.Load += new System.EventHandler(this.frmQuoteExplorer_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmQuoteExplorer_KeyDown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);

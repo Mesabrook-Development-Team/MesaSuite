@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Media;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MesaSuite.Common.Extensions;
 using MesaSuite.Common.Utility;
@@ -65,7 +66,7 @@ namespace GovernmentPortal
             control.Dock = DockStyle.Fill;
         }
 
-        private void frmGenericExplorer_Load(object sender, EventArgs e)
+        private async void frmGenericExplorer_Load(object sender, EventArgs e)
         {
             if (explorerContext == null)
             {
@@ -94,10 +95,15 @@ namespace GovernmentPortal
                 lstItems.Top = toolStrip.Bottom;
                 toolStrip.Visible = true;
             }
-            LoadAllItems(true);
+            await LoadAllItems(true);
+            DropDownItem<TModel> initiallySelected = explorerContext.GetInitiallySelectedItem(dropDownItems);
+            if (initiallySelected != null)
+            {
+                lstItems.SelectedItem = initiallySelected;
+            }
         }
         
-        public async void LoadAllItems(bool doFill = false, string selectedTextOverride = null)
+        public async Task LoadAllItems(bool doFill = false, string selectedTextOverride = null)
         {
             if (shownControl != null && shownControl.IsDirty && WarnDirty() == DialogResult.Cancel)
             {

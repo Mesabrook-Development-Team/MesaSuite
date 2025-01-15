@@ -130,7 +130,9 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
         {
             Receiving receiving = new Receiving()
             {
+                Studio = Studio,
                 RailcarID = railcar.RailcarID,
+                Company = Company,
                 CompanyID = Company.CompanyID,
                 LocationID = LocationModel.LocationID,
                 Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right,

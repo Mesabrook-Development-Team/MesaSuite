@@ -18,6 +18,8 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
     [ToolboxItem(false)]
     public partial class Receiving : UserControl
     {
+        public frmStudio Studio { get; set; }
+        public Company Company { get; set; }
         public event EventHandler CarReleased;
 
         private List<Image> images = new List<Image>();
@@ -249,6 +251,17 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
             }
 
             await LoadRailcarInformation();
+        }
+
+        private void lnkBOL_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            List<BillOfLading> billsOfLading = lnkBOL.Tag as List<BillOfLading>;
+            if (billsOfLading == null)
+            {
+                return;
+            }
+
+            billsOfLading.ForEach(bol => bol.DisplayReport(Studio, Company));
         }
     }
 }

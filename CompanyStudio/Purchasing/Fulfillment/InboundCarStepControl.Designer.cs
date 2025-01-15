@@ -140,7 +140,7 @@
             this.txtBOLNo.Location = new System.Drawing.Point(92, 106);
             this.txtBOLNo.Name = "txtBOLNo";
             this.txtBOLNo.Size = new System.Drawing.Size(379, 20);
-            this.txtBOLNo.TabIndex = 5;
+            this.txtBOLNo.TabIndex = 6;
             this.txtBOLNo.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBOLNo_KeyUp);
             // 
             // txtRailcar
@@ -150,7 +150,7 @@
             this.txtRailcar.Location = new System.Drawing.Point(92, 77);
             this.txtRailcar.Name = "txtRailcar";
             this.txtRailcar.Size = new System.Drawing.Size(379, 20);
-            this.txtRailcar.TabIndex = 5;
+            this.txtRailcar.TabIndex = 4;
             this.txtRailcar.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtRailcar_KeyUp);
             // 
             // label7
@@ -186,7 +186,7 @@
             this.cmdAddCarByBOL.Location = new System.Drawing.Point(477, 104);
             this.cmdAddCarByBOL.Name = "cmdAddCarByBOL";
             this.cmdAddCarByBOL.Size = new System.Drawing.Size(75, 23);
-            this.cmdAddCarByBOL.TabIndex = 2;
+            this.cmdAddCarByBOL.TabIndex = 7;
             this.cmdAddCarByBOL.Text = "Add Car";
             this.cmdAddCarByBOL.UseVisualStyleBackColor = true;
             this.cmdAddCarByBOL.Click += new System.EventHandler(this.cmdAddCarByBOL_Click);
@@ -197,7 +197,7 @@
             this.cmdAddCarByID.Location = new System.Drawing.Point(477, 75);
             this.cmdAddCarByID.Name = "cmdAddCarByID";
             this.cmdAddCarByID.Size = new System.Drawing.Size(75, 23);
-            this.cmdAddCarByID.TabIndex = 2;
+            this.cmdAddCarByID.TabIndex = 5;
             this.cmdAddCarByID.Text = "Add Car";
             this.cmdAddCarByID.UseVisualStyleBackColor = true;
             this.cmdAddCarByID.Click += new System.EventHandler(this.cmdAddCarByID_Click);
@@ -208,7 +208,7 @@
             this.cmdAddFromPOLine.Location = new System.Drawing.Point(477, 46);
             this.cmdAddFromPOLine.Name = "cmdAddFromPOLine";
             this.cmdAddFromPOLine.Size = new System.Drawing.Size(75, 23);
-            this.cmdAddFromPOLine.TabIndex = 2;
+            this.cmdAddFromPOLine.TabIndex = 3;
             this.cmdAddFromPOLine.Text = "Add All Cars";
             this.cmdAddFromPOLine.UseVisualStyleBackColor = true;
             this.cmdAddFromPOLine.Click += new System.EventHandler(this.cmdAddFromPOLine_Click);
@@ -219,7 +219,7 @@
             this.cmdAddEntireTrack.Location = new System.Drawing.Point(477, 17);
             this.cmdAddEntireTrack.Name = "cmdAddEntireTrack";
             this.cmdAddEntireTrack.Size = new System.Drawing.Size(75, 23);
-            this.cmdAddEntireTrack.TabIndex = 2;
+            this.cmdAddEntireTrack.TabIndex = 1;
             this.cmdAddEntireTrack.Text = "Add All Cars";
             this.cmdAddEntireTrack.UseVisualStyleBackColor = true;
             this.cmdAddEntireTrack.Click += new System.EventHandler(this.cmdAddEntireTrack_Click);
@@ -232,7 +232,7 @@
             this.cboPurchaseOrderLines.Location = new System.Drawing.Point(164, 48);
             this.cboPurchaseOrderLines.Name = "cboPurchaseOrderLines";
             this.cboPurchaseOrderLines.Size = new System.Drawing.Size(307, 21);
-            this.cboPurchaseOrderLines.TabIndex = 1;
+            this.cboPurchaseOrderLines.TabIndex = 2;
             // 
             // cboTrack
             // 
@@ -242,7 +242,7 @@
             this.cboTrack.Location = new System.Drawing.Point(102, 19);
             this.cboTrack.Name = "cboTrack";
             this.cboTrack.Size = new System.Drawing.Size(369, 21);
-            this.cboTrack.TabIndex = 1;
+            this.cboTrack.TabIndex = 0;
             // 
             // label4
             // 

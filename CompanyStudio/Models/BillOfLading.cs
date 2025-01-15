@@ -104,5 +104,16 @@ namespace CompanyStudio.Models
                 }
             }
         }
+
+        public void DisplayReport(frmStudio studio, Company company)
+        {
+            frmReportViewer reportViewer = new frmReportViewer();
+            studio.DecorateStudioContent(reportViewer);
+            reportViewer.Company = company;
+            reportViewer.ReportName = "CompanyStudio.Purchasing.BillOfLadingReport.BillOfLading.rdlc";
+            reportViewer.AddDataSet("BillOfLadingDataSet", new List<BillOfLading>() { this });
+            reportViewer.AddDataSet("BillOfLadingItems.BillOfLadingItemDataSet", BillOfLadingItems ?? new List<BillOfLadingItem>());
+            reportViewer.Show(studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
+        }
     }
 }

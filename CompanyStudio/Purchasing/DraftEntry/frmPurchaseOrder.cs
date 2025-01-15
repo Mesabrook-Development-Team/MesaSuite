@@ -66,6 +66,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
                 if (PurchaseOrderID != null)
                 {
+                    Text += $" - {PurchaseOrderID}";
+
                     get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Get/" + PurchaseOrderID);
                     get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
                     PurchaseOrder purchaseOrder = await get.GetObject<PurchaseOrder>();
@@ -403,6 +405,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
                         {
                             line.PurchaseOrderID = PurchaseOrderID;
                         }
+
+                        Text += $" - {PurchaseOrderID}";
                     }
                     else
                     {
@@ -581,9 +585,21 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 Studio = Studio
             };
             control.OnSave += FulfillmentPlanControl_OnSave;
+            control.OnReset += FulfillmentPlanControl_OnReset;
             grpFulfillmentPlanInformation.Controls.Add(control);
 
             control.SetPurchaseOrderLines(_linesAtLoad);
+        }
+
+        private void FulfillmentPlanControl_OnReset(object sender, EventArgs e)
+        {
+            FulfillmentPlanControl control = sender as FulfillmentPlanControl;
+            if (control == null)
+            {
+                return;
+            }
+
+            AddFulfillmentPlanControl(control.FulfillmentPlanID);
         }
 
         private async void FulfillmentPlanControl_OnSave(object sender, EventArgs e)

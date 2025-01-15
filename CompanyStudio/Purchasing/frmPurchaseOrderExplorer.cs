@@ -35,6 +35,7 @@ namespace CompanyStudio.Purchasing
 
         private async void frmPurchaseOrderExplorer_Load(object sender, EventArgs e)
         {
+            AppendCompanyLocationNameToWindowText();
             await ReloadTree();
         }
 
@@ -69,7 +70,7 @@ namespace CompanyStudio.Purchasing
 
                 int receivedCount = 0;
                 int receivedNonCompleteCount = 0;
-                foreach (PurchaseOrder purchaseOrder in purchaseOrders.Where(po => po.LocationIDDestination == LocationModel.LocationID || (po.PurchaseOrderApprovals?.Any(poa => poa.CompanyIDApprover == Company.CompanyID) ?? false)))
+                foreach (PurchaseOrder purchaseOrder in purchaseOrders.Where(po => po.LocationIDDestination == LocationModel.LocationID || (po.PurchaseOrderApprovals?.Any(poa => poa.CompanyIDApprover == Company.CompanyID) ?? false)).OrderByDescending(po => po.PurchaseOrderDate).ThenByDescending(po => po.PurchaseOrderID))
                 {
                     TreeNode parentNode = receivedNodes.FirstOrDefault(kvp => kvp.Key == purchaseOrder.Status).Value;
                     if (parentNode == null)
@@ -98,7 +99,7 @@ namespace CompanyStudio.Purchasing
 
                 int issuedNonCompleteCount = 0;
                 int issuedTotalCount = 0;
-                foreach (PurchaseOrder purchaseOrder in purchaseOrders.Where(po => po.LocationIDOrigin == LocationModel.LocationID))
+                foreach (PurchaseOrder purchaseOrder in purchaseOrders.Where(po => po.LocationIDOrigin == LocationModel.LocationID).OrderByDescending(po => po.PurchaseOrderDate).ThenByDescending(po => po.PurchaseOrderID))
                 {
                     TreeNode parentNode = issuedNodes.FirstOrDefault(kvp => kvp.Key == purchaseOrder.Status).Value;
                     TreeNode purchaseOrderNode = new TreeNode(purchaseOrder.LocationIDDestination != null ?

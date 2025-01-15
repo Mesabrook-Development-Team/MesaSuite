@@ -201,6 +201,7 @@ namespace GovernmentPortal.Invoicing
                 row.Cells[colDueDate.Name].Value = invoice.DueDate.ToString("MM/dd/yyyy");
                 row.Cells[colDescription.Name].Value = invoice.Description;
                 row.Cells[colAmount.Name].Value = invoice.InvoiceLines?.Sum(l => l.Total).ToString("N2");
+                row.Tag = invoice;
 
                 if (invoice.DueDate < DateTime.Now)
                 {
@@ -271,6 +272,30 @@ namespace GovernmentPortal.Invoicing
 
             Dispose();
             _explorer.LoadAllItems(true, AutomaticPaymentsContext.GetDisplayName(Model));
+        }
+
+        private void dgvUpcomingInvoices_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvUpcomingInvoices.Rows.Count)
+            {
+                return;
+            }
+
+            Invoice invoice = dgvUpcomingInvoices.Rows[e.RowIndex].Tag as Invoice;
+            frmPortal portal = _explorer.MdiParent as frmPortal;
+            if (portal == null)
+            {
+                return;
+            }
+
+            PayableInvoiceContext invoiceContext = new PayableInvoiceContext(GovernmentID)
+            {
+                InitiallySelectedInvoiceID = invoice.InvoiceID
+            };
+            
+            frmGenericExplorer<Invoice> invoiceExplorer = new frmGenericExplorer<Invoice>(invoiceContext);
+            invoiceExplorer.MdiParent = portal;
+            invoiceExplorer.Show();
         }
     }
 }

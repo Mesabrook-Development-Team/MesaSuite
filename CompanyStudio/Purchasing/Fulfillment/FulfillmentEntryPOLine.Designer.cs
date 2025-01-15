@@ -56,7 +56,7 @@
             this.lnkChangeRailcar.Location = new System.Drawing.Point(4, 16);
             this.lnkChangeRailcar.Name = "lnkChangeRailcar";
             this.lnkChangeRailcar.Size = new System.Drawing.Size(58, 9);
-            this.lnkChangeRailcar.TabIndex = 1;
+            this.lnkChangeRailcar.TabIndex = 0;
             this.lnkChangeRailcar.TabStop = true;
             this.lnkChangeRailcar.Text = "Change Railcar";
             this.lnkChangeRailcar.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkChangeRailcar_LinkClicked);
@@ -85,7 +85,7 @@
             this.txtQtyRemaining.Name = "txtQtyRemaining";
             this.txtQtyRemaining.ReadOnly = true;
             this.txtQtyRemaining.Size = new System.Drawing.Size(57, 20);
-            this.txtQtyRemaining.TabIndex = 5;
+            this.txtQtyRemaining.TabIndex = 3;
             // 
             // label4
             // 
@@ -101,7 +101,7 @@
             this.txtQtyLoaded.Location = new System.Drawing.Point(222, 63);
             this.txtQtyLoaded.Name = "txtQtyLoaded";
             this.txtQtyLoaded.Size = new System.Drawing.Size(57, 20);
-            this.txtQtyLoaded.TabIndex = 5;
+            this.txtQtyLoaded.TabIndex = 4;
             this.txtQtyLoaded.TextChanged += new System.EventHandler(this.txtQtyLoaded_TextChanged);
             // 
             // txtPurchaseOrderLine
@@ -112,7 +112,7 @@
             this.txtPurchaseOrderLine.Name = "txtPurchaseOrderLine";
             this.txtPurchaseOrderLine.ReadOnly = true;
             this.txtPurchaseOrderLine.Size = new System.Drawing.Size(359, 20);
-            this.txtPurchaseOrderLine.TabIndex = 6;
+            this.txtPurchaseOrderLine.TabIndex = 1;
             // 
             // lnkSplitToAnotherCar
             // 
@@ -121,7 +121,7 @@
             this.lnkSplitToAnotherCar.Location = new System.Drawing.Point(210, 45);
             this.lnkSplitToAnotherCar.Name = "lnkSplitToAnotherCar";
             this.lnkSplitToAnotherCar.Size = new System.Drawing.Size(171, 13);
-            this.lnkSplitToAnotherCar.TabIndex = 7;
+            this.lnkSplitToAnotherCar.TabIndex = 2;
             this.lnkSplitToAnotherCar.TabStop = true;
             this.lnkSplitToAnotherCar.Text = "Split Fulfillment into another Railcar";
             this.lnkSplitToAnotherCar.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSplitToAnotherCar_LinkClicked);

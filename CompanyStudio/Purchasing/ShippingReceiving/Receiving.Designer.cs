@@ -231,6 +231,7 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
             this.lnkBOL.TabIndex = 1;
             this.lnkBOL.TabStop = true;
             this.lnkBOL.Text = "[BOL ID]";
+            this.lnkBOL.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkBOL_LinkClicked);
             this.lnkBOL.SizeChanged += new System.EventHandler(this.lnkBOL_SizeChanged);
             // 
             // lblAcceptBOL

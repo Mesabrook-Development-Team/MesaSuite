@@ -51,7 +51,7 @@
             this.routeEnd = new CompanyStudio.Purchasing.DraftEntry.RouteControlEnd();
             this.label3 = new System.Windows.Forms.Label();
             this.cmdSave = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.cmdReset = new System.Windows.Forms.Button();
             this.loader = new CompanyStudio.Loader();
             this.ctxSelectRailcar = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolSelectRailcar = new System.Windows.Forms.ToolStripMenuItem();
@@ -308,15 +308,16 @@
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
-            // button3
+            // cmdReset
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(222, 542);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 10;
-            this.button3.Text = "Reset";
-            this.button3.UseVisualStyleBackColor = true;
+            this.cmdReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdReset.Location = new System.Drawing.Point(222, 542);
+            this.cmdReset.Name = "cmdReset";
+            this.cmdReset.Size = new System.Drawing.Size(75, 23);
+            this.cmdReset.TabIndex = 10;
+            this.cmdReset.Text = "Reset";
+            this.cmdReset.UseVisualStyleBackColor = true;
+            this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);
             // 
             // loader
             // 
@@ -390,7 +391,7 @@
             this.AutoScroll = true;
             this.Controls.Add(this.label3);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.cmdReset);
             this.Controls.Add(this.cmdSave);
             this.Controls.Add(this.cboPostFulfillment);
             this.Controls.Add(this.cboStrategicAfterDestination);
@@ -441,7 +442,7 @@
         private RouteControlStart routeStart;
         private RouteControlEnd routeEnd;
         private System.Windows.Forms.Button cmdSave;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button cmdReset;
         private Loader loader;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colApplyPOLine;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPOLine;

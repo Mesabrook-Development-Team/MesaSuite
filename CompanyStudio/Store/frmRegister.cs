@@ -63,6 +63,7 @@ namespace CompanyStudio.Store
                 get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
                 Register register = await get.GetObject<Register>() ?? new Register();
 
+                Text = register.Name;
                 txtName.Text = register.Name;
                 txtIdentifier.Text = register.Identifier?.ToString();
                 lblCurrentStatus.Text = register.CurrentStatus?.Status.ToString().ToDisplayName();
@@ -170,6 +171,11 @@ namespace CompanyStudio.Store
         private void frmRegister_FormClosed(object sender, FormClosedEventArgs e)
         {
             PermissionsManager.OnLocationPermissionChange -= PermissionsManager_OnLocationPermissionChange;
+        }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

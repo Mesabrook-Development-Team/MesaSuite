@@ -34,7 +34,14 @@ namespace CompanyStudio.Purchasing.Templates
                 {
                     AddBreadcrumb(value);
                 }
-                lblCurrentFolderID.Text = _selectedFolderID?.ToString() ?? "[Null]";
+                if (_selectedFolderID == -1)
+                {
+                    lblCurrentFolderID.Text = "[Null]";
+                }
+                else
+                {
+                    lblCurrentFolderID.Text = _selectedFolderID.ToString();
+                }
                 _suppressBreadcrumbUpdate = false;
             }
         }
@@ -182,6 +189,8 @@ namespace CompanyStudio.Purchasing.Templates
                 item.Tag = template;
                 lstItems.Items.Add(item);
             }
+
+            lblSelectedTemplateID.Text = string.Empty;
         }
 
         private void AddBreadcrumb(long? folderID)
@@ -757,6 +766,7 @@ namespace CompanyStudio.Purchasing.Templates
             PurchaseOrderTemplateFolder folder = e.Node.Tag as PurchaseOrderTemplateFolder;
 
             SelectedFolderID = folder?.PurchaseOrderTemplateFolderID ?? -1L;
+            lblSelectedTemplateID.Text = string.Empty;
             LoadListItems();
         }
 

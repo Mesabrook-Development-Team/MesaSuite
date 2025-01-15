@@ -37,6 +37,7 @@ namespace CompanyStudio
             }
             reportViewer.LocalReport.SubreportProcessing += LocalReport_SubreportProcessing;
             this.reportViewer.RefreshReport();
+            reportViewer.SetDisplayMode(DisplayMode.PrintLayout);
         }
 
         private void LocalReport_SubreportProcessing(object sender, SubreportProcessingEventArgs e)

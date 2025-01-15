@@ -17,5 +17,6 @@ namespace GovernmentPortal
         internal virtual string ObjectDisplayName => typeof(TModel).Name.ToDisplayName();
         internal virtual bool DeleteButtonVisible => true;
         internal virtual IEnumerable<ToolStripMenuItem> GetExtraToolItems() => Enumerable.Empty<ToolStripMenuItem>();
+        internal virtual DropDownItem<TModel> GetInitiallySelectedItem(IReadOnlyCollection<DropDownItem<TModel>> items) => null;
     }
 }

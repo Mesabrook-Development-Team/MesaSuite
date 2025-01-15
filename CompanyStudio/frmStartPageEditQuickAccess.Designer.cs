@@ -81,7 +81,7 @@
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Padding = new System.Windows.Forms.Padding(5);
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 6;
+            this.cmdCancel.TabIndex = 4;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
@@ -92,7 +92,7 @@
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Padding = new System.Windows.Forms.Padding(5);
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 6;
+            this.cmdSave.TabIndex = 3;
             this.cmdSave.Text = "Save";
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
             // 
@@ -106,7 +106,7 @@
             this.txtQuickAccessName.Location = new System.Drawing.Point(172, 268);
             this.txtQuickAccessName.Name = "txtQuickAccessName";
             this.txtQuickAccessName.Size = new System.Drawing.Size(483, 20);
-            this.txtQuickAccessName.TabIndex = 5;
+            this.txtQuickAccessName.TabIndex = 2;
             // 
             // cboLocations
             // 
@@ -117,7 +117,7 @@
             this.cboLocations.Location = new System.Drawing.Point(123, 32);
             this.cboLocations.Name = "cboLocations";
             this.cboLocations.Size = new System.Drawing.Size(532, 21);
-            this.cboLocations.TabIndex = 4;
+            this.cboLocations.TabIndex = 0;
             this.cboLocations.SelectionChangeCommitted += new System.EventHandler(this.treMenus_SelectedNodesChanged);
             // 
             // treMenus
@@ -130,7 +130,7 @@
             this.treMenus.Name = "treMenus";
             this.treMenus.ShowIcons = true;
             this.treMenus.Size = new System.Drawing.Size(643, 188);
-            this.treMenus.TabIndex = 3;
+            this.treMenus.TabIndex = 1;
             this.treMenus.Text = "crownTreeView1";
             this.treMenus.SelectedNodesChanged += new System.EventHandler(this.treMenus_SelectedNodesChanged);
             // 

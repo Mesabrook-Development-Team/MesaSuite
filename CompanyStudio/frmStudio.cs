@@ -1067,5 +1067,11 @@ namespace CompanyStudio
             DecorateStudioContent(configuration);
             configuration.Show(dockPanel, DockState.Document);
         }
+
+        private void tsmiFulfillmentWizard_Click(object sender, EventArgs e)
+        {
+            Purchasing.Fulfillment.FulfillmentWizardController wizardController = new Purchasing.Fulfillment.FulfillmentWizardController(ActiveCompany?.CompanyID, ActiveLocation?.LocationID);
+            wizardController.StartWizard();
+        }
     }
 }

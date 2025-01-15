@@ -80,7 +80,7 @@
             this.cboPurchaseOrders.Location = new System.Drawing.Point(115, 54);
             this.cboPurchaseOrders.Name = "cboPurchaseOrders";
             this.cboPurchaseOrders.Size = new System.Drawing.Size(391, 21);
-            this.cboPurchaseOrders.TabIndex = 5;
+            this.cboPurchaseOrders.TabIndex = 0;
             // 
             // cmdAddPO
             // 
@@ -88,7 +88,7 @@
             this.cmdAddPO.Location = new System.Drawing.Point(512, 52);
             this.cmdAddPO.Name = "cmdAddPO";
             this.cmdAddPO.Size = new System.Drawing.Size(75, 23);
-            this.cmdAddPO.TabIndex = 6;
+            this.cmdAddPO.TabIndex = 1;
             this.cmdAddPO.Text = "Add";
             this.cmdAddPO.UseVisualStyleBackColor = true;
             this.cmdAddPO.Click += new System.EventHandler(this.cmdAddPO_Click);
@@ -113,7 +113,7 @@
             this.pnlUnfulledPOLines.Location = new System.Drawing.Point(3, 97);
             this.pnlUnfulledPOLines.Name = "pnlUnfulledPOLines";
             this.pnlUnfulledPOLines.Size = new System.Drawing.Size(584, 233);
-            this.pnlUnfulledPOLines.TabIndex = 8;
+            this.pnlUnfulledPOLines.TabIndex = 2;
             // 
             // FulfillmentEntryStepControl
             // 

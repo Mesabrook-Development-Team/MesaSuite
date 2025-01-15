@@ -18,6 +18,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
     public partial class FulfillmentPlanControl : UserControl
     {
         public event EventHandler OnSave;
+        public event EventHandler OnReset;
 
         public long? FulfillmentPlanID { get; set; }
         public long? CompanyID { get; set; }
@@ -558,6 +559,11 @@ namespace CompanyStudio.Purchasing.DraftEntry
                     }
                 }
             };
+        }
+
+        private void cmdReset_Click(object sender, EventArgs e)
+        {
+            OnReset?.Invoke(this, EventArgs.Empty);
         }
     }
 }

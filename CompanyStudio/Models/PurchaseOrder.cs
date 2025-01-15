@@ -83,6 +83,12 @@ namespace CompanyStudio.Models
             Statuses.Completed
         };
 
+        public static readonly IReadOnlyCollection<Statuses> OPEN_STATUSES = new List<Statuses>()
+        {
+            Statuses.Accepted,
+            Statuses.InProgress
+        };
+
         public static BaseCompanyStudioContent OpenPurchaseOrderForm<T>(T parent, PurchaseOrder purchaseOrder = null) where T : BaseCompanyStudioContent, ILocationScoped
         {
             Statuses status = purchaseOrder?.Status ?? Statuses.Draft;

@@ -89,7 +89,7 @@
             this.toolAcceptBOL.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolAcceptBOL.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAcceptBOL.Name = "toolAcceptBOL";
-            this.toolAcceptBOL.Size = new System.Drawing.Size(82, 22);
+            this.toolAcceptBOL.Size = new System.Drawing.Size(89, 22);
             this.toolAcceptBOL.Text = "Accept BOL";
             this.toolAcceptBOL.Click += new System.EventHandler(this.toolAcceptBOL_Click);
             // 
@@ -104,7 +104,7 @@
             this.toolAcceptMultiple.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolAcceptMultiple.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAcceptMultiple.Name = "toolAcceptMultiple";
-            this.toolAcceptMultiple.Size = new System.Drawing.Size(99, 22);
+            this.toolAcceptMultiple.Size = new System.Drawing.Size(111, 22);
             this.toolAcceptMultiple.Text = "Accept Multiple";
             this.toolAcceptMultiple.Click += new System.EventHandler(this.toolAcceptMultiple_Click);
             // 
@@ -117,9 +117,11 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.loader);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "frmBillOfLadingExplorer";
             this.Text = "Bill Of Lading Explorer";
             this.Load += new System.EventHandler(this.frmBillOfLadingExplorer_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmBillOfLadingExplorer_KeyUp);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);

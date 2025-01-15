@@ -31,6 +31,7 @@ namespace CompanyStudio.Store
 
         private void frmStoreItems_Load(object sender, EventArgs e)
         {
+            AppendCompanyLocationNameToWindowText();
             PermissionsManager.OnLocationPermissionChange += PermissionsManager_OnLocationPermissionChange;
 
             colQty.ValueType = typeof(decimal);

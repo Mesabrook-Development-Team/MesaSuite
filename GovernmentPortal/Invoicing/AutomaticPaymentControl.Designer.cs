@@ -70,7 +70,8 @@
             this.dgvUpcomingInvoices.RowHeadersVisible = false;
             this.dgvUpcomingInvoices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUpcomingInvoices.Size = new System.Drawing.Size(583, 256);
-            this.dgvUpcomingInvoices.TabIndex = 23;
+            this.dgvUpcomingInvoices.TabIndex = 7;
+            this.dgvUpcomingInvoices.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUpcomingInvoices_CellDoubleClick);
             // 
             // colInvoiceNumber
             // 
@@ -130,7 +131,7 @@
             this.txtPayee.Name = "txtPayee";
             this.txtPayee.ReadOnly = true;
             this.txtPayee.Size = new System.Drawing.Size(537, 20);
-            this.txtPayee.TabIndex = 13;
+            this.txtPayee.TabIndex = 0;
             // 
             // cboPaymentAccount
             // 
@@ -142,7 +143,7 @@
             this.cboPaymentAccount.Location = new System.Drawing.Point(110, 106);
             this.cboPaymentAccount.Name = "cboPaymentAccount";
             this.cboPaymentAccount.Size = new System.Drawing.Size(477, 21);
-            this.cboPaymentAccount.TabIndex = 21;
+            this.cboPaymentAccount.TabIndex = 6;
             this.cboPaymentAccount.SelectedIndexChanged += new System.EventHandler(this.ControlChanged);
             // 
             // label3
@@ -169,7 +170,7 @@
             this.txtAmountPaid.Name = "txtAmountPaid";
             this.txtAmountPaid.ReadOnly = true;
             this.txtAmountPaid.Size = new System.Drawing.Size(100, 20);
-            this.txtAmountPaid.TabIndex = 14;
+            this.txtAmountPaid.TabIndex = 1;
             // 
             // rdoImmediately
             // 
@@ -177,7 +178,7 @@
             this.rdoImmediately.Location = new System.Drawing.Point(204, 83);
             this.rdoImmediately.Name = "rdoImmediately";
             this.rdoImmediately.Size = new System.Drawing.Size(80, 17);
-            this.rdoImmediately.TabIndex = 18;
+            this.rdoImmediately.TabIndex = 5;
             this.rdoImmediately.TabStop = true;
             this.rdoImmediately.Text = "Immediately";
             this.rdoImmediately.UseVisualStyleBackColor = true;
@@ -198,7 +199,7 @@
             this.rdoOnDueDate.Location = new System.Drawing.Point(110, 83);
             this.rdoOnDueDate.Name = "rdoOnDueDate";
             this.rdoOnDueDate.Size = new System.Drawing.Size(88, 17);
-            this.rdoOnDueDate.TabIndex = 19;
+            this.rdoOnDueDate.TabIndex = 4;
             this.rdoOnDueDate.TabStop = true;
             this.rdoOnDueDate.Text = "On Due Date";
             this.rdoOnDueDate.UseVisualStyleBackColor = true;
@@ -209,7 +210,7 @@
             this.txtMaxAmount.Location = new System.Drawing.Point(80, 57);
             this.txtMaxAmount.Name = "txtMaxAmount";
             this.txtMaxAmount.Size = new System.Drawing.Size(100, 20);
-            this.txtMaxAmount.TabIndex = 15;
+            this.txtMaxAmount.TabIndex = 3;
             this.txtMaxAmount.TextChanged += new System.EventHandler(this.ControlChanged);
             // 
             // label5
@@ -226,7 +227,7 @@
             this.cmdReset.Location = new System.Drawing.Point(186, 29);
             this.cmdReset.Name = "cmdReset";
             this.cmdReset.Size = new System.Drawing.Size(75, 23);
-            this.cmdReset.TabIndex = 16;
+            this.cmdReset.TabIndex = 2;
             this.cmdReset.Text = "Reset";
             this.cmdReset.UseVisualStyleBackColor = true;
             this.cmdReset.Click += new System.EventHandler(this.cmdReset_Click);

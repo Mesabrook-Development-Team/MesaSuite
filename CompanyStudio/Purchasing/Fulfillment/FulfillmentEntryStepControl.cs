@@ -48,7 +48,7 @@ namespace CompanyStudio.Purchasing.Fulfillment
 
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/GetAllRelatedToLocation");
             get.AddLocationHeader(data.CompanyID, data.LocationID);
-            List<PurchaseOrder> purchaseOrders = await get.GetObject<List<PurchaseOrder>>() ?? new List<PurchaseOrder>();
+            List<PurchaseOrder> purchaseOrders = (await get.GetObject<List<PurchaseOrder>>() ?? new List<PurchaseOrder>()).Where(po => PurchaseOrder.OPEN_STATUSES.Contains(po.Status)).ToList();
 
             pnlUnfulledPOLines.Controls.Clear();
             cboPurchaseOrders.Items.Clear();

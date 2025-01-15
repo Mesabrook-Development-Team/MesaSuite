@@ -785,5 +785,10 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
             this.ShowInformation(taxInformation.ToString());
         }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

@@ -35,6 +35,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.chkCars = new System.Windows.Forms.CheckedListBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.loader = new CompanyStudio.Loader();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -72,7 +73,7 @@
             this.chkTracks.Location = new System.Drawing.Point(3, 32);
             this.chkTracks.Name = "chkTracks";
             this.chkTracks.Size = new System.Drawing.Size(158, 424);
-            this.chkTracks.TabIndex = 1;
+            this.chkTracks.TabIndex = 0;
             this.chkTracks.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chkTracks_ItemCheck);
             this.chkTracks.Click += new System.EventHandler(this.chkCars_Click);
             // 
@@ -115,7 +116,7 @@
             this.chkCars.Location = new System.Drawing.Point(3, 32);
             this.chkCars.Name = "chkCars";
             this.chkCars.Size = new System.Drawing.Size(158, 424);
-            this.chkCars.TabIndex = 3;
+            this.chkCars.TabIndex = 0;
             this.chkCars.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chkCars_ItemCheck);
             this.chkCars.Click += new System.EventHandler(this.chkCars_Click);
             // 
@@ -130,11 +131,22 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Cars";
             // 
+            // loader
+            // 
+            this.loader.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.loader.BackColor = System.Drawing.Color.Transparent;
+            this.loader.Location = new System.Drawing.Point(331, 180);
+            this.loader.Name = "loader";
+            this.loader.Size = new System.Drawing.Size(196, 101);
+            this.loader.TabIndex = 1;
+            this.loader.Visible = false;
+            // 
             // frmShippingReceiving
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(858, 461);
+            this.Controls.Add(this.loader);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmShippingReceiving";
@@ -161,5 +173,6 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.CheckedListBox chkCars;
         private System.Windows.Forms.Label label2;
+        private Loader loader;
     }
 }

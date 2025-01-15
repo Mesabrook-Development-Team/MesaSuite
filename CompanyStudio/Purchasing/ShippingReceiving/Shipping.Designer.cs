@@ -134,7 +134,7 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
             this.dgvLoads.ReadOnly = true;
             this.dgvLoads.RowHeadersVisible = false;
             this.dgvLoads.Size = new System.Drawing.Size(565, 77);
-            this.dgvLoads.TabIndex = 7;
+            this.dgvLoads.TabIndex = 0;
             this.dgvLoads.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLoads_CellContentClick);
             // 
             // colImage
@@ -198,7 +198,7 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
             this.txtQuantity.Location = new System.Drawing.Point(57, 211);
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(511, 20);
-            this.txtQuantity.TabIndex = 11;
+            this.txtQuantity.TabIndex = 3;
             // 
             // cmdAddLoad
             // 
@@ -206,7 +206,7 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
             this.cmdAddLoad.Location = new System.Drawing.Point(488, 237);
             this.cmdAddLoad.Name = "cmdAddLoad";
             this.cmdAddLoad.Size = new System.Drawing.Size(80, 23);
-            this.cmdAddLoad.TabIndex = 12;
+            this.cmdAddLoad.TabIndex = 4;
             this.cmdAddLoad.Text = "Add Load";
             this.cmdAddLoad.UseVisualStyleBackColor = true;
             this.cmdAddLoad.Click += new System.EventHandler(this.cmdAddLoad_Click);
@@ -219,7 +219,7 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
             this.cboItem.Name = "cboItem";
             this.cboItem.SelectedID = null;
             this.cboItem.Size = new System.Drawing.Size(511, 20);
-            this.cboItem.TabIndex = 10;
+            this.cboItem.TabIndex = 2;
             // 
             // label9
             // 
@@ -248,7 +248,7 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
             this.cboPOLine.Location = new System.Drawing.Point(57, 158);
             this.cboPOLine.Name = "cboPOLine";
             this.cboPOLine.Size = new System.Drawing.Size(511, 21);
-            this.cboPOLine.TabIndex = 15;
+            this.cboPOLine.TabIndex = 1;
             // 
             // cmdFinalizeLoading
             // 
@@ -256,7 +256,7 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
             this.cmdFinalizeLoading.Location = new System.Drawing.Point(389, 237);
             this.cmdFinalizeLoading.Name = "cmdFinalizeLoading";
             this.cmdFinalizeLoading.Size = new System.Drawing.Size(93, 23);
-            this.cmdFinalizeLoading.TabIndex = 12;
+            this.cmdFinalizeLoading.TabIndex = 5;
             this.cmdFinalizeLoading.Text = "Finalize Loading";
             this.cmdFinalizeLoading.UseVisualStyleBackColor = true;
             this.cmdFinalizeLoading.Click += new System.EventHandler(this.cmdFinalizeLoading_Click);
@@ -268,7 +268,7 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
             this.cmdRelease.Location = new System.Drawing.Point(389, 237);
             this.cmdRelease.Name = "cmdRelease";
             this.cmdRelease.Size = new System.Drawing.Size(179, 23);
-            this.cmdRelease.TabIndex = 16;
+            this.cmdRelease.TabIndex = 6;
             this.cmdRelease.Text = "Release";
             this.cmdRelease.UseVisualStyleBackColor = true;
             this.cmdRelease.Visible = false;

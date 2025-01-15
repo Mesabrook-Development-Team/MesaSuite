@@ -73,6 +73,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtTemplateName = new System.Windows.Forms.TextBox();
             this.studioFormExtender = new CompanyStudio.StudioFormExtender(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblSelectedTemplateID = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblCurrentFolderID = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -171,15 +175,16 @@
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(33, 22);
+            this.toolStripLabel1.Size = new System.Drawing.Size(34, 22);
             this.toolStripLabel1.Text = "Path:";
             // 
             // txtPath
             // 
             this.txtPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.txtPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.txtPath.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(372, 25);
+            this.txtPath.Size = new System.Drawing.Size(370, 25);
             this.txtPath.Text = "/";
             this.txtPath.Leave += new System.EventHandler(this.txtPath_Leave);
             this.txtPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPath_KeyDown);
@@ -188,17 +193,21 @@
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator3.Visible = false;
             // 
             // toolStripLabel2
             // 
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(44, 22);
+            this.toolStripLabel2.Size = new System.Drawing.Size(45, 22);
             this.toolStripLabel2.Text = "Search:";
+            this.toolStripLabel2.Visible = false;
             // 
             // txtSearch
             // 
+            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(100, 25);
+            this.txtSearch.Visible = false;
             // 
             // toolStrip2
             // 
@@ -215,7 +224,7 @@
             this.toolNewFolder.Image = global::CompanyStudio.Properties.Resources.folder_add;
             this.toolNewFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolNewFolder.Name = "toolNewFolder";
-            this.toolNewFolder.Size = new System.Drawing.Size(81, 22);
+            this.toolNewFolder.Size = new System.Drawing.Size(87, 22);
             this.toolNewFolder.Text = "New Folder";
             this.toolNewFolder.Click += new System.EventHandler(this.toolNewFolder_Click);
             // 
@@ -270,14 +279,14 @@
             this.toolStripMenuItem3,
             this.tsmiTreeNewFolder});
             this.ctxTreeView.Name = "ctxListView";
-            this.ctxTreeView.Size = new System.Drawing.Size(140, 148);
+            this.ctxTreeView.Size = new System.Drawing.Size(145, 148);
             this.ctxTreeView.Opening += new System.ComponentModel.CancelEventHandler(this.ctxTreeView_Opening);
             // 
             // tsmiTreeCut
             // 
             this.tsmiTreeCut.Name = "tsmiTreeCut";
             this.tsmiTreeCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.tsmiTreeCut.Size = new System.Drawing.Size(139, 22);
+            this.tsmiTreeCut.Size = new System.Drawing.Size(144, 22);
             this.tsmiTreeCut.Text = "Cut";
             this.tsmiTreeCut.Click += new System.EventHandler(this.tsmiTreeCut_Click);
             // 
@@ -285,7 +294,7 @@
             // 
             this.tsmiTreeCopy.Name = "tsmiTreeCopy";
             this.tsmiTreeCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.tsmiTreeCopy.Size = new System.Drawing.Size(139, 22);
+            this.tsmiTreeCopy.Size = new System.Drawing.Size(144, 22);
             this.tsmiTreeCopy.Text = "Copy";
             this.tsmiTreeCopy.Click += new System.EventHandler(this.tsmiTreeCopy_Click);
             // 
@@ -293,39 +302,39 @@
             // 
             this.tsmiTreePaste.Name = "tsmiTreePaste";
             this.tsmiTreePaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.tsmiTreePaste.Size = new System.Drawing.Size(139, 22);
+            this.tsmiTreePaste.Size = new System.Drawing.Size(144, 22);
             this.tsmiTreePaste.Text = "Paste";
             this.tsmiTreePaste.Click += new System.EventHandler(this.tsmiTreePaste_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(136, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(141, 6);
             // 
             // tsmiTreeDelete
             // 
             this.tsmiTreeDelete.Name = "tsmiTreeDelete";
             this.tsmiTreeDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.tsmiTreeDelete.Size = new System.Drawing.Size(139, 22);
+            this.tsmiTreeDelete.Size = new System.Drawing.Size(144, 22);
             this.tsmiTreeDelete.Text = "Delete";
             this.tsmiTreeDelete.Click += new System.EventHandler(this.tsmiTreeDelete_Click);
             // 
             // tsmiTreeRename
             // 
             this.tsmiTreeRename.Name = "tsmiTreeRename";
-            this.tsmiTreeRename.Size = new System.Drawing.Size(139, 22);
+            this.tsmiTreeRename.Size = new System.Drawing.Size(144, 22);
             this.tsmiTreeRename.Text = "Rename";
             this.tsmiTreeRename.Click += new System.EventHandler(this.tsmiTreeRename_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(136, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(141, 6);
             // 
             // tsmiTreeNewFolder
             // 
             this.tsmiTreeNewFolder.Name = "tsmiTreeNewFolder";
-            this.tsmiTreeNewFolder.Size = new System.Drawing.Size(139, 22);
+            this.tsmiTreeNewFolder.Size = new System.Drawing.Size(144, 22);
             this.tsmiTreeNewFolder.Text = "New Folder";
             this.tsmiTreeNewFolder.Click += new System.EventHandler(this.tsmiTreeNewFolder_Click);
             // 
@@ -370,14 +379,14 @@
             this.toolStripMenuItem2,
             this.tsmiListNewFolder});
             this.ctxListView.Name = "ctxListView";
-            this.ctxListView.Size = new System.Drawing.Size(140, 148);
+            this.ctxListView.Size = new System.Drawing.Size(145, 148);
             this.ctxListView.Opening += new System.ComponentModel.CancelEventHandler(this.ctxListView_Opening);
             // 
             // tsmiListCut
             // 
             this.tsmiListCut.Name = "tsmiListCut";
             this.tsmiListCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.tsmiListCut.Size = new System.Drawing.Size(139, 22);
+            this.tsmiListCut.Size = new System.Drawing.Size(144, 22);
             this.tsmiListCut.Text = "Cut";
             this.tsmiListCut.Click += new System.EventHandler(this.tsmiListCut_Click);
             // 
@@ -385,7 +394,7 @@
             // 
             this.tsmiListCopy.Name = "tsmiListCopy";
             this.tsmiListCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.tsmiListCopy.Size = new System.Drawing.Size(139, 22);
+            this.tsmiListCopy.Size = new System.Drawing.Size(144, 22);
             this.tsmiListCopy.Text = "Copy";
             this.tsmiListCopy.Click += new System.EventHandler(this.tsmiListCopy_Click);
             // 
@@ -393,39 +402,39 @@
             // 
             this.tsmiListPaste.Name = "tsmiListPaste";
             this.tsmiListPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.tsmiListPaste.Size = new System.Drawing.Size(139, 22);
+            this.tsmiListPaste.Size = new System.Drawing.Size(144, 22);
             this.tsmiListPaste.Text = "Paste";
             this.tsmiListPaste.Click += new System.EventHandler(this.tsmiListPaste_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(136, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(141, 6);
             // 
             // tsmiListDelete
             // 
             this.tsmiListDelete.Name = "tsmiListDelete";
             this.tsmiListDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.tsmiListDelete.Size = new System.Drawing.Size(139, 22);
+            this.tsmiListDelete.Size = new System.Drawing.Size(144, 22);
             this.tsmiListDelete.Text = "Delete";
             this.tsmiListDelete.Click += new System.EventHandler(this.tsmiListDelete_Click);
             // 
             // tsmiListRename
             // 
             this.tsmiListRename.Name = "tsmiListRename";
-            this.tsmiListRename.Size = new System.Drawing.Size(139, 22);
+            this.tsmiListRename.Size = new System.Drawing.Size(144, 22);
             this.tsmiListRename.Text = "Rename";
             this.tsmiListRename.Click += new System.EventHandler(this.tsmiListRename_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(136, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(141, 6);
             // 
             // tsmiListNewFolder
             // 
             this.tsmiListNewFolder.Name = "tsmiListNewFolder";
-            this.tsmiListNewFolder.Size = new System.Drawing.Size(139, 22);
+            this.tsmiListNewFolder.Size = new System.Drawing.Size(144, 22);
             this.tsmiListNewFolder.Text = "New Folder";
             this.tsmiListNewFolder.Click += new System.EventHandler(this.tsmiListNewFolder_Click);
             // 
@@ -433,6 +442,10 @@
             // 
             this.panel1.Controls.Add(this.cmdCancel);
             this.panel1.Controls.Add(this.cmdActionButton);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.lblCurrentFolderID);
+            this.panel1.Controls.Add(this.lblSelectedTemplateID);
+            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.txtTemplateName);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -481,6 +494,41 @@
             this.txtTemplateName.Size = new System.Drawing.Size(621, 20);
             this.txtTemplateName.TabIndex = 0;
             this.txtTemplateName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTemplateName_KeyDown);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 36);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(113, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Selected Template ID:";
+            // 
+            // lblSelectedTemplateID
+            // 
+            this.lblSelectedTemplateID.AutoSize = true;
+            this.lblSelectedTemplateID.Location = new System.Drawing.Point(122, 36);
+            this.lblSelectedTemplateID.Name = "lblSelectedTemplateID";
+            this.lblSelectedTemplateID.Size = new System.Drawing.Size(0, 13);
+            this.lblSelectedTemplateID.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(241, 36);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(90, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Current Folder ID:";
+            // 
+            // lblCurrentFolderID
+            // 
+            this.lblCurrentFolderID.AutoSize = true;
+            this.lblCurrentFolderID.Location = new System.Drawing.Point(337, 36);
+            this.lblCurrentFolderID.Name = "lblCurrentFolderID";
+            this.lblCurrentFolderID.Size = new System.Drawing.Size(31, 13);
+            this.lblCurrentFolderID.TabIndex = 1;
+            this.lblCurrentFolderID.Text = "[Null]";
             // 
             // frmTemplateDialog
             // 
@@ -560,5 +608,9 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiListNewFolder;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem tsmiTreeNewFolder;
+        private System.Windows.Forms.Label lblSelectedTemplateID;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblCurrentFolderID;
     }
 }

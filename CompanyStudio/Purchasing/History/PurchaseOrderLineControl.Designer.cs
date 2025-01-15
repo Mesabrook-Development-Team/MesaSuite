@@ -64,7 +64,7 @@
             this.txtDescription.ReadOnly = true;
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescription.Size = new System.Drawing.Size(594, 54);
-            this.txtDescription.TabIndex = 1;
+            this.txtDescription.TabIndex = 0;
             // 
             // label2
             // 
@@ -81,7 +81,7 @@
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.ReadOnly = true;
             this.txtQuantity.Size = new System.Drawing.Size(60, 20);
-            this.txtQuantity.TabIndex = 3;
+            this.txtQuantity.TabIndex = 1;
             // 
             // label3
             // 
@@ -98,7 +98,7 @@
             this.txtUnitCost.Name = "txtUnitCost";
             this.txtUnitCost.ReadOnly = true;
             this.txtUnitCost.Size = new System.Drawing.Size(60, 20);
-            this.txtUnitCost.TabIndex = 3;
+            this.txtUnitCost.TabIndex = 2;
             // 
             // label4
             // 
@@ -132,7 +132,7 @@
             this.txtQuantityFulfilled.Name = "txtQuantityFulfilled";
             this.txtQuantityFulfilled.ReadOnly = true;
             this.txtQuantityFulfilled.Size = new System.Drawing.Size(60, 20);
-            this.txtQuantityFulfilled.TabIndex = 3;
+            this.txtQuantityFulfilled.TabIndex = 4;
             // 
             // label6
             // 
@@ -149,7 +149,7 @@
             this.txtQuantityUnfulfilled.Name = "txtQuantityUnfulfilled";
             this.txtQuantityUnfulfilled.ReadOnly = true;
             this.txtQuantityUnfulfilled.Size = new System.Drawing.Size(60, 20);
-            this.txtQuantityUnfulfilled.TabIndex = 3;
+            this.txtQuantityUnfulfilled.TabIndex = 5;
             // 
             // lnkFulfillments
             // 
@@ -157,7 +157,7 @@
             this.lnkFulfillments.Location = new System.Drawing.Point(3, 141);
             this.lnkFulfillments.Name = "lnkFulfillments";
             this.lnkFulfillments.Size = new System.Drawing.Size(84, 13);
-            this.lnkFulfillments.TabIndex = 5;
+            this.lnkFulfillments.TabIndex = 7;
             this.lnkFulfillments.TabStop = true;
             this.lnkFulfillments.Text = "View Fulfillments";
             this.lnkFulfillments.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFulfillments_LinkClicked);

@@ -46,6 +46,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 61);
             this.label1.Name = "label1";
@@ -55,6 +56,7 @@
             // 
             // cboPOLine
             // 
+            this.cboPOLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.cboPOLine.FormattingEnabled = true;
             this.cboPOLine.Location = new System.Drawing.Point(126, 58);
             this.cboPOLine.Name = "cboPOLine";
@@ -64,6 +66,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(12, 9);
@@ -74,6 +77,7 @@
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(13, 88);
             this.label3.Name = "label3";
@@ -83,6 +87,7 @@
             // 
             // txtQuantity
             // 
+            this.txtQuantity.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtQuantity.Location = new System.Drawing.Point(126, 85);
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(95, 20);
@@ -90,6 +95,7 @@
             // 
             // label4
             // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(14, 114);
             this.label4.Name = "label4";
@@ -99,6 +105,7 @@
             // 
             // dtpFulfillmentTime
             // 
+            this.dtpFulfillmentTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpFulfillmentTime.CustomFormat = "dddd MMMM dd, yyyy HH:mm";
             this.dtpFulfillmentTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpFulfillmentTime.Location = new System.Drawing.Point(126, 111);
@@ -108,6 +115,7 @@
             // 
             // cmdSave
             // 
+            this.cmdSave.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.cmdSave.Location = new System.Drawing.Point(333, 137);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
@@ -118,6 +126,7 @@
             // 
             // cmdCancel
             // 
+            this.cmdCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.Location = new System.Drawing.Point(252, 137);
             this.cmdCancel.Name = "cmdCancel";
@@ -129,6 +138,7 @@
             // 
             // label5
             // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(13, 35);
             this.label5.Name = "label5";
@@ -138,6 +148,7 @@
             // 
             // txtRailcar
             // 
+            this.txtRailcar.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtRailcar.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.txtRailcar.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.txtRailcar.Location = new System.Drawing.Point(126, 32);

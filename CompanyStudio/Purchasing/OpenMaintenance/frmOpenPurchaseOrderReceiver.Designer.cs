@@ -123,47 +123,47 @@
             this.lblOrderDate,
             this.toolStripStatusLabel3,
             this.lblDescription});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 430);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(800, 24);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(66, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(71, 19);
             this.toolStripStatusLabel1.Text = "Order From:";
             // 
             // lblOrderFrom
             // 
             this.lblOrderFrom.Name = "lblOrderFrom";
-            this.lblOrderFrom.Size = new System.Drawing.Size(0, 17);
+            this.lblOrderFrom.Size = new System.Drawing.Size(0, 19);
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(69, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(71, 19);
             this.toolStripStatusLabel2.Text = "Order Date:";
             // 
             // lblOrderDate
             // 
             this.lblOrderDate.Name = "lblOrderDate";
-            this.lblOrderDate.Size = new System.Drawing.Size(0, 17);
+            this.lblOrderDate.Size = new System.Drawing.Size(0, 19);
             // 
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(68, 17);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(74, 19);
             this.toolStripStatusLabel3.Text = "Description:";
             // 
             // lblDescription
             // 
             this.lblDescription.AutoSize = false;
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(200, 17);
+            this.lblDescription.Size = new System.Drawing.Size(200, 19);
             this.lblDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // splitContainer1
@@ -183,7 +183,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer1.Size = new System.Drawing.Size(776, 375);
             this.splitContainer1.SplitterDistance = 444;
-            this.splitContainer1.TabIndex = 3;
+            this.splitContainer1.TabIndex = 1;
             // 
             // splitContainer2
             // 
@@ -233,7 +233,7 @@
             this.dgvFulfillments.RowHeadersVisible = false;
             this.dgvFulfillments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFulfillments.Size = new System.Drawing.Size(438, 134);
-            this.dgvFulfillments.TabIndex = 0;
+            this.dgvFulfillments.TabIndex = 1;
             this.dgvFulfillments.SelectionChanged += new System.EventHandler(this.dgvFulfillments_SelectionChanged);
             // 
             // colFulfillmentTime
@@ -264,7 +264,7 @@
             this.colFulfillmentReceived.ReadOnly = true;
             this.colFulfillmentReceived.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colFulfillmentReceived.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colFulfillmentReceived.Width = 80;
+            this.colFulfillmentReceived.Width = 82;
             // 
             // colIsInvoiced
             // 
@@ -274,7 +274,7 @@
             this.colIsInvoiced.ReadOnly = true;
             this.colIsInvoiced.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colIsInvoiced.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colIsInvoiced.Width = 76;
+            this.colIsInvoiced.Width = 78;
             // 
             // toolStrip1
             // 
@@ -284,7 +284,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(438, 25);
-            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // mnuAddFulfilllmentWizard
@@ -295,7 +295,7 @@
             this.mnuAddFulfilllmentWizard.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.mnuAddFulfilllmentWizard.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuAddFulfilllmentWizard.Name = "mnuAddFulfilllmentWizard";
-            this.mnuAddFulfilllmentWizard.Size = new System.Drawing.Size(145, 22);
+            this.mnuAddFulfilllmentWizard.Size = new System.Drawing.Size(160, 22);
             this.mnuAddFulfilllmentWizard.Text = "Add Fulfillment Wizard";
             this.mnuAddFulfilllmentWizard.ButtonClick += new System.EventHandler(this.mnuAddFulfilllmentWizard_ButtonClick);
             // 
@@ -304,7 +304,7 @@
             this.toolManualFulfillmentEntry.Image = global::CompanyStudio.Properties.Resources.package_add;
             this.toolManualFulfillmentEntry.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolManualFulfillmentEntry.Name = "toolManualFulfillmentEntry";
-            this.toolManualFulfillmentEntry.Size = new System.Drawing.Size(137, 22);
+            this.toolManualFulfillmentEntry.Size = new System.Drawing.Size(144, 22);
             this.toolManualFulfillmentEntry.Text = "Manual Entry";
             this.toolManualFulfillmentEntry.Click += new System.EventHandler(this.toolManualFulfillmentEntry_Click);
             // 
@@ -315,7 +315,7 @@
             this.toolDeleteFulfillment.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolDeleteFulfillment.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolDeleteFulfillment.Name = "toolDeleteFulfillment";
-            this.toolDeleteFulfillment.Size = new System.Drawing.Size(109, 22);
+            this.toolDeleteFulfillment.Size = new System.Drawing.Size(120, 22);
             this.toolDeleteFulfillment.Text = "Delete Fulfillment";
             this.toolDeleteFulfillment.Click += new System.EventHandler(this.toolDeleteFulfillment_Click);
             // 
@@ -398,7 +398,7 @@
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(800, 25);
-            this.toolStrip2.TabIndex = 5;
+            this.toolStrip2.TabIndex = 0;
             this.toolStrip2.Text = "toolStrip2";
             // 
             // tsbClose
@@ -406,7 +406,7 @@
             this.tsbClose.Image = global::CompanyStudio.Properties.Resources.cart_delete;
             this.tsbClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbClose.Name = "tsbClose";
-            this.tsbClose.Size = new System.Drawing.Size(131, 22);
+            this.tsbClose.Size = new System.Drawing.Size(140, 22);
             this.tsbClose.Text = "Close Purchase Order";
             this.tsbClose.Click += new System.EventHandler(this.tsbClose_Click);
             // 
@@ -418,14 +418,14 @@
             this.tsbAutoApproving.Image = global::CompanyStudio.Properties.Resources.accept;
             this.tsbAutoApproving.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbAutoApproving.Name = "tsbAutoApproving";
-            this.tsbAutoApproving.Size = new System.Drawing.Size(112, 22);
+            this.tsbAutoApproving.Size = new System.Drawing.Size(123, 22);
             this.tsbAutoApproving.Text = "Auto-Approving";
             // 
             // tsbEnableAutoApproval
             // 
             this.tsbEnableAutoApproval.Image = global::CompanyStudio.Properties.Resources.accept;
             this.tsbEnableAutoApproval.Name = "tsbEnableAutoApproval";
-            this.tsbEnableAutoApproval.Size = new System.Drawing.Size(221, 22);
+            this.tsbEnableAutoApproval.Size = new System.Drawing.Size(236, 22);
             this.tsbEnableAutoApproval.Text = "Enable Future Auto-Approvals";
             this.tsbEnableAutoApproval.Click += new System.EventHandler(this.tsbEnableAutoApproval_Click);
             // 
@@ -433,7 +433,7 @@
             // 
             this.tsbDisableAutoApproval.Image = global::CompanyStudio.Properties.Resources.cancel;
             this.tsbDisableAutoApproval.Name = "tsbDisableAutoApproval";
-            this.tsbDisableAutoApproval.Size = new System.Drawing.Size(221, 22);
+            this.tsbDisableAutoApproval.Size = new System.Drawing.Size(236, 22);
             this.tsbDisableAutoApproval.Text = "Disable Future Auto-Approvals";
             this.tsbDisableAutoApproval.Click += new System.EventHandler(this.tsbDisableAutoApproval_Click);
             // 

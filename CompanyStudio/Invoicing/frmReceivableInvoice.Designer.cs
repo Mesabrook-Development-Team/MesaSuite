@@ -215,7 +215,7 @@
             this.txtInvoiceNumber.Location = new System.Drawing.Point(97, 40);
             this.txtInvoiceNumber.Name = "txtInvoiceNumber";
             this.txtInvoiceNumber.Size = new System.Drawing.Size(427, 20);
-            this.txtInvoiceNumber.TabIndex = 0;
+            this.txtInvoiceNumber.TabIndex = 1;
             this.txtInvoiceNumber.TextChanged += new System.EventHandler(this.txtInvoiceNumber_TextChanged);
             // 
             // label5
@@ -234,7 +234,7 @@
             this.dtpDueDate.Location = new System.Drawing.Point(97, 92);
             this.dtpDueDate.Name = "dtpDueDate";
             this.dtpDueDate.Size = new System.Drawing.Size(427, 20);
-            this.dtpDueDate.TabIndex = 2;
+            this.dtpDueDate.TabIndex = 3;
             // 
             // label6
             // 
@@ -255,7 +255,7 @@
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescription.Size = new System.Drawing.Size(518, 64);
-            this.txtDescription.TabIndex = 3;
+            this.txtDescription.TabIndex = 4;
             // 
             // groupBox2
             // 
@@ -286,7 +286,7 @@
             this.cboPurchaseOrder.Location = new System.Drawing.Point(97, 13);
             this.cboPurchaseOrder.Name = "cboPurchaseOrder";
             this.cboPurchaseOrder.Size = new System.Drawing.Size(427, 21);
-            this.cboPurchaseOrder.TabIndex = 10;
+            this.cboPurchaseOrder.TabIndex = 0;
             this.cboPurchaseOrder.SelectedIndexChanged += new System.EventHandler(this.cboPurchaseOrder_SelectedIndexChanged);
             // 
             // label1
@@ -314,7 +314,7 @@
             this.dtpInvoiceDate.Location = new System.Drawing.Point(97, 66);
             this.dtpInvoiceDate.Name = "dtpInvoiceDate";
             this.dtpInvoiceDate.Size = new System.Drawing.Size(427, 20);
-            this.dtpInvoiceDate.TabIndex = 1;
+            this.dtpInvoiceDate.TabIndex = 2;
             // 
             // groupBox3
             // 
@@ -338,7 +338,7 @@
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
             this.txtTotal.Size = new System.Drawing.Size(433, 20);
-            this.txtTotal.TabIndex = 2;
+            this.txtTotal.TabIndex = 1;
             // 
             // label8
             // 
@@ -370,7 +370,7 @@
             this.dgvLines.Name = "dgvLines";
             this.dgvLines.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvLines.Size = new System.Drawing.Size(530, 111);
-            this.dgvLines.TabIndex = 1;
+            this.dgvLines.TabIndex = 0;
             this.dgvLines.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLines_CellClick);
             this.dgvLines.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLines_CellValueChanged);
             // 
@@ -483,6 +483,7 @@
             this.cmdCancel.TabIndex = 2;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
+            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // panel1
             // 

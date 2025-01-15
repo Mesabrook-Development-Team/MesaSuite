@@ -67,7 +67,7 @@
             this.rdoItem.Location = new System.Drawing.Point(63, 3);
             this.rdoItem.Name = "rdoItem";
             this.rdoItem.Size = new System.Drawing.Size(45, 17);
-            this.rdoItem.TabIndex = 1;
+            this.rdoItem.TabIndex = 0;
             this.rdoItem.TabStop = true;
             this.rdoItem.Text = "Item";
             this.rdoItem.UseVisualStyleBackColor = true;
@@ -107,7 +107,7 @@
             this.cboItem.Name = "cboItem";
             this.cboItem.SelectedID = null;
             this.cboItem.Size = new System.Drawing.Size(454, 20);
-            this.cboItem.TabIndex = 1;
+            this.cboItem.TabIndex = 0;
             this.cboItem.ItemSelected += new System.EventHandler(this.cboItem_ItemSelected);
             // 
             // txtItemDescription
@@ -119,7 +119,7 @@
             this.txtItemDescription.Name = "txtItemDescription";
             this.txtItemDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtItemDescription.Size = new System.Drawing.Size(487, 46);
-            this.txtItemDescription.TabIndex = 2;
+            this.txtItemDescription.TabIndex = 1;
             // 
             // label3
             // 
@@ -186,7 +186,7 @@
             this.txtQuantity.Location = new System.Drawing.Point(55, 120);
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(67, 20);
-            this.txtQuantity.TabIndex = 5;
+            this.txtQuantity.TabIndex = 3;
             this.txtQuantity.TextChanged += new System.EventHandler(this.txtQuantity_TextChanged);
             // 
             // label6
@@ -204,7 +204,7 @@
             this.txtUnitCost.Name = "txtUnitCost";
             this.txtUnitCost.ReadOnly = true;
             this.txtUnitCost.Size = new System.Drawing.Size(67, 20);
-            this.txtUnitCost.TabIndex = 5;
+            this.txtUnitCost.TabIndex = 4;
             this.txtUnitCost.TextChanged += new System.EventHandler(this.txtUnitCost_TextChanged);
             // 
             // label7
@@ -230,7 +230,7 @@
             this.cmdDelete.Location = new System.Drawing.Point(418, 140);
             this.cmdDelete.Name = "cmdDelete";
             this.cmdDelete.Size = new System.Drawing.Size(75, 23);
-            this.cmdDelete.TabIndex = 8;
+            this.cmdDelete.TabIndex = 7;
             this.cmdDelete.Text = "Delete";
             this.cmdDelete.UseVisualStyleBackColor = true;
             this.cmdDelete.Click += new System.EventHandler(this.cmdDelete_Click);
@@ -253,7 +253,7 @@
             this.lnkRequestQuote.Location = new System.Drawing.Point(391, 123);
             this.lnkRequestQuote.Name = "lnkRequestQuote";
             this.lnkRequestQuote.Size = new System.Drawing.Size(79, 13);
-            this.lnkRequestQuote.TabIndex = 10;
+            this.lnkRequestQuote.TabIndex = 6;
             this.lnkRequestQuote.TabStop = true;
             this.lnkRequestQuote.Text = "Request Quote";
             this.lnkRequestQuote.Visible = false;

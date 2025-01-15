@@ -131,7 +131,7 @@
             this.groupBox1.Location = new System.Drawing.Point(3, 0);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(450, 223);
-            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Purchase Order Information";
             // 
@@ -160,7 +160,7 @@
             this.txtEstTax.Name = "txtEstTax";
             this.txtEstTax.ReadOnly = true;
             this.txtEstTax.Size = new System.Drawing.Size(62, 20);
-            this.txtEstTax.TabIndex = 8;
+            this.txtEstTax.TabIndex = 7;
             // 
             // txtNetTotal
             // 
@@ -168,7 +168,7 @@
             this.txtNetTotal.Name = "txtNetTotal";
             this.txtNetTotal.ReadOnly = true;
             this.txtNetTotal.Size = new System.Drawing.Size(62, 20);
-            this.txtNetTotal.TabIndex = 8;
+            this.txtNetTotal.TabIndex = 6;
             // 
             // label8
             // 
@@ -205,7 +205,7 @@
             this.txtOrderDate.Name = "txtOrderDate";
             this.txtOrderDate.ReadOnly = true;
             this.txtOrderDate.Size = new System.Drawing.Size(370, 20);
-            this.txtOrderDate.TabIndex = 6;
+            this.txtOrderDate.TabIndex = 4;
             // 
             // txtDescription
             // 
@@ -248,7 +248,7 @@
             this.cboGovernment.Location = new System.Drawing.Point(163, 44);
             this.cboGovernment.Name = "cboGovernment";
             this.cboGovernment.Size = new System.Drawing.Size(281, 21);
-            this.cboGovernment.TabIndex = 2;
+            this.cboGovernment.TabIndex = 3;
             this.cboGovernment.SelectedIndexChanged += new System.EventHandler(this.cboGovernment_SelectedIndexChanged);
             // 
             // rdoGovernment
@@ -258,7 +258,7 @@
             this.rdoGovernment.Location = new System.Drawing.Point(74, 46);
             this.rdoGovernment.Name = "rdoGovernment";
             this.rdoGovernment.Size = new System.Drawing.Size(83, 17);
-            this.rdoGovernment.TabIndex = 1;
+            this.rdoGovernment.TabIndex = 2;
             this.rdoGovernment.Text = "Government";
             this.rdoGovernment.UseVisualStyleBackColor = true;
             this.rdoGovernment.CheckedChanged += new System.EventHandler(this.OrderFromCheckedChanged);
@@ -273,7 +273,7 @@
             this.cboLocation.Location = new System.Drawing.Point(163, 17);
             this.cboLocation.Name = "cboLocation";
             this.cboLocation.Size = new System.Drawing.Size(281, 21);
-            this.cboLocation.TabIndex = 2;
+            this.cboLocation.TabIndex = 1;
             this.cboLocation.SelectedIndexChanged += new System.EventHandler(this.cboLocation_SelectedIndexChanged);
             // 
             // rdoLocation
@@ -283,7 +283,7 @@
             this.rdoLocation.Location = new System.Drawing.Point(74, 19);
             this.rdoLocation.Name = "rdoLocation";
             this.rdoLocation.Size = new System.Drawing.Size(69, 17);
-            this.rdoLocation.TabIndex = 1;
+            this.rdoLocation.TabIndex = 0;
             this.rdoLocation.TabStop = true;
             this.rdoLocation.Text = "Company";
             this.rdoLocation.UseVisualStyleBackColor = true;
@@ -308,7 +308,7 @@
             this.groupBox2.Location = new System.Drawing.Point(3, 229);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(450, 208);
-            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Purchase Order Lines";
             // 
@@ -364,7 +364,7 @@
             this.toolStripMain.Location = new System.Drawing.Point(0, 0);
             this.toolStripMain.Name = "toolStripMain";
             this.toolStripMain.Size = new System.Drawing.Size(793, 25);
-            this.toolStripMain.TabIndex = 3;
+            this.toolStripMain.TabIndex = 0;
             this.toolStripMain.Text = "toolStrip2";
             // 
             // toolLoadTemplate
@@ -451,7 +451,7 @@
             this.cmdSubmit.Location = new System.Drawing.Point(216, 443);
             this.cmdSubmit.Name = "cmdSubmit";
             this.cmdSubmit.Size = new System.Drawing.Size(75, 23);
-            this.cmdSubmit.TabIndex = 3;
+            this.cmdSubmit.TabIndex = 4;
             this.cmdSubmit.Text = "Submit";
             this.cmdSubmit.UseVisualStyleBackColor = true;
             this.cmdSubmit.Visible = false;
@@ -466,6 +466,7 @@
             this.cmdCancel.TabIndex = 3;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
+            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // cmdSave
             // 
@@ -473,7 +474,7 @@
             this.cmdSave.Location = new System.Drawing.Point(378, 443);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 3;
+            this.cmdSave.TabIndex = 2;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -509,7 +510,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer1.Size = new System.Drawing.Size(793, 469);
             this.splitContainer1.SplitterDistance = 456;
-            this.splitContainer1.TabIndex = 7;
+            this.splitContainer1.TabIndex = 1;
             // 
             // groupBox3
             // 
@@ -535,7 +536,7 @@
             this.grpFulfillmentPlanInformation.Location = new System.Drawing.Point(6, 167);
             this.grpFulfillmentPlanInformation.Name = "grpFulfillmentPlanInformation";
             this.grpFulfillmentPlanInformation.Size = new System.Drawing.Size(315, 296);
-            this.grpFulfillmentPlanInformation.TabIndex = 3;
+            this.grpFulfillmentPlanInformation.TabIndex = 0;
             this.grpFulfillmentPlanInformation.TabStop = false;
             this.grpFulfillmentPlanInformation.Text = "Fulfillment Plan Information";
             // 
@@ -587,7 +588,7 @@
             this.dgvFulfillmentPlans.RowHeadersVisible = false;
             this.dgvFulfillmentPlans.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFulfillmentPlans.Size = new System.Drawing.Size(315, 97);
-            this.dgvFulfillmentPlans.TabIndex = 0;
+            this.dgvFulfillmentPlans.TabIndex = 1;
             this.dgvFulfillmentPlans.SelectionChanged += new System.EventHandler(this.dgvFulfillmentPlans_SelectionChanged);
             // 
             // colRailcar
@@ -623,7 +624,7 @@
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(315, 25);
-            this.toolStrip2.TabIndex = 1;
+            this.toolStrip2.TabIndex = 0;
             this.toolStrip2.Text = "toolStrip2";
             // 
             // toolAddPlan

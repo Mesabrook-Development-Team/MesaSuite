@@ -130,7 +130,7 @@
             this.txtDescription.ReadOnly = true;
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescription.Size = new System.Drawing.Size(675, 43);
-            this.txtDescription.TabIndex = 1;
+            this.txtDescription.TabIndex = 3;
             // 
             // label4
             // 
@@ -149,7 +149,7 @@
             this.txtInvoiceSchedule.Name = "txtInvoiceSchedule";
             this.txtInvoiceSchedule.ReadOnly = true;
             this.txtInvoiceSchedule.Size = new System.Drawing.Size(675, 20);
-            this.txtInvoiceSchedule.TabIndex = 1;
+            this.txtInvoiceSchedule.TabIndex = 4;
             // 
             // label5
             // 
@@ -168,7 +168,7 @@
             this.txtOrderDate.Name = "txtOrderDate";
             this.txtOrderDate.ReadOnly = true;
             this.txtOrderDate.Size = new System.Drawing.Size(675, 20);
-            this.txtOrderDate.TabIndex = 1;
+            this.txtOrderDate.TabIndex = 2;
             // 
             // label6
             // 
@@ -206,7 +206,7 @@
             this.txtPurchaser.Name = "txtPurchaser";
             this.txtPurchaser.ReadOnly = true;
             this.txtPurchaser.Size = new System.Drawing.Size(675, 20);
-            this.txtPurchaser.TabIndex = 1;
+            this.txtPurchaser.TabIndex = 0;
             // 
             // label2
             // 
@@ -240,7 +240,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(776, 406);
-            this.tabControl1.TabIndex = 2;
+            this.tabControl1.TabIndex = 1;
             // 
             // tabInfo
             // 
@@ -312,7 +312,7 @@
             this.lnkFPRailcar.Location = new System.Drawing.Point(155, 104);
             this.lnkFPRailcar.Name = "lnkFPRailcar";
             this.lnkFPRailcar.Size = new System.Drawing.Size(607, 20);
-            this.lnkFPRailcar.TabIndex = 40;
+            this.lnkFPRailcar.TabIndex = 1;
             this.lnkFPRailcar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lnkFPRailcar.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFPRailcar_LinkClicked);
             // 
@@ -324,7 +324,7 @@
             this.txtFPRailcarRouting.Name = "txtFPRailcarRouting";
             this.txtFPRailcarRouting.ReadOnly = true;
             this.txtFPRailcarRouting.Size = new System.Drawing.Size(607, 20);
-            this.txtFPRailcarRouting.TabIndex = 39;
+            this.txtFPRailcarRouting.TabIndex = 8;
             // 
             // label14
             // 
@@ -343,7 +343,7 @@
             this.txtFPDestinationAfterFulfillment.Name = "txtFPDestinationAfterFulfillment";
             this.txtFPDestinationAfterFulfillment.ReadOnly = true;
             this.txtFPDestinationAfterFulfillment.Size = new System.Drawing.Size(607, 20);
-            this.txtFPDestinationAfterFulfillment.TabIndex = 37;
+            this.txtFPDestinationAfterFulfillment.TabIndex = 7;
             // 
             // label13
             // 
@@ -362,7 +362,7 @@
             this.txtFPStrategicAfterDropOff.Name = "txtFPStrategicAfterDropOff";
             this.txtFPStrategicAfterDropOff.ReadOnly = true;
             this.txtFPStrategicAfterDropOff.Size = new System.Drawing.Size(607, 20);
-            this.txtFPStrategicAfterDropOff.TabIndex = 34;
+            this.txtFPStrategicAfterDropOff.TabIndex = 6;
             // 
             // label12
             // 
@@ -381,7 +381,7 @@
             this.txtFPStrategicAfterPickup.Name = "txtFPStrategicAfterPickup";
             this.txtFPStrategicAfterPickup.ReadOnly = true;
             this.txtFPStrategicAfterPickup.Size = new System.Drawing.Size(607, 20);
-            this.txtFPStrategicAfterPickup.TabIndex = 33;
+            this.txtFPStrategicAfterPickup.TabIndex = 4;
             // 
             // label10
             // 
@@ -400,7 +400,7 @@
             this.txtFPDropOffTrack.Name = "txtFPDropOffTrack";
             this.txtFPDropOffTrack.ReadOnly = true;
             this.txtFPDropOffTrack.Size = new System.Drawing.Size(607, 20);
-            this.txtFPDropOffTrack.TabIndex = 35;
+            this.txtFPDropOffTrack.TabIndex = 5;
             // 
             // label11
             // 
@@ -419,7 +419,7 @@
             this.txtFPPurchaseOrderLines.Name = "txtFPPurchaseOrderLines";
             this.txtFPPurchaseOrderLines.ReadOnly = true;
             this.txtFPPurchaseOrderLines.Size = new System.Drawing.Size(601, 20);
-            this.txtFPPurchaseOrderLines.TabIndex = 36;
+            this.txtFPPurchaseOrderLines.TabIndex = 2;
             // 
             // label16
             // 
@@ -447,7 +447,7 @@
             this.txtFPPickupTrack.Name = "txtFPPickupTrack";
             this.txtFPPickupTrack.ReadOnly = true;
             this.txtFPPickupTrack.Size = new System.Drawing.Size(607, 20);
-            this.txtFPPickupTrack.TabIndex = 38;
+            this.txtFPPickupTrack.TabIndex = 3;
             // 
             // label9
             // 
@@ -485,7 +485,7 @@
             this.dgvFulfillmentPlans.RowHeadersVisible = false;
             this.dgvFulfillmentPlans.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFulfillmentPlans.Size = new System.Drawing.Size(768, 82);
-            this.dgvFulfillmentPlans.TabIndex = 23;
+            this.dgvFulfillmentPlans.TabIndex = 0;
             this.dgvFulfillmentPlans.SelectionChanged += new System.EventHandler(this.dgvFulfillmentPlans_SelectionChanged);
             // 
             // colFPRailcar
@@ -537,7 +537,7 @@
             this.dgvFulfillments.RowHeadersVisible = false;
             this.dgvFulfillments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFulfillments.Size = new System.Drawing.Size(768, 380);
-            this.dgvFulfillments.TabIndex = 1;
+            this.dgvFulfillments.TabIndex = 0;
             // 
             // colPurchaseOrderLine
             // 
@@ -601,7 +601,7 @@
             this.dgvInvoices.RowHeadersVisible = false;
             this.dgvInvoices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvInvoices.Size = new System.Drawing.Size(768, 380);
-            this.dgvInvoices.TabIndex = 1;
+            this.dgvInvoices.TabIndex = 0;
             this.dgvInvoices.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvInvoices_CellMouseDoubleClick);
             // 
             // colInvoiceNumber
@@ -647,7 +647,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
-            this.toolStrip1.TabIndex = 3;
+            this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // toolSaveTemplate
@@ -656,7 +656,7 @@
             this.toolSaveTemplate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolSaveTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSaveTemplate.Name = "toolSaveTemplate";
-            this.toolSaveTemplate.Size = new System.Drawing.Size(98, 22);
+            this.toolSaveTemplate.Size = new System.Drawing.Size(103, 22);
             this.toolSaveTemplate.Text = "Save Template";
             this.toolSaveTemplate.Visible = false;
             this.toolSaveTemplate.Click += new System.EventHandler(this.toolSaveTemplate_Click);
@@ -669,7 +669,7 @@
             this.tsbAutoApproving.Image = global::CompanyStudio.Properties.Resources.accept;
             this.tsbAutoApproving.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbAutoApproving.Name = "tsbAutoApproving";
-            this.tsbAutoApproving.Size = new System.Drawing.Size(112, 22);
+            this.tsbAutoApproving.Size = new System.Drawing.Size(123, 22);
             this.tsbAutoApproving.Text = "Auto-Approving";
             this.tsbAutoApproving.Visible = false;
             // 
@@ -677,7 +677,7 @@
             // 
             this.tsbEnableAutoApproval.Image = global::CompanyStudio.Properties.Resources.accept;
             this.tsbEnableAutoApproval.Name = "tsbEnableAutoApproval";
-            this.tsbEnableAutoApproval.Size = new System.Drawing.Size(221, 22);
+            this.tsbEnableAutoApproval.Size = new System.Drawing.Size(236, 22);
             this.tsbEnableAutoApproval.Text = "Enable Future Auto-Approvals";
             this.tsbEnableAutoApproval.Click += new System.EventHandler(this.tsbEnableAutoApproval_Click);
             // 
@@ -685,7 +685,7 @@
             // 
             this.tsbDisableAutoApproval.Image = global::CompanyStudio.Properties.Resources.cancel;
             this.tsbDisableAutoApproval.Name = "tsbDisableAutoApproval";
-            this.tsbDisableAutoApproval.Size = new System.Drawing.Size(221, 22);
+            this.tsbDisableAutoApproval.Size = new System.Drawing.Size(236, 22);
             this.tsbDisableAutoApproval.Text = "Disable Future Auto-Approvals";
             this.tsbDisableAutoApproval.Click += new System.EventHandler(this.tsbDisableAutoApproval_Click);
             // 

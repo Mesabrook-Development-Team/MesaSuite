@@ -56,7 +56,7 @@
             this.cboEntities.Location = new System.Drawing.Point(3, 3);
             this.cboEntities.Name = "cboEntities";
             this.cboEntities.Size = new System.Drawing.Size(170, 21);
-            this.cboEntities.TabIndex = 7;
+            this.cboEntities.TabIndex = 0;
             this.cboEntities.SelectedIndexChanged += new System.EventHandler(this.cboEntities_SelectedIndexChanged);
             // 
             // cmdMoveRight
@@ -66,7 +66,7 @@
             this.cmdMoveRight.Location = new System.Drawing.Point(161, 30);
             this.cmdMoveRight.Name = "cmdMoveRight";
             this.cmdMoveRight.Size = new System.Drawing.Size(55, 23);
-            this.cmdMoveRight.TabIndex = 6;
+            this.cmdMoveRight.TabIndex = 4;
             this.cmdMoveRight.Text = "Move";
             this.cmdMoveRight.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cmdMoveRight.UseVisualStyleBackColor = true;
@@ -79,7 +79,7 @@
             this.cmdMoveLeft.Location = new System.Drawing.Point(100, 30);
             this.cmdMoveLeft.Name = "cmdMoveLeft";
             this.cmdMoveLeft.Size = new System.Drawing.Size(55, 23);
-            this.cmdMoveLeft.TabIndex = 6;
+            this.cmdMoveLeft.TabIndex = 3;
             this.cmdMoveLeft.Text = "Move";
             this.cmdMoveLeft.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cmdMoveLeft.UseVisualStyleBackColor = true;
@@ -92,7 +92,7 @@
             this.cmdInsertLeft.Location = new System.Drawing.Point(3, 30);
             this.cmdInsertLeft.Name = "cmdInsertLeft";
             this.cmdInsertLeft.Size = new System.Drawing.Size(57, 23);
-            this.cmdInsertLeft.TabIndex = 5;
+            this.cmdInsertLeft.TabIndex = 2;
             this.cmdInsertLeft.Text = "Insert";
             this.cmdInsertLeft.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cmdInsertLeft.UseVisualStyleBackColor = true;
@@ -118,7 +118,7 @@
             this.cmdDelete.Location = new System.Drawing.Point(176, 2);
             this.cmdDelete.Name = "cmdDelete";
             this.cmdDelete.Size = new System.Drawing.Size(60, 22);
-            this.cmdDelete.TabIndex = 8;
+            this.cmdDelete.TabIndex = 1;
             this.cmdDelete.Text = "Delete";
             this.cmdDelete.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cmdDelete.UseVisualStyleBackColor = true;

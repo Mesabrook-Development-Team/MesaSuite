@@ -34,6 +34,7 @@ namespace CompanyStudio.Purchasing.Templates
                 {
                     AddBreadcrumb(value);
                 }
+                lblCurrentFolderID.Text = _selectedFolderID?.ToString() ?? "[Null]";
                 _suppressBreadcrumbUpdate = false;
             }
         }
@@ -261,7 +262,13 @@ namespace CompanyStudio.Purchasing.Templates
         {
             if (lstItems.SelectedItems.Count > 0)
             {
+                PurchaseOrderTemplate selectedTemplate = lstItems.SelectedItems[lstItems.SelectedItems.Count - 1].Tag as PurchaseOrderTemplate;
+                lblSelectedTemplateID.Text = selectedTemplate?.PurchaseOrderTemplateID.ToString();
                 txtTemplateName.Text = lstItems.SelectedItems[lstItems.SelectedItems.Count - 1].Text;
+            }
+            else
+            {
+                lblSelectedTemplateID.Text = string.Empty;
             }
         }
 

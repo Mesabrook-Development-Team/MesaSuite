@@ -105,7 +105,7 @@ namespace CompanyStudio.Purchasing.Quotes
             this.dtpExpiration.Location = new System.Drawing.Point(301, 96);
             this.dtpExpiration.Name = "dtpExpiration";
             this.dtpExpiration.Size = new System.Drawing.Size(266, 20);
-            this.dtpExpiration.TabIndex = 10;
+            this.dtpExpiration.TabIndex = 5;
             this.dtpExpiration.ValueChanged += new System.EventHandler(this.CreateOrUpdateQuote);
             // 
             // label1
@@ -125,7 +125,7 @@ namespace CompanyStudio.Purchasing.Quotes
             this.chkRepeatable.Location = new System.Drawing.Point(278, 73);
             this.chkRepeatable.Name = "chkRepeatable";
             this.chkRepeatable.Size = new System.Drawing.Size(221, 17);
-            this.chkRepeatable.TabIndex = 8;
+            this.chkRepeatable.TabIndex = 4;
             this.chkRepeatable.Text = "Allow recipient to use quote multiple times";
             this.chkRepeatable.UseVisualStyleBackColor = true;
             this.chkRepeatable.CheckedChanged += new System.EventHandler(this.CreateOrUpdateQuote);
@@ -137,7 +137,7 @@ namespace CompanyStudio.Purchasing.Quotes
             this.rdoGovernment.Location = new System.Drawing.Point(212, 47);
             this.rdoGovernment.Name = "rdoGovernment";
             this.rdoGovernment.Size = new System.Drawing.Size(83, 17);
-            this.rdoGovernment.TabIndex = 6;
+            this.rdoGovernment.TabIndex = 2;
             this.rdoGovernment.TabStop = true;
             this.rdoGovernment.Text = "Government";
             this.rdoGovernment.UseVisualStyleBackColor = true;
@@ -150,7 +150,7 @@ namespace CompanyStudio.Purchasing.Quotes
             this.rdoCompany.Location = new System.Drawing.Point(212, 20);
             this.rdoCompany.Name = "rdoCompany";
             this.rdoCompany.Size = new System.Drawing.Size(69, 17);
-            this.rdoCompany.TabIndex = 4;
+            this.rdoCompany.TabIndex = 0;
             this.rdoCompany.TabStop = true;
             this.rdoCompany.Text = "Company";
             this.rdoCompany.UseVisualStyleBackColor = true;
@@ -166,7 +166,7 @@ namespace CompanyStudio.Purchasing.Quotes
             this.cboGovernment.Location = new System.Drawing.Point(301, 46);
             this.cboGovernment.Name = "cboGovernment";
             this.cboGovernment.Size = new System.Drawing.Size(266, 21);
-            this.cboGovernment.TabIndex = 7;
+            this.cboGovernment.TabIndex = 3;
             this.cboGovernment.SelectedIndexChanged += new System.EventHandler(this.CreateOrUpdateQuote);
             // 
             // cboCompany
@@ -179,7 +179,7 @@ namespace CompanyStudio.Purchasing.Quotes
             this.cboCompany.Location = new System.Drawing.Point(301, 19);
             this.cboCompany.Name = "cboCompany";
             this.cboCompany.Size = new System.Drawing.Size(266, 21);
-            this.cboCompany.TabIndex = 5;
+            this.cboCompany.TabIndex = 1;
             this.cboCompany.SelectedIndexChanged += new System.EventHandler(this.CreateOrUpdateQuote);
             // 
             // groupBox2
@@ -194,7 +194,7 @@ namespace CompanyStudio.Purchasing.Quotes
             this.groupBox2.Location = new System.Drawing.Point(12, 169);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(776, 269);
-            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Items";
             // 
@@ -271,7 +271,7 @@ namespace CompanyStudio.Purchasing.Quotes
             this.toolAdd.Image = global::CompanyStudio.Properties.Resources.add;
             this.toolAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAdd.Name = "toolAdd";
-            this.toolAdd.Size = new System.Drawing.Size(71, 22);
+            this.toolAdd.Size = new System.Drawing.Size(76, 22);
             this.toolAdd.Text = "Add Item";
             this.toolAdd.Click += new System.EventHandler(this.toolAdd_Click);
             // 
@@ -281,7 +281,7 @@ namespace CompanyStudio.Purchasing.Quotes
             this.toolDelete.Image = global::CompanyStudio.Properties.Resources.delete;
             this.toolDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolDelete.Name = "toolDelete";
-            this.toolDelete.Size = new System.Drawing.Size(96, 22);
+            this.toolDelete.Size = new System.Drawing.Size(100, 22);
             this.toolDelete.Text = "Delete Item(s)";
             this.toolDelete.Click += new System.EventHandler(this.toolDelete_Click);
             // 
@@ -296,7 +296,7 @@ namespace CompanyStudio.Purchasing.Quotes
             this.toolSetUnitByBulk.Image = global::CompanyStudio.Properties.Resources.calculator;
             this.toolSetUnitByBulk.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSetUnitByBulk.Name = "toolSetUnitByBulk";
-            this.toolSetUnitByBulk.Size = new System.Drawing.Size(127, 22);
+            this.toolSetUnitByBulk.Size = new System.Drawing.Size(137, 22);
             this.toolSetUnitByBulk.Text = "Set Unit Cost by Bulk";
             this.toolSetUnitByBulk.Click += new System.EventHandler(this.toolSetUnitByBulk_Click);
             // 

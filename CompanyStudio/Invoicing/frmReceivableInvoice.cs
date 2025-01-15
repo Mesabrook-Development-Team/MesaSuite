@@ -666,5 +666,10 @@ namespace CompanyStudio.Invoicing
                 colPOLine.DataSource = newPOLines;
             }
         }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

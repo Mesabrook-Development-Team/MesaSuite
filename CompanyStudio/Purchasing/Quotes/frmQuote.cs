@@ -280,7 +280,7 @@ namespace CompanyStudio.Purchasing.Quotes
 
         private async Task<bool> HandleMinimumQuantityValidating(int rowIndex, string formattedValue)
         {
-            if (!short.TryParse(formattedValue, out short newValue) || newValue < 0)
+            if (!decimal.TryParse(formattedValue, out decimal newValue) || newValue < 0)
             {
                 this.ShowError("Minimum Quantity must be greater or equal to 0");
                 return false;

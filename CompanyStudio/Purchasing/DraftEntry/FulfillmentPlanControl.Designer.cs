@@ -75,7 +75,7 @@
             this.cboStrategicAfterPickup.Location = new System.Drawing.Point(5, 209);
             this.cboStrategicAfterPickup.Name = "cboStrategicAfterPickup";
             this.cboStrategicAfterPickup.Size = new System.Drawing.Size(373, 21);
-            this.cboStrategicAfterPickup.TabIndex = 15;
+            this.cboStrategicAfterPickup.TabIndex = 4;
             // 
             // label10
             // 
@@ -96,7 +96,7 @@
             this.cboDestination.Location = new System.Drawing.Point(89, 236);
             this.cboDestination.Name = "cboDestination";
             this.cboDestination.Size = new System.Drawing.Size(289, 21);
-            this.cboDestination.TabIndex = 16;
+            this.cboDestination.TabIndex = 5;
             // 
             // label9
             // 
@@ -117,7 +117,7 @@
             this.cboPickup.Location = new System.Drawing.Point(89, 169);
             this.cboPickup.Name = "cboPickup";
             this.cboPickup.Size = new System.Drawing.Size(289, 21);
-            this.cboPickup.TabIndex = 17;
+            this.cboPickup.TabIndex = 3;
             // 
             // label8
             // 
@@ -153,7 +153,7 @@
             this.dgvPurchaseOrderLines.RowHeadersVisible = false;
             this.dgvPurchaseOrderLines.RowHeadersWidth = 62;
             this.dgvPurchaseOrderLines.Size = new System.Drawing.Size(376, 98);
-            this.dgvPurchaseOrderLines.TabIndex = 10;
+            this.dgvPurchaseOrderLines.TabIndex = 2;
             // 
             // colApplyPOLine
             // 
@@ -177,7 +177,7 @@
             this.cmdSelectRailcar.Location = new System.Drawing.Point(51, 23);
             this.cmdSelectRailcar.Name = "cmdSelectRailcar";
             this.cmdSelectRailcar.Size = new System.Drawing.Size(327, 23);
-            this.cmdSelectRailcar.TabIndex = 9;
+            this.cmdSelectRailcar.TabIndex = 1;
             this.cmdSelectRailcar.Text = "Select...";
             this.cmdSelectRailcar.UseVisualStyleBackColor = true;
             this.cmdSelectRailcar.Click += new System.EventHandler(this.cmdSelectRailcar_Click);
@@ -191,7 +191,7 @@
             this.lnkRailcar.Location = new System.Drawing.Point(51, 0);
             this.lnkRailcar.Name = "lnkRailcar";
             this.lnkRailcar.Size = new System.Drawing.Size(327, 20);
-            this.lnkRailcar.TabIndex = 8;
+            this.lnkRailcar.TabIndex = 0;
             this.lnkRailcar.TabStop = true;
             this.lnkRailcar.Text = "None";
             this.lnkRailcar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -225,7 +225,7 @@
             this.cboStrategicAfterDestination.Location = new System.Drawing.Point(5, 276);
             this.cboStrategicAfterDestination.Name = "cboStrategicAfterDestination";
             this.cboStrategicAfterDestination.Size = new System.Drawing.Size(373, 21);
-            this.cboStrategicAfterDestination.TabIndex = 15;
+            this.cboStrategicAfterDestination.TabIndex = 6;
             // 
             // label2
             // 
@@ -246,7 +246,7 @@
             this.cboPostFulfillment.Location = new System.Drawing.Point(5, 316);
             this.cboPostFulfillment.Name = "cboPostFulfillment";
             this.cboPostFulfillment.Size = new System.Drawing.Size(373, 21);
-            this.cboPostFulfillment.TabIndex = 15;
+            this.cboPostFulfillment.TabIndex = 7;
             // 
             // flowLayoutPanel1
             // 
@@ -261,7 +261,7 @@
             this.flowLayoutPanel1.MinimumSize = new System.Drawing.Size(2, 184);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(375, 184);
-            this.flowLayoutPanel1.TabIndex = 18;
+            this.flowLayoutPanel1.TabIndex = 8;
             // 
             // routeStart
             // 
@@ -303,7 +303,7 @@
             this.cmdSave.Location = new System.Drawing.Point(303, 542);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 3;
+            this.cmdSave.TabIndex = 9;
             this.cmdSave.Text = "Save";
             this.cmdSave.UseVisualStyleBackColor = true;
             this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
@@ -314,7 +314,7 @@
             this.button3.Location = new System.Drawing.Point(222, 542);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 3;
+            this.button3.TabIndex = 10;
             this.button3.Text = "Reset";
             this.button3.UseVisualStyleBackColor = true;
             // 
@@ -338,13 +338,13 @@
             this.toolStripMenuItem1,
             this.toolSelectRemoveRailcar});
             this.ctxSelectRailcar.Name = "ctxSelectRailcar";
-            this.ctxSelectRailcar.Size = new System.Drawing.Size(214, 98);
+            this.ctxSelectRailcar.Size = new System.Drawing.Size(226, 76);
             this.ctxSelectRailcar.Opening += new System.ComponentModel.CancelEventHandler(this.ctxSelectRailcar_Opening);
             // 
             // toolSelectRailcar
             // 
             this.toolSelectRailcar.Name = "toolSelectRailcar";
-            this.toolSelectRailcar.Size = new System.Drawing.Size(213, 22);
+            this.toolSelectRailcar.Size = new System.Drawing.Size(225, 22);
             this.toolSelectRailcar.Text = "Select Owned/Leased Railcar";
             this.toolSelectRailcar.Click += new System.EventHandler(this.toolSelectRailcar_Click);
             // 
@@ -354,32 +354,32 @@
             this.toolSelectCreateLeaseRequest,
             this.toolSelectExistingLeaseRequest});
             this.toolSelectLease.Name = "toolSelectLease";
-            this.toolSelectLease.Size = new System.Drawing.Size(213, 22);
+            this.toolSelectLease.Size = new System.Drawing.Size(225, 22);
             this.toolSelectLease.Text = "Request a Lease";
             // 
             // toolSelectCreateLeaseRequest
             // 
             this.toolSelectCreateLeaseRequest.Name = "toolSelectCreateLeaseRequest";
-            this.toolSelectCreateLeaseRequest.Size = new System.Drawing.Size(217, 22);
+            this.toolSelectCreateLeaseRequest.Size = new System.Drawing.Size(225, 22);
             this.toolSelectCreateLeaseRequest.Text = "Create New Lease Request";
             this.toolSelectCreateLeaseRequest.Click += new System.EventHandler(this.toolSelectCreateLeaseRequest_Click);
             // 
             // toolSelectExistingLeaseRequest
             // 
             this.toolSelectExistingLeaseRequest.Name = "toolSelectExistingLeaseRequest";
-            this.toolSelectExistingLeaseRequest.Size = new System.Drawing.Size(217, 22);
+            this.toolSelectExistingLeaseRequest.Size = new System.Drawing.Size(225, 22);
             this.toolSelectExistingLeaseRequest.Text = "Select Existing Lease Request";
             this.toolSelectExistingLeaseRequest.Click += new System.EventHandler(this.toolSelectExistingLeaseRequest_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(210, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(222, 6);
             // 
             // toolSelectRemoveRailcar
             // 
             this.toolSelectRemoveRailcar.Name = "toolSelectRemoveRailcar";
-            this.toolSelectRemoveRailcar.Size = new System.Drawing.Size(213, 22);
+            this.toolSelectRemoveRailcar.Size = new System.Drawing.Size(225, 22);
             this.toolSelectRemoveRailcar.Text = "Remove Selected";
             this.toolSelectRemoveRailcar.Click += new System.EventHandler(this.toolSelectRemoveRailcar_Click);
             // 

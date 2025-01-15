@@ -31,6 +31,7 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
 
         private async void frmOpenViewerSubmitter_Load(object sender, EventArgs e)
         {
+            Text += $" - {PurchaseOrderID}";
             Studio.dockPanel.Contents.OfType<frmPurchaseOrderExplorer>().Where(poe => poe.LocationModel.LocationID == LocationModel.LocationID).FirstOrDefault()?.RegisterPurchaseOrderForm(this, () => PurchaseOrderID);
             try
             {

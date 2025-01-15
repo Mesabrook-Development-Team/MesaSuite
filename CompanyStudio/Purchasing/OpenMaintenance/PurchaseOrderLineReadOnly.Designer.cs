@@ -61,7 +61,7 @@
             this.txtDescription.ReadOnly = true;
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescription.Size = new System.Drawing.Size(633, 48);
-            this.txtDescription.TabIndex = 1;
+            this.txtDescription.TabIndex = 0;
             // 
             // lblQtyOrdered
             // 
@@ -79,7 +79,7 @@
             this.txtQtyOrdered.Name = "txtQtyOrdered";
             this.txtQtyOrdered.ReadOnly = true;
             this.txtQtyOrdered.Size = new System.Drawing.Size(154, 20);
-            this.txtQtyOrdered.TabIndex = 3;
+            this.txtQtyOrdered.TabIndex = 1;
             // 
             // lblQtyFulfilled
             // 
@@ -97,7 +97,7 @@
             this.txtQtyFulfilled.Name = "txtQtyFulfilled";
             this.txtQtyFulfilled.ReadOnly = true;
             this.txtQtyFulfilled.Size = new System.Drawing.Size(154, 20);
-            this.txtQtyFulfilled.TabIndex = 3;
+            this.txtQtyFulfilled.TabIndex = 2;
             // 
             // lblQtyInTransit
             // 
@@ -133,7 +133,7 @@
             this.txtQtyRemaining.Name = "txtQtyRemaining";
             this.txtQtyRemaining.ReadOnly = true;
             this.txtQtyRemaining.Size = new System.Drawing.Size(154, 20);
-            this.txtQtyRemaining.TabIndex = 3;
+            this.txtQtyRemaining.TabIndex = 4;
             // 
             // lnkFulfillmentPlans
             // 
@@ -141,7 +141,7 @@
             this.lnkFulfillmentPlans.Location = new System.Drawing.Point(3, 106);
             this.lnkFulfillmentPlans.Name = "lnkFulfillmentPlans";
             this.lnkFulfillmentPlans.Size = new System.Drawing.Size(97, 13);
-            this.lnkFulfillmentPlans.TabIndex = 4;
+            this.lnkFulfillmentPlans.TabIndex = 5;
             this.lnkFulfillmentPlans.TabStop = true;
             this.lnkFulfillmentPlans.Text = "0 Fulfillment Plan(s)";
             this.lnkFulfillmentPlans.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFulfillmentPlans_LinkClicked);
@@ -152,7 +152,7 @@
             this.lnkFulfillments.Location = new System.Drawing.Point(3, 122);
             this.lnkFulfillments.Name = "lnkFulfillments";
             this.lnkFulfillments.Size = new System.Drawing.Size(84, 13);
-            this.lnkFulfillments.TabIndex = 4;
+            this.lnkFulfillments.TabIndex = 6;
             this.lnkFulfillments.TabStop = true;
             this.lnkFulfillments.Text = "View Fulfillments";
             this.lnkFulfillments.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFulfillments_LinkClicked);

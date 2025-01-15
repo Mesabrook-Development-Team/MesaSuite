@@ -18,6 +18,9 @@ namespace CompanyStudio.Purchasing.OpenMaintenance
         {
             txtExpectedRailcars.Text = string.Join(", ", PurchaseOrderLine.FulfillmentPlanPurchaseOrderLines?.Select(fppol => fppol.FulfillmentPlan?.Railcar?.ReportingID) ?? new string[0]);
             txtServiceItem.Text = PurchaseOrderLine.DisplayString;
+            txtOrderQty.Text = PurchaseOrderLine.Quantity?.ToString();
+            txtUnitCost.Text = PurchaseOrderLine.UnitCost?.ToString("N2");
+            txtLineTotal.Text = (PurchaseOrderLine.Quantity * PurchaseOrderLine.UnitCost)?.ToString("N2");
             txtUnfulfilled.Text = (PurchaseOrderLine.Quantity - (PurchaseOrderLine.Fulfillments?.Sum(f => f.Quantity) ?? 0)).ToString();
         }
     }

@@ -145,7 +145,7 @@
             this.cmdClose.Location = new System.Drawing.Point(785, 154);
             this.cmdClose.Name = "cmdClose";
             this.cmdClose.Size = new System.Drawing.Size(125, 23);
-            this.cmdClose.TabIndex = 1;
+            this.cmdClose.TabIndex = 3;
             this.cmdClose.Text = "Close Purchase Order";
             this.cmdClose.UseVisualStyleBackColor = false;
             this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
@@ -159,7 +159,7 @@
             this.groupBox1.Location = new System.Drawing.Point(6, 183);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(904, 286);
-            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Purchase Order Lines";
             // 
@@ -192,7 +192,7 @@
             this.txtDescription.ReadOnly = true;
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescription.Size = new System.Drawing.Size(902, 61);
-            this.txtDescription.TabIndex = 8;
+            this.txtDescription.TabIndex = 2;
             // 
             // label2
             // 
@@ -211,7 +211,7 @@
             this.txtDate.Name = "txtDate";
             this.txtDate.ReadOnly = true;
             this.txtDate.Size = new System.Drawing.Size(837, 20);
-            this.txtDate.TabIndex = 6;
+            this.txtDate.TabIndex = 1;
             // 
             // txtFrom
             // 
@@ -221,7 +221,7 @@
             this.txtFrom.Name = "txtFrom";
             this.txtFrom.ReadOnly = true;
             this.txtFrom.Size = new System.Drawing.Size(837, 20);
-            this.txtFrom.TabIndex = 7;
+            this.txtFrom.TabIndex = 0;
             // 
             // label4
             // 
@@ -263,7 +263,7 @@
             this.tabFulfillmentPlans.Controls.Add(this.dgvFulfillmentPlans);
             this.tabFulfillmentPlans.Location = new System.Drawing.Point(4, 22);
             this.tabFulfillmentPlans.Name = "tabFulfillmentPlans";
-            this.tabFulfillmentPlans.Size = new System.Drawing.Size(916, 492);
+            this.tabFulfillmentPlans.Size = new System.Drawing.Size(916, 475);
             this.tabFulfillmentPlans.TabIndex = 3;
             this.tabFulfillmentPlans.Text = "Fulfillment Plans";
             this.tabFulfillmentPlans.UseVisualStyleBackColor = true;
@@ -276,7 +276,7 @@
             this.lnkFPRailcar.Location = new System.Drawing.Point(155, 104);
             this.lnkFPRailcar.Name = "lnkFPRailcar";
             this.lnkFPRailcar.Size = new System.Drawing.Size(755, 20);
-            this.lnkFPRailcar.TabIndex = 22;
+            this.lnkFPRailcar.TabIndex = 1;
             this.lnkFPRailcar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lnkFPRailcar.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFPRailcar_LinkClicked);
             // 
@@ -288,7 +288,7 @@
             this.txtFPRailcarRouting.Name = "txtFPRailcarRouting";
             this.txtFPRailcarRouting.ReadOnly = true;
             this.txtFPRailcarRouting.Size = new System.Drawing.Size(755, 20);
-            this.txtFPRailcarRouting.TabIndex = 21;
+            this.txtFPRailcarRouting.TabIndex = 8;
             // 
             // label14
             // 
@@ -307,7 +307,7 @@
             this.txtFPDestinationAfterFulfillment.Name = "txtFPDestinationAfterFulfillment";
             this.txtFPDestinationAfterFulfillment.ReadOnly = true;
             this.txtFPDestinationAfterFulfillment.Size = new System.Drawing.Size(755, 20);
-            this.txtFPDestinationAfterFulfillment.TabIndex = 19;
+            this.txtFPDestinationAfterFulfillment.TabIndex = 7;
             // 
             // label13
             // 
@@ -326,7 +326,7 @@
             this.txtFPStrategicAfterDropOff.Name = "txtFPStrategicAfterDropOff";
             this.txtFPStrategicAfterDropOff.ReadOnly = true;
             this.txtFPStrategicAfterDropOff.Size = new System.Drawing.Size(755, 20);
-            this.txtFPStrategicAfterDropOff.TabIndex = 16;
+            this.txtFPStrategicAfterDropOff.TabIndex = 6;
             // 
             // label12
             // 
@@ -345,7 +345,7 @@
             this.txtFPStrategicAfterPickup.Name = "txtFPStrategicAfterPickup";
             this.txtFPStrategicAfterPickup.ReadOnly = true;
             this.txtFPStrategicAfterPickup.Size = new System.Drawing.Size(755, 20);
-            this.txtFPStrategicAfterPickup.TabIndex = 15;
+            this.txtFPStrategicAfterPickup.TabIndex = 4;
             // 
             // label10
             // 
@@ -364,7 +364,7 @@
             this.txtFPDropOffTrack.Name = "txtFPDropOffTrack";
             this.txtFPDropOffTrack.ReadOnly = true;
             this.txtFPDropOffTrack.Size = new System.Drawing.Size(755, 20);
-            this.txtFPDropOffTrack.TabIndex = 17;
+            this.txtFPDropOffTrack.TabIndex = 5;
             // 
             // label11
             // 
@@ -383,7 +383,7 @@
             this.txtFPPurchaseOrderLines.Name = "txtFPPurchaseOrderLines";
             this.txtFPPurchaseOrderLines.ReadOnly = true;
             this.txtFPPurchaseOrderLines.Size = new System.Drawing.Size(755, 20);
-            this.txtFPPurchaseOrderLines.TabIndex = 18;
+            this.txtFPPurchaseOrderLines.TabIndex = 2;
             // 
             // label16
             // 
@@ -411,7 +411,7 @@
             this.txtFPPickupTrack.Name = "txtFPPickupTrack";
             this.txtFPPickupTrack.ReadOnly = true;
             this.txtFPPickupTrack.Size = new System.Drawing.Size(755, 20);
-            this.txtFPPickupTrack.TabIndex = 20;
+            this.txtFPPickupTrack.TabIndex = 3;
             // 
             // label9
             // 
@@ -449,7 +449,7 @@
             this.dgvFulfillmentPlans.RowHeadersVisible = false;
             this.dgvFulfillmentPlans.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFulfillmentPlans.Size = new System.Drawing.Size(916, 82);
-            this.dgvFulfillmentPlans.TabIndex = 5;
+            this.dgvFulfillmentPlans.TabIndex = 0;
             this.dgvFulfillmentPlans.SelectionChanged += new System.EventHandler(this.dgvFulfillmentPlans_SelectionChanged);
             // 
             // colFPRailcar
@@ -479,7 +479,7 @@
             this.tabFulfillments.Location = new System.Drawing.Point(4, 22);
             this.tabFulfillments.Name = "tabFulfillments";
             this.tabFulfillments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFulfillments.Size = new System.Drawing.Size(916, 492);
+            this.tabFulfillments.Size = new System.Drawing.Size(916, 475);
             this.tabFulfillments.TabIndex = 1;
             this.tabFulfillments.Text = "Fulfillments";
             this.tabFulfillments.UseVisualStyleBackColor = true;
@@ -501,7 +501,7 @@
             this.dgvFulfillments.ReadOnly = true;
             this.dgvFulfillments.RowHeadersVisible = false;
             this.dgvFulfillments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvFulfillments.Size = new System.Drawing.Size(910, 486);
+            this.dgvFulfillments.Size = new System.Drawing.Size(910, 469);
             this.dgvFulfillments.TabIndex = 0;
             // 
             // colPurchaseOrderLine
@@ -543,7 +543,7 @@
             this.tabInvoices.Controls.Add(this.dgvInvoices);
             this.tabInvoices.Location = new System.Drawing.Point(4, 22);
             this.tabInvoices.Name = "tabInvoices";
-            this.tabInvoices.Size = new System.Drawing.Size(916, 492);
+            this.tabInvoices.Size = new System.Drawing.Size(916, 475);
             this.tabInvoices.TabIndex = 2;
             this.tabInvoices.Text = "Invoices";
             this.tabInvoices.UseVisualStyleBackColor = true;
@@ -565,7 +565,7 @@
             this.dgvInvoices.ReadOnly = true;
             this.dgvInvoices.RowHeadersVisible = false;
             this.dgvInvoices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvInvoices.Size = new System.Drawing.Size(916, 492);
+            this.dgvInvoices.Size = new System.Drawing.Size(916, 475);
             this.dgvInvoices.TabIndex = 0;
             this.dgvInvoices.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInvoices_CellDoubleClick);
             // 
@@ -621,7 +621,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(952, 25);
-            this.toolStrip1.TabIndex = 3;
+            this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // toolSaveTemplate
@@ -630,7 +630,7 @@
             this.toolSaveTemplate.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolSaveTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSaveTemplate.Name = "toolSaveTemplate";
-            this.toolSaveTemplate.Size = new System.Drawing.Size(98, 22);
+            this.toolSaveTemplate.Size = new System.Drawing.Size(103, 22);
             this.toolSaveTemplate.Text = "Save Template";
             this.toolSaveTemplate.Click += new System.EventHandler(this.toolSaveTemplate_Click);
             // 

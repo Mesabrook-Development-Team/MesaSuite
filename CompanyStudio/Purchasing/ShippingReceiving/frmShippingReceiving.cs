@@ -27,71 +27,81 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
 
         private async void frmShippingReceiving_Load(object sender, EventArgs e)
         {
-            suppressCarsCheckedEvent = true;
-            suppressTracksCheckedEvent = true;
-
-            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Railcar/GetForShippingReceiving");
-            get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-            List<Railcar> railcars = await get.GetObject<List<Railcar>>() ?? new List<Railcar>();
-
-            get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/GetAllRelatedToLocation");
-            get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-            List<PurchaseOrder> purchaseOrders = await get.GetObject<List<PurchaseOrder>>() ?? new List<PurchaseOrder>();
-
-            Dictionary<long?, string> trackNamesByID = new Dictionary<long?, string>();
-            foreach(Railcar railcar in railcars)
+            try
             {
-                trackNamesByID[railcar.RailLocation.Track.TrackID] = railcar.RailLocation.Track.Name;
-            }
+                loader.BringToFront();
+                loader.Visible = true;
 
-            foreach(IGrouping<long?, Railcar> railcarsByTrack in railcars.GroupBy(r => r.RailLocation.Track.TrackID).OrderBy(g => g.Key))
-            {
-                chkTracks.Items.Add(new DropDownItem<long?>(railcarsByTrack.Key, trackNamesByID[railcarsByTrack.Key]), true);
+                suppressCarsCheckedEvent = true;
+                suppressTracksCheckedEvent = true;
 
-                foreach(Railcar railcar in railcarsByTrack)
+                GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Railcar/GetForShippingReceiving");
+                get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                List<Railcar> railcars = await get.GetObject<List<Railcar>>() ?? new List<Railcar>();
+
+                get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/GetAllRelatedToLocation");
+                get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                List<PurchaseOrder> purchaseOrders = await get.GetObject<List<PurchaseOrder>>() ?? new List<PurchaseOrder>();
+
+                Dictionary<long?, string> trackNamesByID = new Dictionary<long?, string>();
+                foreach (Railcar railcar in railcars)
                 {
-                    chkCars.Items.Add(new DropDownItem<Railcar>(railcar, railcar.ReportingID + " (" + trackNamesByID[railcarsByTrack.Key] + ")"), true);
+                    trackNamesByID[railcar.RailLocation.Track.TrackID] = railcar.RailLocation.Track.Name;
+                }
 
-                    PurchaseOrder relatedPurchaseOrder = purchaseOrders.Where(po =>
+                foreach (IGrouping<long?, Railcar> railcarsByTrack in railcars.GroupBy(r => r.RailLocation.Track.TrackID).OrderBy(g => g.Key))
+                {
+                    chkTracks.Items.Add(new DropDownItem<long?>(railcarsByTrack.Key, trackNamesByID[railcarsByTrack.Key]), true);
+
+                    foreach (Railcar railcar in railcarsByTrack)
                     {
-                        if (po.PurchaseOrderLines?.Any(
-                            pol => pol.FulfillmentPlanPurchaseOrderLines?.Any(fppol =>
-                                fppol.FulfillmentPlan?.RailcarID == railcar.RailcarID) ?? false) ?? false)
-                        {
-                            return true;
-                        }
+                        chkCars.Items.Add(new DropDownItem<Railcar>(railcar, railcar.ReportingID + " (" + trackNamesByID[railcarsByTrack.Key] + ")"), true);
 
-                        if (railcar.RailcarLoads?.Any(rl => rl.PurchaseOrderLine?.PurchaseOrderID == po.PurchaseOrderID) ?? false)
+                        PurchaseOrder relatedPurchaseOrder = purchaseOrders.Where(po =>
                         {
-                            return true;
-                        }
+                            if (po.PurchaseOrderLines?.Any(
+                                pol => pol.FulfillmentPlanPurchaseOrderLines?.Any(fppol =>
+                                    fppol.FulfillmentPlan?.RailcarID == railcar.RailcarID) ?? false) ?? false)
+                            {
+                                return true;
+                            }
 
-                        return false;
-                    }).FirstOrDefault();
+                            if (railcar.RailcarLoads?.Any(rl => rl.PurchaseOrderLine?.PurchaseOrderID == po.PurchaseOrderID) ?? false)
+                            {
+                                return true;
+                            }
 
-                    if (relatedPurchaseOrder != null)
-                    {
-                        if (relatedPurchaseOrder.LocationIDDestination == LocationModel.LocationID)
+                            return false;
+                        }).FirstOrDefault();
+
+                        if (relatedPurchaseOrder != null)
                         {
-                            ShippingCars.Add(railcar);
-                            AddShippingCar(railcar);
-                        }
-                        else if (relatedPurchaseOrder.LocationIDOrigin == LocationModel.LocationID)
-                        {
-                            ReceivingCars.Add(railcar);
-                            AddReceivingCar(railcar);
+                            if (relatedPurchaseOrder.LocationIDDestination == LocationModel.LocationID)
+                            {
+                                ShippingCars.Add(railcar);
+                                AddShippingCar(railcar);
+                            }
+                            else if (relatedPurchaseOrder.LocationIDOrigin == LocationModel.LocationID)
+                            {
+                                ReceivingCars.Add(railcar);
+                                AddReceivingCar(railcar);
+                            }
                         }
                     }
                 }
+
+                chkTracks.Items.Insert(0, new DropDownItem<object>(selectAll, "(Select All)"));
+                chkTracks.SetItemChecked(0, true);
+                chkCars.Items.Insert(0, new DropDownItem<object>(selectAll, "(Select All)"));
+                chkCars.SetItemChecked(0, true);
+
+                suppressCarsCheckedEvent = false;
+                suppressTracksCheckedEvent = false;
             }
-
-            chkTracks.Items.Insert(0, new DropDownItem<object>(selectAll, "(Select All)"));
-            chkTracks.SetItemChecked(0, true);
-            chkCars.Items.Insert(0, new DropDownItem<object>(selectAll, "(Select All)"));
-            chkCars.SetItemChecked(0, true);
-
-            suppressCarsCheckedEvent = false;
-            suppressTracksCheckedEvent = false;
+            finally
+            {
+                loader.Visible = false;
+            }
         }
 
         private void AddShippingCar(Railcar railcar)

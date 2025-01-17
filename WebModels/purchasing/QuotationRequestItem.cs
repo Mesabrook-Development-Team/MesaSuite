@@ -56,7 +56,7 @@ namespace WebModels.purchasing
         }
 
         private decimal? _quantity;
-        [Field("8D03B78D-18CC-40A8-BF09-4A7CB63DD6B8")]
+        [Field("8D03B78D-18CC-40A8-BF09-4A7CB63DD6B8", DataSize = 9, DataScale = 2)]
         [Required]
         public decimal? Quantity
         {

@@ -65,7 +65,7 @@ namespace WebModels.purchasing
         }
 
         private decimal? _minimumQuantity;
-        [Field("80F86F12-EF3A-405A-9542-03CC62127787")]
+        [Field("80F86F12-EF3A-405A-9542-03CC62127787", DataSize = 9, DataScale = 2)]
         public decimal? MinimumQuantity
         {
             get { CheckGet(); return _minimumQuantity; }

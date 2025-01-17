@@ -183,12 +183,13 @@ namespace Updater
                 mesasuiteKey.SetValue("StartMenuIcon", InstallationConfiguration.MakeStartMenuIcon);
                 mesasuiteKey.Close();
 
-                mesasuiteKey = Registry.ClassesRoot.CreateSubKey(@"mesasuite");
+                subKey = Program.InternalEdition ? "mesasuiteie" : "mesasuite";
+                mesasuiteKey = Registry.ClassesRoot.CreateSubKey(subKey);
                 mesasuiteKey.SetValue("", "MesaSuite Protocol");
                 mesasuiteKey.SetValue("URLProtocol", "");
                 mesasuiteKey.Close();
 
-                mesasuiteKey = Registry.ClassesRoot.CreateSubKey(@"mesasuite\shell\open\command");
+                mesasuiteKey = Registry.ClassesRoot.CreateSubKey(subKey + @"\shell\open\command");
                 mesasuiteKey.SetValue("", Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe") + " \"%1\"");
                 mesasuiteKey.Close();
             }

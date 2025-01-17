@@ -1,20 +1,13 @@
-﻿using CompanyStudio.Extensions;
-using MesaSuite.Common;
-using MesaSuite.Common.Data;
-using MesaSuite.Common.NetworkReporting;
+﻿using FleetTracking.Reports;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace CompanyStudio.Models
+namespace FleetTracking.Models
 {
     public class BillOfLading
     {
         public long? BillOfLadingID { get; set; }
-        public long? PurchaseOrderID { get; set; }
-        public PurchaseOrder PurchaseOrder { get; set; }
         public long? CompanyIDShipper { get; set; }
         public Company CompanyShipper { get; set; }
         public long? GovernmentIDShipper { get; set; }
@@ -45,7 +38,7 @@ namespace CompanyStudio.Models
         public string From => GovernmentIDShipper == null ? CompanyShipper.Name : GovernmentShipper.Name + " (Government)";
         public string To => GovernmentIDConsignee == null ? CompanyConsignee.Name : GovernmentConsignee.Name + " (Government)";
         public string Via => GovernmentIDCarrier == null ? CompanyCarrier.Name : GovernmentCarrier.Name + " (Government)";
-        public string RailcarReportingID => Railcar?.ReportingID;
+        public string RailcarReportingID => Railcar?.FormattedReportingMark;
         public string TypeString
         {
             get
@@ -68,50 +61,9 @@ namespace CompanyStudio.Models
             }
         }
 
-        public static async Task Accept(long? billOfLadingID, long? companyID, long? locationID)
+        public async Task NetworkPrint(long? printerID, string documentName)
         {
-            try
-            {
-                PostData post = new PostData(DataAccess.APIs.CompanyStudio, "BillOfLading/AcceptBOL", new { billOfLadingID });
-                post.AddLocationHeader(companyID, locationID);
-                await post.ExecuteNoResult();
-            }
-            catch { }
-        }
-
-        public static async Task AcceptMultiple(long? companyID, long? locationID)
-        {
-            GenericInputBox inputBox = new GenericInputBox()
-            {
-                Prompt = "Enter Bill of Lading Numbers, separated by commas:",
-                Text = "Accept Bills of Lading",
-                AcceptText = "Accept",
-                ResultType = typeof(string)
-            };
-
-            if (inputBox.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
-            string[] billOfLadingNumbers = inputBox.Result.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string billOfLadingNumber in billOfLadingNumbers)
-            {
-                billOfLadingNumber.Trim();
-
-                if (!string.IsNullOrEmpty(billOfLadingNumber) && long.TryParse(billOfLadingNumber, out long billOfLadingID))
-                {
-                    await Accept(billOfLadingID, companyID, locationID);
-                }
-            }
-        }
-
-        public void DisplayReport(frmStudio studio, Company company)
-        {
-            NetworkReportBuilder networkReportBuilder = new NetworkReportBuilder()
-            {
-                InitialDocumentName = "BOL " + RailcarReportingID
-            };
+            NetworkReportBuilder networkReportBuilder = new NetworkReportBuilder();
 
             networkReportBuilder.Groupings = new List<NetworkReportBuilder.Grouping>()
             {
@@ -126,7 +78,7 @@ namespace CompanyStudio.Models
 
             decimal quantityTotal = 0;
             decimal valueTotal = 0;
-            foreach(BillOfLadingItem billOfLadingItem in BillOfLadingItems ?? new List<BillOfLadingItem>())
+            foreach (BillOfLadingItem billOfLadingItem in BillOfLadingItems ?? new List<BillOfLadingItem>())
             {
                 quantityTotal += billOfLadingItem.Quantity ?? 0;
                 valueTotal += billOfLadingItem.Value ?? 0;
@@ -152,14 +104,7 @@ namespace CompanyStudio.Models
                 });
             }
 
-            frmReportViewer reportViewer = new frmReportViewer();
-            studio.DecorateStudioContent(reportViewer);
-            reportViewer.Company = company;
-            reportViewer.ReportName = "CompanyStudio.Purchasing.BillOfLadingReport.BillOfLading.rdlc";
-            reportViewer.AddDataSet("BillOfLadingDataSet", new List<BillOfLading>() { this });
-            reportViewer.AddDataSet("BillOfLadingItems.BillOfLadingItemDataSet", BillOfLadingItems ?? new List<BillOfLadingItem>());
-            reportViewer.NetworkReportBuilder = networkReportBuilder;
-            reportViewer.Show(studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
+            await networkReportBuilder.SaveNetworkReport(printerID, documentName);
         }
     }
 }

@@ -834,5 +834,15 @@ namespace FleetTracking.Train
             LoadConsist();
             LoadHandledCars();
         }
+
+        private void tsbPrintBOLs_Click(object sender, EventArgs e)
+        {
+            Tracks.BOLRailcarPicker railcarPicker = new Tracks.BOLRailcarPicker()
+            {
+                TrainID = TrainID,
+                Application = _application
+            };
+            _application.OpenForm(railcarPicker, FleetTrackingApplication.OpenFormOptions.Dialog);
+        }
     }
 }

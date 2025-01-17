@@ -33,10 +33,10 @@
             this.treBOLs = new System.Windows.Forms.TreeView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.loader = new CompanyStudio.Loader();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolAcceptBOL = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolAcceptMultiple = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,18 +70,6 @@
             this.loader.TabIndex = 1;
             this.loader.Visible = false;
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolAcceptBOL,
-            this.toolStripSeparator1,
-            this.toolAcceptMultiple});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(514, 25);
-            this.toolStrip1.TabIndex = 2;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
             // toolAcceptBOL
             // 
             this.toolAcceptBOL.Enabled = false;
@@ -107,6 +95,18 @@
             this.toolAcceptMultiple.Size = new System.Drawing.Size(111, 22);
             this.toolAcceptMultiple.Text = "Accept Multiple";
             this.toolAcceptMultiple.Click += new System.EventHandler(this.toolAcceptMultiple_Click);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolAcceptBOL,
+            this.toolStripSeparator1,
+            this.toolAcceptMultiple});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(514, 25);
+            this.toolStrip1.TabIndex = 2;
+            this.toolStrip1.Text = "toolStrip1";
             // 
             // frmBillOfLadingExplorer
             // 
@@ -134,9 +134,9 @@
         private System.Windows.Forms.TreeView treBOLs;
         private System.Windows.Forms.ImageList imageList;
         private Loader loader;
-        private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolAcceptBOL;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolAcceptMultiple;
+        private System.Windows.Forms.ToolStrip toolStrip1;
     }
 }

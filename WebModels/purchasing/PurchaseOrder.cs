@@ -1058,7 +1058,7 @@ namespace WebModels.purchasing
         }
 
         private List<BillOfLading> _billsOfLading = new List<BillOfLading>();
-        [RelationshipList("8E46EC76-0E2E-4E8F-900F-836FC6C8BBC0", nameof(BillOfLading.BillOfLadingID))]
+        [RelationshipList("8E46EC76-0E2E-4E8F-900F-836FC6C8BBC0", nameof(BillOfLading.PurchaseOrderID))]
         public IReadOnlyCollection<BillOfLading> BillsOfLading
         {
             get { CheckGet(); return _billsOfLading; }

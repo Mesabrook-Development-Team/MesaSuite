@@ -93,7 +93,7 @@ namespace WebModels.purchasing
         }
 
         private DateTime? _expirationTime;
-        [Field("9A4B22B1-36D0-43FB-BF23-0FEC60B540F8")]
+        [Field("9A4B22B1-36D0-43FB-BF23-0FEC60B540F8", DataSize = 7)]
         [Required]
         public DateTime? ExpirationTime
         {

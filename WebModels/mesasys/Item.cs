@@ -133,6 +133,20 @@ namespace WebModels.mesasys
         {
             get { CheckGet(); return _billOfLadingItems; }
         }
+
+        private List<QuotationItem> _quotationItems = new List<QuotationItem>();
+        [RelationshipList("0D19E972-F3C0-499F-BA88-B2D73ED4471D", nameof(QuotationItem.ItemID))]
+        public IReadOnlyCollection<QuotationItem> QuotationItems
+        {
+            get { CheckGet(); return _quotationItems; }
+        }
+
+        private List<QuotationRequestItem> _quotationRequestItems = new List<QuotationRequestItem>();
+        [RelationshipList("6BED0964-A2B7-4D28-8903-FD973ACAC6E6", nameof(QuotationRequestItem.ItemID))]
+        public IReadOnlyCollection<QuotationRequestItem> quotationRequestItems
+        {
+            get { CheckGet(); return _quotationRequestItems; }
+        }
         #endregion
         #endregion
     }

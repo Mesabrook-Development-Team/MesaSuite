@@ -122,7 +122,6 @@ namespace Updater
                 while ((file = reader.ReadLine()) != null)
                 {
                     TaskExecuting?.Invoke(this, "Downloading " + file);
-                    Thread.Sleep(1000);
 
                     webRequest = (FtpWebRequest)WebRequest.Create($"ftp://www.clussmanproductions.com/support/{updateFolder}/updates/{StartupArguments.VersionToDownload}/{file}");
                     webRequest.Credentials = ftpCredentials;

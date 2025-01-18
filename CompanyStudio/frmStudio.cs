@@ -268,7 +268,7 @@ namespace CompanyStudio
             {
                 companies.OrderBy(c => c.Name).ForEach(c => AddCompany(c));
 
-                ActiveCompany = Companies.First();
+                ActiveCompany = Companies.FirstOrDefault();
             }
 
             frmCompanyExplorer companyExplorer = GetForm<frmCompanyExplorer>();

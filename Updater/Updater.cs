@@ -186,7 +186,7 @@ namespace Updater
                 subKey = Program.InternalEdition ? "mesasuiteie" : "mesasuite";
                 mesasuiteKey = Registry.ClassesRoot.CreateSubKey(subKey);
                 mesasuiteKey.SetValue("", "MesaSuite Protocol");
-                mesasuiteKey.SetValue("URLProtocol", "");
+                mesasuiteKey.SetValue("URL Protocol", "");
                 mesasuiteKey.Close();
 
                 mesasuiteKey = Registry.ClassesRoot.CreateSubKey(subKey + @"\shell\open\command");

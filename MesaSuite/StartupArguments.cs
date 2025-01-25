@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MesaSuite.Common;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -75,8 +76,9 @@ namespace MesaSuite
 
             foreach(string arg in args)
             {
-                Match match = Regex.Match(arg, @"\bmesasuite://[^\s]+");
-                if (match.Success && Uri.TryCreate(match.Value, UriKind.Absolute, out Uri uri) && uri.Scheme.Equals("mesasuite", StringComparison.OrdinalIgnoreCase))
+                string protocolToMatch = GlobalSettings.InternalEditionMode ? "mesasuiteie" : "mesasuite";
+                Match match = Regex.Match(arg, @"\b" + protocolToMatch + @"://[^\s]+");
+                if (match.Success && Uri.TryCreate(match.Value, UriKind.Absolute, out Uri uri) && uri.Scheme.Equals(protocolToMatch, StringComparison.OrdinalIgnoreCase))
                 {
                     RunUri = uri;
                 }

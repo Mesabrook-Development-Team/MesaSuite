@@ -54,8 +54,9 @@ namespace MesaSuite.Common.Utility
             {
                 foreach (string arg in args)
                 {
-                    Match match = Regex.Match(arg, @"\bmesasuite://[^\s]+");
-                    if (match.Success && Uri.TryCreate(match.Value, UriKind.Absolute, out Uri uri) && uri.Scheme.Equals("mesasuite", StringComparison.OrdinalIgnoreCase))
+                    string protocolToMatch = GlobalSettings.InternalEditionMode ? "mesasuiteie" : "mesasuite";
+                    Match match = Regex.Match(arg, @"\b" + protocolToMatch + @"://[^\s]+");
+                    if (match.Success && Uri.TryCreate(match.Value, UriKind.Absolute, out Uri uri) && uri.Scheme.Equals(protocolToMatch, StringComparison.OrdinalIgnoreCase))
                     {
                         RunByUri(uri);
                         return;
@@ -66,7 +67,7 @@ namespace MesaSuite.Common.Utility
 
         public async void RunByUri(Uri uri)
         {
-            if (!uri.Scheme.Equals("mesasuite", StringComparison.OrdinalIgnoreCase))
+            if (!uri.Scheme.Equals(GlobalSettings.InternalEditionMode ? "mesasuiteie" : "mesasuite", StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }

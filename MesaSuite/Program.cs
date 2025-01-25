@@ -42,65 +42,67 @@ namespace MesaSuite
                 Directory.Delete(StartupArguments.FolderToDelete, true);
             }
 
-            Mutex mutex = new Mutex(true, MUTEX_ID, out bool isNewInstance);
-            if (!isNewInstance)
+            using (Mutex mutex = new Mutex(true, MUTEX_ID, out bool isNewInstance))
             {
-                if (StartupArguments.RunUri == null)
+                if (!isNewInstance)
                 {
-                    StartupArguments.RunUri = new Uri("mesasuite://dashboard");
+                    if (StartupArguments.RunUri == null)
+                    {
+                        StartupArguments.RunUri = new Uri((GlobalSettings.InternalEditionMode ? "mesasuiteie" : "mesasuite") + "://dashboard");
+                    }
+
+                    NotifyOtherInstance();
+                    return;
                 }
 
-                NotifyOtherInstance();
-                return;
-            }
-
-            // Splash screen logic
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            frmSplash splash = new frmSplash();
-            splash.Show();
-            Stopwatch shownTime = new Stopwatch();
-            shownTime.Start();
-            Application.DoEvents();
-
-            Thread initThread = new Thread(new ThreadStart(InitializeApplication));
-            initThread.Start();
-
-            while (initThread.IsAlive)
-            {
-                Thread.Sleep(50);
+                // Splash screen logic
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                frmSplash splash = new frmSplash();
+                splash.Show();
+                Stopwatch shownTime = new Stopwatch();
+                shownTime.Start();
                 Application.DoEvents();
-            }
 
-            while (shownTime.ElapsedMilliseconds < 1000)
-            {
-                Thread.Sleep(50);
-            }
+                Thread initThread = new Thread(new ThreadStart(InitializeApplication));
+                initThread.Start();
 
-            shownTime.Stop();
-            splash.Close();
+                while (initThread.IsAlive)
+                {
+                    Thread.Sleep(50);
+                    Application.DoEvents();
+                }
 
-            if (updates == null)
-            {
-                MessageBox.Show("An error occurred while retrieving updates.  MesaSuite may not start without checking for updates.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+                while (shownTime.ElapsedMilliseconds < 1000)
+                {
+                    Thread.Sleep(50);
+                }
 
-            if (updates.Any())
-            {
-                frmUpdate update = new frmUpdate();
-                update.UpdaterResults = updates;
-                Application.Run(update);
-                return;
-            }
+                shownTime.Stop();
+                splash.Close();
 
-            if (!string.IsNullOrEmpty(StartupArguments.Run))
-            {
-                RunOther();
-            }
-            else
-            {
-                Application.Run(new frmMain());
+                if (updates == null)
+                {
+                    MessageBox.Show("An error occurred while retrieving updates.  MesaSuite may not start without checking for updates.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (updates.Any())
+                {
+                    frmUpdate update = new frmUpdate();
+                    update.UpdaterResults = updates;
+                    Application.Run(update);
+                    return;
+                }
+
+                if (!string.IsNullOrEmpty(StartupArguments.Run))
+                {
+                    RunOther();
+                }
+                else
+                {
+                    Application.Run(new frmMain());
+                }
             }
         }
 

@@ -205,7 +205,7 @@ namespace CompanyStudio
             toDoItems = await get.GetObject<List<ToDoItem>>() ?? new List<ToDoItem>();
             toDoItems.ForEach(tdi => tdi.CompanyName = Studio.Companies.FirstOrDefault(c => c.CompanyID == tdi.CompanyID)?.Name);
             toDoItems.Sort(new ToDoItem.ToDoItemComparer());
-            foreach (ToDoItem item in toDoItems)
+            foreach (ToDoItem item in toDoItems.OrderBy(tdi => Studio.Companies.FirstOrDefault(c => c.CompanyID == tdi.CompanyID)?.Name))
             {
                 System.Windows.Forms.TabPage companyPage = tbpToDoList.TabPages.OfType<System.Windows.Forms.TabPage>().FirstOrDefault(tp => tp.Tag is Company company && company.CompanyID == item.CompanyID);
                 if (companyPage == null)
@@ -220,14 +220,7 @@ namespace CompanyStudio
                     companyPage.Tag = company;
                     companyPage.Text = company.Name;
 
-                    int insertIndex = 1;
-                    System.Windows.Forms.TabPage desiredIndex = tbpToDoList.TabPages.OfType<System.Windows.Forms.TabPage>().OrderBy(tp => tp.Text).FirstOrDefault(tb => tb.Text.CompareTo(companyPage.Text) >= 1);
-                    if (desiredIndex != null)
-                    {
-                        insertIndex = tbpToDoList.TabPages.IndexOf(desiredIndex);
-                    }
-
-                    tbpToDoList.TabPages.Insert(insertIndex, companyPage);
+                    tbpToDoList.TabPages.Add(companyPage);
                 }
 
                 lblAllCaughtUp.Visible = false;
@@ -337,7 +330,8 @@ namespace CompanyStudio
                 case ToDoItem.Types.QuotationRequestWaiting:
                     Purchasing.Quotes.frmQuoteRequest quoteRequest = new Purchasing.Quotes.frmQuoteRequest()
                     {
-                        Company = company
+                        Company = company,
+                        QuotationRequestID = toDoItem.SourceID
                     };
                     Studio.DecorateStudioContent(quoteRequest);
                     quoteRequest.Company = company;

@@ -228,6 +228,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 }
 
                 decimal unitCost = Math.Min(locationItem.BasePrice.Value, locationItem.CurrentPromotionLocationItem?.PromotionPrice ?? decimal.MaxValue);
+                unitCost /= locationItem.Quantity.Value;
                 if (locationItem.QuotedPrices != null && locationItem.QuotedPrices.Any())
                 {
                     QuotationItem quoteItem = locationItem.QuotedPrices.Where(qp => qp.MinimumQuantity <= quantity).OrderBy(qp => qp.UnitCost).FirstOrDefault();
@@ -237,7 +238,6 @@ namespace CompanyStudio.Purchasing.DraftEntry
                     }
                 }
 
-                unitCost /= locationItem.Quantity.Value;
 
                 txtUnitCost.Text = unitCost.ToString("F");
                 txtLineCost.Text = (unitCost * quantity).ToString("F");

@@ -294,7 +294,7 @@ namespace CompanyStudio.Purchasing
                 return;
             }
 
-            long? quoteID = await request.IssueQuote(Company.CompanyID, LocationModel.LocationID, Theme);
+            long? quoteID = await request.IssueQuote(Company, LocationModel, Theme, Studio);
             if (quoteID == null)
             {
                 return;

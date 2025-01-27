@@ -272,7 +272,7 @@ namespace CompanyStudio.Purchasing.Quotes
 
             if (quoteRequest != null)
             {
-                long? quoteID = await quoteRequest.IssueQuote(Company.CompanyID, LocationModel.LocationID, Theme);
+                long? quoteID = await quoteRequest.IssueQuote(Company, LocationModel, Theme, Studio);
                 if (quoteID != null)
                 {
                     QuoteIssued?.Invoke(this, quoteID);

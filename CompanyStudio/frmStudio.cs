@@ -362,25 +362,8 @@ namespace CompanyStudio
 
         private void ApplyTheme()
         {
-            if (dockPanel.Contents.OfType<BaseCompanyStudioContent>().Any(c => c.IsDirty))
-            {
-                MessageBox.Show("Please save all documents before switching themes.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                dockPanel.SaveAsXml(memoryStream, Encoding.UTF8);
-                memoryStream.Position = 0;
-                foreach (IDockContent content in dockPanel.Contents.ToList())
-                {
-                    content.DockHandler.Close();
-                }
-
-                currentTheme.ApplyTo(dockPanel);
-
-                dockPanel.LoadFromXml(memoryStream, HandlePersistString);
-            }
+            studioFormExtender.ApplyStyle(dockPanel, currentTheme);
+            studioFormExtender.ApplyStyle(loader, currentTheme);
             toolStripExtender.SetStyle(mnuBanner, VisualStudioToolStripExtender.VsVersion.Vs2015, currentTheme);
             toolStripExtender.SetStyle(toolStrip, VisualStudioToolStripExtender.VsVersion.Vs2015, currentTheme);
 

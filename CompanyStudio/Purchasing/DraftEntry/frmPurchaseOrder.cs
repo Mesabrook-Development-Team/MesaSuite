@@ -298,6 +298,14 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
             try
             {
+                if (pnlPurchaseOrderLines.Controls.OfType<PurchaseOrderLineControl>().Any(ctrl => !ctrl.PurchaseOrderLine?.FulfillmentPlanPurchaseOrderLines?.Any() ?? true))
+                {
+                    if (!this.Confirm("At least one Purchase Order Line does not have a Fulfillment Plan.\r\n\r\nFulfillment Plans define how your product will be shipped to you. Most carriers will require that each Purchase Order Line is associated to a Fulfillment Plan.\r\n\r\nAre you sure you want to Submit?"))
+                    {
+                        return;
+                    }
+                }
+
                 toolStripMain.Enabled = false;
                 loader.BringToFront();
                 loader.Visible = true;

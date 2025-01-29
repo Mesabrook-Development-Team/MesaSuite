@@ -32,12 +32,14 @@ namespace Updater.Steps
             this.chkDesktop = new System.Windows.Forms.CheckBox();
             this.chkStartMenu = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.chkInstallMusic = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // chkDesktop
             // 
             this.chkDesktop.AutoSize = true;
-            this.chkDesktop.Location = new System.Drawing.Point(22, 128);
+            this.chkDesktop.Location = new System.Drawing.Point(22, 121);
             this.chkDesktop.Name = "chkDesktop";
             this.chkDesktop.Size = new System.Drawing.Size(221, 17);
             this.chkDesktop.TabIndex = 0;
@@ -48,7 +50,7 @@ namespace Updater.Steps
             // chkStartMenu
             // 
             this.chkStartMenu.AutoSize = true;
-            this.chkStartMenu.Location = new System.Drawing.Point(22, 162);
+            this.chkStartMenu.Location = new System.Drawing.Point(22, 155);
             this.chkStartMenu.Name = "chkStartMenu";
             this.chkStartMenu.Size = new System.Drawing.Size(215, 17);
             this.chkStartMenu.TabIndex = 0;
@@ -67,11 +69,34 @@ namespace Updater.Steps
             this.label2.TabIndex = 4;
             this.label2.Text = "Additional Options";
             // 
+            // chkInstallMusic
+            // 
+            this.chkInstallMusic.AutoSize = true;
+            this.chkInstallMusic.Location = new System.Drawing.Point(22, 189);
+            this.chkInstallMusic.Name = "chkInstallMusic";
+            this.chkInstallMusic.Size = new System.Drawing.Size(160, 17);
+            this.chkInstallMusic.TabIndex = 0;
+            this.chkInstallMusic.Text = " Play installation soundtrack.";
+            this.chkInstallMusic.UseVisualStyleBackColor = true;
+            this.chkInstallMusic.CheckedChanged += new System.EventHandler(this.chkInstallMusic_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(40, 209);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(266, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Why not set the mood with some music while you wait?";
+            // 
             // AdditionalOptionsStepControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.chkInstallMusic);
             this.Controls.Add(this.chkStartMenu);
             this.Controls.Add(this.chkDesktop);
             this.Name = "AdditionalOptionsStepControl";
@@ -87,5 +112,7 @@ namespace Updater.Steps
         private System.Windows.Forms.CheckBox chkDesktop;
         private System.Windows.Forms.CheckBox chkStartMenu;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox chkInstallMusic;
+        private System.Windows.Forms.Label label1;
     }
 }

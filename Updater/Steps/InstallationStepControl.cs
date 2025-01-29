@@ -48,5 +48,26 @@ namespace Updater.Steps
         }
 
         public Step Step { get; set; }
+
+        private void InstallationStepControl_Load(object sender, EventArgs e)
+        {
+            chkPlayMusic.Checked = Step.InstallationConfiguration.PlayInstallMusic;
+        }
+
+        private void chkPlayMusic_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Program.installMusic != null)
+            {
+                Program.installMusic.Stop();
+                Program.installMusic.Dispose();
+                Program.installMusic = null;
+            }
+
+            if (chkPlayMusic.Checked)
+            {
+                Program.installMusic = new System.Media.SoundPlayer(Properties.Resources.music);
+                Program.installMusic.PlayLooping();
+            }
+        }
     }
 }

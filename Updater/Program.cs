@@ -33,6 +33,7 @@ namespace Updater
         {
             if (installMusic != null)
             {
+                installMusic.Stop();
                 installMusic.Dispose();
             }
         }

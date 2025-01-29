@@ -33,6 +33,7 @@ namespace Updater.Steps
             this.lblStatus = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.chkPlayMusic = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // prgProgress
@@ -71,16 +72,29 @@ namespace Updater.Steps
             this.label1.TabIndex = 6;
             this.label1.Text = "We can\'t wait for you to use it!";
             // 
+            // chkPlayMusic
+            // 
+            this.chkPlayMusic.AutoSize = true;
+            this.chkPlayMusic.Location = new System.Drawing.Point(3, 298);
+            this.chkPlayMusic.Name = "chkPlayMusic";
+            this.chkPlayMusic.Size = new System.Drawing.Size(154, 17);
+            this.chkPlayMusic.TabIndex = 7;
+            this.chkPlayMusic.Text = "Play installation soundtrack";
+            this.chkPlayMusic.UseVisualStyleBackColor = true;
+            this.chkPlayMusic.CheckedChanged += new System.EventHandler(this.chkPlayMusic_CheckedChanged);
+            // 
             // InstallationStepControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chkPlayMusic);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.prgProgress);
             this.Name = "InstallationStepControl";
             this.Size = new System.Drawing.Size(538, 318);
+            this.Load += new System.EventHandler(this.InstallationStepControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,5 +106,6 @@ namespace Updater.Steps
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox chkPlayMusic;
     }
 }

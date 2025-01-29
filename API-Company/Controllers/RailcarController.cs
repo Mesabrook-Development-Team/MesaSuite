@@ -40,8 +40,12 @@ namespace API_Company.Controllers
             r.TrackDestination.CompanyIDOwner,
             r.TrackDestination.Name,
             r.CompanyIDOwner,
+            r.CompanyOwner.Name,
+            r.GovernmentIDOwner,
+            r.GovernmentOwner.Name,
             r.CompanyPossessor.Name,
             r.GovernmentPossessor.Name,
+            r.CompanyLeasedTo.CompanyID,
             r.RailcarModelID,
             r.RailcarModel.Name,
             r.RailcarModel.CargoCapacity,
@@ -78,22 +82,68 @@ namespace API_Company.Controllers
         });
 
         [HttpGet]
-        public async Task<List<Railcar>> GetIdleForCompany()
+        public async Task<List<Railcar>> GetIdleForCompany([FromUri]long? includeCompanyIDShipper = null, [FromUri]long? includeGovernmentIDShipper = null)
         {
-            Search<Railcar> railcarSearch = new Search<Railcar>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
-                new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+            List<ISearchCondition> ownershipConditions = new List<ISearchCondition>()
+            {
+                new LongSearchCondition<Railcar>()
+                {
+                    Field = nameof(Railcar.CompanyIDOwner),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = CompanyID
+                },
+                new LongSearchCondition<Railcar>()
+                {
+                    Field = FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new List<object>() { r.CompanyLeasedTo.CompanyID }).First(),
+                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                    Value = CompanyID
+                }
+            };
+
+            if (includeCompanyIDShipper != null)
+            {
+                ownershipConditions.Add(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                     new LongSearchCondition<Railcar>()
                     {
                         Field = nameof(Railcar.CompanyIDOwner),
                         SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = CompanyID
+                        Value = includeCompanyIDShipper
                     },
                     new LongSearchCondition<Railcar>()
                     {
-                        Field = FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new List<object>() { r.CompanyLeasedTo.CompanyID }).First(),
+                        Field = FieldPathUtility.CreateFieldPath<Railcar>(r => r.CompanyLeasedTo.CompanyID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                    },
+                    new LongSearchCondition<Railcar>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPath<Railcar>(r => r.GovernmentLeasedTo.GovernmentID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                    }));
+            }
+
+            if (includeGovernmentIDShipper != null)
+            {
+                ownershipConditions.Add(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<Railcar>()
+                    {
+                        Field = nameof(Railcar.GovernmentIDOwner),
                         SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = CompanyID
-                    }),
+                        Value = includeGovernmentIDShipper
+                    },
+                    new LongSearchCondition<Railcar>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPath<Railcar>(r => r.CompanyLeasedTo.CompanyID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                    },
+                    new LongSearchCondition<Railcar>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPath<Railcar>(r => r.GovernmentLeasedTo.GovernmentID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                    }));
+            }
+
+            Search<Railcar> railcarSearch = new Search<Railcar>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or, ownershipConditions.ToArray()),
                 new ExistsSearchCondition<Railcar>()
                 {
                     RelationshipName = nameof(Railcar.FulfillmentPlans),

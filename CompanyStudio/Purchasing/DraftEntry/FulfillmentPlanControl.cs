@@ -446,6 +446,8 @@ namespace CompanyStudio.Purchasing.DraftEntry
             railcarSelect.SelectedRailcarID = (lnkRailcar.Tag as Railcar)?.RailcarID;
             railcarSelect.Company = new Company() { CompanyID = CompanyID };
             railcarSelect.LocationModel = new Location() { LocationID = LocationID, CompanyID = CompanyID, Company = railcarSelect.Company };
+            railcarSelect.CompanyIDShipper = StartIDCompany;
+            railcarSelect.GovernmentIDShipper = StartIDGovernment;
             railcarSelect.FormClosed += railcarSelect_FormClosed;
             railcarSelect.Show(Studio.dockPanel, new Rectangle(Screen.FromControl(this).Bounds.Width / 2 - 514, Screen.FromControl(this).Bounds.Height / 2 - 184, 1028, 368));
         }

@@ -36,19 +36,21 @@ namespace CompanyStudio.Purchasing.DraftEntry
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmRailcarSelect));
             this.dgvRailcars = new System.Windows.Forms.DataGridView();
-            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDestination = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colReleasedTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLeased = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.cmdSave = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.rdoFilterAll = new System.Windows.Forms.RadioButton();
             this.rdoFilterOwned = new System.Windows.Forms.RadioButton();
             this.rdoFilterLeased = new System.Windows.Forms.RadioButton();
+            this.rdoFilterShipperOwned = new System.Windows.Forms.RadioButton();
+            this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDestination = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colReleasedTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colOwner = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLeased = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRailcars)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,6 +69,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
             this.colLocation,
             this.colDestination,
             this.colReleasedTo,
+            this.colOwner,
             this.colLeased});
             this.dgvRailcars.Location = new System.Drawing.Point(0, 0);
             this.dgvRailcars.Name = "dgvRailcars";
@@ -76,6 +79,89 @@ namespace CompanyStudio.Purchasing.DraftEntry
             this.dgvRailcars.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvRailcars.Size = new System.Drawing.Size(676, 164);
             this.dgvRailcars.TabIndex = 0;
+            // 
+            // cmdSave
+            // 
+            this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdSave.Location = new System.Drawing.Point(589, 170);
+            this.cmdSave.Name = "cmdSave";
+            this.cmdSave.Size = new System.Drawing.Size(75, 23);
+            this.cmdSave.TabIndex = 5;
+            this.cmdSave.Text = "Save";
+            this.cmdSave.UseVisualStyleBackColor = true;
+            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
+            // 
+            // cmdCancel
+            // 
+            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cmdCancel.Location = new System.Drawing.Point(508, 170);
+            this.cmdCancel.Name = "cmdCancel";
+            this.cmdCancel.Size = new System.Drawing.Size(75, 23);
+            this.cmdCancel.TabIndex = 6;
+            this.cmdCancel.Text = "Cancel";
+            this.cmdCancel.UseVisualStyleBackColor = true;
+            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 172);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Filter";
+            // 
+            // rdoFilterAll
+            // 
+            this.rdoFilterAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.rdoFilterAll.AutoSize = true;
+            this.rdoFilterAll.Checked = true;
+            this.rdoFilterAll.Location = new System.Drawing.Point(53, 171);
+            this.rdoFilterAll.Name = "rdoFilterAll";
+            this.rdoFilterAll.Size = new System.Drawing.Size(36, 17);
+            this.rdoFilterAll.TabIndex = 1;
+            this.rdoFilterAll.Text = "All";
+            this.rdoFilterAll.UseVisualStyleBackColor = true;
+            this.rdoFilterAll.CheckedChanged += new System.EventHandler(this.Filter_CheckedChanged);
+            // 
+            // rdoFilterOwned
+            // 
+            this.rdoFilterOwned.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.rdoFilterOwned.AutoSize = true;
+            this.rdoFilterOwned.Location = new System.Drawing.Point(95, 171);
+            this.rdoFilterOwned.Name = "rdoFilterOwned";
+            this.rdoFilterOwned.Size = new System.Drawing.Size(59, 17);
+            this.rdoFilterOwned.TabIndex = 2;
+            this.rdoFilterOwned.Text = "Owned";
+            this.rdoFilterOwned.UseVisualStyleBackColor = true;
+            this.rdoFilterOwned.CheckedChanged += new System.EventHandler(this.Filter_CheckedChanged);
+            // 
+            // rdoFilterLeased
+            // 
+            this.rdoFilterLeased.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.rdoFilterLeased.AutoSize = true;
+            this.rdoFilterLeased.Location = new System.Drawing.Point(160, 171);
+            this.rdoFilterLeased.Name = "rdoFilterLeased";
+            this.rdoFilterLeased.Size = new System.Drawing.Size(60, 17);
+            this.rdoFilterLeased.TabIndex = 3;
+            this.rdoFilterLeased.Text = "Leased";
+            this.rdoFilterLeased.UseVisualStyleBackColor = true;
+            this.rdoFilterLeased.CheckedChanged += new System.EventHandler(this.Filter_CheckedChanged);
+            // 
+            // rdoFilterShipperOwned
+            // 
+            this.rdoFilterShipperOwned.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.rdoFilterShipperOwned.AutoSize = true;
+            this.rdoFilterShipperOwned.Location = new System.Drawing.Point(226, 171);
+            this.rdoFilterShipperOwned.Name = "rdoFilterShipperOwned";
+            this.rdoFilterShipperOwned.Size = new System.Drawing.Size(96, 17);
+            this.rdoFilterShipperOwned.TabIndex = 4;
+            this.rdoFilterShipperOwned.Text = "Shipper owned";
+            this.rdoFilterShipperOwned.UseVisualStyleBackColor = true;
+            this.rdoFilterShipperOwned.CheckedChanged += new System.EventHandler(this.Filter_CheckedChanged);
             // 
             // colImage
             // 
@@ -124,6 +210,13 @@ namespace CompanyStudio.Purchasing.DraftEntry
             this.colReleasedTo.ReadOnly = true;
             this.colReleasedTo.Width = 135;
             // 
+            // colOwner
+            // 
+            this.colOwner.HeaderText = "Owner";
+            this.colOwner.Name = "colOwner";
+            this.colOwner.ReadOnly = true;
+            this.colOwner.Width = 135;
+            // 
             // colLeased
             // 
             this.colLeased.HeaderText = "Leased?";
@@ -131,78 +224,6 @@ namespace CompanyStudio.Purchasing.DraftEntry
             this.colLeased.Name = "colLeased";
             this.colLeased.ReadOnly = true;
             this.colLeased.Width = 60;
-            // 
-            // cmdSave
-            // 
-            this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSave.Location = new System.Drawing.Point(589, 170);
-            this.cmdSave.Name = "cmdSave";
-            this.cmdSave.Size = new System.Drawing.Size(75, 23);
-            this.cmdSave.TabIndex = 1;
-            this.cmdSave.Text = "Save";
-            this.cmdSave.UseVisualStyleBackColor = true;
-            this.cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
-            // 
-            // cmdCancel
-            // 
-            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(508, 170);
-            this.cmdCancel.Name = "cmdCancel";
-            this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 1;
-            this.cmdCancel.Text = "Cancel";
-            this.cmdCancel.UseVisualStyleBackColor = true;
-            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 172);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Filter";
-            // 
-            // rdoFilterAll
-            // 
-            this.rdoFilterAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.rdoFilterAll.AutoSize = true;
-            this.rdoFilterAll.Checked = true;
-            this.rdoFilterAll.Location = new System.Drawing.Point(53, 171);
-            this.rdoFilterAll.Name = "rdoFilterAll";
-            this.rdoFilterAll.Size = new System.Drawing.Size(36, 17);
-            this.rdoFilterAll.TabIndex = 3;
-            this.rdoFilterAll.TabStop = true;
-            this.rdoFilterAll.Text = "All";
-            this.rdoFilterAll.UseVisualStyleBackColor = true;
-            this.rdoFilterAll.CheckedChanged += new System.EventHandler(this.Filter_CheckedChanged);
-            // 
-            // rdoFilterOwned
-            // 
-            this.rdoFilterOwned.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.rdoFilterOwned.AutoSize = true;
-            this.rdoFilterOwned.Location = new System.Drawing.Point(95, 171);
-            this.rdoFilterOwned.Name = "rdoFilterOwned";
-            this.rdoFilterOwned.Size = new System.Drawing.Size(59, 17);
-            this.rdoFilterOwned.TabIndex = 3;
-            this.rdoFilterOwned.Text = "Owned";
-            this.rdoFilterOwned.UseVisualStyleBackColor = true;
-            this.rdoFilterOwned.CheckedChanged += new System.EventHandler(this.Filter_CheckedChanged);
-            // 
-            // rdoFilterLeased
-            // 
-            this.rdoFilterLeased.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.rdoFilterLeased.AutoSize = true;
-            this.rdoFilterLeased.Location = new System.Drawing.Point(160, 171);
-            this.rdoFilterLeased.Name = "rdoFilterLeased";
-            this.rdoFilterLeased.Size = new System.Drawing.Size(60, 17);
-            this.rdoFilterLeased.TabIndex = 3;
-            this.rdoFilterLeased.Text = "Leased";
-            this.rdoFilterLeased.UseVisualStyleBackColor = true;
-            this.rdoFilterLeased.CheckedChanged += new System.EventHandler(this.Filter_CheckedChanged);
             // 
             // frmRailcarSelect
             // 
@@ -213,6 +234,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
             this.ClientSize = new System.Drawing.Size(676, 205);
             this.Controls.Add(this.rdoFilterLeased);
             this.Controls.Add(this.rdoFilterOwned);
+            this.Controls.Add(this.rdoFilterShipperOwned);
             this.Controls.Add(this.rdoFilterAll);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmdCancel);
@@ -238,12 +260,14 @@ namespace CompanyStudio.Purchasing.DraftEntry
         private System.Windows.Forms.RadioButton rdoFilterAll;
         private System.Windows.Forms.RadioButton rdoFilterOwned;
         private System.Windows.Forms.RadioButton rdoFilterLeased;
+        private System.Windows.Forms.RadioButton rdoFilterShipperOwned;
         private System.Windows.Forms.DataGridViewImageColumn colImage;
         private System.Windows.Forms.DataGridViewTextBoxColumn colReportingMark;
         private System.Windows.Forms.DataGridViewTextBoxColumn colModel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colLocation;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDestination;
         private System.Windows.Forms.DataGridViewTextBoxColumn colReleasedTo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colOwner;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colLeased;
     }
 }

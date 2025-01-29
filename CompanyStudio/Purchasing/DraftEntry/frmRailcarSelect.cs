@@ -1,5 +1,6 @@
 ﻿using CompanyStudio.Extensions;
 using CompanyStudio.Models;
+using FleetTracking.Reports.RailActivity;
 using MesaSuite.Common.Data;
 using System;
 using System.CodeDom;
@@ -24,12 +25,25 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
         public Location LocationModel { get; set; }
 
+        public long? CompanyIDShipper { get; set; }
+        public long? GovernmentIDShipper { get; set; }
+
         public long? SelectedRailcarID { get; set; }
 
         private async void frmRailcarSelect_Load(object sender, EventArgs e)
         {
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Railcar/GetIdleForCompany");
             get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+            if (CompanyIDShipper != null)
+            {
+                get.QueryString.Add("includeCompanyIDShipper", CompanyIDShipper.ToString());
+            }
+
+            if (GovernmentIDShipper != null)
+            {
+                get.QueryString.Add("includeGovernmentIDShipper", GovernmentIDShipper.ToString());
+            }
+
             _railcars = await get.GetObject<List<Railcar>>() ?? new List<Railcar>();
 
             PopulateGrid();
@@ -57,6 +71,10 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 {
                     return r.CompanyIDOwner == Company.CompanyID;
                 }
+                else if (rdoFilterShipperOwned.Checked)
+                {
+                    return r.CompanyIDOwner == CompanyIDShipper || r.GovernmentIDOwner == GovernmentIDShipper;
+                }
 
                 return false;
             };
@@ -69,8 +87,9 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 row.Cells[colLocation.Name].Value = railcar.RailLocation?.CurrentLocation;
                 row.Cells[colDestination.Name].Value = railcar.TrackDestination?.Name;
                 row.Cells[colReleasedTo.Name].Value = railcar.CompanyPossessor?.Name ?? railcar.GovernmentPossessor?.Name;
-                row.Cells[colLeased.Name].Value = railcar.CompanyIDOwner != Company.CompanyID;
+                row.Cells[colLeased.Name].Value = railcar.CompanyLeasedTo?.CompanyID == Company.CompanyID;
                 row.Cells[colModel.Name].Value = railcar.RailcarModel?.Name;
+                row.Cells[colOwner.Name].Value = railcar.CompanyIDOwner != null ? railcar.CompanyOwner?.Name : railcar.GovernmentOwner?.Name;
                 row.Tag = railcar;
             }
 

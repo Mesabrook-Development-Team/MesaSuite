@@ -17,8 +17,12 @@ namespace CompanyStudio.Models
         public long? TrackIDDestination { get; set; }
         public Track TrackDestination { get; set; }
         public long? CompanyIDOwner { get; set; }
+        public Company CompanyOwner { get; set; }
+        public long? GovernmentIDOwner { get; set; }
+        public Government GovernmentOwner { get; set; }
         public Company CompanyPossessor { get; set; }
         public Government GovernmentPossessor { get; set; }
+        public Company CompanyLeasedTo { get; set; }
         public RailcarModel RailcarModel { get; set; }
         public List<BillOfLading> BillsOfLading { get; set; } = new List<BillOfLading>();
         public List<RailcarLoad> RailcarLoads { get; set; } = new List<RailcarLoad>();

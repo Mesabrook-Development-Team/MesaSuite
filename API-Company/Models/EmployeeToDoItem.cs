@@ -519,7 +519,12 @@ namespace API_Company.Models
                 Dictionary<long?, int> railcarCountByLocationID = new Dictionary<long?, int>();
                 foreach(Railcar railcar in railcars)
                 {
-                    PurchaseOrder openPurchaseOrderForRailcar = railcar.FulfillmentPlans?.Select(fp => fp.FulfillmentPlanPurchaseOrderLines?.FirstOrDefault(fppol => fppol.PurchaseOrderLine?.PurchaseOrder?.Status == PurchaseOrder.Statuses.InProgress || fppol.PurchaseOrderLine?.PurchaseOrder?.Status == PurchaseOrder.Statuses.Accepted)?.PurchaseOrderLine.PurchaseOrder).FirstOrDefault();
+                    PurchaseOrder openPurchaseOrderForRailcar = railcar.FulfillmentPlans
+                        .SelectMany(fp => fp.FulfillmentPlanPurchaseOrderLines)
+                        .Select(fppol => fppol.PurchaseOrderLine?.PurchaseOrder)
+                        .Where(po => po != null && (po.Status == PurchaseOrder.Statuses.Accepted || po.Status == PurchaseOrder.Statuses.InProgress))
+                        .FirstOrDefault();
+
                     if (openPurchaseOrderForRailcar == null || !employeeList.Any(e => e.LocationEmployees.Any(le => le.ManagePurchaseOrders && (le.LocationID == openPurchaseOrderForRailcar.LocationIDOrigin || le.LocationID == openPurchaseOrderForRailcar.LocationIDDestination))))
                     {
                         openPurchaseOrderForRailcar = railcar.RailcarLoads?.FirstOrDefault(rl => employeeList.Any(e => e.LocationEmployees.Any(el => el.ManagePurchaseOrders && (el.LocationID == rl.PurchaseOrderLine?.PurchaseOrder?.LocationIDDestination || el.LocationID == rl.PurchaseOrderLine?.PurchaseOrder?.LocationIDOrigin))))?.PurchaseOrderLine?.PurchaseOrder;

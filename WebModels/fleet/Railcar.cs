@@ -329,8 +329,15 @@ namespace WebModels.fleet
 
             RailcarRoute nextRoute = railcarRouteSearch.GetEditable(transaction);
             if (nextRoute != null &&
-                (nextRoute.CompanyIDFrom == GetDirtyValue(nameof(CompanyIDPossessor)) as long? || nextRoute.GovernmentIDFrom == GetDirtyValue(nameof(GovernmentIDPossessor)) as long?) &&
-                (nextRoute.CompanyIDTo == CompanyIDPossessor || nextRoute.GovernmentIDTo == GovernmentIDPossessor))
+                (
+                    (nextRoute.CompanyIDFrom != null && GetDirtyValue(nameof(CompanyIDPossessor)) != null && nextRoute.CompanyIDFrom == GetDirtyValue(nameof(CompanyIDPossessor)) as long?) ||
+                    (nextRoute.GovernmentIDFrom != null && GetDirtyValue(nameof(GovernmentIDPossessor)) != null && nextRoute.GovernmentIDFrom == GetDirtyValue(nameof(GovernmentIDPossessor)) as long?)
+                ) &&
+                (
+                    (nextRoute.CompanyIDTo != null && CompanyIDPossessor != null && nextRoute.CompanyIDTo == CompanyIDPossessor) ||
+                    (nextRoute.GovernmentIDTo != null && GovernmentIDPossessor != null && nextRoute.GovernmentIDTo == GovernmentIDPossessor)
+                )
+            )
             {
                 if (!nextRoute.Delete(transaction))
                 {
@@ -345,11 +352,11 @@ namespace WebModels.fleet
                     Value = nextRoute.RailcarID
                 });
 
-                byte i = 0;
+                byte routeCount = 0;
                 nextRoute = null;
                 foreach(RailcarRoute route in nextRailcarRoutes.GetEditableReader(transaction).OrderBy(r => r.SortOrder))
                 {
-                    route.SortOrder = ++i;
+                    route.SortOrder = ++routeCount;
                     nextRoute = nextRoute ?? route;
                     if (!route.Save(transaction))
                     {
@@ -373,7 +380,10 @@ namespace WebModels.fleet
 
                 List<string> itemFields = Schema.GetSchemaObject<BillOfLadingItem>().GetFields().Select(f => nameof(BillOfLading.BillOfLadingItems) + "." + f.FieldName).ToList();
                 BillOfLading existingBillOfLading = existingBillOfLadingSearch.GetEditable(transaction, itemFields);
-                if (existingBillOfLading != null && !existingBillOfLading.Type.HasFlag(BillOfLading.Types.LastMile)) // Last mile BoLs must be manually accepted
+                if (existingBillOfLading != null && 
+                    ((existingBillOfLading.CompanyIDCarrier != null && CompanyIDPossessor != null && existingBillOfLading.CompanyIDCarrier != CompanyIDPossessor) || 
+                        (existingBillOfLading.GovernmentIDCarrier != null && GovernmentIDPossessor != null && existingBillOfLading.GovernmentIDCarrier != GovernmentIDPossessor)) &&
+                    !existingBillOfLading.Type.HasFlag(BillOfLading.Types.LastMile)) // Last mile BoLs must be manually accepted
                 {
                     existingBillOfLading.DeliveredDate = DateTime.Now;
                     if (!existingBillOfLading.Save(transaction))
@@ -385,8 +395,19 @@ namespace WebModels.fleet
                     BillOfLading newBillOfLading = DataObjectFactory.Create<BillOfLading>();
                     existingBillOfLading.Copy(newBillOfLading);
                     newBillOfLading.DeliveredDate = null;
-                    newBillOfLading.CompanyIDCarrier = nextRoute.CompanyIDTo;
-                    newBillOfLading.GovernmentIDCarrier = nextRoute.GovernmentIDTo;
+                    newBillOfLading.CompanyIDCarrier = nextRoute.CompanyIDFrom;
+                    newBillOfLading.GovernmentIDCarrier = nextRoute.GovernmentIDFrom;
+                    newBillOfLading.IssuedDate = DateTime.Now;
+
+                    if (routeCount == 1)
+                    {
+                        newBillOfLading.Type = BillOfLading.Types.LastMile;
+                    }
+                    else
+                    {
+                        newBillOfLading.Type = BillOfLading.Types.Interchange;
+                    }
+
                     if (!newBillOfLading.Save(transaction))
                     {
                         Errors.AddRange(newBillOfLading.Errors.ToArray());
@@ -485,7 +506,7 @@ namespace WebModels.fleet
 
                     RailcarRoute newRoute = DataObjectFactory.Create<RailcarRoute>();
                     newRoute.RailcarID = RailcarID;
-                    newRoute.SortOrder = (byte)i;
+                    newRoute.SortOrder = (byte)(i + 1);
                     newRoute.CompanyIDFrom = planRoute.CompanyIDTo;
                     newRoute.GovernmentIDFrom = planRoute.GovernmentIDTo;
                     newRoute.CompanyIDTo = planRoute.CompanyIDFrom;

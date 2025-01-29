@@ -163,9 +163,9 @@ namespace WebModels.purchasing
         [Flags]
         public enum Types
         {
-            FirstMile,
-            Interchange,
-            LastMile
+            FirstMile = 1,
+            Interchange = 2,
+            LastMile = 4
         }
 
         private Types _type;

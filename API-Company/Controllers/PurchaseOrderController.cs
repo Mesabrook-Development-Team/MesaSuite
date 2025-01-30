@@ -332,8 +332,7 @@ namespace API_Company.Controllers
                 return NotFound();
             }
 
-            purchaseOrder.Status = PurchaseOrder.Statuses.Completed;
-            if (!await Task.Run(() => purchaseOrder.Save(saveFlags: new List<Guid>() { PurchaseOrder.SaveFlags.V_StatusChange})))
+            if (!await purchaseOrder.ClosePurchaseOrder())
             {
                 return purchaseOrder.HandleFailedValidation(this);
             }

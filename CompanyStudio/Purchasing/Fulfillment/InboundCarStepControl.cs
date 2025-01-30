@@ -64,7 +64,7 @@ namespace CompanyStudio.Purchasing.Fulfillment
             get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/GetAllRelatedToLocation");
             get.AddLocationHeader(data.CompanyID, data.LocationID);
             List<PurchaseOrder> purchaseOrders = await get.GetObject<List<PurchaseOrder>>() ?? new List<PurchaseOrder>();
-            foreach(PurchaseOrder purchaseOrder in purchaseOrders.Where(po => po.LocationIDDestination == data.LocationID).OrderBy(po => po.PurchaseOrderID))
+            foreach(PurchaseOrder purchaseOrder in purchaseOrders.Where(po => po.Status != PurchaseOrder.Statuses.Completed && po.LocationIDDestination == data.LocationID).OrderBy(po => po.PurchaseOrderID))
             {
                 foreach(PurchaseOrderLine line in purchaseOrder.PurchaseOrderLines.Where(pol => pol.UnfulfilledQuantity > 0))
                 {

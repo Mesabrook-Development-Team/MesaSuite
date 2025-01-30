@@ -1033,6 +1033,128 @@ namespace WebModels.purchasing
             }
         }
 
+        public async Task<bool> ClosePurchaseOrder(ITransaction transaction = null)
+        {
+            ITransaction localTransaction = null;
+
+            try
+            {
+                localTransaction = transaction ?? SQLProviderFactory.GenerateTransaction();
+
+                Status = Statuses.Completed;
+                if (!await Task.Run(() => Save(localTransaction, new List<Guid>() { SaveFlags.V_StatusChange })))
+                {
+                    return false;
+                }
+
+                // All railcars returning to shipper (empty loads) should have routes canceled and destinations set to
+                // post-fulfillment
+                Search<Railcar> railcarSearch = new Search<Railcar>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new ExistsSearchCondition<Railcar>()
+                    {
+                        RelationshipName = nameof(Railcar.RailcarLoads),
+                        ExistsType = ExistsSearchCondition<Railcar>.ExistsTypes.NotExists
+                    },
+                    new ExistsSearchCondition<Railcar>()
+                    {
+                        RelationshipName = nameof(Railcar.FulfillmentPlans),
+                        ExistsType = ExistsSearchCondition<Railcar>.ExistsTypes.Exists,
+                        Condition = new ExistsSearchCondition<FulfillmentPlan>()
+                        {
+                            RelationshipName = nameof(FulfillmentPlan.FulfillmentPlanPurchaseOrderLines),
+                            ExistsType = ExistsSearchCondition<FulfillmentPlan>.ExistsTypes.Exists,
+                            Condition = new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                            {
+                                Field = FieldPathUtility.CreateFieldPath<FulfillmentPlanPurchaseOrderLine>(fppol => fppol.PurchaseOrderLine.PurchaseOrderID),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = PurchaseOrderID
+                            }
+                        }
+                    }));
+
+                List<string> returningToShipperFields = FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new object[]
+                {
+                    r.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLine.PurchaseOrderID,
+                    r.FulfillmentPlans.First().TrackIDPostFulfillment
+                });
+
+                foreach(Railcar railcar in railcarSearch.GetEditableReader(localTransaction, returningToShipperFields))
+                {
+                    FulfillmentPlan fulfillmentPlan = railcar.FulfillmentPlans
+                        .Where(fp => 
+                            fp.FulfillmentPlanPurchaseOrderLines.Any(
+                                fppol => fppol.PurchaseOrderLine.PurchaseOrderID == PurchaseOrderID))
+                        .First();
+
+                    railcar.TrackIDDestination = fulfillmentPlan.TrackIDPostFulfillment;
+
+                    if (!await Task.Run(() => railcar.Save(localTransaction)))
+                    {
+                        Errors.AddRange(railcar.Errors.ToArray());
+                    }
+
+                    Search<RailcarRoute> railcarRouteSearch = new Search<RailcarRoute>(new LongSearchCondition<RailcarRoute>()
+                    {
+                        Field = nameof(RailcarRoute.RailcarID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = railcar.RailcarID
+                    });
+
+                    foreach(RailcarRoute route in railcarRouteSearch.GetEditableReader(localTransaction))
+                    {
+                        if (!await Task.Run(() => route.Delete(localTransaction)))
+                        {
+                            Errors.AddRange(route.Errors.ToArray());
+                        }
+                    }
+
+                    Search<LeaseContract> leaseContractSearch = new Search<LeaseContract>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                    new LongSearchCondition<LeaseContract>()
+                    {
+                        Field = nameof(LeaseContract.RailcarID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = railcar.RailcarID
+                    },
+                    new DateTimeSearchCondition<LeaseContract>()
+                    {
+                        Field = nameof(LeaseContract.LeaseTimeEnd),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Null
+                    }));
+
+                    LeaseContract leaseContract = leaseContractSearch.GetEditable(transaction);
+                    if (leaseContract != null)
+                    {
+                        leaseContract.LeaseTimeEnd = DateTime.Now;
+
+                        if (!leaseContract.Save(transaction))
+                        {
+                            Errors.AddRange(leaseContract.Errors.ToArray());
+                            return false;
+                        }
+                    }
+                }
+
+                if (!Errors.Any())
+                {
+                    if (transaction == null)
+                    {
+                        localTransaction.Commit();
+                    }
+
+                    return true;
+                }
+
+                return false;
+            }
+            finally
+            {
+                if (transaction == null && localTransaction != null && localTransaction.IsActive)
+                {
+                    localTransaction.Rollback();
+                }
+            }
+        }
+
         #region Relationships
         #region invoicing
         private List<Invoice> _invoices = new List<Invoice>();

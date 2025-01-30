@@ -138,12 +138,19 @@ namespace API_Company.Controllers
                 {
                     RelationshipName = nameof(FulfillmentPlan.FulfillmentPlanPurchaseOrderLines),
                     ExistsType = ExistsSearchCondition<FulfillmentPlan>.ExistsTypes.Exists,
-                    Condition = new LongSearchCondition<FulfillmentPlanPurchaseOrderLine>()
-                    {
-                        Field = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlanPurchaseOrderLine>(fppol => new List<object>() { fppol.PurchaseOrderLine.RemainingQuantity }).First(),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Greater,
-                        Value = 0
-                    }
+                    Condition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                        new DecimalSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                        {
+                            Field = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlanPurchaseOrderLine>(fppol => new List<object>() { fppol.PurchaseOrderLine.RemainingQuantity }).First(),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Greater,
+                            Value = 0
+                        },
+                        new IntSearchCondition<FulfillmentPlanPurchaseOrderLine>()
+                        {
+                            Field = FieldPathUtility.CreateFieldPath<FulfillmentPlanPurchaseOrderLine>(fppol => fppol.PurchaseOrderLine.PurchaseOrder.Status),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.NotEquals,
+                            Value = (int)PurchaseOrder.Statuses.Completed
+                        })
                 },
                 new LongSearchCondition<FulfillmentPlan>()
                 {

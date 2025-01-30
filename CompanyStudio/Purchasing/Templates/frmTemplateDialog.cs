@@ -1194,7 +1194,7 @@ namespace CompanyStudio.Purchasing.Templates
                         {
                             LocationID = LocationID,
                             Name = txtTemplateName.Text,
-                            PurchaseOrderTemplateFolderID = SelectedFolderID
+                            PurchaseOrderTemplateFolderID = SelectedFolderID == -1L ? null : SelectedFolderID
                         };
                     }
 

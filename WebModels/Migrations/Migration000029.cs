@@ -362,7 +362,7 @@ namespace WebModels.Migrations
             alterTable.Schema = "invoicing";
             alterTable.Table = "Invoice";
             alterTable.AddColumn("PurchaseOrderID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt), transaction);
-            alterTable.AddColumn("AutoReceive", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false });
+            alterTable.AddColumn("AutoReceive", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false }, transaction);
             alterTable.AddForeignKey("FKInvoice_PurchaseOrder_PurchaseOrderID", "PurchaseOrderID", "purchasing", "PurchaseOrder", "PurchaseOrderID", transaction);
 
             alterTable.Table = "InvoiceLine";

@@ -1,6 +1,9 @@
-﻿using System;
+﻿using MesaSuite.Common;
+using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MesaSuite
 {
@@ -9,6 +12,7 @@ namespace MesaSuite
         public static string FolderToDelete { get; set; }
         public static int UpdaterProcessID { get; set; } = -1;
         public static string Run { get; set; }
+        public static Uri RunUri { get; set; }
 
         public static Dictionary<string, List<string>> ArgumentsByPrefix = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
 
@@ -69,6 +73,16 @@ namespace MesaSuite
                     ArgumentsByPrefix[prefix].Add(arg);
                 }
             }
+
+            foreach(string arg in args)
+            {
+                string protocolToMatch = GlobalSettings.InternalEditionMode ? "mesasuiteie" : "mesasuite";
+                Match match = Regex.Match(arg, @"\b" + protocolToMatch + @"://[^\s]+");
+                if (match.Success && Uri.TryCreate(match.Value, UriKind.Absolute, out Uri uri) && uri.Scheme.Equals(protocolToMatch, StringComparison.OrdinalIgnoreCase))
+                {
+                    RunUri = uri;
+                }
+            }
         }
 
         public static string[] GetArgsForApp(string appName)
@@ -77,6 +91,16 @@ namespace MesaSuite
             if (ArgumentsByPrefix.ContainsKey(appName))
             {
                 args = ArgumentsByPrefix[appName].ToArray();
+            }
+
+            if (RunUri != null)
+            {
+                args = args ?? new string[0];
+                if (RunUri.Authority.Equals(appName, StringComparison.OrdinalIgnoreCase))
+                {
+                    Array.Resize(ref args, args.Length + 1);
+                    args[args.Length - 1] = RunUri.ToString();
+                }
             }
 
             return args;

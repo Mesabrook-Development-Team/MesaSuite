@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FleetTracking</RootNamespace>
     <AssemblyName>FleetTracking</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -207,6 +208,8 @@
     <Compile Include="Misc\MiscellaneousSettings.Designer.cs">
       <DependentUpon>MiscellaneousSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\BillOfLading.cs" />
+    <Compile Include="Models\BillOfLadingItem.cs" />
     <Compile Include="Models\EmailImplementation.cs" />
     <Compile Include="Models\EmailTemplate.cs" />
     <Compile Include="Models\FleetSecurity.cs" />
@@ -221,6 +224,7 @@
     <Compile Include="Models\PrintPage.cs" />
     <Compile Include="Models\RailcarLoad.cs" />
     <Compile Include="Models\RailcarLocationTransaction.cs" />
+    <Compile Include="Models\RailcarRoute.cs" />
     <Compile Include="Models\RailLocation.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Government.cs" />
@@ -324,6 +328,12 @@
       <DependentUpon>MassAddStockInput.cs</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="Tracks\BOLRailcarPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tracks\BOLRailcarPicker.Designer.cs">
+      <DependentUpon>BOLRailcarPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\MassUpdateEquipment.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -580,6 +590,9 @@
       <DependentUpon>MassAddStockInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\TrackListing\Track.rdlc" />
+    <EmbeddedResource Include="Tracks\BOLRailcarPicker.resx">
+      <DependentUpon>BOLRailcarPicker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Utilities\MassUpdateEquipment.resx">
       <DependentUpon>MassUpdateEquipment.cs</DependentUpon>
     </EmbeddedResource>

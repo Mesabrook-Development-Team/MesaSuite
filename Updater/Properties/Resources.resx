@@ -124,4 +124,7 @@
   <data name="bannerRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bannerRed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="music" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Windows 2000 Shutdown (Build 1983-2000) (Suno AI Extended).wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

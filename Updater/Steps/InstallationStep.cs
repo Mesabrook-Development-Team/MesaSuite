@@ -37,6 +37,19 @@ namespace Updater.Steps
 
         public async override Task<bool> LoadAndAutoComplete()
         {
+            if (Program.installMusic != null)
+            {
+                Program.installMusic.Stop();
+                Program.installMusic.Dispose();
+                Program.installMusic = null;
+            }
+
+            if (InstallationConfiguration.PlayInstallMusic)
+            {
+                Program.installMusic = new System.Media.SoundPlayer(Properties.Resources.music);
+                Program.installMusic.PlayLooping();
+            }
+
             updater.InstallationConfiguration = InstallationConfiguration;
             updater.NumberOfTasks += Updater_NumberOfTasks;
             updater.NonTaskExecuting += Updater_NonTaskExecuting;

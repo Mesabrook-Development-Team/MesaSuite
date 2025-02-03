@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace Updater
             if (StartupArguments.MCSyncProcessID != -1)
             {
                 NonTaskExecuting?.Invoke(this, "Waiting for MCSync to close...");
-                while(Process.GetProcesses().Any(p => p.Id == StartupArguments.MCSyncProcessID))
+                while (Process.GetProcesses().Any(p => p.Id == StartupArguments.MCSyncProcessID))
                 {
                     Thread.Sleep(50);
                 }
@@ -169,7 +170,7 @@ namespace Updater
             {
                 string subKey = Program.InternalEdition ? "MesaSuiteInternalEdition" : "MesaSuite";
                 RegistryKey mesasuiteKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + subKey, true);
-                mesasuiteKey.SetValue("DisplayName", "MesaSuite (Internal Edition)");
+                mesasuiteKey.SetValue("DisplayName", "MesaSuite" + (Program.InternalEdition ? " (Internal Edition)" : ""));
                 mesasuiteKey.SetValue("ApplicationVersion", StartupArguments.VersionToDownload);
                 mesasuiteKey.SetValue("Publisher", "Clussman Productions");
                 mesasuiteKey.SetValue("DisplayIcon", Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe"));
@@ -177,9 +178,19 @@ namespace Updater
                 mesasuiteKey.SetValue("URLInfoAbout", "https://www.mesabrook.com/mcsync/index.html");
                 mesasuiteKey.SetValue("Contact", "cnwaj@hotmail.com");
                 mesasuiteKey.SetValue("InstallDate", DateTime.Now.ToString("yyyyMMdd"));
-                mesasuiteKey.SetValue("UninstallString", Path.Combine(InstallationConfiguration.InstallDirectory, "Updater.exe") + " -uninstallquiet");
+                mesasuiteKey.SetValue("UninstallString", "\"" + Path.Combine(InstallationConfiguration.InstallDirectory, "Updater.exe") + "\" -uninstallquiet");
                 mesasuiteKey.SetValue("DesktopIcon", InstallationConfiguration.MakeDesktopIcon);
                 mesasuiteKey.SetValue("StartMenuIcon", InstallationConfiguration.MakeStartMenuIcon);
+                mesasuiteKey.Close();
+
+                subKey = Program.InternalEdition ? "mesasuiteie" : "mesasuite";
+                mesasuiteKey = Registry.ClassesRoot.CreateSubKey(subKey);
+                mesasuiteKey.SetValue("", "MesaSuite Protocol");
+                mesasuiteKey.SetValue("URL Protocol", "");
+                mesasuiteKey.Close();
+
+                mesasuiteKey = Registry.ClassesRoot.CreateSubKey(subKey + @"\shell\open\command");
+                mesasuiteKey.SetValue("", Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe") + " \"%1\"");
                 mesasuiteKey.Close();
             }
             catch(Exception ex)
@@ -200,7 +211,7 @@ namespace Updater
                 WshShell shell = new WshShell();
                 IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "MesaSuite" + (Program.InternalEdition ? " (Internal Edition)" : "") + ".lnk"));
                 shortcut.Description = "Launches MesaSuite" + (Program.InternalEdition ? " Internal Edition" : "");
-                shortcut.IconLocation = Path.Combine(InstallationConfiguration.InstallDirectory, "icon.ico");
+                shortcut.IconLocation = Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe") + ",0";
                 shortcut.TargetPath = Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe");
                 shortcut.WorkingDirectory = InstallationConfiguration.InstallDirectory;
                 shortcut.Save();
@@ -211,7 +222,7 @@ namespace Updater
                 WshShell shell = new WshShell();
                 IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs", "MesaSuite" + (Program.InternalEdition ? " (Internal Edition)" : "") + ".lnk"));
                 shortcut.Description = "Launches MesaSuite" + (Program.InternalEdition ? " Internal Edition" : "");
-                shortcut.IconLocation = Path.Combine(InstallationConfiguration.InstallDirectory, "icon.ico");
+                shortcut.IconLocation = Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe") + ",0";
                 shortcut.TargetPath = Path.Combine(InstallationConfiguration.InstallDirectory, "MesaSuite.exe");
                 shortcut.WorkingDirectory = InstallationConfiguration.InstallDirectory;
                 shortcut.Save();

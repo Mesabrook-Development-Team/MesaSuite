@@ -35,7 +35,7 @@ namespace API_Company.Controllers
         }
 
         [HttpGet]
-        public List<Item> GetByQuery([FromUri]string q = "", [FromUri]int t = 50, [FromUri]int s = 0)
+        public List<Item> GetByQuery([FromUri]string q = "", [FromUri]int t = 50, [FromUri]int s = 0, [FromUri]bool noImage = false)
         {
             Search<Item> itemSearch = new Search<Item>();
             itemSearch.Take = t;
@@ -58,7 +58,14 @@ namespace API_Company.Controllers
                 };
             }
 
-            return itemSearch.GetReadOnlyReader(null, FieldsToRetrieve).ToList();
+            List<string> fieldsToRetrieve = FieldsToRetrieve.ToList();
+
+            if (noImage)
+            {
+                fieldsToRetrieve.Remove(nameof(Item.Image));
+            }
+
+            return itemSearch.GetReadOnlyReader(null, fieldsToRetrieve).ToList();
         }
     }
 }

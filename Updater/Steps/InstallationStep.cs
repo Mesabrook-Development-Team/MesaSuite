@@ -39,11 +39,16 @@ namespace Updater.Steps
         {
             if (Program.installMusic != null)
             {
+                Program.installMusic.Stop();
                 Program.installMusic.Dispose();
+                Program.installMusic = null;
             }
 
-            Program.installMusic = new System.Media.SoundPlayer(Properties.Resources.music);
-            Program.installMusic.PlayLooping();
+            if (InstallationConfiguration.PlayInstallMusic)
+            {
+                Program.installMusic = new System.Media.SoundPlayer(Properties.Resources.music);
+                Program.installMusic.PlayLooping();
+            }
 
             updater.InstallationConfiguration = InstallationConfiguration;
             updater.NumberOfTasks += Updater_NumberOfTasks;

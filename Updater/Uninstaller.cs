@@ -90,16 +90,31 @@ namespace Updater
             try
             {
                 string updateFolder = Program.InternalEdition ? "MesaSuiteInternal" : "MCSyncNew";
-                FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create($"ftp://www.clussmanproductions.com/support/{updateFolder}/updates/" + version);
-                ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
-                ftpRequest.Credentials = new NetworkCredential("Reporting", "NetLogon");
-                FtpWebResponse response = (FtpWebResponse)await ftpRequest.GetResponseAsync();
+                FtpWebRequest webRequest = (FtpWebRequest)WebRequest.Create($"ftp://www.clussmanproductions.com/support/{updateFolder}/updates/{version}/manifest");
+                webRequest.Method = WebRequestMethods.Ftp.DownloadFile;
+                webRequest.Credentials = new NetworkCredential("Reporting", "NetLogon");
 
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                string manifest;
+                try
                 {
-                    while(!reader.EndOfStream)
+                    using (Stream responseStream = (await webRequest.GetResponseAsync()).GetResponseStream())
+                    using (StreamReader reader = new StreamReader(responseStream))
                     {
-                        files.Add(reader.ReadLine());
+                        manifest = reader.ReadToEnd();
+                    }
+                }
+                catch (WebException)
+                {
+                    _errors.Add("No download manifest could be found. Was an invalid version specified?");
+                    return new List<string>();
+                }
+
+                using (StringReader reader = new StringReader(manifest))
+                {
+                    string line;
+                    while((line = reader.ReadLine()) != null)
+                    {
+                        files.Add(line);
                     }
                 }
 
@@ -156,6 +171,18 @@ namespace Updater
                 catch(Exception ex)
                 {
                     _errors.Add("MesaSuite was successfully removed from the system, however, the registry could not be updated.  This means that MesaSuite will remain in your Add/Remove Programs window even though it does not exist.");
+                }
+
+                string protocolSubKey = Program.InternalEdition ? "mesasuiteie" : "mesasuite";
+                try
+                {
+                    RegistryKey uninstallKey = Registry.ClassesRoot;
+                    uninstallKey.DeleteSubKeyTree(protocolSubKey);
+                    uninstallKey.Close();
+                }
+                catch (Exception ex)
+                {
+                    _errors.Add($"MesaSuite was successfully removed from the system, however, the registry could not be updated.  This means that a protocol handler ({protocolSubKey}://) for MesaSuite will still exist even though MesaSuite does not.");
                 }
             });
         }

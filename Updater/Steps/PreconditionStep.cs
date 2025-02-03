@@ -43,7 +43,29 @@ namespace Updater.Steps
                 }
 
                 string uninstallString = mesaSuiteUninstallKey.GetValue("UninstallString", "") as string;
-                InstallationConfiguration.InstallDirectory = Path.GetDirectoryName(uninstallString);
+                try
+                {
+                    InstallationConfiguration.InstallDirectory = Path.GetDirectoryName(uninstallString);
+                }
+                catch
+                {
+                    string executablePath;
+                    if (uninstallString.StartsWith("\""))
+                    {
+                        // Extract the quoted path
+                        int closingQuoteIndex = uninstallString.IndexOf('"', 1);
+                        executablePath = uninstallString.Substring(1, closingQuoteIndex - 1);
+                    }
+                    else
+                    {
+                        // Extract up to the first space (for unquoted paths)
+                        int spaceIndex = uninstallString.IndexOf(' ');
+                        executablePath = (spaceIndex > 0) ? uninstallString.Substring(0, spaceIndex) : uninstallString;
+                    }
+
+                    InstallationConfiguration.InstallDirectory = Path.GetDirectoryName(executablePath);
+                }
+
                 InstallationConfiguration.MakeDesktopIcon = bool.Parse((mesaSuiteUninstallKey.GetValue("DesktopIcon") as string) ?? "false");
                 InstallationConfiguration.MakeStartMenuIcon = bool.Parse((mesaSuiteUninstallKey.GetValue("StartMenuIcon") as string) ?? "false");
             });

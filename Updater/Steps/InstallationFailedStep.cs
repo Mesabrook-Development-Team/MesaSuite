@@ -22,7 +22,9 @@ namespace Updater.Steps
         {
             if (Program.installMusic != null)
             {
+                Program.installMusic.Stop();
                 Program.installMusic.Dispose();
+                Program.installMusic = null;
             }
 
             return Task.FromResult(false);

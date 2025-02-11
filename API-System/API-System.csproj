@@ -118,11 +118,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\ImmersibrookUserCache.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\ImmersibrookAccessAttribute.cs" />
     <Compile Include="Controllers\ActiveDirectoryGroupController.cs" />
     <Compile Include="Controllers\ActiveDirectoryUserController.cs" />
+    <Compile Include="Controllers\BlockAuditIBController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\CrashController.cs" />
@@ -168,7 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Attributes\" />
     <Folder Include="Cache\" />
   </ItemGroup>
   <ItemGroup>

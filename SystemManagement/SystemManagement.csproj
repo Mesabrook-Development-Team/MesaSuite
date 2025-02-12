@@ -177,6 +177,8 @@
       <DependentUpon>Loader.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\BlockAudit.cs" />
+    <Compile Include="Models\BlockAuditAlertConfig.cs" />
+    <Compile Include="Models\BlockAuditAlertConfigBlock.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CrashReport.cs" />
     <Compile Include="Models\Domain.cs" />

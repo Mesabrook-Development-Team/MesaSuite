@@ -1,5 +1,4 @@
 ﻿using ClussPro.ObjectBasedFramework;
-using ClussPro.ObjectBasedFramework.Schema;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
 using System;
 using System.Collections.Generic;
@@ -9,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace WebModels.mesasys
 {
-    [Table("1D134757-3C4B-4497-BF2E-52EB9D0CCA0D")]
+    [Table("4DA48ED3-CAD3-4B91-A8A4-FBD4A0D50831")]
     public class BlockAudit : DataObject
     {
         protected BlockAudit() : base() { }
 
         private long? _blockAuditID;
-        [Field("BAC6644E-20C1-4A68-A9E1-007BCD7E336D")]
+        [Field("EA4B8170-CE21-4155-B5AD-A5FCDD586EA6")]
         public long? BlockAuditID
         {
             get { CheckGet(); return _blockAuditID; }
@@ -23,7 +22,7 @@ namespace WebModels.mesasys
         }
 
         private DateTime? _auditTime;
-        [Field("AF7ABD0C-C224-4885-9B6A-CF9EF0E3C4AD", DataSize = 7)]
+        [Field("A1370A14-97D7-45FE-B78C-D4A2F30F12DC", DataSize = 7)]
         public DateTime? AuditTime
         {
             get { CheckGet(); return _auditTime; }
@@ -31,7 +30,7 @@ namespace WebModels.mesasys
         }
 
         private int? _positionX;
-        [Field("BBC7E270-CE5C-40EC-A580-CF69C3287623")]
+        [Field("1F252BC5-D4E5-4281-AB06-D8C9B4752824")]
         public int? PositionX
         {
             get { CheckGet(); return _positionX; }
@@ -39,7 +38,7 @@ namespace WebModels.mesasys
         }
 
         private int? _positionY;
-        [Field("66684571-A928-4429-9753-C5AAA133F3E5")]
+        [Field("968E7654-4221-451A-A86C-87BF88521B15")]
         public int? PositionY
         {
             get { CheckGet(); return _positionY; }
@@ -47,7 +46,7 @@ namespace WebModels.mesasys
         }
 
         private int? _positionZ;
-        [Field("44BBD494-0625-4A9E-B46E-1D1DFD96185F")]
+        [Field("7FDC51FF-72AE-4C99-9DE9-1BF55C4673A2")]
         public int? PositionZ
         {
             get { CheckGet(); return _positionZ; }
@@ -55,7 +54,7 @@ namespace WebModels.mesasys
         }
 
         private string _blockName;
-        [Field("4DA704B9-1425-49C1-A523-E72ED613CB4E", DataSize = 100)]
+        [Field("1031BA2B-8FEF-4118-AE4B-78D7BE68FED8", DataSize = 100)]
         public string BlockName
         {
             get { CheckGet(); return _blockName; }
@@ -63,7 +62,7 @@ namespace WebModels.mesasys
         }
 
         private string _playerName;
-        [Field("5F41DAA6-7DFE-4123-A73D-123E0A38C7CD", DataSize = 50)]
+        [Field("76B09963-B208-45E9-8D99-06BE23A02223", DataSize = 50)]
         public string PlayerName
         {
             get { CheckGet(); return _playerName; }
@@ -72,39 +71,29 @@ namespace WebModels.mesasys
 
         public enum AuditTypes
         {
-            Place = 1,
+            Unknown = 0,
+            Place,
             Break,
             Use
         }
 
-        private AuditTypes _auditType;
-        [Field("B216899E-E75F-4AD9-AF96-033447DD639D")]
-        public AuditTypes AuditType
+        private AuditTypes? _auditType;
+        [Field("68A13A52-F4B2-4AF1-959E-86D56EC6A4B0")]
+        public AuditTypes? AuditType
         {
             get { CheckGet(); return _auditType; }
             set { CheckSet(); _auditType = value; }
         }
 
-        protected override void PreValidate()
+        #region Relationships
+        #region mesasys
+        private List<BlockAuditAlert> _blockAuditAlerts = new List<BlockAuditAlert>();
+        [RelationshipList("9F0C238E-4561-4B50-9EA7-BBFC34D8851A", nameof(BlockAuditAlert.BlockAuditID))]
+        public IReadOnlyCollection<BlockAuditAlert> blockAuditAlerts
         {
-            // Truncate strings if they're too long to ensure data saves
-            Field field = Schema.GetSchemaObject<BlockAudit>().GetField(nameof(BlockName));
-            if (!string.IsNullOrEmpty(BlockName) && BlockName.Length > field.DataSize)
-            {
-                BlockName = BlockName.Substring(0, field.DataSize);
-            }
-
-            field = Schema.GetSchemaObject<BlockAudit>().GetField(nameof(PlayerName));
-            if (!string.IsNullOrEmpty(PlayerName) && PlayerName.Length > field.DataSize)
-            {
-                PlayerName = PlayerName.Substring(0, field.DataSize);
-            }
-
-            // Use current time if time is null
-            if (AuditTime == null)
-            {
-                AuditTime = DateTime.Now;
-            }
+            get { CheckGet(); return _blockAuditAlerts; }
         }
+        #endregion
+        #endregion
     }
 }

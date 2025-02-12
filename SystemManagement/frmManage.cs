@@ -463,7 +463,7 @@ namespace SystemManagement
 
         private void loader1_Click(object sender, EventArgs e)
         {
-            new frmAuditingView().Show();
+            new frmAuditingConfigure().Show();
         }
     }
 }

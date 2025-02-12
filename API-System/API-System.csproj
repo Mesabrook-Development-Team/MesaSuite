@@ -129,6 +129,8 @@
     <Compile Include="Attributes\ImmersibrookAccessAttribute.cs" />
     <Compile Include="Controllers\ActiveDirectoryGroupController.cs" />
     <Compile Include="Controllers\ActiveDirectoryUserController.cs" />
+    <Compile Include="Controllers\BlockAuditAlertConfigBlockController.cs" />
+    <Compile Include="Controllers\BlockAuditAlertConfigController.cs" />
     <Compile Include="Controllers\BlockAuditController.cs" />
     <Compile Include="Controllers\BlockAuditIBController.cs" />
     <Compile Include="Controllers\ClientController.cs" />

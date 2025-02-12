@@ -47,6 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmAuditingConfigure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAuditingConfigure.Designer.cs">
+      <DependentUpon>frmAuditingConfigure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAuditingView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAuditingView.Designer.cs">
+      <DependentUpon>frmAuditingView.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmEditItem.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,6 +176,7 @@
     <Compile Include="Loader.Designer.cs">
       <DependentUpon>Loader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\BlockAudit.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CrashReport.cs" />
     <Compile Include="Models\Domain.cs" />
@@ -185,6 +198,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmAuditingConfigure.resx">
+      <DependentUpon>frmAuditingConfigure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAuditingView.resx">
+      <DependentUpon>frmAuditingView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmEditItem.resx">
       <DependentUpon>frmEditItem.cs</DependentUpon>
     </EmbeddedResource>

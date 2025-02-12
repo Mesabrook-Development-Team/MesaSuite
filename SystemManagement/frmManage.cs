@@ -455,5 +455,15 @@ namespace SystemManagement
                 Type = TermsOfService.Types.MesaSuite
             }.Show();
         }
+
+        private void mnuAuditingViewData_Click(object sender, EventArgs e)
+        {
+            new frmAuditingView().Show();
+        }
+
+        private void loader1_Click(object sender, EventArgs e)
+        {
+            new frmAuditingView().Show();
+        }
     }
 }

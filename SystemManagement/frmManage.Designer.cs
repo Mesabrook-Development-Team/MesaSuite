@@ -61,6 +61,9 @@
             this.termsOfServiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTOSServer = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTOSMesaSuite = new System.Windows.Forms.ToolStripMenuItem();
+            this.blockAuditingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAuditingConfigure = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAuditingViewData = new System.Windows.Forms.ToolStripMenuItem();
             this.loader1 = new SystemManagement.Loader();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -150,7 +153,8 @@
             this.mnuView,
             this.refreshToolStripMenuItem,
             this.toolItemManager,
-            this.termsOfServiceToolStripMenuItem});
+            this.termsOfServiceToolStripMenuItem,
+            this.blockAuditingToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(753, 24);
@@ -281,7 +285,7 @@
             this.mnuTOSServer,
             this.mnuTOSMesaSuite});
             this.termsOfServiceToolStripMenuItem.Name = "termsOfServiceToolStripMenuItem";
-            this.termsOfServiceToolStripMenuItem.Size = new System.Drawing.Size(106, 20);
+            this.termsOfServiceToolStripMenuItem.Size = new System.Drawing.Size(107, 20);
             this.termsOfServiceToolStripMenuItem.Text = "Terms Of Service";
             // 
             // mnuTOSServer
@@ -298,6 +302,28 @@
             this.mnuTOSMesaSuite.Text = "MesaSuite";
             this.mnuTOSMesaSuite.Click += new System.EventHandler(this.mnuTOSMesaSuite_Click);
             // 
+            // blockAuditingToolStripMenuItem
+            // 
+            this.blockAuditingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAuditingConfigure,
+            this.mnuAuditingViewData});
+            this.blockAuditingToolStripMenuItem.Name = "blockAuditingToolStripMenuItem";
+            this.blockAuditingToolStripMenuItem.Size = new System.Drawing.Size(97, 20);
+            this.blockAuditingToolStripMenuItem.Text = "Block Auditing";
+            // 
+            // mnuAuditingConfigure
+            // 
+            this.mnuAuditingConfigure.Name = "mnuAuditingConfigure";
+            this.mnuAuditingConfigure.Size = new System.Drawing.Size(180, 22);
+            this.mnuAuditingConfigure.Text = "Configure Alerts";
+            // 
+            // mnuAuditingViewData
+            // 
+            this.mnuAuditingViewData.Name = "mnuAuditingViewData";
+            this.mnuAuditingViewData.Size = new System.Drawing.Size(180, 22);
+            this.mnuAuditingViewData.Text = "View Audit Data";
+            this.mnuAuditingViewData.Click += new System.EventHandler(this.mnuAuditingViewData_Click);
+            // 
             // loader1
             // 
             this.loader1.BackColor = System.Drawing.Color.Transparent;
@@ -305,6 +331,7 @@
             this.loader1.Name = "loader1";
             this.loader1.Size = new System.Drawing.Size(196, 101);
             this.loader1.TabIndex = 5;
+            this.loader1.Click += new System.EventHandler(this.loader1_Click);
             // 
             // frmManage
             // 
@@ -358,5 +385,8 @@
         private System.Windows.Forms.ToolStripMenuItem termsOfServiceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuTOSServer;
         private System.Windows.Forms.ToolStripMenuItem mnuTOSMesaSuite;
+        private System.Windows.Forms.ToolStripMenuItem blockAuditingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuAuditingConfigure;
+        private System.Windows.Forms.ToolStripMenuItem mnuAuditingViewData;
     }
 }

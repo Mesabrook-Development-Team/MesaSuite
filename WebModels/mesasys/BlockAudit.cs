@@ -1,5 +1,8 @@
-﻿using ClussPro.ObjectBasedFramework;
+﻿using ClussPro.Base.Data.Query;
+using ClussPro.ObjectBasedFramework;
+using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Schema.Attributes;
+using ClussPro.ObjectBasedFramework.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,19 +80,52 @@ namespace WebModels.mesasys
             Use
         }
 
-        private AuditTypes? _auditType;
+        private AuditTypes _auditType;
         [Field("68A13A52-F4B2-4AF1-959E-86D56EC6A4B0")]
-        public AuditTypes? AuditType
+        public AuditTypes AuditType
         {
             get { CheckGet(); return _auditType; }
             set { CheckSet(); _auditType = value; }
+        }
+
+        protected override bool PostSave(ITransaction transaction)
+        {
+            Search<BlockAuditAlertConfigBlock> alertSearch = new Search<BlockAuditAlertConfigBlock>(new StringSearchCondition<BlockAuditAlertConfigBlock>()
+            {
+                Field = nameof(BlockAuditAlertConfigBlock.BlockName),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = BlockName
+            });
+
+            foreach(BlockAuditAlertConfigBlock blockAuditAlertConfigBlock in alertSearch.GetReadOnlyReader(transaction, FieldPathUtility.CreateFieldPathsAsList<BlockAuditAlertConfigBlock>(baacb => new object[]
+            {
+                baacb.AlertBreak,
+                baacb.AlertPlace,
+                baacb.AlertUse
+            })))
+            {
+                if ((blockAuditAlertConfigBlock.AlertBreak && AuditType == AuditTypes.Break) ||
+                    (blockAuditAlertConfigBlock.AlertPlace && AuditType == AuditTypes.Place) ||
+                    (blockAuditAlertConfigBlock.AlertUse && AuditType == AuditTypes.Use))
+                {
+                    BlockAuditAlert alert = DataObjectFactory.Create<BlockAuditAlert>();
+                    alert.BlockAuditID = BlockAuditID;
+                    if (!alert.Save(transaction))
+                    {
+                        Errors.AddRange(alert.Errors.ToArray());
+                        return false;
+                    }
+                }
+            }
+
+            return base.PostSave(transaction);
         }
 
         #region Relationships
         #region mesasys
         private List<BlockAuditAlert> _blockAuditAlerts = new List<BlockAuditAlert>();
         [RelationshipList("9F0C238E-4561-4B50-9EA7-BBFC34D8851A", nameof(BlockAuditAlert.BlockAuditID))]
-        public IReadOnlyCollection<BlockAuditAlert> blockAuditAlerts
+        public IReadOnlyCollection<BlockAuditAlert> BlockAuditAlerts
         {
             get { CheckGet(); return _blockAuditAlerts; }
         }

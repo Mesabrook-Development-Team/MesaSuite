@@ -461,7 +461,7 @@ namespace SystemManagement
             new frmAuditingView().Show();
         }
 
-        private void loader1_Click(object sender, EventArgs e)
+        private void mnuAuditingConfigure_Click(object sender, EventArgs e)
         {
             new frmAuditingConfigure().Show();
         }

@@ -14,12 +14,12 @@ namespace WebModels.mesasys
     {
         protected BlockAuditAlert() : base() { }
 
-        private long? _blockAuditAlert;
+        private long? _blockAuditAlertID;
         [Field("3F8BE5E8-3DD4-472C-9725-E76EC9C47187")]
         public long? BlockAuditAlertID
         {
-            get { CheckGet(); return _blockAuditAlert; }
-            set { CheckSet(); _blockAuditAlert = value; }
+            get { CheckGet(); return _blockAuditAlertID; }
+            set { CheckSet(); _blockAuditAlertID = value; }
         }
 
         private long? _blockAuditID;

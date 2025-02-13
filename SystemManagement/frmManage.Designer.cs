@@ -316,6 +316,7 @@
             this.mnuAuditingConfigure.Name = "mnuAuditingConfigure";
             this.mnuAuditingConfigure.Size = new System.Drawing.Size(180, 22);
             this.mnuAuditingConfigure.Text = "Configure Alerts";
+            this.mnuAuditingConfigure.Click += new System.EventHandler(this.mnuAuditingConfigure_Click);
             // 
             // mnuAuditingViewData
             // 
@@ -331,7 +332,6 @@
             this.loader1.Name = "loader1";
             this.loader1.Size = new System.Drawing.Size(196, 101);
             this.loader1.TabIndex = 5;
-            this.loader1.Click += new System.EventHandler(this.loader1_Click);
             // 
             // frmManage
             // 

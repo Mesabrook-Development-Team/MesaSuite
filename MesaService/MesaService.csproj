@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceTasks\BlockAuditAlertsTask.cs" />
     <Compile Include="ServiceTasks\CleanupDatabaseTask.cs" />
     <Compile Include="ServiceTasks\DiscordHeartbeatTask.cs" />
     <Compile Include="ServiceTasks\IssueAccountInterest.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="ServiceTasks\PayAPInvoicesTask.cs" />
     <Compile Include="ServiceTasks\SendOutboundEmails.cs" />
     <Compile Include="ServiceTasks\HandleUserInactivity.cs" />
+    <Compile Include="Utility\DiscordHelper.cs" />
     <Content Include="..\SqlServerProvider\bin\Debug\MSSqlServerProvider.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

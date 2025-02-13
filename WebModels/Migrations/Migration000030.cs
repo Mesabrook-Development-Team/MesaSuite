@@ -56,7 +56,7 @@ namespace WebModels.Migrations
             {
                 { "BlockAuditAlertID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) { IsPrimary = true } },
                 { "BlockAuditID", new FieldSpecification(FieldSpecification.FieldTypes.BigInt) },
-                { "IsAcknolwedged", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } }
+                { "IsAcknowledged", new FieldSpecification(FieldSpecification.FieldTypes.Bit) { DefaultValue = false } }
             };
             createTable.Execute(transaction);
             alterTable.Table = "BlockAuditAlert";

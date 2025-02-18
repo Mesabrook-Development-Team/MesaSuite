@@ -3453,6 +3453,16 @@ namespace SystemManagement.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Department_of_National_Security_and_Defense___Republic_of_Mesabrook {
+            get {
+                object obj = ResourceManager.GetObject("Department of National Security and Defense - Republic of Mesabrook", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap disconnect {
             get {
                 object obj = ResourceManager.GetObject("disconnect", resourceCulture);

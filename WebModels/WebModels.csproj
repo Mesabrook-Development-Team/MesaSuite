@@ -71,6 +71,11 @@
     <Compile Include="company\StoreSale.cs" />
     <Compile Include="company\StoreSaleItem.cs" />
     <Compile Include="company\Validation\FluidItemIsUniqueForStoreCondition.cs" />
+    <Compile Include="mesasys\BlockAudit.cs" />
+    <Compile Include="mesasys\BlockAuditAlert.cs" />
+    <Compile Include="mesasys\BlockAuditAlertConfig.cs" />
+    <Compile Include="mesasys\BlockAuditAlertConfigBlock.cs" />
+    <Compile Include="Migrations\Migration000030.cs" />
     <Compile Include="purchasing\Validations\QuotationItemValidations.cs" />
     <Compile Include="purchasing\Validations\QuotedItemInPriceManagerCondition.cs" />
     <Compile Include="company\Validation\RegisterValidations.cs" />

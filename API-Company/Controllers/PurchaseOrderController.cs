@@ -146,6 +146,47 @@ namespace API_Company.Controllers
                             Value = true
                         }
                     )
+                },
+                new ExistsSearchCondition<PurchaseOrder>()
+                {
+                    RelationshipName = nameof(PurchaseOrder.PurchaseOrderApprovals),
+                    ExistsType = ExistsSearchCondition<PurchaseOrder>.ExistsTypes.Exists,
+                    Condition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                            new LongSearchCondition<PurchaseOrderApproval>()
+                            {
+                                Field = nameof(PurchaseOrderApproval.CompanyIDApprover),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = CompanyID
+                            },
+                            new IntSearchCondition<PurchaseOrderApproval>()
+                            {
+                                Field = nameof(PurchaseOrderApproval.ApprovalStatus),
+                                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                Value = (int)PurchaseOrderApproval.ApprovalStatuses.Pending
+                            },
+                            new ExistsSearchCondition<PurchaseOrderApproval>()
+                            {
+                                RelationshipName = FieldPathUtility.CreateFieldPath<PurchaseOrderApproval>(poa => poa.CompanyApprover.Locations),
+                                ExistsType = ExistsSearchCondition<PurchaseOrderApproval>.ExistsTypes.Exists,
+                                Condition = new ExistsSearchCondition<Location>()
+                                {
+                                    RelationshipName = nameof(Location.LocationEmployees),
+                                    ExistsType = ExistsSearchCondition<Location>.ExistsTypes.Exists,
+                                    Condition = new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
+                                        new LongSearchCondition<LocationEmployee>()
+                                        {
+                                            Field = FieldPathUtility.CreateFieldPathsAsList<LocationEmployee>(le => new List<object>() { le.Employee.UserID }).First(),
+                                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                            Value = SecurityProfile.UserID
+                                        },
+                                        new BooleanSearchCondition<LocationEmployee>()
+                                        {
+                                            Field = nameof(LocationEmployee.ManagePurchaseOrders),
+                                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                                            Value = true
+                                        })
+                                }
+                            })
                 });
         }
 

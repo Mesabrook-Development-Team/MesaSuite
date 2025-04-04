@@ -38,7 +38,7 @@ namespace WebModels.purchasing.Validations
                     Condition = new DateTimeSearchCondition<BillOfLading>()
                     {
                         Field = nameof(BillOfLading.DeliveredDate),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Null
                     }
                 }));
 

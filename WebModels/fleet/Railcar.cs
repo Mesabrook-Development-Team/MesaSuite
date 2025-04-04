@@ -444,6 +444,21 @@ namespace WebModels.fleet
                 throw new ArgumentNullException(nameof(transaction), "Transaction cannot be null.");
             }
 
+            Search<RailcarRoute> deleteRouteSearch = new Search<RailcarRoute>(new LongSearchCondition<RailcarRoute>()
+            {
+                Field = nameof(RailcarRoute.RailcarID),
+                SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                Value = RailcarID
+            });
+            foreach (RailcarRoute route in deleteRouteSearch.GetEditableReader(transaction))
+            {
+                if (!route.Delete(transaction))
+                {
+                    Errors.AddRange(route.Errors.ToArray());
+                    return false;
+                }
+            }
+
             Search<FulfillmentPlan> fulfillmentPlanSearch = new Search<FulfillmentPlan>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                 new LongSearchCondition<FulfillmentPlan>()
                 {
@@ -492,28 +507,35 @@ namespace WebModels.fleet
                     return false;
                 }
 
-                Search<RailcarRoute> deleteRouteSearch = new Search<RailcarRoute>(new LongSearchCondition<RailcarRoute>()
+                RailLocation railLocation = new Search<RailLocation>(new LongSearchCondition<RailLocation>()
                 {
-                    Field = nameof(RailcarRoute.RailcarID),
+                    Field = nameof(RailLocation.RailcarID),
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = RailcarID
-                });
-                foreach(RailcarRoute route in deleteRouteSearch.GetEditableReader(transaction))
+                }).GetReadOnly(null, FieldPathUtility.CreateFieldPathsAsList<RailLocation>(rl => new object[]
                 {
-                    if (!route.Delete(transaction))
-                    {
-                        Errors.AddRange(route.Errors.ToArray());
-                        return false;
-                    }
-                }
+                    rl.TrainID,
+                    rl.Train.TrainSymbol.CompanyIDOperator,
+                    rl.Train.TrainSymbol.GovernmentIDOperator
+                }));
 
+                int skipRoutes = 0;
                 for(int i = 0; i < (fulfillmentPlan.FulfillmentPlanRoutes?.Count ?? 0); i++)
                 {
                     FulfillmentPlanRoute planRoute = fulfillmentPlan.FulfillmentPlanRoutes.OrderByDescending(fpr => fpr.SortOrder).ElementAt(i);
 
+                    // If railcar is currently on a train, skip the first route as it will always be from buyer to last carrier
+                    if (i == 0 && railLocation.TrainID != null && (
+                        (planRoute.CompanyIDFrom != null && planRoute.CompanyIDFrom == railLocation.Train.TrainSymbol.CompanyIDOperator) ||
+                        (planRoute.GovernmentIDFrom != null && planRoute.GovernmentIDFrom == railLocation.Train.TrainSymbol.GovernmentIDOperator)))
+                    {
+                        skipRoutes = 1;
+                        continue;
+                    }
+
                     RailcarRoute newRoute = DataObjectFactory.Create<RailcarRoute>();
                     newRoute.RailcarID = RailcarID;
-                    newRoute.SortOrder = (byte)(i + 1);
+                    newRoute.SortOrder = (byte)(i + 1 - skipRoutes);
                     newRoute.CompanyIDFrom = planRoute.CompanyIDTo;
                     newRoute.GovernmentIDFrom = planRoute.GovernmentIDTo;
                     newRoute.CompanyIDTo = planRoute.CompanyIDFrom;

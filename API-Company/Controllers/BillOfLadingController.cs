@@ -115,8 +115,7 @@ namespace API_Company.Controllers
                         Value = false
                     }));
 
-                Fulfillment fulfillment = await Task.Run(() => fufillmentSearch.GetEditable(transaction));
-                if (fulfillment != null)
+                foreach(Fulfillment fulfillment in fufillmentSearch.GetEditableReader(transaction))
                 {
                     fulfillment.IsComplete = true;
                     if (!await Task.Run(() => fulfillment.Save(transaction)))

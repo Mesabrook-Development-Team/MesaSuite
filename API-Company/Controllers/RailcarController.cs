@@ -30,8 +30,10 @@ namespace API_Company.Controllers
             r.RailcarID,
             r.ReportingMark,
             r.ReportingNumber,
+            r.RailLocation.TrackID,
             r.RailLocation.Track.TrackID,
             r.RailLocation.Track.Name,
+            r.RailLocation.TrainID,
             r.RailLocation.Train.TimeOnDuty,
             r.RailLocation.Train.TrainSymbol.Name,
             r.RailLocation.Position,
@@ -335,22 +337,37 @@ namespace API_Company.Controllers
         [HttpDelete]
         public async Task<IHttpActionResult> DeleteRailcarLoad(long? id)
         {
-            Search<RailcarLoad> railcarLoadSearch = new Search<RailcarLoad>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
-                new LongSearchCondition<RailcarLoad>()
-                {
-                    Field = nameof(RailcarLoad.RailcarLoadID),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = id
-                },
-                new LongSearchCondition<RailcarLoad>()
-                {
-                    Field = nameof(RailcarLoad.Railcar) + "." + nameof(Railcar.CompanyIDPossessor),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = CompanyID
-                }));
+            RailcarLoad railcarLoad = await Task.Run(() => DataObject.GetEditableByPrimaryKey<RailcarLoad>(id, null, FieldPathUtility.CreateFieldPathsAsList<RailcarLoad>(rl => new object[]
+            {
+                rl.Railcar.CompanyIDPossessor,
+                rl.Railcar.RailLocation.TrainID,
+                rl.Railcar.RailLocation.Train.TrainSymbol.CompanyIDOperator,
+                rl.Railcar.RailLocation.Train.TrainSymbol.GovernmentIDOperator,
+                rl.Railcar.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLineID,
+                rl.Railcar.FulfillmentPlans.First().FulfillmentPlanRoutes.First().CompanyIDFrom,
+                rl.Railcar.FulfillmentPlans.First().FulfillmentPlanRoutes.First().GovernmentIDFrom,
+                rl.Railcar.FulfillmentPlans.First().FulfillmentPlanRoutes.First().SortOrder
+            })));
 
-            RailcarLoad railcarLoad = await Task.Run(() => railcarLoadSearch.GetEditable());
             if (railcarLoad == null)
+            {
+                return NotFound();
+            }
+
+            Railcar railcar = railcarLoad.Railcar;
+            bool valid = railcar.CompanyIDPossessor == CompanyID;
+            if (!valid && railcar.RailLocation?.TrainID != null)
+            {
+                FulfillmentPlan currentPlan = railcar.FulfillmentPlans?.FirstOrDefault(fp => (fp.FulfillmentPlanPurchaseOrderLines?.Any(fppol => fppol.PurchaseOrderLineID != null && fppol.PurchaseOrderLineID == railcarLoad.PurchaseOrderLineID)) ?? false);
+                FulfillmentPlanRoute firstRoute = currentPlan?.FulfillmentPlanRoutes?.OrderByDescending(fpr => fpr.SortOrder).FirstOrDefault();
+                if (firstRoute != null)
+                {
+                    valid = (firstRoute.GovernmentIDFrom != null && firstRoute.GovernmentIDFrom == railcar.RailLocation.Train.TrainSymbol.GovernmentIDOperator) ||
+                            (firstRoute.CompanyIDFrom != null && firstRoute.CompanyIDFrom == railcar.RailLocation.Train.TrainSymbol.CompanyIDOperator);
+                }
+            }
+
+            if (!valid)
             {
                 return NotFound();
             }
@@ -373,7 +390,6 @@ namespace API_Company.Controllers
         {
             using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
-
                 Search<Railcar> railcarSearch = new Search<Railcar>(new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.And,
                     new LongSearchCondition<Railcar>()
                     {
@@ -381,12 +397,18 @@ namespace API_Company.Controllers
                         SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                         Value = parameter.RailcarID
                     },
-                    new LongSearchCondition<Railcar>()
-                    {
-                        Field = FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new List<object>() { r.RailLocation.Track.CompanyIDOwner }).First(),
-                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                        Value = CompanyID
-                    },
+                    new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                        new LongSearchCondition<Railcar>()
+                        {
+                            Field = FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new List<object>() { r.RailLocation.Track.CompanyIDOwner }).First(),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                            Value = CompanyID
+                        },
+                        new LongSearchCondition<Railcar>()
+                        {
+                            Field = FieldPathUtility.CreateFieldPath<Railcar>(r => r.RailLocation.TrainID),
+                            SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
+                        }),
                     new LongSearchCondition<Railcar>()
                     {
                         Field = FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new List<object>() { r.TrackDestination.CompanyIDOwner }).First(),
@@ -394,8 +416,36 @@ namespace API_Company.Controllers
                         Value = CompanyID
                     }));
 
-                Railcar railcar = await Task.Run(() => railcarSearch.GetEditable(transaction));
+                Railcar railcar = await Task.Run(() => railcarSearch.GetEditable(transaction, FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new object[]
+                {
+                    r.RailLocation.TrackID,
+                    r.RailLocation.Track.CompanyIDOwner,
+                    r.RailLocation.TrainID,
+                    r.RailLocation.Train.TrainSymbol.CompanyIDOperator,
+                    r.RailLocation.Train.TrainSymbol.GovernmentIDOperator,
+                    r.RailcarRoutes.First().SortOrder,
+                    r.RailcarRoutes.First().CompanyIDFrom,
+                    r.RailcarRoutes.First().GovernmentIDFrom
+                })));
+
+
                 if (railcar == null)
+                {
+                    return NotFound();
+                }
+
+                bool valid = railcar.RailLocation?.Track?.CompanyIDOwner == CompanyID;
+                if (!valid)
+                {
+                    RailcarRoute lastRoute = railcar.RailcarRoutes?.OrderByDescending(r => r.SortOrder).FirstOrDefault();
+                    if (lastRoute != null)
+                    {
+                        valid = (lastRoute.GovernmentIDFrom != null && lastRoute.GovernmentIDFrom == railcar.RailLocation.Train.TrainSymbol.GovernmentIDOperator) ||
+                                (lastRoute.CompanyIDFrom != null && lastRoute.CompanyIDFrom == railcar.RailLocation.Train.TrainSymbol.CompanyIDOperator);
+                    }
+                }
+
+                if (!valid)
                 {
                     return NotFound();
                 }
@@ -489,14 +539,44 @@ namespace API_Company.Controllers
                     SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
                     Value = railcarLoad.RailcarID
                 },
-                new LongSearchCondition<Railcar>()
-                {
-                    Field = nameof(Railcar.CompanyIDPossessor),
-                    SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
-                    Value = CompanyID
-                }));
+                new SearchConditionGroup(SearchConditionGroup.SearchConditionGroupTypes.Or,
+                    new LongSearchCondition<Railcar>()
+                    {
+                        Field = nameof(Railcar.CompanyIDPossessor),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.Equals,
+                        Value = CompanyID
+                    },
+                    new LongSearchCondition<Railcar>()
+                    {
+                        Field = FieldPathUtility.CreateFieldPath<Railcar>(r => r.RailLocation.TrainID),
+                        SearchConditionType = SearchCondition.SearchConditionTypes.NotNull
+                    })));
 
-            if (!await Task.Run(() => railcarSearch.ExecuteExists(null)))
+            Railcar railcar = await Task.Run(() => railcarSearch.GetReadOnly(null, FieldPathUtility.CreateFieldPathsAsList<Railcar>(r => new object[]
+            {
+                r.CompanyIDPossessor,
+                r.RailLocation.TrainID,
+                r.RailLocation.Train.TrainSymbol.CompanyIDOperator,
+                r.RailLocation.Train.TrainSymbol.GovernmentIDOperator,
+                r.FulfillmentPlans.First().FulfillmentPlanPurchaseOrderLines.First().PurchaseOrderLineID,
+                r.FulfillmentPlans.First().FulfillmentPlanRoutes.First().CompanyIDTo,
+                r.FulfillmentPlans.First().FulfillmentPlanRoutes.First().GovernmentIDTo,
+                r.FulfillmentPlans.First().FulfillmentPlanRoutes.First().SortOrder
+            })));
+
+            bool valid = railcar.CompanyIDPossessor == CompanyID;
+            if (!valid && railcar.RailLocation?.TrainID != null)
+            {
+                FulfillmentPlan currentPlan = railcar.FulfillmentPlans?.FirstOrDefault(fp => (fp.FulfillmentPlanPurchaseOrderLines?.Any(fppol => fppol.PurchaseOrderLineID != null && fppol.PurchaseOrderLineID == railcarLoad.PurchaseOrderLineID)) ?? false);
+                FulfillmentPlanRoute firstRoute = currentPlan?.FulfillmentPlanRoutes?.OrderBy(fpr => fpr.SortOrder).FirstOrDefault();
+                if (firstRoute != null)
+                {
+                    valid = (firstRoute.GovernmentIDTo != null && firstRoute.GovernmentIDTo == railcar.RailLocation.Train.TrainSymbol.GovernmentIDOperator) ||
+                            (firstRoute.CompanyIDTo != null && firstRoute.CompanyIDTo == railcar.RailLocation.Train.TrainSymbol.CompanyIDOperator);
+                }
+            }
+
+            if (!valid)
             {
                 return NotFound();
             }

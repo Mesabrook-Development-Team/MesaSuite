@@ -50,10 +50,12 @@ namespace MesaService.ServiceTasks
                     return true;
                 }
 
+                List<BlockAuditAlert> alertsToSend = alerts.GetEditableReader(readOnlyFields: _alertFieldsToRetrieve).ToList();
+
                 string[] discordIDs = config.DiscordIDs.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string discordID in discordIDs)
                 {
-                    foreach (BlockAuditAlert alert in alerts.GetEditableReader(readOnlyFields: _alertFieldsToRetrieve))
+                    foreach (BlockAuditAlert alert in alertsToSend)
                     {
                         string auditText = "[Unknown]";
                         switch(alert.BlockAudit.AuditType)
@@ -77,8 +79,11 @@ namespace MesaService.ServiceTasks
                             alert.BlockAudit.PositionY,
                             alert.BlockAudit.PositionZ)))
                         {
-                            alert.IsAcknowledged = true;
-                            alert.Save();
+                            if (!alert.IsAcknowledged)
+                            { 
+                                alert.IsAcknowledged = true;
+                                alert.Save();
+                            }
                         }
                     }
                 }

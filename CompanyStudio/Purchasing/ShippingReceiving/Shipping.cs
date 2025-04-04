@@ -54,7 +54,7 @@ namespace CompanyStudio.Purchasing.ShippingReceiving
             List<PurchaseOrder> purchaseOrders = await get.GetObject<List<PurchaseOrder>>() ?? new List<PurchaseOrder>();
 
             PurchaseOrderLine suggestedPOLine = null;
-            foreach (PurchaseOrder po in purchaseOrders.Where(po => po.LocationIDDestination == LocationID).OrderBy(po => po.PurchaseOrderDate))
+            foreach (PurchaseOrder po in purchaseOrders.Where(po => po.LocationIDDestination == LocationID && PurchaseOrder.OPEN_STATUSES.Contains(po.Status)).OrderBy(po => po.PurchaseOrderDate))
             {
                 foreach (PurchaseOrderLine poLine in po.PurchaseOrderLines)
                 {

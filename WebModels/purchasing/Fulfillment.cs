@@ -128,8 +128,12 @@ namespace WebModels.purchasing
 
                 List<string> fields = FieldPathUtility.CreateFieldPathsAsList<FulfillmentPlan>(fp => new List<object>()
                 {
+                    fp.Railcar.RailLocation.TrackID,
                     fp.Railcar.RailLocation.Track.CompanyIDOwner,
                     fp.Railcar.RailLocation.Track.GovernmentIDOwner,
+                    fp.Railcar.RailLocation.TrainID,
+                    fp.Railcar.RailLocation.Train.TrainSymbol.CompanyIDOperator,
+                    fp.Railcar.RailLocation.Train.TrainSymbol.GovernmentIDOperator,
                     fp.Railcar.ReportingMark,
                     fp.Railcar.ReportingNumber,
                     fp.TrackIDDestination,
@@ -141,9 +145,37 @@ namespace WebModels.purchasing
                     fp.FulfillmentPlanRoutes.First().GovernmentIDTo
                 });
                 FulfillmentPlan plan = fulfillmentPlanSearch.GetReadOnly(transaction, fields);
-                if (plan != null && parentPOLine != null &&
-                    (plan?.Railcar?.RailLocation?.Track?.CompanyIDOwner == parentPOLine?.PurchaseOrder?.LocationDestination?.CompanyID ||
-                    plan?.Railcar?.RailLocation?.Track?.GovernmentIDOwner == parentPOLine?.PurchaseOrder?.GovernmentIDDestination))
+                FulfillmentPlanRoute firstRoute = plan?.FulfillmentPlanRoutes?.OrderBy(fpr => fpr.SortOrder).FirstOrDefault();
+
+                bool RailcarInValidState()
+                {
+                    if (plan.Railcar?.RailLocation?.TrackID != null)
+                    {
+                        if (plan.Railcar?.RailLocation?.Track?.CompanyIDOwner != null)
+                        {
+                            return plan.Railcar?.RailLocation?.Track?.CompanyIDOwner == parentPOLine?.PurchaseOrder?.LocationDestination?.CompanyID;
+                        }
+                        else if (plan.Railcar?.RailLocation?.Track?.GovernmentIDOwner != null)
+                        {
+                            return plan.Railcar?.RailLocation?.Track?.GovernmentIDOwner == parentPOLine?.PurchaseOrder?.GovernmentIDDestination;
+                        }
+                    }
+                    else if (plan.Railcar?.RailLocation?.TrainID != null && firstRoute != null)
+                    {
+                        if (plan.Railcar?.RailLocation?.Train?.TrainSymbol?.CompanyIDOperator != null && firstRoute?.CompanyIDTo != null && firstRoute.CompanyIDTo == plan.Railcar.RailLocation.Train.TrainSymbol.CompanyIDOperator)
+                        {
+                            return plan.Railcar?.RailLocation?.Train?.TrainSymbol?.CompanyIDOperator == firstRoute.CompanyIDTo;
+                        }
+                        else if (plan.Railcar?.RailLocation?.Train?.TrainSymbol?.GovernmentIDOperator != null && firstRoute?.GovernmentIDTo != null && firstRoute.GovernmentIDTo == plan.Railcar.RailLocation.Train.TrainSymbol.GovernmentIDOperator)
+                        {
+                            return plan.Railcar?.RailLocation?.Train?.TrainSymbol?.GovernmentIDOperator == firstRoute.GovernmentIDTo;
+                        }
+                    }
+
+                    return false;
+                }
+
+                if (plan != null && parentPOLine != null && RailcarInValidState())
                 {
                     Railcar railcar = DataObject.GetEditableByPrimaryKey<Railcar>(RailcarID, transaction, null);
                     railcar.TrackIDDestination = plan.TrackIDDestination;
@@ -169,7 +201,13 @@ namespace WebModels.purchasing
                         }
                     }
 
-                    foreach(FulfillmentPlanRoute planRoute in (plan.FulfillmentPlanRoutes ?? new List<FulfillmentPlanRoute>()).OrderBy(rr => rr.SortOrder))
+                    int routesToSkip = 0;
+                    if (plan.Railcar.RailLocation.TrainID != null)
+                    {
+                        routesToSkip = 1; // The first route is from the shipper to the carrier. Since we're already with the carrier, skip that step
+                    }
+
+                    foreach(FulfillmentPlanRoute planRoute in (plan.FulfillmentPlanRoutes ?? new List<FulfillmentPlanRoute>()).OrderBy(rr => rr.SortOrder).Skip(routesToSkip))
                     {
                         RailcarRoute railcarRoute = DataObjectFactory.Create<RailcarRoute>();
                         railcarRoute.RailcarID = RailcarID;
@@ -177,7 +215,7 @@ namespace WebModels.purchasing
                         railcarRoute.CompanyIDTo = planRoute.CompanyIDTo;
                         railcarRoute.GovernmentIDFrom = planRoute.GovernmentIDFrom;
                         railcarRoute.GovernmentIDTo = planRoute.GovernmentIDTo;
-                        railcarRoute.SortOrder = planRoute.SortOrder;
+                        railcarRoute.SortOrder = (byte)(planRoute.SortOrder - routesToSkip);
                         if (!railcarRoute.Save(transaction))
                         {
                             Errors.AddRange(railcarRoute.Errors.ToArray());

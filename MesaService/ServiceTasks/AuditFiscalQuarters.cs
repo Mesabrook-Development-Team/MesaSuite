@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
@@ -21,138 +22,90 @@ namespace MesaService.ServiceTasks
         {
             _nextRunTime = DateTime.Today.AddDays(1);
 
-            List<string> fieldPaths = FieldPathUtility.CreateFieldPathsAsList<Account>(a => new object[]
+            List<string> fields = FieldPathUtility.CreateFieldPathsAsList<Account>(a => new object[]
             {
                 a.AccountID,
+                a.FiscalQuarters.First().FiscalQuarterID,
                 a.FiscalQuarters.First().Quarter,
+                a.FiscalQuarters.First().Year,
                 a.FiscalQuarters.First().StartingBalance,
                 a.FiscalQuarters.First().EndingBalance,
-                a.FiscalQuarters.First().Year,
                 a.FiscalQuarters.First().Transactions.First().Amount
             });
 
             Search<Account> accountSearch = new Search<Account>();
+            byte currentQuarter = FiscalQuarter.GetQuarterForDate(DateTime.Today);
 
-            byte currentQuarter = FiscalQuarter.GetQuarterForDate(DateTime.Now);
-
-            foreach (Account account in accountSearch.GetReadOnlyReader(null, fieldPaths))
+            foreach(Account account in accountSearch.GetReadOnlyReader(null, fields))
             {
-                bool hasCurrentQuarter = false;
+                IOrderedEnumerable<FiscalQuarter> fiscalQuarters = account.FiscalQuarters.OrderBy(fq => fq.Year).ThenBy(fq => fq.Quarter);
                 decimal lastEndingBalance = 0M;
+                byte quarterIterator = fiscalQuarters.First().Quarter.Value;
+                
 
-                short lastYear = (short)DateTime.Now.Year;
-                byte lastQuarter = (byte)(currentQuarter - 1);
-                if (lastQuarter < 1)
+                for(short yearIterator = fiscalQuarters.First().Year.Value; yearIterator <= DateTime.Today.Year; yearIterator++)
                 {
-                    lastQuarter = 4;
-                    lastYear -= 1;
-                }
-
-                foreach (FiscalQuarter fiscalQuarter in account.FiscalQuarters.OrderBy(fq => fq.Year).ThenBy(fq => fq.Quarter))
-                {
-                    // First check to see if there was a gap between the last FiscalQuarter and the iterated FiscalQuarter
-                    byte expectedQuarter = (byte)(lastQuarter + 1);
-                    short expectedYear = lastYear;
-                    if (expectedQuarter > 4)
+                    for(; quarterIterator <= 4; quarterIterator++)
                     {
-                        expectedQuarter = 1;
-                        expectedYear++;
-                    }
-
-                    if (fiscalQuarter.Quarter != expectedQuarter || fiscalQuarter.Year != expectedYear)
-                    {
-                        for (int year = expectedYear; year <= fiscalQuarter.Year; year++)
+                        FiscalQuarter fiscalQuarter = fiscalQuarters.FirstOrDefault(fq => fq.Quarter == quarterIterator && fq.Year == yearIterator);
+                        if (fiscalQuarter == null)
                         {
-                            for (byte quarter = expectedQuarter; quarter <= 4 && (quarter != currentQuarter || year != DateTime.Now.Year); quarter++)
-                            {
-                                using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
-                                {
-                                    FiscalQuarter missingFiscalQuarter = FiscalQuarter.FindOrCreate(account.AccountID.Value, new DateTime(year, quarter * 3, 1), transaction);
-                                    missingFiscalQuarter.EndingBalance = missingFiscalQuarter.StartingBalance;
-                                    if (!missingFiscalQuarter.Save(transaction))
-                                    {
-                                        throw new Exception("Could not update Fiscal Quarter:\r\n" + fiscalQuarter.Errors.ToString());
-                                    }
+                            fiscalQuarter = CreateFiscalQuarter(account.AccountID, yearIterator, quarterIterator, fields);
+                        }
 
-                                    lastQuarter = missingFiscalQuarter.Quarter.Value;
-                                    lastYear = missingFiscalQuarter.Year.Value;
-                                    lastEndingBalance = missingFiscalQuarter.EndingBalance.Value;
+                        bool isCurrentQuarter = quarterIterator == currentQuarter && yearIterator == DateTime.Today.Year;
+                        decimal? endingBalance = isCurrentQuarter ? (decimal?)null : lastEndingBalance + fiscalQuarter.Transactions.Sum(t => t.Amount ?? 0M);
+                        if (fiscalQuarter.StartingBalance != lastEndingBalance || fiscalQuarter.EndingBalance != endingBalance)
+                        {
+                            UpdateFiscalQuarter(fiscalQuarter.FiscalQuarterID, lastEndingBalance, endingBalance);
+                        }
 
-                                    transaction.Commit();
-                                }
-                            }
+                        lastEndingBalance = endingBalance ?? 0M;
 
-                            expectedQuarter = 1;
+                        if (isCurrentQuarter)
+                        {
+                            break;
                         }
                     }
 
-                    bool isCurrentQuarter = fiscalQuarter.Quarter == currentQuarter && fiscalQuarter.Year == DateTime.Now.Year;
-                    hasCurrentQuarter |= isCurrentQuarter;
-                    decimal transactionTotalThisQuarter = fiscalQuarter.Transactions?.Sum(t => t.Amount) ?? 0M;
-
-                    if (fiscalQuarter.StartingBalance != lastEndingBalance || (!isCurrentQuarter && fiscalQuarter.EndingBalance != fiscalQuarter.StartingBalance + transactionTotalThisQuarter) || (isCurrentQuarter && fiscalQuarter.EndingBalance != null))
-                    {
-                        using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
-                        {
-                            FiscalQuarter editableFiscalQuarter = DataObject.GetEditableByPrimaryKey<FiscalQuarter>(fiscalQuarter.FiscalQuarterID, transaction, null);
-                            editableFiscalQuarter.StartingBalance = lastEndingBalance;
-                            if (!isCurrentQuarter)
-                            {
-                                editableFiscalQuarter.EndingBalance = editableFiscalQuarter.StartingBalance + transactionTotalThisQuarter;
-                            }
-                            else
-                            {
-                                editableFiscalQuarter.EndingBalance = null;
-                            }
-
-                            if (!editableFiscalQuarter.Save(transaction))
-                            {
-                                throw new Exception("Could not update Fiscal Quarter:\r\n" + fiscalQuarter.Errors.ToString());
-                            }
-                            lastEndingBalance = editableFiscalQuarter.EndingBalance ?? 0M;
-                            transaction.Commit();
-                        }
-                    }
-                    else
-                    {
-                        lastEndingBalance = fiscalQuarter.EndingBalance ?? 0M;
-                    }
-                    lastYear = fiscalQuarter.Year.Value;
-                    lastQuarter = fiscalQuarter.Quarter.Value;
-                }
-
-                if (!hasCurrentQuarter)
-                {
-                    for (short year = lastYear; year <= DateTime.Now.Year; year++)
-                    {
-                        for (byte quarter = lastQuarter; quarter <= 4; quarter++)
-                        {
-                            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
-                            {
-                                FiscalQuarter missingQuarter = FiscalQuarter.FindOrCreate(account.AccountID.Value, new DateTime(year, quarter * 3, 1), transaction);
-                                if (missingQuarter.Quarter != currentQuarter || missingQuarter.Year != DateTime.Now.Year)
-                                {
-                                    missingQuarter.EndingBalance = missingQuarter.StartingBalance;
-                                    if (!missingQuarter.Save(transaction))
-                                    {
-                                        throw new Exception("Could not update Fiscal Quarter:\r\n" + missingQuarter.Errors.ToString());
-                                    }
-                                }
-                                transaction.Commit();
-                            }
-
-                            if (year == DateTime.Now.Year && quarter == currentQuarter)
-                            {
-                                break;
-                            }
-                        }
-
-                        lastQuarter = 1;
-                    }
+                    quarterIterator = 1;
                 }
             }
 
             return true;
+        }
+
+        private void UpdateFiscalQuarter(long? fiscalQuarterID, decimal lastEndingBalance, decimal? endingBalance)
+        {
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
+            {
+                FiscalQuarter fiscalQuarter = DataObject.GetEditableByPrimaryKey<FiscalQuarter>(fiscalQuarterID, transaction, null);
+                fiscalQuarter.StartingBalance = lastEndingBalance;
+                fiscalQuarter.EndingBalance = endingBalance;
+                if (!fiscalQuarter.Save(transaction))
+                {
+                    throw new Exception($"Unable to update balances on Fiscal Quarter {fiscalQuarterID}: {fiscalQuarter.Errors.ToString()}");
+                }
+
+                transaction.Commit();
+            }
+        }
+
+        private FiscalQuarter CreateFiscalQuarter(long? accountID, short yearIterator, byte quarterIterator, List<string> accountFields)
+        {
+            FiscalQuarter fiscalQuarter;
+            List<string> fields = accountFields
+                                    .Where(f => f.StartsWith("FiscalQuarters."))
+                                    .Select(f => f.Substring("FiscalQuarters.".Length))
+                                    .ToList();
+            using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
+            {
+                fiscalQuarter = FiscalQuarter.FindOrCreate(accountID.Value, new DateTime(yearIterator, quarterIterator * 3, 1), transaction, fields);
+
+                transaction.Commit();
+            }
+
+            return fiscalQuarter;
         }
     }
 }

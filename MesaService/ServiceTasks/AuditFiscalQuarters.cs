@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using ClussPro.Base.Data;
+﻿using ClussPro.Base.Data;
 using ClussPro.Base.Data.Query;
 using ClussPro.ObjectBasedFramework;
 using ClussPro.ObjectBasedFramework.DataSearch;
 using ClussPro.ObjectBasedFramework.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using WebModels.account;
 
 namespace MesaService.ServiceTasks
@@ -39,9 +38,14 @@ namespace MesaService.ServiceTasks
             foreach(Account account in accountSearch.GetReadOnlyReader(null, fields))
             {
                 IOrderedEnumerable<FiscalQuarter> fiscalQuarters = account.FiscalQuarters.OrderBy(fq => fq.Year).ThenBy(fq => fq.Quarter);
+                if (!fiscalQuarters.Any()) // Create missing, current fiscal quarter
+                {
+                    CreateFiscalQuarter(account.AccountID, (short)DateTime.Now.Year, currentQuarter, fields);
+                    continue; // Skip further processing as only one fiscal quarter is required for an account that was missing any
+                }
+
                 decimal lastEndingBalance = 0M;
                 byte quarterIterator = fiscalQuarters.First().Quarter.Value;
-                
 
                 for(short yearIterator = fiscalQuarters.First().Year.Value; yearIterator <= DateTime.Today.Year; yearIterator++)
                 {
@@ -84,7 +88,7 @@ namespace MesaService.ServiceTasks
                 fiscalQuarter.EndingBalance = endingBalance;
                 if (!fiscalQuarter.Save(transaction))
                 {
-                    throw new Exception($"Unable to update balances on Fiscal Quarter {fiscalQuarterID}: {fiscalQuarter.Errors.ToString()}");
+                    throw new Exception($"Unable to update balances on Fiscal Quarter {fiscalQuarterID}: {fiscalQuarter.Errors}");
                 }
 
                 transaction.Commit();

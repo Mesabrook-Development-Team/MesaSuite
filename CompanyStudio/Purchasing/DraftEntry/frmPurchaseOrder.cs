@@ -310,6 +310,18 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 loader.BringToFront();
                 loader.Visible = true;
 
+                // Warn user if less than 1 fulfillment plan route exists
+                GetData get = new GetData(DataAccess.APIs.CompanyStudio, "FulfillmentPlan/GetByPurchaseOrderID/" + PurchaseOrderID);
+                get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                List<FulfillmentPlan> fulfillmentPlans = await get.GetObject<List<FulfillmentPlan>>() ?? new List<FulfillmentPlan>();
+                if (fulfillmentPlans.Any(fp => fp.FulfillmentPlanRoutes?.Count <= 1))
+                {
+                    if (!this.Confirm("At least one Fulfillment Plan may not have railcar routing setup.\r\n\r\nRailcar routing describes which companies will handle this railcar between you and the shipper. Your shipper or other carriers may deny this Purchase Order if railcar routing is incomplete.\r\n\r\nDo you want to submit this Purchase Order anyway?"))
+                    {
+                        return;
+                    }
+                }
+
                 PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Submit/" + PurchaseOrderID, new object());
                 post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
                 PurchaseOrder purchaseOrder = await post.Execute<PurchaseOrder>();

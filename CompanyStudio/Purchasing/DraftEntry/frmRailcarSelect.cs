@@ -23,15 +23,24 @@ namespace CompanyStudio.Purchasing.DraftEntry
             DockAreas = WeifenLuo.WinFormsUI.Docking.DockAreas.Float;
         }
 
+        public bool AllowMultiple { get; set; }
+
         public Location LocationModel { get; set; }
 
         public long? CompanyIDShipper { get; set; }
         public long? GovernmentIDShipper { get; set; }
 
-        public long? SelectedRailcarID { get; set; }
+        public HashSet<long> SelectedRailcarIDs { get; set; } = new HashSet<long>();
 
         private async void frmRailcarSelect_Load(object sender, EventArgs e)
         {
+            if (AllowMultiple)
+            {
+                Text = "Select Railcars";
+            }
+
+            dgvRailcars.MultiSelect = AllowMultiple;
+
             GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Railcar/GetIdleForCompany");
             get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
             if (CompanyIDShipper != null)
@@ -93,11 +102,11 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 row.Tag = railcar;
             }
 
-            if (SelectedRailcarID != null)
+            if (SelectedRailcarIDs != null)
             {
                 foreach(DataGridViewRow row in dgvRailcars.Rows)
                 {
-                    row.Selected = (row.Tag as Railcar)?.RailcarID == SelectedRailcarID;
+                    row.Selected = SelectedRailcarIDs.Contains((row.Tag as Railcar)?.RailcarID ?? -1L);
                 }
             }
 
@@ -124,7 +133,16 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
         private void cmdSave_Click(object sender, EventArgs e)
         {
-            SelectedRailcarID = (dgvRailcars.SelectedRows.OfType<DataGridViewRow>().FirstOrDefault()?.Tag as Railcar)?.RailcarID;
+            SelectedRailcarIDs.Clear();
+
+            foreach(DataGridViewRow row in dgvRailcars.SelectedRows)
+            {
+                Railcar railcar = row.Tag as Railcar;
+                if (railcar != null && railcar.RailcarID != null)
+                {
+                    SelectedRailcarIDs.Add(railcar.RailcarID.Value);
+                }
+            }
 
             DialogResult = DialogResult.OK;
             Close();

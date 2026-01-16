@@ -826,5 +826,53 @@ namespace CompanyStudio.Purchasing.DraftEntry
         {
             Close();
         }
+
+        private void toolClonePlanToRailcars_Click(object sender, EventArgs e)
+        {
+            frmRailcarSelect railcarSelect = new frmRailcarSelect();
+            Studio.DecorateStudioContent(railcarSelect);
+            railcarSelect.Company = Company;
+            railcarSelect.LocationModel = LocationModel;
+            railcarSelect.CompanyIDShipper = (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.CompanyID;
+            railcarSelect.GovernmentIDShipper = (cboGovernment.SelectedItem as DropDownItem<Government>)?.Object.GovernmentID;
+            railcarSelect.AllowMultiple = true;
+            railcarSelect.Show(Studio.dockPanel, new Rectangle(Screen.FromControl(this).Bounds.Width / 2 - 514, Screen.FromControl(this).Bounds.Height / 2 - 184, 1028, 368));
+
+            railcarSelect.FormClosed += async (_, __) =>
+            {
+                if (railcarSelect.DialogResult != DialogResult.OK || 
+                    !railcarSelect.SelectedRailcarIDs.Any())
+                {
+                    return;
+                }
+
+                bool anySavesSuccessful = false;
+                foreach (long railcarID in railcarSelect.SelectedRailcarIDs)
+                {
+                    var postObj = new
+                    {
+                        FulfillmentPlanID = dgvFulfillmentPlans.SelectedRows[0].Tag as long?, 
+                        NewRailcarID = railcarID
+                    };
+
+                    PostData post = new PostData(DataAccess.APIs.CompanyStudio, "FulfillmentPlan/Clone", postObj);
+                    post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                    await post.ExecuteNoResult();
+
+                    anySavesSuccessful |= post.RequestSuccessful;
+                }
+
+                if (anySavesSuccessful)
+                {
+                    await RefreshFulfillmentPlans();
+
+                    GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Get/" + PurchaseOrderID);
+                    get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                    PurchaseOrder purchaseOrder = await get.GetObject<PurchaseOrder>();
+
+                    SetupFormWarnings(purchaseOrder);
+                }
+            };
+        }
     }
 }

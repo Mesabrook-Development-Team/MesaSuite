@@ -573,6 +573,11 @@ namespace CompanyStudio.Purchasing.DraftEntry
             {
                 dgvFulfillmentPlans_SelectionChanged(this, EventArgs.Empty);
             }
+            else
+            {
+                grpFulfillmentPlanInformation.Controls.OfType<FulfillmentPlanControl>().ToList().ForEach(fpc => grpFulfillmentPlanInformation.Controls.Remove(fpc));
+                lblPlanPlaceholder.Visible = true;
+            }
 
             foreach (PurchaseOrderLineControl line in pnlPurchaseOrderLines.Controls.OfType<PurchaseOrderLineControl>())
             {
@@ -758,18 +763,28 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
         private async void toolDeletePlan_Click(object sender, EventArgs e)
         {
-            if (dgvFulfillmentPlans.SelectedRows.Count <= 0 || !(dgvFulfillmentPlans.SelectedRows[0].Tag is long?) || !this.Confirm("Are you sure you want to delete this Fulfillment Plan?"))
+            if (dgvFulfillmentPlans.SelectedRows.Count <= 0 || !dgvFulfillmentPlans.SelectedRows.OfType<DataGridViewRow>().Any(r => r.Tag is long?) || !this.Confirm("Are you sure you want to delete this Fulfillment Plan(s)?"))
             {
                 return;
             }
 
-            long? planID = dgvFulfillmentPlans.SelectedRows[0].Tag as long?;
+            bool anyDeletesSuccessful = false;
 
-            DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, "FulfillmentPlan/Delete/" + planID);
-            delete.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-            await delete.Execute();
+            foreach (DataGridViewRow row in dgvFulfillmentPlans.SelectedRows)
+            {
+                long? planID = row.Tag as long?;
+                if (planID == null)
+                {
+                    continue;
+                }
 
-            if (delete.RequestSuccessful)
+                DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, "FulfillmentPlan/Delete/" + planID);
+                delete.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                await delete.Execute();
+                anyDeletesSuccessful |= delete.RequestSuccessful;
+            }
+
+            if (anyDeletesSuccessful)
             {
                 await RefreshFulfillmentPlans();
 

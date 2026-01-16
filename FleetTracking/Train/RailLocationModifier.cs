@@ -129,7 +129,8 @@ namespace FleetTracking.Train
                 get.QueryString = new MultiMap<string, string>()
                 {
                     { "status", "all" },
-                    { "operableonly", "false" }
+                    { "operableonly", "false" },
+                    { "take", int.MaxValue.ToString() }
                 };
 
                 var responseObject = new

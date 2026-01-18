@@ -225,6 +225,32 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 requestForm.LocationModel = LocationModel;
                 requestForm.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
             };
+            purchaseOrderLineControl.FulfillmentPlansClicked += async (sender, __) =>
+            {
+                if (!(sender is PurchaseOrderLineControl polc))
+                {
+                    return;
+                }
+
+                frmSelectFulfillmentPlan selectFulfillmentPlan = new frmSelectFulfillmentPlan();
+                Studio.DecorateStudioContent(selectFulfillmentPlan);
+                selectFulfillmentPlan.Company = Company;
+                selectFulfillmentPlan.LocationModel = LocationModel;
+                selectFulfillmentPlan.PurchaseOrderID = PurchaseOrderID.Value;
+                selectFulfillmentPlan.PurchaseOrderLineID = polc.PurchaseOrderLine.PurchaseOrderLineID.Value;
+                selectFulfillmentPlan.ShowDialog();
+
+                await RefreshFulfillmentPlans();
+
+                GetData getData = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Get/" + PurchaseOrderID);
+                getData.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                PurchaseOrder purchaseOrder = await getData.GetObject<PurchaseOrder>();
+
+                if (purchaseOrder != null)
+                {
+                    SetupFormWarnings(purchaseOrder);
+                }
+            };
             pnlPurchaseOrderLines.Controls.Add(purchaseOrderLineControl);
         }
 
@@ -534,22 +560,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                                                             $"Lease Request ID: {plan.LeaseRequestID} (Bids: {plan.LeaseRequest?.LeaseBids?.Count() ?? 0})" :
                                                             "None";
                     row.Cells[colFPPOLines.Name].Value = (plan.FulfillmentPlanPurchaseOrderLines?.Count ?? 0) + " Lines";
-                    StringBuilder routeStringBuilder = new StringBuilder();
-                    if (!plan.FulfillmentPlanRoutes.Any())
-                    {
-                        routeStringBuilder.Append("None");
-                    }
-                    else
-                    {
-                        FulfillmentPlanRoute firstRoute = plan.FulfillmentPlanRoutes.FirstOrDefault();
-                        routeStringBuilder.Append(firstRoute.CompanyFrom?.Name ?? firstRoute.GovernmentFrom?.Name);
-
-                        foreach (FulfillmentPlanRoute route in plan.FulfillmentPlanRoutes)
-                        {
-                            routeStringBuilder.Append($" -> {route.CompanyTo?.Name ?? route.GovernmentTo?.Name}");
-                        }
-                    }
-                    row.Cells[colRoute.Name].Value = routeStringBuilder.ToString();
+                    row.Cells[colRoute.Name].Value = plan.RouteInformation;
 
                     row.Tag = plan.FulfillmentPlanID;
 

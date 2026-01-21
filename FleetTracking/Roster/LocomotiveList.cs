@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FleetTracking.Interop;
@@ -22,16 +23,6 @@ namespace FleetTracking.Roster
 
         public event EventHandler<Locomotive> LocomotiveSelected;
         public Func<Locomotive, bool> Filter { get; set; }
-        private string _reportingMarkFilter;
-        public string ReportingMarkFilter 
-        {
-            get => _reportingMarkFilter; 
-            set
-            {
-                _reportingMarkFilter = value;
-                ReportingMarkFilterChanged();
-            }
-        }
 
         private FleetTrackingApplication _application;
 
@@ -77,7 +68,6 @@ namespace FleetTracking.Roster
                     locomotives = locomotives.Where(Filter).ToList();
                 }
                 stockByReportingMark = locomotives.ToDictionary(l => l.FormattedReportingMark);
-                total = locomotives.Count;
                 PopulateGrid(selectedReportingMark);
                 
             }
@@ -92,8 +82,22 @@ namespace FleetTracking.Roster
             try
             {
                 dgvLocomotives.Rows.Clear();
+                imageDisposer.DisposeAllImages();
 
-                Dictionary<string, Locomotive> filteredStock = stockByReportingMark.OrderBy(kvp => kvp.Key).Skip(skip).Take(take).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                Func<KeyValuePair<string, Locomotive>, bool> filterPredicate = kvp =>
+                {
+                    if (string.IsNullOrEmpty(txtSearch.Text))
+                    {
+                        return true;
+                    }
+
+                    bool matchesReportingMark = kvp.Key.IndexOf(txtSearch.Text, StringComparison.OrdinalIgnoreCase) >= 0;
+                    bool matchesModel = kvp.Value.LocomotiveModel != null && kvp.Value.LocomotiveModel.Name.IndexOf(txtSearch.Text, StringComparison.OrdinalIgnoreCase) >= 0;
+                    return matchesReportingMark || matchesModel;
+                };
+
+                total = stockByReportingMark.Where(filterPredicate).Count();
+                Dictionary<string, Locomotive> filteredStock = stockByReportingMark.Where(filterPredicate).OrderBy(kvp => kvp.Key).Skip(skip).Take(take).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
                 lblRecordCount.Text = $"Displaying {skip + 1}-{(skip + take > total ? total : skip + take)} of {total}";
 
@@ -160,6 +164,7 @@ namespace FleetTracking.Roster
                         using (MemoryStream stream = new MemoryStream(imageData))
                         {
                             Image image = Image.FromStream(stream);
+                            imageDisposer.Images.Add(image);
                             row.Cells[colImage.Name].Value = image;
                         }
                     }
@@ -173,15 +178,6 @@ namespace FleetTracking.Roster
             if (dgvLocomotives.SelectedRows.Count > 0 && dgvLocomotives.SelectedRows[0].Tag is Locomotive locomotive)
             {
                 LocomotiveSelected?.Invoke(this, locomotive);
-            }
-        }
-
-        private void ReportingMarkFilterChanged()
-        {
-            foreach(DataGridViewRow row in dgvLocomotives.Rows)
-            {
-                string reportingMark = row.Cells[colReportingMark.Name].Value as string;
-                row.Visible = string.IsNullOrEmpty(reportingMark) || string.IsNullOrEmpty(ReportingMarkFilter) || reportingMark.Contains(ReportingMarkFilter);
             }
         }
 
@@ -215,6 +211,19 @@ namespace FleetTracking.Roster
             {
                 skip = 0;
             }
+            PopulateGrid();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            tmrSearchDebouncer.Stop();
+            tmrSearchDebouncer.Start();
+        }
+
+        private void tmrSearchDebouncer_Tick(object sender, EventArgs e)
+        {
+            tmrSearchDebouncer.Stop();
+            skip = 0;
             PopulateGrid();
         }
     }

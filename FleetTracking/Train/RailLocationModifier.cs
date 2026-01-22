@@ -991,5 +991,51 @@ namespace FleetTracking.Train
             ParentForm.Close();
             Dispose();
         }
+
+        private void cmdReverseSelected_Click(object sender, EventArgs e)
+        {
+            List<RailLocation> allRailLocations;
+            List<RailLocation> selectedRailLocations;
+            Action refresh;
+            if (lastClickedGrid == dgvFromList)
+            {
+                PrepFromMovement(out allRailLocations, out selectedRailLocations, out refresh);
+            }
+            else if (lastClickedGrid == dgvToList)
+            {
+                PrepToMovement(out allRailLocations, out selectedRailLocations, out refresh);
+            }
+            else
+            {
+                return;
+            }
+
+            if (allRailLocations == null)
+            {
+                return;
+            }
+
+            if (!CheckForUnreleasedCars(selectedRailLocations))
+            {
+                return;
+            }
+
+            // Check to make sure that grouping is continguous
+            int minPosition = selectedRailLocations.Min(rl => rl.Position);
+            int maxPosition = selectedRailLocations.Max(rl => rl.Position);
+            if (maxPosition - minPosition + 1 != selectedRailLocations.Count)
+            {
+                this.ShowError("The selected rolling stock must be contiguous to perform a reversal.");
+                return;
+            }
+
+            int i = maxPosition;
+            foreach(RailLocation railLocation in allRailLocations.Where(rl => rl.Position >= minPosition && rl.Position <= maxPosition).OrderBy(rl => rl.Position))
+            {
+                railLocation.Position = i--;
+            }
+
+            refresh?.Invoke();
+        }
     }
 }

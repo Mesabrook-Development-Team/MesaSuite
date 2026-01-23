@@ -70,8 +70,32 @@ namespace FleetTracking.Roster
             try
             {
                 dgvRollingStock.Rows.Clear();
+                imageDisposer.DisposeAllImages();
 
-                Dictionary<string, object> filteredStock = stockByReportingMark.OrderBy(kvp => kvp.Key).Skip(skip).Take(take).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                Func<KeyValuePair<string, object>, bool> filterFunc = kvp =>
+                {
+                    if (string.IsNullOrEmpty(txtSearch.Text))
+                    {
+                        return true;
+                    }
+
+                    bool matchesReportingMark = kvp.Key.IndexOf(txtSearch.Text, StringComparison.OrdinalIgnoreCase) >= 0;
+                    bool matchesModel = false;
+                    switch(kvp.Value)
+                    {
+                        case Locomotive l:
+                            matchesModel = l.LocomotiveModel != null && l.LocomotiveModel.Name.IndexOf(txtSearch.Text, StringComparison.OrdinalIgnoreCase) >= 0;
+                            break;
+                        case Railcar r:
+                            matchesModel = r.RailcarModel != null && r.RailcarModel.Name.IndexOf(txtSearch.Text, StringComparison.OrdinalIgnoreCase) >= 0;
+                            break;
+                    }
+
+                    return matchesReportingMark || matchesModel;
+                };
+
+                total = stockByReportingMark.Where(filterFunc).Count();
+                Dictionary<string, object> filteredStock = stockByReportingMark.Where(filterFunc).OrderBy(kvp => kvp.Key).Skip(skip).Take(take).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
                 lblRecordCount.Text = $"Displaying {skip + 1}-{(skip + take > total ? total : skip + take)} of {total}";
 
@@ -165,6 +189,7 @@ namespace FleetTracking.Roster
                         using (MemoryStream stream = new MemoryStream(imageData))
                         {
                             Image image = Image.FromStream(stream);
+                            imageDisposer.Images.Add(image);
                             row.Cells[colImage.Name].Value = image;
                         }
                     }
@@ -249,6 +274,19 @@ namespace FleetTracking.Roster
             {
                 skip = 0;
             }
+            PopulateGrid();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            tmrSearchDebouncer.Stop();
+            tmrSearchDebouncer.Start();
+        }
+
+        private void tmrSearchDebouncer_Tick(object sender, EventArgs e)
+        {
+            tmrSearchDebouncer.Stop();
+            skip = 0;
             PopulateGrid();
         }
     }

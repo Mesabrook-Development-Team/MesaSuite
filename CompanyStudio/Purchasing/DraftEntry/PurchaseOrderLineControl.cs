@@ -5,9 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,6 +17,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
         public event EventHandler DeleteClicked;
         public event EventHandler TotalChanged;
         public event EventHandler<QuotationRequest> QuotationRequestClicked;
+        public event EventHandler FulfillmentPlansClicked;
 
         public PurchaseOrderLine PurchaseOrderLine { get; set; }
         public long? PurchaseOrderID { get; set; }
@@ -69,6 +68,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
             txtUnitCost.Text = PurchaseOrderLine?.UnitCost.ToString();
             txtLineCost.Text = (PurchaseOrderLine?.Quantity * PurchaseOrderLine?.UnitCost)?.ToString();
             lblFulfillmentPlanWarning.Visible = !PurchaseOrderLine?.FulfillmentPlanPurchaseOrderLines?.Any() ?? true;
+            cmdFulfillmentPlans.Visible = PurchaseOrderLine != null;
             _loading = false;
         }
 
@@ -105,6 +105,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 if (post.RequestSuccessful)
                 {
                     PurchaseOrderLine = lineToSave;
+                    cmdFulfillmentPlans.Visible = true;
                 }
                 else
                 {
@@ -120,6 +121,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 if (put.RequestSuccessful)
                 {
                     PurchaseOrderLine = lineToSave;
+                    cmdFulfillmentPlans.Visible = true;
                 }
                 else
                 {
@@ -355,6 +357,11 @@ namespace CompanyStudio.Purchasing.DraftEntry
             {
                 lnkRequestQuote.Enabled = true;
             }
+        }
+
+        private void cmdFulfillmentPlans_Click(object sender, EventArgs e)
+        {
+            FulfillmentPlansClicked?.Invoke(this, EventArgs.Empty);
         }
     }
 }

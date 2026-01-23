@@ -299,6 +299,7 @@
     <Compile Include="Loader.Designer.cs">
       <DependentUpon>Loader.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoadVisualHandler.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Alias.cs" />
     <Compile Include="Models\AutomaticInvoicePaymentConfiguration.cs" />
@@ -420,6 +421,12 @@
     </Compile>
     <Compile Include="Purchasing\DraftEntry\frmRailcarSelect.Designer.cs">
       <DependentUpon>frmRailcarSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\frmSelectFulfillmentPlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\DraftEntry\frmSelectFulfillmentPlan.Designer.cs">
+      <DependentUpon>frmSelectFulfillmentPlan.cs</DependentUpon>
     </Compile>
     <Compile Include="Purchasing\DraftEntry\FulfillmentPlanControl.cs">
       <SubType>UserControl</SubType>
@@ -855,6 +862,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\DraftEntry\frmRailcarSelect.resx">
       <DependentUpon>frmRailcarSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\DraftEntry\frmSelectFulfillmentPlan.resx">
+      <DependentUpon>frmSelectFulfillmentPlan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchasing\DraftEntry\FulfillmentPlanControl.resx">
       <DependentUpon>FulfillmentPlanControl.cs</DependentUpon>

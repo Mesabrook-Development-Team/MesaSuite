@@ -58,19 +58,6 @@ namespace FleetTracking.Leasing
             ParentForm.Close();
         }
 
-        private void txtFilter_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (locomotiveList != null)
-            {
-                locomotiveList.ReportingMarkFilter = txtFilter.Text;
-            }
-
-            if (railcarList != null)
-            {
-                railcarList.ReportingMarkFilter = txtFilter.Text;
-            }
-        }
-
         private void SubmitBidsStockPicker_Load(object sender, EventArgs e)
         {
             switch (LeaseType)

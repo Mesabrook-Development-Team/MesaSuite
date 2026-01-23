@@ -443,7 +443,10 @@ namespace CompanyStudio.Purchasing.DraftEntry
         {
             frmRailcarSelect railcarSelect = new frmRailcarSelect();
             Studio.DecorateStudioContent(railcarSelect);
-            railcarSelect.SelectedRailcarID = (lnkRailcar.Tag as Railcar)?.RailcarID;
+            if (lnkRailcar.Tag is Railcar railcar && railcar.RailcarID != null)
+            {
+                railcarSelect.SelectedRailcarIDs.Add(railcar.RailcarID.Value);
+            }
             railcarSelect.Company = new Company() { CompanyID = CompanyID };
             railcarSelect.LocationModel = new Location() { LocationID = LocationID, CompanyID = CompanyID, Company = railcarSelect.Company };
             railcarSelect.CompanyIDShipper = StartIDCompany;
@@ -465,7 +468,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 return;
             }
 
-            if (railcarSelect.SelectedRailcarID == null)
+            if (!railcarSelect.SelectedRailcarIDs.Any())
             {
                 lnkRailcar.Text = "None";
                 lnkRailcar.Tag = null;
@@ -473,7 +476,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 return;
             }
 
-            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Railcar/Get/" + railcarSelect.SelectedRailcarID);
+            GetData get = new GetData(DataAccess.APIs.CompanyStudio, "Railcar/Get/" + railcarSelect.SelectedRailcarIDs.First());
             get.AddLocationHeader(CompanyID, LocationID);
             Railcar railcar = await get.GetObject<Railcar>();
             if (railcar == null)

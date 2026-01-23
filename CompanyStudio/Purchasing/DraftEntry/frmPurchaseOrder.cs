@@ -225,6 +225,32 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 requestForm.LocationModel = LocationModel;
                 requestForm.Show(Studio.dockPanel, WeifenLuo.WinFormsUI.Docking.DockState.Document);
             };
+            purchaseOrderLineControl.FulfillmentPlansClicked += async (sender, __) =>
+            {
+                if (!(sender is PurchaseOrderLineControl polc))
+                {
+                    return;
+                }
+
+                frmSelectFulfillmentPlan selectFulfillmentPlan = new frmSelectFulfillmentPlan();
+                Studio.DecorateStudioContent(selectFulfillmentPlan);
+                selectFulfillmentPlan.Company = Company;
+                selectFulfillmentPlan.LocationModel = LocationModel;
+                selectFulfillmentPlan.PurchaseOrderID = PurchaseOrderID.Value;
+                selectFulfillmentPlan.PurchaseOrderLineID = polc.PurchaseOrderLine.PurchaseOrderLineID.Value;
+                selectFulfillmentPlan.ShowDialog();
+
+                await RefreshFulfillmentPlans();
+
+                GetData getData = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Get/" + PurchaseOrderID);
+                getData.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                PurchaseOrder purchaseOrder = await getData.GetObject<PurchaseOrder>();
+
+                if (purchaseOrder != null)
+                {
+                    SetupFormWarnings(purchaseOrder);
+                }
+            };
             pnlPurchaseOrderLines.Controls.Add(purchaseOrderLineControl);
         }
 
@@ -309,6 +335,18 @@ namespace CompanyStudio.Purchasing.DraftEntry
                 toolStripMain.Enabled = false;
                 loader.BringToFront();
                 loader.Visible = true;
+
+                // Warn user if less than 1 fulfillment plan route exists
+                GetData get = new GetData(DataAccess.APIs.CompanyStudio, "FulfillmentPlan/GetByPurchaseOrderID/" + PurchaseOrderID);
+                get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                List<FulfillmentPlan> fulfillmentPlans = await get.GetObject<List<FulfillmentPlan>>() ?? new List<FulfillmentPlan>();
+                if (fulfillmentPlans.Any(fp => fp.FulfillmentPlanRoutes?.Count <= 1))
+                {
+                    if (!this.Confirm("At least one Fulfillment Plan may not have railcar routing setup.\r\n\r\nRailcar routing describes which companies will handle this railcar between you and the shipper. Your shipper or other carriers may deny this Purchase Order if railcar routing is incomplete.\r\n\r\nDo you want to submit this Purchase Order anyway?"))
+                    {
+                        return;
+                    }
+                }
 
                 PostData post = new PostData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Submit/" + PurchaseOrderID, new object());
                 post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
@@ -522,22 +560,7 @@ namespace CompanyStudio.Purchasing.DraftEntry
                                                             $"Lease Request ID: {plan.LeaseRequestID} (Bids: {plan.LeaseRequest?.LeaseBids?.Count() ?? 0})" :
                                                             "None";
                     row.Cells[colFPPOLines.Name].Value = (plan.FulfillmentPlanPurchaseOrderLines?.Count ?? 0) + " Lines";
-                    StringBuilder routeStringBuilder = new StringBuilder();
-                    if (!plan.FulfillmentPlanRoutes.Any())
-                    {
-                        routeStringBuilder.Append("None");
-                    }
-                    else
-                    {
-                        FulfillmentPlanRoute firstRoute = plan.FulfillmentPlanRoutes.FirstOrDefault();
-                        routeStringBuilder.Append(firstRoute.CompanyFrom?.Name ?? firstRoute.GovernmentFrom?.Name);
-
-                        foreach (FulfillmentPlanRoute route in plan.FulfillmentPlanRoutes)
-                        {
-                            routeStringBuilder.Append($" -> {route.CompanyTo?.Name ?? route.GovernmentTo?.Name}");
-                        }
-                    }
-                    row.Cells[colRoute.Name].Value = routeStringBuilder.ToString();
+                    row.Cells[colRoute.Name].Value = plan.RouteInformation;
 
                     row.Tag = plan.FulfillmentPlanID;
 
@@ -560,6 +583,11 @@ namespace CompanyStudio.Purchasing.DraftEntry
             if (dgvFulfillmentPlans.SelectedRows.Count > 0)
             {
                 dgvFulfillmentPlans_SelectionChanged(this, EventArgs.Empty);
+            }
+            else
+            {
+                grpFulfillmentPlanInformation.Controls.OfType<FulfillmentPlanControl>().ToList().ForEach(fpc => grpFulfillmentPlanInformation.Controls.Remove(fpc));
+                lblPlanPlaceholder.Visible = true;
             }
 
             foreach (PurchaseOrderLineControl line in pnlPurchaseOrderLines.Controls.OfType<PurchaseOrderLineControl>())
@@ -746,18 +774,36 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
         private async void toolDeletePlan_Click(object sender, EventArgs e)
         {
-            if (dgvFulfillmentPlans.SelectedRows.Count <= 0 || !(dgvFulfillmentPlans.SelectedRows[0].Tag is long?) || !this.Confirm("Are you sure you want to delete this Fulfillment Plan?"))
+            if (dgvFulfillmentPlans.SelectedRows.Count <= 0 || !dgvFulfillmentPlans.SelectedRows.OfType<DataGridViewRow>().Any(r => r.Tag is long?))
             {
                 return;
             }
 
-            long? planID = dgvFulfillmentPlans.SelectedRows[0].Tag as long?;
+            string message = dgvFulfillmentPlans.SelectedRows.Count == 1
+                ? "Are you sure you want to delete this Fulfillment Plan?"
+                : "Are you sure you want to delete these Fulfillment Plans?";
 
-            DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, "FulfillmentPlan/Delete/" + planID);
-            delete.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
-            await delete.Execute();
+            if (!this.Confirm(message))
+            {
+                return;
+            }
+            bool anyDeletesSuccessful = false;
 
-            if (delete.RequestSuccessful)
+            foreach (DataGridViewRow row in dgvFulfillmentPlans.SelectedRows)
+            {
+                long? planID = row.Tag as long?;
+                if (planID == null)
+                {
+                    continue;
+                }
+
+                DeleteData delete = new DeleteData(DataAccess.APIs.CompanyStudio, "FulfillmentPlan/Delete/" + planID);
+                delete.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                await delete.Execute();
+                anyDeletesSuccessful |= delete.RequestSuccessful;
+            }
+
+            if (anyDeletesSuccessful)
             {
                 await RefreshFulfillmentPlans();
 
@@ -813,6 +859,54 @@ namespace CompanyStudio.Purchasing.DraftEntry
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void toolClonePlanToRailcars_Click(object sender, EventArgs e)
+        {
+            frmRailcarSelect railcarSelect = new frmRailcarSelect();
+            Studio.DecorateStudioContent(railcarSelect);
+            railcarSelect.Company = Company;
+            railcarSelect.LocationModel = LocationModel;
+            railcarSelect.CompanyIDShipper = (cboLocation.SelectedItem as DropDownItem<Location>)?.Object.CompanyID;
+            railcarSelect.GovernmentIDShipper = (cboGovernment.SelectedItem as DropDownItem<Government>)?.Object.GovernmentID;
+            railcarSelect.AllowMultiple = true;
+            railcarSelect.Show(Studio.dockPanel, new Rectangle(Screen.FromControl(this).Bounds.Width / 2 - 514, Screen.FromControl(this).Bounds.Height / 2 - 184, 1028, 368));
+
+            railcarSelect.FormClosed += async (_, __) =>
+            {
+                if (railcarSelect.DialogResult != DialogResult.OK || 
+                    !railcarSelect.SelectedRailcarIDs.Any())
+                {
+                    return;
+                }
+
+                bool anySavesSuccessful = false;
+                foreach (long railcarID in railcarSelect.SelectedRailcarIDs)
+                {
+                    var postObj = new
+                    {
+                        FulfillmentPlanID = dgvFulfillmentPlans.SelectedRows[0].Tag as long?, 
+                        NewRailcarID = railcarID
+                    };
+
+                    PostData post = new PostData(DataAccess.APIs.CompanyStudio, "FulfillmentPlan/Clone", postObj);
+                    post.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                    await post.ExecuteNoResult();
+
+                    anySavesSuccessful |= post.RequestSuccessful;
+                }
+
+                if (anySavesSuccessful)
+                {
+                    await RefreshFulfillmentPlans();
+
+                    GetData get = new GetData(DataAccess.APIs.CompanyStudio, "PurchaseOrder/Get/" + PurchaseOrderID);
+                    get.AddLocationHeader(Company.CompanyID, LocationModel.LocationID);
+                    PurchaseOrder purchaseOrder = await get.GetObject<PurchaseOrder>();
+
+                    SetupFormWarnings(purchaseOrder);
+                }
+            };
         }
     }
 }

@@ -172,6 +172,7 @@
     <Compile Include="Loader.Designer.cs">
       <DependentUpon>Loader.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoadVisualHandler.cs" />
     <Compile Include="LocomotiveModel\BrowseLocomotiveModels.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -333,6 +334,12 @@
     </Compile>
     <Compile Include="Tracks\BOLRailcarPicker.Designer.cs">
       <DependentUpon>BOLRailcarPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tracks\TrackExplorer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tracks\TrackExplorer.Designer.cs">
+      <DependentUpon>TrackExplorer.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\MassUpdateEquipment.cs">
       <SubType>UserControl</SubType>
@@ -592,6 +599,9 @@
     <EmbeddedResource Include="Reports\TrackListing\Track.rdlc" />
     <EmbeddedResource Include="Tracks\BOLRailcarPicker.resx">
       <DependentUpon>BOLRailcarPicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tracks\TrackExplorer.resx">
+      <DependentUpon>TrackExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\MassUpdateEquipment.resx">
       <DependentUpon>MassUpdateEquipment.cs</DependentUpon>

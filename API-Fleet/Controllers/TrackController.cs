@@ -53,7 +53,9 @@ namespace API_Fleet.Controllers
             Track track = DataObject.GetReadOnlyByPrimaryKey<Track>(e.ObjectID, e.Transaction, FieldPathUtility.CreateFieldPathsAsList<Track>(t => new List<object>()
             {
                 t.CompanyIDOwner,
-                t.GovernmentIDOwner
+                t.GovernmentIDOwner,
+                t.RailDistrict.CompanyIDOperator,
+                t.RailDistrict.GovernmentIDOperator
             }));
 
             e.IsValid &= (track.CompanyIDOwner == this.CompanyID() && track.GovernmentIDOwner == this.GovernmentID()) || (track.RailDistrict.CompanyIDOperator == this.CompanyID() && track.RailDistrict.GovernmentIDOperator == this.GovernmentID());

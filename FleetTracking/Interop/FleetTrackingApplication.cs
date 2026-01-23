@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FleetTracking.Attributes;
 using FleetTracking.Models;
+using MesaSuite.Common;
 using MesaSuite.Common.Data;
 using MesaSuite.Common.Extensions;
 
@@ -146,14 +147,13 @@ namespace FleetTracking.Interop
             form.Text = "Train List";
         }
 
-        public void OpenTrackViewer()
+        public void OpenTrackExplorer()
         {
-            Tracks.TrackViewer viewer = new Tracks.TrackViewer()
+            Tracks.TrackExplorer explorer = new Tracks.TrackExplorer()
             {
                 Application = this
             };
-            Form form = OpenForm(viewer);
-            form.Text = "Track Viewer";
+            Form form = OpenForm(explorer);
         }
 
         public void BrowseRailDistricts()
@@ -382,7 +382,7 @@ namespace FleetTracking.Interop
                     new MainNavigationItem("Leasing", ManageLeasing, Properties.Resources.basket, nameof(FleetSecurity.AllowLeasingManagement)),
                     new MainNavigationItem("Equipment Roster", BrowseEquipmentRoster, Properties.Resources.application_view_detail, nameof(FleetSecurity.AllowSetup), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.IsYardmaster)),
                     new MainNavigationItem("Train Manager", BrowseTrains, Properties.Resources.train, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew)),
-                    new MainNavigationItem("Track Viewer", OpenTrackViewer, Properties.Resources.tracks, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
+                    new MainNavigationItem("Track Explorer", OpenTrackExplorer, Properties.Resources.tracks, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
                     new MainNavigationItem("Release Equipment", MassReleaseStock, Properties.Resources.key_go, nameof(FleetSecurity.IsYardmaster), nameof(FleetSecurity.IsTrainCrew), nameof(FleetSecurity.AllowLoadUnload)),
                     new MainNavigationItem("Load/Unload Cars", Properties.Resources.box)
                     {
@@ -512,6 +512,11 @@ namespace FleetTracking.Interop
         public void Shutdown()
         {
             _permissionsTokenSource.Cancel();
+        }
+
+        internal static Dictionary<string, object> GetUserPreferences()
+        {
+            return UserPreferences.Get().GetPreferencesForSection("fleet");
         }
     }
 }

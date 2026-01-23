@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RailcarList));
             this.dgvRailcars = new System.Windows.Forms.DataGridView();
             this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,6 +45,10 @@
             this.cmdLast = new System.Windows.Forms.Button();
             this.cmdPrevious = new System.Windows.Forms.Button();
             this.cmdFirst = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.tmrSearchDebounce = new System.Windows.Forms.Timer(this.components);
+            this.imageDisposer = new MesaSuite.Common.ImageDisposer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRailcars)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,9 +66,9 @@
             this.colDestination,
             this.colLoad,
             this.colOwner});
-            this.dgvRailcars.Location = new System.Drawing.Point(0, 0);
+            this.dgvRailcars.Location = new System.Drawing.Point(0, 29);
             this.dgvRailcars.Name = "dgvRailcars";
-            this.dgvRailcars.Size = new System.Drawing.Size(869, 299);
+            this.dgvRailcars.Size = new System.Drawing.Size(869, 270);
             this.dgvRailcars.TabIndex = 1;
             this.dgvRailcars.SelectionChanged += new System.EventHandler(this.dgvRailcars_SelectionChanged);
             // 
@@ -138,7 +143,7 @@
             this.cmdNext.Location = new System.Drawing.Point(812, 305);
             this.cmdNext.Name = "cmdNext";
             this.cmdNext.Size = new System.Drawing.Size(24, 24);
-            this.cmdNext.TabIndex = 8;
+            this.cmdNext.TabIndex = 4;
             this.cmdNext.UseVisualStyleBackColor = true;
             this.cmdNext.Click += new System.EventHandler(this.cmdNext_Click);
             // 
@@ -149,7 +154,7 @@
             this.cmdLast.Location = new System.Drawing.Point(842, 305);
             this.cmdLast.Name = "cmdLast";
             this.cmdLast.Size = new System.Drawing.Size(24, 24);
-            this.cmdLast.TabIndex = 9;
+            this.cmdLast.TabIndex = 5;
             this.cmdLast.UseVisualStyleBackColor = true;
             this.cmdLast.Click += new System.EventHandler(this.cmdLast_Click);
             // 
@@ -160,7 +165,7 @@
             this.cmdPrevious.Location = new System.Drawing.Point(33, 305);
             this.cmdPrevious.Name = "cmdPrevious";
             this.cmdPrevious.Size = new System.Drawing.Size(24, 24);
-            this.cmdPrevious.TabIndex = 7;
+            this.cmdPrevious.TabIndex = 3;
             this.cmdPrevious.UseVisualStyleBackColor = true;
             this.cmdPrevious.Click += new System.EventHandler(this.cmdPrevious_Click);
             // 
@@ -171,14 +176,43 @@
             this.cmdFirst.Location = new System.Drawing.Point(3, 305);
             this.cmdFirst.Name = "cmdFirst";
             this.cmdFirst.Size = new System.Drawing.Size(24, 24);
-            this.cmdFirst.TabIndex = 6;
+            this.cmdFirst.TabIndex = 2;
             this.cmdFirst.UseVisualStyleBackColor = true;
             this.cmdFirst.Click += new System.EventHandler(this.cmdFirst_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Search:";
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Location = new System.Drawing.Point(60, 3);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(100, 20);
+            this.txtSearch.TabIndex = 0;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            // 
+            // tmrSearchDebounce
+            // 
+            this.tmrSearchDebounce.Interval = 500;
+            this.tmrSearchDebounce.Tick += new System.EventHandler(this.tmrSearchDebounce_Tick);
+            // 
+            // imageDisposer
+            // 
+            this.imageDisposer.Images = ((System.Collections.Generic.List<System.Drawing.Image>)(resources.GetObject("imageDisposer.Images")));
             // 
             // RailcarList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblRecordCount);
             this.Controls.Add(this.cmdNext);
             this.Controls.Add(this.cmdLast);
@@ -191,6 +225,7 @@
             this.Load += new System.EventHandler(this.RailcarList_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRailcars)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -211,5 +246,9 @@
         private System.Windows.Forms.Button cmdLast;
         private System.Windows.Forms.Button cmdPrevious;
         private System.Windows.Forms.Button cmdFirst;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Timer tmrSearchDebounce;
+        private MesaSuite.Common.ImageDisposer imageDisposer;
     }
 }

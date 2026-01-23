@@ -81,6 +81,7 @@
             this.cmdSave = new System.Windows.Forms.Button();
             this.cmdClose = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
+            this.cmdReverseSelected = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -127,6 +128,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.cmdReverseSelected);
             this.splitContainer1.Panel1.Controls.Add(this.cmdMoveDown);
             this.splitContainer1.Panel1.Controls.Add(this.cmdRemove);
             this.splitContainer1.Panel1.Controls.Add(this.cmdAdd);
@@ -296,7 +298,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(0, 36);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(36, 13);
+            this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 0;
             this.label3.Text = "Track:";
             // 
@@ -355,7 +357,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 36);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.Size = new System.Drawing.Size(34, 13);
             this.label4.TabIndex = 2;
             this.label4.Text = "Train:";
             // 
@@ -498,7 +500,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(0, 36);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(36, 13);
+            this.label6.Size = new System.Drawing.Size(35, 13);
             this.label6.TabIndex = 0;
             this.label6.Text = "Track:";
             // 
@@ -557,7 +559,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(3, 36);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(35, 13);
+            this.label8.Size = new System.Drawing.Size(34, 13);
             this.label8.TabIndex = 2;
             this.label8.Text = "Train:";
             // 
@@ -642,6 +644,18 @@
             this.label10.TabIndex = 5;
             this.label10.Text = "Moving Railcars and saving will charge customers. Be sure of all your changes bef" +
     "ore saving.";
+            // 
+            // cmdReverseSelected
+            // 
+            this.cmdReverseSelected.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.cmdReverseSelected.BackgroundImage = global::FleetTracking.Properties.Resources.arrow_switch;
+            this.cmdReverseSelected.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.cmdReverseSelected.Location = new System.Drawing.Point(366, 394);
+            this.cmdReverseSelected.Name = "cmdReverseSelected";
+            this.cmdReverseSelected.Size = new System.Drawing.Size(32, 32);
+            this.cmdReverseSelected.TabIndex = 4;
+            this.cmdReverseSelected.UseVisualStyleBackColor = true;
+            this.cmdReverseSelected.Click += new System.EventHandler(this.cmdReverseSelected_Click);
             // 
             // RailLocationModifier
             // 
@@ -732,5 +746,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colToPos;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToDestination;
         private System.Windows.Forms.DataGridViewTextBoxColumn colToStrategic;
+        private System.Windows.Forms.Button cmdReverseSelected;
     }
 }

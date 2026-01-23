@@ -30,17 +30,6 @@ namespace FleetTracking.Roster
         public bool AllowMultiSelect { get; set; } = true;
 
         public Func<Models.Railcar, bool> Filter { private get; set; }
-        private string _reportingMarkFilter;
-        public string ReportingMarkFilter
-        {
-            get => _reportingMarkFilter;
-            set
-            {
-                _reportingMarkFilter = value;
-                ReportingMarkFilterChanged();
-            }
-        }
-
         public RailcarList()
         {
             InitializeComponent();
@@ -74,7 +63,6 @@ namespace FleetTracking.Roster
                     railcars = railcars.Where(Filter).ToList();
                 }
                 stockByReportingMark = railcars.ToDictionary(r => r.FormattedReportingMark);
-                total = railcars.Count;
                 PopulateGrid(selectedReportingMark);
             }
             finally
@@ -88,8 +76,23 @@ namespace FleetTracking.Roster
             try
             {
                 dgvRailcars.Rows.Clear();
+                imageDisposer.DisposeAllImages();
 
-                Dictionary<string, Models.Railcar> filteredStock = stockByReportingMark.OrderBy(kvp => kvp.Key).Skip(skip).Take(take).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                Func<KeyValuePair<string, Models.Railcar>, bool> filterFunc = kvp =>
+                {
+                    if (string.IsNullOrEmpty(txtSearch.Text))
+                    {
+                        return true;
+                    }
+
+                    bool matchesReportingMark = kvp.Key.IndexOf(txtSearch.Text, StringComparison.OrdinalIgnoreCase) >= 0;
+                    bool matchesModel = kvp.Value.RailcarModel != null && kvp.Value.RailcarModel.Name.IndexOf(txtSearch.Text, StringComparison.OrdinalIgnoreCase) >= 0;
+
+                    return matchesReportingMark || matchesModel;
+                };
+
+                total = stockByReportingMark.Where(filterFunc).Count();
+                Dictionary<string, Models.Railcar> filteredStock = stockByReportingMark.Where(filterFunc).OrderBy(kvp => kvp.Key).Skip(skip).Take(take).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
                 lblRecordCount.Text = $"Displaying {skip + 1}-{(skip + take > total ? total : skip + take)} of {total}";
 
@@ -158,6 +161,7 @@ namespace FleetTracking.Roster
                         using (MemoryStream memoryStream = new MemoryStream(imageData))
                         {
                             Image image = Image.FromStream(memoryStream);
+                            imageDisposer.Images.Add(image);
                             row.Cells[colImage.Name].Value = image;
                         }
                     }
@@ -174,15 +178,6 @@ namespace FleetTracking.Roster
             }
 
             RailcarSelected?.Invoke(this, railcar);
-        }
-
-        private void ReportingMarkFilterChanged()
-        {
-            foreach (DataGridViewRow row in dgvRailcars.Rows)
-            {
-                string reportingMark = row.Cells[colReportingMark.Name].Value as string;
-                row.Visible = string.IsNullOrEmpty(reportingMark) || string.IsNullOrEmpty(ReportingMarkFilter) || reportingMark.Contains(ReportingMarkFilter);
-            }
         }
 
         private void cmdFirst_Click(object sender, EventArgs e)
@@ -216,6 +211,19 @@ namespace FleetTracking.Roster
                 skip = 0;
             }
             PopulateGrid();
+        }
+
+        private void tmrSearchDebounce_Tick(object sender, EventArgs e)
+        {
+            tmrSearchDebounce.Stop();
+            skip = 0;
+            PopulateGrid();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            tmrSearchDebounce.Stop();
+            tmrSearchDebounce.Start();
         }
     }
 }

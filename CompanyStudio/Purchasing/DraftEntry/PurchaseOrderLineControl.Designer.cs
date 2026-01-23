@@ -48,6 +48,7 @@
             this.cmdDelete = new System.Windows.Forms.Button();
             this.lblFulfillmentPlanWarning = new System.Windows.Forms.Label();
             this.lnkRequestQuote = new System.Windows.Forms.LinkLabel();
+            this.cmdFulfillmentPlans = new System.Windows.Forms.Button();
             this.pnlItem.SuspendLayout();
             this.pnlService.SuspendLayout();
             this.SuspendLayout();
@@ -227,7 +228,7 @@
             // cmdDelete
             // 
             this.cmdDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdDelete.Location = new System.Drawing.Point(418, 140);
+            this.cmdDelete.Location = new System.Drawing.Point(418, 146);
             this.cmdDelete.Name = "cmdDelete";
             this.cmdDelete.Size = new System.Drawing.Size(75, 23);
             this.cmdDelete.TabIndex = 7;
@@ -237,11 +238,12 @@
             // 
             // lblFulfillmentPlanWarning
             // 
+            this.lblFulfillmentPlanWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblFulfillmentPlanWarning.AutoSize = true;
             this.lblFulfillmentPlanWarning.BackColor = System.Drawing.Color.Yellow;
             this.lblFulfillmentPlanWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFulfillmentPlanWarning.ForeColor = System.Drawing.Color.Black;
-            this.lblFulfillmentPlanWarning.Location = new System.Drawing.Point(3, 145);
+            this.lblFulfillmentPlanWarning.Location = new System.Drawing.Point(3, 151);
             this.lblFulfillmentPlanWarning.Name = "lblFulfillmentPlanWarning";
             this.lblFulfillmentPlanWarning.Size = new System.Drawing.Size(169, 13);
             this.lblFulfillmentPlanWarning.TabIndex = 9;
@@ -259,6 +261,18 @@
             this.lnkRequestQuote.Visible = false;
             this.lnkRequestQuote.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkRequestQuote_LinkClicked);
             // 
+            // cmdFulfillmentPlans
+            // 
+            this.cmdFulfillmentPlans.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdFulfillmentPlans.Location = new System.Drawing.Point(313, 146);
+            this.cmdFulfillmentPlans.Name = "cmdFulfillmentPlans";
+            this.cmdFulfillmentPlans.Size = new System.Drawing.Size(99, 23);
+            this.cmdFulfillmentPlans.TabIndex = 8;
+            this.cmdFulfillmentPlans.Text = "Fulfillment Plans...";
+            this.cmdFulfillmentPlans.UseVisualStyleBackColor = true;
+            this.cmdFulfillmentPlans.Visible = false;
+            this.cmdFulfillmentPlans.Click += new System.EventHandler(this.cmdFulfillmentPlans_Click);
+            // 
             // PurchaseOrderLineControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -266,6 +280,7 @@
             this.Controls.Add(this.lnkRequestQuote);
             this.Controls.Add(this.lblFulfillmentPlanWarning);
             this.Controls.Add(this.pnlItem);
+            this.Controls.Add(this.cmdFulfillmentPlans);
             this.Controls.Add(this.cmdDelete);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtLineCost);
@@ -278,7 +293,7 @@
             this.Controls.Add(this.rdoItem);
             this.Controls.Add(this.label1);
             this.Name = "PurchaseOrderLineControl";
-            this.Size = new System.Drawing.Size(496, 166);
+            this.Size = new System.Drawing.Size(496, 172);
             this.Load += new System.EventHandler(this.PurchaseOrderLineControl_Load);
             this.pnlItem.ResumeLayout(false);
             this.pnlItem.PerformLayout();
@@ -311,5 +326,6 @@
         private System.Windows.Forms.Button cmdDelete;
         private System.Windows.Forms.Label lblFulfillmentPlanWarning;
         private System.Windows.Forms.LinkLabel lnkRequestQuote;
+        private System.Windows.Forms.Button cmdFulfillmentPlans;
     }
 }

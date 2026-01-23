@@ -200,6 +200,7 @@ namespace API_Company.Controllers
         public class CloneParameter
         {
             public long? FulfillmentPlanID { get; set; }
+            public long? NewRailcarID { get; set; }
         }
 
         [HttpPost]
@@ -222,7 +223,7 @@ namespace API_Company.Controllers
             }
 
             long? newPlanID;
-            if ((newPlanID = await original.Clone()) == null)
+            if ((newPlanID = await original.Clone(cloneParameter.NewRailcarID)) == null)
             {
                 return original.HandleFailedValidation(this);
             }

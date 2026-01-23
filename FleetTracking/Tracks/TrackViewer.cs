@@ -22,6 +22,8 @@ namespace FleetTracking.Tracks
     [SecuredControl(SecuredControlAttribute.Permissions.AllowSetup, SecuredControlAttribute.Permissions.IsYardmaster, SecuredControlAttribute.Permissions.AllowLoadUnload)]
     public partial class TrackViewer : UserControl, IFleetTrackingControl
     {
+        public event EventHandler<long?> TrackModified;
+
         public TrackViewer()
         {
             InitializeComponent();
@@ -33,13 +35,26 @@ namespace FleetTracking.Tracks
 
         public long? InitialTrackID { get; set; }
 
+        public void SetShownTrackID(long? trackID)
+        {
+
+            if (trackID == null)
+            {
+                toolAddTrack.PerformClick();
+            }
+            else
+            {
+                cboTrack.SelectedItem = cboTrack.Items.OfType<DropDownItem<Track>>().FirstOrDefault(ddi => ddi.Object.TrackID == trackID);
+            }
+        }
+
         private async void TrackViewer_Load(object sender, EventArgs e)
         {
             ParentForm.Text = "Track Viewer";
             LoadTracks(InitialTrackID);
         }
 
-        private async void LoadTracks(long? selectedTrackID = null)
+        public async void LoadTracks(long? selectedTrackID = null)
         {
             try
             {
@@ -262,6 +277,7 @@ namespace FleetTracking.Tracks
                     if (post.RequestSuccessful)
                     {
                         LoadTracks(savedTrack.TrackID);
+                        TrackModified?.Invoke(this, savedTrack.TrackID);
                     }
                 }
                 else
@@ -274,6 +290,7 @@ namespace FleetTracking.Tracks
                     if (put.RequestSuccessful)
                     {
                         LoadTracks(selectedTrack.Object.TrackID);
+                        TrackModified?.Invoke(this, selectedTrack.Object.TrackID);
                     }
                 }
             }
@@ -343,6 +360,7 @@ namespace FleetTracking.Tracks
                 if (delete.RequestSuccessful)
                 {
                     LoadTracks();
+                    TrackModified?.Invoke(this, null);
                 }
             }
             finally

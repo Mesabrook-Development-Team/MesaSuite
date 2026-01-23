@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RollingStockList));
             this.dgvRollingStock = new System.Windows.Forms.DataGridView();
             this.colImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.colReportingMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,6 +45,10 @@
             this.lblRecordCount = new System.Windows.Forms.Label();
             this.loader = new FleetTracking.Loader();
             this.dataGridViewStylizer = new FleetTracking.DataGridViewStylizer(this.components);
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tmrSearchDebouncer = new System.Windows.Forms.Timer(this.components);
+            this.imageDisposer = new MesaSuite.Common.ImageDisposer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRollingStock)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,10 +66,10 @@
             this.colDestination,
             this.colOwner,
             this.colType});
-            this.dgvRollingStock.Location = new System.Drawing.Point(0, 0);
+            this.dgvRollingStock.Location = new System.Drawing.Point(0, 29);
             this.dgvRollingStock.Name = "dgvRollingStock";
-            this.dgvRollingStock.Size = new System.Drawing.Size(869, 299);
-            this.dgvRollingStock.TabIndex = 0;
+            this.dgvRollingStock.Size = new System.Drawing.Size(869, 270);
+            this.dgvRollingStock.TabIndex = 1;
             this.dgvRollingStock.SelectionChanged += new System.EventHandler(this.dgvRollingStock_SelectionChanged);
             // 
             // colImage
@@ -113,7 +118,7 @@
             this.cmdFirst.Location = new System.Drawing.Point(3, 305);
             this.cmdFirst.Name = "cmdFirst";
             this.cmdFirst.Size = new System.Drawing.Size(24, 24);
-            this.cmdFirst.TabIndex = 1;
+            this.cmdFirst.TabIndex = 2;
             this.cmdFirst.UseVisualStyleBackColor = true;
             this.cmdFirst.Click += new System.EventHandler(this.cmdFirst_Click);
             // 
@@ -124,7 +129,7 @@
             this.cmdPrevious.Location = new System.Drawing.Point(33, 305);
             this.cmdPrevious.Name = "cmdPrevious";
             this.cmdPrevious.Size = new System.Drawing.Size(24, 24);
-            this.cmdPrevious.TabIndex = 2;
+            this.cmdPrevious.TabIndex = 3;
             this.cmdPrevious.UseVisualStyleBackColor = true;
             this.cmdPrevious.Click += new System.EventHandler(this.cmdPrevious_Click);
             // 
@@ -135,7 +140,7 @@
             this.cmdLast.Location = new System.Drawing.Point(842, 305);
             this.cmdLast.Name = "cmdLast";
             this.cmdLast.Size = new System.Drawing.Size(24, 24);
-            this.cmdLast.TabIndex = 4;
+            this.cmdLast.TabIndex = 5;
             this.cmdLast.UseVisualStyleBackColor = true;
             this.cmdLast.Click += new System.EventHandler(this.cmdLast_Click);
             // 
@@ -146,7 +151,7 @@
             this.cmdNext.Location = new System.Drawing.Point(812, 305);
             this.cmdNext.Name = "cmdNext";
             this.cmdNext.Size = new System.Drawing.Size(24, 24);
-            this.cmdNext.TabIndex = 3;
+            this.cmdNext.TabIndex = 4;
             this.cmdNext.UseVisualStyleBackColor = true;
             this.cmdNext.Click += new System.EventHandler(this.cmdNext_Click);
             // 
@@ -174,10 +179,39 @@
             this.loader.TabIndex = 3;
             this.loader.Visible = false;
             // 
+            // txtSearch
+            // 
+            this.txtSearch.Location = new System.Drawing.Point(60, 3);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(100, 20);
+            this.txtSearch.TabIndex = 0;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Search:";
+            // 
+            // tmrSearchDebouncer
+            // 
+            this.tmrSearchDebouncer.Interval = 500;
+            this.tmrSearchDebouncer.Tick += new System.EventHandler(this.tmrSearchDebouncer_Tick);
+            // 
+            // imageDisposer
+            // 
+            this.imageDisposer.Images = ((System.Collections.Generic.List<System.Drawing.Image>)(resources.GetObject("imageDisposer.Images")));
+            // 
             // RollingStockList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblRecordCount);
             this.Controls.Add(this.cmdNext);
             this.Controls.Add(this.cmdLast);
@@ -190,6 +224,7 @@
             this.Load += new System.EventHandler(this.RollingStockList_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRollingStock)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -210,5 +245,9 @@
         private System.Windows.Forms.Button cmdLast;
         private System.Windows.Forms.Button cmdNext;
         private System.Windows.Forms.Label lblRecordCount;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Timer tmrSearchDebouncer;
+        private MesaSuite.Common.ImageDisposer imageDisposer;
     }
 }

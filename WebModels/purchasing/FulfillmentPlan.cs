@@ -258,13 +258,13 @@ namespace WebModels.purchasing
                    IsFieldDirty(fp => fp.TrackIDPostFulfillment);
         }
 
-        public async Task<long?> Clone()
+        public async Task<long?> Clone(long? newRailcarID = null)
         {
             using (ITransaction transaction = SQLProviderFactory.GenerateTransaction())
             {
                 FulfillmentPlan newPlan = DataObjectFactory.Create<FulfillmentPlan>();
                 Copy(newPlan);
-                newPlan.RailcarID = null;
+                newPlan.RailcarID = newRailcarID;
                 newPlan.LeaseRequestID = null;
 
                 if (!await Task.Run(() => newPlan.Save(transaction)))

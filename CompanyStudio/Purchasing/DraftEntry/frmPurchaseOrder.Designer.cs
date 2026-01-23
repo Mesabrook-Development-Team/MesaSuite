@@ -79,7 +79,8 @@
             this.toolAddPlan = new System.Windows.Forms.ToolStripButton();
             this.toolDeletePlan = new System.Windows.Forms.ToolStripButton();
             this.cloneSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.toolClonePlan = new System.Windows.Forms.ToolStripButton();
+            this.toolClonePlan = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolClonePlanToRailcars = new System.Windows.Forms.ToolStripMenuItem();
             this.lblSaveToAddPlans = new System.Windows.Forms.ToolStripLabel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -658,20 +659,31 @@
             // 
             // toolClonePlan
             // 
+            this.toolClonePlan.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolClonePlanToRailcars});
             this.toolClonePlan.Enabled = false;
             this.toolClonePlan.Image = global::CompanyStudio.Properties.Resources.package_go;
             this.toolClonePlan.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolClonePlan.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolClonePlan.Name = "toolClonePlan";
-            this.toolClonePlan.Size = new System.Drawing.Size(84, 22);
+            this.toolClonePlan.Size = new System.Drawing.Size(96, 22);
             this.toolClonePlan.Text = "Clone Plan";
             this.toolClonePlan.Visible = false;
-            this.toolClonePlan.Click += new System.EventHandler(this.toolClonePlan_Click);
+            this.toolClonePlan.ButtonClick += new System.EventHandler(this.toolClonePlan_Click);
+            // 
+            // toolClonePlanToRailcars
+            // 
+            this.toolClonePlanToRailcars.Image = global::CompanyStudio.Properties.Resources.package_go;
+            this.toolClonePlanToRailcars.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolClonePlanToRailcars.Name = "toolClonePlanToRailcars";
+            this.toolClonePlanToRailcars.Size = new System.Drawing.Size(180, 22);
+            this.toolClonePlanToRailcars.Text = "Clone to Railcar(s)";
+            this.toolClonePlanToRailcars.Click += new System.EventHandler(this.toolClonePlanToRailcars_Click);
             // 
             // lblSaveToAddPlans
             // 
             this.lblSaveToAddPlans.Name = "lblSaveToAddPlans";
-            this.lblSaveToAddPlans.Size = new System.Drawing.Size(103, 22);
+            this.lblSaveToAddPlans.Size = new System.Drawing.Size(103, 15);
             this.lblSaveToAddPlans.Text = "Save To Add Plans";
             // 
             // frmPurchaseOrder
@@ -765,7 +777,6 @@
         private System.Windows.Forms.ToolStripButton toolDelete;
         private System.Windows.Forms.ToolStripStatusLabel toolWarnings;
         private System.Windows.Forms.ToolStripSeparator cloneSeparator;
-        private System.Windows.Forms.ToolStripButton toolClonePlan;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.LinkLabel lnkTaxBreakdown;
         private System.Windows.Forms.TextBox txtGrossTotal;
@@ -773,5 +784,7 @@
         private System.Windows.Forms.TextBox txtNetTotal;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ToolStripSplitButton toolClonePlan;
+        private System.Windows.Forms.ToolStripMenuItem toolClonePlanToRailcars;
     }
 }

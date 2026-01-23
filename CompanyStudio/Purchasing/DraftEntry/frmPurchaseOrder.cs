@@ -774,11 +774,19 @@ namespace CompanyStudio.Purchasing.DraftEntry
 
         private async void toolDeletePlan_Click(object sender, EventArgs e)
         {
-            if (dgvFulfillmentPlans.SelectedRows.Count <= 0 || !dgvFulfillmentPlans.SelectedRows.OfType<DataGridViewRow>().Any(r => r.Tag is long?) || !this.Confirm("Are you sure you want to delete this Fulfillment Plan(s)?"))
+            if (dgvFulfillmentPlans.SelectedRows.Count <= 0 || !dgvFulfillmentPlans.SelectedRows.OfType<DataGridViewRow>().Any(r => r.Tag is long?))
             {
                 return;
             }
 
+            string message = dgvFulfillmentPlans.SelectedRows.Count == 1
+                ? "Are you sure you want to delete this Fulfillment Plan?"
+                : "Are you sure you want to delete these Fulfillment Plans?";
+
+            if (!this.Confirm(message))
+            {
+                return;
+            }
             bool anyDeletesSuccessful = false;
 
             foreach (DataGridViewRow row in dgvFulfillmentPlans.SelectedRows)
